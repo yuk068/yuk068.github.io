@@ -153,9 +153,6 @@ function toggleLightMode() {
 
     const toggleButton = document.getElementById('toggle-mode-button');
     toggleButton.textContent = !isLightMode ? '🌙' : '☀️';
-
-    localStorage.setItem('light-mode', !isLightMode);
-    location.reload();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
