@@ -1,0 +1,1718 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="linkage" content="false">
+    <title>Thread - Data Structure</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <div class="post" data-written-by="" data-credits=""
+        data-categories="">
+    </div>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Thread - Data Structure</h1>
+            <div class="date">
+                
+                
+                Last updated:
+                
+                <span class="date-span">
+                    03/11/2024
+                </span>
+                
+            </div>
+            <div class="navigation-links">
+                <div class="back-link">
+                    <a href="/archive">
+                        
+                        Archive
+                        
+                    </a>
+                </div>
+                <div class="home-link">
+                    <a href="/"
+                        aria-label="Go back">
+                        
+                        Home
+                        
+                    </a>
+                </div>
+            </div>
+            <div class="toggle-light-dark">
+                <button id="toggle-mode-button" onclick="toggleLightMode()">☀️</button>
+            </div>
+            <div class="collapse-expand-all-button">
+                <button class="collapse-expand-all-button" onclick="">🔼</button>
+            </div>
+        </header>
+        <main>
+            <div class="post-content">
+                <article>
+                    <div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Thread info: Last updated: 03-11-2024
+<span class="p">    -</span> 30-10-2024: Added MyArrayList and MyLinkedList
+<span class="p">    -</span> 31-10-2024: Moved Test Classes to a separate section
+                  Finished MyLinkedList
+                  Added MyDoublyLinkedList
+<span class="p">    -</span> 03-11-2024: Finished MyDoublyLinkedList
+</code></pre></div></div>
+
+<h1 id="data-structure">Data Structure</h1>
+
+<p>We implement basic data structures that will only work with <code class="language-plaintext highlighter-rouge">int</code> first, evaluate the performance of the operations, and provide test classes using <code class="language-plaintext highlighter-rouge">JUnit</code> for each of the data structure.</p>
+
+<h2 id="linear-data-structure">Linear Data Structure</h2>
+
+<h3 id="interface-and-abstract-parent-class-for-lists">Interface and Abstract Parent Class for Lists</h3>
+
+<p>To truly follow the fashion of Java, we use interface <code class="language-plaintext highlighter-rouge">MyList</code> and <code class="language-plaintext highlighter-rouge">MyAbstractList</code>. These classes will ensure consistency and handle basic operations like <code class="language-plaintext highlighter-rouge">isEmpty()</code>, <code class="language-plaintext highlighter-rouge">toString()</code>,…</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.util.Iterator</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">MyList</span> <span class="o">{</span>
+
+    <span class="kt">int</span> <span class="nf">size</span><span class="o">();</span>
+
+    <span class="kt">void</span> <span class="nf">append</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">);</span>
+
+    <span class="kt">void</span> <span class="nf">insertAtIndex</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i</span><span class="o">);</span>
+
+    <span class="kt">void</span> <span class="nf">setAtIndex</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i</span><span class="o">);</span>
+
+    <span class="kt">int</span> <span class="nf">get</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">);</span>
+
+    <span class="kt">void</span> <span class="nf">deleteAtIndex</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">);</span>
+
+    <span class="kt">void</span> <span class="nf">deleteAllOf</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">);</span>
+
+    <span class="kt">int</span><span class="o">[]</span> <span class="nf">toArray</span><span class="o">();</span>
+
+    <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="nf">toList</span><span class="o">();</span>
+
+    <span class="kt">boolean</span> <span class="nf">isEmpty</span><span class="o">();</span>
+
+    <span class="nc">Iterator</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="nf">iterator</span><span class="o">();</span>
+
+<span class="o">}</span>
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">MyAbstractList</span> <span class="kd">implements</span> <span class="nc">MyList</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isEmpty</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nf">size</span><span class="o">()</span> <span class="o">==</span> <span class="mi">0</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">checkBound</span><span class="o">(</span><span class="kt">int</span> <span class="n">index</span><span class="o">,</span> <span class="kt">int</span> <span class="n">limit</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">index</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">index</span> <span class="o">&gt;=</span> <span class="n">limit</span><span class="o">)</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">IndexOutOfBoundsException</span>
+            <span class="o">(</span><span class="s">"Invalid index: "</span> <span class="o">+</span> <span class="n">index</span> <span class="o">+</span> <span class="s">" for length: "</span> <span class="o">+</span> <span class="n">size</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">toString</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">StringBuilder</span> <span class="n">list</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StringBuilder</span><span class="o">(</span><span class="s">"["</span><span class="o">);</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="o">();</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">size</span><span class="o">()</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="n">list</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">get</span><span class="o">(</span><span class="n">i</span><span class="o">));</span>
+            <span class="k">else</span> <span class="n">list</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">get</span><span class="o">(</span><span class="n">i</span><span class="o">)).</span><span class="na">append</span><span class="o">(</span><span class="s">", "</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">list</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">"]"</span><span class="o">).</span><span class="na">toString</span><span class="o">();</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="myarraylist">MyArrayList</h3>
+
+<p>A resizable array that can grow or shrink as needed. It offers efficient random access, insertion, and removal of elements. It’s widely used in data structures and algorithms due to its flexibility and ease of use. Below is the full implementation and test class, we will evaluate each operation methods. (You can use the 🔼 button to collapse the codeblocks, the 🔼 button at the header on top of the page will allow you to collapse all codeblocks)</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.util.Arrays</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Iterator</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.NoSuchElementException</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyArrayList</span> <span class="kd">extends</span> <span class="nc">MyAbstractList</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="no">DEFAULT_CAPACITY</span> <span class="o">=</span> <span class="mi">4</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">size</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">data</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">MyArrayList</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="no">DEFAULT_CAPACITY</span><span class="o">];</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">size</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">size</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">append</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">size</span> <span class="o">&gt;=</span> <span class="n">data</span><span class="o">.</span><span class="na">length</span><span class="o">)</span> <span class="n">enlarge</span><span class="o">();</span>
+        <span class="n">data</span><span class="o">[</span><span class="n">size</span><span class="o">++]</span> <span class="o">=</span> <span class="n">x</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">insertAtIndex</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">checkBound</span><span class="o">(</span><span class="n">i</span><span class="o">,</span> <span class="n">size</span> <span class="o">+</span> <span class="mi">1</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">size</span><span class="o">)</span> <span class="n">append</span><span class="o">(</span><span class="n">x</span><span class="o">);</span>
+        <span class="k">else</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">size</span> <span class="o">&gt;=</span> <span class="n">data</span><span class="o">.</span><span class="na">length</span><span class="o">)</span> <span class="n">enlarge</span><span class="o">();</span>
+            <span class="k">else</span> <span class="o">{</span>
+                <span class="nc">System</span><span class="o">.</span><span class="na">arraycopy</span><span class="o">(</span><span class="n">data</span><span class="o">,</span> <span class="n">i</span><span class="o">,</span> <span class="n">data</span><span class="o">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="o">,</span> <span class="n">size</span> <span class="o">-</span> <span class="n">i</span><span class="o">);</span>
+                <span class="n">data</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">x</span><span class="o">;</span>
+                <span class="n">size</span><span class="o">++;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setAtIndex</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">checkBound</span><span class="o">(</span><span class="n">i</span><span class="o">,</span> <span class="n">size</span><span class="o">);</span>
+        <span class="n">data</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">x</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">get</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">checkBound</span><span class="o">(</span><span class="n">i</span><span class="o">,</span> <span class="n">size</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">data</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">deleteAtIndex</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">checkBound</span><span class="o">(</span><span class="n">i</span><span class="o">,</span> <span class="n">size</span><span class="o">);</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">arraycopy</span><span class="o">(</span><span class="n">data</span><span class="o">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="o">,</span> <span class="n">data</span><span class="o">,</span> <span class="n">i</span><span class="o">,</span> <span class="n">size</span> <span class="o">-</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">);</span>
+        <span class="n">size</span><span class="o">--;</span>
+        <span class="n">correct</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">deleteAllOf</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">shiftCount</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">data</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">==</span> <span class="n">x</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">shiftCount</span><span class="o">++;</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">shiftCount</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">data</span><span class="o">[</span><span class="n">i</span> <span class="o">-</span> <span class="n">shiftCount</span><span class="o">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+        <span class="n">size</span> <span class="o">-=</span> <span class="n">shiftCount</span><span class="o">;</span>
+        <span class="n">correct</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">int</span><span class="o">[]</span> <span class="nf">toArray</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">copyOf</span><span class="o">(</span><span class="n">data</span><span class="o">,</span> <span class="n">size</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="nf">toList</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="n">toArray</span><span class="o">()).</span><span class="na">boxed</span><span class="o">().</span><span class="na">toList</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">Iterator</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="nf">iterator</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nc">Iterator</span><span class="o">&lt;&gt;()</span> <span class="o">{</span>
+
+            <span class="kt">int</span> <span class="n">pos</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+
+            <span class="nd">@Override</span>
+            <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">hasNext</span><span class="o">()</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="n">pos</span> <span class="o">&lt;</span> <span class="n">size</span><span class="o">;</span>
+            <span class="o">}</span>
+
+            <span class="nd">@Override</span>
+            <span class="kd">public</span> <span class="nc">Integer</span> <span class="nf">next</span><span class="o">()</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">hasNext</span><span class="o">())</span> <span class="o">{</span>
+                    <span class="k">return</span> <span class="n">data</span><span class="o">[</span><span class="n">pos</span><span class="o">++];</span>
+                <span class="o">}</span> <span class="k">else</span> <span class="k">throw</span> <span class="k">new</span> <span class="nc">NoSuchElementException</span><span class="o">();</span>
+            <span class="o">}</span>
+        <span class="o">};</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">enlarge</span><span class="o">()</span> <span class="o">{</span>
+        <span class="kt">int</span><span class="o">[]</span> <span class="n">enlargedData</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">data</span><span class="o">.</span><span class="na">length</span> <span class="o">*</span> <span class="mi">2</span><span class="o">];</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">arraycopy</span><span class="o">(</span><span class="n">data</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">enlargedData</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">size</span><span class="o">);</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">enlargedData</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">correct</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">size</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">data</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">data</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="helper-methods">Helper Methods</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kt">void</span> <span class="nf">enlarge</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kt">int</span><span class="o">[]</span> <span class="n">enlargedData</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">data</span><span class="o">.</span><span class="na">length</span> <span class="o">*</span> <span class="mi">2</span><span class="o">];</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">arraycopy</span><span class="o">(</span><span class="n">data</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">enlargedData</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">size</span><span class="o">);</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">enlargedData</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Time complexity: \(O(n) \mid \Omega(n) \mid \Theta(n)\)</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kt">void</span> <span class="nf">correct</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">size</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">data</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+        <span class="n">data</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Time complexity: \(O(n) \mid \Omega(1) \mid \Theta(k)\)</li>
+  <li>Where \(k\) = <code class="language-plaintext highlighter-rouge">data.length - size</code></li>
+</ul>
+
+<h4 id="insertion">Insertion</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">append</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">size</span> <span class="o">&gt;=</span> <span class="n">data</span><span class="o">.</span><span class="na">length</span><span class="o">)</span> <span class="n">enlarge</span><span class="o">();</span>
+    <span class="n">data</span><span class="o">[</span><span class="n">size</span><span class="o">++]</span> <span class="o">=</span> <span class="n">x</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Time complexity: \(O(n) \mid \Omega(1) \mid \Theta(1)\)</li>
+  <li>\(O(n)\) because the method may call <code class="language-plaintext highlighter-rouge">enlarge()</code></li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">insertAtIndex</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">checkBound</span><span class="o">(</span><span class="n">i</span><span class="o">,</span> <span class="n">size</span> <span class="o">+</span> <span class="mi">1</span><span class="o">);</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">size</span><span class="o">)</span> <span class="n">append</span><span class="o">(</span><span class="n">x</span><span class="o">);</span>
+    <span class="k">else</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">size</span> <span class="o">&gt;=</span> <span class="n">data</span><span class="o">.</span><span class="na">length</span><span class="o">)</span> <span class="n">enlarge</span><span class="o">();</span>
+        <span class="k">else</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">arraycopy</span><span class="o">(</span><span class="n">data</span><span class="o">,</span> <span class="n">i</span><span class="o">,</span> <span class="n">data</span><span class="o">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="o">,</span> <span class="n">size</span> <span class="o">-</span> <span class="n">i</span><span class="o">);</span>
+            <span class="n">data</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">x</span><span class="o">;</span>
+            <span class="n">size</span><span class="o">++;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Time complexity: \(O(n) \mid \Omega(1) \mid \Theta(n)\)</li>
+</ul>
+
+<h4 id="modification-and-access">Modification and Access</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">setAtIndex</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">checkBound</span><span class="o">(</span><span class="n">i</span><span class="o">,</span> <span class="n">size</span><span class="o">);</span>
+    <span class="n">data</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">x</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kt">int</span> <span class="nf">get</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">checkBound</span><span class="o">(</span><span class="n">i</span><span class="o">,</span> <span class="n">size</span><span class="o">);</span>
+    <span class="k">return</span> <span class="n">data</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Time complexity: \(O(1)\)</li>
+</ul>
+
+<h4 id="deletion">Deletion</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">deleteAtIndex</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">checkBound</span><span class="o">(</span><span class="n">i</span><span class="o">,</span> <span class="n">size</span><span class="o">);</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">arraycopy</span><span class="o">(</span><span class="n">data</span><span class="o">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="o">,</span> <span class="n">data</span><span class="o">,</span> <span class="n">i</span><span class="o">,</span> <span class="n">size</span> <span class="o">-</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">);</span>
+    <span class="n">size</span><span class="o">--;</span>
+    <span class="n">correct</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Time complexity: \(O(n) \mid \Omega(1) \mid \Theta(n)\)</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">deleteAllOf</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kt">int</span> <span class="n">shiftCount</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">data</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">==</span> <span class="n">x</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">shiftCount</span><span class="o">++;</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">shiftCount</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">data</span><span class="o">[</span><span class="n">i</span> <span class="o">-</span> <span class="n">shiftCount</span><span class="o">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="n">size</span> <span class="o">-=</span> <span class="n">shiftCount</span><span class="o">;</span>
+    <span class="n">correct</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Time complexity: \(O(n) \mid \Omega(n) \mid \Theta(n)\)</li>
+</ul>
+
+<h3 id="mylinkedlist">MyLinkedList</h3>
+
+<p>A linear data structure where elements are not stored in contiguous memory locations. Instead, each element, called a node, contains data and a reference (link) to the next node in the sequence. This allows for dynamic memory allocation and efficient insertion and deletion of elements, especially at the beginning or middle of the list. Class <code class="language-plaintext highlighter-rouge">MyLinkedList</code> implements a singly linked list, utilizing class <code class="language-plaintext highlighter-rouge">Node</code> with a single pointer and one-way traversal.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.util.Iterator</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.LinkedList</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.NoSuchElementException</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyLinkedList</span> <span class="kd">extends</span> <span class="nc">MyAbstractList</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="nc">Node</span> <span class="n">head</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">size</span><span class="o">;</span>
+
+    <span class="kd">static</span> <span class="kd">class</span> <span class="nc">Node</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">val</span><span class="o">;</span>
+        <span class="nc">Node</span> <span class="n">next</span><span class="o">;</span>
+
+        <span class="kd">public</span> <span class="nf">Node</span><span class="o">(</span><span class="kt">int</span> <span class="n">val</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">val</span> <span class="o">=</span> <span class="n">val</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nf">MyLinkedList</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">head</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">size</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">size</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">append</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">head</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">head</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Node</span><span class="o">(</span><span class="n">x</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="nc">Node</span> <span class="n">current</span> <span class="o">=</span> <span class="n">head</span><span class="o">;</span>
+            <span class="k">while</span> <span class="o">(</span><span class="n">current</span><span class="o">.</span><span class="na">next</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="n">current</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Node</span><span class="o">(</span><span class="n">x</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="n">size</span><span class="o">++;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">insertAtIndex</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">checkBound</span><span class="o">(</span><span class="n">i</span><span class="o">,</span> <span class="n">size</span> <span class="o">+</span> <span class="mi">1</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">Node</span> <span class="n">newNode</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Node</span><span class="o">(</span><span class="n">x</span><span class="o">);</span>
+            <span class="n">newNode</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">head</span><span class="o">;</span>
+            <span class="n">head</span> <span class="o">=</span> <span class="n">newNode</span><span class="o">;</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="nc">Node</span> <span class="n">current</span> <span class="o">=</span> <span class="n">head</span><span class="o">;</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+                <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="nc">Node</span> <span class="n">newNode</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Node</span><span class="o">(</span><span class="n">x</span><span class="o">);</span>
+            <span class="n">newNode</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+            <span class="n">current</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">newNode</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="n">size</span><span class="o">++;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">insertAtHead</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">insertAtIndex</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">insertAtTail</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">insertAtIndex</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">size</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setAtIndex</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">checkBound</span><span class="o">(</span><span class="n">i</span><span class="o">,</span> <span class="n">size</span><span class="o">);</span>
+        <span class="nc">Node</span> <span class="n">current</span> <span class="o">=</span> <span class="n">head</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">i</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="n">current</span><span class="o">.</span><span class="na">val</span> <span class="o">=</span> <span class="n">x</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">get</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">checkBound</span><span class="o">(</span><span class="n">i</span><span class="o">,</span> <span class="n">size</span><span class="o">);</span>
+        <span class="nc">Node</span> <span class="n">current</span> <span class="o">=</span> <span class="n">head</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">i</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">current</span><span class="o">.</span><span class="na">val</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">deleteAtIndex</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">checkBound</span><span class="o">(</span><span class="n">i</span><span class="o">,</span> <span class="n">size</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">head</span> <span class="o">=</span> <span class="n">head</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="nc">Node</span> <span class="n">current</span> <span class="o">=</span> <span class="n">head</span><span class="o">;</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+                <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="n">current</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="na">next</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="n">size</span><span class="o">--;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">deleteAtHead</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">deleteAtIndex</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">deleteAtTail</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">deleteAtIndex</span><span class="o">(</span><span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">deleteAllOf</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Node</span> <span class="n">dummy</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Node</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+        <span class="n">dummy</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">head</span><span class="o">;</span>
+        <span class="nc">Node</span> <span class="n">current</span> <span class="o">=</span> <span class="n">dummy</span><span class="o">;</span>
+        <span class="k">while</span> <span class="o">(</span><span class="n">current</span><span class="o">.</span><span class="na">next</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">current</span><span class="o">.</span><span class="na">next</span><span class="o">.</span><span class="na">val</span> <span class="o">==</span> <span class="n">x</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">current</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="na">next</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+                <span class="n">size</span><span class="o">--;</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="n">head</span> <span class="o">=</span> <span class="n">dummy</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">int</span><span class="o">[]</span> <span class="nf">toArray</span><span class="o">()</span> <span class="o">{</span>
+        <span class="kt">int</span><span class="o">[]</span> <span class="n">array</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">size</span><span class="o">];</span>
+        <span class="nc">Node</span> <span class="n">current</span> <span class="o">=</span> <span class="n">head</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">array</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="na">val</span><span class="o">;</span>
+            <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">array</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="nf">toList</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LinkedList</span><span class="o">&lt;&gt;();</span>
+        <span class="nc">Node</span> <span class="n">current</span> <span class="o">=</span> <span class="n">head</span><span class="o">;</span>
+        <span class="k">while</span> <span class="o">(</span><span class="n">current</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">current</span><span class="o">.</span><span class="na">val</span><span class="o">);</span>
+            <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">list</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">Iterator</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="nf">iterator</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nc">Iterator</span><span class="o">&lt;&gt;()</span> <span class="o">{</span>
+
+            <span class="nc">Node</span> <span class="n">current</span> <span class="o">=</span> <span class="n">head</span><span class="o">;</span>
+
+            <span class="nd">@Override</span>
+            <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">hasNext</span><span class="o">()</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="n">current</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">;</span>
+            <span class="o">}</span>
+
+            <span class="nd">@Override</span>
+            <span class="kd">public</span> <span class="nc">Integer</span> <span class="nf">next</span><span class="o">()</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">hasNext</span><span class="o">())</span> <span class="o">{</span>
+                    <span class="kt">int</span> <span class="n">val</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="na">val</span><span class="o">;</span>
+                    <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+                    <span class="k">return</span> <span class="n">val</span><span class="o">;</span>
+                <span class="o">}</span> <span class="k">else</span> <span class="k">throw</span> <span class="k">new</span> <span class="nc">NoSuchElementException</span><span class="o">();</span>
+            <span class="o">}</span>
+        <span class="o">};</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="insertion-1">Insertion</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">append</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">head</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">head</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Node</span><span class="o">(</span><span class="n">x</span><span class="o">);</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="nc">Node</span> <span class="n">current</span> <span class="o">=</span> <span class="n">head</span><span class="o">;</span>
+        <span class="k">while</span> <span class="o">(</span><span class="n">current</span><span class="o">.</span><span class="na">next</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="n">current</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Node</span><span class="o">(</span><span class="n">x</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="n">size</span><span class="o">++;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Time complexity: \(O(n) \mid \Omega(1) \mid \Theta(n)\)</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">insertAtIndex</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">checkBound</span><span class="o">(</span><span class="n">i</span><span class="o">,</span> <span class="n">size</span> <span class="o">+</span> <span class="mi">1</span><span class="o">);</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Node</span> <span class="n">newNode</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Node</span><span class="o">(</span><span class="n">x</span><span class="o">);</span>
+        <span class="n">newNode</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">head</span><span class="o">;</span>
+        <span class="n">head</span> <span class="o">=</span> <span class="n">newNode</span><span class="o">;</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="nc">Node</span> <span class="n">current</span> <span class="o">=</span> <span class="n">head</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="nc">Node</span> <span class="n">newNode</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Node</span><span class="o">(</span><span class="n">x</span><span class="o">);</span>
+        <span class="n">newNode</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+        <span class="n">current</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">newNode</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="n">size</span><span class="o">++;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Time complexity: \(O(n) \mid \Omega(1) \mid \Theta(n)\)</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">insertAtHead</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">insertAtIndex</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">insertAtTail</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">insertAtIndex</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">size</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">insertAtHead(int x)</code> Time complexity: \(O(1) \mid \Omega(1) \mid \Theta(1)\)</li>
+  <li><code class="language-plaintext highlighter-rouge">insertAtTail(int x)</code> Time complexity: \(O(n) \mid \Omega(1) \mid \Theta(n)\)</li>
+</ul>
+
+<h4 id="modification-and-access-1">Modification and Access</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">setAtIndex</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">checkBound</span><span class="o">(</span><span class="n">i</span><span class="o">,</span> <span class="n">size</span><span class="o">);</span>
+    <span class="nc">Node</span> <span class="n">current</span> <span class="o">=</span> <span class="n">head</span><span class="o">;</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">i</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+        <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="n">current</span><span class="o">.</span><span class="na">val</span> <span class="o">=</span> <span class="n">x</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kt">int</span> <span class="nf">get</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">checkBound</span><span class="o">(</span><span class="n">i</span><span class="o">,</span> <span class="n">size</span><span class="o">);</span>
+    <span class="nc">Node</span> <span class="n">current</span> <span class="o">=</span> <span class="n">head</span><span class="o">;</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">i</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+        <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">current</span><span class="o">.</span><span class="na">val</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">setAtIndex(int x, int i)</code> Time complexity: \(O(n) \mid \Omega(1) \mid \Theta(n)\)</li>
+  <li><code class="language-plaintext highlighter-rouge">get(int i)</code> Time complexity: \(O(n) \mid \Omega(1) \mid \Theta(n)\)</li>
+</ul>
+
+<h4 id="deletion-1">Deletion</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">deleteAtIndex</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">checkBound</span><span class="o">(</span><span class="n">i</span><span class="o">,</span> <span class="n">size</span><span class="o">);</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">head</span> <span class="o">=</span> <span class="n">head</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="nc">Node</span> <span class="n">current</span> <span class="o">=</span> <span class="n">head</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="n">current</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="na">next</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="n">size</span><span class="o">--;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Time complexity: \(O(n) \mid \Omega(1) \mid \Theta(n)\)</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">deleteAtHead</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">deleteAtIndex</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">deleteAtTail</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">deleteAtIndex</span><span class="o">(</span><span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">deleteAtHead()</code> Time complexity: \(O(1) \mid \Omega(1) \mid \Theta(1)\)</li>
+  <li><code class="language-plaintext highlighter-rouge">deleteAtTail()</code> Time complexity: \(O(n) \mid \Omega(1) \mid \Theta(n)\)</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">deleteAllOf</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">Node</span> <span class="n">dummy</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Node</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+    <span class="n">dummy</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">head</span><span class="o">;</span>
+    <span class="nc">Node</span> <span class="n">current</span> <span class="o">=</span> <span class="n">dummy</span><span class="o">;</span>
+    <span class="k">while</span> <span class="o">(</span><span class="n">current</span><span class="o">.</span><span class="na">next</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">current</span><span class="o">.</span><span class="na">next</span><span class="o">.</span><span class="na">val</span> <span class="o">==</span> <span class="n">x</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">current</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="na">next</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+            <span class="n">size</span><span class="o">--;</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="n">head</span> <span class="o">=</span> <span class="n">dummy</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Time complexity: \(O(n) \mid \Omega(n) \mid \Theta(n)\)</li>
+</ul>
+
+<h3 id="mydoublylinkedlist">MyDoublyLinkedList</h3>
+
+<p>Class <code class="language-plaintext highlighter-rouge">MyDoublyLinkedList</code> implements a doubly linked list, where each node contains data and references to both the next and previous nodes. This bidirectional linking enables efficient insertion, deletion, and traversal in both forward and backward directions, making it a versatile data structure for various applications.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.util.ArrayList</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Iterator</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.NoSuchElementException</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyDoublyLinkedList</span> <span class="kd">extends</span> <span class="nc">MyAbstractList</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="nc">Node</span> <span class="n">head</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">Node</span> <span class="n">tail</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">size</span><span class="o">;</span>
+
+    <span class="kd">static</span> <span class="kd">class</span> <span class="nc">Node</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">val</span><span class="o">;</span>
+        <span class="nc">Node</span> <span class="n">next</span><span class="o">;</span>
+        <span class="nc">Node</span> <span class="n">prev</span><span class="o">;</span>
+
+        <span class="kd">public</span> <span class="nf">Node</span><span class="o">(</span><span class="kt">int</span> <span class="n">val</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">val</span> <span class="o">=</span> <span class="n">val</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nf">MyDoublyLinkedList</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">head</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="n">tail</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">size</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">size</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">append</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Node</span> <span class="n">newNode</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Node</span><span class="o">(</span><span class="n">x</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">head</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">head</span> <span class="o">=</span> <span class="n">newNode</span><span class="o">;</span>
+            <span class="n">tail</span> <span class="o">=</span> <span class="n">head</span><span class="o">;</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="n">newNode</span><span class="o">.</span><span class="na">prev</span> <span class="o">=</span> <span class="n">tail</span><span class="o">;</span>
+            <span class="n">tail</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">newNode</span><span class="o">;</span>
+            <span class="n">tail</span> <span class="o">=</span> <span class="n">newNode</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="n">size</span><span class="o">++;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">insertAtIndex</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">checkBound</span><span class="o">(</span><span class="n">i</span><span class="o">,</span> <span class="n">size</span> <span class="o">+</span> <span class="mi">1</span><span class="o">);</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">insertAtHead</span><span class="o">(</span><span class="n">x</span><span class="o">);</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">size</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">append</span><span class="o">(</span><span class="n">x</span><span class="o">);</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="nc">Node</span> <span class="n">newNode</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Node</span><span class="o">(</span><span class="n">x</span><span class="o">);</span>
+        <span class="nc">Node</span> <span class="n">current</span> <span class="o">=</span> <span class="n">dynamicTraversal</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+
+        <span class="n">newNode</span><span class="o">.</span><span class="na">prev</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="na">prev</span><span class="o">;</span>
+        <span class="n">newNode</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">current</span><span class="o">;</span>
+        <span class="n">current</span><span class="o">.</span><span class="na">prev</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">newNode</span><span class="o">;</span>
+        <span class="n">current</span><span class="o">.</span><span class="na">prev</span> <span class="o">=</span> <span class="n">newNode</span><span class="o">;</span>
+
+        <span class="n">size</span><span class="o">++;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">insertAtHead</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Node</span> <span class="n">newNode</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Node</span><span class="o">(</span><span class="n">x</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">head</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">head</span> <span class="o">=</span> <span class="n">newNode</span><span class="o">;</span>
+            <span class="n">tail</span> <span class="o">=</span> <span class="n">head</span><span class="o">;</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="n">newNode</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">head</span><span class="o">;</span>
+            <span class="n">head</span><span class="o">.</span><span class="na">prev</span> <span class="o">=</span> <span class="n">newNode</span><span class="o">;</span>
+            <span class="n">head</span> <span class="o">=</span> <span class="n">newNode</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="n">size</span><span class="o">++;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">insertAtTail</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">append</span><span class="o">(</span><span class="n">x</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setAtIndex</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">checkBound</span><span class="o">(</span><span class="n">i</span><span class="o">,</span> <span class="n">size</span><span class="o">);</span>
+        <span class="n">dynamicTraversal</span><span class="o">(</span><span class="n">i</span><span class="o">).</span><span class="na">val</span> <span class="o">=</span> <span class="n">x</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">get</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">checkBound</span><span class="o">(</span><span class="n">i</span><span class="o">,</span> <span class="n">size</span><span class="o">);</span>
+        <span class="k">return</span> <span class="nf">dynamicTraversal</span><span class="o">(</span><span class="n">i</span><span class="o">).</span><span class="na">val</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">deleteAtIndex</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">checkBound</span><span class="o">(</span><span class="n">i</span><span class="o">,</span> <span class="n">size</span><span class="o">);</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">size</span> <span class="o">==</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">head</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+            <span class="n">tail</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">deleteAtHead</span><span class="o">();</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">deleteAtTail</span><span class="o">();</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="nc">Node</span> <span class="n">current</span> <span class="o">=</span> <span class="n">dynamicTraversal</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+            <span class="n">current</span><span class="o">.</span><span class="na">prev</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+            <span class="n">current</span><span class="o">.</span><span class="na">next</span><span class="o">.</span><span class="na">prev</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="na">prev</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="n">size</span><span class="o">--;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">deleteAtHead</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="k">return</span><span class="o">;</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">size</span> <span class="o">==</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">head</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+            <span class="n">tail</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="n">head</span> <span class="o">=</span> <span class="n">head</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+            <span class="n">head</span><span class="o">.</span><span class="na">prev</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="n">size</span><span class="o">--;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">deleteAtTail</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="k">return</span><span class="o">;</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">size</span> <span class="o">==</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">head</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+            <span class="n">tail</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="n">tail</span> <span class="o">=</span> <span class="n">tail</span><span class="o">.</span><span class="na">prev</span><span class="o">;</span>
+            <span class="n">tail</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="n">size</span><span class="o">--;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">deleteAllOf</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Node</span> <span class="n">current</span> <span class="o">=</span> <span class="n">head</span><span class="o">;</span>
+        <span class="k">while</span> <span class="o">(</span><span class="n">current</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">current</span><span class="o">.</span><span class="na">val</span> <span class="o">==</span> <span class="n">x</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">current</span> <span class="o">==</span> <span class="n">head</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">deleteAtHead</span><span class="o">();</span>
+                    <span class="n">current</span> <span class="o">=</span> <span class="n">head</span><span class="o">;</span>
+                <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">current</span> <span class="o">==</span> <span class="n">tail</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">deleteAtTail</span><span class="o">();</span>
+                    <span class="k">break</span><span class="o">;</span>
+                <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                    <span class="n">current</span><span class="o">.</span><span class="na">prev</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+                    <span class="n">current</span><span class="o">.</span><span class="na">next</span><span class="o">.</span><span class="na">prev</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="na">prev</span><span class="o">;</span>
+                    <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+                    <span class="n">size</span><span class="o">--;</span>
+                <span class="o">}</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">int</span><span class="o">[]</span> <span class="nf">toArray</span><span class="o">()</span> <span class="o">{</span>
+        <span class="kt">int</span><span class="o">[]</span> <span class="n">arr</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">size</span><span class="o">];</span>
+        <span class="nc">Node</span> <span class="n">current</span> <span class="o">=</span> <span class="n">head</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">current</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">arr</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="na">val</span><span class="o">;</span>
+            <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">arr</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="nf">toList</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+        <span class="nc">Node</span> <span class="n">current</span> <span class="o">=</span> <span class="n">head</span><span class="o">;</span>
+        <span class="k">while</span> <span class="o">(</span><span class="n">current</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">current</span><span class="o">.</span><span class="na">val</span><span class="o">);</span>
+            <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">list</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">Iterator</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="nf">iterator</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nc">Iterator</span><span class="o">&lt;&gt;()</span> <span class="o">{</span>
+            <span class="kd">private</span> <span class="nc">Node</span> <span class="n">current</span> <span class="o">=</span> <span class="n">head</span><span class="o">;</span>
+
+            <span class="nd">@Override</span>
+            <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">hasNext</span><span class="o">()</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="n">current</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">;</span>
+            <span class="o">}</span>
+
+            <span class="nd">@Override</span>
+            <span class="kd">public</span> <span class="nc">Integer</span> <span class="nf">next</span><span class="o">()</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(!</span><span class="n">hasNext</span><span class="o">())</span> <span class="o">{</span>
+                    <span class="k">throw</span> <span class="k">new</span> <span class="nf">NoSuchElementException</span><span class="o">();</span>
+                <span class="o">}</span>
+                <span class="kt">int</span> <span class="n">val</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="na">val</span><span class="o">;</span>
+                <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+                <span class="k">return</span> <span class="n">val</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">};</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="nc">Node</span> <span class="nf">dynamicTraversal</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Node</span> <span class="n">current</span><span class="o">;</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span> <span class="o">/</span> <span class="mi">2</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">current</span> <span class="o">=</span> <span class="n">head</span><span class="o">;</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">i</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+                <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="n">current</span> <span class="o">=</span> <span class="n">tail</span><span class="o">;</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span> <span class="n">j</span> <span class="o">&gt;</span> <span class="n">i</span><span class="o">;</span> <span class="n">j</span><span class="o">--)</span> <span class="o">{</span>
+                <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="na">prev</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">current</span><span class="o">;</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="helper-method">Helper Method</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="nc">Node</span> <span class="nf">dynamicTraversal</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">Node</span> <span class="n">current</span><span class="o">;</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span> <span class="o">/</span> <span class="mi">2</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">current</span> <span class="o">=</span> <span class="n">head</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">i</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="n">current</span> <span class="o">=</span> <span class="n">tail</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span> <span class="n">j</span> <span class="o">&gt;</span> <span class="n">i</span><span class="o">;</span> <span class="n">j</span><span class="o">--)</span> <span class="o">{</span>
+            <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="na">prev</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">current</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Time complexity: \(O(n) \mid \Omega(1) \mid \Theta(n)\)</li>
+</ul>
+
+<h4 id="insertion-2">Insertion</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">append</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">Node</span> <span class="n">newNode</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Node</span><span class="o">(</span><span class="n">x</span><span class="o">);</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">head</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">head</span> <span class="o">=</span> <span class="n">newNode</span><span class="o">;</span>
+        <span class="n">tail</span> <span class="o">=</span> <span class="n">head</span><span class="o">;</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="n">newNode</span><span class="o">.</span><span class="na">prev</span> <span class="o">=</span> <span class="n">tail</span><span class="o">;</span>
+        <span class="n">tail</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">newNode</span><span class="o">;</span>
+        <span class="n">tail</span> <span class="o">=</span> <span class="n">newNode</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="n">size</span><span class="o">++;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Time complexity: \(O(1) \mid \Omega(1) \mid \Theta(1)\)</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">insertAtIndex</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">checkBound</span><span class="o">(</span><span class="n">i</span><span class="o">,</span> <span class="n">size</span> <span class="o">+</span> <span class="mi">1</span><span class="o">);</span>
+
+    <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">insertAtHead</span><span class="o">(</span><span class="n">x</span><span class="o">);</span>
+        <span class="k">return</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">size</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">append</span><span class="o">(</span><span class="n">x</span><span class="o">);</span>
+        <span class="k">return</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nc">Node</span> <span class="n">newNode</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Node</span><span class="o">(</span><span class="n">x</span><span class="o">);</span>
+    <span class="nc">Node</span> <span class="n">current</span> <span class="o">=</span> <span class="n">dynamicTraversal</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+
+    <span class="n">newNode</span><span class="o">.</span><span class="na">prev</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="na">prev</span><span class="o">;</span>
+    <span class="n">newNode</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">current</span><span class="o">;</span>
+    <span class="n">current</span><span class="o">.</span><span class="na">prev</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">newNode</span><span class="o">;</span>
+    <span class="n">current</span><span class="o">.</span><span class="na">prev</span> <span class="o">=</span> <span class="n">newNode</span><span class="o">;</span>
+
+    <span class="n">size</span><span class="o">++;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Time complexity: \(O(n) \mid \Omega(1) \mid \Theta(n)\)</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">insertAtHead</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">Node</span> <span class="n">newNode</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Node</span><span class="o">(</span><span class="n">x</span><span class="o">);</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">head</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">head</span> <span class="o">=</span> <span class="n">newNode</span><span class="o">;</span>
+        <span class="n">tail</span> <span class="o">=</span> <span class="n">head</span><span class="o">;</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="n">newNode</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">head</span><span class="o">;</span>
+        <span class="n">head</span><span class="o">.</span><span class="na">prev</span> <span class="o">=</span> <span class="n">newNode</span><span class="o">;</span>
+        <span class="n">head</span> <span class="o">=</span> <span class="n">newNode</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="n">size</span><span class="o">++;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Time complexity: \(O(1) \mid \Omega(1) \mid \Theta(1)\)</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">insertAtTail</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">append</span><span class="o">(</span><span class="n">x</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Time complexity: \(O(1) \mid \Omega(1) \mid \Theta(1)\)</li>
+</ul>
+
+<h4 id="modification-and-access-2">Modification and Access</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">setAtIndex</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">checkBound</span><span class="o">(</span><span class="n">i</span><span class="o">,</span> <span class="n">size</span><span class="o">);</span>
+    <span class="n">dynamicTraversal</span><span class="o">(</span><span class="n">i</span><span class="o">).</span><span class="na">val</span> <span class="o">=</span> <span class="n">x</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kt">int</span> <span class="nf">get</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">checkBound</span><span class="o">(</span><span class="n">i</span><span class="o">,</span> <span class="n">size</span><span class="o">);</span>
+    <span class="k">return</span> <span class="nf">dynamicTraversal</span><span class="o">(</span><span class="n">i</span><span class="o">).</span><span class="na">val</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">setAtIndex(int x, int i)</code> Time complexity: \(O(n) \mid \Omega(1) \mid \Theta(n)\)</li>
+  <li><code class="language-plaintext highlighter-rouge">get(int i)</code> Time complexity: \(O(n) \mid \Omega(1) \mid \Theta(n)\)</li>
+</ul>
+
+<h4 id="deletion-2">Deletion</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">deleteAtIndex</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">checkBound</span><span class="o">(</span><span class="n">i</span><span class="o">,</span> <span class="n">size</span><span class="o">);</span>
+
+    <span class="k">if</span> <span class="o">(</span><span class="n">size</span> <span class="o">==</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">head</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="n">tail</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">deleteAtHead</span><span class="o">();</span>
+        <span class="k">return</span><span class="o">;</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">deleteAtTail</span><span class="o">();</span>
+        <span class="k">return</span><span class="o">;</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="nc">Node</span> <span class="n">current</span> <span class="o">=</span> <span class="n">dynamicTraversal</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+        <span class="n">current</span><span class="o">.</span><span class="na">prev</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+        <span class="n">current</span><span class="o">.</span><span class="na">next</span><span class="o">.</span><span class="na">prev</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="na">prev</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="n">size</span><span class="o">--;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Time complexity: \(O(n) \mid \Omega(1) \mid \Theta(n)\)</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">deleteAtHead</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="k">return</span><span class="o">;</span>
+
+    <span class="k">if</span> <span class="o">(</span><span class="n">size</span> <span class="o">==</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">head</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+            <span class="n">tail</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="n">head</span> <span class="o">=</span> <span class="n">head</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+        <span class="n">head</span><span class="o">.</span><span class="na">prev</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="n">size</span><span class="o">--;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Time complexity: \(O(1) \mid \Omega(1) \mid \Theta(1)\)</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">deleteAtTail</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="k">return</span><span class="o">;</span>
+
+    <span class="k">if</span> <span class="o">(</span><span class="n">size</span> <span class="o">==</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">head</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="n">tail</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="n">tail</span> <span class="o">=</span> <span class="n">tail</span><span class="o">.</span><span class="na">prev</span><span class="o">;</span>
+        <span class="n">tail</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="n">size</span><span class="o">--;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Time complexity: \(O(1) \mid \Omega(1) \mid \Theta(1)\)</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">deleteAllOf</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">Node</span> <span class="n">current</span> <span class="o">=</span> <span class="n">head</span><span class="o">;</span>
+    <span class="k">while</span> <span class="o">(</span><span class="n">current</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">current</span><span class="o">.</span><span class="na">val</span> <span class="o">==</span> <span class="n">x</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">current</span> <span class="o">==</span> <span class="n">head</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">deleteAtHead</span><span class="o">();</span>
+                <span class="n">current</span> <span class="o">=</span> <span class="n">head</span><span class="o">;</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">current</span> <span class="o">==</span> <span class="n">tail</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">deleteAtTail</span><span class="o">();</span>
+                <span class="k">break</span><span class="o">;</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                <span class="n">current</span><span class="o">.</span><span class="na">prev</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+                <span class="n">current</span><span class="o">.</span><span class="na">next</span><span class="o">.</span><span class="na">prev</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="na">prev</span><span class="o">;</span>
+                <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+                <span class="n">size</span><span class="o">--;</span>
+            <span class="o">}</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Time complexity: \(O(n) \mid \Omega(n) \mid \Theta(n)\)</li>
+</ul>
+
+<h3 id="mystack">MyStack</h3>
+
+<h2 id="hash-based-data-structure">Hash-Based Data Structure</h2>
+
+<h2 id="tree-data-structure">Tree Data Structure</h2>
+
+<h2 id="test-classes">Test Classes</h2>
+
+<h4 id="myarraylist-1">MyArrayList</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="nn">test</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">data_structure.non_generic.MyArrayList</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">data_structure.non_generic.MyList</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.junit.jupiter.api.BeforeEach</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.junit.jupiter.api.Test</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.Iterator</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">junit</span><span class="o">.</span><span class="na">jupiter</span><span class="o">.</span><span class="na">api</span><span class="o">.</span><span class="na">Assertions</span><span class="o">.*;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">TestMyArrayList</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="nc">MyList</span> <span class="n">myList</span><span class="o">;</span>
+
+    <span class="nd">@BeforeEach</span>
+    <span class="kt">void</span> <span class="nf">setup</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">myList</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">MyArrayList</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">testSize</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">testAppend</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">));</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">1</span><span class="o">));</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">2</span><span class="o">));</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">testInsertAtIndex</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">insertAtIndex</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">));</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">1</span><span class="o">));</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">2</span><span class="o">));</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">testSetAtIndex</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">setAtIndex</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">));</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">1</span><span class="o">));</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">testGet</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">));</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">1</span><span class="o">));</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">2</span><span class="o">));</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">testDeleteAtIndex</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">deleteAtIndex</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">));</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">1</span><span class="o">));</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">testDeleteAllOf</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">deleteAllOf</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">));</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">1</span><span class="o">));</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">testToArray</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
+        <span class="kt">int</span><span class="o">[]</span> <span class="n">arr</span> <span class="o">=</span> <span class="n">myList</span><span class="o">.</span><span class="na">toArray</span><span class="o">();</span>
+        <span class="n">assertArrayEquals</span><span class="o">(</span><span class="k">new</span> <span class="kt">int</span><span class="o">[]{</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">},</span> <span class="n">arr</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">testToList</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
+        <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="n">myList</span><span class="o">.</span><span class="na">toList</span><span class="o">();</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">),</span> <span class="n">list</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">testIterator</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
+        <span class="nc">Iterator</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">iterator</span> <span class="o">=</span> <span class="n">myList</span><span class="o">.</span><span class="na">iterator</span><span class="o">();</span>
+        <span class="n">assertTrue</span><span class="o">(</span><span class="n">iterator</span><span class="o">.</span><span class="na">hasNext</span><span class="o">());</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">iterator</span><span class="o">.</span><span class="na">next</span><span class="o">());</span>
+        <span class="n">assertTrue</span><span class="o">(</span><span class="n">iterator</span><span class="o">.</span><span class="na">hasNext</span><span class="o">());</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">iterator</span><span class="o">.</span><span class="na">next</span><span class="o">());</span>
+        <span class="n">assertTrue</span><span class="o">(</span><span class="n">iterator</span><span class="o">.</span><span class="na">hasNext</span><span class="o">());</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="n">iterator</span><span class="o">.</span><span class="na">next</span><span class="o">());</span>
+        <span class="n">assertFalse</span><span class="o">(</span><span class="n">iterator</span><span class="o">.</span><span class="na">hasNext</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">testEdgeCases</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// Test inserting at the beginning</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">insertAtIndex</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">));</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+
+        <span class="c1">// Test appending at the end</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">1</span><span class="o">));</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+
+        <span class="c1">// Test setting at the beginning</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">setAtIndex</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">));</span>
+
+        <span class="c1">// Test setting at the end</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">setAtIndex</span><span class="o">(</span><span class="mi">4</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">4</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">1</span><span class="o">));</span>
+
+        <span class="c1">// Test deleting at the beginning</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">deleteAtIndex</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">4</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">));</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+
+        <span class="c1">// Test deleting at the end</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">deleteAtIndex</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+
+        <span class="c1">// Test inserting out of bounds (should throw exception)</span>
+        <span class="n">assertThrows</span><span class="o">(</span><span class="nc">IndexOutOfBoundsException</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">myList</span><span class="o">.</span><span class="na">insertAtIndex</span><span class="o">(</span><span class="mi">5</span><span class="o">,</span> <span class="mi">5</span><span class="o">));</span>
+
+        <span class="c1">// Test getting out of bounds</span>
+        <span class="n">assertThrows</span><span class="o">(</span><span class="nc">IndexOutOfBoundsException</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">2</span><span class="o">));</span>
+
+        <span class="c1">// Test setting out of bounds</span>
+        <span class="n">assertThrows</span><span class="o">(</span><span class="nc">IndexOutOfBoundsException</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">myList</span><span class="o">.</span><span class="na">setAtIndex</span><span class="o">(</span><span class="mi">10</span><span class="o">,</span> <span class="mi">1</span><span class="o">));</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">testEmptyListOperations</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// Ensure delete operation on empty list doesn't throw unexpected errors</span>
+        <span class="n">assertThrows</span><span class="o">(</span><span class="nc">IndexOutOfBoundsException</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">myList</span><span class="o">.</span><span class="na">deleteAtIndex</span><span class="o">(</span><span class="mi">0</span><span class="o">));</span>
+
+        <span class="c1">// Ensure get operation on empty list throws an exception</span>
+        <span class="n">assertThrows</span><span class="o">(</span><span class="nc">IndexOutOfBoundsException</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">));</span>
+
+        <span class="c1">// Ensure set operation on empty list throws an exception</span>
+        <span class="n">assertThrows</span><span class="o">(</span><span class="nc">IndexOutOfBoundsException</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">myList</span><span class="o">.</span><span class="na">setAtIndex</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">0</span><span class="o">));</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">testToString</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="s">"[]"</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="s">"[1]"</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="s">"[1, 2]"</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="s">"[1, 2, 3]"</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">testLargeNumberOfElements</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// Append a large number of elements to test list expansion</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">1000</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">1000</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">999</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">999</span><span class="o">));</span>
+
+        <span class="c1">// Delete some elements and check if the list is updated correctly</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">deleteAtIndex</span><span class="o">(</span><span class="mi">500</span><span class="o">);</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">999</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">501</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">500</span><span class="o">));</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">testEdgeCasesEnhanced</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// Test appending minimum and maximum integer values</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="nc">Integer</span><span class="o">.</span><span class="na">MIN_VALUE</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="nc">Integer</span><span class="o">.</span><span class="na">MAX_VALUE</span><span class="o">);</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="nc">Integer</span><span class="o">.</span><span class="na">MIN_VALUE</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">));</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="nc">Integer</span><span class="o">.</span><span class="na">MAX_VALUE</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">1</span><span class="o">));</span>
+
+        <span class="c1">// Test inserting in the middle of a list with minimum and maximum values</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">insertAtIndex</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="nc">Integer</span><span class="o">.</span><span class="na">MIN_VALUE</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">));</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">1</span><span class="o">));</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="nc">Integer</span><span class="o">.</span><span class="na">MAX_VALUE</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">2</span><span class="o">));</span>
+
+        <span class="c1">// Test deleting non-existent element</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">deleteAllOf</span><span class="o">(</span><span class="mi">999</span><span class="o">);</span> <span class="c1">// Element 999 is not in the list</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+
+        <span class="c1">// Test appending and deleting duplicate values</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">5</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">5</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">deleteAllOf</span><span class="o">(</span><span class="mi">5</span><span class="o">);</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">size</span><span class="o">());</span> <span class="c1">// Only the original three elements should remain</span>
+
+        <span class="c1">// Test consecutive deletions</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">deleteAtIndex</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">deleteAtIndex</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">deleteAtIndex</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+        <span class="n">assertTrue</span><span class="o">(</span><span class="n">myList</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">());</span>
+
+        <span class="c1">// Test appending and getting a very large number of duplicates</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">42</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">100</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">42</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">99</span><span class="o">));</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">deleteAllOf</span><span class="o">(</span><span class="mi">42</span><span class="o">);</span>
+        <span class="n">assertTrue</span><span class="o">(</span><span class="n">myList</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">());</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="mylinkedlist-1">MyLinkedList</h4>
+
+<p>Note: All linked list implementation in this thread uses this test class.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="nn">test</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">data_structure.non_generic.MyLinkedList</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.junit.jupiter.api.BeforeEach</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.junit.jupiter.api.Test</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.Iterator</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.NoSuchElementException</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">junit</span><span class="o">.</span><span class="na">jupiter</span><span class="o">.</span><span class="na">api</span><span class="o">.</span><span class="na">Assertions</span><span class="o">.*;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">TestMyLinkedList</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="nc">MyLinkedList</span> <span class="n">myList</span><span class="o">;</span>
+
+    <span class="nd">@BeforeEach</span>
+    <span class="kt">void</span> <span class="nf">setup</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">myList</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">MyLinkedList</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">testSize</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">testAppend</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">));</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">1</span><span class="o">));</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">2</span><span class="o">));</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">testInsertAtIndex</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">insertAtIndex</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">));</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">1</span><span class="o">));</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">2</span><span class="o">));</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">testInsertAtHead</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">insertAtHead</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">insertAtHead</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">));</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">1</span><span class="o">));</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">testInsertAtTail</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">insertAtTail</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">insertAtTail</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">));</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">1</span><span class="o">));</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">testSetAtIndex</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">setAtIndex</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">));</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">1</span><span class="o">));</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">testGet</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">));</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">1</span><span class="o">));</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">2</span><span class="o">));</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">testDeleteAtIndex</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">deleteAtIndex</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">));</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">1</span><span class="o">));</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">testDeleteAtHead</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">deleteAtHead</span><span class="o">();</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">));</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">testDeleteAtTail</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">deleteAtTail</span><span class="o">();</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">1</span><span class="o">));</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">testDeleteAllOf</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">deleteAllOf</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">));</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">1</span><span class="o">));</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">deleteAllOf</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">deleteAllOf</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">testToArray</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
+        <span class="kt">int</span><span class="o">[]</span> <span class="n">arr</span> <span class="o">=</span> <span class="n">myList</span><span class="o">.</span><span class="na">toArray</span><span class="o">();</span>
+        <span class="n">assertArrayEquals</span><span class="o">(</span><span class="k">new</span> <span class="kt">int</span><span class="o">[]{</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">},</span> <span class="n">arr</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">testToList</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
+        <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="n">myList</span><span class="o">.</span><span class="na">toList</span><span class="o">();</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">),</span> <span class="n">list</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">testIterator</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
+        <span class="nc">Iterator</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">iterator</span> <span class="o">=</span> <span class="n">myList</span><span class="o">.</span><span class="na">iterator</span><span class="o">();</span>
+        <span class="n">assertTrue</span><span class="o">(</span><span class="n">iterator</span><span class="o">.</span><span class="na">hasNext</span><span class="o">());</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">iterator</span><span class="o">.</span><span class="na">next</span><span class="o">());</span>
+        <span class="n">assertTrue</span><span class="o">(</span><span class="n">iterator</span><span class="o">.</span><span class="na">hasNext</span><span class="o">());</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">iterator</span><span class="o">.</span><span class="na">next</span><span class="o">());</span>
+        <span class="n">assertTrue</span><span class="o">(</span><span class="n">iterator</span><span class="o">.</span><span class="na">hasNext</span><span class="o">());</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="n">iterator</span><span class="o">.</span><span class="na">next</span><span class="o">());</span>
+        <span class="n">assertFalse</span><span class="o">(</span><span class="n">iterator</span><span class="o">.</span><span class="na">hasNext</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">testIteratorEdgeCases</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">Iterator</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">iterator</span> <span class="o">=</span> <span class="n">myList</span><span class="o">.</span><span class="na">iterator</span><span class="o">();</span>
+        <span class="n">assertFalse</span><span class="o">(</span><span class="n">iterator</span><span class="o">.</span><span class="na">hasNext</span><span class="o">());</span>
+        <span class="n">assertThrows</span><span class="o">(</span><span class="nc">NoSuchElementException</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="nl">iterator:</span><span class="o">:</span><span class="n">next</span><span class="o">);</span>
+
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+        <span class="n">iterator</span> <span class="o">=</span> <span class="n">myList</span><span class="o">.</span><span class="na">iterator</span><span class="o">();</span>
+        <span class="n">assertTrue</span><span class="o">(</span><span class="n">iterator</span><span class="o">.</span><span class="na">hasNext</span><span class="o">());</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">iterator</span><span class="o">.</span><span class="na">next</span><span class="o">());</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">iterator</span><span class="o">.</span><span class="na">next</span><span class="o">());</span>
+        <span class="n">assertFalse</span><span class="o">(</span><span class="n">iterator</span><span class="o">.</span><span class="na">hasNext</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">testToString</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="s">"[]"</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="s">"[1]"</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="s">"[1, 2]"</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="s">"[1, 2, 3]"</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">testBoundaryConditions</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// Test inserting and deleting on empty list</span>
+        <span class="n">assertThrows</span><span class="o">(</span><span class="nc">IndexOutOfBoundsException</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">myList</span><span class="o">.</span><span class="na">deleteAtIndex</span><span class="o">(</span><span class="mi">0</span><span class="o">));</span>
+        <span class="n">assertThrows</span><span class="o">(</span><span class="nc">IndexOutOfBoundsException</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">));</span>
+
+        <span class="c1">// Add to head, delete head, check size adjustments</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">insertAtHead</span><span class="o">(</span><span class="mi">10</span><span class="o">);</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">deleteAtHead</span><span class="o">();</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">testInsertAtInvalidIndex</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">assertThrows</span><span class="o">(</span><span class="nc">IndexOutOfBoundsException</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">myList</span><span class="o">.</span><span class="na">insertAtIndex</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">));</span> <span class="c1">// Negative index</span>
+        <span class="n">assertThrows</span><span class="o">(</span><span class="nc">IndexOutOfBoundsException</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">myList</span><span class="o">.</span><span class="na">insertAtIndex</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">));</span>  <span class="c1">// Index &gt; size</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">testDeleteAtInvalidIndex</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">assertThrows</span><span class="o">(</span><span class="nc">IndexOutOfBoundsException</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">myList</span><span class="o">.</span><span class="na">deleteAtIndex</span><span class="o">(-</span><span class="mi">1</span><span class="o">));</span> <span class="c1">// Negative index</span>
+        <span class="n">assertThrows</span><span class="o">(</span><span class="nc">IndexOutOfBoundsException</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">myList</span><span class="o">.</span><span class="na">deleteAtIndex</span><span class="o">(</span><span class="mi">0</span><span class="o">));</span>  <span class="c1">// Empty list</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+        <span class="n">assertThrows</span><span class="o">(</span><span class="nc">IndexOutOfBoundsException</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">myList</span><span class="o">.</span><span class="na">deleteAtIndex</span><span class="o">(</span><span class="mi">1</span><span class="o">));</span> <span class="c1">// Index &gt; size</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">testSetAtInvalidIndex</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">assertThrows</span><span class="o">(</span><span class="nc">IndexOutOfBoundsException</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">myList</span><span class="o">.</span><span class="na">setAtIndex</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">));</span> <span class="c1">// Negative index</span>
+        <span class="n">assertThrows</span><span class="o">(</span><span class="nc">IndexOutOfBoundsException</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">myList</span><span class="o">.</span><span class="na">setAtIndex</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">0</span><span class="o">));</span>  <span class="c1">// Index &gt; size</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">testDeleteAllOfNonExistentValue</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">deleteAllOf</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span> <span class="c1">// Value not present</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">size</span><span class="o">());</span> <span class="c1">// Size should remain unchanged</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">testInsertMultipleElements</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">insertAtIndex</span><span class="o">(</span><span class="mi">4</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">4</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">1</span><span class="o">));</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">3</span><span class="o">));</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">testDeleteAllElements</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">deleteAllOf</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">deleteAllOf</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">deleteAllOf</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+        <span class="n">assertTrue</span><span class="o">(</span><span class="n">myList</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">testConsecutiveOperations</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">insertAtIndex</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span> <span class="c1">// List should be [1, 3, 2]</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">1</span><span class="o">));</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">deleteAtIndex</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span> <span class="c1">// List should be [3, 2]</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">));</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">testLargeList</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10000</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">10000</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">9999</span><span class="o">,</span> <span class="n">myList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">9999</span><span class="o">));</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">testIteratorAfterModification</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+        <span class="nc">Iterator</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">iterator</span> <span class="o">=</span> <span class="n">myList</span><span class="o">.</span><span class="na">iterator</span><span class="o">();</span>
+        <span class="n">assertTrue</span><span class="o">(</span><span class="n">iterator</span><span class="o">.</span><span class="na">hasNext</span><span class="o">());</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">iterator</span><span class="o">.</span><span class="na">next</span><span class="o">());</span>
+        <span class="n">myList</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span> <span class="c1">// Modify list</span>
+        <span class="n">assertTrue</span><span class="o">(</span><span class="n">iterator</span><span class="o">.</span><span class="na">hasNext</span><span class="o">());</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">iterator</span><span class="o">.</span><span class="na">next</span><span class="o">());</span>
+        <span class="n">assertTrue</span><span class="o">(</span><span class="n">iterator</span><span class="o">.</span><span class="na">hasNext</span><span class="o">());</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="n">iterator</span><span class="o">.</span><span class="na">next</span><span class="o">());</span>
+        <span class="n">assertFalse</span><span class="o">(</span><span class="n">iterator</span><span class="o">.</span><span class="na">hasNext</span><span class="o">());</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre></div></div>
+
+<div class="end-post">***</div>
+
+                </article>
+            </div>
+        </main>
+        <div class="relative-footer">
+            <footer>
+                <div class="to-top-button-container">
+                    <button class="to-top-button" onclick="scrollToTop()">Top</button>
+                </div>
+                <div>
+                    <p>
+                        
+                        Written by:
+                        
+                        Yuk
+                    </p>
+                    <p>
+                        
+                        Credits:
+                        
+                        _
+                    </p>
+                    <p>&copy; 2025 Yukano</p>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script src="/assets/js/scripts.js"></script>
+</body>
+
+</html>

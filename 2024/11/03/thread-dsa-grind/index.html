@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="linkage" content="false">
+    <title>Thread - DSA Grind</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <div class="post" data-written-by="" data-credits=""
+        data-categories="">
+    </div>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Thread - DSA Grind</h1>
+            <div class="date">
+                
+                
+                Last updated:
+                
+                <span class="date-span">
+                    03/11/2024
+                </span>
+                
+            </div>
+            <div class="navigation-links">
+                <div class="back-link">
+                    <a href="/archive">
+                        
+                        Archive
+                        
+                    </a>
+                </div>
+                <div class="home-link">
+                    <a href="/"
+                        aria-label="Go back">
+                        
+                        Home
+                        
+                    </a>
+                </div>
+            </div>
+            <div class="toggle-light-dark">
+                <button id="toggle-mode-button" onclick="toggleLightMode()">☀️</button>
+            </div>
+            <div class="collapse-expand-all-button">
+                <button class="collapse-expand-all-button" onclick="">🔼</button>
+            </div>
+        </header>
+        <main>
+            <div class="post-content">
+                <article>
+                    <div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Thread info: Last updated: 03-11-2024
+<span class="p">    -</span> 03-11-2024:   LeetCode - 796. Rotate String
+                    LeetCode - 141. Linked List Cycle
+                    LeetCode - 206. Reverse Linked List
+                    LeetCode - 20. Valid Parentheses
+</code></pre></div></div>
+
+<div class="end-post"></div>
+
+<h2 id="leetcode">LeetCode</h2>
+
+<h3 id="leetcode---796-rotate-string"><a href="https://leetcode.com/problems/rotate-string/description/?envType=daily-question&amp;envId=2024-11-03" target="_blank">LeetCode - 796. Rotate String</a></h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">rotateString</span><span class="o">(</span><span class="nc">String</span> <span class="n">s</span><span class="o">,</span> <span class="nc">String</span> <span class="n">goal</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">!=</span> <span class="n">goal</span><span class="o">.</span><span class="na">length</span><span class="o">())</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="o">(</span><span class="n">s</span> <span class="o">+</span> <span class="n">s</span><span class="o">).</span><span class="na">contains</span><span class="o">(</span><span class="n">goal</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Base case: length mismatch -&gt; False</li>
+  <li>Examples:
+    <ul>
+      <li>“abc” and “cab” -&gt; “ab<strong>cab</strong>c” contains “cab” -&gt; True</li>
+      <li>“abc” and “acb” -&gt; “abcabc” -&gt; False</li>
+    </ul>
+  </li>
+  <li>Time complexity: \(O(n) \mid \Omega(1) \mid \Theta(n)\)
+    <ul>
+      <li>Best-case: Length mismatch -&gt; False -&gt; \(\Omega(1)\)</li>
+      <li><code class="language-plaintext highlighter-rouge">contains</code> of java <code class="language-plaintext highlighter-rouge">String</code> is \(O(n)\)</li>
+    </ul>
+  </li>
+  <li>Space complexity: \(O(n) \mid \Omega(1) \mid \Theta(n)\)
+    <ul>
+      <li>Concatenation <code class="language-plaintext highlighter-rouge">(s + s)</code> takes \(O(n)\) space</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="end-post"></div>
+
+<h3 id="leetcode---141-linked-list-cycle"><a href="https://leetcode.com/problems/linked-list-cycle/description/" target="_blank">LeetCode - 141. Linked List Cycle</a></h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">hasCycle</span><span class="o">(</span><span class="nc">ListNode</span> <span class="n">head</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">ListNode</span> <span class="n">fast</span> <span class="o">=</span> <span class="n">head</span><span class="o">;</span>
+        <span class="nc">ListNode</span> <span class="n">slow</span> <span class="o">=</span> <span class="n">head</span><span class="o">;</span>
+
+        <span class="k">while</span> <span class="o">(</span><span class="n">fast</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">fast</span><span class="o">.</span><span class="na">next</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">fast</span> <span class="o">=</span> <span class="n">fast</span><span class="o">.</span><span class="na">next</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+            <span class="n">slow</span> <span class="o">=</span> <span class="n">slow</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+
+            <span class="k">if</span> <span class="o">(</span><span class="n">fast</span> <span class="o">==</span> <span class="n">slow</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Reference: <a href="https://www.geeksforgeeks.org/floyds-cycle-finding-algorithm/" target="_blank">G4G - Floyd’s Cycle Finding Algorithm</a></li>
+  <li>Essentially a fancy way to check all nodes and all distances</li>
+  <li>Time complexity: \(O(n) \mid \Omega(1) \mid \Theta(n)\)
+    <ul>
+      <li>No cycle -&gt; \(O(n)\)</li>
+      <li>Best case for edge cases like only 1 node or <code class="language-plaintext highlighter-rouge">null</code> -&gt; \(\Omega(1)\)</li>
+    </ul>
+  </li>
+  <li>Space complexity: \(O(1) \mid \Omega(1) \mid \Theta(1)\)</li>
+</ul>
+
+<div class="end-post"></div>
+
+<h3 id="leetcode---206-reverse-linked-list"><a href="https://leetcode.com/problems/linked-list-cycle/description/" target="_blank">LeetCode - 206. Reverse Linked List</a></h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="nc">ListNode</span> <span class="nf">reverseList</span><span class="o">(</span><span class="nc">ListNode</span> <span class="n">head</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">ListNode</span> <span class="n">node</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+
+        <span class="k">while</span> <span class="o">(</span><span class="n">head</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">ListNode</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">head</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+            <span class="n">head</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">node</span><span class="o">;</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">head</span><span class="o">;</span>
+            <span class="n">head</span> <span class="o">=</span> <span class="n">temp</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">node</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Example:</li>
+</ul>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code>head ↴
+   ( 1 ) -&gt; ( 2 ) -&gt; ( 3 ) -&gt; null
+
+  head → temp ↴
+   ( 1 )    ( 2 ) -&gt; ( 3 ) -&gt; null
+     ↑
+   node
+
+   ( 1 ) <span class="nt">&lt;-</span> <span class="err">(</span> <span class="err">2</span> <span class="err">)</span>    <span class="err">(</span> <span class="err">3</span> <span class="err">)</span> <span class="na">-</span><span class="nt">&gt;</span> null
+     ↑        ↑
+   node     head<span class="sb">
+
+           head → temp ↴
+</span>   ( 1 ) <span class="nt">&lt;-</span> <span class="err">(</span> <span class="err">2</span> <span class="err">)</span>    <span class="err">(</span> <span class="err">3</span> <span class="err">)</span> <span class="na">-</span><span class="nt">&gt;</span> null
+              ↑
+            node<span class="sb">
+
+                   head → temp ↴
+</span>   ( 1 ) &lt;- ( 2 ) &lt;- ( 3 )    null
+                       ↑
+                     node
+</code></pre></div></div>
+
+<ul>
+  <li>Basically just jolt it down on paper, nice that it doesn’t have any edge cases.</li>
+  <li>Time complexity: \(O(n) \mid \Omega(1) \mid \Theta(n)\)</li>
+  <li>Space complexity: \(O(1) \mid \Omega(1) \mid \Theta(1)\)</li>
+</ul>
+
+<div class="end-post"></div>
+
+<h3 id="leetcode---20-valid-parentheses"><a href="https://leetcode.com/problems/valid-parentheses/description/" target="_blank">LeetCode - 20. Valid Parentheses</a></h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isValid</span><span class="o">(</span><span class="nc">String</span> <span class="n">s</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Stack</span><span class="o">&lt;</span><span class="nc">Character</span><span class="o">&gt;</span> <span class="n">stack</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Stack</span><span class="o">&lt;&gt;();</span>
+        <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">Character</span><span class="o">,</span> <span class="nc">Character</span><span class="o">&gt;</span> <span class="n">mapping</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashMap</span><span class="o">&lt;&gt;();</span>
+        <span class="n">mapping</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="sc">')'</span><span class="o">,</span> <span class="sc">'('</span><span class="o">);</span>
+        <span class="n">mapping</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="sc">'}'</span><span class="o">,</span> <span class="sc">'{'</span><span class="o">);</span>
+        <span class="n">mapping</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="sc">']'</span><span class="o">,</span> <span class="sc">'['</span><span class="o">);</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="kt">char</span> <span class="n">c</span> <span class="o">:</span> <span class="n">s</span><span class="o">.</span><span class="na">toCharArray</span><span class="o">())</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">mapping</span><span class="o">.</span><span class="na">containsValue</span><span class="o">(</span><span class="n">c</span><span class="o">))</span> <span class="o">{</span>
+                <span class="n">stack</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="n">c</span><span class="o">);</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">mapping</span><span class="o">.</span><span class="na">containsKey</span><span class="o">(</span><span class="n">c</span><span class="o">))</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">stack</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">()</span> <span class="o">||</span> <span class="n">mapping</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">c</span><span class="o">)</span> <span class="o">!=</span> <span class="n">stack</span><span class="o">.</span><span class="na">pop</span><span class="o">())</span> <span class="o">{</span>
+                    <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+        <span class="k">return</span> <span class="n">stack</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>There are a lot of edge cases with this problem, just make sure you go through them all if you want to justify the solution above.</li>
+  <li>Time complexity: \(O(n) \mid \Omega(n) \mid \Theta(n)\)</li>
+  <li>Space complexity: \(O(n) \mid \Omega(1) \mid \Theta(n)\)
+    <ul>
+      <li>You may use explicit string matching but the <code class="language-plaintext highlighter-rouge">HashMap</code> here is relatively irrelevant compared to the core <code class="language-plaintext highlighter-rouge">Stack</code> usage of the algorithm itself.</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="end-post"></div>
+
+<div class="end-post">***</div>
+
+                </article>
+            </div>
+        </main>
+        <div class="relative-footer">
+            <footer>
+                <div class="to-top-button-container">
+                    <button class="to-top-button" onclick="scrollToTop()">Top</button>
+                </div>
+                <div>
+                    <p>
+                        
+                        Written by:
+                        
+                        Yuk
+                    </p>
+                    <p>
+                        
+                        Credits:
+                        
+                        _
+                    </p>
+                    <p>&copy; 2025 Yukano</p>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script src="/assets/js/scripts.js"></script>
+</body>
+
+</html>

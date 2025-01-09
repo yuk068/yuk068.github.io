@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="linkage" content="false">
+    <title>Chess Game Update Log</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <div class="post" data-written-by="" data-credits=""
+        data-categories="">
+    </div>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Chess Game Update Log</h1>
+            <div class="date">
+                
+                <span class="date-span">05/05/2024</span>
+
+                
+                <span class="reading-time">
+                    
+                    | Reading time:
+                    
+                    2
+                    
+                    Min.
+                    
+                </span>
+                
+            </div>
+            <div class="navigation-links">
+                <div class="back-link">
+                    <a href="/archive">
+                        
+                        Archive
+                        
+                    </a>
+                </div>
+                <div class="home-link">
+                    <a href="/"
+                        aria-label="Go back">
+                        
+                        Home
+                        
+                    </a>
+                </div>
+            </div>
+            <div class="toggle-light-dark">
+                <button id="toggle-mode-button" onclick="toggleLightMode()">☀️</button>
+            </div>
+            <div class="collapse-expand-all-button">
+                <button class="collapse-expand-all-button" onclick="">🔼</button>
+            </div>
+        </header>
+        <main>
+            <div class="post-content">
+                <article>
+                    <h3 id="github-repo-yuk068---chessgame---archived">GitHub Repo: <a href="https://github.com/yuk068/chess-game" title="Yukano's GitHub - ChessGame">yuk068 - ChessGame</a> - ARCHIVED</h3>
+
+<h4 id="test_build-v114">TEST_BUILD v1.1.4</h4>
+
+<ol>
+  <li>Added Draw by repetition (threefold repetition)</li>
+  <li>Added Draw by insufficient material</li>
+  <li>Minor tweaks</li>
+</ol>
+
+<h4 id="test_build-v115">TEST_BUILD v1.1.5</h4>
+
+<ol>
+  <li>Added Draw by fifty-move rule</li>
+  <li>Added En Passant</li>
+  <li>Bug fixes</li>
+</ol>
+
+<h4 id="v120">v1.2.0</h4>
+
+<h5 id="gui-overhaul">GUI Overhaul</h5>
+<ul>
+  <li>The GUI has been made more colorful</li>
+  <li>Update for the info-tab</li>
+  <li>Note has been tucked away</li>
+</ul>
+
+<h5 id="command-line">Command line</h5>
+<p>Added a command line input to the info-tab, you can use commands like:</p>
+<ul>
+  <li>/flip - flip the chess board</li>
+  <li>/coords - show coordinates / notation for squares</li>
+  <li>/help - show dev’s note</li>
+  <li>/newgame - start a fresh game with default config</li>
+  <li>/exit - quit the program</li>
+  <li>/nexttheme, /prevtheme - cycle though GUI’s color schemes</li>
+  <li>/notation - (debug option) toggle between primitive coordinates and chess notation (/coords must be invoked first)</li>
+</ul>
+
+<p>(You can press ‘/’ to focus to the command input box)</p>
+
+<p>Minor bug fixes and tweaks</p>
+
+<h4 id="v130">v1.3.0</h4>
+
+<h5 id="fen">FEN</h5>
+<ul>
+  <li>Implemented FEN!, you can now generate FEN from a position or load a new game from FEN, more usage with commands</li>
+</ul>
+
+<p>(FEN - Forsyth-Edwards Notation, a compact way to describe a particular board position in a chess game using alphanumeric characters. It includes information about the placement of pieces on the board, castling availability, en passant captures, and the current move number and player turn.)</p>
+
+<h5 id="info-tab-and-console">Info-tab and Console</h5>
+<p>The old info-tab has been split to 2 separate panel, the top info-tab now display info about the game, capture log and FEN generation if enabled, the console is now the main panel to handle command lines.</p>
+
+<p>Update to command lines:</p>
+<ul>
+  <li>Removed:
+    <ul>
+      <li>/help</li>
+      <li>/nexttheme, /prevtheme</li>
+    </ul>
+  </li>
+  <li>Added:
+    <ul>
+      <li>/clear : clear the console</li>
+      <li>/command : display all available commands</li>
+    </ul>
+  </li>
+  <li>Theme:
+    <ul>
+      <li>Color schemes have been cleaned up and make more polished, access them with /theme, available themes:
+        <ul>
+          <li>coral</li>
+          <li>chessdotcom</li>
+          <li>coffee</li>
+          <li>candy</li>
+          <li>metal</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Piece skin:
+    <ul>
+      <li>Added more piece sets, load them with /pieceskin, available skins:
+        <ul>
+          <li>cbrrunett</li>
+          <li>pixel</li>
+          <li>anarcandy</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p>Minor update to GUI and bug fixes</p>
+
+<h4 id="v131">v1.3.1</h4>
+
+<h5 id="fen-commands">FEN Commands</h5>
+<p>Added FEN validation (I’m not sure if it’s full proof) and a button to copy current FEN to clipboard</p>
+
+<p>Overhauled commands relating to FEN:</p>
+<ul>
+  <li>Toggle generation of FEN in info-tab: /gfen, /generatefen</li>
+  <li>Load position from FEN: /lfen, /loadfen (+FEN)</li>
+  <li>Validate FEN without changing the game: /vfen, /validatefen (+FEN)</li>
+</ul>
+
+<p>I’m also working on more features and further stylize the info-tab, planned features:</p>
+<ul>
+  <li>Timer</li>
+  <li>Visual for capture log</li>
+  <li>Real time notation log</li>
+</ul>
+
+<h4 id="v132">v1.3.2</h4>
+
+<ul>
+  <li>Improve FEN validation</li>
+  <li>Fixed flipping board issue</li>
+</ul>
+
+<h4 id="v133">v1.3.3</h4>
+
+<ul>
+  <li>Fixed castling issues,</li>
+  <li>Update to FEN validator, now detonates no castling rights as ‘-‘</li>
+  <li>New commands:
+    <ul>
+      <li>/mute : toggle sounds</li>
+      <li>/help (+guide) : get additional information</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="test_bot-v140">TEST_BOT v1.4.0</h4>
+
+<p>Added bot ‘dummy’, which makes move 100% randomly, you can try it out with new command:</p>
+<ul>
+  <li>/bot (+bot) : play against bot as white</li>
+  <li>/bot bot (+bot) (+delay_ms) : make bot play itself with specified delay in ms</li>
+</ul>
+
+<div class="end-post">***</div>
+
+                </article>
+            </div>
+        </main>
+        <div class="relative-footer">
+            <footer>
+                <div class="to-top-button-container">
+                    <button class="to-top-button" onclick="scrollToTop()">Top</button>
+                </div>
+                <div>
+                    <p>
+                        
+                        Written by:
+                        
+                        Yuk
+                    </p>
+                    <p>
+                        
+                        Credits:
+                        
+                        _
+                    </p>
+                    <p>&copy; 2025 Yukano</p>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script src="/assets/js/scripts.js"></script>
+</body>
+
+</html>

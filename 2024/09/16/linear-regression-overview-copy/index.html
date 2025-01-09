@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="linkage" content="false">
+    <title>Linear Regression - Mathematical and Statistical Overview</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <div class="post" data-written-by="" data-credits=""
+        data-categories="">
+    </div>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Linear Regression - Mathematical and Statistical Overview</h1>
+            <div class="date">
+                
+                <span class="date-span">16/09/2024</span>
+
+                
+                <span class="reading-time">
+                    
+                    | Reading time:
+                    
+                    16
+                    
+                    Min.
+                    
+                </span>
+                
+            </div>
+            <div class="navigation-links">
+                <div class="back-link">
+                    <a href="/archive">
+                        
+                        Archive
+                        
+                    </a>
+                </div>
+                <div class="home-link">
+                    <a href="/"
+                        aria-label="Go back">
+                        
+                        Home
+                        
+                    </a>
+                </div>
+            </div>
+            <div class="toggle-light-dark">
+                <button id="toggle-mode-button" onclick="toggleLightMode()">☀️</button>
+            </div>
+            <div class="collapse-expand-all-button">
+                <button class="collapse-expand-all-button" onclick="">🔼</button>
+            </div>
+        </header>
+        <main>
+            <div class="post-content">
+                <article>
+                    <h1 id="linear-regression---mathematical-and-statistical-overview">Linear Regression - Mathematical and Statistical Overview</h1>
+
+<h3 id="remarks">Remarks</h3>
+
+<p>I’ve recently sign up for machine learning this semester, I don’t really know what to expect but I’ll try my best anyway. While I had initial reservations about diving into this course so early, I’ve decided to embrace the challenge, and there were really no other choice honestly. I believe that true mastery in machine learning comes from a deep understanding of the underlying concepts, not just from using pre-built libraries.</p>
+
+<p>In this post, I’ll try my best to provide a comprehensive overview of Linear Regression, covering its mathematical foundations, common solution approaches, and real-world applications. I’ll delve into the theory and concepts, while practical examples of Linear Regression will be covered in another post which will also be my Linear Regression Assignment for the course.</p>
+
+<h2 id="i-what-is-regression">I, What is Regression?</h2>
+
+<p>Regression is a statistical technique used for modeling and analyzing relationships between a dependent variable (target) and one or more independent variables (predictors or features). In essence, regression is used to predict the value of the dependent variable based on the values of the independent variables. It plays a key role in both prediction and forecasting, as well as understanding the relationships within data. In its simplest form and for the context of machine learning, if you remember one of those problems back in highschool math where you have to find an equation to fit certain points in a graph, then thats a start! Some more specific examples involve using tax rate, inflation, etc… to predict house prices, or market trend. The general participants in a regression problem is as follow:</p>
+
+<blockquote>
+
+\[\begin{gather*}
+y : \text{ The target variable - which in this case would always be continuous} \quad \\
+\mathbf{x} = (x_1, x_2, \ldots, x_d)^T \in \mathbb{R}^d : \text{ The predictive variables - could be continuous or discrete} \quad
+\end{gather*}\]
+</blockquote>
+
+<p><img src="/assets/thumbnail/linear-regression-mathematical-and-statistical-overview.webp" alt="Example: Evaluation of Predicted vs. Actual House Prices" /></p>
+
+<div class="description">Example: Evaluation of Predicted vs. Actual House Prices</div>
+
+<p>This is a fundamental technique in statistical modeling, to understand modern and machine learning approaches that leveraged on this concept, we must first grasp Classic Regression. Which often refers to a few main types of regression:</p>
+
+<ul>
+  <li>Linear Regression: A regression technique that models the relationship between independent variables and a dependent variable as a linear function.
+    <ul>
+      <li>Assumes linearity in data, meaning the relationship between predictors and the target variable is modeled as a straight line.</li>
+      <li>Uses Ordinary Least Squares (OLS) to estimate the coefficients by minimizing the sum of squared residuals.</li>
+      <li>General form:</li>
+    </ul>
+  </li>
+</ul>
+
+<blockquote>
+
+\[\begin{equation}
+y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \ldots + \beta_d x_d + \epsilon \quad
+\end{equation}\]
+</blockquote>
+
+<ul>
+  <li>Non-linear Regression: A regression technique used to model relationships between variables that do not follow a straight line, but rather involve more complex relationships.
+    <ul>
+      <li>The model can involve exponential, logarithmic, polynomial, or other forms of non-linear relationships.</li>
+      <li>It uses iterative algorithms to fit the parameters since the relationship is not a simple linear function (eg. Newton Raphson).</li>
+      <li>General form:</li>
+    </ul>
+  </li>
+</ul>
+
+<blockquote>
+
+\[\begin{equation}
+y = \beta_0 + \beta_1 x_1 + \beta_2 x^2_2 + \ldots + \beta_d x^d_d + \epsilon \quad
+\end{equation}\]
+</blockquote>
+
+<ul>
+  <li>Single Regression: Regression with a single dependent variable and one independent variable.</li>
+</ul>
+
+<blockquote>
+\[x \in \mathbb{R} \text{ and } y \in \mathbb{R} \quad\]
+</blockquote>
+
+<ul>
+  <li>Multiple Regression: Regression analysis where there is one dependent variable and multiple independent variables.</li>
+</ul>
+
+<blockquote>
+\[x \in \mathbb{R}^d \text{ and } y \in \mathbb{R} \quad\]
+</blockquote>
+
+<ul>
+  <li>Multivariate Regression: Regression analysis with multiple dependent variables and multiple independent variables.</li>
+</ul>
+
+<blockquote>
+\[x \in \mathbb{R}^d \text{ and } y \in \mathbb{R}^c \quad | \quad c &gt; 1 \quad\]
+</blockquote>
+
+<h2 id="ii-linear-regression---general-concept">II, Linear Regression - General Concept</h2>
+
+<h3 id="prediction-function">Prediction Function</h3>
+
+<p>In linear regression, the prediction function is typically written as:</p>
+
+<blockquote>
+
+\[\begin{equation}
+h_\theta(x) = \theta_0 + \theta_1 x_1 + \ldots + \theta_d x_d \quad
+\end{equation}\]
+</blockquote>
+
+<p>Here, \(\theta_0\) represents the intercept term.</p>
+
+<h3 id="intercept-term-inclusion">Intercept Term Inclusion</h3>
+
+<p>In practice, it’s common to “add a column of ones to the data”. This means we set \(x_0 \equiv 1\) for all data points, allowing us to rewrite the prediction function \(h_\theta(x)\) as:</p>
+
+<blockquote>
+
+\[\begin{equation}
+h_\theta(x) = \sum_{i=0}^{d} \theta_i x_i = \boldsymbol{\theta}^T \mathbf{x} \quad
+\end{equation}\]
+</blockquote>
+
+<blockquote>
+
+\[\begin{gather*}
+\text{Where } \boldsymbol{\theta} \text{ and } \mathbf{x} \text{ are vectors: } \quad \\
+\boldsymbol{\theta} = [\theta_0, \theta_1, ..., \theta_d]^T \text{ and } \mathbf{x} = [1, x_1, ..., x_d]^T \quad
+\end{gather*}\]
+</blockquote>
+
+<p>This practice means a few things for us:</p>
+
+<ul>
+  <li>Mathematical convenience: By adding a column of 1s, we can represent the intercept term as a coefficient in the linear regression equation. This simplifies the calculations and makes the model more consistent.</li>
+  <li>Flexibility: Including an intercept term allows the model to account for a baseline level of the dependent variable, even when the independent variables are zero. This can be useful in many real-world scenarios.</li>
+</ul>
+
+<h3 id="ordinary-least-squares-ols">Ordinary Least Squares (OLS)</h3>
+
+<p>The Ordinary Least Squares (OLS) method is used to determine the best-fitting line by minimizing the difference between the predicted values and the actual values in the training data. The training data with \(N\) data points is given in the format below:</p>
+
+<blockquote>
+
+\[\begin{equation}
+(x_1,y_1),(x_2,y_2), \ldots ,(x_N,y_N) \quad
+\end{equation}\]
+</blockquote>
+
+<p>To estimate the coefficients \(\boldsymbol{\theta} \in \mathbb{R}^{d+1}\), we need to minimize the error of the model given the training data. The error is captured using a cost function \(J(\theta)\).</p>
+
+<blockquote>
+
+\[\begin{equation}
+J(\theta) = \frac{1}{2N} \sum_{n=1}^{N} (h_\theta(x_n) - y_n)^2 \quad
+\end{equation}\]
+</blockquote>
+
+<p>Note that we use the constant term \(\frac{1}{2N}\) here to simplifies the calculation which will involve derivatives. In essence, you can use \(\frac{1}{2}, \frac{1}{N} \text{ and } \frac{1}{2N}\), which should all be valid in context of MSE.</p>
+
+<p>The objective of this practice is to minimize the cost function (aka Mean Squared Error - MSE) This means finding the parameter vector \(\boldsymbol{\theta}\) that results in the smallest possible value of \(J(θ)\). In other words, we are trying to find the best coefficients that lead to the least amount of error between the predicted and actual values.:</p>
+
+<blockquote>
+
+\[\begin{equation}
+J(\theta) \rightarrow \min_{\theta} \quad
+\end{equation}\]
+</blockquote>
+
+<h3 id="extra-approach-with-maximum-likelihood-estimation-mle">Extra: Approach with Maximum Likelihood Estimation (MLE)</h3>
+
+<p>To have a clear path towards finding the best performing coefficients, we can use the Maximum Likelihood Estimation (MLE) approach. In practice, to predict the target \(y\) for each data point \(x\), assume we have prediction function \(h_\theta(x)\) with error term of \(\mathbf{e}\) (Meaning that we assume this prediction function gives output that is \(\mathbf{e}\) off from the actual target \(y\)):</p>
+
+<blockquote>
+
+\[\begin{equation}
+y = h_\theta(x) + \mathbf{e} \quad
+\end{equation}\]
+</blockquote>
+
+<p>So assume \(\mathbf{e}\) follows a one-dimensional Normal Distribution:</p>
+
+<blockquote>
+
+\[\begin{equation}
+\mathbf{e} \sim \mathcal{N}(0, \sigma^2) \quad
+\end{equation}\]
+</blockquote>
+
+<p>To find the MLE, we define the Log-Likelihood function given the data as:</p>
+
+<blockquote>
+
+\[\begin{aligned} \ell(\theta) &amp; =\sum_{n=1}^N \log \left[\frac{1}{\sqrt{2 \pi \sigma^2}} \exp \left(-\frac{\left(y_n-h_\theta\left(x_n\right)\right)^2}{2 \sigma^2}\right)\right] \\ &amp; =N \log \left(\frac{1}{\sqrt{2 \pi \sigma^2}}\right)-\frac{1}{2 \sigma^2} \sum_{n=1}^N\left(y_n-h_\theta\left(x_n\right)\right)^2=: T_1-T_2 \quad \end{aligned}\]
+</blockquote>
+
+<p>Given that \(T_1\) is a constant term, maximizing \(\ell(\theta)\) equates to minimizing:</p>
+
+<blockquote>
+
+\[T_2=\frac{1}{2 \sigma^2} \sum_{n=1}^N\left(y_n-h_\theta\left(x_n\right)\right)^2=J(\theta) \quad\]
+</blockquote>
+
+<p>Given that \(J(\theta)\) is the cost function in OLS:</p>
+
+<ul>
+  <li>Assuming our error term \(\mathbf{e}\) actually follows a Normal Distribution then the MLE approach will help us to achieve OLS.</li>
+  <li>We see that in no way is \(\theta\) is dependant on the variance \(\sigma^2\). Therefore even in cases of ambiguous variance, we can still reasonably estimate \(\theta\).</li>
+</ul>
+
+<h2 id="iii-linear-regression---common-approaches">III, Linear Regression - Common Approaches</h2>
+
+<h3 id="single-regression---sum-of-squares-normal-equation">Single Regression - Sum of Squares (Normal Equation)</h3>
+
+<p>Given dataset with \(N\) data points, with signature \(x_n,y_n \in \mathbb{R}\). This is a classic example of Single Regression, a single independent variable \(x\) and a single dependent variable \(y\). With that knowledge, we calculate the Expected Value and variance as:</p>
+
+<blockquote>
+
+\[\mathbb{E}(y \mid X=x)=h_\theta(x)=\theta_0+\theta_1 x ; \quad \operatorname{var}(y \mid X=x)=\sigma^2 \quad\]
+</blockquote>
+
+<p>In which, \(\theta_0\) is called the Intercept Term, \(\theta_1\) is called the Slope. We continue by calculating the Sample Variance and Sample Covariance:</p>
+
+<blockquote>
+
+\[\begin{aligned} \bar{x} &amp; =\frac{1}{N} \sum_{n=1}^N x_n \quad \bar{y}=\frac{1}{N} \sum_{n=1}^N y_n \\ S X X &amp; =\sum_{n=1}^N\left(x_n-\bar{x}\right)^2 \quad \text { - Sample Variance } \\ S X Y &amp; =\sum_{n=1}^N\left(x_n-\bar{x}\right)\left(y_n-\bar{y}\right) \quad \text { - Sample Covariance }\quad \end{aligned}\]
+</blockquote>
+
+<p>So, when:</p>
+<blockquote>
+
+\[\mathbf{X}=\left(\begin{array}{cc}
+1 &amp; x_1 \\
+1 &amp; x_2 \\
+\vdots &amp; \vdots \\
+1 &amp; x_N
+\end{array}\right) \quad \mathbf{y}=\left(\begin{array}{c}
+y_1 \\
+y_2 \\
+\vdots \\
+y_N
+\end{array}\right) \quad\]
+</blockquote>
+
+<p>Then:</p>
+<blockquote>
+
+\[\left(\mathbf{X}^T \mathbf{X}\right)=\left(\begin{array}{cc}
+N &amp; \sum_{i=1}^N x_i \\
+\sum_{n=1}^N x_n &amp; \sum_{n=1}^N\left(x_n\right)^2
+\end{array}\right) \quad \mathbf{X}^T \mathbf{y}=\binom{\sum_{i=n}^N y_n}{\sum_{i=n}^N y_n^2}\quad\]
+</blockquote>
+
+<p>By direct computation:</p>
+<blockquote>
+
+\[\left(\mathbf{X}^T \mathbf{X}\right)^{-1}=\frac{1}{S X X}\left(\begin{array}{cc}
+\frac{1}{N} \sum_{n=1}^N\left(x_n\right)^2 &amp; -\bar{x} \\
+-\bar{X} &amp; 1
+\end{array}\right) \quad\]
+</blockquote>
+
+<p>Therefore:</p>
+<blockquote>
+
+\[\hat{\theta}=\binom{\hat{\theta}_0}{\hat{\theta}_1}=\left(\mathbf{X}^T \mathbf{X}\right)^{-1} \mathbf{X}^T \mathbf{y}=\binom{\bar{y}-\bar{x} \hat{\theta}_1}{S X Y / S X X} \quad\]
+</blockquote>
+
+<p><img src="/assets/images/machinelearning/linearregression/tempvspressure.webp" alt="Example: Single Regression" /></p>
+
+<div class="description">Example: Single Regression - Predicting Pressure (y) from Temperature (x)</div>
+
+<p>Note: Sum of Squares is the simplest case of Normal Equation.</p>
+
+<h3 id="multiple-regression">Multiple Regression</h3>
+
+<p>When applied to Single Regression, OLS usually solves the problem using direct calculation with the Sum of Squares as demonstrated above. However when moving to Multiple Regression, we must be able to generalize the concept of OLS to effectively solve such problems, below I will go in depth to some of the most common methods to achieve OLS in context of Multiple Regression:</p>
+
+<h4 id="normal-equation">Normal Equation</h4>
+
+<p>The Normal Equation is a powerful method for finding the optimal parameters (weights) in a linear regression model. It provides a systematic way to minimize the difference between the predicted values and the actual observed values in the dataset.</p>
+
+<p>Say we are given dataset with dimensionality of \(X \times y \subset \mathbb{R}^d \times \mathbb{R}^n\) where:</p>
+
+<blockquote>
+
+\[\mathbf{X}=\left(\begin{array}{c}\left(x_1\right)^T \\ \left(x_2\right)^T \\ \vdots \\ \left(x_N\right)^T\end{array}\right)=\left(\begin{array}{ccccc}1 &amp; x_{11} &amp; x_{21} &amp; \cdots &amp; x_{d2} \\ 1 &amp; x_{12} &amp; x_{22} &amp; \cdots &amp; x_{d2} \\ \vdots &amp; \vdots &amp; \ddots &amp; \vdots &amp; \\ 1 &amp; x_{1N} &amp; x_{2N} &amp; \cdots &amp; x_{dN}\end{array}\right) \\ \text{ and } \mathbf{y}=\left(\begin{array}{c}y_1 \\ y_2 \\ \vdots \\ y_N\end{array}\right) \quad\]
+</blockquote>
+
+<p>Note that we have already implemented the inclusion of the Intercept Term, hence the column of ones. Therefore Matrix \(X\) here can be considered an Design Matrix \(X \in \mathbb{R}^{N \times (d+1)}\).</p>
+
+<p>Given the context, our cost function \(J(\theta)\) is re-written as:</p>
+
+<blockquote>
+
+\[J(\theta)=\frac{1}{2N}(\mathbf{X} \theta-\mathbf{y})^T(\mathbf{X} \theta-\mathbf{y}) \quad\]
+</blockquote>
+
+<p>Let the gradient of the cost function \(J(\theta) \text{ w.r.t } \theta\):</p>
+
+<blockquote>
+
+\[\nabla J(\theta)=\frac{1}{N}\left( \mathbf{X}^T \mathbf{X} \theta-\mathbf{X}^T \mathbf{y} \right) \quad\]
+</blockquote>
+
+<p>The gradient tells us the direction in which the cost function is increasing. When the gradient equals zero, we are at a minimum (or maximum), and thus, we can derive the optimal parameters \(\hat{\theta}\). To minimize the cost function, we solve for \(\nabla J(\theta) = 0\) and derive equation:</p>
+
+<blockquote>
+
+\[\hat{\theta}=\left(\mathbf{X}^T \mathbf{X}\right)^{-1} \mathbf{X}^T \mathbf{y} \quad\]
+</blockquote>
+
+<p>The equation above is called the Normal Equation. We notice how in the process of solving the Normal Equation, we encounter the inverse operation \((\mathbf{X}^T \mathbf{X})^{-1}\).</p>
+
+<ul>
+  <li>If this inverse exists, only then can we solve for \(\hat{\theta}\) by direct computation (The best case scenario).</li>
+  <li>If this inverse does not exist, meaning that \((\mathbf{X}^T \mathbf{X})\) is not Full Rank, this leads to several implications:
+    <ul>
+      <li>There exist a linear dependency between the columns of \(X\) (ie. multicollinearity). This means that some features are linearly dependent on others, which can cause issues in estimating the coefficients reliably.</li>
+      <li>We could find a way to reduce the dimensionality of \(X\) by removing dependent features so that the Design Matrix \(X\) is Full Rank, enabling the computation of the inverse.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>Without delving into the specifics of dimensionality reduction and feature selection, we approach the problem by calculating Expectation. Let \(\mathbb{E}(\hat{\theta} \mid \mathbf{X})\) be the Expectation given \(\hat{\theta}\) depending on \(X\)</p>
+
+<blockquote>
+
+\[\begin{aligned} \mathbb{E}(\hat{\theta} \mid \mathbf{X}) &amp; =\mathbb{E}\left(\left(\mathbf{X}^T \mathbf{X}\right)^{-1} \mathbf{X}^T \mathbf{y} \mid \mathbf{X}\right) \\ &amp; =\left(\left(\mathbf{X}^T \mathbf{X}\right)^{-1} \mathbf{X}^T\right) \mathbb{E}(\mathbf{y} \mid \mathbf{X}) \quad \\ &amp; =\left(\mathbf{X}\left(\mathbf{X}^T \mathbf{X}\right)^{-1}\right) \mathbf{x} \theta \\ &amp; =\theta\end{aligned}\]
+</blockquote>
+
+<p>The equation shows how we can compute the Expected Value of \(\hat{\theta}\) conditioned on \(X\). By ensuring that \(\mathbb{E}(\hat{\theta} \mid \mathbf{X}) = \theta\), we’re verifying that our estimation \(\hat{\theta}\) is unbiased. This means that, on average, it accurately reflects the true parameter values.</p>
+
+<p>By using formula: \(\operatorname{var}(\mathbf{a}+\mathbf{A} \mathbf{y})=\mathbf{A} \operatorname{var}(\mathbf{y}) \mathbf{A}^T\), with \(\mathbf{a},\mathbf{y}\) as vectors and \(\mathbf{A}\) as a constant matrix, we have:</p>
+
+<blockquote>
+
+\[\begin{aligned} \operatorname{var}(\hat{\theta} \mid \mathbf{X}) &amp; =\operatorname{var}\left(\left(\mathbf{X}^T \mathbf{X}\right)^{-1} \mathbf{X}^T \mathbf{y} \mid \mathbf{X}\right) \\ &amp; =\left[\left(\mathbf{X}^T \mathbf{X}\right)^{-1} \mathbf{X}^T\right] \operatorname{var}(\mathbf{y} \mid \mathbf{X})\left[\mathbf{X}\left(\mathbf{X}^T \mathbf{X}\right)^{-1}\right] \quad \\ &amp; =\left[\left(\mathbf{X}^T \mathbf{X}\right)^{-1} \mathbf{X}^T\right] \sigma^2 \mathbf{X}\left[\mathbf{X}\left(\mathbf{X}^T \mathbf{X}\right)^{-1}\right] \\ &amp; =\sigma^2\left[\left(\mathbf{X}^T \mathbf{X}\right)^{-1} \mathbf{X}^T \mathbf{X}\left(\mathbf{X}^T \mathbf{X}\right)^{-1}\right] \\ &amp; =\sigma^2\left(\mathbf{X}^T \mathbf{X}\right)^{-1}\end{aligned}\]
+</blockquote>
+
+<p>In which we see how the variance of \(\hat{\theta}\) only depends on \(X\), not \(y\). The variance formula derived in the context of the estimation demonstrates that the uncertainty in our estimates only depends on the Design Matrix and not on the actual observed values. This characteristic is crucial for understanding how the choice of features influences the reliability of our estimates.</p>
+
+<p>In summary, the Normal Equation provides a comprehensive method to derive the best-fitting parameters in linear regression by using matrix operations. It emphasizes the relationships among the independent variables and showcases how these relationships affect the predictions and their associated uncertainties. Understanding the Normal Equation not only enhances our comprehension of OLS but also equips us to handle practical scenarios, such as multicollinearity, that may arise when dealing with multiple regression problems.</p>
+
+<h4 id="qr-decomposition">QR Decomposition</h4>
+
+<p>In practice, the nature of the present of inverse operations in Normal Equation often leads to Numerical Instability, especially in larger datasets. This effect can result in inaccurate estimates of the regression coefficients, compromising the reliability of the model. To mitigate these issues, QR Decomposition is often employed in linear regression analysis.</p>
+
+<p>QR Decomposition is a concept in Linear Algebra. <a href="https://en.wikipedia.org/wiki/QR_decomposition" target="_blank">“QR Decomposition - Wikipedia”</a>. Some well-known QR Decomposition algorithm includes: Householder, Gram-Schmidt, etc…</p>
+
+<p>Going back to our Design Matrix \(X \in \mathbb{R}^{N \times (d+1)}\). Assume we can find matrix \(Q \in \mathbb{R}^{N \times (d+1)}\) and matrix \(R \in \mathbb{R}^{(d+1) \times (d+1)}\) such that: \(X = QR\), where:</p>
+
+<ul>
+  <li>\(Q\) is an orthonormal column matrix, meaning \(Q^TQ = I\).</li>
+  <li>\(R\) is an upper triangular matrix, meaning that all elements above the main diagonal equals 0.</li>
+</ul>
+
+<p>With matrices \(Q\) and \(R\) (Given \(R\) is Full Rank) satisfied, we can denote:</p>
+
+<blockquote>
+
+\[\begin{aligned} \mathbf{X} &amp; =\mathbf{Q R} \\ \mathbf{X}^T \mathbf{X} &amp; =(\mathbf{Q R})^T(\mathbf{Q R})=\mathbf{R}^T \mathbf{Q}^T \mathbf{Q} \mathbf{R}=\mathbf{R}^T \mathbf{R} \quad \\ \left(\mathbf{X}^T \mathbf{X}\right)^{-1} &amp; =\left(\mathbf{R}^T \mathbf{R}\right)^{-1}=\mathbf{R}^{-1}\left(\mathbf{R}^T\right)^{-1} \\ \hat{\theta} &amp; =\left(\mathbf{X}^T \mathbf{X}\right)^{-1} \mathbf{X}^T \mathbf{y} \\ &amp; =\mathbf{R}^{-1}\left(\mathbf{R}^T\right)^{-1}(\mathbf{Q R})^T \mathbf{y} \\ &amp; =\mathbf{R}^{-1}\left(\mathbf{R}^T\right)^{-1} \mathbf{R}^T \mathbf{Q}^T \mathbf{y} \\ &amp; =\mathbf{R}^{-1} \mathbf{Q}^T \mathbf{y} .\end{aligned}\]
+</blockquote>
+
+<p>From the last equation, we can derive:</p>
+
+<blockquote>
+
+\[\mathbf{R} \hat{\theta}=\mathbf{R} \mathbf{R}^{-1} \mathbf{Q}^{T} \mathbf{y}=\mathbf{Q}^{T} \mathbf{y}. \quad\]
+</blockquote>
+
+<p>Given \(R\) is an upper triangular matrix, we can easily solve for \(\hat{\theta}\) with Gaussian Elimination, for example:</p>
+
+<blockquote>
+
+\[R \hat{\theta} = \begin{pmatrix}
+4 &amp; 2 &amp; 1 \\
+0 &amp; 3 &amp; 1 \\
+0 &amp; 0 &amp; 4
+\end{pmatrix}
+\begin{pmatrix}
+\hat{\theta}_1 \\
+\hat{\theta}_2 \\
+\hat{\theta}_3
+\end{pmatrix}
+= Q^T y = \begin{pmatrix}
+4 \\
+11 \\
+8
+\end{pmatrix} \quad\]
+</blockquote>
+
+<h4 id="extra-householder">Extra: Householder</h4>
+
+<p>The Householder algorithm transforms a given matrix into an upper triangular form by applying a sequence of reflections. Each reflection is designed to zero out specific elements below the diagonal, thereby simplifying the matrix. Process:</p>
+
+<ul>
+  <li>For each column of the matrix \(A\), a Householder vector is constructed. This vector reflects the column onto a multiple of the standard basis vector (essentially, it “flattens” the column).</li>
+  <li>The transformation is defined using a Householder matrix \(Q_j\), which is an orthogonal matrix that represents the reflection.</li>
+  <li>The original matrix \(R\) updated by applying the Householder transformation, while the orthogonal matrix \(Q\) is accumulated by multiplying it with each Householder matrix’s transpose.</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+
+<span class="k">def</span> <span class="nf">householder_qr</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
+    <span class="n">m</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">A</span><span class="p">.</span><span class="n">shape</span>
+    <span class="n">Q</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">eye</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">A</span><span class="p">.</span><span class="nf">copy</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">R</span><span class="p">[</span><span class="n">j</span><span class="p">:,</span> <span class="n">j</span><span class="p">]</span>
+        <span class="n">e</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">zeros_like</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">u</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">np</span><span class="p">.</span><span class="nf">sign</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="n">linalg</span><span class="p">.</span><span class="nf">norm</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">e</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">u</span> <span class="o">/</span> <span class="n">np</span><span class="p">.</span><span class="n">linalg</span><span class="p">.</span><span class="nf">norm</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+        <span class="n">Q_j</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">eye</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+        <span class="n">Q_j</span><span class="p">[</span><span class="n">j</span><span class="p">:,</span> <span class="n">j</span><span class="p">:]</span> <span class="o">-=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="nf">outer</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+        <span class="n">R</span> <span class="o">=</span> <span class="n">Q_j</span> <span class="o">@</span> <span class="n">R</span>
+        <span class="n">Q</span> <span class="o">=</span> <span class="n">Q</span> <span class="o">@</span> <span class="n">Q_j</span><span class="p">.</span><span class="n">T</span>
+
+    <span class="k">return</span> <span class="n">Q</span><span class="p">,</span> <span class="n">R</span>
+</code></pre></div></div>
+
+<div class="description">Python implementation of the Householder algorithm</div>
+
+<p>Think of the Householder transformation as using mirrors to reflect vectors. Each reflection aligns a column of the matrix with the direction of the coordinate axes, progressively creating zeros below the diagonal.</p>
+
+<h4 id="extra-gram-schmidt">Extra: Gram-Schmidt</h4>
+
+<p>The Gram-Schmidt algorithm constructs an orthogonal basis from the columns of the matrix by iteratively orthogonalizing each column with respect to the previously computed columns. Process:</p>
+
+<ul>
+  <li>For each column of matrix \(A\), the algorithm subtracts projections of that column onto all previously computed orthogonal vectors.</li>
+  <li>The resulting vector is then normalized to create a unit vector, which forms part of the orthogonal matrix \(Q\).</li>
+  <li>The coefficients of these projections are stored in matrix \(R\), which contains the inner products of the original columns with the orthogonalized columns.</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+
+<span class="k">def</span> <span class="nf">gram_schmidt_qr</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
+    <span class="n">m</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">A</span><span class="p">.</span><span class="n">shape</span>
+    <span class="n">Q</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">zeros</span><span class="p">((</span><span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">zeros</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">A</span><span class="p">[:,</span> <span class="n">j</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">j</span><span class="p">):</span>
+            <span class="n">R</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">dot</span><span class="p">(</span><span class="n">Q</span><span class="p">[:,</span> <span class="n">i</span><span class="p">],</span> <span class="n">A</span><span class="p">[:,</span> <span class="n">j</span><span class="p">])</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="n">v</span> <span class="o">-</span> <span class="n">R</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="n">Q</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span>
+        <span class="n">R</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">linalg</span><span class="p">.</span><span class="nf">norm</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="n">Q</span><span class="p">[:,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span> <span class="o">/</span> <span class="n">R</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">Q</span><span class="p">,</span> <span class="n">R</span>
+</code></pre></div></div>
+
+<div class="description">Python implementation of the Gram-Schmidt algorithm</div>
+
+<p>Imagine you are trying to create a set of orthogonal vectors from a set of linearly independent vectors. The Gram-Schmidt process helps by systematically removing components that align with existing vectors, thus ensuring that each new vector is orthogonal to the ones before it.</p>
+
+<p>For more a more comprehensive view on QR Decomposition, you can refer to <a href="https://people.inf.ethz.ch/gander/papers/qrneu.pdf" target="_blank">“Walter Gander - Algorithms for the QR-Decomposition”</a></p>
+
+<h3 id="conclusion">Conclusion</h3>
+
+<p>In conclusion, Linear Regression is a powerful yet lightweight tool in the realm of machine learning and statistics. Its simplicity allows for quick implementations and interpretations, making it an excellent choice for understanding relationships between variables and providing a solid baseline for predictive modeling. Despite its effectiveness, it is essential to recognize the limitations inherent in Linear Regression, such as its assumptions of linearity and sensitivity to outliers, which can impact the model’s performance.</p>
+
+<p>I will be covering some examples of Linear Regression as part of my Assignment post for my course, which you can find here <a href="#" onclick="notifyComingSoon()">MAT3533 - Linear Regression Assignment</a>.</p>
+
+<p>Furthermore I will also implement Linear Regression from scratch in Python, which you can learn more about here <a href="#" onclick="notifyComingSoon()">Linear Regression - Python implementation from scratch</a>.</p>
+
+<p>Thank you for reading to the end, if there are any mistakes or suggestions to the material, feel free to contact me at <a href="/contact/">Contact</a>.</p>
+
+<div class="end-post"></div>
+
+<p><strong><em>Extras:</em></strong></p>
+
+<ul>
+  <li>L1, L2 Regularization for Linear Regression (Lasso, Ridge).</li>
+  <li>Visualization techniques for Linear Regression.</li>
+  <li>Data Preprocessing for Linear Regression.</li>
+</ul>
+
+<p><strong><em>References:</em></strong></p>
+
+<ul>
+  <li><a href="https://drive.google.com/file/d/19G_TGQYb34O8Le6FsObLCwJ-c3XcLDoH/view" target="_blank">“MAT3533 - Linear Regression Lecture - Prof. Cao Van Chung”</a></li>
+  <li><a href="https://www.youtube.com/@statquest" target="_blank">“StatQuest with Josh Starmer”.</a></li>
+  <li><a href="https://people.inf.ethz.ch/gander/papers/qrneu.pdf" target="_blank">“Walter Gander - Algorithms for the QR-Decomposition”</a></li>
+  <li>Oleksandr Dorokhov, Lyudmyla Malyarets, Kadri Ukrainski and Dmytro Yevstrat, Estimation of Parameters in Regression Analysis Based on QR Decomposition of Rectangular Matrices by Householder Reflections.</li>
+  <li>Xin Yan &amp; Xiao Gang Su, Linear Regression Analysis - Theory and Computing.</li>
+</ul>
+
+<div class="end-post">***</div>
+
+                </article>
+            </div>
+        </main>
+        <div class="relative-footer">
+            <footer>
+                <div class="to-top-button-container">
+                    <button class="to-top-button" onclick="scrollToTop()">Top</button>
+                </div>
+                <div>
+                    <p>
+                        
+                        Written by:
+                        
+                        Yuk
+                    </p>
+                    <p>
+                        
+                        Credits:
+                        
+                        Included in References, Prof. Cao Van Chung (MIM - HUS - VNU)
+                    </p>
+                    <p>&copy; 2025 Yukano</p>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script src="/assets/js/scripts.js"></script>
+</body>
+
+</html>

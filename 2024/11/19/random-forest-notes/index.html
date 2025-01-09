@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="linkage" content="false">
+    <title>Random Forest Notes</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <div class="post" data-written-by="" data-credits=""
+        data-categories="">
+    </div>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Random Forest Notes</h1>
+            <div class="date">
+                
+                <span class="date-span">19/11/2024</span>
+
+                
+                <span class="reading-time">
+                    
+                    | Reading time:
+                    
+                    5
+                    
+                    Min.
+                    
+                </span>
+                
+            </div>
+            <div class="navigation-links">
+                <div class="back-link">
+                    <a href="/archive">
+                        
+                        Archive
+                        
+                    </a>
+                </div>
+                <div class="home-link">
+                    <a href="/"
+                        aria-label="Go back">
+                        
+                        Home
+                        
+                    </a>
+                </div>
+            </div>
+            <div class="toggle-light-dark">
+                <button id="toggle-mode-button" onclick="toggleLightMode()">☀️</button>
+            </div>
+            <div class="collapse-expand-all-button">
+                <button class="collapse-expand-all-button" onclick="">🔼</button>
+            </div>
+        </header>
+        <main>
+            <div class="post-content">
+                <article>
+                    <h1 id="random-forest">Random Forest</h1>
+
+<h4 id="1-decision-trees">1, Decision Trees</h4>
+
+<p>Given dataset \(X = \{(x_i, y_i)\}^N_{i=1}\) where \(x_i \in \mathbb{R}^n\) and \(y_i \in \{0 ; 1\}\) for binary classification.</p>
+
+<p>A random forest model is expressed as an ensemble of \(K\) decision trees:</p>
+
+<blockquote>
+
+\[\begin{gather*}
+\mathcal{T}_{RF} = \{T_1, T_2, \ldots , T_K \}
+\end{gather*}\]
+</blockquote>
+
+<p>Where each decision trees \(T_k\) is defined as follows:</p>
+
+<ul>
+  <li>Consider the <em>bootstrapped dataset</em> for tree \(T_k\) as:</li>
+</ul>
+
+<blockquote>
+
+\[\begin{gather*}
+X_k^{(b)} = \{ (x_i, y_i)^{(b)} \}^N_{i=1} \qquad (x_i, y_i)^{(b)} \sim \text{with replacement from } X
+\end{gather*}\]
+</blockquote>
+
+<p>This process is also known as <em>bagging</em> (Bootstrap AGGregatING). Approximately 63.2% of the original samples appear in each bootstrapped dataset, while 36.8% are left out (out-of-bag samples).</p>
+
+<ul>
+  <li>If we consider each arbitrary dataset at a node of tree \(T_k\) to be \(X_{\text{Node}}\) then each nodes recursively splits the dataset into 2 subsets:</li>
+</ul>
+
+<blockquote>
+
+\[\begin{align}
+&amp; X_L = \{(x_i, y_i) \mid x_{i, j} \leq t\} \quad : \text{ Left split} \quad \\[5pt]
+&amp; X_R = \{(x_i, y_i) \mid x_{i, j} &gt; t\} \quad : \text{ Right split} \quad
+\end{align}\]
+</blockquote>
+
+<p><strong>Where:</strong></p>
+<ul>
+  <li>\(j\) is the index of a feature, \(j_k \in \{ 1, \ldots, n \}\) and \(k \in \{ 1, 2, \ldots \left \lfloor{\log_2 n}\right \rfloor \}\) and \(j_k \neq j_l \forall k \neq l\). \(\left \lfloor{\log_2 n}\right \rfloor\) is introduce to reduce overfitting by reducing the feature space.</li>
+  <li>\(t\) is a threshold with bounds depending on the feature \(j\).</li>
+  <li>The splits are done recursively until some stopping criteria is met (eg. <code class="language-plaintext highlighter-rouge">max_depth</code>, <code class="language-plaintext highlighter-rouge">min_samples_leaf</code>, etc…)</li>
+</ul>
+
+<h4 id="2-impurities">2, Impurities</h4>
+
+<p>The goal of each splits of a node is to minimize the Impurity \(I\), here are some common Impurity measures:</p>
+
+<ul>
+  <li>Gini:</li>
+</ul>
+
+<blockquote>
+
+\[I(X) = 1 - \sum_{c \in \{0; 1\}} \left(\frac{|X_c|}{|X|}\right)^2\]
+</blockquote>
+
+<ul>
+  <li>Entropy:</li>
+</ul>
+
+<blockquote>
+
+\[I(X) = - \sum_{c \in \{0; 1\}} \frac{|X_c|}{|X|} \log \frac{|X_c|}{|X|}\]
+</blockquote>
+
+<p>Where \(X_c\) denotes the samples of \(X\) that belongs to class \(c\).</p>
+
+<p>Thus we have the objective function:</p>
+
+<blockquote>
+
+\[\begin{gather*}
+\hat{I} = \text{arg}\min\limits_{j, t} \left( \frac{|X_L|}{|X_{\text{Node}}|} I(X_L) + \frac{|X_R|}{|X_{\text{Node}}|} I(X_R) \right)
+\end{gather*}\]
+</blockquote>
+
+<h4 id="3-prediction">3, Prediction</h4>
+
+<p>Each tree \(T_k\) produces a label \(T_k (x_q)\) for a query data point \(x_q\), based on the splits and thresholds learned during training. Specifically, the prediction is made by traversing the tree from the root to a leaf node:</p>
+
+<ul>
+  <li>Starting at the root node, we examine the feature at the decision node (indexed by \(j\)), applying the threshold \(t\).</li>
+  <li>Depending on whether the feature value of \(x_q\) (i.e., \(x_{q,j}\)) is less than or greater than the threshold \(t\), we move either to the left or the right child node, repeating the decision process.</li>
+  <li>This recursive process continues until we reach a leaf node, which contains a class label (either 0 or 1).</li>
+</ul>
+
+<p>The final prediction for the query point \(x_q\) is determined by aggregating the outputs of all trees in the forest. Specifically, the majority vote (mode) across the trees’ predictions is used to make the final classification:</p>
+
+<blockquote>
+
+\[y_q = \text{mode}(\{ T_1 (x_q), T_2 (x_q), \ldots , T_K (x_q) \})\]
+</blockquote>
+
+<h4 id="4-interpretation">4. Interpretation</h4>
+
+<p>Random Forest models can be challenging to interpret due to their ensemble nature. However, there are several tools and techniques that can help interpret and explain the model, including:</p>
+
+<ul>
+  <li><strong>Feature Importance</strong>: One of the main advantages of Random Forests is their ability to provide feature importance scores. These scores reflect how important each feature is for the classification decision. The importance is computed based on how much the feature decreases the impurity (Gini or Entropy) when used in decision splits across all trees. Features that lead to significant reductions in impurity are considered more important.</li>
+</ul>
+
+<p>A common way to compute feature importance is by averaging the decrease in impurity across all trees when that feature is used to split a node:</p>
+
+<blockquote>
+
+\[\text{Importance}(j) = \frac{1}{K} \sum_{k=1}^K \Delta I_j^{(k)}\]
+</blockquote>
+
+<p>Where \(\Delta I_j^{(k)}\) is the reduction in impurity for feature \(j\) in tree \(T_k\).</p>
+
+<ul>
+  <li>
+    <p><strong>Partial Dependence Plots (PDPs)</strong>: These plots show the relationship between a feature and the predicted outcome, marginalizing over the other features. PDPs can help visualize how the model’s predictions change as the value of a particular feature changes, while holding other features constant.</p>
+  </li>
+  <li>
+    <p><strong>Tree Visualizations</strong>: While individual decision trees in a random forest can be complex and deep, visualizing a few trees can offer insights into the decision-making process of the model. These visualizations display the decisions at each node, helping to understand which features and thresholds are being used in splits.</p>
+  </li>
+  <li>
+    <p><strong>Out-of-Bag Error Estimation</strong>: Since Random Forest uses bootstrapping to train each tree, about 36.8% of the data is left out of the training set for each tree (out-of-bag or OOB samples). The OOB samples can be used as a test set to estimate the performance of the model, providing an internal validation method without needing a separate test set.</p>
+  </li>
+  <li>
+    <p><strong>Permutation Feature Importance</strong>: This method involves shuffling the values of a feature and measuring the decrease in model accuracy. A significant drop in accuracy when a feature is shuffled indicates high importance. This technique can be more reliable than traditional importance scores in some cases, especially when features are correlated.</p>
+  </li>
+</ul>
+
+<p>By combining these techniques, we can gain a deeper understanding of how Random Forest models make their decisions and how each feature contributes to the overall classification process.</p>
+
+<div class="end-post">***</div>
+
+                </article>
+            </div>
+        </main>
+        <div class="relative-footer">
+            <footer>
+                <div class="to-top-button-container">
+                    <button class="to-top-button" onclick="scrollToTop()">Top</button>
+                </div>
+                <div>
+                    <p>
+                        
+                        Written by:
+                        
+                        Yuk
+                    </p>
+                    <p>
+                        
+                        Credits:
+                        
+                        _
+                    </p>
+                    <p>&copy; 2025 Yukano</p>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script src="/assets/js/scripts.js"></script>
+</body>
+
+</html>

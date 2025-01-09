@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="linkage" content="false">
+    <title>Gomoku Bot</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <div class="post" data-written-by="" data-credits=""
+        data-categories="">
+    </div>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Gomoku Bot</h1>
+            <div class="date">
+                
+                <span class="date-span">20/05/2024</span>
+
+                
+                <span class="reading-time">
+                    
+                    | Reading time:
+                    
+                    19
+                    
+                    Min.
+                    
+                </span>
+                
+            </div>
+            <div class="navigation-links">
+                <div class="back-link">
+                    <a href="/archive">
+                        
+                        Archive
+                        
+                    </a>
+                </div>
+                <div class="home-link">
+                    <a href="/"
+                        aria-label="Go back">
+                        
+                        Home
+                        
+                    </a>
+                </div>
+            </div>
+            <div class="toggle-light-dark">
+                <button id="toggle-mode-button" onclick="toggleLightMode()">☀️</button>
+            </div>
+            <div class="collapse-expand-all-button">
+                <button class="collapse-expand-all-button" onclick="">🔼</button>
+            </div>
+        </header>
+        <main>
+            <div class="post-content">
+                <article>
+                    <h1 id="implementing-a-smart-computer-that-can-play-gomoku-using-minimax">Implementing a “Smart” computer that can play Gomoku using minimax</h1>
+
+<h3 id="prologue">Prologue</h3>
+
+<p>If you are interested in the source code or trying out the program, you can check it out on my GitHub: <a href="https://github.com/yuk068/gomoku" title="Yukano's GitHub - Gomoku">yuk068 - Gomoku</a></p>
+
+<p>I must say, this could very well be my proudest project of my freshman year. In this post, I’ll take you through the journey of how I created my very own “smart” computer to play Gomoku. Note that this particular bot uses the minimax algorithm and hard-coded evaluation and behavior, making it a very traditional method of developing such programs. Nowadays, there are far more advanced and efficient methods, such as machine learning (which I do plan to tackle very soon). Nonetheless, I stand by my previous statement—I am proud of it and accept its limitations, for it is one of my first steps toward my passion - AI.</p>
+
+<p>If you gave this project a try, I hope you had fun going against the bots. For those interested in the technical side of the project, I hope you found it as fascinating as I did. This project not only marks a significant achievement in my freshman year but also represents a crucial step in my journey toward mastering AI. Despite its traditional approach, I am thrilled with what I have accomplished and look forward to exploring more advanced techniques in the future.</p>
+
+<h2 id="i-what-is-gomoku">I. What is Gomoku?</h2>
+
+<h3 id="1-gomoku---five-in-a-row">1, Gomoku - Five in a row</h3>
+
+<p>Gomoku, also known as “Five in a Row,” is a classic strategy board game that is both simple and complex, reminiscent of the days when you might have played it with pen and paper during school breaks. The game is typically played on a 15x15 grid, but it can also be played on larger boards, my implementation is the 19x19 variant. The objective is straightforward: be the first to align five of your pieces (traditionally black or white stones) in a row, either horizontally, vertically, or diagonally. <a href="https://en.wikipedia.org/wiki/Gomoku" title="Wikipedia - Gomoku">Wikipedia - Gomoku</a>.</p>
+
+<p>I’m sure that at least some of you are familiar with the concept of this game, if not then you might relate to how I remembered it: In the past, I call it “Caro”, it’s the same as Gomoku but is played with paper and pen, the stones might be resembled as X and O, similar to TicTacToe, in fact you might as well call it TicTacToe+. There are many other variants of Gomoku, such as “Renju” which introduces extra rules to restrict the Black player’s advantage. My particular program is based on “Standard Gomoku” with a 19x19 board.</p>
+
+<h3 id="2-expertise-knowledge">2, Expertise knowledge</h3>
+
+<p>So some of you might be surprised to know that Gomoku, is a solved game. This means that unlike something like Chess, for Standard Gomoku and with optimal play, the Black player will <strong>ALWAYS</strong> win. This doesn’t really have any meaning on this particular project (mostly because my bot can’t always win when playing as Black) but I think that by itself is interesting. Moreover, here’s a paper that I found along the development of this program that delved deeper into this topic: <a href="https://web.archive.org/web/20140411074912/http://chalmersgomoku.googlecode.com/files/allis1994.pdf" title="Cool paper">Go-Moku and Threat-Space Search</a>.</p>
+
+<p>Despite the simplicity of Gomoku’s rules, it possesses a staggering number of possible states—approximately 10 to the power of 107 (15x15 grid). In contrast, chess has about 10 to the power of 43 possible states (not counting illegal positions), despite its more complex rules and intricate piece interactions. This highlights a fascinating aspect of game complexity: a game with simpler rules can have more potential states than one with complex rules. Gomoku’s larger board and the straightforward mechanics of placing stones create an enormous possibility space, even though the game’s strategic depth seems less intricate than that of chess.</p>
+
+<p>Developing gameplay bots for games like Gomoku and chess underscores the importance of expert knowledge. Understanding the nuances and strategies of a game is crucial for designing algorithms that can mimic human intuition and play at a high level. While Gomoku’s solved nature provides a theoretical foundation, implementing a bot that consistently plays optimally requires deep insights into threat-space search and move prioritization. Expertise in the game’s strategies allows developers to optimize their algorithms, improving performance and enabling bots to challenge even skilled human players. I myself have improved my Gomoku immensely just from developing this project.</p>
+
+<h2 id="ii-the-minimax-algorithm-and-its-connection-to-deterministic-turn-based-games">II. The Minimax algorithm and its connection to deterministic turn-based games</h2>
+
+<p>In the world of artificial intelligence and game development, the Minimax algorithm stands out as a fundamental tool for creating bots that can play deterministic turn-based games like Tic-Tac-Toe, Chess, and Gomoku. This algorithm provides a structured approach for decision-making, allowing an AI to evaluate the best possible move by simulating the various future states of the game. Understanding how the Minimax algorithm works is key to developing a competent Gomoku bot that can effectively challenge human players.</p>
+
+<h3 id="1-what-is-the-minimax-algorithm">1, What is the Minimax Algorithm?</h3>
+
+<p>The Minimax algorithm is a recursive strategy used to determine the optimal move in two-player games with perfect information. The algorithm assumes that both players will play optimally, meaning that one player will try to maximize their score while the opponent will attempt to minimize it. The algorithm explores all possible moves to a certain depth, predicting potential outcomes to choose the move that minimizes the possible loss for a worst-case scenario.</p>
+
+<h4 id="basic-steps-of-the-minimax-algorithm">Basic Steps of the Minimax Algorithm:</h4>
+
+<ol>
+  <li>Generate the Game Tree: Create a tree representing all possible moves from the current game state. Each node in the tree corresponds to a possible game state, while edges represent possible moves.</li>
+  <li>Evaluate Terminal States: Assess the leaf nodes of the game tree using a heuristic evaluation function. This function assigns a value to each state, indicating its desirability from the perspective of the current player.</li>
+  <li>Backtrack and Propagate Values: Starting from the leaf nodes, backtrack through the tree, propagating values upwards. If it’s the AI’s turn (Max), select the maximum value among the children nodes; if it’s the opponent’s turn (Min), select the minimum.</li>
+  <li>Choose the Optimal Move: Select the move leading to the node with the best value from the root node’s perspective. This move represents the best strategy against an optimally playing opponent.</li>
+</ol>
+
+<h4 id="applying-minimax-to-gomoku">Applying Minimax to Gomoku</h4>
+
+<p>When developing a Gomoku bot, the Minimax algorithm can be particularly effective due to Gomoku’s simple rules and the large decision space generated by the 19x19 board. However, the vast number of possible game states makes exhaustive search impractical without optimizations.</p>
+
+<p>One crucial aspect of implementing Minimax for Gomoku is designing a robust evaluation function that accurately assesses board positions. Since Gomoku is a solved game with optimal play favoring the black player, the evaluation function must consider not only immediate threats and opportunities but also long-term strategic control of the board.</p>
+
+<h3 id="2-optimizing-minimax-with-alpha-beta-pruning">2, Optimizing Minimax with Alpha-Beta Pruning</h3>
+
+<p>To enhance the Minimax algorithm’s efficiency, especially in games like Gomoku where the search space is large, we can employ Alpha-Beta Pruning. This technique reduces the number of nodes evaluated by the algorithm, effectively allowing it to search deeper within the same amount of computational time.</p>
+
+<p>Alpha represents the minimum score that the maximizing player is assured of.
+Beta represents the maximum score that the minimizing player is assured of.
+By pruning branches of the game tree that do not influence the final decision, the algorithm can focus on the most promising lines of play, significantly reducing computation time while maintaining optimal decisions.</p>
+
+<h2 id="iii-outlining-how-to-incorporate-the-computer-into-the-program">III. Outlining how to incorporate the computer into the program</h2>
+
+<p>Incorporating a computer player into a Gomoku game involves several key steps, from leveraging existing projects to managing game flow and determining win states. Here’s how I approached this process:</p>
+
+<h3 id="1-adapting-from-a-tic-tac-toe-project">1, Adapting from a Tic-Tac-Toe Project</h3>
+
+<p>The foundation of my Gomoku project was built upon the framework I developed for a Tic-Tac-Toe game. Both games share common elements, such as a grid-based board and turn-based mechanics, which made transitioning between the two relatively straightforward. In Tic-Tac-Toe, the game is represented as a 3x3 matrix, while Gomoku uses a larger 19x19 matrix.</p>
+
+<p>Representing the game board as a matrix allows us to easily manage the state of the game, updating positions as players make their moves. Each cell in the matrix can hold a value indicating whether it is empty or occupied by a player’s stone, simplifying the process of checking for win conditions and available moves.</p>
+
+<h3 id="2-managing-the-flow-of-gameplay">2, Managing the Flow of Gameplay</h3>
+
+<p>Gomoku, like many turn-based games, requires a smooth flow between player and computer turns. This involves creating an interface that allows the player to make their move, after which the game is temporarily frozen while the computer calculates its response.</p>
+
+<ol>
+  <li>Player’s Move: The game interface should allow players to select a position on the board, updating the matrix to reflect their move. Once the player has moved, the game enters a paused state.</li>
+  <li>Bot’s Move: During the paused state, the computer utilizes the Minimax algorithm to determine its optimal move. This process can take a varying amount of time depending on the complexity of the board state and the depth of the search.</li>
+  <li>Game Resumes: Once the computer has selected its move, it updates the board, and the game resumes with the player’s turn.</li>
+  <li>This structured approach ensures that the game maintains a consistent flow, providing a seamless experience for the player.</li>
+</ol>
+
+<h3 id="3-handling-termination-states">3, Handling Termination States</h3>
+
+<p>An essential aspect of developing a Gomoku bot is managing termination states, which determine when the game ends. We must continually track the game’s state to identify whether a player has won or if the board is full, resulting in a draw.</p>
+
+<ol>
+  <li>Win Conditions: After each move, we check for five consecutive stones of the same color in any direction (horizontal, vertical, or diagonal). If such a line is found, the game ends, and the corresponding player is declared the winner.</li>
+  <li>Draw Conditions: If the board is entirely filled with no winner, the game results in a draw. This requires keeping track of all moves and ensuring there are no remaining empty spaces.</li>
+  <li>Real-Time Updates: The program must continuously evaluate the game state after each move, updating the player on whether the game continues or terminates.</li>
+</ol>
+
+<p>By carefully managing these states, we can ensure that the Gomoku game correctly identifies winners and handles draws, maintaining fair and accurate gameplay.</p>
+
+<h3 id="4-logging-and-understanding-behaviors">4, Logging and understanding behaviors</h3>
+
+<p>Throughout the development of the program, thanks to past experience, I’ve ensured that a comprehensive plan was made to minimize going back and forth, delaying progress. This also include extensive logging, which was crucial for understanding the bot’s behavior and tweak the code accordingly. Here’s a snippet from the end of the log of a typical game played:</p>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0 Straight Four potential found
+Depth: 2; Sight: 1; Move:27
+Move made at: 194
+24360 Positions calculated in 3704 ms
+Evaluation: -1450
+
+Pattern for player: WHITE - BLACK
+The four: 0 - 0
+The straight four: 0 - 0
+The straight three: 0 - 0
+The open three: 0 - 0
+The broken three: 0 - 1
+Eval by sets: 10 - 20
+Eval by broken sets: 0 - 0
+Eval: -1450
+
+Eval by player: -500
+
+Pattern for player: WHITE - BLACK
+The four: 1 - 0
+The straight four: 0 - 0
+The straight three: 0 - 0
+The open three: 0 - 0
+The broken three: 0 - 1
+Eval by sets: 40 - 4
+Eval by broken sets: 0 - 0
+Eval: -500
+
+Move 29 made by Finding Winning Move
+Move made at: 176
+Evaluation: -2147483648
+
+Pattern for player: WHITE - BLACK
+The four: 1 - 1
+The straight four: 0 - 0
+The straight three: 0 - 0
+The open three: 0 - 0
+The broken three: 0 - 1
+Eval by sets: 8 - 40
+Eval by broken sets: 0 - 0
+Eval: -2147483648
+
+Bot - Standard - Black won!; Bot first: true
+Bot: depth: 2; sight: 1; dynamic: false
+Total game moves: 29
+Total bot thinking time: 14.3420s
+Avg. Thinking time: 0.4946s
+Shortest thinking time: 0.0070s
+Longest thinking time: 7.2480s
+Min reach: 16
+Max reach: 52213
+</code></pre></div></div>
+
+<div class="description">Tail of the log of a game</div>
+
+<h2 id="iv-creating-the-concrete-gui-and-interface-of-the-program">IV. Creating the concrete GUI and interface of the program</h2>
+
+<p>Developing a user-friendly graphical user interface (GUI) is crucial for creating an engaging and intuitive experience when building a Gomoku game. For this project, I focused on ensuring that the program was easy to navigate and interact with, while also incorporating features to aid in debugging and analysis.</p>
+
+<h4 id="designing-the-user-experience">Designing the User Experience</h4>
+
+<p>The overall user experience for the Gomoku program was crafted using Java’s Swing library. This choice allowed me to create a visually appealing and responsive interface that leverages hotkeys for quick navigation, a dropdown menu for bot selection, and mouse control for gameplay.</p>
+
+<h4 id="efficient-sprite-management-with-the-drawing-panel-class">Efficient Sprite Management with the Drawing Panel Class</h4>
+
+<p>One of the key improvements in this project was using the Drawing Panel class to manage and display sprites. In my previous Tic-Tac-Toe project, I used high-resolution PNGs for sprites, which led to performance issues and increased resource consumption. For Gomoku, I learned from these mistakes and opted for more efficient sprite handling.</p>
+
+<h4 id="enhancing-debugging-with-move-logs-and-replay-mode">Enhancing Debugging with Move Logs and Replay Mode</h4>
+
+<p>To further aid in debugging and analyzing gameplay, I incorporated two key features: Show Move Log and Replay Mode.</p>
+
+<ul>
+  <li>Show Move Log ( L ): This feature displays the order and position of each stone placed during the game, allowing for easy tracking of both player and bot moves. It simplifies sharing game states and analyzing the bot’s behavior, as screenshots of games can be taken with numbered stones for clear reference.</li>
+  <li>Replay Mode ( R ): Available at the end of each game, Replay Mode lets users re-watch the entire match, providing a detailed review of gameplay. This feature acts like a tape replay, allowing players to observe strategies and outcomes by winding forwards ( K ) or backwards ( J ), which is invaluable for understanding the bot’s decision-making process and improving user strategy.</li>
+</ul>
+
+<h2 id="v-making-the-gomoku-bot---implemented-into-the-program">V. Making the Gomoku bot - implemented into the program</h2>
+
+<p>With the environment ready, i was determined to start creating this bot. A little backstory on this, I’ve always been drawn to such concept, something that is not a human, yet can interact with me, playing games and even beat me at it, this was the motivation, the intuition.</p>
+
+<h3 id="1-making-of-the-evaluation-function">1, Making of the evaluation function</h3>
+
+<p>The first step in developing the Gomoku bot was to create the evaluation function (EVLF), which would enable the bot to assess whether a given position on the board was advantageous or not. Initially, my EVLF was quite rudimentary. It operated on a simple principle: “the more pieces in a row, the better.” However, this simplistic approach quickly proved to be a significant roadblock. The bot’s performance was poor, and it took an impractical amount of time to calculate even a single move, which was often not a good one.</p>
+
+<p>At this point, I realized I needed to revise my approach. As the saying goes, “one step backward, two steps forward.” Initially, I was determined to figure everything out on my own. My previous experience with Minimax and my Tic-Tac-Toe project gave me a bit of confidence. I wanted the bot to “represent me” so that when others played against it, it would feel like they were playing with me. But I soon realized that I needed to broaden my perspective and seek out existing knowledge to achieve this personal connection.</p>
+
+<p>With this new mindset, I turned to the internet for resources and inspiration. I found a wealth of valuable information, including the following:</p>
+
+<ul>
+  <li><a href="https://github.com/kf4x/Gomoku/blob/master/Gomoku.java" title="Gomoku by kf4x">Gomoku by kf4x</a>.</li>
+  <li><a href="https://github.com/canberkakcali/gomoku-ai-minimax" title="gomoku-ai-minimax by canberkakcali">gomoku-ai-minimax by canberkakcali</a>.</li>
+  <li><a href="https://web.archive.org/web/20140411074912/http://chalmersgomoku.googlecode.com/files/allis1994.pdf" title="Cool paper">Go-Moku and Threat-Space Search</a>.</li>
+</ul>
+
+<p>Armed with these insights, I set out to improve the EVLF by developing a heuristic approach. This meant evaluating board positions based on inherent patterns and assigning them specific values. The core of my EVLF was recognizing “threat patterns,” which the bot should aim to create for itself or block the opponent from achieving. By assigning values to each pattern, the bot could determine which patterns were more valuable and identify moves that could lead to a guaranteed win. Here’s a quick preview of the <em>GomokuEvaluator</em> class:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">static</span> <span class="kt">int</span> <span class="no">LOWEST_EVALUATION</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">MIN_VALUE</span><span class="o">;</span>
+<span class="kd">static</span> <span class="kt">int</span> <span class="no">HIGHEST_EVALUATION</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">MAX_VALUE</span><span class="o">;</span>
+<span class="kd">static</span> <span class="kt">int</span> <span class="no">WIN_GUARANTEED</span> <span class="o">=</span> <span class="mi">180000</span><span class="o">;</span>
+<span class="kd">static</span> <span class="kt">int</span> <span class="no">STRONG_POSITIONAL_BONUS</span> <span class="o">=</span> <span class="mi">5000</span><span class="o">;</span>
+<span class="kd">static</span> <span class="kt">int</span> <span class="no">EQUAL_EVALUATION</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+<span class="kd">static</span> <span class="kt">int</span> <span class="no">FOUR_VALUE_CURRENT_TURN</span> <span class="o">=</span> <span class="mi">7000</span><span class="o">;</span>
+<span class="kd">static</span> <span class="kt">int</span> <span class="no">FOUR_VALUE_OFF_TURN</span> <span class="o">=</span> <span class="mi">2000</span><span class="o">;</span>
+<span class="kd">static</span> <span class="kt">int</span> <span class="no">STRAIGHT_FOUR_VALUE_CURRENT_TURN</span> <span class="o">=</span> <span class="no">HIGHEST_EVALUATION</span><span class="o">;</span>
+<span class="kd">static</span> <span class="kt">int</span> <span class="no">STRAIGHT_FOUR_VALUE_OFF_TURN</span> <span class="o">=</span> <span class="mi">200000</span><span class="o">;</span>
+<span class="kd">static</span> <span class="kt">int</span> <span class="no">STRAIGHT_THREE_VALUE_CURRENT_TURN</span> <span class="o">=</span> <span class="mi">2500</span><span class="o">;</span>
+<span class="kd">static</span> <span class="kt">int</span> <span class="no">STRAIGHT_THREE_VALUE_OFF_TURN</span> <span class="o">=</span> <span class="mi">1500</span><span class="o">;</span>
+<span class="kd">static</span> <span class="kt">int</span> <span class="no">OPEN_THREE_VALUE_CURRENT_TURN</span> <span class="o">=</span> <span class="mi">2500</span><span class="o">;</span>
+<span class="kd">static</span> <span class="kt">int</span> <span class="no">OPEN_THREE_VALUE_OFF_TURN</span> <span class="o">=</span> <span class="mi">1400</span><span class="o">;</span>
+<span class="kd">static</span> <span class="kt">int</span> <span class="no">BROKEN_THREE_VALUE_CURRENT_TURN</span> <span class="o">=</span> <span class="mi">2500</span><span class="o">;</span>
+<span class="kd">static</span> <span class="kt">int</span> <span class="no">BROKEN_THREE_VALUE_OFF_TURN</span> <span class="o">=</span> <span class="mi">1450</span><span class="o">;</span>
+</code></pre></div></div>
+
+<div class="description">Final values of the threat patterns</div>
+
+<p>These values can be thought of as the bot’s knowledge of the game and, in a sense, what I have learned as its creator. They underwent numerous tweaks and required a lot of trial and error to optimize, which is one of the main challenges of using the Minimax algorithm (more on that later). Nevertheless, these patterns guide the bot in making strategic decisions, and when it cannot identify a pattern, it defaults to finding the best position to form a consecutive row, typically near its own pieces.</p>
+
+<h3 id="2-implement-the-bot-into-the-program">2, Implement the bot into the program</h3>
+
+<p>Once the major hurdle of developing the evaluation function was overcome, I focused on integrating the bot into the program to allow it to play the game. The implementation was similar to my previous Tic-Tac-Toe project, so I won’t delve into too much detail. However, I did incorporate a few optimization techniques, particularly in the method used to make moves:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">makeMove</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(!</span><span class="n">game</span><span class="o">.</span><span class="na">isOver</span><span class="o">())</span> <span class="o">{</span>
+            <span class="kt">long</span> <span class="n">startTime</span> <span class="o">=</span> <span class="nc">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">();</span>
+
+            <span class="k">if</span> <span class="o">(</span><span class="n">findWinningMove</span><span class="o">())</span> <span class="k">return</span><span class="o">;</span>
+            <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="n">preventImmediateWin</span><span class="o">())</span> <span class="k">return</span><span class="o">;</span>
+            <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="n">findTheStraightFour</span><span class="o">())</span> <span class="k">return</span><span class="o">;</span>
+            <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="n">preventTheStraightFour</span><span class="o">())</span> <span class="k">return</span><span class="o">;</span>
+
+            <span class="k">if</span> <span class="o">(</span><span class="n">dynamic</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">makeDynamicMove</span><span class="o">();</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                <span class="n">makeStandardMove</span><span class="o">();</span>
+            <span class="o">}</span>
+
+            <span class="kt">long</span> <span class="n">endTime</span> <span class="o">=</span> <span class="nc">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">();</span>
+            <span class="kt">long</span> <span class="n">duration</span> <span class="o">=</span> <span class="n">endTime</span> <span class="o">-</span> <span class="n">startTime</span><span class="o">;</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">duration</span> <span class="o">&gt;</span> <span class="n">longestThinkingTime</span><span class="o">)</span> <span class="n">longestThinkingTime</span> <span class="o">=</span> <span class="n">duration</span><span class="o">;</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">duration</span> <span class="o">&lt;</span> <span class="n">shortestThinkingTime</span><span class="o">)</span> <span class="n">shortestThinkingTime</span> <span class="o">=</span> <span class="n">duration</span><span class="o">;</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">reach</span> <span class="o">&gt;</span> <span class="n">maxReach</span><span class="o">)</span> <span class="n">maxReach</span> <span class="o">=</span> <span class="n">reach</span><span class="o">;</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">reach</span> <span class="o">&lt;</span> <span class="n">minReach</span><span class="o">)</span> <span class="n">minReach</span> <span class="o">=</span> <span class="n">reach</span><span class="o">;</span>
+            <span class="n">totalReach</span> <span class="o">+=</span> <span class="n">reach</span><span class="o">;</span>
+            <span class="n">totalThinkingTime</span> <span class="o">+=</span> <span class="n">duration</span><span class="o">;</span>
+            <span class="kt">int</span> <span class="n">eval</span> <span class="o">=</span> <span class="nc">GomokuEvaluatorV1</span><span class="o">.</span><span class="na">evaluateGomokuGame</span><span class="o">(</span><span class="n">game</span><span class="o">);</span>
+
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Depth: "</span> <span class="o">+</span> <span class="o">(!</span><span class="n">dynamic</span> <span class="o">?</span> <span class="n">depth</span> <span class="o">:</span> <span class="s">"- "</span><span class="o">)</span> <span class="o">+</span> <span class="s">";
+            Sight: "</span> <span class="o">+</span> <span class="o">(!</span><span class="n">dynamic</span> <span class="o">?</span> <span class="n">sight</span> <span class="o">:</span> <span class="s">"- "</span><span class="o">)</span> <span class="o">+</span> <span class="s">"; Move:"</span> <span class="o">+</span> <span class="n">game</span><span class="o">.</span><span class="na">moveMade</span><span class="o">);</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Move made at: "</span> <span class="o">+</span> <span class="n">moveMadeIndex</span><span class="o">);</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">reach</span> <span class="o">+</span> <span class="s">" Positions calculated in "</span> <span class="o">+</span> <span class="n">duration</span> <span class="o">+</span> <span class="s">" ms"</span><span class="o">);</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Evaluation: "</span> <span class="o">+</span> <span class="n">eval</span> <span class="o">+</span> <span class="s">"\n"</span><span class="o">);</span>
+
+            <span class="n">reach</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+
+<div class="description">Method for the bot to make moves</div>
+
+<p>As you can see, the bot evaluates several specific actions before running the Minimax algorithm. This approach saved a significant amount of time on “obvious” moves that didn’t require extensive computation. You’ll also notice extensive logging and benchmarking within this method, which were invaluable in assessing the bot’s performance.</p>
+
+<p>A key feature of this bot is its use of both a <em>depth</em> setting and a <em>sight</em> setting. The <em>sight</em> setting limits the bot to consider only a certain number of adjacent squares to existing pieces, which I confess… was a attempt at covering an oversight. This limitation was a corrective measure for my mistaking of using Minimax for Gomoku (I’ll discuss this more later). Nonetheless, it significantly reduced computation time without notably diminishing the quality of the moves.</p>
+
+<p>After that, its just a matter of implementing the logic to make moves after the player, and being able to freeze the program when thinking. This step was swift with very little difficulty, partially thanks to my past experience with similar board game projects.</p>
+
+<h2 id="vi-perfecting-the-bot">VI. Perfecting the bot</h2>
+
+<p>Refining the bot was an intensive process that involved countless iterations and adjustments. In the initial stages, I relied heavily on trial and error, manually scanning for edge cases to prevent erratic moves and reduce the bot’s thinking time by milliseconds. This phase was the most demanding aspect of the project, consuming at least three-quarters of the total development time.</p>
+
+<p>Interestingly, as the project progressed, I found that my own Gomoku skills improved significantly. Although I initially aimed for the bot to mimic my playing style, my growth in understanding the game made me increasingly critical of the bot’s performance. Whenever I managed to outsmart it or noticed it making suboptimal moves, I felt compelled to enhance its capabilities further.</p>
+
+<p>This drive for perfection led me to experiment with various optimization techniques, repeatedly rework pattern values, and refine the evaluation function. I even set the bot to play against itself to identify any anomalies in its behavior. Despite being the most exhausting part of the project, this phase was incredibly rewarding.</p>
+
+<p>Through this endeavor, I learned valuable lessons beyond developing a Gomoku bot and understanding the game itself. The process taught me about acceptance, patience, and the importance of self-appreciation, which I will delve into in the next section.</p>
+
+<h2 id="vii-accepting-limitations-and-being-proud-for-what-you-achieved">VII. Accepting limitations and being proud for what you achieved</h2>
+
+<p>Throughout the process of perfecting the bot, I encountered a myriad of emotions: disappointment, frustration, and self-doubt were often present, but so were hope, joy, and even pride. The most valuable lesson this project taught me, which in my opinion, is one of the most important rule of thumb in the tech field: <strong><em>Knowing when to stop</em></strong>.</p>
+
+<p>I have finalized the program and archived it on my GitHub. While the bot’s capabilities are impressive, they are not without limits. It can be defeated, even when playing as Black, and is outperformed by more advanced bots. Yet, I find a certain affection for these imperfections. As I’ve mentioned before, the bot is intended to represent me. Am I perfect? Absolutely not. But am I content with myself after this journey? Most definitely. I am satisfied with what I have achieved.</p>
+
+<p>In life, even when we work incredibly hard and feel confident about achieving our goals, things don’t always turn out as expected—and that’s okay. Sometimes, we set ourselves ambitious tasks and expectations fueled by determination and confidence, only to discover that the outcome isn’t as we envisioned. Accepting this reality is crucial. Every part of this journey—the struggle, the effort, the triumph, and ultimately, the satisfaction—was well worth it.</p>
+
+<p>This project, while not as grand or complex as some of my other endeavors, holds a special place in my heart. It has been the most valuable learning experience of my freshman year, not only because of the technical skills I gained but also because of the personal growth it fostered. It taught me to embrace my limitations, celebrate my achievements, and appreciate the journey itself.</p>
+
+<p><img src="/assets/thumbnail/gomoku-bot.webp" alt="Final version" /></p>
+
+<div class="description">Final version of the program</div>
+
+<h3 id="epilogue">Epilogue</h3>
+
+<p>This was quite the journey, I started this project around late May and finalized it around June, and only started making this post around July. If you’ve checked out my post about my recent situation, you’d know that this post was long overdue, and there are many other projects of mine that I still haven’t make a post about. Nevertheless, as mentioned this was my proudest project of my freshman year, which is why I was eager to finish this post first right after getting home. Now that the bootcamp thing is out of the way, I can guaranteed that I will be posting more, working more, and won’t stop learning for my passion. Until next time - Yuk - August 2024.</p>
+
+<div class="end-post">***</div>
+
+                </article>
+            </div>
+        </main>
+        <div class="relative-footer">
+            <footer>
+                <div class="to-top-button-container">
+                    <button class="to-top-button" onclick="scrollToTop()">Top</button>
+                </div>
+                <div>
+                    <p>
+                        
+                        Written by:
+                        
+                        Yuk
+                    </p>
+                    <p>
+                        
+                        Credits:
+                        
+                        _
+                    </p>
+                    <p>&copy; 2025 Yukano</p>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script src="/assets/js/scripts.js"></script>
+</body>
+
+</html>

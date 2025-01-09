@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="linkage" content="false">
+    <title>K-Means Notes</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <div class="post" data-written-by="" data-credits=""
+        data-categories="">
+    </div>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>K-Means Notes</h1>
+            <div class="date">
+                
+                <span class="date-span">19/11/2024</span>
+
+                
+                <span class="reading-time">
+                    
+                    | Reading time:
+                    
+                    2
+                    
+                    Min.
+                    
+                </span>
+                
+            </div>
+            <div class="navigation-links">
+                <div class="back-link">
+                    <a href="/archive">
+                        
+                        Archive
+                        
+                    </a>
+                </div>
+                <div class="home-link">
+                    <a href="/"
+                        aria-label="Go back">
+                        
+                        Home
+                        
+                    </a>
+                </div>
+            </div>
+            <div class="toggle-light-dark">
+                <button id="toggle-mode-button" onclick="toggleLightMode()">☀️</button>
+            </div>
+            <div class="collapse-expand-all-button">
+                <button class="collapse-expand-all-button" onclick="">🔼</button>
+            </div>
+        </header>
+        <main>
+            <div class="post-content">
+                <article>
+                    <h1 id="k-means">K-Means</h1>
+
+<h4 id="1-objective-function">1, Objective Function</h4>
+
+<p>Given dataset \(X = \{ x_1, x_2, \ldots, x_N\}\) and \(x_i \in \mathbb{R}^n\), the objective function is:</p>
+
+<blockquote>
+
+\[\begin{gather*}
+J = \sum^K_{i=1} \sum_{x \in C_i} \| x - \mu_i \|^2 = \text{arg}\min\limits_{C_i} \sum^K_{i=1} | C_i | \text{Var}_{C_i} \quad
+\end{gather*}\]
+</blockquote>
+
+<p><strong>Where:</strong></p>
+
+<ul>
+  <li>\(K\) is the number of clusters.</li>
+  <li>\(x \in X\) is a data point in \(X\).</li>
+  <li>\(C_i\) is the set of data points in the \(i\)-th cluster.</li>
+  <li>\(\mu_i\) is the centroid of the \(i\)-th cluster.</li>
+</ul>
+
+<p>Note that the objective function is non-increasing, thus guarantees to converge to a local maximum.</p>
+
+<h4 id="2-algorithm-steps">2, Algorithm Steps</h4>
+
+<ul>
+  <li><strong>Step 1 - Initialization:</strong> Randomly initializes \(k\) centroids: \(\{ \mu_1, \mu_2 , \ldots ,\mu_k \}\).</li>
+  <li><strong>Step 2 - Assignment:</strong> Assign data points to the closest centroid (by Euclidean distance):</li>
+</ul>
+
+<blockquote>
+
+\[\begin{gather*}
+C_i = \{ x_j : \|x_j - \mu_i \|^2 \leq \|x_j - \mu_l \|^2, \forall l = 1, 2, \ldots , k \} \quad
+\end{gather*}\]
+</blockquote>
+
+<ul>
+  <li><strong>Step 3 - Update Centroids:</strong> Shift the centroids to accommodate for the assigned points:</li>
+</ul>
+
+<blockquote>
+
+\[\begin{gather*}
+\mu_i = \frac{1}{|C_i|} \sum_{x \in C_i} x
+\end{gather*}\]
+</blockquote>
+
+<ul>
+  <li><strong>Step 4 - Convergence Check:</strong> Repeat step 3 and 4 until convergence with predefined tolerance \(\epsilon\):</li>
+</ul>
+
+<blockquote>
+
+\[\begin{gather*}
+\Delta J = J_{\text{new}} - J &lt; \epsilon
+\end{gather*}\]
+</blockquote>
+
+<h2 id="extra-relation-to-cosine-similarity">Extra: Relation to Cosine Similarity</h2>
+
+<p>Given Cosine Similarity between two vectors \(u\) and \(v\):</p>
+
+<blockquote>
+
+\[\begin{gather*}
+S_c (u, v) = \cos(\theta) = \frac{\sum u_i v_i}{\sqrt{\sum u_i^2 \sum v_i^2}}
+\end{gather*}\]
+</blockquote>
+
+<p>Note that for normalized vectors (ie. \(\sum u_i^2 = \sum v_i^2 = 1\)), Cosine Similarity is simply the dot product \(u v\).</p>
+
+<p>The relationship between the Cosine Similarity and Euclidean Distance (for normalized vectors) is as follows:</p>
+
+<blockquote>
+
+\[\begin{align}
+&amp; \| u - v \|^2 = \sum (u_i - v_i)^2 = \sum (u_i^2 + v_i^2 - 2u_i v_i) \quad \\[5pt]
+&amp; \qquad \qquad = \sum u_i^2 + \sum v_i^2 - 2 \sum u_i v_i \quad \\[5pt]
+&amp; \qquad \qquad = 1 + 1 - 2 \cos(\theta) = 2(1 - \cos(\theta)) \quad
+\end{align}\]
+</blockquote>
+
+<p>Substituting back to the objective function, we get:</p>
+
+<blockquote>
+
+\[\begin{gather*}
+J_{\text{cos}} = \sum^K_{i=1} \sum_{x \in C_i} (1-\cos(x, \mu_i)) \quad
+\end{gather*}\]
+</blockquote>
+
+<p>So minimizing the Euclidean distance in \(J\) is the same as maximizing the Cosine Similarity in \(J_{\text{cos}}\). Thus our objective function holds (for normalized vectors).</p>
+
+<p>The assignment step becomes:</p>
+
+<blockquote>
+
+\[\begin{gather*}
+C_i = \{ x_j : \cos(x_j, u_i) \geq \cos(x_j, u_l), \forall l = 1, 2, \ldots , k \} \quad
+\end{gather*}\]
+</blockquote>
+
+<p>And the centroid update step becomes:</p>
+
+<blockquote>
+
+\[\begin{gather*}
+\mu_i = \frac{\sum_{x \in C_i} x}{\| \sum_{x \in C_i} x \|}
+\end{gather*}\]
+</blockquote>
+
+<div class="end-post">***</div>
+
+                </article>
+            </div>
+        </main>
+        <div class="relative-footer">
+            <footer>
+                <div class="to-top-button-container">
+                    <button class="to-top-button" onclick="scrollToTop()">Top</button>
+                </div>
+                <div>
+                    <p>
+                        
+                        Written by:
+                        
+                        Yuk
+                    </p>
+                    <p>
+                        
+                        Credits:
+                        
+                        _
+                    </p>
+                    <p>&copy; 2025 Yukano</p>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script src="/assets/js/scripts.js"></script>
+</body>
+
+</html>

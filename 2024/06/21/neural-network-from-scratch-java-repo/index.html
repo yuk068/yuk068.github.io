@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="linkage" content="false">
+    <title>Neural Network from scratch in Java (GitHub Repo)</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <div class="post" data-written-by="" data-credits=""
+        data-categories="">
+    </div>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Neural Network from scratch in Java (GitHub Repo)</h1>
+            <div class="date">
+                
+                <span class="date-span">21/06/2024</span>
+
+                
+                <span class="reading-time">
+                    
+                    | Reading time:
+                    
+                    12
+                    
+                    Min.
+                    
+                </span>
+                
+            </div>
+            <div class="navigation-links">
+                <div class="back-link">
+                    <a href="/archive">
+                        
+                        Archive
+                        
+                    </a>
+                </div>
+                <div class="home-link">
+                    <a href="/"
+                        aria-label="Go back">
+                        
+                        Home
+                        
+                    </a>
+                </div>
+            </div>
+            <div class="toggle-light-dark">
+                <button id="toggle-mode-button" onclick="toggleLightMode()">☀️</button>
+            </div>
+            <div class="collapse-expand-all-button">
+                <button class="collapse-expand-all-button" onclick="">🔼</button>
+            </div>
+        </header>
+        <main>
+            <div class="post-content">
+                <article>
+                    <h1 id="neural-network-from-scratch-in-java">Neural Network from scratch in Java</h1>
+
+<h2 id="remarks">Remarks</h2>
+
+<p>Before attending bootcamp as part of my university curriculum, I developed a Feed-Forward Neural Network (FNN) from scratch in Java. It was quite a learning experience, and I look forward to discussing it in detail one day.</p>
+
+<p>This project was archived about four months ago, so you may notice some mistakes and misinterpretations throughout the project—which I believe was part of the learning curve. Until I can provide a more comprehensive overview, I’m sharing the complete README from my GitHub repository for the Neural Network. I believe it’s worth keeping around here.</p>
+
+<h6 id="--yuk---1012024">- Yuk - 10/1/2024</h6>
+
+<h3 id="yuk068---mnist-workshop"><a href="https://github.com/yuk068/mnist-workshop-machine-learning-fnn" title="Yukano's GitHub - MNIST Workshop" target="_blank">yuk068 - MNIST Workshop</a></h3>
+
+<h2 id="mnist-workshop---yuk">MNIST Workshop - Yuk</h2>
+
+<p>This project represents a fundamental exploration into the realm of machine learning using Java, with a specific focus on implementing a Feedforward Neural Network (FNN) for the MNIST dataset—a classic benchmark in the field. Serving as an introductory foray into machine learning, the interface encapsulates essential functionalities tailored towards MNIST models.Users can initiate the creation of FNN models, train them with specified parameters, conduct testing to evaluate performance metrics, utilize trained models for predictions, and finally, save these models for future use. By leveraging Java’s core functionalities without dependencies on additional packages, this project emphasizes foundational concepts such as FNN model creation, training optimization through parameter adjustments like learning rate and epochs, validation via testing procedures, and the application of trained models for predictive tasks.This project not only provides a hands-on introduction to neural networks but also highlights the intricacies of implementing a machine learning algorithm from scratch. The focus on FNN ensures a deep understanding of key concepts such as forward propagation, backpropagation, and gradient descent, all crucial for effective machine learning.</p>
+
+<h2 id="user-guide">User guide:</h2>
+
+<p>Move package <code class="language-plaintext highlighter-rouge">/mnist</code> to your <code class="language-plaintext highlighter-rouge">src</code> directory of your project in your Java IDE. Then, you can review the source code, and start testing the program in <code class="language-plaintext highlighter-rouge">mnist/training/MNISTWorkshop</code>. Thank you for trying out my program!</p>
+
+<h2 id="project-structure-and-classes-overview">Project structure and classes overview:</h2>
+
+<h3 id="i-mnistdata">I, mnist/data</h3>
+
+<ul>
+  <li>Stores the original MNIST datasets, which can be found on <a href="https://www.kaggle.com/datasets/hojjatk/mnist-dataset">Kaggle</a>.</li>
+  <li>Contains a folder /png to store custom MNIST images.</li>
+</ul>
+
+<h3 id="ii-mnistutility">II, mnist/utility</h3>
+
+<h4 id="class-mnistreader">Class: MNISTReader</h4>
+
+<p>The <code class="language-plaintext highlighter-rouge">MNISTReader</code> class provides utility methods for reading and handling MNIST dataset files, offering functionalities for loading and saving data efficiently.</p>
+
+<p><strong><em>Key Features:</em></strong></p>
+
+<ol>
+  <li><strong>Label and Image Reading</strong>:
+    <ul>
+      <li><strong>Method</strong>: <code class="language-plaintext highlighter-rouge">readLabelsFromDisk(String labelFilePath, int batchSize)</code></li>
+      <li><strong>Description</strong>: Reads MNIST labels from a specified file path.</li>
+      <li><strong>Method</strong>: <code class="language-plaintext highlighter-rouge">readImagesFromDisk(String imageFilePath, int batchSize)</code></li>
+      <li><strong>Description</strong>: Reads MNIST images from a specified file path.</li>
+    </ul>
+  </li>
+  <li><strong>Caching Mechanism</strong>:
+    <ul>
+      <li><strong>Method</strong>: <code class="language-plaintext highlighter-rouge">serializeLabels(int[] labels)</code></li>
+      <li><strong>Description</strong>: Serializes and saves MNIST labels to a cache file.</li>
+      <li><strong>Method</strong>: <code class="language-plaintext highlighter-rouge">deserializeLabels()</code></li>
+      <li><strong>Description</strong>: Deserializes MNIST labels from a cache file.</li>
+      <li><strong>Method</strong>: <code class="language-plaintext highlighter-rouge">serializeImages(int[][][] images)</code></li>
+      <li><strong>Description</strong>: Serializes and saves MNIST images to a cache file.</li>
+      <li><strong>Method</strong>: <code class="language-plaintext highlighter-rouge">deserializeImages()</code></li>
+      <li><strong>Description</strong>: Deserializes MNIST images from a cache file.</li>
+    </ul>
+  </li>
+  <li><strong>Image Loading</strong>:
+    <ul>
+      <li><strong>Method</strong>: <code class="language-plaintext highlighter-rouge">loadImage(String filePath)</code></li>
+      <li><strong>Description</strong>: Loads an image from a specified file path and converts it to grayscale pixels.</li>
+    </ul>
+  </li>
+</ol>
+
+<p>The <code class="language-plaintext highlighter-rouge">MNISTReader</code> class ensures efficient handling of MNIST data through direct file operations and caching mechanisms, optimizing the workflow for training and testing neural networks.</p>
+
+<h4 id="interface-activationfunction">Interface: ActivationFunction</h4>
+
+<p>The <code class="language-plaintext highlighter-rouge">ActivationFunction</code> interface provides a structure for implementing various activation functions used in neural networks. It is designed to be utilized for both hidden layers and output layers, ensuring flexibility and consistency across different parts of the network. The interface extends <code class="language-plaintext highlighter-rouge">Serializable</code>, allowing implementing classes to be serialized and enabling model persistence.</p>
+
+<p><strong><em>Key Features:</em></strong></p>
+
+<ol>
+  <li><strong>Single Input Application</strong>:
+    <ul>
+      <li><strong>Method</strong>: <code class="language-plaintext highlighter-rouge">apply(double x)</code></li>
+      <li><strong>Description</strong>: Applies the activation function to a single input value.</li>
+      <li><strong>Exception</strong>: Throws <code class="language-plaintext highlighter-rouge">UnsupportedOperationException</code> if the function doesn’t support single variable application.</li>
+    </ul>
+  </li>
+  <li><strong>Derivative Calculation</strong>:
+    <ul>
+      <li><strong>Method</strong>: <code class="language-plaintext highlighter-rouge">derivative(double z)</code></li>
+      <li><strong>Description</strong>: Computes the derivative of the activation function given the pre-activation input, useful for backpropagation during training.</li>
+      <li><strong>Exception</strong>: Throws <code class="language-plaintext highlighter-rouge">UnsupportedOperationException</code> if the function doesn’t support single variable derivative calculation.</li>
+    </ul>
+  </li>
+  <li><strong>Array Input Application</strong>:
+    <ul>
+      <li><strong>Method</strong>: <code class="language-plaintext highlighter-rouge">apply(double[] z)</code></li>
+      <li><strong>Description</strong>: Applies the activation function to each element of an input array, typically used for output layers.</li>
+      <li><strong>Exception</strong>: Throws <code class="language-plaintext highlighter-rouge">UnsupportedOperationException</code> if the function doesn’t support array application.</li>
+    </ul>
+  </li>
+</ol>
+
+<p>The package includes implementations for the following activation functions:</p>
+<ul>
+  <li><strong>Softmax</strong></li>
+  <li><strong>Sigmoid</strong></li>
+  <li><strong>ReLU (Rectified Linear Unit)</strong></li>
+  <li><strong>Tanh (Hyperbolic Tangent)</strong></li>
+</ul>
+
+<p>Implementing classes are expected to provide appropriate logic for these operations, catering to the specific characteristics of each activation function. If an operation is not applicable for a specific activation function, the implementing class should handle it by throwing an <code class="language-plaintext highlighter-rouge">UnsupportedOperationException</code>. This design ensures that each activation function can be used effectively and safely within neural network architectures.</p>
+
+<h3 id="iii-mnistcache">III, mnist/cache</h3>
+
+<ul>
+  <li>This directory stores cached data from <code class="language-plaintext highlighter-rouge">MNISTReader</code> to enable quick full-length reading and large batch-size reading.</li>
+  <li>Cached labels and images are saved and loaded from here to optimize data processing speed during training and testing.</li>
+</ul>
+
+<h3 id="iv-mnistmodel">IV, mnist/model</h3>
+
+<ul>
+  <li>This directory is dedicated to storing saved models.</li>
+  <li>Trained models are saved here and can be loaded for future use.</li>
+  <li>Contains a few pretrained models for immediate deployment and testing.</li>
+</ul>
+
+<h3 id="v-mnistviewer">V, mnist/viewer</h3>
+
+<h4 id="class-mnistimagepanel">Class: MNISTImagePanel</h4>
+
+<p>The <code class="language-plaintext highlighter-rouge">MNISTImagePanel</code> class represents a panel in a graphical user interface (GUI) that displays an MNIST image. It supports displaying an image matrix and allows inverting colors optionally. This panel is used with the <code class="language-plaintext highlighter-rouge">MNISTViewer</code> class to visualize MNIST dataset images by decomposing and recomposing them.</p>
+
+<p><strong><em>Key Features:</em></strong></p>
+
+<ol>
+  <li><strong>Image Display</strong>:
+    <ul>
+      <li><strong>Constructor</strong>: <code class="language-plaintext highlighter-rouge">MNISTImagePanel(int[][] image, boolean invertColors)</code></li>
+      <li><strong>Description</strong>: Initializes the panel with an image matrix and an optional color inversion setting.</li>
+      <li><strong>Method</strong>: <code class="language-plaintext highlighter-rouge">setImage(int[][] image)</code></li>
+      <li><strong>Description</strong>: Updates the image matrix displayed on the panel.</li>
+    </ul>
+  </li>
+  <li><strong>Custom Painting</strong>:
+    <ul>
+      <li><strong>Method</strong>: <code class="language-plaintext highlighter-rouge">paintComponent(Graphics g)</code></li>
+      <li><strong>Description</strong>: Overrides the paint method to render the MNIST image on the panel.</li>
+    </ul>
+  </li>
+</ol>
+
+<h4 id="class-mnistviewer">Class: MNISTViewer</h4>
+
+<p>The <code class="language-plaintext highlighter-rouge">MNISTViewer</code> class is a graphical user interface (GUI) application that displays MNIST dataset images along with their corresponding labels. It uses <code class="language-plaintext highlighter-rouge">MNISTReader</code> to fetch images and labels from the dataset files. Images are displayed in a grid layout, and labels are shown below each image. The viewer automatically cycles through images with a delay, providing a dynamic display of the dataset. The main purpose of this class is to confirm that the data was accurately read.</p>
+
+<p><strong><em>Key Features:</em></strong></p>
+
+<ol>
+  <li><strong>GUI Initialization</strong>:
+    <ul>
+      <li><strong>Constructor</strong>: <code class="language-plaintext highlighter-rouge">MNISTViewer()</code></li>
+      <li><strong>Description</strong>: Initializes the frame, sets up the layout, reads MNIST dataset files, and populates the grid with images and their corresponding labels. Starts a timer to periodically update images in the viewer.</li>
+    </ul>
+  </li>
+  <li><strong>Dynamic Image Display</strong>:
+    <ul>
+      <li><strong>Method</strong>: <code class="language-plaintext highlighter-rouge">updateImages()</code></li>
+      <li><strong>Description</strong>: Updates the images and labels displayed in the viewer. Shifts the current index to show the next set of images and labels in the dataset, providing a slideshow effect.</li>
+    </ul>
+  </li>
+  <li><strong>Main Method</strong>:
+    <ul>
+      <li><strong>Method</strong>: <code class="language-plaintext highlighter-rouge">main(String[] args)</code></li>
+      <li><strong>Description</strong>: The entry point to start the MNISTViewer application. Creates an instance of <code class="language-plaintext highlighter-rouge">MNISTViewer</code>, which initializes and displays the GUI.</li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="vi-mnisttraining">VI. mnist/training</h3>
+
+<p>The <code class="language-plaintext highlighter-rouge">mnist/training</code> package is dedicated to the core components involved in training neural networks. This package includes classes representing the fundamental building blocks of a neural network, such as neurons, layers, and the network itself. Below are the brief descriptions of the key classes in this package:</p>
+
+<h4 id="class-neuron">Class: Neuron</h4>
+
+<p>The <code class="language-plaintext highlighter-rouge">Neuron</code> class represents a single neuron in a neural network. It includes the neuron’s weights, bias, activation function, and methods for performing forward propagation and parameter updates.</p>
+
+<p><strong><em>Key Features:</em></strong></p>
+
+<ol>
+  <li><strong>Initialization</strong>:
+    <ul>
+      <li><strong>Constructor</strong>: <code class="language-plaintext highlighter-rouge">Neuron(int inputSize, ActivationFunction function)</code></li>
+      <li><strong>Description</strong>: Constructs a neuron with the specified number of inputs and activation function. Initializes weights and bias with random values.</li>
+    </ul>
+  </li>
+  <li><strong>Forward Propagation</strong>:
+    <ul>
+      <li><strong>Method</strong>: <code class="language-plaintext highlighter-rouge">forward(double[] inputs)</code></li>
+      <li><strong>Description</strong>: Performs forward propagation by calculating the weighted sum of inputs, adding the bias, and applying the activation function.</li>
+    </ul>
+  </li>
+  <li><strong>Parameter Updates</strong>:
+    <ul>
+      <li><strong>Method</strong>: <code class="language-plaintext highlighter-rouge">updateParams(double[] gradients, double learningRate)</code></li>
+      <li><strong>Description</strong>: Updates the weights and bias of the neuron using the provided gradients and learning rate.</li>
+    </ul>
+  </li>
+</ol>
+
+<h4 id="class-neuronlayer">Class: NeuronLayer</h4>
+
+<p>The <code class="language-plaintext highlighter-rouge">NeuronLayer</code> class represents a layer of neurons in a neural network. It encapsulates multiple neurons, an activation function, and methods for performing forward propagation and parameter updates across the layer.</p>
+
+<p><strong><em>Key Features:</em></strong></p>
+
+<ol>
+  <li><strong>Initialization</strong>:
+    <ul>
+      <li><strong>Constructor</strong>: <code class="language-plaintext highlighter-rouge">NeuronLayer(int numNeurons, int inputSize, ActivationFunction activation, boolean lastLayer)</code></li>
+      <li><strong>Description</strong>: Constructs a layer of neurons with a specified number of neurons, each having a specified number of inputs, an activation function, and a flag indicating if it is the last layer in the network.</li>
+    </ul>
+  </li>
+  <li><strong>Forward Propagation</strong>:
+    <ul>
+      <li><strong>Method</strong>: <code class="language-plaintext highlighter-rouge">forward(double[] inputs)</code></li>
+      <li><strong>Description</strong>: Propagates input values through the layer, computing outputs of each neuron. If it is the last layer, applies the activation function to compute output probabilities.</li>
+    </ul>
+  </li>
+  <li><strong>Parameter Updates</strong>:
+    <ul>
+      <li><strong>Method</strong>: <code class="language-plaintext highlighter-rouge">updateParams(double[][] gradients, double learningRate)</code></li>
+      <li><strong>Description</strong>: Updates weights and biases of all neurons in the layer using gradients and a specified learning rate.</li>
+    </ul>
+  </li>
+</ol>
+
+<p>This class serves as a fundamental component for organizing and processing data through neural networks, facilitating training and inference operations efficiently.</p>
+
+<h4 id="class-neuralnetwork">Class: NeuralNetwork</h4>
+
+<p>The <code class="language-plaintext highlighter-rouge">NeuralNetwork</code> class represents a neural network composed of layers of neurons. It facilitates the construction, training, testing, and prediction functionalities of the network.</p>
+
+<p><strong><em>Key Features:</em></strong></p>
+
+<ol>
+  <li><strong>Initialization</strong>:
+    <ul>
+      <li><strong>Constructor</strong>: <code class="language-plaintext highlighter-rouge">NeuralNetwork(ActivationFunction outputActivation)</code></li>
+      <li><strong>Description</strong>: Constructs a neural network with a specified output activation function.</li>
+    </ul>
+  </li>
+  <li><strong>Adding Layers</strong>:
+    <ul>
+      <li><strong>Method</strong>: <code class="language-plaintext highlighter-rouge">addHiddenLayer(int numNeurons, int inputSize, ActivationFunction activation)</code></li>
+      <li><strong>Description</strong>: Adds a hidden layer with a specified number of neurons, input size, and activation function.</li>
+      <li><strong>Method</strong>: <code class="language-plaintext highlighter-rouge">addOutputLayer(int outputClassificationSize, int inputSize)</code></li>
+      <li><strong>Description</strong>: Adds an output layer with a specified number of neurons and input size, using the output activation function specified during initialization.</li>
+    </ul>
+  </li>
+  <li><strong>Forward Propagation</strong>:
+    <ul>
+      <li><strong>Method</strong>: <code class="language-plaintext highlighter-rouge">forwardPass(double[] inputs, int layerIndex)</code></li>
+      <li><strong>Description</strong>: Performs a forward pass through the network up to the specified layer index, computing output values.</li>
+    </ul>
+  </li>
+  <li><strong>Backward Propagation</strong>:
+    <ul>
+      <li><strong>Method</strong>: <code class="language-plaintext highlighter-rouge">backwardPass(double[] target, double[] predicted)</code></li>
+      <li><strong>Description</strong>: Computes the deltas (errors) for each layer during backpropagation based on the target and predicted output values.</li>
+    </ul>
+  </li>
+  <li><strong>Calculating Gradients</strong>:
+    <ul>
+      <li><strong>Method</strong>: <code class="language-plaintext highlighter-rouge">calculateGradients(double[] inputs, double[][] deltas)</code></li>
+      <li><strong>Description</strong>: Calculates gradients for all layers based on the inputs and deltas computed during backpropagation.</li>
+    </ul>
+  </li>
+  <li><strong>Updating Parameters</strong>:
+    <ul>
+      <li><strong>Method</strong>: <code class="language-plaintext highlighter-rouge">updateParams(double[][][] gradients, double learningRate)</code></li>
+      <li><strong>Description</strong>: Updates the weights and biases of all layers using the calculated gradients and specified learning rate.</li>
+    </ul>
+  </li>
+  <li><strong>Training</strong>:
+    <ul>
+      <li><strong>Method</strong>: <code class="language-plaintext highlighter-rouge">train(String labelFilePath, String imageFilePath, double learningRate, int epochs, int batchSize, boolean flashRead)</code></li>
+      <li><strong>Description</strong>: Trains the neural network using the MNIST dataset, specifying label and image file paths, learning rate, number of epochs, batch size, and whether to use flash read for dataset processing.</li>
+    </ul>
+  </li>
+  <li><strong>Testing</strong>:
+    <ul>
+      <li><strong>Method</strong>: <code class="language-plaintext highlighter-rouge">test(String labelFilePath, String imageFilePath, int batchSize, boolean flashRead)</code></li>
+      <li><strong>Description</strong>: Tests the neural network’s accuracy using the MNIST dataset, specifying label and image file paths, batch size, and whether to use flash read for dataset processing.</li>
+    </ul>
+  </li>
+  <li><strong>Prediction</strong>:
+    <ul>
+      <li><strong>Method</strong>: <code class="language-plaintext highlighter-rouge">predict(double[] inputs)</code></li>
+      <li><strong>Description</strong>: Predicts the label of input values using the neural network.</li>
+      <li><strong>Method</strong>: <code class="language-plaintext highlighter-rouge">predict(String imagePath)</code></li>
+      <li><strong>Description</strong>: Predicts the label and confidence of an image specified by the file path.</li>
+    </ul>
+  </li>
+</ol>
+
+<p>This class serves as the central component for building, training, and using neural networks for classification tasks, leveraging the flexibility and power of multi-layered networks for complex pattern recognition.</p>
+
+<h4 id="class-model">Class: Model</h4>
+
+<p>The <code class="language-plaintext highlighter-rouge">Model</code> class represents a serializable neural network model designed for training, testing, predicting, saving, and loading MNIST data.</p>
+
+<p><strong><em>Key Features:</em></strong></p>
+
+<ol>
+  <li><strong>Initialization</strong>:
+    <ul>
+      <li><strong>Constructor</strong>: <code class="language-plaintext highlighter-rouge">Model(String name, NeuralNetwork neuralNetwork)</code></li>
+      <li><strong>Description</strong>: Constructs a model with a specified name and associated neural network. It validates the network configuration to ensure it meets required specifications.</li>
+    </ul>
+  </li>
+  <li><strong>Training</strong>:
+    <ul>
+      <li><strong>Method</strong>: <code class="language-plaintext highlighter-rouge">train(String labelFilePath, String imageFilePath, double learningRate, int epochs, int batchSize, boolean flashRead)</code></li>
+      <li><strong>Description</strong>: Trains the model using the MNIST dataset, specifying label and image file paths, learning rate, number of epochs, batch size, and whether to use flash read for dataset processing.</li>
+    </ul>
+  </li>
+  <li><strong>Testing</strong>:
+    <ul>
+      <li><strong>Method</strong>: <code class="language-plaintext highlighter-rouge">test(String labelFilePath, String imageFilePath, int batchSize, boolean flashRead)</code></li>
+      <li><strong>Description</strong>: Tests the model’s accuracy using the MNIST dataset, specifying label and image file paths, batch size, and whether to use flash read for dataset processing.</li>
+    </ul>
+  </li>
+  <li><strong>Prediction</strong>:
+    <ul>
+      <li><strong>Method</strong>: <code class="language-plaintext highlighter-rouge">predict(String imagePath)</code></li>
+      <li><strong>Description</strong>: Predicts the label and confidence for an image specified by the file path using the associated neural network.</li>
+    </ul>
+  </li>
+  <li><strong>Serialization</strong>:
+    <ul>
+      <li><strong>Method</strong>: <code class="language-plaintext highlighter-rouge">save()</code></li>
+      <li><strong>Description</strong>: Saves the model to a file using Java serialization.</li>
+    </ul>
+  </li>
+  <li><strong>Deserialization</strong>:
+    <ul>
+      <li><strong>Method</strong>: <code class="language-plaintext highlighter-rouge">load(String modelName)</code></li>
+      <li><strong>Description</strong>: Loads a serialized model from a file based on the given model name.</li>
+    </ul>
+  </li>
+  <li><strong>Validation</strong>:
+    <ul>
+      <li><strong>Method</strong>: <code class="language-plaintext highlighter-rouge">validateNetwork()</code></li>
+      <li><strong>Description</strong>: Ensures the neural network configuration meets required specifications:
+        <ul>
+          <li>At least one output layer, which must be the last layer.</li>
+          <li>At least one hidden layer.</li>
+          <li>Network must have at least two layers.</li>
+          <li>Input layer must have 784 neurons corresponding to MNIST image size.</li>
+          <li>Subsequent layers must match in size with the previous layer.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>String Representation</strong>:
+    <ul>
+      <li><strong>Method</strong>: <code class="language-plaintext highlighter-rouge">toString()</code></li>
+      <li><strong>Description</strong>: Returns a string representation of the model including its name, network parameters (weights and biases), and details of each layer in the neural network.</li>
+    </ul>
+  </li>
+</ol>
+
+<p>This class encapsulates the functionality to effectively manage, train, and utilize a neural network model for MNIST digit classification tasks, offering methods for training, testing, prediction, serialization, and deserialization.</p>
+
+<h3 id="personal-note">Personal note:</h3>
+
+<p>Despite recognizing that Java may not be the most efficient language for machine learning tasks like the MNIST dataset, I believe that developing this project from scratch without relying on external packages demonstrates a thorough grasp of core algorithms and underlying machine learning principles. This project serves as a foundational exploration into the realm of machine learning, focusing specifically on the MNIST dataset—a longstanding benchmark in the field.</p>
+
+<p>The project interface provides essential functionalities tailored for MNIST models. Users can initiate the creation of Feedforward Neural Network (FNN) models, customize training parameters such as learning rate and epochs, evaluate model performance through testing, utilize trained models for predictions, and save them for future use. By leveraging Java’s core functionalities and abstaining from external dependencies, the project emphasizes fundamental concepts including FNN model creation, optimization, validation, and application in predictive tasks.</p>
+
+<p>While I acknowledge that this implementation has limitations and cannot match the capabilities of popular machine learning frameworks such as TensorFlow or PyTorch, and that a Convolutional Neural Network (CNN) is much more suited for this task due to its superior performance on image recognition tasks like MNIST, I am proud of the knowledge I gained and achievements made through this project. The focus on FNN provides a solid understanding of basic neural network principles such as forward propagation, backpropagation, and gradient descent.</p>
+
+<p>I hope that you will also find value in this endeavor, should you choose to further review the source code.</p>
+
+<p>Thank you for reading and trying out my program!</p>
+
+<p>Thumbnail:</p>
+
+<p>https://plus.vtc.edu.vn/neural-network-ung-dung-va-phan-loai/</p>
+
+<div class="end-post">***</div>
+
+                </article>
+            </div>
+        </main>
+        <div class="relative-footer">
+            <footer>
+                <div class="to-top-button-container">
+                    <button class="to-top-button" onclick="scrollToTop()">Top</button>
+                </div>
+                <div>
+                    <p>
+                        
+                        Written by:
+                        
+                        Yuk
+                    </p>
+                    <p>
+                        
+                        Credits:
+                        
+                        _
+                    </p>
+                    <p>&copy; 2025 Yukano</p>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script src="/assets/js/scripts.js"></script>
+</body>
+
+</html>

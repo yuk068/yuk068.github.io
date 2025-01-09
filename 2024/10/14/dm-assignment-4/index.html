@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="linkage" content="false">
+    <title>MAT3500 - Algorithm Assignment - Part 1</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <div class="post" data-written-by="" data-credits=""
+        data-categories="">
+    </div>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>MAT3500 - Algorithm Assignment - Part 1</h1>
+            <div class="date">
+                
+                <span class="date-span">14/10/2024</span>
+
+                
+                <span class="reading-time">
+                    
+                    | Reading time:
+                    
+                    14
+                    
+                    Min.
+                    
+                </span>
+                
+            </div>
+            <div class="navigation-links">
+                <div class="back-link">
+                    <a href="/archive">
+                        
+                        Archive
+                        
+                    </a>
+                </div>
+                <div class="home-link">
+                    <a href="/"
+                        aria-label="Go back">
+                        
+                        Home
+                        
+                    </a>
+                </div>
+            </div>
+            <div class="toggle-light-dark">
+                <button id="toggle-mode-button" onclick="toggleLightMode()">☀️</button>
+            </div>
+            <div class="collapse-expand-all-button">
+                <button class="collapse-expand-all-button" onclick="">🔼</button>
+            </div>
+        </header>
+        <main>
+            <div class="post-content">
+                <article>
+                    <h1 id="mat3500---algorithm-assignment">MAT3500 - Algorithm Assignment</h1>
+
+<h3 id="algorithm-i---hoang-anh-duc---mim---hus---vnu"><a href="https://hoanganhduc.github.io/teaching/VNU-HUS/2024/winter/MAT3500-2/Algorithms_I.pdf" target="_blank">Algorithm I - Hoang Anh Duc - MIM - HUS - VNU</a></h3>
+
+<h4 id="work-2">Work 2.</h4>
+
+<ul>
+  <li><strong><em>Show that:</em></strong></li>
+</ul>
+
+<blockquote>
+
+\[\begin{aligned}[t]
+&amp; (a) \space 7x \text{ is } O(x^3) \quad &amp; (e) \space &amp; \log(n!) \text{ is } O(n \log n) \quad \\[5pt]
+&amp; (b) \space x^3 \text{ is not } O(x^2) \quad &amp; (f) \space &amp; n^3 \text{ is } O(2^n) \quad \\[5pt]
+&amp; (c) \space 1 + 2 + \ldots + n \text{ is } O(n^2) \quad &amp; (g) \space &amp; \log n \text{ is } O(n) \quad \\[5pt]
+&amp; (d) \space n! = 1 \times 2 \times \ldots \times n \text{ is } O(n^n) \quad &amp; (h) \space &amp; \forall b &gt; 1, \forall k &gt; 0 , \log_b(n^k) \text{ is } O(\log n) \quad
+\end{aligned}\]
+</blockquote>
+
+<ul>
+  <li>
+    <p>Note: If not addressed then assume \(\log(n) = \log_2(n)\)</p>
+  </li>
+  <li>
+    <p>(a) \(\quad 7x \text{ is } O(x^3)\)</p>
+  </li>
+</ul>
+
+<blockquote>
+
+\[\begin{align}
+&amp; \text{To prove that } 7x \in O(x^3) \text{, we need to find} \quad \\[5pt]
+&amp; \text{Constants }\mathit{C}, k \text{ such that } \forall x &gt; k \mid 7x \leq \mathit{C} \cdot x^3 \quad \\[5pt]
+&amp; \text{When } x &gt; 1, \text{ we have } 7x \leq 7x^3 \equiv x \leq x^3 \quad \\[5pt]
+&amp; \text{Therefore, with } \mathit{C} = 7, k = 1 \text{ as our witnesses} \quad \\[5pt]
+&amp; \text{We have shown that } 7x \in O(x^3) \quad \\[5pt]
+\end{align}\]
+</blockquote>
+
+<ul>
+  <li>(b) \(\quad x^3 \text{ is not } O(x^2)\)</li>
+</ul>
+
+<blockquote>
+
+\[\begin{align}
+&amp; \text{To prove that } x^3 \notin O(x^2) \text{, we need to show that} \quad \\[5pt]
+&amp; \text{No constants }\mathit{C}, k \text{ satisfy } \forall x &gt; k \mid x^3 \leq \mathit{C} \cdot x^2 \quad \\[5pt]
+&amp; \text{Proof by contradiction:} \quad \\[5pt]
+&amp; \text{Assume that such constants } \mathit{C}, k \text{  exists, then:} \quad \\[5pt]
+&amp; \exists \space \mathit{C} \mid \forall x &gt; k \text{ satisfy the statement:} \quad \\[5pt]
+&amp; x^3 \leq \mathit{C} \cdot x^2 \equiv x \leq \mathit{C} \implies \text{ x is bounded by } \mathit{C} \quad \\[5pt]
+&amp; \text{Which contradicts our assumption of } \forall x &gt; k \quad \\[5pt]
+&amp; \text{Therefore } x^3 \notin O(x^2) \quad \\[5pt]
+\end{align}\]
+</blockquote>
+
+<ul>
+  <li>(c) \(\quad 1 + 2 + \ldots + n \text{ is } O(n^2)\)</li>
+</ul>
+
+<blockquote>
+
+\[\begin{align}
+&amp; \text{To prove that } 1 + 2 + \ldots + n \in O(n^2) \text{, we need to find} \quad \\[5pt]
+&amp; \text{Constants }\mathit{C}, k \text{ such that } \forall n &gt; k \mid 1 + 2 + \ldots + n \leq \mathit{C} \cdot n^2 \quad \\[7pt]
+&amp; \text{Let } S(n) = 1 + 2 + \ldots + n = \frac{n(n+1)}{2} \implies \forall n &gt; k \mid S(n) \leq \mathit{C} \cdot n^2 \quad \\[7pt]
+&amp; S(n) = \frac{n(n+1)}{2} = \frac{n^2 + n}{2} \leq \frac{n^2 + n^2}{2} = \frac{2n^2}{2} = n^2 \quad \\[7pt]
+&amp; \text{So when } n &gt; 1, \text{ we have } S(n) \leq n^2 \equiv \frac{n(n+1)}{2} \leq n^2 \quad \\[7pt]
+&amp; \text{Therefore, with } \mathit{C} = 1, k = 1 \text{ as our witnesses} \quad \\[5pt]
+&amp; \text{We have shown that } 1 + 2 + \ldots + n \in O(n^2) \quad \\[5pt]
+\end{align}\]
+</blockquote>
+
+<ul>
+  <li>(d) \(\quad n! = 1 \times 2 \times \ldots \times n \text{ is } O(n^n)\)</li>
+</ul>
+
+<blockquote>
+
+\[\begin{align}
+&amp; \text{To prove that } n! = 1 \times 2 \times \ldots \times n \in O(n^n) \text{, we need to find} \quad \\[5pt]
+&amp; \text{Constants }\mathit{C}, k \text{ such that } \forall n &gt; k \mid n! \leq \mathit{C} \cdot n^n \quad \\[5pt]
+&amp; \text{When } n &gt; 1, \text{ we have } n! \leq n \times n \times \ldots \times n = n^n \quad \\[5pt]
+&amp; \text{Therefore, with } \mathit{C} = 1, k = 1 \text{ as our witnesses} \quad \\[5pt]
+&amp; \text{We have shown that } n! = 1 \times 2 \times \ldots \times n \in O(n^n) \quad \\[5pt]
+\end{align}\]
+</blockquote>
+
+<ul>
+  <li>(e) \(\quad \log(n!) \text{ is } O(n \log n)\)</li>
+</ul>
+
+<blockquote>
+
+\[\begin{align}
+&amp; \text{To prove that } \log(n!) \in O(n \log n) \text{, we need to find} \quad \\[5pt]
+&amp; \text{Constants }\mathit{C}, k \text{ such that } \forall n &gt; k \mid \log(n!) \leq \mathit{C} \cdot n \log n \quad \\[5pt]
+&amp; \text{We have: } \log(n!) = \log(1 \times 2 \times \ldots \times n) \quad \\[5pt]
+&amp; \qquad \qquad \space \space n \log n = \log(n^n) = \log(n \times n \times \ldots \times n) \quad \\[5pt]
+&amp; \text{Leveraging (d), when } n &gt; 1, \text{ we have:} \quad \\[5pt]
+&amp; n! \leq n^n \equiv \log(n!) \leq \log(n^n) \equiv \log(n!) \leq n \log n \quad \\[5pt]
+&amp; \text{Therefore, with } \mathit{C} = 1, k = 1 \text{ as our witnesses} \quad \\[5pt]
+&amp; \text{We have shown that } \log(n!) \in O(n \log n) \quad \\[5pt]
+\end{align}\]
+</blockquote>
+
+<ul>
+  <li>(f) \(\quad n^3 \text{ is } O(2^n)\)</li>
+</ul>
+
+<blockquote>
+
+\[\begin{align}
+&amp; \text{To prove that } n^3 \in O(2^n) \text{, we need to find} \quad \\[5pt]
+&amp; \text{Constants }\mathit{C}, k \text{ such that } \forall n &gt; k \mid n^3 \leq \mathit{C} \cdot 2^n \quad \\[5pt]
+&amp; \text{We evaluate the limits as n } \rightarrow \infty \quad \\[7pt]
+&amp; \lim_{n \rightarrow \infty} \frac{n^3}{2^n} \stackrel{\small{\text{L'Hopital}}}{=} \lim_{n \rightarrow \infty} \frac{3n^2}{2^n \ln^2 2} \stackrel{\small{\text{L'Hopital}}}{=} \lim_{n \rightarrow \infty} \frac{6}{2^n \ln^3 2} = 0 \\[7pt]
+&amp; \text{Since the limit approaches 0, this means} \quad \\[5pt]
+&amp; \text{That } n^3 \text{ grows much slower} \quad \\[5pt]
+&amp; \text{Than } 2^n \text{ as } n \rightarrow \infty \implies \exists \mathit{C}, \forall n &gt; k \mid n^3 \leq \mathit{C} \cdot 2^n \quad \\[5pt]
+&amp; \text{Therefore } n^3 \in O(2^n) \quad \\[5pt]
+\end{align}\]
+</blockquote>
+
+<ul>
+  <li>(g) \(\quad \log n \text{ is } O(n)\)</li>
+</ul>
+
+<blockquote>
+
+\[\begin{align}
+&amp; \text{To prove that } \log n \in O(n) \text{, we need to find} \quad \\[5pt]
+&amp; \text{Constants }\mathit{C}, k \text{ such that } \forall n &gt; k \mid \log n \leq \mathit{C} \cdot n \quad \\[5pt]
+&amp; \text{We evaluate the limits as n } \rightarrow \infty \quad \\[7pt]
+&amp; \lim_{n \rightarrow \infty} \frac{\log n}{n} \stackrel{\small{\text{L'Hopital}}}{=} \lim_{n \rightarrow \infty} \frac{1}{n} = 0 \\[7pt]
+&amp; \text{Since the limit approaches 0, this means} \quad \\[5pt]
+&amp; \text{That } \log n \text{ grows much slower} \quad \\[5pt]
+&amp; \text{Than } n \text{ as } n \rightarrow \infty \implies \exists \mathit{C}, \forall n &gt; k \mid \log n \leq \mathit{C} \cdot n \quad \\[5pt]
+&amp; \text{Therefore } \log n \in O(n) \quad \\[5pt]
+\end{align}\]
+</blockquote>
+
+<ul>
+  <li>(h) \(\quad \forall b &gt; 1, \forall k &gt; 0 , \log_b(n^k) \text{ is } O(\log n)\)</li>
+</ul>
+
+<blockquote>
+
+\[\begin{align}
+&amp; \text{To prove that } \log_b(n^k) \in O(\log n) \mid \forall b &gt; 1, \forall k &gt; 0 \quad \\[5pt]
+&amp; \text{We need to find:} \quad \\[5pt]
+&amp; \text{Constants }\mathit{C}, k \text{ such that } \forall n &gt; k \mid \log_b(n^k) \leq \mathit{C} \cdot \log n \quad \\[5pt]
+&amp; \text{We evaluate: } \quad \\[7pt]
+&amp; \log_b(n^k) = k \cdot \log_b(n) = k \cdot \frac{\log(n)}{\log(b)} = \frac{k}{\log(b)} \cdot \log(n) \quad \\[7pt]
+&amp; \text{Because } b &gt; 1, k &gt; 0, \frac{k}{\log(b)} \text{ is positive and finite} \quad \\[7pt]
+&amp; \text{We can choose } \mathit{C} = \frac{k}{\log(b)} \text{ and } k = 1 \text{, such that} \quad \\[7pt]
+&amp; \log_b(n^k) \leq \mathit{C} \cdot \log n \text{, we have our witnesses} \quad \\[5pt]
+&amp; \text{Therefore } \log_b(n^k) \in O(\log n) \quad \\[5pt]
+\end{align}\]
+</blockquote>
+
+<div class="end-post"></div>
+
+<h4 id="work-3">Work 3.</h4>
+
+<blockquote>
+
+\[\begin{align}
+\text{Explains what it means for a function  } \mathcal{f} : \mathbb{R} \rightarrow \mathbb{R} \text{  to be } O(1) \quad \\[5pt]
+\end{align}\]
+</blockquote>
+
+<blockquote>
+
+\[\begin{align}
+&amp; \text{Let } \mathcal{f}(n) : \mathbb{R} \rightarrow \mathbb{R}, \mathcal{f}(n) \in O(1) \quad \\[5pt]
+&amp; \text{This statement holds if and only if: } \quad \\[5pt]
+&amp; \exists \mathit{C} \in \mathbb{R} \mid \mathit{C} &gt; 0 \text{ and } \exists k \in \mathbb{N} \mid \forall n \geq k \text{, such that:} \quad \\[5pt]
+&amp; | \mathcal{f}(n) | \leq \mathit{C} \cdot 1 \equiv | \mathcal{f}(n) | \leq \mathit{C} \quad \\[5pt]
+\end{align}\]
+</blockquote>
+
+<div class="end-post"></div>
+
+<h4 id="work-4">Work 4.</h4>
+
+<ul>
+  <li><strong><em>Show that:</em></strong></li>
+</ul>
+
+<blockquote>
+
+\[\begin{align}
+&amp; (a) \quad x^3 \text{ is } O(x^4) \text{ but is not } O(x^3) \quad \\[7pt]
+&amp; (b) \quad 3x^4 + 1 \text{ is } O\left(\frac{x^4}{2}\right) \text{ and } \frac{x^4}{2} \text{ is } O(3x^4 + 1) \quad \\[7pt]
+&amp; (c) \quad x \log x \text{ is } O(x^2) \text{ but } x^2 \text{ is not } O(x \log x) \quad \\[5pt]
+&amp; (d) \quad 2^n \text{ is } O(3^n) \text{ but } 3^n \text{ is not } O(2^n) \quad \\[5pt]
+\end{align}\]
+</blockquote>
+
+<ul>
+  <li>(a) \(\quad x^3 \text{ is } O(x^4) \text{ but is not } O(x^3)\)</li>
+</ul>
+
+<blockquote>
+
+\[\begin{align}
+&amp; \text{We prove that } x^3 \in O(x^4) \text{ first} \quad \\[5pt]
+&amp; \text{We need to find constants }\mathit{C}_1, k_1 \text{ such that } \quad \\[5pt]
+&amp; \forall x &gt; k_1 \mid x^3 \leq \mathit{C}_1 \cdot x^4 \quad \\[5pt]
+&amp; \text{We evaluate the limits as } x \rightarrow \infty \quad \\[7pt]
+&amp; \lim_{x \rightarrow \infty} \frac{n^3}{n^4} = \lim_{x \rightarrow \infty} \frac{1}{x} = 0 \\[7pt]
+&amp; \text{Since the limit approaches 0, this means} \quad \\[5pt]
+&amp; \text{That } x^3 \text{ grows much slower} \quad \\[5pt]
+&amp; \text{Than } x^4 \text{ as } x \rightarrow \infty \implies \exists \mathit{C}_1, \forall x &gt; k_1 \mid x^3 \leq \mathit{C}_1 \cdot x^4 \quad \\[5pt]
+&amp; \text{Therefore } x^3 \in O(x^4) \quad \\[5pt]
+\end{align}\]
+</blockquote>
+
+<blockquote>
+
+\[\begin{align}
+&amp; \text{Next, we prove that } x^3 \notin O(x^3) \quad \\[5pt]
+&amp; \text{We need to show that no constants }\mathit{C}_2, k_2 \text{ satisfy } \quad \\[5pt]
+&amp; \forall x &gt; k_2 \mid x^3 \leq \mathit{C}_2 \cdot x^3 \quad \\[5pt]
+&amp; \text{Proof by contradiction:} \quad \\[5pt]
+&amp; \text{Assume that such constants } \mathit{C}_2, k_2 \text{  exists, then:} \quad \\[5pt]
+&amp; \exists \space \mathit{C}_2 \mid \forall x &gt; k_2 \text{ satisfy the statement:} \quad \\[5pt]
+&amp; x^3 \leq \mathit{C}_2 \cdot x^3 \equiv 1 \leq \mathit{C}_2 \implies x \text{ is bounded by itself} \quad \\[5pt]
+&amp; \text{Which contradicts our assumption of } \forall x &gt; k_2 \quad \\[5pt]
+&amp; \text{Therefore } x^3 \notin O(x^3) \quad \\[5pt]
+\end{align}\]
+</blockquote>
+
+<ul>
+  <li>(b) \(\quad 3x^4 + 1 \text{ is } O\left(\frac{x^4}{2}\right) \text{ and } \frac{x^4}{2} \text{ is } O(3x^4 + 1)\)</li>
+</ul>
+
+<blockquote>
+
+\[\begin{align}
+&amp; \text{We prove that } 3x^4 + 1 \in O\left(\frac{x^4}{2}\right) \text{ first} \quad \\[7pt]
+&amp; \text{We need to find constants }\mathit{C}_1, k_1 \text{ such that } \quad \\[7pt]
+&amp; \forall x &gt; k_1 \mid 3x^4 + 1 \leq \mathit{C}_1 \cdot \frac{x^4}{2} \quad \\[7pt]
+&amp; \text{When } x &gt; 1, \text{ we have } 3x^4 + 1 \leq \mathit{C}_1 \cdot \frac{x^4}{2} \equiv 3 + \frac{1}{x^4} \leq \frac{\mathit{C}_1}{2}  \quad \\[7pt]
+&amp; \text{As } x \rightarrow \infty , \text{ the inequality becomes } 3 \leq \frac{\mathit{C}_1}{2} \equiv \mathit{C}_1 \geq 6 \quad \\[7pt]
+&amp; \text{Therefore, with } \mathit{C}_1 = 6, k_1 = 1 \text{ as our witnesses} \quad \\[5pt]
+&amp; \text{We have shown that } 3x^4 + 1 \in O\left(\frac{x^4}{2}\right) \quad \\[5pt]
+\end{align}\]
+</blockquote>
+
+<blockquote>
+
+\[\begin{align}
+&amp; \text{Next, we prove that } \frac{x^4}{2} \in O(3x^4 + 1)\quad \\[7pt]
+&amp; \text{We need to find constants }\mathit{C}_2, k_2 \text{ such that } \quad \\[7pt]
+&amp; \forall x &gt; k_2 \mid \frac{x^4}{2} \leq \mathit{C}_2 \cdot (3x^4 + 1) \quad \\[7pt]
+&amp; \text{When } x &gt; 1, \text{ we have:} \quad \\[7pt]
+&amp; \frac{x^4}{2} \leq \mathit{C}_2 \cdot (3x^4 + 1) \equiv \frac{1}{2} \leq \mathit{C}_2 \cdot \left(3 + \frac{1}{x^4} \right)  \quad \\[7pt]
+&amp; \text{As } x \rightarrow \infty , \text{ the inequality becomes } \frac{1}{2} \leq 3\mathit{C}_2 \equiv \mathit{C}_2 \geq \frac{1}{6} \quad \\[7pt]
+&amp; \text{Therefore, with } \mathit{C}_2 = \frac{1}{6}, k_2 = 1 \text{ as our witnesses} \quad \\[7pt]
+&amp; \text{We have shown that } \frac{x^4}{2} \in O(3x^4 + 1) \quad \\[5pt]
+\end{align}\]
+</blockquote>
+
+<ul>
+  <li>(c) \(\quad x \log x \text{ is } O(x^2) \text{ but } x^2 \text{ is not } O(x \log x)\)</li>
+</ul>
+
+<blockquote>
+
+\[\begin{align}
+&amp; \text{We evaluate both statements when } x \rightarrow \infty \quad \\[5pt]
+\end{align}\]
+</blockquote>
+
+<ul>
+  <li>(d) \(\quad 2^n \text{ is } O(3^n) \text{ but } 3^n \text{ is not } O(2^n)\)</li>
+</ul>
+
+<blockquote>
+
+\[\begin{align}
+&amp; \text{We evaluate both statements when } x \rightarrow \infty \quad \\[5pt]
+\end{align}\]
+</blockquote>
+
+<div class="end-post"></div>
+
+<h4 id="work-5">Work 5.</h4>
+
+<blockquote>
+
+\[\begin{align}
+\text{Prove that if } \mathcal{f}(x) \text{ is } O(x) \text{ then } \mathcal{f}(x) \text{ is also } O(x^2) \quad \\[5pt]
+\end{align}\]
+</blockquote>
+
+<blockquote>
+
+\[\begin{align}
+&amp; \text{We have } \mathcal{f}(x) \in O(x) \quad \\[5pt]
+&amp; \implies \text{There are some constants }\mathit{C}, k \text{ such that} \quad \\[5pt]
+&amp; \forall x &gt; k, \mathcal{f}(x) \leq \mathit{C} \cdot x \quad \\[5pt]
+&amp; \text{We know that } x \leq x^2 \equiv \mathit{C} \cdot x \leq \mathit{C} \cdot x^2 \quad \\[5pt]
+&amp; \implies \forall x &gt; k, \mathcal{f}(x) \leq \mathit{C} \cdot x \leq \mathit{C} \cdot x^2 \equiv \mathcal{f}(x) \leq \mathit{C} \cdot x^2 \quad \\[5pt]
+&amp; \text{Therefore } \mathcal{f}(x) \in O(x^2)
+\end{align}\]
+</blockquote>
+
+<div class="end-post"></div>
+
+<h4 id="work-7">Work 7.</h4>
+
+<blockquote>
+
+\[\begin{align}
+&amp; \text{Give a big-}\mathit{O} \text{ estimate for the function} \quad \\[5pt]
+&amp; \mathcal{f}(n) = 3n \log n! + (n^2 + 3) \log n \quad \\[5pt]
+\end{align}\]
+</blockquote>
+
+<ul>
+  <li><strong>Solution:</strong></li>
+</ul>
+
+<blockquote>
+
+\[\begin{align}
+&amp; \text{We want to find the Big-}\mathit{O} \text{ estimate of} \ \mathcal{f}(n) = 3n \log n! + (n^2 + 3) \log n \quad \\[5pt]
+\end{align}\]
+</blockquote>
+
+<ul>
+  <li>Step 1: Estimate \(( 3n \log n! )\)</li>
+</ul>
+
+<blockquote>
+
+\[\begin{align}
+&amp; \text{Using Stirling's approximation: } \log n! \sim n \log n - n \quad \\[5pt]
+&amp; \therefore \log n! = O(n \log n) \quad \\[5pt]
+&amp; \text{Multiply by } 3n: \quad \\[5pt]
+&amp; 3n \log n! = O(n^2 \log n) \quad \\[5pt]
+\end{align}\]
+</blockquote>
+
+<ul>
+  <li>Step 2: Estimate \(( (n^2 + 3) \log n )\)</li>
+</ul>
+
+<blockquote>
+
+\[\begin{align}
+&amp; \text{We break this into two parts:} \quad \\[5pt]
+&amp; n^2 \log n = O(n^2 \log n) \quad \\[5pt]
+&amp; 3 \log n = O(\log n) \quad \\[5pt]
+&amp; \text{Thus,} \ (n^2 + 3) \log n = O(n^2 \log n) + O(\log n) = O(n^2 \log n) \quad \\[5pt]
+\end{align}\]
+</blockquote>
+
+<ul>
+  <li>Step 3: Combine the Results</li>
+</ul>
+
+<blockquote>
+
+\[\begin{align}
+&amp; \mathcal{f}(n) = O(n^2 \log n) + O(n^2 \log n) = O(n^2 \log n) \quad \\[5pt]
+&amp; \text{Therefore, the Big-}\mathit{O} \text{ estimate for } \mathcal{f}(n) \text{ is } O(n^2 \log n) \quad \\[5pt]
+\end{align}\]
+</blockquote>
+
+<div class="end-post"></div>
+
+<h4 id="work-8">Work 8.</h4>
+
+<blockquote>
+
+\[\begin{align}
+\text{Prove that } \mathcal{f} \text{ is } \Omega(g) \text{ if and only if } \mathcal{g} \text{ is } O(\mathcal{f}) \quad \\[5pt]
+\end{align}\]
+</blockquote>
+
+<blockquote>
+
+\[\begin{align}
+&amp; \text{By definition, } \mathcal{f}(n) \in \Omega(g(n)) \text{ means:} \quad \\[5pt]
+&amp; \exists \mathit{C} &gt; 0, n_0 &gt; 0 \text{ such that for all } n \geq n_0, g(n) \leq C \cdot f(n) \quad \\[5pt]
+&amp; \text{This implies that } g(n) \in O(f(n)) \text{ by definition of } O \text{ notation.} \quad \\[5pt]
+&amp; \text{Similarly, if } g(n) \in O(f(n)) \quad \\[5pt]
+&amp; \text{ we can reverse the inequality to show } f(n) \in \Omega(g(n)). \quad \\[5pt]
+&amp; \text{Thus, } \mathcal{f}(n) \in \Omega(g(n)) \iff \mathcal{g}(n) \in O(f(n)) \quad \\[5pt]
+\end{align}\]
+</blockquote>
+
+<div class="end-post"></div>
+
+<h4 id="work-10">Work 10.</h4>
+
+<blockquote>
+
+\[\begin{align}
+\text{Prove that } 1 + 2 + \ldots + n \text{ is } \Theta(n^2) \quad \\[5pt]
+\end{align}\]
+</blockquote>
+
+<blockquote>
+
+\[\begin{align}
+&amp; \text{We want to show that the sum of the first } n \text{ positive integers is } \Theta(n^2). \quad \\[5pt]
+&amp; \text{We know the formula for this sum:} \quad \\[5pt]
+&amp; 1 + 2 + \ldots + n = \frac{n(n+1)}{2} \quad \\[5pt]
+&amp; \text{This simplifies to } \frac{n^2 + n}{2}. \quad \\[5pt]
+&amp; \text{As } n \to \infty, \frac{n^2 + n}{2} \sim \frac{n^2}{2}, \text{ so it grows like } O(n^2). \quad \\[5pt]
+&amp; \text{Also, since } \frac{n^2 + n}{2} \geq \frac{n^2}{2} \text{ for large } n, \text{ the sum is } \Omega(n^2). \quad \\[5pt]
+&amp; \text{Thus, we conclude that } 1 + 2 + \ldots + n = \Theta(n^2). \quad \\[5pt]
+\end{align}\]
+</blockquote>
+
+<div class="end-post"></div>
+
+<ul>
+  <li><strong><em>References and Extras:</em></strong>
+    <ul>
+      <li><a href="https://hoanganhduc.github.io/teaching/VNU-HUS/2024/winter/MAT3500-2/Algorithms_I.pdf" target="_blank">Algorithm I - Hoang Anh Duc - MIM - HUS - VNU</a></li>
+      <li><a href="https://www.youtube.com/watch?v=egvjrc8KLd8" target="_blank">Work 2 (e) Complement 1: Quoc Dat Phung - Prove log(n!) is O(nlogn)</a></li>
+      <li><a href="https://math.stackexchange.com/questions/966928/proving-nlogn-is-ologn" target="_blank">Work 2 (e) Complement 2: StackExchange - Mathematics</a></li>
+      <li><a href="https://www.quora.com/How-do-you-prove-n-4-O-2-n" target="_blank">Work 2 (f) Complement: Quora</a></li>
+      <li><a href="https://www.youtube.com/watch?app=desktop&amp;v=mNKurOhMBcA" target="_blank">Work 2 (g) Complement 1: Proving log n is O(n) [Big-Oh Bootcamp]</a></li>
+      <li><a href="https://math.stackexchange.com/questions/1561912/prove-logn-on-using-induction" target="_blank">Work 2 (g) Complement 2: StackExchange - Mathematics</a></li>
+      <li><a href="https://math.stackexchange.com/questions/3438421/showing-log-bn-onp-for-all-b-1-and-all-p-0" target="_blank">Work 2 (h) Complement: StackExchange - Mathematics</a></li>
+      <li><a href="https://www.researchgate.net/post/What_does_O1_mean#:~:text=We%20say%20a%20growth%20function,is%20in%20O(1)." target="_blank">ResearchGate - What does O(1) mean?</a></li>
+      <li><a href="https://askfilo.com/user-question-answers-algebra-2/explain-what-it-means-for-a-function-to-be-35383337373830" target="_blank">Filo - Explain what it means for a function to be O(1)</a></li>
+      <li><a href="https://www.geeksforgeeks.org/what-does-constant-time-complexity-or-big-o1-mean/" target="_blank">G4G - What does Constant Time Complexity or Big O(1) mean?</a></li>
+      <li><a href="https://math.stackexchange.com/questions/1512923/showing-that-if-a-function-is-ox2-then-its-also-ox" target="_blank">Work 5 Complement</a></li>
+      <li><a href="http://cobweb.cs.uga.edu/~potter/dismath/Feb26-1009b.pdf" target="_blank">UAG School of Computing - Big-O Notation</a></li>
+      <li>Kenneth H. Rosen - Discrete Mathematics and Its Applications.</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="end-post">***</div>
+
+                </article>
+            </div>
+        </main>
+        <div class="relative-footer">
+            <footer>
+                <div class="to-top-button-container">
+                    <button class="to-top-button" onclick="scrollToTop()">Top</button>
+                </div>
+                <div>
+                    <p>
+                        
+                        Written by:
+                        
+                        Yuk
+                    </p>
+                    <p>
+                        
+                        Credits:
+                        
+                        Included in References and Extras, Prof. Hoang Anh Duc (MIM - HUS - VNU)
+                    </p>
+                    <p>&copy; 2025 Yukano</p>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script src="/assets/js/scripts.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="linkage" content="false">
+    <title>MAT3500 - Counting Assignment - Part 1</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <div class="post" data-written-by="" data-credits=""
+        data-categories="">
+    </div>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>MAT3500 - Counting Assignment - Part 1</h1>
+            <div class="date">
+                
+                <span class="date-span">01/11/2024</span>
+
+                
+                <span class="reading-time">
+                    
+                    | Reading time:
+                    
+                    6
+                    
+                    Min.
+                    
+                </span>
+                
+            </div>
+            <div class="navigation-links">
+                <div class="back-link">
+                    <a href="/archive">
+                        
+                        Archive
+                        
+                    </a>
+                </div>
+                <div class="home-link">
+                    <a href="/"
+                        aria-label="Go back">
+                        
+                        Home
+                        
+                    </a>
+                </div>
+            </div>
+            <div class="toggle-light-dark">
+                <button id="toggle-mode-button" onclick="toggleLightMode()">☀️</button>
+            </div>
+            <div class="collapse-expand-all-button">
+                <button class="collapse-expand-all-button" onclick="">🔼</button>
+            </div>
+        </header>
+        <main>
+            <div class="post-content">
+                <article>
+                    <h1 id="mat3500---counting-assignment">MAT3500 - Counting Assignment</h1>
+
+<h3 id="counting---hoang-anh-duc---mim---hus---vnu"><a href="https://hoanganhduc.github.io/teaching/VNU-HUS/2024/winter/MAT3500-2/Counting.pdf" target="_blank">Counting - Hoang Anh Duc - MIM - HUS - VNU</a></h3>
+
+<h4 id="work-4">Work 4.</h4>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code>How many binary strings are there with 7 digits,
+start with 00 or end with 111?
+</code></pre></div></div>
+
+<p><strong><em>Solution:</em></strong></p>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Let A be the set of all 7-digits binary strings
+that start with 00
+Let B be the set of all 7-digits binary strings
+that end with 111
+
+We count |A| = 2^5 = 32
+We count |B| = 2^4 = 16
+We count |A intersect B| = 2^2 = 4
+
+By the inclusion-exclusion rule, we have
+
+|A union B| = |A| + |B| - |A intersect B| = 44
+
+So there are 44 7-digits binary strings that start
+with 00 or end with 111
+</code></pre></div></div>
+
+<div class="end-post"></div>
+
+<h4 id="work-6">Work 6.</h4>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code>How many positive integers are there that are less
+or equal to 1000 which satisfies:
+
+(a) Is a multiple of 7
+(b) Is a multiple of 7 and 11
+(c) Is a multiple of 7 but not 11
+(d) Is a multiple of 7 or 11
+(e) Not a multiple of 7 and 11
+</code></pre></div></div>
+
+<ul>
+  <li>(a) Is a multiple of 7</li>
+</ul>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code>We need to find positive integers that is less or equal
+to 1000 and satisfies the form 7k with k in Z^+ such that
+
+7k <span class="nt">&lt;</span><span class="err">=</span> <span class="err">1000</span> <span class="na">-</span><span class="nt">&gt;</span> k &lt;= 1000/7 ~ 142.857
+
+So there are 142 positive integers less or equal to 1000
+that is a multiple of 7
+</code></pre></div></div>
+
+<ul>
+  <li>(b) Is a multiple of 7 and 11</li>
+</ul>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code>A number that is a multiple of both 7 and 11 must be
+a multiple of 7 x 11 = 77, we need to find positive
+integers that is less or equal to 1000 and satisfies
+the form 77k with k in Z^+ such that
+
+77k <span class="nt">&lt;</span><span class="err">=</span> <span class="err">1000</span> <span class="na">-</span><span class="nt">&gt;</span> k &lt;= 1000/77 ~ 12.987
+
+So there are 12 positive integers less or equal to 1000
+that is a multiple of 7 and 11
+</code></pre></div></div>
+
+<ul>
+  <li>(c) Is a multiple of 7 but not 11</li>
+</ul>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code>From let A and B be the set of integers that are less
+or equal to 1000 and is a multiple of 7 and 11, respectively
+
+|A| - |A intersect B| = 142 - 12 = 130
+
+So there are 130 positive integers less or equal to 1000
+that is a multiple of 7 and 11
+</code></pre></div></div>
+
+<ul>
+  <li>(d) Is a multiple of 7 or 11</li>
+</ul>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code>From let A and B be the set of integers that are less
+or equal to 1000 and is a multiple of 7 and 11, respectively
+
+|A union B| = |A| + |B| - |A intersect B|
+= 142 - floor(1000/11) - 12
+= 142 + 90 - 12 = 220
+
+So there are 220 positive integers less or equal to 1000
+that is a multiple of 7 or 11
+</code></pre></div></div>
+
+<ul>
+  <li>(e) Not a multiple of 7 and 11</li>
+</ul>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code>From let A and B be the set of integers that are less
+or equal to 1000 and is a multiple of 7 and 11, respectively
+
+1000 - |A union B| = 1000 - 220 = 780
+
+So there are 780 positive integers less or equal to 1000
+that is not multiple of 7 and 11
+</code></pre></div></div>
+
+<div class="end-post"></div>
+
+<h4 id="work-11">Work 11.</h4>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Suppose a drawer contains only two types of socks:
+black and white, with 12 of each color. A person takes
+socks from the drawer randomly in the dark.
+
+(a) How many socks must be taken to ensure that
+there are two of the same color? Four of the same color?
+(b) How many socks must be taken to ensure there is
+one pair of black socks?
+(c) If there are 12 more brown socks added to the drawer,
+how many socks must be taken to ensure that there are
+two of the same color?
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p>We make use of the <em>pigeonhole principle</em></p>
+  </li>
+  <li>
+    <p>(a) How many socks must be taken to ensure that
+there are two of the same color? Four of the same color?</p>
+  </li>
+</ul>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code>To ensure that two socks are of the same color, we can
+consider the worst-case scenario where we pick one black
+sock and one white sock (one of each color). In this case,
+taking a third sock would guarantee that it matches one
+of the previous two socks, since there are only two
+colors available.
+
+So, to ensure that there are two socks of the same color,
+the answer is: 3
+
+For four socks of the same color, consider the worst-case
+scenario where we have taken three socks of each color (three
+black and three white), totaling six socks. Taking an
+additional (seventh) sock will guarantee that we have
+four of one color.
+
+Thus, to ensure there are four socks of the same color,
+the answer is: 7
+</code></pre></div></div>
+
+<ul>
+  <li>(b) How many socks must be taken to ensure there is
+one pair of black socks?</li>
+</ul>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code>To ensure we get at least one pair of black socks,
+consider the worst-case scenario where we have picked
+all 12 white socks before picking a black sock.
+In this case, taking two more socks would ensure
+we have two black socks.
+
+Therefore, the answer is: 12 + 2 = 14
+</code></pre></div></div>
+
+<ul>
+  <li>(c) If there are 12 more brown socks added to the drawer,
+how many socks must be taken to ensure that there are
+two of the same color?</li>
+</ul>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Now, there are three colors: black, white, and brown, with
+12 socks of each color. To ensure two socks of the same color,
+we consider the worst-case scenario where we pick one sock of
+each color (one black, one white, and one brown). In this case,
+taking a fourth sock guarantees that it will match one of
+the previously drawn colors.
+
+Thus, to ensure there are two socks of the same color,
+the answer is: 4
+</code></pre></div></div>
+
+<div class="end-post"></div>
+
+<h4 id="work-12">Work 12.</h4>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Prove that in any group of n integers, there are two
+integers that have the same remainder when divided by n-1.
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p><strong><em>Solution:</em></strong></p>
+  </li>
+  <li>
+    <p>We make use of the <em>pigeonhole principle</em></p>
+  </li>
+</ul>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code>When an integer is divided by n - 1, the possible remainders
+are 0, 1, 2, ... , n - 2
+So there are n - 1 total possible remainders
+
+Pigeonhole Principle:
+
+Pigeons -&gt; n integers
+Pigeonholes -&gt; n - 1 possible remainders possible when each
+integer is divided by n - 1
+
+So there are more integers than possible remainders, by the
+pigeonhole principle, at least 2 integers must have the same
+remainder when divided by n - 1
+</code></pre></div></div>
+
+<div class="end-post"></div>
+
+<h4 id="work-17">Work 17.</h4>
+
+<ul>
+  <li>Prove the theorem below:</li>
+</ul>
+
+<blockquote>
+
+\[\begin{gather*}
+\text{For all integers } n, r \text{ that satisfies } 0 \leq r \leq n \quad \\[5pt]
+C_n^r = C_n^{n-r} \quad
+\end{gather*}\]
+</blockquote>
+
+<ul>
+  <li><strong><em>Solution:</em></strong></li>
+</ul>
+
+<blockquote>
+
+\[\begin{gather*}
+\text{LHS = } C_n^r = \frac{n!}{r!(n-r)!} \quad \\[8pt]
+\text{RHS = } C_n^{n-r} = \frac{n!}{(n-r)!r!} = \text{ LHS} \quad
+\end{gather*}\]
+</blockquote>
+
+<div class="end-post"></div>
+
+<h4 id="work-18">Work 18.</h4>
+
+<ul>
+  <li>Prove the theorem below:</li>
+</ul>
+
+<blockquote>
+
+\[\begin{gather*}
+\text{Let } n &gt; k \geq 1 \text{, we have} \quad \\[5pt]
+C_n^k = C_{n-1}^k + C_{n-1}^{k-1} \quad
+\end{gather*}\]
+</blockquote>
+
+<ul>
+  <li><strong><em>Solution:</em></strong></li>
+</ul>
+
+<blockquote>
+
+\[\begin{align*}
+\text{RHS } &amp;= C_{n-1}^k + C_{n-1}^{k-1} \quad \\[8pt]
+&amp;= \frac{(n-1)!}{((n-1) - (k-1))!(k-1)!} + \frac{(n-1)!}{((n-1)-k)!k!} \quad \\[8pt]
+&amp;= \frac{(n-1)!}{(n-k)!(k-1)!} + \frac{(n-1)!}{(n-1-k)!k!} \quad \\[8pt]
+&amp;= \frac{(n-1)!k}{(n-1)!k!} + \frac{(n-1)!(n-k)}{(n-k)!k!} \quad \\[8pt]
+&amp;= \frac{(n-1)!k+(n-1)!(n-k)}{(n-k)!k!} \quad \\[8pt]
+&amp;= \frac{(n-1)!(k+(n-k))}{(n-k)!k!} \quad \\[8pt]
+&amp;= \frac{(n-1)!n}{(n-k)!k!} = \frac{n!}{(n-k)!k!} = C_n^k = \text{ LHS} \quad
+\end{align*}\]
+</blockquote>
+
+<div class="end-post"></div>
+
+<h4 id="work-19">Work 19.</h4>
+
+<ul>
+  <li>Use the theorem in work 18, prove the following identity:</li>
+</ul>
+
+<blockquote>
+
+\[\begin{gather*}
+C_n^k - C_{n-2}^{k-2} = 2C_{n-2}^{k-1} + C_{n-2}^k \quad
+\end{gather*}\]
+</blockquote>
+
+<div class="end-post"></div>
+
+<ul>
+  <li><strong><em>References:</em></strong>
+    <ul>
+      <li><a href="https://math.stackexchange.com/questions/780627/show-that-cn-k-cn-1-k-cn-1-k-1" target="_blank">Mathstackexchange - Work 18 Complement</a></li>
+    </ul>
+  </li>
+</ul>
+
+<div class="end-post">***</div>
+
+                </article>
+            </div>
+        </main>
+        <div class="relative-footer">
+            <footer>
+                <div class="to-top-button-container">
+                    <button class="to-top-button" onclick="scrollToTop()">Top</button>
+                </div>
+                <div>
+                    <p>
+                        
+                        Written by:
+                        
+                        Yuk
+                    </p>
+                    <p>
+                        
+                        Credits:
+                        
+                        Prof. Hoang Anh Duc (MIM - HUS - VNU)
+                    </p>
+                    <p>&copy; 2025 Yukano</p>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script src="/assets/js/scripts.js"></script>
+</body>
+
+</html>

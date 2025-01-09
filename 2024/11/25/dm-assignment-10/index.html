@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="linkage" content="false">
+    <title>MAT3500 - Graph Theory Assignment - Part 2</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <div class="post" data-written-by="" data-credits=""
+        data-categories="">
+    </div>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>MAT3500 - Graph Theory Assignment - Part 2</h1>
+            <div class="date">
+                
+                <span class="date-span">25/11/2024</span>
+
+                
+                <span class="reading-time">
+                    
+                    | Reading time:
+                    
+                    4
+                    
+                    Min.
+                    
+                </span>
+                
+            </div>
+            <div class="navigation-links">
+                <div class="back-link">
+                    <a href="/archive">
+                        
+                        Archive
+                        
+                    </a>
+                </div>
+                <div class="home-link">
+                    <a href="/"
+                        aria-label="Go back">
+                        
+                        Home
+                        
+                    </a>
+                </div>
+            </div>
+            <div class="toggle-light-dark">
+                <button id="toggle-mode-button" onclick="toggleLightMode()">☀️</button>
+            </div>
+            <div class="collapse-expand-all-button">
+                <button class="collapse-expand-all-button" onclick="">🔼</button>
+            </div>
+        </header>
+        <main>
+            <div class="post-content">
+                <article>
+                    <h1 id="mat3500---graph-assignment">MAT3500 - Graph Assignment</h1>
+
+<h3 id="graph-theory-i---hoang-anh-duc---mim---hus---vnu"><a href="https://hoanganhduc.github.io/teaching/VNU-HUS/2024/winter/MAT3500-2/Graphs_I.pdf" target="_blank">Graph Theory I - Hoang Anh Duc - MIM - HUS - VNU</a></h3>
+
+<h3 id="graph-theory-ii---hoang-anh-duc---mim---hus---vnu"><a href="https://hoanganhduc.github.io/teaching/VNU-HUS/2024/winter/MAT3500-2/Graphs_II.pdf" target="_blank">Graph Theory II - Hoang Anh Duc - MIM - HUS - VNU</a></h3>
+
+<h4 id="work-15-i">Work 15 (I).</h4>
+
+<p>Prove that if \(G\) is a simple undirected graph with exactly 2 vertices \(u, v\) with odd degree then these vertices belongs to a single connected component of \(G\).</p>
+
+<p><strong>Solution:</strong></p>
+
+<ul>
+  <li><strong>Vertices with odd degree:</strong> By the handshaking lemma, the number of vertices with odd degrees must be even. Given \(G\) has exactly two vertices \(u\) and \(v\) with odd degrees, there can be no other vertices in \(G\) with odd degree.</li>
+  <li><strong>Structure of \(G\):</strong> If \(u\) and \(v\) does not belong to the same connected component. then \(u\) and \(v\) would lie in different connected components of \(G\).
+    <ul>
+      <li>Consider the connected component \(C_1\) containing \(u\). Since \(u\) has an odd degree, the sum of degress of all vertices in \(C_1\) would be odd, violating the handshaking lemma (as the sum of all degrees in any graph or subgraph must be even).</li>
+      <li>Similarly, the connected component \(C_2\) containing \(v\) would also have an odd degree sum, which again violates the handshaking lemma.</li>
+    </ul>
+  </li>
+  <li>The contradiction implies that \(u\) and \(v\) cannot lie in separate connected components. Therefore, \(u\) and \(v\) must belong to the same connected component.</li>
+</ul>
+
+<div class="end-post"></div>
+
+<h4 id="work-20-i">Work 20 (I).</h4>
+
+<p>Prove that:</p>
+
+\[\begin{align}
+&amp; (1) \quad \kappa(G) \leq \min_{v \in V} \deg_G(v) \quad \\[5pt]
+&amp; (2) \quad \lambda(G) \leq \min_{v \in V} \deg_G(v) \quad
+\end{align}\]
+
+<p>Are true for all undirected connected graph \(G = (V, E)\).</p>
+
+<p><strong>Solution:</strong></p>
+
+<p>(1):</p>
+<ul>
+  <li>Consider the minimum degree of a vertex in \(G\), denoted as \(\delta(G) = \min_{v \in V} \deg_G(v)\).</li>
+  <li>Removing a vertex \(v\) disconnects it from its neighbors. Since \(v\) has exactly \(\deg_G(v)\) neighbors, at most \(\deg_G(v)\) vertices are directly affected when \(v\) is removed.</li>
+  <li>The vertex connectivity \(\kappa (G)\) cannot exceed \(\delta (G)\), because the removal of any single vertex affects at most \(\deg_g(v)\) vertices.</li>
+  <li>Therefore: \(\kappa(G) \leq \min_{v \in V} \deg_G(v)\).</li>
+</ul>
+
+<p>(2):</p>
+<ul>
+  <li>Removing all edges incident to a vertex \(v\) will isolate \(v\) from the rest of the graph. The number of edges incident to \(v\) is \(\deg_G (v)\).</li>
+  <li>The edge connectivity \(\lambda (G)\) is the minimum of edges required to disconnect \(G\). Clearly, \(\lambda(G)\) cannot exceed \(\delta (G)\), because disconnecting \(G\) by removing edges must involve at least as many edges as are incident to the vertex with the smallest degree.</li>
+  <li>Therefore: \(\lambda(G) \leq \min_{v \in V} \deg_G(v)\).</li>
+</ul>
+
+<div class="end-post"></div>
+
+<h4 id="work-21-i">Work 21 (I).</h4>
+
+<p>Find \(\kappa(G)\), \(\lambda(G)\) and \(\min_{v \in V} \deg(v)\) for:</p>
+
+<p><img src="/assets/images/discretemath/graph2.png" alt="graphs" /></p>
+
+<p><strong>Solution:</strong></p>
+
+<ul>
+  <li>Graph (1)
+    <ul>
+      <li>\(\kappa(G) = 2\).</li>
+      <li>\(\lambda(G) = 2\).</li>
+      <li>\(\min_{v \in V} \deg(v) = 2\).</li>
+    </ul>
+  </li>
+  <li>Graph (2)
+    <ul>
+      <li>\(\kappa(G) = 3\).</li>
+      <li>\(\lambda(G) = 3\).</li>
+      <li>\(\min_{v \in V} \deg(v) = 3\).</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="end-post"></div>
+
+<h4 id="work-24-i">Work 24 (I).</h4>
+
+<p>Find the number of paths with length \(n\) between two distinct vertices of \(K_4\) with \(n\) being 2, 3, 4 and 5.</p>
+
+<p><strong>Solution:</strong> 2, 6, 14, 36.</p>
+
+<div class="end-post"></div>
+
+<h4 id="work-2-ii">Work 2 (II).</h4>
+
+<p>With what value of \(n\) does the graphs \(K_n\), \(C_n\), \(W_n\) and \(Q_n\) has an Eulerian circuit.</p>
+
+<p><strong>Solution:</strong></p>
+
+<ul>
+  <li>\(K_n\): \(n\) is odd.</li>
+  <li>\(C_n\): \(n \geq 3\).</li>
+  <li>\(W_n\): \(n\) is even.</li>
+  <li>\(Q_n\): \(n\) is even.</li>
+</ul>
+
+<div class="end-post"></div>
+
+<h4 id="work-4-ii">Work 4 (II).</h4>
+
+<p>Find an Eulerian path/circuit in these graphs if any.</p>
+
+<p><img src="/assets/images/discretemath/graph3.png" alt="graphs" /></p>
+
+<p><strong>Solution:</strong></p>
+
+<ul>
+  <li>Graph (1)
+    <ul>
+      <li>Degrees for a, b, c, d, e: 3, 2, 3, 2, 2.</li>
+      <li>Odd vertices: a and c.</li>
+      <li>EP: Exists.</li>
+      <li>EC: None.</li>
+    </ul>
+  </li>
+  <li>Graph (2)
+    <ul>
+      <li>Degrees for a, b, c, d, e: 2, 3, 3, 2, 4.</li>
+      <li>Odd vertices: b and c.</li>
+      <li>EP: Exists.</li>
+      <li>EC: None.</li>
+    </ul>
+  </li>
+  <li>Graph (3)
+    <ul>
+      <li>Degrees for a, b, c, d, e, f: 4, 4, 4, 4, 4, 4.</li>
+      <li>Odd vertices: None</li>
+      <li>EP: Exists.</li>
+      <li>EC: Exists.</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="end-post"></div>
+
+<h4 id="work-6-ii">Work 6 (II).</h4>
+
+<p>Give a graph where it’s Eulerian circuit is also a Hamilton circuit.</p>
+
+<p><strong>Solution:</strong> \(C_3\)</p>
+
+<div class="end-post"></div>
+
+<h4 id="work-7-ii">Work 7 (II).</h4>
+
+<p>Which of the following graphs has a Hamilton circuit and why.</p>
+
+<p><img src="/assets/images/discretemath/graph4.png" alt="graphs" /></p>
+
+<p><strong>Solution:</strong></p>
+
+<ul>
+  <li>Graph (1)
+    <ul>
+      <li>HC: Exists: a -&gt; b -&gt; e -&gt; d -&gt; c -&gt; a.</li>
+    </ul>
+  </li>
+  <li>Graph (2)
+    <ul>
+      <li>HC: None.</li>
+    </ul>
+  </li>
+  <li>Graph (3)
+    <ul>
+      <li>HC: Exists: a -&gt; e -&gt; c -&gt; d -&gt; b -&gt; f -&gt; a.</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="end-post"></div>
+
+<div class="end-post">***</div>
+
+                </article>
+            </div>
+        </main>
+        <div class="relative-footer">
+            <footer>
+                <div class="to-top-button-container">
+                    <button class="to-top-button" onclick="scrollToTop()">Top</button>
+                </div>
+                <div>
+                    <p>
+                        
+                        Written by:
+                        
+                        Yuk
+                    </p>
+                    <p>
+                        
+                        Credits:
+                        
+                        Prof. Hoang Anh Duc (MIM - HUS - VNU)
+                    </p>
+                    <p>&copy; 2025 Yukano</p>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script src="/assets/js/scripts.js"></script>
+</body>
+
+</html>
