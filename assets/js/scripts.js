@@ -98,7 +98,7 @@ function updatePostsVisibility() {
         const matchesFilter = currentFilter === 'all' || categories.some(cat => cat.includes(currentFilter));
 
         // Determine if the post matches the search input
-        const matchesSearch = !searchActive || 
+        const matchesSearch = !searchActive ||
             [title, description, writtenBy, credits, ...categories, ...tags].some(field => field.includes(searchInput));
 
         // Show or hide the post based on the conditions
@@ -155,22 +155,22 @@ function toggleLightMode() {
     toggleButton.textContent = !isLightMode ? '🌙' : '☀️';
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    const isLightMode = localStorage.getItem('light-mode') === 'true';
-    const body = document.querySelector('body');
-    const html = document.querySelector('html');
-    const toggleButton = document.getElementById('toggle-mode-button');
+// document.addEventListener('DOMContentLoaded', () => {
+//     const isLightMode = localStorage.getItem('light-mode') === 'true';
+//     const body = document.querySelector('body');
+//     const html = document.querySelector('html');
+//     const toggleButton = document.getElementById('toggle-mode-button');
 
-    if (isLightMode) {
-        body.classList.add('light-mode');
-        html.classList.add('light-mode');
-        toggleButton.textContent = '🌙';
-    } else {
-        body.classList.remove('light-mode');
-        html.classList.remove('light-mode');
-        toggleButton.textContent = '☀️';
-    }
-});
+//     if (isLightMode) {
+//         body.classList.add('light-mode');
+//         html.classList.add('light-mode');
+//         toggleButton.textContent = '🌙';
+//     } else {
+//         body.classList.remove('light-mode');
+//         html.classList.remove('light-mode');
+//         toggleButton.textContent = '☀️';
+//     }
+// });
 
 function toggleThumbnail() {
     showThumbnails = !showThumbnails;
@@ -300,6 +300,25 @@ document.addEventListener('DOMContentLoaded', function () {
                 collapseButton.textContent = highlight.classList.contains('collapsed') ? '🔽' : '🔼';
             });
         }
+
+        const codeElement = highlight.querySelector('code');
+        if (codeElement && !highlight.querySelector('.line-numbers')) {
+            const codeText = codeElement.textContent;  // Use textContent instead of innerHTML
+            const codeLines = codeText.split('\n');
+            
+            // Create line numbers container
+            const lineNumbersDiv = document.createElement('div');
+            lineNumbersDiv.className = 'line-numbers';
+        
+            // Create line numbers, excluding the final one
+            const lineNumbers = codeLines.slice(0, -1)
+                .map((_, index) => `<div class="line-number">${index + 1}</div>`)
+                .join('');
+            lineNumbersDiv.innerHTML = lineNumbers;
+        
+            // Insert line numbers before the code
+            highlight.insertBefore(lineNumbersDiv, highlight.firstChild);
+        }
     });
 
     // Handle blockquote elements
@@ -311,20 +330,20 @@ document.addEventListener('DOMContentLoaded', function () {
             content.appendChild(blockquote.firstChild);
         }
         blockquote.appendChild(content);
-    
+
         const blockNumber = `Block #${index + 1}`;
-    
+
         if (!blockquote.querySelector('.collapse-button')) {
             const collapseButton = document.createElement('button');
             collapseButton.textContent = '🔼';
             collapseButton.className = 'collapse-button';
             blockquote.appendChild(collapseButton);
-    
+
             const languageLabel = document.createElement('span');
             languageLabel.className = 'language-label';
             languageLabel.textContent = blockNumber;
             blockquote.appendChild(languageLabel); // Always appended and visible
-    
+
             collapseButton.addEventListener('click', function () {
                 blockquote.classList.toggle('collapsed');
                 collapseButton.textContent = blockquote.classList.contains('collapsed') ? '🔽' : '🔼';
@@ -335,24 +354,24 @@ document.addEventListener('DOMContentLoaded', function () {
 
 document.addEventListener("DOMContentLoaded", function () {
     // Check if the 'linkage' frontmatter exists and is true
-    const linkage = document.querySelector('meta[name="linkage"]') 
-                    ? document.querySelector('meta[name="linkage"]').getAttribute('content') === 'true' 
-                    : false;
-    
+    const linkage = document.querySelector('meta[name="linkage"]')
+        ? document.querySelector('meta[name="linkage"]').getAttribute('content') === 'true'
+        : false;
+
     if (linkage) {
         // Handle TOC
         const toc = document.getElementById("table-of-contents");
         const headings = document.querySelectorAll("main h2, main h3, main h4");
         let tocContent = "<ul>";
-        
+
         headings.forEach((heading) => {
             const id = heading.id;
             const text = heading.textContent;
             const tagName = heading.tagName.toLowerCase();
-            
+
             if (id) {
                 const fullUrl = `${window.location.origin}${window.location.pathname}#${id}`;
-                
+
                 // Add to TOC (for headings inside main content)
                 if (heading.closest('.post-content')) {
                     tocContent += `
@@ -397,7 +416,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             }
         });
-        
+
         tocContent += "</ul>";
         toc.innerHTML = tocContent;
     }
@@ -425,12 +444,12 @@ function scrollToTop() {
 window.addEventListener('load', function () {
     // Select all tables on the page
     const tables = document.querySelectorAll('table');
-    
+
     tables.forEach(table => {
         // Create a new wrapper div
         const wrapper = document.createElement('div');
         wrapper.classList.add('table-wrapper');  // Add class to the wrapper
-        
+
         // Move the table inside the wrapper
         table.parentNode.insertBefore(wrapper, table);
         wrapper.appendChild(table);

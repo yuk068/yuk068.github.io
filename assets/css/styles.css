@@ -695,11 +695,14 @@ blockquote li {
     box-sizing: border-box;
     background-color: var(--codeblock-highlight-bg);
     padding: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
     overflow-x: auto;
     overflow-y: hidden;
     font-size: 16px;
     border-radius: 10px;
-    margin: 20px auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
     justify-content: center;
     transition: all 0.5s ease;
     max-height: 6000px;
@@ -708,7 +711,6 @@ blockquote li {
 .highlight.collapsed {
     transform: scaleY(0.95);
     max-height: 60px;
-    overflow: hidden;
     overflow: hidden;
 }
 
@@ -721,6 +723,7 @@ blockquote li {
     overflow-x: auto;
     overflow-y: hidden;
     max-height: 2000px;
+    /* padding-left: 10px; */
     color: var(--highlight-code);
     transition: max-height 0.5s ease-in-out, opacity 0.3s ease, padding 0.3s ease, margin 0.3s ease;
 }
@@ -731,6 +734,39 @@ blockquote li {
     margin: 0;
     max-height: 10px;
     overflow: hidden;
+}
+
+.line-numbers {
+    position: absolute;
+    left: 0px;
+    top: 60px;
+    white-space: nowrap;
+    text-align: right;
+    color: var(--button-text-color);
+    border-right: 2px solid var(--button-text-color);
+    background-color: var(--blockquote-bg-color);
+    font-family: monospace;
+    font-size: 16px;
+    padding-right: 10px;
+    padding-left: 10px;
+    pointer-events: none;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+    user-select: none;
+    z-index: 999;
+    width: 25px;  /* Fixed width for the container */
+    white-space: nowrap;  /* Prevents line breaks inside the container */
+}
+
+.highlight.collapsed .line-numbers {
+    opacity: 0;
+}
+
+.highlight pre {
+    padding-left: 35px;
+    padding-bottom: 10px;
+    background: none;
+    box-shadow: none;
 }
 
 .highlight::-webkit-scrollbar {
@@ -753,11 +789,6 @@ blockquote li {
     background: color-mix(in srgb, var(--blockquote-scroll-thumb), #000 20%);
 }
 
-.highlight pre {
-    padding-bottom: 10px;
-    background: none;
-    box-shadow: none;
-}
 
 .highlight .kd {
     color: var(--highlight-kd);
@@ -837,6 +868,7 @@ blockquote li {
     padding: 5px 20px;
     box-shadow: var(--box-shadow-part-1), var(--box-shadow-part-2);
     text-decoration: none;
+    cursor: pointer;
     transition: all 0.2s ease;
 }
 
@@ -1346,6 +1378,11 @@ h4 .copy-toc {
 
 @media only screen and (max-width: 768px) {
 
+    .line-numbers {
+        opacity: 0;
+        display: none;
+    }
+
     .posts blockquote {
         max-width: 90%;
     }
@@ -1408,6 +1445,13 @@ h4 .copy-toc {
 
     .highlight {
         padding: 25px 10px;
+    }
+
+    .highlight pre {
+        padding-left: 10px;
+        padding-bottom: 10px;
+        background: none;
+        box-shadow: none;
     }
 
     header h1 {

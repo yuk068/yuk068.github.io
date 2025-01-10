@@ -66,13 +66,120 @@
   <div id="table-of-contents"></div>
 </blockquote>
 
-<p>Last Deployed: <strong><em>01:20 AM (GMT+0700) January 10th 2025</em></strong></p>
+<p>Last Deployed: <strong><em>06:11 PM (GMT+0700) January 10th 2025</em></strong></p>
+
+<h2 id="update-codeblocks-jan-10th-2024">Update Codeblocks (Jan. 10th 2024)</h2>
+
+<h3 id="codeblocks-line-numbers">Codeblocks Line Numbers</h3>
+
+<p>Codeblocks now have line numbers on the left (no line numbers on mobile)</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SevenSegmentDisplay</span> <span class="o">{</span>
+    <span class="c1">// Array representation of the 7-segment display for digits 0–9</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span><span class="o">[][]</span> <span class="no">DIGITS</span> <span class="o">=</span> <span class="o">{</span>
+        <span class="o">{</span> <span class="s">" _ "</span><span class="o">,</span> <span class="s">"| |"</span><span class="o">,</span> <span class="s">"|_|"</span> <span class="o">},</span> <span class="c1">// 0</span>
+        <span class="o">{</span> <span class="s">"   "</span><span class="o">,</span> <span class="s">"  |"</span><span class="o">,</span> <span class="s">"  |"</span> <span class="o">},</span> <span class="c1">// 1</span>
+        <span class="o">{</span> <span class="s">" _ "</span><span class="o">,</span> <span class="s">" _|"</span><span class="o">,</span> <span class="s">"|_ "</span> <span class="o">},</span> <span class="c1">// 2</span>
+        <span class="o">{</span> <span class="s">" _ "</span><span class="o">,</span> <span class="s">" _|"</span><span class="o">,</span> <span class="s">" _|"</span> <span class="o">},</span> <span class="c1">// 3</span>
+        <span class="o">{</span> <span class="s">"   "</span><span class="o">,</span> <span class="s">"|_|"</span><span class="o">,</span> <span class="s">"  |"</span> <span class="o">},</span> <span class="c1">// 4</span>
+        <span class="o">{</span> <span class="s">" _ "</span><span class="o">,</span> <span class="s">"|_ "</span><span class="o">,</span> <span class="s">" _|"</span> <span class="o">},</span> <span class="c1">// 5</span>
+        <span class="o">{</span> <span class="s">" _ "</span><span class="o">,</span> <span class="s">"|_ "</span><span class="o">,</span> <span class="s">"|_|"</span> <span class="o">},</span> <span class="c1">// 6</span>
+        <span class="o">{</span> <span class="s">" _ "</span><span class="o">,</span> <span class="s">"  |"</span><span class="o">,</span> <span class="s">"  |"</span> <span class="o">},</span> <span class="c1">// 7</span>
+        <span class="o">{</span> <span class="s">" _ "</span><span class="o">,</span> <span class="s">"|_|"</span><span class="o">,</span> <span class="s">"|_|"</span> <span class="o">},</span> <span class="c1">// 8</span>
+        <span class="o">{</span> <span class="s">" _ "</span><span class="o">,</span> <span class="s">"|_|"</span><span class="o">,</span> <span class="s">" _|"</span> <span class="o">}</span>  <span class="c1">// 9</span>
+    <span class="o">};</span>
+
+    <span class="c1">// Function to display a single digit</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">displayDigit</span><span class="o">(</span><span class="kt">int</span> <span class="n">digit</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">digit</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">digit</span> <span class="o">&gt;</span> <span class="mi">9</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Invalid digit. Only 0-9 are supported."</span><span class="o">);</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">for</span> <span class="o">(</span><span class="nc">String</span> <span class="n">row</span> <span class="o">:</span> <span class="no">DIGITS</span><span class="o">[</span><span class="n">digit</span><span class="o">])</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">row</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="c1">// Function to display a multi-digit number</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">displayNumber</span><span class="o">(</span><span class="kt">int</span> <span class="n">number</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">String</span> <span class="n">numberStr</span> <span class="o">=</span> <span class="nc">String</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">number</span><span class="o">);</span>
+        <span class="nc">StringBuilder</span><span class="o">[]</span> <span class="n">rows</span> <span class="o">=</span> <span class="o">{</span> <span class="k">new</span> <span class="nc">StringBuilder</span><span class="o">(),</span> <span class="k">new</span> <span class="nc">StringBuilder</span><span class="o">(),</span> <span class="k">new</span> <span class="nc">StringBuilder</span><span class="o">()</span> <span class="o">};</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="kt">char</span> <span class="n">c</span> <span class="o">:</span> <span class="n">numberStr</span><span class="o">.</span><span class="na">toCharArray</span><span class="o">())</span> <span class="o">{</span>
+            <span class="kt">int</span> <span class="n">digit</span> <span class="o">=</span> <span class="nc">Character</span><span class="o">.</span><span class="na">getNumericValue</span><span class="o">(</span><span class="n">c</span><span class="o">);</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+                <span class="n">rows</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">append</span><span class="o">(</span><span class="no">DIGITS</span><span class="o">[</span><span class="n">digit</span><span class="o">][</span><span class="n">i</span><span class="o">]).</span><span class="na">append</span><span class="o">(</span><span class="s">" "</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="nc">StringBuilder</span> <span class="n">row</span> <span class="o">:</span> <span class="n">rows</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">row</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Displaying single digit (5):"</span><span class="o">);</span>
+        <span class="n">displayDigit</span><span class="o">(</span><span class="mi">5</span><span class="o">);</span>
+
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"\nDisplaying number (12345):"</span><span class="o">);</span>
+        <span class="n">displayNumber</span><span class="o">(</span><span class="mi">12345</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Dictionary representation of the 7-segment display for digits 0–9
+</span><span class="n">DIGITS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="mi">0</span><span class="p">:</span> <span class="p">[</span><span class="sh">"</span><span class="s"> _ </span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">| |</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">|_|</span><span class="sh">"</span><span class="p">],</span>
+    <span class="mi">1</span><span class="p">:</span> <span class="p">[</span><span class="sh">"</span><span class="s">   </span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">  |</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">  |</span><span class="sh">"</span><span class="p">],</span>
+    <span class="mi">2</span><span class="p">:</span> <span class="p">[</span><span class="sh">"</span><span class="s"> _ </span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s"> _|</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">|_ </span><span class="sh">"</span><span class="p">],</span>
+    <span class="mi">3</span><span class="p">:</span> <span class="p">[</span><span class="sh">"</span><span class="s"> _ </span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s"> _|</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s"> _|</span><span class="sh">"</span><span class="p">],</span>
+    <span class="mi">4</span><span class="p">:</span> <span class="p">[</span><span class="sh">"</span><span class="s">   </span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">|_|</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">  |</span><span class="sh">"</span><span class="p">],</span>
+    <span class="mi">5</span><span class="p">:</span> <span class="p">[</span><span class="sh">"</span><span class="s"> _ </span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">|_ </span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s"> _|</span><span class="sh">"</span><span class="p">],</span>
+    <span class="mi">6</span><span class="p">:</span> <span class="p">[</span><span class="sh">"</span><span class="s"> _ </span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">|_ </span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">|_|</span><span class="sh">"</span><span class="p">],</span>
+    <span class="mi">7</span><span class="p">:</span> <span class="p">[</span><span class="sh">"</span><span class="s"> _ </span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">  |</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">  |</span><span class="sh">"</span><span class="p">],</span>
+    <span class="mi">8</span><span class="p">:</span> <span class="p">[</span><span class="sh">"</span><span class="s"> _ </span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">|_|</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">|_|</span><span class="sh">"</span><span class="p">],</span>
+    <span class="mi">9</span><span class="p">:</span> <span class="p">[</span><span class="sh">"</span><span class="s"> _ </span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">|_|</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s"> _|</span><span class="sh">"</span><span class="p">]</span>
+<span class="p">}</span>
+
+<span class="k">def</span> <span class="nf">display_digit</span><span class="p">(</span><span class="n">digit</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">digit</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">DIGITS</span><span class="p">:</span>
+        <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Invalid digit. Only 0-9 are supported.</span><span class="sh">"</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">DIGITS</span><span class="p">[</span><span class="n">digit</span><span class="p">]:</span>
+        <span class="nf">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">display_number</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
+    <span class="n">number_str</span> <span class="o">=</span> <span class="nf">str</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="p">[</span><span class="sh">""</span><span class="p">,</span> <span class="sh">""</span><span class="p">,</span> <span class="sh">""</span><span class="p">]</span>
+    
+    <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">number_str</span><span class="p">:</span>
+        <span class="n">digit</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="n">char</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">(</span><span class="n">DIGITS</span><span class="p">[</span><span class="n">digit</span><span class="p">]):</span>
+            <span class="n">rows</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">row</span> <span class="o">+</span> <span class="sh">"</span><span class="s"> </span><span class="sh">"</span>
+
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+        <span class="nf">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="sh">"</span><span class="s">__main__</span><span class="sh">"</span><span class="p">:</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Displaying single digit (5):</span><span class="sh">"</span><span class="p">)</span>
+    <span class="nf">display_digit</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="se">\n</span><span class="s">Displaying number (12345):</span><span class="sh">"</span><span class="p">)</span>
+    <span class="nf">display_number</span><span class="p">(</span><span class="mi">12345</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="two-new-web-projects">Two New Web Projects</h3>
+
+<ul>
+  <li>Tic Tac Toe</li>
+  <li>Game of Life</li>
+</ul>
 
 <h2 id="new-page-web-project-jan-10th-2024">New Page: Web Project (Jan. 10th 2024)</h2>
 
 <p>Added <strong>Web Project</strong> page. I will post web-related project there, I’m not really into web development so maybe don’t expect frequent uploads there. Best way to experience it is to try it yourself:</p>
 
-<div class="web-project-button"><a href="/web-app/">Web Project</a></div>
+<div class="web-project-button"><a href="/web-project/">Web Project</a></div>
 <p><br /></p>
 
 <h2 id="new-features-on-yuks-blog-jan-9th-2024">New Features on Yuk’s Blog (Jan. 9th 2024)</h2>

@@ -1,14 +1,121 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-01-10T01:20:14+07:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Yuk’s Blog</title><subtitle></subtitle><entry><title type="html">Thread - Blog Update Log</title><link href="http://localhost:4000/update-log/" rel="alternate" type="text/html" title="Thread - Blog Update Log" /><published>2025-01-10T00:00:00+07:00</published><updated>2025-01-10T00:00:00+07:00</updated><id>http://localhost:4000/blog-updates-thread</id><content type="html" xml:base="http://localhost:4000/update-log/"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-01-10T18:11:55+07:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Yuk’s Blog</title><subtitle></subtitle><entry><title type="html">Thread - Blog Update Log</title><link href="http://localhost:4000/update-log/" rel="alternate" type="text/html" title="Thread - Blog Update Log" /><published>2025-01-10T00:00:00+07:00</published><updated>2025-01-10T00:00:00+07:00</updated><id>http://localhost:4000/blog-updates-thread</id><content type="html" xml:base="http://localhost:4000/update-log/"><![CDATA[<blockquote>
   <div id="table-of-contents"></div>
 </blockquote>
 
-<p>Last Deployed: <strong><em>01:20 AM (GMT+0700) January 10th 2025</em></strong></p>
+<p>Last Deployed: <strong><em>06:11 PM (GMT+0700) January 10th 2025</em></strong></p>
+
+<h2 id="update-codeblocks-jan-10th-2024">Update Codeblocks (Jan. 10th 2024)</h2>
+
+<h3 id="codeblocks-line-numbers">Codeblocks Line Numbers</h3>
+
+<p>Codeblocks now have line numbers on the left (no line numbers on mobile)</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SevenSegmentDisplay</span> <span class="o">{</span>
+    <span class="c1">// Array representation of the 7-segment display for digits 0–9</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span><span class="o">[][]</span> <span class="no">DIGITS</span> <span class="o">=</span> <span class="o">{</span>
+        <span class="o">{</span> <span class="s">" _ "</span><span class="o">,</span> <span class="s">"| |"</span><span class="o">,</span> <span class="s">"|_|"</span> <span class="o">},</span> <span class="c1">// 0</span>
+        <span class="o">{</span> <span class="s">"   "</span><span class="o">,</span> <span class="s">"  |"</span><span class="o">,</span> <span class="s">"  |"</span> <span class="o">},</span> <span class="c1">// 1</span>
+        <span class="o">{</span> <span class="s">" _ "</span><span class="o">,</span> <span class="s">" _|"</span><span class="o">,</span> <span class="s">"|_ "</span> <span class="o">},</span> <span class="c1">// 2</span>
+        <span class="o">{</span> <span class="s">" _ "</span><span class="o">,</span> <span class="s">" _|"</span><span class="o">,</span> <span class="s">" _|"</span> <span class="o">},</span> <span class="c1">// 3</span>
+        <span class="o">{</span> <span class="s">"   "</span><span class="o">,</span> <span class="s">"|_|"</span><span class="o">,</span> <span class="s">"  |"</span> <span class="o">},</span> <span class="c1">// 4</span>
+        <span class="o">{</span> <span class="s">" _ "</span><span class="o">,</span> <span class="s">"|_ "</span><span class="o">,</span> <span class="s">" _|"</span> <span class="o">},</span> <span class="c1">// 5</span>
+        <span class="o">{</span> <span class="s">" _ "</span><span class="o">,</span> <span class="s">"|_ "</span><span class="o">,</span> <span class="s">"|_|"</span> <span class="o">},</span> <span class="c1">// 6</span>
+        <span class="o">{</span> <span class="s">" _ "</span><span class="o">,</span> <span class="s">"  |"</span><span class="o">,</span> <span class="s">"  |"</span> <span class="o">},</span> <span class="c1">// 7</span>
+        <span class="o">{</span> <span class="s">" _ "</span><span class="o">,</span> <span class="s">"|_|"</span><span class="o">,</span> <span class="s">"|_|"</span> <span class="o">},</span> <span class="c1">// 8</span>
+        <span class="o">{</span> <span class="s">" _ "</span><span class="o">,</span> <span class="s">"|_|"</span><span class="o">,</span> <span class="s">" _|"</span> <span class="o">}</span>  <span class="c1">// 9</span>
+    <span class="o">};</span>
+
+    <span class="c1">// Function to display a single digit</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">displayDigit</span><span class="o">(</span><span class="kt">int</span> <span class="n">digit</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">digit</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">digit</span> <span class="o">&gt;</span> <span class="mi">9</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Invalid digit. Only 0-9 are supported."</span><span class="o">);</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">for</span> <span class="o">(</span><span class="nc">String</span> <span class="n">row</span> <span class="o">:</span> <span class="no">DIGITS</span><span class="o">[</span><span class="n">digit</span><span class="o">])</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">row</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="c1">// Function to display a multi-digit number</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">displayNumber</span><span class="o">(</span><span class="kt">int</span> <span class="n">number</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">String</span> <span class="n">numberStr</span> <span class="o">=</span> <span class="nc">String</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">number</span><span class="o">);</span>
+        <span class="nc">StringBuilder</span><span class="o">[]</span> <span class="n">rows</span> <span class="o">=</span> <span class="o">{</span> <span class="k">new</span> <span class="nc">StringBuilder</span><span class="o">(),</span> <span class="k">new</span> <span class="nc">StringBuilder</span><span class="o">(),</span> <span class="k">new</span> <span class="nc">StringBuilder</span><span class="o">()</span> <span class="o">};</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="kt">char</span> <span class="n">c</span> <span class="o">:</span> <span class="n">numberStr</span><span class="o">.</span><span class="na">toCharArray</span><span class="o">())</span> <span class="o">{</span>
+            <span class="kt">int</span> <span class="n">digit</span> <span class="o">=</span> <span class="nc">Character</span><span class="o">.</span><span class="na">getNumericValue</span><span class="o">(</span><span class="n">c</span><span class="o">);</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+                <span class="n">rows</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">append</span><span class="o">(</span><span class="no">DIGITS</span><span class="o">[</span><span class="n">digit</span><span class="o">][</span><span class="n">i</span><span class="o">]).</span><span class="na">append</span><span class="o">(</span><span class="s">" "</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="nc">StringBuilder</span> <span class="n">row</span> <span class="o">:</span> <span class="n">rows</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">row</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Displaying single digit (5):"</span><span class="o">);</span>
+        <span class="n">displayDigit</span><span class="o">(</span><span class="mi">5</span><span class="o">);</span>
+
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"\nDisplaying number (12345):"</span><span class="o">);</span>
+        <span class="n">displayNumber</span><span class="o">(</span><span class="mi">12345</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Dictionary representation of the 7-segment display for digits 0–9
+</span><span class="n">DIGITS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="mi">0</span><span class="p">:</span> <span class="p">[</span><span class="sh">"</span><span class="s"> _ </span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">| |</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">|_|</span><span class="sh">"</span><span class="p">],</span>
+    <span class="mi">1</span><span class="p">:</span> <span class="p">[</span><span class="sh">"</span><span class="s">   </span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">  |</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">  |</span><span class="sh">"</span><span class="p">],</span>
+    <span class="mi">2</span><span class="p">:</span> <span class="p">[</span><span class="sh">"</span><span class="s"> _ </span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s"> _|</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">|_ </span><span class="sh">"</span><span class="p">],</span>
+    <span class="mi">3</span><span class="p">:</span> <span class="p">[</span><span class="sh">"</span><span class="s"> _ </span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s"> _|</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s"> _|</span><span class="sh">"</span><span class="p">],</span>
+    <span class="mi">4</span><span class="p">:</span> <span class="p">[</span><span class="sh">"</span><span class="s">   </span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">|_|</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">  |</span><span class="sh">"</span><span class="p">],</span>
+    <span class="mi">5</span><span class="p">:</span> <span class="p">[</span><span class="sh">"</span><span class="s"> _ </span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">|_ </span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s"> _|</span><span class="sh">"</span><span class="p">],</span>
+    <span class="mi">6</span><span class="p">:</span> <span class="p">[</span><span class="sh">"</span><span class="s"> _ </span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">|_ </span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">|_|</span><span class="sh">"</span><span class="p">],</span>
+    <span class="mi">7</span><span class="p">:</span> <span class="p">[</span><span class="sh">"</span><span class="s"> _ </span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">  |</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">  |</span><span class="sh">"</span><span class="p">],</span>
+    <span class="mi">8</span><span class="p">:</span> <span class="p">[</span><span class="sh">"</span><span class="s"> _ </span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">|_|</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">|_|</span><span class="sh">"</span><span class="p">],</span>
+    <span class="mi">9</span><span class="p">:</span> <span class="p">[</span><span class="sh">"</span><span class="s"> _ </span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">|_|</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s"> _|</span><span class="sh">"</span><span class="p">]</span>
+<span class="p">}</span>
+
+<span class="k">def</span> <span class="nf">display_digit</span><span class="p">(</span><span class="n">digit</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">digit</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">DIGITS</span><span class="p">:</span>
+        <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Invalid digit. Only 0-9 are supported.</span><span class="sh">"</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">DIGITS</span><span class="p">[</span><span class="n">digit</span><span class="p">]:</span>
+        <span class="nf">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">display_number</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
+    <span class="n">number_str</span> <span class="o">=</span> <span class="nf">str</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="p">[</span><span class="sh">""</span><span class="p">,</span> <span class="sh">""</span><span class="p">,</span> <span class="sh">""</span><span class="p">]</span>
+    
+    <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">number_str</span><span class="p">:</span>
+        <span class="n">digit</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="n">char</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">(</span><span class="n">DIGITS</span><span class="p">[</span><span class="n">digit</span><span class="p">]):</span>
+            <span class="n">rows</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">row</span> <span class="o">+</span> <span class="sh">"</span><span class="s"> </span><span class="sh">"</span>
+
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+        <span class="nf">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="sh">"</span><span class="s">__main__</span><span class="sh">"</span><span class="p">:</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Displaying single digit (5):</span><span class="sh">"</span><span class="p">)</span>
+    <span class="nf">display_digit</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="se">\n</span><span class="s">Displaying number (12345):</span><span class="sh">"</span><span class="p">)</span>
+    <span class="nf">display_number</span><span class="p">(</span><span class="mi">12345</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="two-new-web-projects">Two New Web Projects</h3>
+
+<ul>
+  <li>Tic Tac Toe</li>
+  <li>Game of Life</li>
+</ul>
 
 <h2 id="new-page-web-project-jan-10th-2024">New Page: Web Project (Jan. 10th 2024)</h2>
 
 <p>Added <strong>Web Project</strong> page. I will post web-related project there, I’m not really into web development so maybe don’t expect frequent uploads there. Best way to experience it is to try it yourself:</p>
 
-<div class="web-project-button"><a href="/web-app/">Web Project</a></div>
+<div class="web-project-button"><a href="/web-project/">Web Project</a></div>
 <p><br /></p>
 
 <h2 id="new-features-on-yuks-blog-jan-9th-2024">New Features on Yuk’s Blog (Jan. 9th 2024)</h2>
@@ -431,7 +538,246 @@ This series converges for all values of \(x\), and provides a powerful tool for 
   <li><strong>The 🔑 button:</strong> Lets go gambling.</li>
 </ul>
 
-<div class="end-post">***</div>]]></content><author><name></name></author><category term="thread" /><category term="update" /><category term="Thread" /><category term="Update" /><category term="Blogging" /><category term="Web Development" /><summary type="html"><![CDATA[Running thread of new features and changes on my blog]]></summary></entry><entry><title type="html">Tic Tac Toe</title><link href="http://localhost:4000/2025/01/09/tic-tac-toe/" rel="alternate" type="text/html" title="Tic Tac Toe" /><published>2025-01-09T00:00:00+07:00</published><updated>2025-01-09T00:00:00+07:00</updated><id>http://localhost:4000/2025/01/09/tic-tac-toe</id><content type="html" xml:base="http://localhost:4000/2025/01/09/tic-tac-toe/"><![CDATA[<div class="divider"></div>
+<div class="end-post">***</div>]]></content><author><name></name></author><category term="thread" /><category term="update" /><category term="Thread" /><category term="Update" /><category term="Blogging" /><category term="Web Development" /><summary type="html"><![CDATA[Running thread of new features and changes on my blog]]></summary></entry><entry><title type="html">Game of Life</title><link href="http://localhost:4000/2025/01/10/game-of-life/" rel="alternate" type="text/html" title="Game of Life" /><published>2025-01-10T00:00:00+07:00</published><updated>2025-01-10T00:00:00+07:00</updated><id>http://localhost:4000/2025/01/10/game-of-life</id><content type="html" xml:base="http://localhost:4000/2025/01/10/game-of-life/"><![CDATA[<div class="divider"></div>
+
+<h2 id="source-code">Source Code:</h2>
+
+<h3 id="html">HTML</h3>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;main&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"game-container"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"canvas-container"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;canvas</span> <span class="na">id=</span><span class="s">"gameCanvas"</span><span class="nt">&gt;&lt;/canvas&gt;</span>
+        <span class="nt">&lt;/div&gt;</span>
+        <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"controls"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;button</span> <span class="na">id=</span><span class="s">"startButton"</span><span class="nt">&gt;</span>Start<span class="nt">&lt;/button&gt;</span>
+            <span class="nt">&lt;button</span> <span class="na">id=</span><span class="s">"stopButton"</span><span class="nt">&gt;</span>Stop<span class="nt">&lt;/button&gt;</span>
+            <span class="nt">&lt;button</span> <span class="na">id=</span><span class="s">"resetButton"</span><span class="nt">&gt;</span>Reset<span class="nt">&lt;/button&gt;</span>
+            <span class="nt">&lt;button</span> <span class="na">id=</span><span class="s">"randomizeBtn"</span><span class="nt">&gt;</span>Randomize<span class="nt">&lt;/button&gt;</span>
+        <span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/main&gt;</span>
+</code></pre></div></div>
+
+<h3 id="css">CSS</h3>
+
+<div class="language-css highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">.game-container</span> <span class="p">{</span>
+    <span class="nl">display</span><span class="p">:</span> <span class="n">flex</span><span class="p">;</span>
+    <span class="nl">flex-direction</span><span class="p">:</span> <span class="n">column</span><span class="p">;</span>
+    <span class="nl">align-items</span><span class="p">:</span> <span class="nb">center</span><span class="p">;</span>
+    <span class="nl">justify-content</span><span class="p">:</span> <span class="nb">center</span><span class="p">;</span>
+    <span class="nl">padding</span><span class="p">:</span> <span class="m">20px</span><span class="p">;</span>
+    <span class="nl">background-color</span><span class="p">:</span> <span class="m">#292929</span><span class="p">;</span>
+    <span class="nl">border</span><span class="p">:</span> <span class="m">3px</span> <span class="nb">solid</span> <span class="m">#6bd9fa</span><span class="p">;</span>
+    <span class="nl">border-radius</span><span class="p">:</span> <span class="m">10px</span><span class="p">;</span>
+    <span class="nl">box-shadow</span><span class="p">:</span> <span class="m">0</span> <span class="m">4px</span> <span class="m">10px</span> <span class="n">rgba</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0.1</span><span class="p">);</span>
+    <span class="nl">max-width</span><span class="p">:</span> <span class="m">500px</span><span class="p">;</span>
+    <span class="nl">margin</span><span class="p">:</span> <span class="m">20px</span> <span class="nb">auto</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.canvas-container</span> <span class="p">{</span>
+    <span class="nl">display</span><span class="p">:</span> <span class="n">flex</span><span class="p">;</span>
+    <span class="nl">justify-content</span><span class="p">:</span> <span class="nb">center</span><span class="p">;</span>
+    <span class="nl">align-items</span><span class="p">:</span> <span class="nb">center</span><span class="p">;</span>
+    <span class="nl">width</span><span class="p">:</span> <span class="m">100%</span><span class="p">;</span>
+    <span class="nl">margin</span><span class="p">:</span> <span class="m">10px</span> <span class="m">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nt">canvas</span> <span class="p">{</span>
+    <span class="nl">width</span><span class="p">:</span> <span class="m">100%</span><span class="p">;</span>
+    <span class="nl">height</span><span class="p">:</span> <span class="nb">auto</span><span class="p">;</span>
+    <span class="nl">background-color</span><span class="p">:</span> <span class="m">#2e2e2e</span><span class="p">;</span>
+    <span class="nl">border</span><span class="p">:</span> <span class="m">2px</span> <span class="nb">solid</span> <span class="m">#333</span><span class="p">;</span>
+    <span class="nl">border-radius</span><span class="p">:</span> <span class="m">5px</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.controls</span> <span class="p">{</span>
+    <span class="nl">display</span><span class="p">:</span> <span class="n">flex</span><span class="p">;</span>
+    <span class="nl">flex-wrap</span><span class="p">:</span> <span class="n">wrap</span><span class="p">;</span>
+    <span class="py">gap</span><span class="p">:</span> <span class="m">10px</span><span class="p">;</span>
+    <span class="nl">margin-top</span><span class="p">:</span> <span class="m">20px</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.controls</span> <span class="nt">button</span> <span class="p">{</span>
+    <span class="nl">color</span><span class="p">:</span> <span class="m">#3a4357</span><span class="p">;</span>
+    <span class="nl">background-color</span><span class="p">:</span> <span class="m">#6bd9fa</span><span class="p">;</span>
+    <span class="nl">border</span><span class="p">:</span> <span class="m">2px</span> <span class="nb">solid</span> <span class="m">#6bd9fa</span><span class="p">;</span>
+    <span class="nl">border-radius</span><span class="p">:</span> <span class="m">25px</span><span class="p">;</span>
+    <span class="nl">padding</span><span class="p">:</span> <span class="m">10px</span><span class="p">;</span>
+    <span class="nl">font-size</span><span class="p">:</span> <span class="m">16px</span><span class="p">;</span>
+    <span class="nl">cursor</span><span class="p">:</span> <span class="nb">pointer</span><span class="p">;</span>
+    <span class="nl">font-weight</span><span class="p">:</span> <span class="nb">bold</span><span class="p">;</span>
+    <span class="nl">flex</span><span class="p">:</span> <span class="m">1</span> <span class="m">1</span> <span class="n">calc</span><span class="p">(</span><span class="m">50%</span> <span class="n">-</span> <span class="m">10px</span><span class="p">);</span>
+    <span class="nl">transition</span><span class="p">:</span> <span class="n">all</span> <span class="m">0.3s</span> <span class="n">ease</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.controls</span> <span class="nt">button</span><span class="nd">:hover</span> <span class="p">{</span>
+    <span class="nl">color</span><span class="p">:</span> <span class="m">#6bd9fa</span><span class="p">;</span>
+    <span class="nl">background-color</span><span class="p">:</span> <span class="m">#434e64</span><span class="p">;</span>
+    <span class="nl">border</span><span class="p">:</span> <span class="m">2px</span> <span class="nb">solid</span> <span class="m">#6bd9fa</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">@media</span> <span class="p">(</span><span class="n">max-width</span><span class="p">:</span> <span class="m">480px</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nc">.controls</span> <span class="nt">button</span> <span class="p">{</span>
+        <span class="nl">flex</span><span class="p">:</span> <span class="m">1</span> <span class="m">1</span> <span class="m">100%</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="nc">.game-container</span> <span class="p">{</span>
+        <span class="nl">margin</span><span class="p">:</span> <span class="m">20px</span> <span class="m">15px</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="javascript">JavaScript</h3>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">canvas</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nf">getElementById</span><span class="p">(</span><span class="dl">'</span><span class="s1">gameCanvas</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">ctx</span> <span class="o">=</span> <span class="nx">canvas</span><span class="p">.</span><span class="nf">getContext</span><span class="p">(</span><span class="dl">'</span><span class="s1">2d</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="kd">const</span> <span class="nx">resolution</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">maxCanvasWidth</span> <span class="o">=</span> <span class="mi">500</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">screenWidth</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">innerWidth</span><span class="p">;</span>
+
+<span class="nx">canvas</span><span class="p">.</span><span class="nx">width</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">min</span><span class="p">(</span><span class="nx">screenWidth</span> <span class="o">-</span> <span class="mi">20</span><span class="p">,</span> <span class="nx">maxCanvasWidth</span><span class="p">);</span>
+<span class="nx">canvas</span><span class="p">.</span><span class="nx">height</span> <span class="o">=</span> <span class="nx">canvas</span><span class="p">.</span><span class="nx">width</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">cols</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">floor</span><span class="p">(</span><span class="nx">canvas</span><span class="p">.</span><span class="nx">width</span> <span class="o">/</span> <span class="nx">resolution</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">rows</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">floor</span><span class="p">(</span><span class="nx">canvas</span><span class="p">.</span><span class="nx">height</span> <span class="o">/</span> <span class="nx">resolution</span><span class="p">);</span>
+
+<span class="nb">window</span><span class="p">.</span><span class="nf">addEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">resize</span><span class="dl">'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">newScreenWidth</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">innerWidth</span><span class="p">;</span>
+    <span class="nx">canvas</span><span class="p">.</span><span class="nx">width</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">min</span><span class="p">(</span><span class="nx">newScreenWidth</span> <span class="o">-</span> <span class="mi">20</span><span class="p">,</span> <span class="nx">maxCanvasWidth</span><span class="p">);</span>
+    <span class="nx">canvas</span><span class="p">.</span><span class="nx">height</span> <span class="o">=</span> <span class="nx">canvas</span><span class="p">.</span><span class="nx">width</span><span class="p">;</span>
+
+    <span class="nx">grid</span> <span class="o">=</span> <span class="nf">buildGrid</span><span class="p">();</span>
+    <span class="nf">renderGrid</span><span class="p">();</span>
+<span class="p">});</span>
+
+<span class="kd">let</span> <span class="nx">grid</span> <span class="o">=</span> <span class="nf">buildGrid</span><span class="p">();</span>
+<span class="kd">let</span> <span class="nx">isRunning</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+<span class="kd">let</span> <span class="nx">isMouseDown</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+
+<span class="kd">function</span> <span class="nf">buildGrid</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nc">Array</span><span class="p">(</span><span class="nx">cols</span><span class="p">).</span><span class="nf">fill</span><span class="p">(</span><span class="kc">null</span><span class="p">).</span><span class="nf">map</span><span class="p">(()</span> <span class="o">=&gt;</span>
+        <span class="k">new</span> <span class="nc">Array</span><span class="p">(</span><span class="nx">rows</span><span class="p">).</span><span class="nf">fill</span><span class="p">(</span><span class="kc">null</span><span class="p">).</span><span class="nf">map</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nf">updateGrid</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">nextGrid</span> <span class="o">=</span> <span class="nx">grid</span><span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="nx">arr</span> <span class="o">=&gt;</span> <span class="p">[...</span><span class="nx">arr</span><span class="p">]);</span>
+
+    <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">col</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">col</span> <span class="o">&lt;</span> <span class="nx">cols</span><span class="p">;</span> <span class="nx">col</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">row</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">row</span> <span class="o">&lt;</span> <span class="nx">rows</span><span class="p">;</span> <span class="nx">row</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">const</span> <span class="nx">cell</span> <span class="o">=</span> <span class="nx">grid</span><span class="p">[</span><span class="nx">col</span><span class="p">][</span><span class="nx">row</span><span class="p">];</span>
+            <span class="kd">const</span> <span class="nx">neighbors</span> <span class="o">=</span> <span class="nf">countNeighbors</span><span class="p">(</span><span class="nx">grid</span><span class="p">,</span> <span class="nx">col</span><span class="p">,</span> <span class="nx">row</span><span class="p">);</span>
+
+            <span class="k">if </span><span class="p">(</span><span class="nx">cell</span> <span class="o">===</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">neighbors</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="o">||</span> <span class="nx">neighbors</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">))</span> <span class="p">{</span>
+                <span class="nx">nextGrid</span><span class="p">[</span><span class="nx">col</span><span class="p">][</span><span class="nx">row</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="k">if </span><span class="p">(</span><span class="nx">cell</span> <span class="o">===</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="nx">neighbors</span> <span class="o">===</span> <span class="mi">3</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">nextGrid</span><span class="p">[</span><span class="nx">col</span><span class="p">][</span><span class="nx">row</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="nx">grid</span> <span class="o">=</span> <span class="nx">nextGrid</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nf">countNeighbors</span><span class="p">(</span><span class="nx">grid</span><span class="p">,</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">j</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="nx">j</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">;</span> <span class="nx">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if </span><span class="p">(</span><span class="nx">i</span> <span class="o">===</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="nx">j</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
+            <span class="kd">const</span> <span class="nx">col</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span> <span class="o">+</span> <span class="nx">i</span> <span class="o">+</span> <span class="nx">cols</span><span class="p">)</span> <span class="o">%</span> <span class="nx">cols</span><span class="p">;</span>
+            <span class="kd">const</span> <span class="nx">row</span> <span class="o">=</span> <span class="p">(</span><span class="nx">y</span> <span class="o">+</span> <span class="nx">j</span> <span class="o">+</span> <span class="nx">rows</span><span class="p">)</span> <span class="o">%</span> <span class="nx">rows</span><span class="p">;</span>
+            <span class="nx">count</span> <span class="o">+=</span> <span class="nx">grid</span><span class="p">[</span><span class="nx">col</span><span class="p">][</span><span class="nx">row</span><span class="p">];</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">count</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nf">renderGrid</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">col</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">col</span> <span class="o">&lt;</span> <span class="nx">cols</span><span class="p">;</span> <span class="nx">col</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">row</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">row</span> <span class="o">&lt;</span> <span class="nx">rows</span><span class="p">;</span> <span class="nx">row</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">const</span> <span class="nx">cell</span> <span class="o">=</span> <span class="nx">grid</span><span class="p">[</span><span class="nx">col</span><span class="p">][</span><span class="nx">row</span><span class="p">];</span>
+            <span class="nx">ctx</span><span class="p">.</span><span class="nf">beginPath</span><span class="p">();</span>
+            <span class="nx">ctx</span><span class="p">.</span><span class="nf">rect</span><span class="p">(</span><span class="nx">col</span> <span class="o">*</span> <span class="nx">resolution</span><span class="p">,</span> <span class="nx">row</span> <span class="o">*</span> <span class="nx">resolution</span><span class="p">,</span> <span class="nx">resolution</span><span class="p">,</span> <span class="nx">resolution</span><span class="p">);</span>
+            <span class="nx">ctx</span><span class="p">.</span><span class="nx">fillStyle</span> <span class="o">=</span> <span class="nx">cell</span> <span class="p">?</span> <span class="dl">'</span><span class="s1">aqua</span><span class="dl">'</span> <span class="p">:</span> <span class="dl">'</span><span class="s1">black</span><span class="dl">'</span><span class="p">;</span>
+            <span class="nx">ctx</span><span class="p">.</span><span class="nf">fill</span><span class="p">();</span>
+            <span class="nx">ctx</span><span class="p">.</span><span class="nf">stroke</span><span class="p">();</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nf">loop</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">if </span><span class="p">(</span><span class="o">!</span><span class="nx">isRunning</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+    <span class="nx">ctx</span><span class="p">.</span><span class="nf">clearRect</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">canvas</span><span class="p">.</span><span class="nx">width</span><span class="p">,</span> <span class="nx">canvas</span><span class="p">.</span><span class="nx">height</span><span class="p">);</span>
+    <span class="nf">renderGrid</span><span class="p">();</span>
+    <span class="nf">updateGrid</span><span class="p">();</span>
+    <span class="nf">requestAnimationFrame</span><span class="p">(</span><span class="nx">loop</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="nx">canvas</span><span class="p">.</span><span class="nf">addEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">mousedown</span><span class="dl">'</span><span class="p">,</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">isMouseDown</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+    <span class="nf">toggleCell</span><span class="p">(</span><span class="nx">e</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nx">canvas</span><span class="p">.</span><span class="nf">addEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">mousemove</span><span class="dl">'</span><span class="p">,</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">if </span><span class="p">(</span><span class="nx">isMouseDown</span><span class="p">)</span> <span class="nf">toggleCell</span><span class="p">(</span><span class="nx">e</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nx">canvas</span><span class="p">.</span><span class="nf">addEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">mouseup</span><span class="dl">'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">isMouseDown</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+<span class="p">});</span>
+
+<span class="kd">function</span> <span class="nf">toggleCell</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">rect</span> <span class="o">=</span> <span class="nx">canvas</span><span class="p">.</span><span class="nf">getBoundingClientRect</span><span class="p">();</span>
+    <span class="kd">const</span> <span class="nx">x</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">floor</span><span class="p">((</span><span class="nx">e</span><span class="p">.</span><span class="nx">clientX</span> <span class="o">-</span> <span class="nx">rect</span><span class="p">.</span><span class="nx">left</span><span class="p">)</span> <span class="o">/</span> <span class="nx">resolution</span><span class="p">);</span>
+    <span class="kd">const</span> <span class="nx">y</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">floor</span><span class="p">((</span><span class="nx">e</span><span class="p">.</span><span class="nx">clientY</span> <span class="o">-</span> <span class="nx">rect</span><span class="p">.</span><span class="nx">top</span><span class="p">)</span> <span class="o">/</span> <span class="nx">resolution</span><span class="p">);</span>
+
+    <span class="k">if </span><span class="p">(</span><span class="nx">x</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="nx">y</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="nx">x</span> <span class="o">&lt;</span> <span class="nx">cols</span> <span class="o">&amp;&amp;</span> <span class="nx">y</span> <span class="o">&lt;</span> <span class="nx">rows</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">grid</span><span class="p">[</span><span class="nx">x</span><span class="p">][</span><span class="nx">y</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="nf">renderGrid</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nb">document</span><span class="p">.</span><span class="nf">getElementById</span><span class="p">(</span><span class="dl">'</span><span class="s1">startButton</span><span class="dl">'</span><span class="p">).</span><span class="nf">addEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">click</span><span class="dl">'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">isRunning</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+    <span class="nf">loop</span><span class="p">();</span>
+<span class="p">});</span>
+
+<span class="nb">document</span><span class="p">.</span><span class="nf">getElementById</span><span class="p">(</span><span class="dl">'</span><span class="s1">stopButton</span><span class="dl">'</span><span class="p">).</span><span class="nf">addEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">click</span><span class="dl">'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">isRunning</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+<span class="p">});</span>
+
+<span class="nb">document</span><span class="p">.</span><span class="nf">getElementById</span><span class="p">(</span><span class="dl">'</span><span class="s1">resetButton</span><span class="dl">'</span><span class="p">).</span><span class="nf">addEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">click</span><span class="dl">'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">grid</span> <span class="o">=</span> <span class="nf">buildGrid</span><span class="p">();</span>
+    <span class="nx">ctx</span><span class="p">.</span><span class="nf">clearRect</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">canvas</span><span class="p">.</span><span class="nx">width</span><span class="p">,</span> <span class="nx">canvas</span><span class="p">.</span><span class="nx">height</span><span class="p">);</span>
+    <span class="nf">renderGrid</span><span class="p">();</span>
+<span class="p">});</span>
+
+<span class="nb">document</span><span class="p">.</span><span class="nf">getElementById</span><span class="p">(</span><span class="dl">'</span><span class="s1">randomizeBtn</span><span class="dl">'</span><span class="p">).</span><span class="nf">addEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">click</span><span class="dl">'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">grid</span> <span class="o">=</span> <span class="nx">grid</span><span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="nx">row</span> <span class="o">=&gt;</span> <span class="nx">row</span><span class="p">.</span><span class="nf">map</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nf">random</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mf">0.5</span> <span class="p">?</span> <span class="mi">1</span> <span class="p">:</span> <span class="mi">0</span><span class="p">)));</span>
+    <span class="nf">renderGrid</span><span class="p">();</span>
+<span class="p">});</span>
+
+<span class="nx">canvas</span><span class="p">.</span><span class="nf">addEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">touchstart</span><span class="dl">'</span><span class="p">,</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">e</span><span class="p">.</span><span class="nf">preventDefault</span><span class="p">();</span>
+    <span class="nx">isMouseDown</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+    <span class="nf">toggleCell</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">touches</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<span class="p">});</span>
+
+<span class="nx">canvas</span><span class="p">.</span><span class="nf">addEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">touchmove</span><span class="dl">'</span><span class="p">,</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">e</span><span class="p">.</span><span class="nf">preventDefault</span><span class="p">();</span>
+    <span class="k">if </span><span class="p">(</span><span class="nx">isMouseDown</span><span class="p">)</span> <span class="nf">toggleCell</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">touches</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<span class="p">});</span>
+
+<span class="nx">canvas</span><span class="p">.</span><span class="nf">addEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">touchend</span><span class="dl">'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">isMouseDown</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+<span class="p">});</span>
+
+<span class="nf">renderGrid</span><span class="p">();</span>
+</code></pre></div></div>
+
+<div class="end-post">***</div>]]></content><author><name></name></author><category term="project" /><category term="Algorithm" /><category term="Simulation" /><summary type="html"><![CDATA[Simple implementation of Game of Life]]></summary></entry><entry><title type="html">Tic Tac Toe</title><link href="http://localhost:4000/2025/01/09/tic-tac-toe/" rel="alternate" type="text/html" title="Tic Tac Toe" /><published>2025-01-09T00:00:00+07:00</published><updated>2025-01-09T00:00:00+07:00</updated><id>http://localhost:4000/2025/01/09/tic-tac-toe</id><content type="html" xml:base="http://localhost:4000/2025/01/09/tic-tac-toe/"><![CDATA[<div class="divider"></div>
 
 <h2 id="source-code">Source Code:</h2>
 
@@ -458,12 +804,6 @@ This series converges for all values of \(x\), and provides a powerful tool for 
         <span class="nt">&lt;/div&gt;</span>
         <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"status"</span> <span class="na">class=</span><span class="s">"status"</span><span class="nt">&gt;&lt;/div&gt;</span>
         <span class="nt">&lt;button</span> <span class="na">onclick=</span><span class="s">"resetGame()"</span> <span class="na">class=</span><span class="s">"reset-button"</span><span class="nt">&gt;</span>Reset Game<span class="nt">&lt;/button&gt;</span>
-    <span class="nt">&lt;/div&gt;</span>
-    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"post-content"</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;article&gt;</span>
-            
-            
-        <span class="nt">&lt;/article&gt;</span>
     <span class="nt">&lt;/div&gt;</span>
 <span class="nt">&lt;/main&gt;</span>
 </code></pre></div></div>
@@ -698,7 +1038,7 @@ This series converges for all values of \(x\), and provides a powerful tool for 
 <span class="nf">renderBoard</span><span class="p">();</span>
 </code></pre></div></div>
 
-<div class="end-post">***</div>]]></content><author><name></name></author><category term="project" /><category term="Zero-sum Game" /><category term="Minimax" /><summary type="html"><![CDATA[First Web Project - Tic Tac Toe with Minimax]]></summary></entry><entry><title type="html">Web Project Placeholder 3</title><link href="http://localhost:4000/2025/01/09/web-app-placeholder3/" rel="alternate" type="text/html" title="Web Project Placeholder 3" /><published>2025-01-09T00:00:00+07:00</published><updated>2025-01-09T00:00:00+07:00</updated><id>http://localhost:4000/2025/01/09/web-app-placeholder3</id><content type="html" xml:base="http://localhost:4000/2025/01/09/web-app-placeholder3/"><![CDATA[]]></content><author><name></name></author><category term="project" /><category term="Web Project" /><category term="Placeholder" /><summary type="html"><![CDATA[Web Project Placeholder 3]]></summary></entry><entry><title type="html">Web Project Placeholder 2</title><link href="http://localhost:4000/2025/01/09/web-app-placeholder-2/" rel="alternate" type="text/html" title="Web Project Placeholder 2" /><published>2025-01-09T00:00:00+07:00</published><updated>2025-01-09T00:00:00+07:00</updated><id>http://localhost:4000/2025/01/09/web-app-placeholder-2</id><content type="html" xml:base="http://localhost:4000/2025/01/09/web-app-placeholder-2/"><![CDATA[]]></content><author><name></name></author><category term="project" /><category term="Web Project" /><category term="Placeholder" /><summary type="html"><![CDATA[Web Project Placeholder 2]]></summary></entry><entry><title type="html">MAT3506 - Mạng Máy Tính: Ôn tập cuối kì</title><link href="http://localhost:4000/2025/01/07/on-tap-mang-may-tinh-mat3506/" rel="alternate" type="text/html" title="MAT3506 - Mạng Máy Tính: Ôn tập cuối kì" /><published>2025-01-07T00:00:00+07:00</published><updated>2025-01-07T00:00:00+07:00</updated><id>http://localhost:4000/2025/01/07/on-tap-mang-may-tinh-mat3506</id><content type="html" xml:base="http://localhost:4000/2025/01/07/on-tap-mang-may-tinh-mat3506/"><![CDATA[<blockquote>
+<div class="end-post">***</div>]]></content><author><name></name></author><category term="project" /><category term="Zero-sum Game" /><category term="Minimax" /><summary type="html"><![CDATA[First Web Project - Tic Tac Toe with Minimax]]></summary></entry><entry><title type="html">Teaching Feeling 2</title><link href="http://localhost:4000/2025/01/09/web-app-placeholder3/" rel="alternate" type="text/html" title="Teaching Feeling 2" /><published>2025-01-09T00:00:00+07:00</published><updated>2025-01-09T00:00:00+07:00</updated><id>http://localhost:4000/2025/01/09/web-app-placeholder3</id><content type="html" xml:base="http://localhost:4000/2025/01/09/web-app-placeholder3/"><![CDATA[]]></content><author><name></name></author><category term="project" /><category term="Teaching" /><category term="Feeling" /><category term="2" /><summary type="html"><![CDATA[Teaching Feeling 2]]></summary></entry><entry><title type="html">MAT3506 - Mạng Máy Tính: Ôn tập cuối kì</title><link href="http://localhost:4000/2025/01/07/on-tap-mang-may-tinh-mat3506/" rel="alternate" type="text/html" title="MAT3506 - Mạng Máy Tính: Ôn tập cuối kì" /><published>2025-01-07T00:00:00+07:00</published><updated>2025-01-07T00:00:00+07:00</updated><id>http://localhost:4000/2025/01/07/on-tap-mang-may-tinh-mat3506</id><content type="html" xml:base="http://localhost:4000/2025/01/07/on-tap-mang-may-tinh-mat3506/"><![CDATA[<blockquote>
 
   <p>Note: Đây là bài đăng đầu tiên trên blog này sử dụng tiếng Việt. Do nội dung học và thi phần lớn vẫn là tiếng Việt và cá nhân tôi cũng không tìm hiểu sâu môn này nên viết bài này bằng tiếng Việt vậy. 2 hôm nữa thi rồi nên kệ v 🤷‍♂️.</p>
 </blockquote>
