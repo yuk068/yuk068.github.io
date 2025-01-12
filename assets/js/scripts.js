@@ -374,13 +374,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 // Add to TOC (for headings inside main content)
                 if (heading.closest('.post-content')) {
+                    const customColor = ["mục-lục", "tài-liệu-tham-khảo", "table-of-content", "references"].includes(id)
+                        ? " style=\"color:#434e64;\""
+                        : "";
+
                     tocContent += `
                         <li class="${tagName}">
                             <div class="toc-entry">
                                 <button class="copy-toc" onclick="copyToClipboard(event, '${fullUrl}')">
                                     🔗
                                 </button>
-                                <a href="#${id}">${text}</a>
+                                <a href="#${id}"${customColor}>${text}</a>
                             </div>
                         </li>`;
                 }

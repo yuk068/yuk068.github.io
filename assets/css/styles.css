@@ -136,7 +136,29 @@ body {
     scroll-behavior: smooth;
 }
 
-.container {
+body::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+    background: var(--blockquote-scroll-track);
+}
+
+body::-webkit-scrollbar-track {
+    background: var(--blockquote-scroll-track);
+    border-radius: 4px;
+}
+
+body::-webkit-scrollbar-thumb {
+    background: var(--blockquote-scroll-thumb);
+    border-radius: 4px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+
+body::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in srgb, var(--blockquote-scroll-thumb), #000 20%);
+}
+
+.main-container {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -226,7 +248,7 @@ blockquote {
     box-sizing: border-box;
     color: var(--language-plaintext);
     background-color: var(--blockquote-bg-color);
-    padding: 30px;
+    padding: 20px 20px 15px 20px;
     overflow: hidden;
     font-size: 16px;
     border-radius: 10px;
@@ -250,7 +272,7 @@ blockquote.collapsed {
 
 blockquote.collapsed .content {
     opacity: 0;
-    padding: 0;
+    padding: 13px;
     margin: 0;
     max-height: 0px;
 }
@@ -341,13 +363,6 @@ blockquote li {
     background-color: var(--hover-color);
 }
 
-.posts h1 {
-    color: var(--neon-aqua-accent);
-    margin-top: -30px;
-    font-size: 32px;
-    display: inline-block;
-}
-
 .posts {
     margin-top: 60px;
     display: flex;
@@ -356,6 +371,28 @@ blockquote li {
     text-align: center;
     transition: all 0.6s ease;
 }
+
+.posts img {
+    box-shadow: var(--box-shadow-part-1), var(--box-shadow-part-2);
+    box-sizing: border-box;
+    max-width: 55%;
+    max-height: 70vh;
+    height: auto;
+    margin: 0 auto;
+    border-radius: 10px;
+    display: block;
+    overflow: hidden;
+    object-fit: contain;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.posts h1 {
+    color: var(--neon-aqua-accent);
+    margin-top: -30px;
+    font-size: 32px;
+    display: inline-block;
+}
+
 
 .posts h2 {
     color: var(--neon-aqua-accent);
@@ -370,20 +407,6 @@ blockquote li {
     color: var(--neon-aqua-accent);
     font-size: 24px;
     display: inline-block;
-}
-
-.posts img {
-    box-shadow: var(--box-shadow-part-1), var(--box-shadow-part-2);
-    box-sizing: border-box;
-    max-width: 60%;
-    max-height: 70vh;
-    height: auto;
-    margin: 0 auto;
-    border-radius: 10px;
-    display: block;
-    overflow: hidden;
-    object-fit: contain;
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
 
 .posts img:hover {
@@ -696,9 +719,7 @@ blockquote li {
     box-shadow: var(--box-shadow-part-1), var(--box-shadow-part-2);
     box-sizing: border-box;
     background-color: var(--codeblock-highlight-bg);
-    padding: 20px;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding: 20px 20px 5px 20px;
     overflow-x: auto;
     overflow-y: hidden;
     font-size: 16px;
@@ -1386,7 +1407,7 @@ h4 .copy-toc {
     }
 
     .posts blockquote {
-        max-width: 90%;
+        max-width: 95%;
     }
     
 
@@ -1436,7 +1457,7 @@ h4 .copy-toc {
     }
 
     blockquote {
-        padding: 30px 10px;
+        padding: 30px 15px 15px 15px;
         font-size: 14px;
     }
 
@@ -1445,8 +1466,12 @@ h4 .copy-toc {
         padding-top: 18px;
     }
 
+    blockquote.collapsed .content {
+        padding: 8px;
+    }
+
     .highlight {
-        padding: 25px 10px;
+        padding: 15px 10px 10px 10px;
     }
 
     .highlight pre {
