@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="linkage" content="true">
+    <title>Thread - Blog Update Log (Old)</title>
+    <meta name="description" content="Running thread of new features and changes on my (old) blog">
+    <link rel="stylesheet" href="/assets/css/pages-css/post-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="main-container">
+        <header id="post-header">
+            <div class="header-logo-container">
+                <button class="logo-button" onclick="handleLogoClick()">
+                    <div class="logo-container">
+                        <div class="logo">
+                            <div class="u-shape left-side"></div>
+                            <div class="u-shape bottom"></div>
+                            <div class="u-shape right-side"></div>
+                        </div>
+                        <div class="left-arrow-top"></div>
+                        <div class="right-arrow-top"></div>
+                        <div class="right-arrow-bottom"></div>
+                    </div>
+                </button>
+            </div>
+            <div class="home-header-title-mobile">
+                <h1 id="home-header-title">Yukano</h1>
+            </div>
+            <div class="nav-container">
+                <nav class="nav-bar">
+                    <ul>
+                        <a href="#" onclick="goBack()">
+                            <li>
+                                
+                                Back
+                                
+                            </li>
+                        </a>
+                        <div class="nav-bar-divider"></div>
+                        <a href="/">
+                            <li>
+                                
+                                Home
+                                
+                            </li>
+                        </a>
+                        <div class="nav-bar-divider" id="nav-disable-mobile"></div>
+                        <a href="/archive" id="nav-disable-mobile">
+                            <li id="nav-disable-mobile">
+                                
+                                Archive
+                                
+                            </li>
+                        </a>
+                        <div class="nav-bar-divider" id="nav-disable-mobile"></div>
+                        <a href="/projects" id="nav-disable-mobile">
+                            <li id="nav-disable-mobile">
+                                
+                                Projects
+                                
+                            </li>
+                        </a>
+                        <div class="nav-bar-divider" id="nav-disable-mobile"></div>
+                        <a href="#" onclick="notifyComingSoon()" id="nav-disable-mobile">
+                            <li id="nav-disable-mobile">
+                                
+                                Explore
+                                
+                            </li>
+                        </a>
+                    </ul>
+                </nav>
+            </div>
+            <div class="header-extra-container">
+                <button class="extra-button">
+                    <div class="extra-container">
+                        <div class="extra">
+                            <div class="extra-shape top"></div>
+                            <div class="extra-shape middle"></div>
+                            <div class="extra-shape bottom"></div>
+                        </div>
+                    </div>
+                </button>
+            </div>
+        </header>
+        <main>
+            <div id="overlay" class="overlay">
+                <div class="options-container">
+                    <p>
+                        
+                        Navigation
+                        
+                    </p>
+                    <div class="options-navigation">
+                        <button id="toBackButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-63ce7424ea57ea6c8380059e-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <path class="cls-63ce7424ea57ea6c8380059e-1"
+                                    d="M2.41,16.78H14.85A7.65,7.65,0,0,0,22.5,9.13h0a7.65,7.65,0,0,0-7.65-7.65H.5">
+                                </path>
+                                <polyline class="cls-63ce7424ea57ea6c8380059e-1"
+                                    points="8.15 22.52 2.41 16.78 8.15 11.04">
+                                </polyline>
+                            </svg>
+                            
+                            Back
+                            
+                        </button>
+                        <button id="toHomeButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-6374f8d9b67f094e4896c637-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <polyline class="cls-6374f8d9b67f094e4896c637-1" points="1 12 12 2.83 23 12"></polyline>
+                                <polyline class="cls-6374f8d9b67f094e4896c637-1"
+                                    points="19.33 9.25 19.33 21.17 14.75 21.17 14.75 13.83 9.25 13.83 9.25 21.17 4.67 21.17 4.67 9.25">
+                                </polyline>
+                            </svg>
+                            
+                            Home
+                            
+                        </button>
+                        <button id="toArchiveButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-6374f8d9b67f094e4896c633-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <polygon class="cls-6374f8d9b67f094e4896c633-1"
+                                    points="19.64 9.14 4.36 9.14 4.36 1.5 10.09 1.5 12 3.41 19.64 3.41 19.64 9.14">
+                                </polygon>
+                                <polygon class="cls-6374f8d9b67f094e4896c633-1"
+                                    points="1.5 9.14 22.5 9.14 20.59 22.5 3.41 22.5 1.5 9.14"></polygon>
+                            </svg>
+                            
+                            Archive
+                            
+                        </button>
+                        <button id="toProjectsButton"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                stroke-width="1.5" width="20" height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-637b8d40f95e86b59c57a2bd-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <g id="roll_brush" data-name="roll brush">
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="5.24" y1="11.08" x2="18.66"
+                                        y2="11.08">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="5.24" y1="18.76" x2="18.66"
+                                        y2="18.76">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="5.24" y1="14.92" x2="18.66"
+                                        y2="14.92">
+                                    </line>
+                                    <rect class="cls-637b8d40f95e86b59c57a2bd-1" x="1.4" y="1.49" width="21.1"
+                                        height="21.1"></rect>
+                                    <polygon class="cls-637b8d40f95e86b59c57a2bd-1"
+                                        points="22.5 7.25 16.23 7.25 14.31 7.25 1.4 7.25 1.4 1.49 22.5 1.49 22.5 7.25">
+                                    </polygon>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="4.28" y1="4.37" x2="6.2" y2="4.37">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="8.11" y1="4.37" x2="10.03"
+                                        y2="4.37">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="11.95" y1="4.37" x2="13.87"
+                                        y2="4.37">
+                                    </line>
+                                </g>
+                            </svg>
+                            
+                            Projects
+                            
+                        </button>
+                        <button id="toExploreButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-63ce7424ea57ea6c8380055b-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <polyline class="cls-63ce7424ea57ea6c8380055b-1" points="22 13 22 22 2 22 2 2 11 2">
+                                </polyline>
+                                <polyline class="cls-63ce7424ea57ea6c8380055b-1" points="14 2 22 2 22 10"></polyline>
+                                <line class="cls-63ce7424ea57ea6c8380055b-1" x1="22" y1="2" x2="10" y2="14"></line>
+                            </svg>
+                            
+                            Explore
+                            
+                        </button>
+                        <button id="toAboutButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-6374f8d9b67f094e4896c670-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <circle class="cls-6374f8d9b67f094e4896c670-1" cx="12" cy="7.25" r="5.73"></circle>
+                                <path class="cls-6374f8d9b67f094e4896c670-1"
+                                    d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05">
+                                </path>
+                            </svg>
+                            
+                            About
+                            
+                        </button>
+                    </div>
+                    <div class="option-horizontal-divider-line"></div>
+                    <p>
+                        
+                        Options
+                        
+                    </p>
+                    <div class="options-configuration">
+                        <button id="toTopButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-63ce7424ea57ea6c83800547-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <circle class="cls-63ce7424ea57ea6c83800547-1" cx="12" cy="12" r="10.5"></circle>
+                                <line class="cls-63ce7424ea57ea6c83800547-1" x1="12" y1="10.09" x2="12" y2="18.68">
+                                </line>
+                                <polyline class="cls-63ce7424ea57ea6c83800547-1"
+                                    points="7.23 10.09 12 5.32 16.77 10.09">
+                                </polyline>
+                                <polyline class="cls-63ce7424ea57ea6c83800547-1"
+                                    points="7.23 14.86 12 10.09 16.77 14.86">
+                                </polyline>
+                            </svg>
+                            
+                            To top
+                            
+                        </button>
+                        <button id="collapseExpandAllButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-63ce7424ea57ea6c8380059a-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <line class="cls-63ce7424ea57ea6c8380059a-1" x1="6" y1="2" x2="6" y2="23"></line>
+                                <polyline class="cls-63ce7424ea57ea6c8380059a-1" points="11 7 6 2 1 7"></polyline>
+                                <line class="cls-63ce7424ea57ea6c8380059a-1" x1="18" y1="22" x2="18" y2="1"></line>
+                                <polyline class="cls-63ce7424ea57ea6c8380059a-1" points="13 17 18 22 23 17"></polyline>
+                            </svg>
+                            
+                            Expand / Collapse all
+                            
+                        </button>
+                        <button id="themeButton"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                stroke-width="1.5" width="20" height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-637b8d40f95e86b59c57a2e7-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <g id="roll_brush" data-name="roll brush">
+                                    <circle class="cls-637b8d40f95e86b59c57a2e7-1" cx="11.99" cy="12.01" r="6.71">
+                                    </circle>
+                                    <path class="cls-637b8d40f95e86b59c57a2e7-1" d="M12,8.65a3.36,3.36,0,0,1,0,6.72Z">
+                                    </path>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="11.99" y1="0.5" x2="11.99"
+                                        y2="2.42">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="11.99" y1="21.6" x2="11.99"
+                                        y2="23.52">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="0.48" y1="12.01" x2="2.4"
+                                        y2="12.01">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="21.58" y1="12.01" x2="23.5"
+                                        y2="12.01">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="20.13" y1="3.87" x2="18.77"
+                                        y2="5.23">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="5.21" y1="18.79" x2="3.85"
+                                        y2="20.15">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="3.85" y1="3.87" x2="5.21"
+                                        y2="5.23">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="18.77" y1="18.79" x2="20.13"
+                                        y2="20.15"></line>
+                                </g>
+                            </svg>
+                            
+                            Theme
+                            
+                        </button>
+                        <button id="commentsButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-637642e7c3a86d32eae6f18f-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <path class="cls-637642e7c3a86d32eae6f18f-1"
+                                    d="M1.5,5.3v9.54a3.82,3.82,0,0,0,3.82,3.82H7.23v2.86L13,18.66h5.73a3.82,3.82,0,0,0,3.82-3.82V5.3a3.82,3.82,0,0,0-3.82-3.82H5.32A3.82,3.82,0,0,0,1.5,5.3Z">
+                                </path>
+                                <line class="cls-637642e7c3a86d32eae6f18f-1" x1="15.82" y1="10.07" x2="17.73"
+                                    y2="10.07">
+                                </line>
+                                <line class="cls-637642e7c3a86d32eae6f18f-1" x1="11.05" y1="10.07" x2="12.95"
+                                    y2="10.07">
+                                </line>
+                                <line class="cls-637642e7c3a86d32eae6f18f-1" x1="6.27" y1="10.07" x2="8.18" y2="10.07">
+                                </line>
+                            </svg>
+                            
+                            Comments
+                            
+                        </button>
+                    </div>
+                    <div class="option-horizontal-divider-line"></div>
+                    <div class="options-close">
+                        <button id="closeButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-6374f8d9b67f094e4896c61e-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <circle class="cls-6374f8d9b67f094e4896c61e-1" cx="12" cy="12" r="10.5"></circle>
+                                <line class="cls-6374f8d9b67f094e4896c61e-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77">
+                                </line>
+                                <line class="cls-6374f8d9b67f094e4896c61e-1" x1="7.23" y1="7.23" x2="16.77" y2="16.77">
+                                </line>
+                            </svg>
+                            
+                            Close
+                            
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="post-content">
+                <div class="post-info-card">
+                    <h1>
+                        <span class="category-svg">
+                            
+                            
+                            <img src="/assets/svg/categories/thread.svg"
+                                alt="thread category" onerror="this.remove()">
+                            
+                        </span>Thread - Blog Update Log (Old)
+                    </h1>
+                    <div class="post-tags">
+                        
+                        <span class="tag">#blogging</span>
+                        
+                        <span class="tag">#update-log</span>
+                        
+                        <span class="tag">#old-post</span>
+                        
+                    </div>
+                    <div class="date">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="16"
+                            height="16" color="#fff">
+                            <defs>
+                                <style>
+                                    .cls-6375f1aeb67f094e4896c9ea-1,
+                                    .cls-6375f1aeb67f094e4896c9ea-2 {
+                                        fill: none;
+                                        stroke: currentColor;
+                                        stroke-miterlimit: 10;
+                                    }
+
+                                    .cls-6375f1aeb67f094e4896c9ea-1 {
+                                        stroke-linecap: square;
+                                    }
+                                </style>
+                            </defs>
+                            <g id="calendar">
+                                <rect class="cls-6375f1aeb67f094e4896c9ea-1" x="1.5" y="2.43" width="21" height="4.77"
+                                    transform="translate(24 9.64) rotate(180)"></rect>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="17.73" y1="0.52" x2="17.73" y2="4.34">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="6.27" y1="0.52" x2="6.27" y2="4.34">
+                                </line>
+                                <polygon class="cls-6375f1aeb67f094e4896c9ea-1"
+                                    points="22.5 11.98 22.5 7.21 1.5 7.21 1.5 22.48 22.5 22.48 22.5 15.79 22.5 11.98">
+                                </polygon>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="11.02" x2="11.05" y2="11.02">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="11.02" x2="14.86"
+                                    y2="11.02"></line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="16.77" y1="11.02" x2="18.68"
+                                    y2="11.02"></line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="14.84" x2="11.05" y2="14.84">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="5.32" y1="14.84" x2="7.23" y2="14.84">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="14.84" x2="14.86"
+                                    y2="14.84"></line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="16.77" y1="14.84" x2="18.68"
+                                    y2="14.84"></line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="18.66" x2="11.05" y2="18.66">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="5.32" y1="18.66" x2="7.23" y2="18.66">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="18.66" x2="14.86"
+                                    y2="18.66"></line>
+                            </g>
+                        </svg>
+                        
+                        
+                        Last updated:
+                        
+                        <span class="date-span">
+                            10/01/2025
+                        </span>
+                        
+                    </div>
+                    <div class="author">
+                        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                            stroke-width="1.5" width="14" height="14" color="#fff">
+                            <defs>
+                                <style>
+                                    .cls-6374f8d9b67f094e4896c670-1 {
+                                        fill: none;
+                                        stroke: currentColor;
+                                        stroke-miterlimit: 10;
+                                    }
+                                </style>
+                            </defs>
+                            <circle class="cls-6374f8d9b67f094e4896c670-1" cx="12" cy="7.25" r="5.73"></circle>
+                            <path class="cls-6374f8d9b67f094e4896c670-1"
+                                d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05">
+                            </path>
+                        </svg>
+                        
+                        Written by:
+                        
+                        Yuk
+                    </div>
+                </div>
+                <div class="horizontal-divider-line"></div>
+                <div class="post-article">
+                    <article>
+                        <blockquote>
+  <div id="table-of-contents"></div>
+</blockquote>
+
+<p>This is <strong>Post A</strong>. Check out <a href="/2025/01/04/svm-notes" target="_blank">Post B</a>.</p>
+
+<h1 id="heading-level-1">Heading Level 1</h1>
+
+<p>This is a paragraph under a level 1 heading. It contains <strong>bold text</strong>, <em>italic text</em>, and <code class="language-plaintext highlighter-rouge">inline code</code>.</p>
+
+<h2 id="heading-level-2">Heading Level 2</h2>
+
+<h3 id="heading-level-3">Heading Level 3</h3>
+
+<p>Normal text <strong>bold text, and really long too</strong>, this is <em>italic text and really long too</em>, both at the <strong><em>same time, and really long too.</em></strong></p>
+
+<h1 id="heading-level-1-1">Heading level 1</h1>
+
+<h2 id="heading-level-2-1">Heading level 2</h2>
+
+<h3 id="heading-level-3-1">Heading level 3</h3>
+
+<h4 id="heading-level-4">Heading level 4</h4>
+
+<h5 id="heading-level-5">Heading level 5</h5>
+
+<h6 id="heading-level-6">Heading level 6</h6>
+
+<p>Here is a list:</p>
+
+<ol>
+  <li>Ordered list item 1</li>
+  <li>Ordered list item 2
+    <ol>
+      <li>Nested ordered list item 1</li>
+      <li>Nested ordered list item 2</li>
+    </ol>
+  </li>
+  <li>Ordered list item 3</li>
+</ol>
+
+<ul>
+  <li>Unordered list item 1</li>
+  <li>Unordered list item 2
+    <ul>
+      <li>Nested unordered list item 1</li>
+      <li>Nested unordered list item 2</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="heading-level-4-1">Heading Level 4</h4>
+
+<blockquote>
+  <p>This is a blockquote.<br />
+It can contain multiple lines.</p>
+  <ul>
+    <li>You can include lists too.</li>
+  </ul>
+</blockquote>
+
+<h5 id="heading-level-5-1">Heading Level 5</h5>
+
+<p>Here’s a code block:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">hello_world</span><span class="p">():</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Hello, World!</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="update-codeblocks-jan-10th-2025">Update Codeblocks (Jan. 10th 2025)</h2>
+
+<h3 id="codeblocks-line-numbers">Codeblocks Line Numbers</h3>
+
+<p>Codeblocks now have line numbers on the left (no line numbers on mobile)</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SevenSegmentDisplay</span> <span class="o">{</span>
+    <span class="c1">// Array representation of the 7-segment display for digits 0–9</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span><span class="o">[][]</span> <span class="no">DIGITS</span> <span class="o">=</span> <span class="o">{</span>
+        <span class="o">{</span> <span class="s">" _ "</span><span class="o">,</span> <span class="s">"| |"</span><span class="o">,</span> <span class="s">"|_|"</span> <span class="o">},</span> <span class="c1">// 0</span>
+        <span class="o">{</span> <span class="s">"   "</span><span class="o">,</span> <span class="s">"  |"</span><span class="o">,</span> <span class="s">"  |"</span> <span class="o">},</span> <span class="c1">// 1</span>
+        <span class="o">{</span> <span class="s">" _ "</span><span class="o">,</span> <span class="s">" _|"</span><span class="o">,</span> <span class="s">"|_ "</span> <span class="o">},</span> <span class="c1">// 2</span>
+        <span class="o">{</span> <span class="s">" _ "</span><span class="o">,</span> <span class="s">" _|"</span><span class="o">,</span> <span class="s">" _|"</span> <span class="o">},</span> <span class="c1">// 3</span>
+        <span class="o">{</span> <span class="s">"   "</span><span class="o">,</span> <span class="s">"|_|"</span><span class="o">,</span> <span class="s">"  |"</span> <span class="o">},</span> <span class="c1">// 4</span>
+        <span class="o">{</span> <span class="s">" _ "</span><span class="o">,</span> <span class="s">"|_ "</span><span class="o">,</span> <span class="s">" _|"</span> <span class="o">},</span> <span class="c1">// 5</span>
+        <span class="o">{</span> <span class="s">" _ "</span><span class="o">,</span> <span class="s">"|_ "</span><span class="o">,</span> <span class="s">"|_|"</span> <span class="o">},</span> <span class="c1">// 6</span>
+        <span class="o">{</span> <span class="s">" _ "</span><span class="o">,</span> <span class="s">"  |"</span><span class="o">,</span> <span class="s">"  |"</span> <span class="o">},</span> <span class="c1">// 7</span>
+        <span class="o">{</span> <span class="s">" _ "</span><span class="o">,</span> <span class="s">"|_|"</span><span class="o">,</span> <span class="s">"|_|"</span> <span class="o">},</span> <span class="c1">// 8</span>
+        <span class="o">{</span> <span class="s">" _ "</span><span class="o">,</span> <span class="s">"|_|"</span><span class="o">,</span> <span class="s">" _|"</span> <span class="o">}</span>  <span class="c1">// 9</span>
+    <span class="o">};</span>
+
+    <span class="c1">// Function to display a single digit</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">displayDigit</span><span class="o">(</span><span class="kt">int</span> <span class="n">digit</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">digit</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">digit</span> <span class="o">&gt;</span> <span class="mi">9</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Invalid digit. Only 0-9 are supported."</span><span class="o">);</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">for</span> <span class="o">(</span><span class="nc">String</span> <span class="n">row</span> <span class="o">:</span> <span class="no">DIGITS</span><span class="o">[</span><span class="n">digit</span><span class="o">])</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">row</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="c1">// Function to display a multi-digit number</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">displayNumber</span><span class="o">(</span><span class="kt">int</span> <span class="n">number</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">String</span> <span class="n">numberStr</span> <span class="o">=</span> <span class="nc">String</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">number</span><span class="o">);</span>
+        <span class="nc">StringBuilder</span><span class="o">[]</span> <span class="n">rows</span> <span class="o">=</span> <span class="o">{</span> <span class="k">new</span> <span class="nc">StringBuilder</span><span class="o">(),</span> <span class="k">new</span> <span class="nc">StringBuilder</span><span class="o">(),</span> <span class="k">new</span> <span class="nc">StringBuilder</span><span class="o">()</span> <span class="o">};</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="kt">char</span> <span class="n">c</span> <span class="o">:</span> <span class="n">numberStr</span><span class="o">.</span><span class="na">toCharArray</span><span class="o">())</span> <span class="o">{</span>
+            <span class="kt">int</span> <span class="n">digit</span> <span class="o">=</span> <span class="nc">Character</span><span class="o">.</span><span class="na">getNumericValue</span><span class="o">(</span><span class="n">c</span><span class="o">);</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+                <span class="n">rows</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">append</span><span class="o">(</span><span class="no">DIGITS</span><span class="o">[</span><span class="n">digit</span><span class="o">][</span><span class="n">i</span><span class="o">]).</span><span class="na">append</span><span class="o">(</span><span class="s">" "</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="nc">StringBuilder</span> <span class="n">row</span> <span class="o">:</span> <span class="n">rows</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">row</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Displaying single digit (5):"</span><span class="o">);</span>
+        <span class="n">displayDigit</span><span class="o">(</span><span class="mi">5</span><span class="o">);</span>
+
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"\nDisplaying number (12345):"</span><span class="o">);</span>
+        <span class="n">displayNumber</span><span class="o">(</span><span class="mi">12345</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Dictionary representation of the 7-segment display for digits 0–9
+</span><span class="n">DIGITS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="mi">0</span><span class="p">:</span> <span class="p">[</span><span class="sh">"</span><span class="s"> _ </span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">| |</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">|_|</span><span class="sh">"</span><span class="p">],</span>
+    <span class="mi">1</span><span class="p">:</span> <span class="p">[</span><span class="sh">"</span><span class="s">   </span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">  |</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">  |</span><span class="sh">"</span><span class="p">],</span>
+    <span class="mi">2</span><span class="p">:</span> <span class="p">[</span><span class="sh">"</span><span class="s"> _ </span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s"> _|</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">|_ </span><span class="sh">"</span><span class="p">],</span>
+    <span class="mi">3</span><span class="p">:</span> <span class="p">[</span><span class="sh">"</span><span class="s"> _ </span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s"> _|</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s"> _|</span><span class="sh">"</span><span class="p">],</span>
+    <span class="mi">4</span><span class="p">:</span> <span class="p">[</span><span class="sh">"</span><span class="s">   </span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">|_|</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">  |</span><span class="sh">"</span><span class="p">],</span>
+    <span class="mi">5</span><span class="p">:</span> <span class="p">[</span><span class="sh">"</span><span class="s"> _ </span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">|_ </span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s"> _|</span><span class="sh">"</span><span class="p">],</span>
+    <span class="mi">6</span><span class="p">:</span> <span class="p">[</span><span class="sh">"</span><span class="s"> _ </span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">|_ </span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">|_|</span><span class="sh">"</span><span class="p">],</span>
+    <span class="mi">7</span><span class="p">:</span> <span class="p">[</span><span class="sh">"</span><span class="s"> _ </span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">  |</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">  |</span><span class="sh">"</span><span class="p">],</span>
+    <span class="mi">8</span><span class="p">:</span> <span class="p">[</span><span class="sh">"</span><span class="s"> _ </span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">|_|</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">|_|</span><span class="sh">"</span><span class="p">],</span>
+    <span class="mi">9</span><span class="p">:</span> <span class="p">[</span><span class="sh">"</span><span class="s"> _ </span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">|_|</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s"> _|</span><span class="sh">"</span><span class="p">]</span>
+<span class="p">}</span>
+
+<span class="k">def</span> <span class="nf">display_digit</span><span class="p">(</span><span class="n">digit</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">digit</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">DIGITS</span><span class="p">:</span>
+        <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Invalid digit. Only 0-9 are supported.</span><span class="sh">"</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">DIGITS</span><span class="p">[</span><span class="n">digit</span><span class="p">]:</span>
+        <span class="nf">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">display_number</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
+    <span class="n">number_str</span> <span class="o">=</span> <span class="nf">str</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="p">[</span><span class="sh">""</span><span class="p">,</span> <span class="sh">""</span><span class="p">,</span> <span class="sh">""</span><span class="p">]</span>
+    
+    <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">number_str</span><span class="p">:</span>
+        <span class="n">digit</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="n">char</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">(</span><span class="n">DIGITS</span><span class="p">[</span><span class="n">digit</span><span class="p">]):</span>
+            <span class="n">rows</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">row</span> <span class="o">+</span> <span class="sh">"</span><span class="s"> </span><span class="sh">"</span>
+
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+        <span class="nf">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="sh">"</span><span class="s">__main__</span><span class="sh">"</span><span class="p">:</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Displaying single digit (5):</span><span class="sh">"</span><span class="p">)</span>
+    <span class="nf">display_digit</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="se">\n</span><span class="s">Displaying number (12345):</span><span class="sh">"</span><span class="p">)</span>
+    <span class="nf">display_number</span><span class="p">(</span><span class="mi">12345</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="two-new-web-projects">Two New Web Projects</h3>
+
+<ul>
+  <li>Tic Tac Toe</li>
+  <li>Game of Life</li>
+</ul>
+
+<h2 id="new-page-web-project-jan-10th-2025">New Page: Web Project (Jan. 10th 2025)</h2>
+
+<p>Added <strong>Web Project</strong> page. I will post web-related project there, I’m not really into web development so maybe don’t expect frequent uploads there. Best way to experience it is to try it yourself:</p>
+
+<p>(Deprecated)</p>
+
+<h2 id="new-features-on-yuks-blog-jan-9th-2025">New Features on Yuk’s Blog (Jan. 9th 2025)</h2>
+
+<h3 id="table-of-content">Table of Content</h3>
+
+<p>You can click on the entries to jump to the desired section. (On top of this page). Spoilers:</p>
+
+<p>(Deprecated)</p>
+
+<h3 id="linkage">Linkage</h3>
+
+<p>Table of content and certain headings will now have linkage “🔗” to them (not every post). Clicking on them will copy the link to your clipboard, you may use this link to access the post and immediately jump to the heading section upon loading the page for convenience.</p>
+
+<h3 id="animation-update">Animation Update</h3>
+
+<p>Various elements have been given animations because why not.</p>
+
+<h3 id="blockquotes-update">Blockquotes Update</h3>
+
+<p>Blockquotes are now more consistent with Codeblocks and is now affected by extend / collapse button.</p>
+
+<ul>
+  <li>Blockquotes will look like:</li>
+</ul>
+
+<blockquote>
+
+  <p>This is a blockquote</p>
+</blockquote>
+
+<blockquote>
+
+  <p>Sure! Here’s a long paragraph for you: The rapid advancement of technology in recent decades has brought about profound changes in various aspects of society, from the way we communicate to the way we work and live. With the rise of artificial intelligence, automation, and data analytics, many industries have experienced significant transformations, often leading to increased efficiency and innovation. However, these advancements have also raised important questions about the future of jobs, privacy, and ethical considerations. As automation continues to evolve, it is unclear what the long-term impact will be on the workforce, as many tasks once performed by humans are now being carried out by machines. Additionally, concerns about data privacy have become more prominent, with large-scale data collection and surveillance becoming commonplace in many parts of the world. In response to these concerns, governments, organizations, and individuals are increasingly looking for ways to balance innovation with privacy protection and ethical responsibility, recognizing that the future of technology will likely be shaped by these discussions. Despite the challenges, the potential for technological progress to solve complex global issues, such as climate change and healthcare, remains vast, offering hope for a future where technology serves as a force for good.</p>
+</blockquote>
+
+<blockquote>
+
+\[e \equiv \lim_{n\to\infty} \biggl( 1 + \frac{1}{n} \biggr)^n\]
+</blockquote>
+
+<blockquote>
+
+\[\int_{a}^{b} \left( \sum_{n=1}^{\infty} \frac{(-1)^n}{n!} \cdot \frac{d^n}{dx^n} \left( e^{x^2} \right) \right) \, dx = \lim_{N \to \infty} \sum_{n=0}^{N} \left( \int_{a}^{b} \frac{(-1)^n}{n!} \cdot \frac{d^n}{dx^n} \left( e^{x^2} \right) \, dx \right) = \sum_{n=0}^{\infty} \int_{a}^{b} \frac{(-1)^n}{n!} \cdot \frac{d^n}{dx^n} \left( e^{x^2} \right) \, dx\]
+</blockquote>
+
+<blockquote>
+
+\[\begin{bmatrix}
+    1 &amp; 2 &amp; 3 &amp; 4 &amp; 5 &amp; 6 &amp; 7 &amp; 8 &amp; 9 \\
+    10 &amp; 11 &amp; 12 &amp; 13 &amp; 14 &amp; 15 &amp; 16 &amp; 17 &amp; 18 \\
+    19 &amp; 20 &amp; 21 &amp; 22 &amp; 23 &amp; 24 &amp; 25 &amp; 26 &amp; 27 \\
+    28 &amp; 29 &amp; 30 &amp; 31 &amp; 32 &amp; 33 &amp; 34 &amp; 35 &amp; 36 \\
+    37 &amp; 38 &amp; 39 &amp; 40 &amp; 41 &amp; 42 &amp; 43 &amp; 44 &amp; 45 \\
+    46 &amp; 47 &amp; 48 &amp; 49 &amp; 50 &amp; 51 &amp; 52 &amp; 53 &amp; 54 \\
+    55 &amp; 56 &amp; 57 &amp; 58 &amp; 59 &amp; 60 &amp; 61 &amp; 62 &amp; 63 \\
+    64 &amp; 65 &amp; 66 &amp; 67 &amp; 68 &amp; 69 &amp; 70 &amp; 71 &amp; 72 \\
+    73 &amp; 74 &amp; 75 &amp; 76 &amp; 77 &amp; 78 &amp; 79 &amp; 80 &amp; 81 \\
+\end{bmatrix}\]
+</blockquote>
+
+<ul>
+  <li>Codeblocks will look like:</li>
+</ul>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code>This is a codeblock
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MinecraftComparator</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">isPowered</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">isInSubtractionMode</span><span class="o">;</span>
+    
+    <span class="kd">public</span> <span class="nf">MinecraftComparator</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">isPowered</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>  <span class="c1">// Comparator initially unpowered</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">isInSubtractionMode</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>  <span class="c1">// Default mode is comparison mode</span>
+    <span class="o">}</span>
+
+    <span class="c1">// Sets whether the comparator is powered (input signal)</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setPowered</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">powered</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">isPowered</span> <span class="o">=</span> <span class="n">powered</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="c1">// Sets the mode of the comparator (comparison or subtraction)</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setSubtractionMode</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">subtractionMode</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">isInSubtractionMode</span> <span class="o">=</span> <span class="n">subtractionMode</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="c1">// Simulates receiving an input signal and returning the output</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getOutput</span><span class="o">(</span><span class="kt">int</span> <span class="n">input1</span><span class="o">,</span> <span class="kt">int</span> <span class="n">input2</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// If powered, the comparator reacts to the inputs</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">isPowered</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">isInSubtractionMode</span><span class="o">)</span> <span class="o">{</span>
+                <span class="c1">// In subtraction mode, the output is the difference between the inputs</span>
+                <span class="k">return</span> <span class="nc">Math</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="n">input1</span> <span class="o">-</span> <span class="n">input2</span><span class="o">);</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                <span class="c1">// In comparison mode, the output is 15 if input1 is greater than or equal to input2, else 0</span>
+                <span class="k">return</span> <span class="o">(</span><span class="n">input1</span> <span class="o">&gt;=</span> <span class="n">input2</span><span class="o">)</span> <span class="o">?</span> <span class="mi">15</span> <span class="o">:</span> <span class="mi">0</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="c1">// If unpowered, the output is 0</span>
+            <span class="k">return</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">MinecraftComparator</span> <span class="n">comparator</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">MinecraftComparator</span><span class="o">();</span>
+
+        <span class="c1">// Set the comparator to powered and in comparison mode</span>
+        <span class="n">comparator</span><span class="o">.</span><span class="na">setPowered</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+        <span class="n">comparator</span><span class="o">.</span><span class="na">setSubtractionMode</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>  <span class="c1">// Comparison mode</span>
+
+        <span class="kt">int</span> <span class="n">output1</span> <span class="o">=</span> <span class="n">comparator</span><span class="o">.</span><span class="na">getOutput</span><span class="o">(</span><span class="mi">10</span><span class="o">,</span> <span class="mi">5</span><span class="o">);</span>  <span class="c1">// Input 1 is 10, Input 2 is 5</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Comparison Mode Output: "</span> <span class="o">+</span> <span class="n">output1</span><span class="o">);</span>  <span class="c1">// Should print 15 since 10 &gt;= 5</span>
+
+        <span class="c1">// Set the comparator to powered and in subtraction mode</span>
+        <span class="n">comparator</span><span class="o">.</span><span class="na">setSubtractionMode</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>  <span class="c1">// Subtraction mode</span>
+
+        <span class="kt">int</span> <span class="n">output2</span> <span class="o">=</span> <span class="n">comparator</span><span class="o">.</span><span class="na">getOutput</span><span class="o">(</span><span class="mi">10</span><span class="o">,</span> <span class="mi">5</span><span class="o">);</span>  <span class="c1">// Input 1 is 10, Input 2 is 5</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Subtraction Mode Output: "</span> <span class="o">+</span> <span class="n">output2</span><span class="o">);</span>  <span class="c1">// Should print 5 (10 - 5)</span>
+
+        <span class="c1">// Test with comparator unpowered</span>
+        <span class="n">comparator</span><span class="o">.</span><span class="na">setPowered</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>
+        <span class="kt">int</span> <span class="n">output3</span> <span class="o">=</span> <span class="n">comparator</span><span class="o">.</span><span class="na">getOutput</span><span class="o">(</span><span class="mi">10</span><span class="o">,</span> <span class="mi">5</span><span class="o">);</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Unpowered Comparator Output: "</span> <span class="o">+</span> <span class="n">output3</span><span class="o">);</span>  <span class="c1">// Should print 0</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Fibonacci</span> <span class="o">{</span>
+
+    <span class="c1">// Function to compute the nth Fibonacci number recursively</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">fibonacci</span><span class="o">(</span><span class="kt">int</span> <span class="n">n</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">n</span><span class="o">;</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="nf">fibonacci</span><span class="o">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">+</span> <span class="n">fibonacci</span><span class="o">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">number</span> <span class="o">=</span> <span class="mi">10</span><span class="o">;</span> <span class="c1">// We will compute the 10th Fibonacci number</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"The 10th Fibonacci number is: "</span> <span class="o">+</span> <span class="n">fibonacci</span><span class="o">(</span><span class="n">number</span><span class="o">));</span>
+
+        <span class="c1">// Printing the Fibonacci series up to the 10th number</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Fibonacci Series up to 10th number:"</span><span class="o">);</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">number</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="n">fibonacci</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">+</span> <span class="s">" "</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="revamp-date-formatting">Revamp Date Formatting</h3>
+
+<p>Dates now formats in something like Jan. 8th 2025 instead of 08/01/2025.</p>
+
+<h3 id="table-formatting">Table Formatting</h3>
+
+<p>Tried my best with tables:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Occupation</th>
+      <th>City</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Alice</td>
+      <td>30</td>
+      <td>Engineer</td>
+      <td>New York</td>
+    </tr>
+    <tr>
+      <td>Bob</td>
+      <td>25</td>
+      <td>Designer</td>
+      <td>San Francisco</td>
+    </tr>
+    <tr>
+      <td>Charlie</td>
+      <td>35</td>
+      <td>Developer</td>
+      <td>Chicago</td>
+    </tr>
+    <tr>
+      <td>Dana</td>
+      <td>28</td>
+      <td>Data Analyst</td>
+      <td>Austin</td>
+    </tr>
+    <tr>
+      <td>Eve</td>
+      <td>40</td>
+      <td>Project Manager</td>
+      <td>Boston</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Age</th>
+      <th>Occupation</th>
+      <th>City</th>
+      <th>Email</th>
+      <th>Phone Number</th>
+      <th>Country</th>
+      <th>Department</th>
+      <th>Salary</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>001</td>
+      <td>Alice</td>
+      <td>Johnson</td>
+      <td>30</td>
+      <td>Engineer</td>
+      <td>New York</td>
+      <td>alice.johnson@example.com</td>
+      <td>123-456-7890</td>
+      <td>USA</td>
+      <td>Engineering</td>
+      <td>$85,000</td>
+    </tr>
+    <tr>
+      <td>002</td>
+      <td>Bob</td>
+      <td>Smith</td>
+      <td>25</td>
+      <td>Designer</td>
+      <td>San Francisco</td>
+      <td>bob.smith@example.com</td>
+      <td>987-654-3210</td>
+      <td>USA</td>
+      <td>Design</td>
+      <td>$70,000</td>
+    </tr>
+    <tr>
+      <td>003</td>
+      <td>Charlie</td>
+      <td>Brown</td>
+      <td>35</td>
+      <td>Developer</td>
+      <td>Chicago</td>
+      <td>charlie.brown@example.com</td>
+      <td>555-123-4567</td>
+      <td>USA</td>
+      <td>Development</td>
+      <td>$95,000</td>
+    </tr>
+    <tr>
+      <td>004</td>
+      <td>Dana</td>
+      <td>White</td>
+      <td>28</td>
+      <td>Data Analyst</td>
+      <td>Austin</td>
+      <td>dana.white@example.com</td>
+      <td>444-555-6666</td>
+      <td>USA</td>
+      <td>Analytics</td>
+      <td>$80,000</td>
+    </tr>
+    <tr>
+      <td>005</td>
+      <td>Eve</td>
+      <td>Davis</td>
+      <td>40</td>
+      <td>Project Manager</td>
+      <td>Boston</td>
+      <td>eve.davis@example.com</td>
+      <td>333-777-8888</td>
+      <td>USA</td>
+      <td>Management</td>
+      <td>$105,000</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th>Function</th>
+      <th>Limit as \(x \to 0\)</th>
+      <th>Limit as \(x \to \infty\)</th>
+      <th>Remarks</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>\(\frac{\sin(x)}{x}\)</td>
+      <td>\(1\)</td>
+      <td>\(0\)</td>
+      <td>Standard limit for small \(x\)</td>
+    </tr>
+    <tr>
+      <td>\(e^x\)</td>
+      <td>\(1\)</td>
+      <td>\(\infty\)</td>
+      <td>Exponential growth</td>
+    </tr>
+    <tr>
+      <td>\(\frac{1}{x}\)</td>
+      <td>\(\infty\)</td>
+      <td>\(0\)</td>
+      <td>Reciprocal function</td>
+    </tr>
+    <tr>
+      <td>\(\ln(x)\)</td>
+      <td>\(-\infty\)</td>
+      <td>\(\infty\)</td>
+      <td>Logarithmic growth</td>
+    </tr>
+    <tr>
+      <td>\(\frac{1}{x^2}\)</td>
+      <td>\(\infty\)</td>
+      <td>\(0\)</td>
+      <td>Parabola in the reciprocal form</td>
+    </tr>
+    <tr>
+      <td>\(\frac{\tan(x)}{x}\)</td>
+      <td>\(1\)</td>
+      <td>\(\infty\)</td>
+      <td>Tangent behavior near \(x = 0\)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="to-top-of-page-button">To Top of Page Button</h3>
+
+<p>Added a button at the footer of posts to jump to the head of the page.</p>
+
+<h3 id="vietnamese-support">Vietnamese Support</h3>
+
+<p>The blog has support for Vietnamese content now.</p>
+
+<h2 id="new-features-on-yuks-blog-oct-1st-2024">New Features on Yuk’s Blog (Oct. 1st 2024)</h2>
+
+<p>Since I don’t have time or even a good grasp on the recent development of my blog, I want to quickly summarizes and explain the new features on my blog here.</p>
+
+<h3 id="light--dark-mode-support">Light / Dark Mode Support</h3>
+
+<p>I’ve added light / dark mode support for the site, simply click the ☀️ / 🌙 button which will usually be located at the top right of the header to toggle between them.</p>
+
+<h3 id="codeblocks-update">Codeblocks Update</h3>
+
+<ul>
+  <li><strong>Collapse / Expand Codeblocks:</strong> Codeblocks on this blog can be quite lengthy at times, so I’ve added the 🔼 / 🔽 button at the top right of each of the codeblocks for you to collapse or expand them to your liking. On load, all codeblocks will be expanded by default, you can use the big 🔼 / 🔽 button at the top right of the header to collapse or expand all codeblocks in the current post.</li>
+  <li><strong>Copy Code:</strong> I’ve added the 📄 button to codeblocks, which will allow you to copy the entire codeblock with the click of a button, below is a dummy codeblock:</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">binary_search</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="n">low</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">high</span> <span class="o">=</span> <span class="nf">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">mid</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">while</span> <span class="n">low</span> <span class="o">&lt;=</span> <span class="n">high</span><span class="p">:</span>
+        <span class="n">mid</span> <span class="o">=</span> <span class="p">(</span><span class="n">high</span> <span class="o">+</span> <span class="n">low</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
+
+        <span class="k">if</span> <span class="n">arr</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">x</span><span class="p">:</span>
+            <span class="n">low</span> <span class="o">=</span> <span class="n">mid</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">elif</span> <span class="n">arr</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">x</span><span class="p">:</span>
+            <span class="n">high</span> <span class="o">=</span> <span class="n">mid</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">mid</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+</code></pre></div></div>
+
+<h3 id="archive-page">Archive Page</h3>
+
+<h4 id="nav-bar">Nav Bar</h4>
+
+<ul>
+  <li><strong>Assign.:</strong> Where i post assignments of my formal courses at my university.</li>
+  <li><strong>Projects:</strong> You can find most of my project that i was able to make a post on here.</li>
+  <li><strong>Thread:</strong> These are running threads for stuff that is not suitable for a blog post, which will be updated occasionally.</li>
+  <li><strong>Update:</strong> I will post announcements about the blog or about me here.</li>
+  <li><strong>Technical:</strong> Posts that covers advanced mathematics, CS concepts, and more.</li>
+</ul>
+
+<h4 id="header-buttons">Header Buttons</h4>
+
+<ul>
+  <li><strong>The 🖼️ button:</strong> To toggle the thumbnail of posts in the archive page, which would allow for faster scrolling.</li>
+  <li><strong>The 🔑 button:</strong> Lets go gambling.</li>
+</ul>
+
+                    </article>
+                </div>
+                <div class="horizontal-divider-line"></div>
+                
+
+                
+                <script src="https://giscus.app/client.js" data-repo="yuk068/yuk-blog-comments"
+                    data-repo-id="R_kgDONs1FhQ" data-category="Announcements" data-category-id="DIC_kwDONs1Fhc4CmLRI"
+                    data-mapping="title" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0"
+                    data-input-position="bottom" data-theme="dark_protanopia" data-lang="en" crossorigin="anonymous"
+                    async>
+                    </script>
+                
+
+                
+                <div class="final-horizontal-divider-line"></div>
+            </div>
+        </main>
+        <div class="footer-container">
+            <div class="relative-footer">
+                <footer>
+                    <div class="footer-info">
+                        <a href="https://www.facebook.com/yuk068" target="_blank">
+                            <i class="fab fa-facebook"></i>
+                            <div class="footer-info-label">
+                                <p>Duy Pham Duc</p>
+                            </div>
+                        </a>
+                        <a href="https://github.com/yuk068" target="_blank">
+                            <i class="fab fa-github"></i>
+                            <div class="footer-info-label">
+                                <p>Yuk068</p>
+                            </div>
+                        </a>
+                        <a href="https://x.com/Yukano_50" target="_blank">
+                            <i class="fab fa-twitter"></i>
+                            <div class="footer-info-label">
+                                <p>@Yukano_50</p>
+                            </div>
+                        </a>
+                        <a href="https://www.instagram.com/yukano68/" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                            <div class="footer-info-label">
+                                <p>yukano68</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="copyright-text">
+                        <p>&copy; 2025 Yukano - <a href="/support-yuk">Support Yuk!</a></p>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </div>
+    <script src="/assets/js/pages-js/post-script.js"></script>
+    <div class="scroll-button-container">
+        <button id="scrollButton" onclick="scrollToTop()">
+            <img src="/assets/svg/double-arrow-up-circle.svg" alt="⇡">
+        </button>
+    </div>
+</body>
+
+</html>

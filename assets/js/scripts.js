@@ -81,7 +81,7 @@ function updatePostsVisibility() {
         return; // Exit the function if there's no search bar on the page
     }
 
-    const posts = document.querySelectorAll('.posts a');
+    const posts = document.querySelectorAll('.posts .post-card');
     let visiblePostCount = 0;
     const searchInput = searchBar.value.trim().toLowerCase();
 
@@ -305,17 +305,17 @@ document.addEventListener('DOMContentLoaded', function () {
         if (codeElement && !highlight.querySelector('.line-numbers')) {
             const codeText = codeElement.textContent;  // Use textContent instead of innerHTML
             const codeLines = codeText.split('\n');
-            
+
             // Create line numbers container
             const lineNumbersDiv = document.createElement('div');
             lineNumbersDiv.className = 'line-numbers';
-        
+
             // Create line numbers, excluding the final one
             const lineNumbers = codeLines.slice(0, -1)
                 .map((_, index) => `<div class="line-number">${index + 1}</div>`)
                 .join('');
             lineNumbersDiv.innerHTML = lineNumbers;
-        
+
             // Insert line numbers before the code
             highlight.insertBefore(lineNumbersDiv, highlight.firstChild);
         }
@@ -439,10 +439,10 @@ function copyToClipboard(event, text) {
     });
 }
 
-// Function to smoothly scroll to the top of the page
+// Scroll to the top function
 function scrollToTop() {
     document.body.scrollTop = 0; // For Safari
-    document.documentElement.scrollTop = 0;
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE, and Opera
 }
 
 window.addEventListener('load', function () {
@@ -460,4 +460,130 @@ window.addEventListener('load', function () {
     });
 });
 
+// Function to transform the header on scroll
+function onScroll() {
+    const header = document.querySelector('#home-header');
+    const headerTitle = document.querySelector('#home-header-title');
+    const navContainer = document.querySelector('.nav-container');
+
+    if (document.body.scrollTop > 10 || document.documentElement.scrollTop > 10) { // Check for scroll position on body
+        header.classList.add('transformed');
+        headerTitle.style.fontSize = '1.5em';
+        navContainer.style.fontSize = '16px';
+    } else {
+        header.classList.remove('transformed');
+        headerTitle.style.fontSize = '';
+        navContainer.style.fontSize = '';
+    }
+}
+
+document.body.addEventListener('scroll', onScroll);
+
+
+const swiperContainer = document.querySelector('.swiper-container');
+const swiperWrapper = document.querySelector('.swiper-wrapper');
+const slides = document.querySelectorAll('.swiper-slide');
+const dots = document.querySelectorAll('.swiper-nav-dot');
+const prevButton = document.querySelector('.prev-button');
+const nextButton = document.querySelector('.next-button');
+let currentSlide = 0;
+const slideCount = slides.length;
+let intervalTime = 6000; // Initial interval time (4 seconds)
+let interval;
+
+// Function to go to a specific slide
+function goToSlide(index) {
+    currentSlide = index;
+    swiperWrapper.style.transform = `translateX(-${currentSlide * 100}%)`;
+
+    // Update active dot
+    dots.forEach(dot => dot.classList.remove('active'));
+    dots[currentSlide].classList.add('active');
+}
+
+// Function for next slide
+function nextSlide() {
+    currentSlide = (currentSlide + 1) % slideCount;
+    goToSlide(currentSlide);
+    resetInterval(); // Reset interval after clicking next
+}
+
+// Function for previous slide
+function prevSlide() {
+    currentSlide = (currentSlide - 1 + slideCount) % slideCount; // Handle negative index wrap
+    goToSlide(currentSlide);
+    resetInterval(); // Reset interval after clicking previous
+}
+
+function resetInterval() {
+    clearInterval(interval); // Clear the previous interval
+    intervalTime = Math.min(intervalTime + 3000, 6000);
+    interval = setInterval(nextSlide, intervalTime); // Start the new interval
+}
+
+// Add click handlers to dots
+dots.forEach((dot, index) => {
+    dot.addEventListener('click', () => {
+        goToSlide(index);
+        resetInterval(); // Reset interval when dot is clicked
+    });
+});
+
+// Add click handlers to the navigation buttons
+nextButton.addEventListener('click', nextSlide);
+prevButton.addEventListener('click', prevSlide);
+
+// Start the initial interval
+interval = setInterval(nextSlide, intervalTime); // fast for testing
+
 updatePostsVisibility();
+
+function goBack() {
+    const referrer = document.referrer; // Get the previous page's URL
+    const currentDomain = window.location.origin; // Get the current domain (e.g., https://example.com)
+
+    if (referrer && referrer.startsWith(currentDomain)) {
+        const referrerURL = new URL(referrer);
+
+        // Check if the referrer is a proper page without just a hash fragment
+        if (referrerURL.pathname !== window.location.pathname) {
+            window.location.href = referrer; // Go back to the previous page
+            return;
+        }
+    }
+
+    // Fallback if no valid referrer: navigate to homepage or a default path
+    window.location.href = '/';
+}
+
+function onScroll() {
+    const header = document.querySelector('#post-header');
+    const headerTitle = document.querySelector('#post-header-title');
+    const navContainer = document.querySelector('.nav-container');
+
+    const scrollButton = document.getElementById('scrollButton');
+
+    if (document.body.scrollTop > 0 || document.documentElement.scrollTop > 0) {
+        header.classList.add('transformed');
+        headerTitle.style.fontSize = '1.7em';
+        navContainer.style.fontSize = '16px';
+    } else {
+        header.classList.remove('transformed');
+        headerTitle.style.fontSize = '';
+        navContainer.style.fontSize = '';
+    }
+
+    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+        scrollButton.classList.add('slide-in');
+    } else {
+        scrollButton.classList.remove('slide-in');
+    }
+
+}
+
+document.body.addEventListener('scroll', onScroll);
+
+function scrollToTop() {
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE
+}

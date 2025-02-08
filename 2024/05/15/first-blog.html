@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="linkage" content="false">
+    <title>I made a blog in 2 days</title>
+    <meta name="description" content="How Yuk learned to make a website from scratch in 2 days because of beef with math">
+    <link rel="stylesheet" href="/assets/css/pages-css/post-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="main-container">
+        <header id="post-header">
+            <div class="header-logo-container">
+                <button class="logo-button" onclick="handleLogoClick()">
+                    <div class="logo-container">
+                        <div class="logo">
+                            <div class="u-shape left-side"></div>
+                            <div class="u-shape bottom"></div>
+                            <div class="u-shape right-side"></div>
+                        </div>
+                        <div class="left-arrow-top"></div>
+                        <div class="right-arrow-top"></div>
+                        <div class="right-arrow-bottom"></div>
+                    </div>
+                </button>
+            </div>
+            <div class="home-header-title-mobile">
+                <h1 id="home-header-title">Yukano</h1>
+            </div>
+            <div class="nav-container">
+                <nav class="nav-bar">
+                    <ul>
+                        <a href="#" onclick="goBack()">
+                            <li>
+                                
+                                Back
+                                
+                            </li>
+                        </a>
+                        <div class="nav-bar-divider"></div>
+                        <a href="/">
+                            <li>
+                                
+                                Home
+                                
+                            </li>
+                        </a>
+                        <div class="nav-bar-divider" id="nav-disable-mobile"></div>
+                        <a href="/archive" id="nav-disable-mobile">
+                            <li id="nav-disable-mobile">
+                                
+                                Archive
+                                
+                            </li>
+                        </a>
+                        <div class="nav-bar-divider" id="nav-disable-mobile"></div>
+                        <a href="/projects" id="nav-disable-mobile">
+                            <li id="nav-disable-mobile">
+                                
+                                Projects
+                                
+                            </li>
+                        </a>
+                        <div class="nav-bar-divider" id="nav-disable-mobile"></div>
+                        <a href="#" onclick="notifyComingSoon()" id="nav-disable-mobile">
+                            <li id="nav-disable-mobile">
+                                
+                                Explore
+                                
+                            </li>
+                        </a>
+                    </ul>
+                </nav>
+            </div>
+            <div class="header-extra-container">
+                <button class="extra-button">
+                    <div class="extra-container">
+                        <div class="extra">
+                            <div class="extra-shape top"></div>
+                            <div class="extra-shape middle"></div>
+                            <div class="extra-shape bottom"></div>
+                        </div>
+                    </div>
+                </button>
+            </div>
+        </header>
+        <main>
+            <div id="overlay" class="overlay">
+                <div class="options-container">
+                    <p>
+                        
+                        Navigation
+                        
+                    </p>
+                    <div class="options-navigation">
+                        <button id="toBackButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-63ce7424ea57ea6c8380059e-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <path class="cls-63ce7424ea57ea6c8380059e-1"
+                                    d="M2.41,16.78H14.85A7.65,7.65,0,0,0,22.5,9.13h0a7.65,7.65,0,0,0-7.65-7.65H.5">
+                                </path>
+                                <polyline class="cls-63ce7424ea57ea6c8380059e-1"
+                                    points="8.15 22.52 2.41 16.78 8.15 11.04">
+                                </polyline>
+                            </svg>
+                            
+                            Back
+                            
+                        </button>
+                        <button id="toHomeButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-6374f8d9b67f094e4896c637-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <polyline class="cls-6374f8d9b67f094e4896c637-1" points="1 12 12 2.83 23 12"></polyline>
+                                <polyline class="cls-6374f8d9b67f094e4896c637-1"
+                                    points="19.33 9.25 19.33 21.17 14.75 21.17 14.75 13.83 9.25 13.83 9.25 21.17 4.67 21.17 4.67 9.25">
+                                </polyline>
+                            </svg>
+                            
+                            Home
+                            
+                        </button>
+                        <button id="toArchiveButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-6374f8d9b67f094e4896c633-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <polygon class="cls-6374f8d9b67f094e4896c633-1"
+                                    points="19.64 9.14 4.36 9.14 4.36 1.5 10.09 1.5 12 3.41 19.64 3.41 19.64 9.14">
+                                </polygon>
+                                <polygon class="cls-6374f8d9b67f094e4896c633-1"
+                                    points="1.5 9.14 22.5 9.14 20.59 22.5 3.41 22.5 1.5 9.14"></polygon>
+                            </svg>
+                            
+                            Archive
+                            
+                        </button>
+                        <button id="toProjectsButton"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                stroke-width="1.5" width="20" height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-637b8d40f95e86b59c57a2bd-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <g id="roll_brush" data-name="roll brush">
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="5.24" y1="11.08" x2="18.66"
+                                        y2="11.08">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="5.24" y1="18.76" x2="18.66"
+                                        y2="18.76">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="5.24" y1="14.92" x2="18.66"
+                                        y2="14.92">
+                                    </line>
+                                    <rect class="cls-637b8d40f95e86b59c57a2bd-1" x="1.4" y="1.49" width="21.1"
+                                        height="21.1"></rect>
+                                    <polygon class="cls-637b8d40f95e86b59c57a2bd-1"
+                                        points="22.5 7.25 16.23 7.25 14.31 7.25 1.4 7.25 1.4 1.49 22.5 1.49 22.5 7.25">
+                                    </polygon>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="4.28" y1="4.37" x2="6.2" y2="4.37">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="8.11" y1="4.37" x2="10.03"
+                                        y2="4.37">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="11.95" y1="4.37" x2="13.87"
+                                        y2="4.37">
+                                    </line>
+                                </g>
+                            </svg>
+                            
+                            Projects
+                            
+                        </button>
+                        <button id="toExploreButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-63ce7424ea57ea6c8380055b-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <polyline class="cls-63ce7424ea57ea6c8380055b-1" points="22 13 22 22 2 22 2 2 11 2">
+                                </polyline>
+                                <polyline class="cls-63ce7424ea57ea6c8380055b-1" points="14 2 22 2 22 10"></polyline>
+                                <line class="cls-63ce7424ea57ea6c8380055b-1" x1="22" y1="2" x2="10" y2="14"></line>
+                            </svg>
+                            
+                            Explore
+                            
+                        </button>
+                        <button id="toAboutButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-6374f8d9b67f094e4896c670-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <circle class="cls-6374f8d9b67f094e4896c670-1" cx="12" cy="7.25" r="5.73"></circle>
+                                <path class="cls-6374f8d9b67f094e4896c670-1"
+                                    d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05">
+                                </path>
+                            </svg>
+                            
+                            About
+                            
+                        </button>
+                    </div>
+                    <div class="option-horizontal-divider-line"></div>
+                    <p>
+                        
+                        Options
+                        
+                    </p>
+                    <div class="options-configuration">
+                        <button id="toTopButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-63ce7424ea57ea6c83800547-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <circle class="cls-63ce7424ea57ea6c83800547-1" cx="12" cy="12" r="10.5"></circle>
+                                <line class="cls-63ce7424ea57ea6c83800547-1" x1="12" y1="10.09" x2="12" y2="18.68">
+                                </line>
+                                <polyline class="cls-63ce7424ea57ea6c83800547-1"
+                                    points="7.23 10.09 12 5.32 16.77 10.09">
+                                </polyline>
+                                <polyline class="cls-63ce7424ea57ea6c83800547-1"
+                                    points="7.23 14.86 12 10.09 16.77 14.86">
+                                </polyline>
+                            </svg>
+                            
+                            To top
+                            
+                        </button>
+                        <button id="collapseExpandAllButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-63ce7424ea57ea6c8380059a-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <line class="cls-63ce7424ea57ea6c8380059a-1" x1="6" y1="2" x2="6" y2="23"></line>
+                                <polyline class="cls-63ce7424ea57ea6c8380059a-1" points="11 7 6 2 1 7"></polyline>
+                                <line class="cls-63ce7424ea57ea6c8380059a-1" x1="18" y1="22" x2="18" y2="1"></line>
+                                <polyline class="cls-63ce7424ea57ea6c8380059a-1" points="13 17 18 22 23 17"></polyline>
+                            </svg>
+                            
+                            Expand / Collapse all
+                            
+                        </button>
+                        <button id="themeButton"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                stroke-width="1.5" width="20" height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-637b8d40f95e86b59c57a2e7-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <g id="roll_brush" data-name="roll brush">
+                                    <circle class="cls-637b8d40f95e86b59c57a2e7-1" cx="11.99" cy="12.01" r="6.71">
+                                    </circle>
+                                    <path class="cls-637b8d40f95e86b59c57a2e7-1" d="M12,8.65a3.36,3.36,0,0,1,0,6.72Z">
+                                    </path>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="11.99" y1="0.5" x2="11.99"
+                                        y2="2.42">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="11.99" y1="21.6" x2="11.99"
+                                        y2="23.52">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="0.48" y1="12.01" x2="2.4"
+                                        y2="12.01">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="21.58" y1="12.01" x2="23.5"
+                                        y2="12.01">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="20.13" y1="3.87" x2="18.77"
+                                        y2="5.23">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="5.21" y1="18.79" x2="3.85"
+                                        y2="20.15">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="3.85" y1="3.87" x2="5.21"
+                                        y2="5.23">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="18.77" y1="18.79" x2="20.13"
+                                        y2="20.15"></line>
+                                </g>
+                            </svg>
+                            
+                            Theme
+                            
+                        </button>
+                        <button id="commentsButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-637642e7c3a86d32eae6f18f-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <path class="cls-637642e7c3a86d32eae6f18f-1"
+                                    d="M1.5,5.3v9.54a3.82,3.82,0,0,0,3.82,3.82H7.23v2.86L13,18.66h5.73a3.82,3.82,0,0,0,3.82-3.82V5.3a3.82,3.82,0,0,0-3.82-3.82H5.32A3.82,3.82,0,0,0,1.5,5.3Z">
+                                </path>
+                                <line class="cls-637642e7c3a86d32eae6f18f-1" x1="15.82" y1="10.07" x2="17.73"
+                                    y2="10.07">
+                                </line>
+                                <line class="cls-637642e7c3a86d32eae6f18f-1" x1="11.05" y1="10.07" x2="12.95"
+                                    y2="10.07">
+                                </line>
+                                <line class="cls-637642e7c3a86d32eae6f18f-1" x1="6.27" y1="10.07" x2="8.18" y2="10.07">
+                                </line>
+                            </svg>
+                            
+                            Comments
+                            
+                        </button>
+                    </div>
+                    <div class="option-horizontal-divider-line"></div>
+                    <div class="options-close">
+                        <button id="closeButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-6374f8d9b67f094e4896c61e-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <circle class="cls-6374f8d9b67f094e4896c61e-1" cx="12" cy="12" r="10.5"></circle>
+                                <line class="cls-6374f8d9b67f094e4896c61e-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77">
+                                </line>
+                                <line class="cls-6374f8d9b67f094e4896c61e-1" x1="7.23" y1="7.23" x2="16.77" y2="16.77">
+                                </line>
+                            </svg>
+                            
+                            Close
+                            
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="post-content">
+                <div class="post-info-card">
+                    <h1>
+                        <span class="category-svg">
+                            
+                            
+                            <img src="/assets/svg/categories/post.svg"
+                                alt="post category" onerror="this.remove()">
+                            
+                        </span>I made a blog in 2 days
+                    </h1>
+                    <div class="post-tags">
+                        
+                        <span class="tag">#old-post</span>
+                        
+                    </div>
+                    <div class="date">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="16"
+                            height="16" color="#fff">
+                            <defs>
+                                <style>
+                                    .cls-6375f1aeb67f094e4896c9ea-1,
+                                    .cls-6375f1aeb67f094e4896c9ea-2 {
+                                        fill: none;
+                                        stroke: currentColor;
+                                        stroke-miterlimit: 10;
+                                    }
+
+                                    .cls-6375f1aeb67f094e4896c9ea-1 {
+                                        stroke-linecap: square;
+                                    }
+                                </style>
+                            </defs>
+                            <g id="calendar">
+                                <rect class="cls-6375f1aeb67f094e4896c9ea-1" x="1.5" y="2.43" width="21" height="4.77"
+                                    transform="translate(24 9.64) rotate(180)"></rect>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="17.73" y1="0.52" x2="17.73" y2="4.34">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="6.27" y1="0.52" x2="6.27" y2="4.34">
+                                </line>
+                                <polygon class="cls-6375f1aeb67f094e4896c9ea-1"
+                                    points="22.5 11.98 22.5 7.21 1.5 7.21 1.5 22.48 22.5 22.48 22.5 15.79 22.5 11.98">
+                                </polygon>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="11.02" x2="11.05" y2="11.02">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="11.02" x2="14.86"
+                                    y2="11.02"></line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="16.77" y1="11.02" x2="18.68"
+                                    y2="11.02"></line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="14.84" x2="11.05" y2="14.84">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="5.32" y1="14.84" x2="7.23" y2="14.84">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="14.84" x2="14.86"
+                                    y2="14.84"></line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="16.77" y1="14.84" x2="18.68"
+                                    y2="14.84"></line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="18.66" x2="11.05" y2="18.66">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="5.32" y1="18.66" x2="7.23" y2="18.66">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="18.66" x2="14.86"
+                                    y2="18.66"></line>
+                            </g>
+                        </svg>
+                        
+                        <span class="date-span">15/05/2024</span>
+
+                        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                            stroke-width="1.5" width="16" height="16" color="#fff">
+                            <defs>
+                                <style>
+                                    .cls-6374f8d9b67f094e4896c623-1 {
+                                        fill: none;
+                                        stroke: currentColor;
+                                        stroke-miterlimit: 10;
+                                    }
+                                </style>
+                            </defs>
+                            <circle class="cls-6374f8d9b67f094e4896c623-1" cx="12" cy="12" r="10.5"></circle>
+                            <circle class="cls-6374f8d9b67f094e4896c623-1" cx="12" cy="12" r="0.95"></circle>
+                            <polyline class="cls-6374f8d9b67f094e4896c623-1" points="12 4.36 12 12 16.77 16.77">
+                            </polyline>
+                        </svg>
+                        
+                        <span class="reading-time">
+                            14
+                            
+                            Min.
+                            
+                        </span>
+                        
+                    </div>
+                    <div class="author">
+                        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                            stroke-width="1.5" width="14" height="14" color="#fff">
+                            <defs>
+                                <style>
+                                    .cls-6374f8d9b67f094e4896c670-1 {
+                                        fill: none;
+                                        stroke: currentColor;
+                                        stroke-miterlimit: 10;
+                                    }
+                                </style>
+                            </defs>
+                            <circle class="cls-6374f8d9b67f094e4896c670-1" cx="12" cy="7.25" r="5.73"></circle>
+                            <path class="cls-6374f8d9b67f094e4896c670-1"
+                                d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05">
+                            </path>
+                        </svg>
+                        
+                        Written by:
+                        
+                        Yuk
+                    </div>
+                </div>
+                <div class="horizontal-divider-line"></div>
+                <div class="post-article">
+                    <article>
+                        <h1 id="first-time-trying-out-web-development-and-its-kinda-neat-i-guess">First time trying out web development and it’s kinda neat I guess</h1>
+
+<h2 id="i-motivation">I, Motivation</h2>
+
+<p>So ever since the break 2 weeks ago (specific to Viet Nam, known as “Reunification Day” and “International Workers’ Day”), I’ve been doing a lot more coding, specifically in Java and a little bit of Python because I literally don’t want to do anything else, mostly because I don’t like math and my university / teachers make me hate it more, I was literally dead set to do nothing but coding. And I’d like to say that I’ve been able to made some pretty cool projects whether it be finished or unfinished, not to mention everything I’ve learnt along the way too, it honestly have been some of my best coding experience.</p>
+
+<p>But nevertheless, since my projects has been pilling up one by one and I just literally cannot stop coding, one afternoon about 4 days ago, after I’ve finished my first bot for TicTacToe, I thought to myself:</p>
+
+<blockquote>
+  <p><em>“You know what, the stuff I’ve been making is indeed pretty cool and I have been able to share it with quite some people. But I just feel like these projects have more meaning and impact to me, I want them to be something more. They’re not just code and a cool programs, they were learning experience with real emotions along the way.”</em></p>
+</blockquote>
+
+<h3 id="and-then-it-hit-me">And then it hit me:</h3>
+
+<blockquote>
+  <p><em>“Hey, since I’m practically addicted to coding, and I just can’t stop my drive to learn new thing, and developing a web is both of that thing…”</em></p>
+</blockquote>
+
+<p>So anyway yeah I started to look up how to make a website 2 days ago. While I want to say that I have no experience in this particular field, I do know what stuff does it involves, and I also know that it’s messy as hell. But all in all, who hasn’t heard of the trio HTML, CSS, JavaScript, right? Silly story: I’ve actually always thought that CSS is part of the C family (C, C#, C++). With that in mind, I think to myself, how hard can it be, right? After all, I can’t just keep pilling up projects like this without making the most out of them, just thinking about that make me shivers, how I can be wasting what I’m learning right now if I don’t document my journey and share it to others, and for myself because who can remember everything that they learn right? it’s practically like taking notes in a class! I’m learning and I want to take notes! While I also agree that <em>teaching</em> is the best way to learn, when one person teach 2 people learn and all that, but writing blog posts documenting your own learning journey, it has to at least be the second or third best thing right?</p>
+
+<p>Moreover, if I actually managed to complete a somewhat decent website that will be another learning experience right? So many apples with one arrow, I was so damn determined. But not gonna lie resisting the urge to continue working on my ongoing projects was also a challenge, but eventually I overcame it and now you are reading my effort in the product that came from this story right now.</p>
+
+<h2 id="ii-the-process">II, The process</h2>
+
+<h3 id="1-html---day-one">1, HTML - Day one</h3>
+
+<p>The first step was HTML, which should be simple enough right? I’ve actually had a very brief exposure with HTML in one of my subject and also from the days when I accidentally hit F12 and saw all the crazy stuff that pops up from the right side of Chrome, I remember how when I was messing around in there, I was able to change stuff like the color of texts and other shenanigans (now I know that that was CSS). But anyway back to the main topic, HTML (Hyper Text Markup Language) was essentially just like the skeleton of a website, if striped away of all it’s clothes and skins, it’s HTML. which essentially isn’t really a programming language (though I think that it does have some simple programming stuff) but rather just a structure for a website to follow, raw HTML was what it was like back in the day, just text, media, some links to each other and that was it.</p>
+
+<p>As mentioned before, I started digging into making a website right after I was done with my bot for TicTacToe in Java, but at that moment, I was still in Intellij IDEA, and I saw that it actually have support for HTML. Perfect!, because I was just done with the bot, I was feeling quite spent so actually at that point I was quite hesitant to even begin, but just HTML? it should be a breeze then. I made a new project in Intellij IDEA, choose main language as HTML, and started testing. This is one of the first complete HTML that I was able to cook up:</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">"en"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"UTF-8"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"viewport"</span> <span class="na">content=</span><span class="s">"width=device-width, initial-scale=1.0"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;title&gt;</span>Web Test<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"container"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"header"</span><span class="nt">&gt;</span>
+        Header
+    <span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"main-content"</span><span class="nt">&gt;</span>
+        Main Content
+        <span class="nt">&lt;p&gt;</span>
+            some text...
+        <span class="nt">&lt;/p&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"index.html"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;button&gt;</span>
+            Click me
+        <span class="nt">&lt;/button&gt;</span>
+    <span class="nt">&lt;/a&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"sidebar"</span><span class="nt">&gt;</span>
+        Sidebar
+    <span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"footer"</span><span class="nt">&gt;</span>
+        Footer
+    <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre></div></div>
+
+<p>Cool trick: In most IDEs, when writing HTML, if you need to quickly set up the conventional sample you can just type “ ! “ at the very beginning of the file then Tab and it will generate an entire sample snippet for you. I learned that HTML is composed of many tags, for example: “&lt;div&gt;” is an opening tag and “&lt;/div&gt;” is a closing tag (some tags might not require closing tag). And further more, those tags can have attribute in them, some of the most crucial attributes that I learned and used the most were stuff like:</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"main-content"</span><span class="nt">&gt;</span>
+    Main Content
+    <span class="nt">&lt;p&gt;</span>
+        some text...
+    <span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"index.html"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;button&gt;</span>
+        Click me
+    <span class="nt">&lt;/button&gt;</span>
+<span class="nt">&lt;/a&gt;</span>
+</code></pre></div></div>
+
+<p>So in this example, “div” is assigned attribute <em>class</em>, which ultimately defines a target for both CSS and JavaScript to be able to target specifically. Another one is the “a” tag which is assigned <em>href</em>, which basically allows everything inside of it to be a clickable hyperlink that takes you to the argument of <em>href</em>. That is 2 of the attributes that I used the most in this project, however there are a lot more that makes HTML5 so powerful.</p>
+
+<p>But so far, with only raw HTML, it was basically like writing a document with Word but less painful once you get the hang of HTML and also do it on a modern IDE. I think the only difference is that for Word you have to configure everything every time you want to write something while for HTML, tags most often time define the layout and structure for you from the get go. I believe that how most websites back in the early days were built, it have all the essential stuff for a fully functional website, so in theory, you can get a site up just from HTML. But of course things change, and website is no stranger to massive revolutionary changes. With that, I already have a clear path to my next topic for this post.</p>
+
+<h3 id="2-css---day-one">2, CSS - Day one</h3>
+
+<p>The skin of HTML - CSS (Cascading Style Sheet) also is a crucial part of any websites, it essentially turn a simple white page black text Word document from my analogy earlier to something unique, only limited by the programmer’s vision and ability. it gives full control to all aspect of any elements of a HTML file by first targeting them by declaring the tag’s signature, then it provides a wide range of aesthetic and often time layout modifiers to style everything to your liking. More over, CSS also supports very primitive conventional programming features for when you need it, which is a step above HTML in this regard. And both HTML and CSS solidify the fact that they’re almost always together by the fact that HTML supports seamless CSS integration to your HTML file, by simply using the “style” tag and you can basically define your entire CSS implementation in the said tag:</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">"en"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"UTF-8"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"viewport"</span> <span class="na">content=</span><span class="s">"width=device-width, initial-scale=1.0"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;title&gt;</span>404 Not Found<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;style&gt;</span>
+        <span class="nt">body</span> <span class="p">{</span>
+            <span class="nl">font-family</span><span class="p">:</span> <span class="n">Arial</span><span class="p">,</span> <span class="nb">sans-serif</span><span class="p">;</span>
+            <span class="nl">display</span><span class="p">:</span> <span class="n">flex</span><span class="p">;</span>
+            <span class="nl">justify-content</span><span class="p">:</span> <span class="nb">center</span><span class="p">;</span>
+            <span class="nl">align-items</span><span class="p">:</span> <span class="nb">center</span><span class="p">;</span>
+            <span class="nl">height</span><span class="p">:</span> <span class="m">100vh</span><span class="p">;</span>
+            <span class="nl">margin</span><span class="p">:</span> <span class="m">0</span><span class="p">;</span>
+            <span class="nl">background-color</span><span class="p">:</span> <span class="m">#f0f0f0</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="nc">.container</span> <span class="p">{</span>
+            <span class="nl">text-align</span><span class="p">:</span> <span class="nb">center</span><span class="p">;</span>
+            <span class="nl">color</span><span class="p">:</span> <span class="m">#333</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="nt">h1</span> <span class="p">{</span>
+            <span class="nl">font-size</span><span class="p">:</span> <span class="m">5em</span><span class="p">;</span>
+            <span class="nl">margin</span><span class="p">:</span> <span class="m">0</span><span class="p">;</span>
+            <span class="nl">color</span><span class="p">:</span> <span class="m">#ff6b6b</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="nt">p</span> <span class="p">{</span>
+            <span class="nl">font-size</span><span class="p">:</span> <span class="m">1.2em</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="nt">&lt;/style&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"container"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;h1&gt;</span>404<span class="nt">&lt;/h1&gt;</span>
+        <span class="nt">&lt;p&gt;</span>Page Not Found<span class="nt">&lt;/p&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre></div></div>
+
+<div class="description">A simple example of the source HTML for a 404 not found page</div>
+
+<p>So as you can see, inside the style block, a lot is at work:</p>
+<ul>
+  <li>First part is the body, followed by curly braces because CSS uses those, font is set to Arial (if for some reason Arial is not present, it will default to a sans serif font family), display is set to flex (I don’t really understand this that well), and more importantly, items are aligned to the center and the background color is set to black.</li>
+  <li>h1, which is Heading level 1, have a size of 5em (a relative unit compared to px to better adapt to mobile display), same goes for p, which is paragraph</li>
+  <li>Finally, you can see .container, which has a slightly different declaration than others, that is because this part is not targeting any concrete element, but rather, a class!, following below, you can see how there’s a div section with the same class name, and so, that CSS part is targeting this div section.</li>
+</ul>
+
+<p>So apart from the section that targets class “container”, the other CSS sections are targeting everything that is of the same element type, so although in this example I only have 1 Heading level 1 or h1, if I were to add another, the style defined in the CSS will also be applied to it. This is crucial for reducing code repetition and ensuring consistency, very important for websites! However, I must admit that, being a newcomer like me, trying to make the most out of CSS was NOT easy, while i tried my best to ensure that I have as little repeated CSS as possible, trying to adhere to that was definitely a challenge. And that challenge made me understood web development so much more, now I know why they hire people with work experience. This style of web development is practically just memorization, there were not really a lot of problem solving or complicated programming involved. And there weren’t even anyway to “debug” by yourself, you just kinda have to know where to mix things up and see how it react.</p>
+
+<p>Further more, you don’t have to directly include CSS in your HTML like this, you can also just link an HTML to use a specific stylesheet ending in .css, for example, you can put something like this inside your “head” tag of your HTML:</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"/assets/css/styles.css"</span><span class="nt">&gt;</span>
+</code></pre></div></div>
+
+<p>And the entire HTML file will use that CSS file as It’s stylesheet just like as if you include CSS in your original HTML. This way, we can decouple CSS from HTML and ensure that each file only do what it’s suppose to do, and it is the best practice considering how lengthy CSS can be nowadays.</p>
+<h3 id="3-jekyll---day-two">3, Jekyll - Day two</h3>
+
+<p>So with HTML and CSS, I was basically all set to make my own personal blog like I’ve been wanting to. And in fact, the first version of It, I made with raw HTML and CSS, with a home page, a single CSS file to style everything and individual different HTML for each of the post I plan to make, and that was day one. I quickly drop that approach though because i soon realize something:</p>
+
+<blockquote>
+  <p><em>“I can’t just write an entire HTML for every single post, and I can’t keep adding actual element to the home page’s HTML every time I add a new post.”</em></p>
+</blockquote>
+
+<p>This is when I came across a tool called “Jekyll” - a SSG (Static Site Generator), which essentially solves the problem above. So Jekyll is not new, and I have actually seen it before. With the older version of this project (and still this project), the site is hosted with GitHub Pages, it essentially free hosting for a GitHub repository, though for a custom domain name you’ll have to take out the wallet but that’s kinda inevitable. And while configuring GitHub Pages, I glance at Jekyll for a brief moment, at first I disregarded it because my mentality was that I want something that I made from the ground up. But after encountering the mentioned “long-term” issue, I think to myself there must be some kind of tool that automate this process, I mean for a personal blog, theres only so much pages like the home page or about page, and all the post are practically of the same layout. So I did some digging and will you guess it, Jekyll showed up.</p>
+
+<p>After and still is using it, Jekyll is truly a saving grace. Now, I can just write my posts in .md (Markdown) files, which is so much more enjoyable and manageable. Jekyll helps by generating everything you need for a “static site”. I won’t really go in depth into how to set it up, but these tutorials from Giraffe Academy helped out a lot: <a href="https://www.youtube.com/watch?v=T1itpPvFWHI&amp;list=PLLAZ4kZ9dFpOPV5C5Ay0pHaa0RJFhcmcB" title="Jekyll Tutorial Playlist from Giraffe Academy">Jekyll tutorial playlist</a></p>
+
+<p>Basically, all I have to do is create a HTML for my home page, another one for my posts, a CSS for styling, have Jekyll do the rest, and I have myself a blog! Its actually so much more convenient and make the entire project maintainable. This is a few cool stuff from Jekyll that I especially love:</p>
+<ul>
+  <li>Templates: You can have a single HTML as a template, and assign it a certain “layout” attribute, next time you want to generate a site in that structure defined by the HTML, all you have to do is declare some front matter (just some config text at the start of the desired markdown files) and it automatically knows what you want and generate it for you, for example, this is a snippet from my template HTML for my posts:</li>
+</ul>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;header&gt;</span>
+        <span class="nt">&lt;h1&gt;</span>(( page title ))<span class="nt">&lt;/h1&gt;</span>
+        <span class="nt">&lt;div</span> <span class="na">class =</span><span class="s">"date"</span><span class="nt">&gt;</span>
+            (( page date | date: "%d/%m/%Y" ))
+        <span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;/header&gt;</span>
+    <span class="nt">&lt;main&gt;</span>
+        <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"post-content"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;article&gt;</span>
+                (( content ))
+            <span class="nt">&lt;/article&gt;</span>
+        <span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;/main&gt;</span>
+    <span class="nt">&lt;footer&gt;</span>
+        <span class="nt">&lt;div&gt;</span>
+            <span class="nt">&lt;p&gt;</span>Written by: (( page.writtenBy ))<span class="nt">&lt;/p&gt;</span>
+            <span class="nt">&lt;p&gt;</span>Credits: (( page.credits ))<span class="nt">&lt;/p&gt;</span>
+            <span class="nt">&lt;p&gt;</span><span class="ni">&amp;copy;</span> 2024 Yukano<span class="nt">&lt;/p&gt;</span>
+        <span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;/footer&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+</code></pre></div></div>
+<div class="description">Note that this is not the actual syntax in Jekyll, I just can't get it to display properly...</div>
+
+<p>As you can see, instead of writing raw HTML yourself for every posts, Jekyll help set up everything with it’s “Liquid syntax”, allowing it to know where to put things from the markdown file to generate the desired HTML.</p>
+
+<ul>
+  <li>Primitive logic processing: I love this so much for my home page, basically, Jekyll supports simple logic operations to do everything in its power to help you make the job as easy as possible, in my use case, I set it up for my home page in a way that it automatically put new posts into my home page, it’s so convenient:</li>
+</ul>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"posts"</span><span class="nt">&gt;</span>
+    for loop here
+        <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"(( post url | relative_url ))"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">"(( site.thumbnail_path ))/(( post.title | slugify )).png"</span> <span class="na">alt=</span><span class="s">"(( post.title )) thumbnail"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;h2&gt;</span>(( post title ))<span class="nt">&lt;/h2&gt;</span>
+                <span class="nt">&lt;div&gt;</span>
+                    (( post.description ))
+                    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"date"</span><span class="nt">&gt;</span>
+                        (( post date | date: "%d/%m/%Y" ))
+                    <span class="nt">&lt;/div&gt;</span>
+                <span class="nt">&lt;/div&gt;</span>
+        <span class="nt">&lt;/a&gt;</span>
+    end for loop here
+<span class="nt">&lt;/div&gt;</span>
+</code></pre></div></div>
+<div class="description">Note that this is not the actual syntax in Jekyll, I just can't get it to display properly...</div>
+
+<p>Basically it loops through all of my post, and apply the correct styling and generate the appropriate structure for how I want my post to display in my home page, in my case, a title, a brief description, a date, and a thumbnail. I just can’t express how more bearable Jekyll made this project to be. And that’s basically all I need for this site that you’re reading right now, my first post in my first blog. This was a fantastic experience and I can say that I definitely do enjoy web development, It really is a realm of its own when it comes to programming, but after this project, I’ve come to respect it and the people who painstakingly goes through the process of making them. GG web devs.</p>
+
+<h2 id="iii-conclusion">III, Conclusion</h2>
+
+<p>While I haven’t even scratch the surface of web development, like interactivity with JavaScript or popular library like React, I can say that for now, I’m happy with my little blog here that I can continue to post and even scale if I want to. But for now, I think I’ll just stick to making some blog posts and slowly catching up the documentation of all of my projects. Then, I’ll be much more comfortable to learn new things, knowing that I’m making the most out of them. This whole experience has taught me a lot of new thing and I don’t see myself backing out from web development, it’s actually, really neat.</p>
+
+<div class="end-post">***</div>
+
+                    </article>
+                </div>
+                <div class="horizontal-divider-line"></div>
+                
+
+                
+                <script src="https://giscus.app/client.js" data-repo="yuk068/yuk-blog-comments"
+                    data-repo-id="R_kgDONs1FhQ" data-category="Announcements" data-category-id="DIC_kwDONs1Fhc4CmLRI"
+                    data-mapping="title" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0"
+                    data-input-position="bottom" data-theme="dark_protanopia" data-lang="en" crossorigin="anonymous"
+                    async>
+                    </script>
+                
+
+                
+                <div class="final-horizontal-divider-line"></div>
+            </div>
+        </main>
+        <div class="footer-container">
+            <div class="relative-footer">
+                <footer>
+                    <div class="footer-info">
+                        <a href="https://www.facebook.com/yuk068" target="_blank">
+                            <i class="fab fa-facebook"></i>
+                            <div class="footer-info-label">
+                                <p>Duy Pham Duc</p>
+                            </div>
+                        </a>
+                        <a href="https://github.com/yuk068" target="_blank">
+                            <i class="fab fa-github"></i>
+                            <div class="footer-info-label">
+                                <p>Yuk068</p>
+                            </div>
+                        </a>
+                        <a href="https://x.com/Yukano_50" target="_blank">
+                            <i class="fab fa-twitter"></i>
+                            <div class="footer-info-label">
+                                <p>@Yukano_50</p>
+                            </div>
+                        </a>
+                        <a href="https://www.instagram.com/yukano68/" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                            <div class="footer-info-label">
+                                <p>yukano68</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="copyright-text">
+                        <p>&copy; 2025 Yukano - <a href="/support-yuk">Support Yuk!</a></p>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </div>
+    <script src="/assets/js/pages-js/post-script.js"></script>
+    <div class="scroll-button-container">
+        <button id="scrollButton" onclick="scrollToTop()">
+            <img src="/assets/svg/double-arrow-up-circle.svg" alt="⇡">
+        </button>
+    </div>
+</body>
+
+</html>

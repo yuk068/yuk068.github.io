@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="linkage" content="true">
+    <title>K-NN - Python implementation from scratch</title>
+    <meta name="description" content="Creating a K-Nearest Neighbors model from scratch in Python">
+    <link rel="stylesheet" href="/assets/css/pages-css/post-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="main-container">
+        <header id="post-header">
+            <div class="header-logo-container">
+                <button class="logo-button" onclick="handleLogoClick()">
+                    <div class="logo-container">
+                        <div class="logo">
+                            <div class="u-shape left-side"></div>
+                            <div class="u-shape bottom"></div>
+                            <div class="u-shape right-side"></div>
+                        </div>
+                        <div class="left-arrow-top"></div>
+                        <div class="right-arrow-top"></div>
+                        <div class="right-arrow-bottom"></div>
+                    </div>
+                </button>
+            </div>
+            <div class="home-header-title-mobile">
+                <h1 id="home-header-title">Yukano</h1>
+            </div>
+            <div class="nav-container">
+                <nav class="nav-bar">
+                    <ul>
+                        <a href="#" onclick="goBack()">
+                            <li>
+                                
+                                Back
+                                
+                            </li>
+                        </a>
+                        <div class="nav-bar-divider"></div>
+                        <a href="/">
+                            <li>
+                                
+                                Home
+                                
+                            </li>
+                        </a>
+                        <div class="nav-bar-divider" id="nav-disable-mobile"></div>
+                        <a href="/archive" id="nav-disable-mobile">
+                            <li id="nav-disable-mobile">
+                                
+                                Archive
+                                
+                            </li>
+                        </a>
+                        <div class="nav-bar-divider" id="nav-disable-mobile"></div>
+                        <a href="/projects" id="nav-disable-mobile">
+                            <li id="nav-disable-mobile">
+                                
+                                Projects
+                                
+                            </li>
+                        </a>
+                        <div class="nav-bar-divider" id="nav-disable-mobile"></div>
+                        <a href="#" onclick="notifyComingSoon()" id="nav-disable-mobile">
+                            <li id="nav-disable-mobile">
+                                
+                                Explore
+                                
+                            </li>
+                        </a>
+                    </ul>
+                </nav>
+            </div>
+            <div class="header-extra-container">
+                <button class="extra-button">
+                    <div class="extra-container">
+                        <div class="extra">
+                            <div class="extra-shape top"></div>
+                            <div class="extra-shape middle"></div>
+                            <div class="extra-shape bottom"></div>
+                        </div>
+                    </div>
+                </button>
+            </div>
+        </header>
+        <main>
+            <div id="overlay" class="overlay">
+                <div class="options-container">
+                    <p>
+                        
+                        Navigation
+                        
+                    </p>
+                    <div class="options-navigation">
+                        <button id="toBackButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-63ce7424ea57ea6c8380059e-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <path class="cls-63ce7424ea57ea6c8380059e-1"
+                                    d="M2.41,16.78H14.85A7.65,7.65,0,0,0,22.5,9.13h0a7.65,7.65,0,0,0-7.65-7.65H.5">
+                                </path>
+                                <polyline class="cls-63ce7424ea57ea6c8380059e-1"
+                                    points="8.15 22.52 2.41 16.78 8.15 11.04">
+                                </polyline>
+                            </svg>
+                            
+                            Back
+                            
+                        </button>
+                        <button id="toHomeButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-6374f8d9b67f094e4896c637-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <polyline class="cls-6374f8d9b67f094e4896c637-1" points="1 12 12 2.83 23 12"></polyline>
+                                <polyline class="cls-6374f8d9b67f094e4896c637-1"
+                                    points="19.33 9.25 19.33 21.17 14.75 21.17 14.75 13.83 9.25 13.83 9.25 21.17 4.67 21.17 4.67 9.25">
+                                </polyline>
+                            </svg>
+                            
+                            Home
+                            
+                        </button>
+                        <button id="toArchiveButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-6374f8d9b67f094e4896c633-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <polygon class="cls-6374f8d9b67f094e4896c633-1"
+                                    points="19.64 9.14 4.36 9.14 4.36 1.5 10.09 1.5 12 3.41 19.64 3.41 19.64 9.14">
+                                </polygon>
+                                <polygon class="cls-6374f8d9b67f094e4896c633-1"
+                                    points="1.5 9.14 22.5 9.14 20.59 22.5 3.41 22.5 1.5 9.14"></polygon>
+                            </svg>
+                            
+                            Archive
+                            
+                        </button>
+                        <button id="toProjectsButton"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                stroke-width="1.5" width="20" height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-637b8d40f95e86b59c57a2bd-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <g id="roll_brush" data-name="roll brush">
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="5.24" y1="11.08" x2="18.66"
+                                        y2="11.08">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="5.24" y1="18.76" x2="18.66"
+                                        y2="18.76">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="5.24" y1="14.92" x2="18.66"
+                                        y2="14.92">
+                                    </line>
+                                    <rect class="cls-637b8d40f95e86b59c57a2bd-1" x="1.4" y="1.49" width="21.1"
+                                        height="21.1"></rect>
+                                    <polygon class="cls-637b8d40f95e86b59c57a2bd-1"
+                                        points="22.5 7.25 16.23 7.25 14.31 7.25 1.4 7.25 1.4 1.49 22.5 1.49 22.5 7.25">
+                                    </polygon>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="4.28" y1="4.37" x2="6.2" y2="4.37">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="8.11" y1="4.37" x2="10.03"
+                                        y2="4.37">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="11.95" y1="4.37" x2="13.87"
+                                        y2="4.37">
+                                    </line>
+                                </g>
+                            </svg>
+                            
+                            Projects
+                            
+                        </button>
+                        <button id="toExploreButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-63ce7424ea57ea6c8380055b-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <polyline class="cls-63ce7424ea57ea6c8380055b-1" points="22 13 22 22 2 22 2 2 11 2">
+                                </polyline>
+                                <polyline class="cls-63ce7424ea57ea6c8380055b-1" points="14 2 22 2 22 10"></polyline>
+                                <line class="cls-63ce7424ea57ea6c8380055b-1" x1="22" y1="2" x2="10" y2="14"></line>
+                            </svg>
+                            
+                            Explore
+                            
+                        </button>
+                        <button id="toAboutButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-6374f8d9b67f094e4896c670-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <circle class="cls-6374f8d9b67f094e4896c670-1" cx="12" cy="7.25" r="5.73"></circle>
+                                <path class="cls-6374f8d9b67f094e4896c670-1"
+                                    d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05">
+                                </path>
+                            </svg>
+                            
+                            About
+                            
+                        </button>
+                    </div>
+                    <div class="option-horizontal-divider-line"></div>
+                    <p>
+                        
+                        Options
+                        
+                    </p>
+                    <div class="options-configuration">
+                        <button id="toTopButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-63ce7424ea57ea6c83800547-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <circle class="cls-63ce7424ea57ea6c83800547-1" cx="12" cy="12" r="10.5"></circle>
+                                <line class="cls-63ce7424ea57ea6c83800547-1" x1="12" y1="10.09" x2="12" y2="18.68">
+                                </line>
+                                <polyline class="cls-63ce7424ea57ea6c83800547-1"
+                                    points="7.23 10.09 12 5.32 16.77 10.09">
+                                </polyline>
+                                <polyline class="cls-63ce7424ea57ea6c83800547-1"
+                                    points="7.23 14.86 12 10.09 16.77 14.86">
+                                </polyline>
+                            </svg>
+                            
+                            To top
+                            
+                        </button>
+                        <button id="collapseExpandAllButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-63ce7424ea57ea6c8380059a-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <line class="cls-63ce7424ea57ea6c8380059a-1" x1="6" y1="2" x2="6" y2="23"></line>
+                                <polyline class="cls-63ce7424ea57ea6c8380059a-1" points="11 7 6 2 1 7"></polyline>
+                                <line class="cls-63ce7424ea57ea6c8380059a-1" x1="18" y1="22" x2="18" y2="1"></line>
+                                <polyline class="cls-63ce7424ea57ea6c8380059a-1" points="13 17 18 22 23 17"></polyline>
+                            </svg>
+                            
+                            Expand / Collapse all
+                            
+                        </button>
+                        <button id="themeButton"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                stroke-width="1.5" width="20" height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-637b8d40f95e86b59c57a2e7-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <g id="roll_brush" data-name="roll brush">
+                                    <circle class="cls-637b8d40f95e86b59c57a2e7-1" cx="11.99" cy="12.01" r="6.71">
+                                    </circle>
+                                    <path class="cls-637b8d40f95e86b59c57a2e7-1" d="M12,8.65a3.36,3.36,0,0,1,0,6.72Z">
+                                    </path>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="11.99" y1="0.5" x2="11.99"
+                                        y2="2.42">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="11.99" y1="21.6" x2="11.99"
+                                        y2="23.52">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="0.48" y1="12.01" x2="2.4"
+                                        y2="12.01">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="21.58" y1="12.01" x2="23.5"
+                                        y2="12.01">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="20.13" y1="3.87" x2="18.77"
+                                        y2="5.23">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="5.21" y1="18.79" x2="3.85"
+                                        y2="20.15">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="3.85" y1="3.87" x2="5.21"
+                                        y2="5.23">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="18.77" y1="18.79" x2="20.13"
+                                        y2="20.15"></line>
+                                </g>
+                            </svg>
+                            
+                            Theme
+                            
+                        </button>
+                        <button id="commentsButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-637642e7c3a86d32eae6f18f-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <path class="cls-637642e7c3a86d32eae6f18f-1"
+                                    d="M1.5,5.3v9.54a3.82,3.82,0,0,0,3.82,3.82H7.23v2.86L13,18.66h5.73a3.82,3.82,0,0,0,3.82-3.82V5.3a3.82,3.82,0,0,0-3.82-3.82H5.32A3.82,3.82,0,0,0,1.5,5.3Z">
+                                </path>
+                                <line class="cls-637642e7c3a86d32eae6f18f-1" x1="15.82" y1="10.07" x2="17.73"
+                                    y2="10.07">
+                                </line>
+                                <line class="cls-637642e7c3a86d32eae6f18f-1" x1="11.05" y1="10.07" x2="12.95"
+                                    y2="10.07">
+                                </line>
+                                <line class="cls-637642e7c3a86d32eae6f18f-1" x1="6.27" y1="10.07" x2="8.18" y2="10.07">
+                                </line>
+                            </svg>
+                            
+                            Comments
+                            
+                        </button>
+                    </div>
+                    <div class="option-horizontal-divider-line"></div>
+                    <div class="options-close">
+                        <button id="closeButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-6374f8d9b67f094e4896c61e-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <circle class="cls-6374f8d9b67f094e4896c61e-1" cx="12" cy="12" r="10.5"></circle>
+                                <line class="cls-6374f8d9b67f094e4896c61e-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77">
+                                </line>
+                                <line class="cls-6374f8d9b67f094e4896c61e-1" x1="7.23" y1="7.23" x2="16.77" y2="16.77">
+                                </line>
+                            </svg>
+                            
+                            Close
+                            
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="post-content">
+                <div class="post-info-card">
+                    <h1>
+                        <span class="category-svg">
+                            
+                            
+                            <img src="/assets/svg/categories/code.svg"
+                                alt="code category" onerror="this.remove()">
+                            
+                        </span>K-NN - Python implementation from scratch
+                    </h1>
+                    <div class="post-tags">
+                        
+                        <span class="tag">#machine-learning</span>
+                        
+                        <span class="tag">#python</span>
+                        
+                    </div>
+                    <div class="date">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="16"
+                            height="16" color="#fff">
+                            <defs>
+                                <style>
+                                    .cls-6375f1aeb67f094e4896c9ea-1,
+                                    .cls-6375f1aeb67f094e4896c9ea-2 {
+                                        fill: none;
+                                        stroke: currentColor;
+                                        stroke-miterlimit: 10;
+                                    }
+
+                                    .cls-6375f1aeb67f094e4896c9ea-1 {
+                                        stroke-linecap: square;
+                                    }
+                                </style>
+                            </defs>
+                            <g id="calendar">
+                                <rect class="cls-6375f1aeb67f094e4896c9ea-1" x="1.5" y="2.43" width="21" height="4.77"
+                                    transform="translate(24 9.64) rotate(180)"></rect>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="17.73" y1="0.52" x2="17.73" y2="4.34">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="6.27" y1="0.52" x2="6.27" y2="4.34">
+                                </line>
+                                <polygon class="cls-6375f1aeb67f094e4896c9ea-1"
+                                    points="22.5 11.98 22.5 7.21 1.5 7.21 1.5 22.48 22.5 22.48 22.5 15.79 22.5 11.98">
+                                </polygon>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="11.02" x2="11.05" y2="11.02">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="11.02" x2="14.86"
+                                    y2="11.02"></line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="16.77" y1="11.02" x2="18.68"
+                                    y2="11.02"></line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="14.84" x2="11.05" y2="14.84">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="5.32" y1="14.84" x2="7.23" y2="14.84">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="14.84" x2="14.86"
+                                    y2="14.84"></line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="16.77" y1="14.84" x2="18.68"
+                                    y2="14.84"></line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="18.66" x2="11.05" y2="18.66">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="5.32" y1="18.66" x2="7.23" y2="18.66">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="18.66" x2="14.86"
+                                    y2="18.66"></line>
+                            </g>
+                        </svg>
+                        
+                        <span class="date-span">30/09/2024</span>
+
+                        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                            stroke-width="1.5" width="16" height="16" color="#fff">
+                            <defs>
+                                <style>
+                                    .cls-6374f8d9b67f094e4896c623-1 {
+                                        fill: none;
+                                        stroke: currentColor;
+                                        stroke-miterlimit: 10;
+                                    }
+                                </style>
+                            </defs>
+                            <circle class="cls-6374f8d9b67f094e4896c623-1" cx="12" cy="12" r="10.5"></circle>
+                            <circle class="cls-6374f8d9b67f094e4896c623-1" cx="12" cy="12" r="0.95"></circle>
+                            <polyline class="cls-6374f8d9b67f094e4896c623-1" points="12 4.36 12 12 16.77 16.77">
+                            </polyline>
+                        </svg>
+                        
+                        <span class="reading-time">
+                            23
+                            
+                            Min.
+                            
+                        </span>
+                        
+                    </div>
+                    <div class="author">
+                        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                            stroke-width="1.5" width="14" height="14" color="#fff">
+                            <defs>
+                                <style>
+                                    .cls-6374f8d9b67f094e4896c670-1 {
+                                        fill: none;
+                                        stroke: currentColor;
+                                        stroke-miterlimit: 10;
+                                    }
+                                </style>
+                            </defs>
+                            <circle class="cls-6374f8d9b67f094e4896c670-1" cx="12" cy="7.25" r="5.73"></circle>
+                            <path class="cls-6374f8d9b67f094e4896c670-1"
+                                d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05">
+                            </path>
+                        </svg>
+                        
+                        Written by:
+                        
+                        Yuk
+                    </div>
+                </div>
+                <div class="horizontal-divider-line"></div>
+                <div class="post-article">
+                    <article>
+                        <h3 id="table-of-content">Table of Content</h3>
+
+<blockquote>
+  <div id="table-of-contents"></div>
+</blockquote>
+
+<h3 id="remarks">Remarks</h3>
+
+<p>This blog post dives straight into implementing a K-Nearest Neighbors (KNN) model from scratch in Python. We’ll focus on the core functionalities without going into extensive explanations of the KNN algorithm itself.</p>
+
+<p>While KNN is a well-known and relatively simple algorithm, in-depth theoretical explanations might be better suited for a separate post.  Considering the curriculum of my current machine learning course, this implementation-focused approach seems more relevant for my current needs.</p>
+
+<h2 id="i-overview">I, Overview</h2>
+
+<h4 id="a-k-nearest-neighbor">A. K-Nearest-Neighbor</h4>
+
+<p>If you’re familiar with machine learning, you probably know that KNN is a super intuitive and straightforward algorithm used for both classification and regression tasks. The idea is pretty simple: when you want to make a prediction for a new data point, KNN looks at the ‘K’ closest data points in your training set. It then bases its prediction on the majority class (for classification) or the average (for regression) of those neighbors. Think of it like asking your friends for advice—if most of them suggest the same thing, you’re likely to go with that!</p>
+
+<h4 id="b-limitation-of-this-post">B. Limitation of this Post</h4>
+
+<p>Before we jump into coding, let’s quickly cover a few limitations you should keep in mind:</p>
+
+<ul>
+  <li><strong>Will Only Test for L2 Norm:</strong> We’ll focus on the L2 norm (Euclidean distance) for measuring distances. There are other distance metrics, but for simplicity, we’re sticking with this one.</li>
+  <li><strong>Curse of Dimensionality:</strong> As the number of dimensions increases, the distance between points becomes less meaningful. This can mess with our KNN model, especially in high-dimensional spaces.</li>
+  <li><strong>Instance-Based Models and Lazy Learning:</strong> KNN is what’s called an instance-based model. It doesn’t build a general model during training; instead, it memorizes the training instances and waits until it gets new data. This means it can be slower at prediction time, especially with large datasets.</li>
+</ul>
+
+<h4 id="c-necessary-imports">C. Necessary Imports</h4>
+
+<p>Throughout this post, we will assume these imports</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>  <span class="c1"># For numerical operations and array manipulations.
+</span><span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>  <span class="c1"># For data manipulation and analysis, especially with DataFrames.
+</span><span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>  <span class="c1"># For creating visualizations to help understand our data and results.
+</span></code></pre></div></div>
+
+<h4 id="d-general-process-of-k-nn">D. General process of K-NN</h4>
+
+<ul>
+  <li><strong>Training:</strong> K-NN stores the training data without any explicit model fitting.</li>
+  <li><strong>Distance Calculation:</strong> For new, unseen data, compute the distance from the new data point to each stored data point.</li>
+  <li><strong>Sorting:</strong> Sort the calculated distances in ascending order while retaining their corresponding indices.</li>
+  <li><strong>Prediction:</strong> For classification, determine the predicted class by majority vote among the nearest neighbors; for regression, calculate the mean or median of the nearest values.</li>
+</ul>
+
+<h4 id="e-final-goal-of-this-post">E. Final Goal of this Post</h4>
+
+<p>The aim of this journey is to create a flexible K-NN function that can handle both classification and regression tasks. Here’s the plan:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">k_nearest_neighbor_predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">distance_func</span><span class="o">=</span><span class="n">euclidean_distance</span><span class="p">,</span> <span class="n">regression</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sh">"""</span><span class="s">k-NN Prediction (Classification or Regression).
+
+    This function predicts the output for a given test set using the k-nearest neighbors algorithm.
+    It can perform either classification or regression based on the `regression` flag.
+
+    Parameters:
+        X_train: numpy.ndarray
+            A 2D array of training samples (shape: [n_samples, n_features]).
+        y_train: numpy.ndarray
+            A 1D array of training labels or values (shape: [n_samples]).
+        X_test: numpy.ndarray
+            A 2D array of test samples (shape: [m_samples, n_features]).
+        k: int
+            Number of nearest neighbors to consider (default is 3).
+        distance_func: function
+            Function to calculate the distance between points (default is euclidean_distance).
+        regression: bool
+            If True, perform regression; otherwise, perform classification (default is False).
+
+    Returns:
+        numpy.ndarray
+            A 1D array of predicted labels (for classification) or predicted values (for regression)
+            for the test samples (shape: [m_samples]).
+    </span><span class="sh">"""</span>
+    <span class="k">return</span> <span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>So with that being said, let’s get coding.</p>
+
+<h2 id="ii-building-the-model">II, Building the Model</h2>
+
+<h3 id="distance-metrics">Distance Metrics</h3>
+
+<p>When it comes to KNN, calculating the distance between data points is crucial, and there are several ways to do this. Here are four popular distance metrics:</p>
+
+<blockquote>
+
+\[\begin{align}
+\text{Let } &amp; x_1 = (x_{11}, x_{12}, \ldots , x_{1n}) \in \mathbb{R}^n \quad \\[5pt]
+&amp; x_2 = (x_{21}, x_{22}, \ldots , x_{2n}) \in \mathbb{R}^n
+\end{align}\]
+</blockquote>
+
+<ul>
+  <li><strong>Euclidean Distance (L2 Norm):</strong> This is the most commonly used distance metric. It measures the straight-line distance between two points in Euclidean space. Essentially, it’s like finding the length of the shortest path connecting two points. It’s given by the formula:</li>
+</ul>
+
+<blockquote>
+
+\[\begin{gather*}
+d(x_1,x_2)=\sqrt{\sum_{i=1}^n (x_{1i} - x_{2i})^2} \quad
+\end{gather*}\]
+</blockquote>
+
+<ul>
+  <li><strong>Manhattan Distance (L1 Norm):</strong> Also known as “taxicab” or “city block” distance, this metric sums the absolute differences between the coordinates of two points. Imagine navigating a grid-like city; you can only move along the streets, making it a practical way to measure distance in urban settings:</li>
+</ul>
+
+<blockquote>
+
+\[\begin{gather*}
+d(x_1,x_2)=\sum_{i=1}^n \mid x_{1i} - x_{2i} \mid \quad
+\end{gather*}\]
+</blockquote>
+
+<ul>
+  <li><strong>Minkowski Distance:</strong> This metric generalizes both Euclidean and Manhattan distances. It introduces a parameter \(p\) that defines the order of the distance calculation. When \(p=2\), it becomes Euclidean distance, and when \(p=1\), it becomes Manhattan distance. It’s defined as:</li>
+</ul>
+
+<blockquote>
+
+\[\begin{gather*}
+d(x_1,x_2)= \left( \sum_{i=1}^n \mid x_{1i} - x_{2i} \mid^p \right)^{\frac{1}{p}} \quad
+\end{gather*}\]
+</blockquote>
+
+<ul>
+  <li><strong>Chebyshev Distance:</strong> This metric is based on the maximum absolute difference among the dimensions. It’s useful in certain applications, such as chess, where the distance between pieces can be measured by how far apart they are in the worst case:</li>
+</ul>
+
+<blockquote>
+
+\[\begin{gather*}
+d(x_1,x_2)= max \mid x_{1i} - x_{2i} \mid \quad
+\end{gather*}\]
+</blockquote>
+
+<p>Below is the Python implementation for the 4 distance metrics mentioned above:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># All functions returns a single scalar value
+</span><span class="k">def</span> <span class="nf">euclidean_distance</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">):</span> <span class="c1"># We will only be using this
+</span>    <span class="sh">"""</span><span class="s">Calculate the Euclidean distance between two vectors.</span><span class="sh">"""</span>
+    <span class="k">return</span> <span class="n">np</span><span class="p">.</span><span class="nf">sqrt</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">sum</span><span class="p">((</span><span class="n">x1</span> <span class="o">-</span> <span class="n">x2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">manhattan_distance</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">):</span>
+    <span class="sh">"""</span><span class="s">Calculate the Manhattan distance between two vectors.</span><span class="sh">"""</span>
+    <span class="k">return</span> <span class="n">np</span><span class="p">.</span><span class="nf">sum</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">abs</span><span class="p">(</span><span class="n">x1</span> <span class="o">-</span> <span class="n">x2</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">minkowski_distance</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+    <span class="sh">"""</span><span class="s">Calculate the Minkowski distance between two vectors.</span><span class="sh">"""</span>
+    <span class="k">return</span> <span class="n">np</span><span class="p">.</span><span class="nf">power</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">sum</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">abs</span><span class="p">(</span><span class="n">x1</span> <span class="o">-</span> <span class="n">x2</span><span class="p">)</span> <span class="o">**</span> <span class="n">p</span><span class="p">),</span> <span class="mi">1</span><span class="o">/</span><span class="n">p</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">chebyshev_distance</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">):</span>
+    <span class="sh">"""</span><span class="s">Calculate the Chebyshev distance between two vectors.</span><span class="sh">"""</span>
+    <span class="k">return</span> <span class="n">np</span><span class="p">.</span><span class="nf">max</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">abs</span><span class="p">(</span><span class="n">x1</span> <span class="o">-</span> <span class="n">x2</span><span class="p">))</span>
+</code></pre></div></div>
+
+<h4 id="hamming-distance">Hamming Distance</h4>
+
+<p>For completeness, there’s also <strong>Hamming Distance</strong>, which measures the number of positions at which two strings of equal length differ. It’s particularly useful for categorical data and binary vectors, but we won’t cover it in this post for simplicity. <a href="https://en.wikipedia.org/wiki/Hamming_distance" target="_blank">Hamming Distance - Wikipedia</a></p>
+
+<h3 id="distance-calculation-and-majority-voting">Distance Calculation and Majority Voting</h3>
+
+<h4 id="a-distance-calculation">A. Distance Calculation</h4>
+
+<p>To make KNN work, we need to calculate the distances between our test sample and all training samples. We’ll do this using our distance functions. The <code class="language-plaintext highlighter-rouge">compute_distances</code> function does exactly that, taking in our training data, a single test sample, and a chosen distance function (defaulting to Euclidean distance). It returns a list of distances between the test sample and each training sample.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">compute_distances</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">distance_func</span><span class="o">=</span><span class="n">euclidean_distance</span><span class="p">):</span>
+    <span class="sh">"""</span><span class="s">Compute distances between a test sample and each training sample.
+
+    Parameters:
+        X_train: numpy.ndarray
+            A 2D array of training samples (shape: [n_samples, n_features]).
+        x_test: numpy.ndarray
+            A 1D array representing a single test sample (shape: [n_features]).
+        distance_func: function
+            A function to calculate the distance between two points (default is euclidean_distance).
+
+    Returns:
+        list
+            A list of distances between x_test and each sample in X_train.
+    </span><span class="sh">"""</span>
+    <span class="n">distances</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">x_train</span> <span class="ow">in</span> <span class="n">X_train</span><span class="p">:</span>
+        <span class="c1"># Calculate the distance between the training sample and the test sample
+</span>        <span class="n">distance</span> <span class="o">=</span> <span class="nf">distance_func</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">)</span>
+        <span class="n">distances</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">distance</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">distances</span>
+</code></pre></div></div>
+
+<h4 id="b-majority-vote">B. Majority Vote</h4>
+
+<p>Next up, we need to determine which label (or value) to assign to our test sample based on its nearest neighbors. For classification, we use a majority voting system. The <code class="language-plaintext highlighter-rouge">majority_vote</code> function counts the occurrences of each label among the nearest neighbors and returns the label that appears most frequently. Here’s how that’s implemented:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">majority_vote</span><span class="p">(</span><span class="n">labels</span><span class="p">):</span>
+    <span class="sh">"""</span><span class="s">Manually compute the majority vote from the given labels.
+
+    Parameters:
+        labels: numpy.ndarray or list
+            A 1D array (or list) of labels corresponding to the nearest neighbors.
+
+    Returns:
+        scalar
+            The label that appears most frequently among the input labels.
+    </span><span class="sh">"""</span>
+    <span class="n">label_count</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1"># Count occurrences of each label
+</span>    <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">label_count</span><span class="p">:</span>
+            <span class="n">label_count</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">label_count</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="c1"># Find the label with the maximum count
+</span>    <span class="n">max_count</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="n">majority_label</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">label_count</span><span class="p">.</span><span class="nf">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="n">max_count</span><span class="p">:</span>
+            <span class="n">max_count</span> <span class="o">=</span> <span class="n">count</span>
+            <span class="n">majority_label</span> <span class="o">=</span> <span class="n">label</span>
+
+    <span class="k">return</span> <span class="n">majority_label</span>
+</code></pre></div></div>
+
+<h3 id="k-nn-for-classification">K-NN for Classification</h3>
+
+<p>Now that we can calculate distances and determine the nearest neighbors, let’s put it all together for classification.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">k_nearest_neighbor_classification</code> function takes our training data, labels, test samples, and the number of neighbors \(k\) to consider. It uses our distance calculation and majority voting functions to predict labels for the test samples:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">k_nearest_neighbor_classification</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">distance_func</span><span class="o">=</span><span class="n">euclidean_distance</span><span class="p">):</span>
+    <span class="sh">"""</span><span class="s">k-NN Classification.
+    
+    Parameters:
+        X_train: numpy.ndarray
+            A 2D array of training samples (shape: [n_samples, n_features]).
+        y_train: numpy.ndarray
+            A 1D array of training labels (shape: [n_samples]).
+        X_test: numpy.ndarray
+            A 2D array of test samples (shape: [m_samples, n_features]).
+        k: int
+            Number of nearest neighbors to consider (default is 3).
+        distance_func: function
+            Function to calculate the distance between points (default is euclidean_distance).
+    
+    Returns:
+        numpy.ndarray
+            A 1D array of predicted labels for the test samples (shape: [m_samples]).
+    </span><span class="sh">"""</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="k">for</span> <span class="n">x_test</span> <span class="ow">in</span> <span class="n">X_test</span><span class="p">:</span>
+        <span class="c1"># Compute distances from the test sample to all training samples
+</span>        <span class="n">dists</span> <span class="o">=</span> <span class="nf">compute_distances</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">distance_func</span><span class="p">)</span>
+        
+        <span class="c1"># Create a dictionary of indices and distances
+</span>        <span class="n">distance_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">idx</span><span class="p">:</span> <span class="n">dist</span> <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">dist</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">(</span><span class="n">dists</span><span class="p">)}</span>
+        
+        <span class="c1"># Sort the dictionary by distances and get the nearest k indices
+</span>        <span class="n">sorted_distance_dict</span> <span class="o">=</span> <span class="nf">dict</span><span class="p">(</span><span class="nf">sorted</span><span class="p">(</span><span class="n">distance_dict</span><span class="p">.</span><span class="nf">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">item</span><span class="p">:</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="n">nearest_indices</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="n">sorted_distance_dict</span><span class="p">.</span><span class="nf">keys</span><span class="p">())[:</span><span class="n">k</span><span class="p">]</span>
+        
+        <span class="c1"># Get the corresponding labels from y_train
+</span>        <span class="n">nearest_labels</span> <span class="o">=</span> <span class="n">y_train</span><span class="p">[</span><span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">(</span><span class="n">nearest_indices</span><span class="p">)]</span>
+        
+        <span class="c1"># Predict the label by majority vote among the nearest labels
+</span>        <span class="n">pred</span> <span class="o">=</span> <span class="nf">majority_vote</span><span class="p">(</span><span class="n">nearest_labels</span><span class="p">)</span>
+        
+        <span class="n">y_pred</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">pred</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="k-nn-for-regression">K-NN for Regression</h3>
+
+<p>Now, if you’re working with regression, we can adapt the process slightly. Instead of majority voting, we’ll take the average of the nearest neighbors’ values.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">k_nearest_neighbor_regression</code> function is similar to the classification one, but it calculates the mean (note that you can also use median in some cases) of the nearest values instead of a label:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">k_nearest_neighbor_regression</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">distance_func</span><span class="o">=</span><span class="n">euclidean_distance</span><span class="p">):</span>
+    <span class="sh">"""</span><span class="s">k-NN Regression.
+    
+    Parameters:
+        X_train: numpy.ndarray
+            A 2D array of training samples (shape: [n_samples, n_features]).
+        y_train: numpy.ndarray
+            A 1D array of training values (shape: [n_samples]).
+        X_test: numpy.ndarray
+            A 2D array of test samples (shape: [m_samples, n_features]).
+        k: int
+            Number of nearest neighbors to consider (default is 3).
+        distance_func: function
+            Function to calculate the distance between points (default is euclidean_distance).
+    
+    Returns:
+        numpy.ndarray
+            A 1D array of predicted values for the test samples (shape: [m_samples]).
+    </span><span class="sh">"""</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="k">for</span> <span class="n">x_test</span> <span class="ow">in</span> <span class="n">X_test</span><span class="p">:</span>
+        <span class="c1"># Compute distances from the test sample to all training samples
+</span>        <span class="n">dists</span> <span class="o">=</span> <span class="nf">compute_distances</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">distance_func</span><span class="p">)</span>
+        
+        <span class="c1"># Create a dictionary of indices and distances
+</span>        <span class="n">distance_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">idx</span><span class="p">:</span> <span class="n">dist</span> <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">dist</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">(</span><span class="n">dists</span><span class="p">)}</span>
+        
+        <span class="c1"># Sort the dictionary by distances and get the nearest k indices
+</span>        <span class="n">sorted_distance_dict</span> <span class="o">=</span> <span class="nf">dict</span><span class="p">(</span><span class="nf">sorted</span><span class="p">(</span><span class="n">distance_dict</span><span class="p">.</span><span class="nf">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">item</span><span class="p">:</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="n">nearest_indices</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="n">sorted_distance_dict</span><span class="p">.</span><span class="nf">keys</span><span class="p">())[:</span><span class="n">k</span><span class="p">]</span>
+        
+        <span class="c1"># Get the corresponding values from y_train
+</span>        <span class="n">nearest_values</span> <span class="o">=</span> <span class="n">y_train</span><span class="p">[</span><span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">(</span><span class="n">nearest_indices</span><span class="p">)]</span>
+        
+        <span class="c1"># Calculate the mean of the nearest values to make the prediction
+</span>        <span class="n">pred</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">mean</span><span class="p">(</span><span class="n">nearest_values</span><span class="p">)</span>
+        <span class="n">y_pred</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">pred</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="final-result">Final result</h3>
+
+<p>To simplify usage, we’ll create a unified function that can handle both classification and regression tasks.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">k_nearest_neighbor_predict</code> function checks the regression flag and performs the appropriate operation accordingly:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">k_nearest_neighbor_predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">distance_func</span><span class="o">=</span><span class="n">euclidean_distance</span><span class="p">,</span> <span class="n">regression</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sh">"""</span><span class="s">k-NN Prediction (Classification or Regression).
+
+    This function predicts the output for a given test set using the k-nearest neighbors algorithm.
+    It can perform either classification or regression based on the `regression` flag.
+
+    Parameters:
+        X_train: numpy.ndarray
+            A 2D array of training samples (shape: [n_samples, n_features]).
+        y_train: numpy.ndarray
+            A 1D array of training labels or values (shape: [n_samples]).
+        X_test: numpy.ndarray
+            A 2D array of test samples (shape: [m_samples, n_features]).
+        k: int
+            Number of nearest neighbors to consider (default is 3).
+        distance_func: function
+            Function to calculate the distance between points (default is euclidean_distance).
+        regression: bool
+            If True, perform regression; otherwise, perform classification (default is False).
+
+    Returns:
+        numpy.ndarray
+            A 1D array of predicted labels (for classification) or predicted values (for regression)
+            for the test samples (shape: [m_samples]).
+    </span><span class="sh">"""</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="k">for</span> <span class="n">x_test</span> <span class="ow">in</span> <span class="n">X_test</span><span class="p">:</span>
+        <span class="c1"># Compute distances from the test sample to all training samples
+</span>        <span class="n">dists</span> <span class="o">=</span> <span class="nf">compute_distances</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">distance_func</span><span class="p">)</span>
+        
+        <span class="c1"># Create a dictionary of indices and distances
+</span>        <span class="n">distance_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">idx</span><span class="p">:</span> <span class="n">dist</span> <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">dist</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">(</span><span class="n">dists</span><span class="p">)}</span>
+        
+        <span class="c1"># Sort the dictionary by distances and get the nearest k indices
+</span>        <span class="n">sorted_distance_dict</span> <span class="o">=</span> <span class="nf">dict</span><span class="p">(</span><span class="nf">sorted</span><span class="p">(</span><span class="n">distance_dict</span><span class="p">.</span><span class="nf">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">item</span><span class="p">:</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="n">nearest_indices</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="n">sorted_distance_dict</span><span class="p">.</span><span class="nf">keys</span><span class="p">())[:</span><span class="n">k</span><span class="p">]</span>
+        
+        <span class="c1"># Get the corresponding labels or values from y_train
+</span>        <span class="n">nearest_values</span> <span class="o">=</span> <span class="n">y_train</span><span class="p">[</span><span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">(</span><span class="n">nearest_indices</span><span class="p">)]</span>
+        
+        <span class="k">if</span> <span class="n">regression</span><span class="p">:</span>
+            <span class="c1"># If performing regression, calculate the mean of the nearest values
+</span>            <span class="n">pred</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">mean</span><span class="p">(</span><span class="n">nearest_values</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># If performing classification, predict the label by majority vote
+</span>            <span class="n">pred</span> <span class="o">=</span> <span class="nf">majority_vote</span><span class="p">(</span><span class="n">nearest_values</span><span class="p">)</span>
+        
+        <span class="n">y_pred</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">pred</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>With all these components in place, you now have a complete K-NN model that can classify and regress based on the nearest neighbors in your dataset! In the next section, we’ll explore how to evaluate the performance of our K-NN model.</p>
+
+<h2 id="iii-testing-the-model">III, Testing the Model</h2>
+
+<p>For ease of use and comprehensiveness, let’s encapsulates our model into <strong><em>knn_model.py</em></strong>:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+
+<span class="k">def</span> <span class="nf">euclidean_distance</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="p">.</span><span class="nf">sqrt</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">sum</span><span class="p">((</span><span class="n">x1</span> <span class="o">-</span> <span class="n">x2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">manhattan_distance</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="p">.</span><span class="nf">sum</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">abs</span><span class="p">(</span><span class="n">x1</span> <span class="o">-</span> <span class="n">x2</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">minkowski_distance</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="p">.</span><span class="nf">power</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">sum</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">abs</span><span class="p">(</span><span class="n">x1</span> <span class="o">-</span> <span class="n">x2</span><span class="p">)</span> <span class="o">**</span> <span class="n">p</span><span class="p">),</span> <span class="mi">1</span><span class="o">/</span><span class="n">p</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">chebyshev_distance</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="p">.</span><span class="nf">max</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">abs</span><span class="p">(</span><span class="n">x1</span> <span class="o">-</span> <span class="n">x2</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">compute_distances</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">distance_func</span><span class="o">=</span><span class="n">euclidean_distance</span><span class="p">):</span>
+    <span class="n">distances</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">x_train</span> <span class="ow">in</span> <span class="n">X_train</span><span class="p">:</span>
+        <span class="n">distance</span> <span class="o">=</span> <span class="nf">distance_func</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">)</span>
+        <span class="n">distances</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">distance</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">distances</span>
+
+<span class="k">def</span> <span class="nf">majority_vote</span><span class="p">(</span><span class="n">labels</span><span class="p">):</span>
+    <span class="n">label_count</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">label_count</span><span class="p">:</span>
+            <span class="n">label_count</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">label_count</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="n">max_count</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="n">majority_label</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">label_count</span><span class="p">.</span><span class="nf">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="n">max_count</span><span class="p">:</span>
+            <span class="n">max_count</span> <span class="o">=</span> <span class="n">count</span>
+            <span class="n">majority_label</span> <span class="o">=</span> <span class="n">label</span>
+
+    <span class="k">return</span> <span class="n">majority_label</span>
+
+
+<span class="k">def</span> <span class="nf">k_nearest_neighbor_predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">regression</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">distance_func</span><span class="o">=</span><span class="n">euclidean_distance</span><span class="p">):</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">x_test</span> <span class="ow">in</span> <span class="n">X_test</span><span class="p">:</span>
+        <span class="n">dists</span> <span class="o">=</span> <span class="nf">compute_distances</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">distance_func</span><span class="p">)</span>
+        <span class="n">distance_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">idx</span><span class="p">:</span> <span class="n">dist</span> <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">dist</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">(</span><span class="n">dists</span><span class="p">)}</span>
+        <span class="n">sorted_distance_dict</span> <span class="o">=</span> <span class="nf">dict</span><span class="p">(</span><span class="nf">sorted</span><span class="p">(</span><span class="n">distance_dict</span><span class="p">.</span><span class="nf">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">item</span><span class="p">:</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="n">nearest_indices</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="n">sorted_distance_dict</span><span class="p">.</span><span class="nf">keys</span><span class="p">())[:</span><span class="n">k</span><span class="p">]</span>
+        <span class="n">nearest_values</span> <span class="o">=</span> <span class="n">y_train</span><span class="p">[</span><span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">(</span><span class="n">nearest_indices</span><span class="p">)]</span>
+
+        <span class="k">if</span> <span class="n">regression</span><span class="p">:</span>
+            <span class="n">pred</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">mean</span><span class="p">(</span><span class="n">nearest_values</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">pred</span> <span class="o">=</span> <span class="nf">majority_vote</span><span class="p">(</span><span class="n">nearest_values</span><span class="p">)</span>
+
+        <span class="n">y_pred</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">pred</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="evaluation-metrics-for-k-nn">Evaluation Metrics for K-NN</h3>
+
+<h4 id="a-classification-evaluation-metrics">A. Classification Evaluation Metrics</h4>
+
+<ul>
+  <li>
+    <p><strong>Accuracy:</strong> Measures the proportion of correctly predicted instances among the total instances. It’s a straightforward metric but can be misleading in imbalanced datasets.</p>
+  </li>
+  <li>
+    <p><strong>Precision:</strong> Indicates the proportion of predicted positive instances that are actually positive, making it important in situations where false positives are costly.</p>
+  </li>
+  <li>
+    <p><strong>Recall (Sensitivity):</strong> Measures the proportion of actual positive instances that were correctly predicted. It’s crucial when missing a positive instance is costly.</p>
+  </li>
+  <li>
+    <p><strong>Confusion Matrix:</strong> A summary that shows the counts of true positives, true negatives, false positives, and false negatives, helping to visualize the model’s performance.</p>
+  </li>
+</ul>
+
+<h4 id="b-regression-evaluation-metrics">B. Regression Evaluation Metrics</h4>
+
+<ul>
+  <li>
+    <p><strong>Mean Squared Error (MSE):</strong> Quantifies the average squared difference between predicted and actual values, with lower values indicating better model performance.</p>
+  </li>
+  <li>
+    <p><strong>R-Squared (\(R^2\)):</strong> Represents the proportion of variance in the dependent variable explained by the independent variables. Higher values indicate a better fit for the model.</p>
+  </li>
+</ul>
+
+<h4 id="c-decision-boundary">C. Decision Boundary</h4>
+
+<p>A decision boundary is a hypersurface that separates different classes in a classification task. In the context of K-NN, it represents the regions in the feature space where the algorithm predicts one class over another. As K-NN uses the majority class of the nearest neighbors to make predictions, the decision boundary can be complex and non-linear, adapting to the distribution of the training data. Visualizing decision boundaries helps in understanding how well the model can differentiate between classes in various regions of the feature space. In this post we will not be going deep into this concept but keep in mind that most K-NN models are visualized by Decision Boundary.</p>
+
+<p><img src="/assets/thumbnail/k-nn-python-implementation-from-scratch.webp" alt="Decision Boundary example" /></p>
+
+<div class="description">Examples of Decision Boundary with differnt K values</div>
+
+<h3 id="examples">Examples</h3>
+
+<h4 id="a-study-hours-binary-classification">A. Study Hours (Binary Classification)</h4>
+
+<p>In this example, we utilize a dataset that captures the relationship between study hours and the outcome of passing a test, represented in the column ‘Pass’ (0 for Passed and 1 for Not Passed). This dataset serves as a classic case for binary classification, where we aim to predict whether a student will pass based on the number of hours studied.</p>
+
+<p><img src="/assets/images/machinelearning/knn/studypass.webp" alt="Study Hours - Pass or Not Pass" /></p>
+
+<div class="description">Study Hours - Pass or Not Pass?</div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="n">knn_model</span> <span class="k">as</span> <span class="n">knn</span> <span class="c1"># Assume we have put all of our function into knn_model.py
+</span><span class="kn">from</span> <span class="n">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="n">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span><span class="p">,</span> <span class="n">precision_score</span><span class="p">,</span> <span class="n">recall_score</span><span class="p">,</span> <span class="n">confusion_matrix</span>
+
+<span class="c1"># Initiating data
+</span><span class="n">hours</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">([</span><span class="mf">0.50</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">,</span> <span class="mf">1.00</span><span class="p">,</span> <span class="mf">1.25</span><span class="p">,</span> <span class="mf">1.50</span><span class="p">,</span> <span class="mf">1.75</span><span class="p">,</span> <span class="mf">1.75</span><span class="p">,</span> <span class="mf">2.00</span><span class="p">,</span> <span class="mf">2.25</span><span class="p">,</span> <span class="mf">2.50</span><span class="p">,</span>
+                  <span class="mf">2.75</span><span class="p">,</span> <span class="mf">3.00</span><span class="p">,</span> <span class="mf">3.25</span><span class="p">,</span> <span class="mf">3.50</span><span class="p">,</span> <span class="mf">4.00</span><span class="p">,</span> <span class="mf">4.25</span><span class="p">,</span> <span class="mf">4.50</span><span class="p">,</span> <span class="mf">4.75</span><span class="p">,</span> <span class="mf">5.00</span><span class="p">,</span> <span class="mf">5.50</span><span class="p">])</span>
+<span class="n">pass_array</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+                       <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+
+<span class="c1"># Create training set and test set, because 'Hours' is sorted ascending, we need to shuffle the data
+</span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="nf">train_test_split</span><span class="p">(</span><span class="n">hours</span><span class="p">,</span> <span class="n">pass_array</span><span class="p">,</span> <span class="n">train_size</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># Use our K-NN Model
+</span><span class="n">y_pred</span> <span class="o">=</span> <span class="n">knn</span><span class="p">.</span><span class="nf">k_nearest_neighbor_predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="c1"># Print out evaluation metrics
+</span><span class="n">accuracy</span> <span class="o">=</span> <span class="nf">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Accuracy:</span><span class="sh">"</span><span class="p">,</span> <span class="n">accuracy</span><span class="p">)</span>
+<span class="n">precision</span> <span class="o">=</span> <span class="nf">precision_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Precision:</span><span class="sh">"</span><span class="p">,</span> <span class="n">precision</span><span class="p">)</span>
+<span class="n">recall</span> <span class="o">=</span> <span class="nf">recall_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Recall:</span><span class="sh">"</span><span class="p">,</span> <span class="n">recall</span><span class="p">)</span>
+<span class="n">conf_matrix</span> <span class="o">=</span> <span class="nf">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Confusion Matrix:</span><span class="se">\n</span><span class="sh">"</span><span class="p">,</span> <span class="n">conf_matrix</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>By applying our K-NN model with K = 3, we can classify test samples based on their nearest neighbors in the training set. The evaluation metrics—accuracy, precision, and recall—indicate that our model performs perfectly, achieving an accuracy of 1.0. The confusion matrix further confirms this, showing that all predictions were correct: three students passed, and two did not.</p>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Accuracy: 1.0
+Precision: 1.0
+Recall: 1.0
+Confusion Matrix:
+ [[3 0]
+ [0 2]]
+</code></pre></div></div>
+
+<p>Overall, this result suggests that the relationship between study hours and test outcomes is quite clear, allowing the K-NN model to effectively distinguish between the two classes.</p>
+
+<h4 id="b-iris-multi-class-classification">B. Iris (Multi-class Classification)</h4>
+
+<p>In the Iris dataset example, we extend our K-NN model to handle multi-class classification, where we classify different species of iris flowers based on various features. This dataset is widely used in machine learning as a benchmark due to its simplicity and well-defined classes.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">knn_model</span> <span class="k">as</span> <span class="n">knn</span>
+<span class="kn">from</span> <span class="n">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_iris</span>
+<span class="kn">from</span> <span class="n">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="n">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span><span class="p">,</span> <span class="n">precision_score</span><span class="p">,</span> <span class="n">recall_score</span><span class="p">,</span> <span class="n">confusion_matrix</span>
+
+<span class="c1"># Load the iris dataset
+</span><span class="n">iris</span> <span class="o">=</span> <span class="nf">load_iris</span><span class="p">()</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">iris</span><span class="p">.</span><span class="n">data</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">iris</span><span class="p">.</span><span class="n">target</span>
+
+<span class="c1"># Create training set and test set
+</span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="nf">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># Use our K-NN Model
+</span><span class="n">y_pred</span> <span class="o">=</span> <span class="n">knn</span><span class="p">.</span><span class="nf">k_nearest_neighbor_predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="c1"># Print out evaluation metrics for multiclass
+</span><span class="n">accuracy</span> <span class="o">=</span> <span class="nf">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Accuracy:</span><span class="sh">"</span><span class="p">,</span> <span class="n">accuracy</span><span class="p">)</span>
+
+<span class="c1"># For multiclass problems, specify the average type for precision and recall
+</span><span class="n">precision</span> <span class="o">=</span> <span class="nf">precision_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="sh">'</span><span class="s">macro</span><span class="sh">'</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Precision (macro):</span><span class="sh">"</span><span class="p">,</span> <span class="n">precision</span><span class="p">)</span>
+
+<span class="n">recall</span> <span class="o">=</span> <span class="nf">recall_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="sh">'</span><span class="s">macro</span><span class="sh">'</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Recall (macro):</span><span class="sh">"</span><span class="p">,</span> <span class="n">recall</span><span class="p">)</span>
+
+<span class="c1"># Compute and display the confusion matrix
+</span><span class="n">conf_matrix</span> <span class="o">=</span> <span class="nf">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Confusion Matrix:</span><span class="se">\n</span><span class="sh">"</span><span class="p">,</span> <span class="n">conf_matrix</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>After splitting the data into training and test sets, we apply our K-NN model with K = 3. The evaluation metrics again reveal perfect performance, with an accuracy of 1.0. The precision and recall values, computed using the macro average, further confirm the model’s effectiveness across all classes. The confusion matrix indicates that all species were correctly classified, with no misclassifications.</p>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Accuracy: 1.0
+Precision (macro): 1.0
+Recall (macro): 1.0
+Confusion Matrix:
+ [[10  0  0]
+ [ 0  9  0]
+ [ 0  0 11]]
+</code></pre></div></div>
+
+<p>This demonstrates the robustness of the K-NN model in handling multi-class scenarios, showcasing its ability to identify and differentiate between the distinct classes present in the dataset.</p>
+
+<h4 id="c-temp-vs-pressure-single-regression">C. Temp vs. Pressure (Single Regression)</h4>
+
+<p>In this example, we explore the relationship between temperature and pressure using both K-NN and linear regression techniques. The dataset consists of temperature readings and their corresponding pressure values.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="n">knn_model</span> <span class="k">as</span> <span class="n">knn</span>
+<span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">from</span> <span class="n">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span><span class="p">,</span> <span class="n">r2_score</span>
+<span class="kn">from</span> <span class="n">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+
+<span class="c1"># Initiating data
+</span><span class="n">temp</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">([</span><span class="mf">194.5</span><span class="p">,</span> <span class="mf">194.3</span><span class="p">,</span> <span class="mf">197.9</span><span class="p">,</span> <span class="mf">198.4</span><span class="p">,</span> <span class="mf">199.4</span><span class="p">,</span> <span class="mf">199.9</span><span class="p">,</span> <span class="mf">200.9</span><span class="p">,</span> <span class="mf">201.1</span><span class="p">,</span> <span class="mf">201.4</span><span class="p">,</span> <span class="mf">201.3</span><span class="p">,</span>
+                 <span class="mf">203.6</span><span class="p">,</span> <span class="mf">204.6</span><span class="p">,</span> <span class="mf">209.5</span><span class="p">,</span> <span class="mf">208.6</span><span class="p">,</span> <span class="mf">210.7</span><span class="p">,</span> <span class="mf">211.9</span><span class="p">,</span> <span class="mf">212.2</span><span class="p">])</span>
+<span class="n">pressure</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">([</span><span class="mf">20.79</span><span class="p">,</span> <span class="mf">20.79</span><span class="p">,</span> <span class="mf">22.4</span><span class="p">,</span> <span class="mf">22.67</span><span class="p">,</span> <span class="mf">23.15</span><span class="p">,</span> <span class="mf">23.35</span><span class="p">,</span> <span class="mf">23.89</span><span class="p">,</span> <span class="mf">23.99</span><span class="p">,</span> <span class="mf">24.02</span><span class="p">,</span> <span class="mf">24.01</span><span class="p">,</span>
+                     <span class="mf">25.14</span><span class="p">,</span> <span class="mf">26.57</span><span class="p">,</span> <span class="mf">28.49</span><span class="p">,</span> <span class="mf">27.76</span><span class="p">,</span> <span class="mf">29.04</span><span class="p">,</span> <span class="mf">29.88</span><span class="p">,</span> <span class="mf">30.06</span><span class="p">])</span>
+
+<span class="c1"># Create training set and test set (no shuffling)
+</span><span class="n">X_train</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[:</span><span class="mi">14</span><span class="p">].</span><span class="nf">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">y_train</span> <span class="o">=</span> <span class="n">pressure</span><span class="p">[:</span><span class="mi">14</span><span class="p">]</span>
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="mi">14</span><span class="p">:].</span><span class="nf">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">y_test</span> <span class="o">=</span> <span class="n">pressure</span><span class="p">[</span><span class="mi">14</span><span class="p">:]</span>
+
+<span class="c1"># Use our K-NN Model for Regression
+</span><span class="n">y_pred_knn</span> <span class="o">=</span> <span class="n">knn</span><span class="p">.</span><span class="nf">k_nearest_neighbor_predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">.</span><span class="nf">flatten</span><span class="p">(),</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">.</span><span class="nf">flatten</span><span class="p">(),</span> <span class="n">k</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">regression</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c1"># Print the evaluation metrics for K-NN
+</span><span class="n">mse_knn</span> <span class="o">=</span> <span class="nf">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_knn</span><span class="p">)</span>
+<span class="n">r2_knn</span> <span class="o">=</span> <span class="nf">r2_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_knn</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">K-NN Mean Squared Error (MSE):</span><span class="sh">"</span><span class="p">,</span> <span class="n">mse_knn</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">K-NN R-squared (R²):</span><span class="sh">"</span><span class="p">,</span> <span class="n">r2_knn</span><span class="p">)</span>
+
+<span class="c1"># Fit sk-learn's Linear Regression Model
+</span><span class="n">lin_reg</span> <span class="o">=</span> <span class="nc">LinearRegression</span><span class="p">()</span>
+<span class="n">lin_reg</span><span class="p">.</span><span class="nf">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Create predictions for the entire temperature range (for plotting the line)
+</span><span class="n">X_all</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">linspace</span><span class="p">(</span><span class="n">temp</span><span class="p">.</span><span class="nf">min</span><span class="p">(),</span> <span class="n">temp</span><span class="p">.</span><span class="nf">max</span><span class="p">(),</span> <span class="mi">100</span><span class="p">).</span><span class="nf">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">y_pred_all_lr</span> <span class="o">=</span> <span class="n">lin_reg</span><span class="p">.</span><span class="nf">predict</span><span class="p">(</span><span class="n">X_all</span><span class="p">)</span>
+
+<span class="c1"># Create predictions for the test set
+</span><span class="n">y_pred_lr</span> <span class="o">=</span> <span class="n">lin_reg</span><span class="p">.</span><span class="nf">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="c1"># Print the evaluation metrics for Linear Regression
+</span><span class="n">mse_lr</span> <span class="o">=</span> <span class="nf">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_lr</span><span class="p">)</span>
+<span class="n">r2_lr</span> <span class="o">=</span> <span class="nf">r2_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_lr</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Linear Regression Mean Squared Error (MSE):</span><span class="sh">"</span><span class="p">,</span> <span class="n">mse_lr</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Linear Regression R-squared (R²):</span><span class="sh">"</span><span class="p">,</span> <span class="n">r2_lr</span><span class="p">)</span>
+
+<span class="c1"># Visualization: Side-by-side plots for K-NN and Linear Regression
+</span><span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="c1"># K-NN Plot
+</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">scatter</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">blue</span><span class="sh">'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sh">'</span><span class="s">Training Data</span><span class="sh">'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">scatter</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">green</span><span class="sh">'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sh">'</span><span class="s">Test Data</span><span class="sh">'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">scatter</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_pred_knn</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">red</span><span class="sh">'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sh">'</span><span class="s">K-NN Predicted Values</span><span class="sh">'</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="sh">'</span><span class="s">x</span><span class="sh">'</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">set_xlabel</span><span class="p">(</span><span class="sh">'</span><span class="s">Temperature</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">set_ylabel</span><span class="p">(</span><span class="sh">'</span><span class="s">Pressure</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">set_title</span><span class="p">(</span><span class="sh">'</span><span class="s">K-NN Regression: Temperature vs Pressure (Actual vs Predicted)</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">legend</span><span class="p">()</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">grid</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c1"># Linear Regression Plot
+</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">scatter</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">blue</span><span class="sh">'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sh">'</span><span class="s">Training Data</span><span class="sh">'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">scatter</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">green</span><span class="sh">'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sh">'</span><span class="s">Test Data</span><span class="sh">'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">plot</span><span class="p">(</span><span class="n">X_all</span><span class="p">,</span> <span class="n">y_pred_all_lr</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">red</span><span class="sh">'</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="sh">'</span><span class="s">--</span><span class="sh">'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sh">'</span><span class="s">Linear Regression Predicted Line</span><span class="sh">'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">scatter</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_pred_lr</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">red</span><span class="sh">'</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="sh">'</span><span class="s">x</span><span class="sh">'</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>  <span class="c1"># Mark test predictions
+</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">set_xlabel</span><span class="p">(</span><span class="sh">'</span><span class="s">Temperature</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">set_ylabel</span><span class="p">(</span><span class="sh">'</span><span class="s">Pressure</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">set_title</span><span class="p">(</span><span class="sh">'</span><span class="s">Linear Regression: Temperature vs Pressure (Actual vs Predicted)</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">legend</span><span class="p">()</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">grid</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>The K-NN model, configured with K = 3, demonstrated limitations in its predictive capabilities. Its Mean Squared Error (MSE) was relatively high at 4.41, and the R-squared value was notably low at -21.34. This indicates that the model struggled to generalize well, particularly when making predictions outside the range of the training data. As seen in the plots, K-NN predictions failed to extend beyond the training set, resulting in poor performance for extrapolated values.</p>
+
+<p>In contrast, the linear regression model excelled in this scenario, achieving a much lower MSE of 0.06 and a positive R-squared value of 0.72. The linear regression line effectively captures the underlying trend in the data, allowing for better predictions both within and beyond the training range. This highlights the model’s strength in establishing a continuous relationship between the variables.</p>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code>K-NN Mean Squared Error (MSE): 4.413777777777778
+K-NN R-squared (R²): -21.336932073774197
+
+Linear Regression Mean Squared Error (MSE): 0.05586233584990541
+Linear Regression R-squared (R²): 0.717295871204932
+</code></pre></div></div>
+
+<p><img src="/assets/images/machinelearning/knn/tempvspress.webp" alt="Temp vs. Pressure, K-NN vs LinReg" /></p>
+
+<div class="description">K-NN vs. Linear Regression on Single Regression</div>
+
+<p>The side-by-side visualization clearly illustrates these differences, with the K-NN model’s predictions marked by discrete points that do not extend beyond the training data, while linear regression provides a smooth and consistent predictive line. Overall, this comparison underscores the limitations of K-NN in regression tasks, especially in situations where extrapolation is necessary, while demonstrating the advantages of linear regression in capturing trends and making robust predictions.</p>
+
+<h4 id="d-customer-purchasing-behavior-multiple-regression">D. Customer Purchasing Behavior (Multiple Regression)</h4>
+
+<p>In this analysis, we examine customer purchasing behavior using both K-NN and linear regression models to predict purchase frequency based on various features. The dataset was cleaned by removing unnecessary columns, ensuring that the features were relevant for predicting the target variable.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="n">knn_model</span> <span class="k">as</span> <span class="n">knn</span>
+<span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">from</span> <span class="n">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span><span class="p">,</span> <span class="n">r2_score</span>
+<span class="kn">from</span> <span class="n">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+<span class="kn">from</span> <span class="n">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+
+<span class="c1"># Load the data
+</span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">Customer Purchasing Behaviors.csv</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="c1"># Drop unnecessary columns
+</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">.</span><span class="nf">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">user_id</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">region</span><span class="sh">'</span><span class="p">])</span>
+
+<span class="c1"># Define features (X) and target (y)
+</span><span class="n">X</span> <span class="o">=</span> <span class="n">data</span><span class="p">.</span><span class="nf">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">purchase_frequency</span><span class="sh">'</span><span class="p">]).</span><span class="n">values</span>  <span class="c1"># All columns except 'purchase_frequency'
+</span><span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="sh">'</span><span class="s">purchase_frequency</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span>  <span class="c1"># Target variable
+</span>
+<span class="c1"># Convert everything to float
+</span><span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="p">.</span><span class="nf">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="p">.</span><span class="nf">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+
+<span class="c1"># Split the data into training and testing sets
+</span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="nf">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># Use our K-NN Model for Regression
+</span><span class="n">y_pred_knn</span> <span class="o">=</span> <span class="n">knn</span><span class="p">.</span><span class="nf">k_nearest_neighbor_predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">regression</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c1"># Print the evaluation metrics for K-NN
+</span><span class="n">mse_knn</span> <span class="o">=</span> <span class="nf">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_knn</span><span class="p">)</span>
+<span class="n">r2_knn</span> <span class="o">=</span> <span class="nf">r2_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_knn</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">K-NN Mean Squared Error (MSE):</span><span class="sh">"</span><span class="p">,</span> <span class="n">mse_knn</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">K-NN R-squared (R²):</span><span class="sh">"</span><span class="p">,</span> <span class="n">r2_knn</span><span class="p">)</span>
+
+<span class="c1"># Fit sk-learn's Linear Regression Model
+</span><span class="n">lin_reg</span> <span class="o">=</span> <span class="nc">LinearRegression</span><span class="p">()</span>
+<span class="n">lin_reg</span><span class="p">.</span><span class="nf">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Create predictions for the test set
+</span><span class="n">y_pred_lr</span> <span class="o">=</span> <span class="n">lin_reg</span><span class="p">.</span><span class="nf">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="c1"># Print the evaluation metrics for Linear Regression
+</span><span class="n">mse_lr</span> <span class="o">=</span> <span class="nf">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_lr</span><span class="p">)</span>
+<span class="n">r2_lr</span> <span class="o">=</span> <span class="nf">r2_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_lr</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Linear Regression Mean Squared Error (MSE):</span><span class="sh">"</span><span class="p">,</span> <span class="n">mse_lr</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Linear Regression R-squared (R²):</span><span class="sh">"</span><span class="p">,</span> <span class="n">r2_lr</span><span class="p">)</span>
+
+<span class="c1"># Visualization: Side-by-side plots for K-NN and Linear Regression
+</span><span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="c1"># K-NN Plot (Scatter plot for predictions)
+</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">scatter</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_knn</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">red</span><span class="sh">'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sh">'</span><span class="s">K-NN Predicted Values</span><span class="sh">'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">set_xlabel</span><span class="p">(</span><span class="sh">'</span><span class="s">Actual Purchase Frequency</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">set_ylabel</span><span class="p">(</span><span class="sh">'</span><span class="s">Predicted Purchase Frequency</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">set_title</span><span class="p">(</span><span class="sh">'</span><span class="s">K-NN Regression: Actual vs Predicted Purchase Frequency</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">plot</span><span class="p">([</span><span class="n">y</span><span class="p">.</span><span class="nf">min</span><span class="p">(),</span> <span class="n">y</span><span class="p">.</span><span class="nf">max</span><span class="p">()],</span> <span class="p">[</span><span class="n">y</span><span class="p">.</span><span class="nf">min</span><span class="p">(),</span> <span class="n">y</span><span class="p">.</span><span class="nf">max</span><span class="p">()],</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">blue</span><span class="sh">'</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="sh">'</span><span class="s">--</span><span class="sh">'</span><span class="p">)</span>  <span class="c1"># Line of equality
+</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">legend</span><span class="p">()</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">grid</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c1"># Linear Regression Plot
+</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">scatter</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_lr</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">red</span><span class="sh">'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sh">'</span><span class="s">Linear Regression Predicted Values</span><span class="sh">'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">set_xlabel</span><span class="p">(</span><span class="sh">'</span><span class="s">Actual Purchase Frequency</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">set_ylabel</span><span class="p">(</span><span class="sh">'</span><span class="s">Predicted Purchase Frequency</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">set_title</span><span class="p">(</span><span class="sh">'</span><span class="s">Linear Regression: Actual vs Predicted Purchase Frequency</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">plot</span><span class="p">([</span><span class="n">y</span><span class="p">.</span><span class="nf">min</span><span class="p">(),</span> <span class="n">y</span><span class="p">.</span><span class="nf">max</span><span class="p">()],</span> <span class="p">[</span><span class="n">y</span><span class="p">.</span><span class="nf">min</span><span class="p">(),</span> <span class="n">y</span><span class="p">.</span><span class="nf">max</span><span class="p">()],</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">blue</span><span class="sh">'</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="sh">'</span><span class="s">--</span><span class="sh">'</span><span class="p">)</span>  <span class="c1"># Line of equality
+</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">legend</span><span class="p">()</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">grid</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Interestingly, the K-NN model performed exceptionally well, achieving a Mean Squared Error (MSE) of 0.06 and an R-squared value of 0.997. This indicates that K-NN was able to capture the relationship between the features and the purchase frequency almost perfectly, even surpassing the linear regression model in terms of accuracy. The linear regression model, while still effective, had a higher MSE of 0.25 and an R-squared value of 0.989, demonstrating solid performance but not quite matching K-NN’s accuracy.</p>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code>K-NN Mean Squared Error (MSE): 0.06481481481481485
+K-NN R-squared (R²): 0.9972321075523922
+
+Linear Regression Mean Squared Error (MSE): 0.2514097706093957
+Linear Regression R-squared (R²): 0.9892636396892784
+</code></pre></div></div>
+
+<p>The side-by-side visualizations further highlight the performance of both models. While both models aligned closely with the line of equality (the line where predicted values equal actual values), K-NN’s predictions are notably more clustered around this line, suggesting its higher accuracy in predicting customer purchasing frequency.</p>
+
+<p>Overall, this example underscores the importance of data preparation and feature selection in modeling, while also showcasing K-NN’s potential in multiple regression scenarios, even in the presence of complex relationships within high-dimensional data.</p>
+
+<p><img src="/assets/images/machinelearning/knn/customer.webp" alt="Customer Purchasing Behavior, K-NN vs. LinReg" /></p>
+
+<div class="description">K-NN vs. Linear Regression on Multiple Regression</div>
+
+<h2 id="iv-conclusion">IV, Conclusion</h2>
+
+<p>In this post, we embarked on a hands-on journey to implement the K-Nearest Neighbors (K-NN) algorithm from scratch in Python, focusing on its core functionalities for both classification and regression tasks. We started with an overview of K-NN, highlighting its intuitive nature as a distance-based algorithm that makes predictions based on the ‘K’ closest training samples.</p>
+
+<p>Throughout the implementation, we covered key aspects such as distance metrics, including Euclidean, Manhattan, Minkowski, and Chebyshev distances, which form the backbone of how K-NN operates. By developing functions for distance calculation and majority voting, we laid the groundwork for the K-NN model, allowing it to adapt flexibly to different prediction tasks.</p>
+
+<p>The distinction between classification and regression was emphasized, showcasing how K-NN can efficiently handle both scenarios with minor adjustments to the prediction mechanism. Our final unified function simplified the usage of the K-NN model, making it versatile for various datasets and problem domains.</p>
+
+<p>We also explored evaluation metrics to assess model performance. Through practical examples, such as the study hours dataset for binary classification and the Iris dataset for multi-class classification, we demonstrated K-NN’s ability to achieve high accuracy and reliable predictions. The comparative analysis of K-NN with linear regression in regression tasks illustrated the strengths and limitations of each approach, especially regarding extrapolation capabilities and capturing trends.</p>
+
+<p>In conclusion, this comprehensive implementation not only deepens your understanding of K-NN as a powerful yet straightforward machine learning algorithm but also equips you with the tools necessary to apply K-NN effectively in real-world scenarios. As you continue to explore machine learning, consider experimenting with different datasets and tuning parameters like ‘K’ and distance metrics to observe how they influence model performance. The practical experience gained from this post serves as a solid foundation for further exploration of more complex algorithms and concepts in the field of machine learning.</p>
+
+<p><strong><em>References and Extras:</em></strong></p>
+
+<ul>
+  <li><a href="https://arxiv.org/pdf/1708.04321" target="_blank">V. B. Surya Prasath, Haneen Arafat Abu Alfeilat, Ahmad B. A. Hassanat, Omar Lasassmeh,  Ahmad S.
+Tarawneh, Mahmoud Bashir Alhasanat, Hamzeh S. Eyal Salman - Effects of Distance Measure Choice on KNN Classifier Performance - A Review</a></li>
+  <li><a href="https://www.kaggle.com/code/adityasingh3519/distance-measures-for-machine-learning" target="_blank">Aditya Raj - Distance Measures for Machine Learning</a></li>
+  <li><a href="https://drive.google.com/file/d/13EjTC-suQmECkMFBpTEUJv_KmoIhdpB6/view" target="_blank">Cao Van Chung - K-NN &amp; Multinomial Logisitc Regression</a></li>
+  <li><a href="https://stats.stackexchange.com/questions/287425/why-do-you-need-to-scale-data-in-knn">“Why do you need to scale data in KNN”</a></li>
+  <li><a href="https://neptune.ai/blog/knn-algorithm-explanation-opportunities-limitations" target="_blank">“Thumbnail: neptune.ai”</a></li>
+</ul>
+
+                    </article>
+                </div>
+                <div class="horizontal-divider-line"></div>
+                
+
+                
+                <script src="https://giscus.app/client.js" data-repo="yuk068/yuk-blog-comments"
+                    data-repo-id="R_kgDONs1FhQ" data-category="Announcements" data-category-id="DIC_kwDONs1Fhc4CmLRI"
+                    data-mapping="title" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0"
+                    data-input-position="bottom" data-theme="dark_protanopia" data-lang="en" crossorigin="anonymous"
+                    async>
+                    </script>
+                
+
+                
+                <div class="final-horizontal-divider-line"></div>
+            </div>
+        </main>
+        <div class="footer-container">
+            <div class="relative-footer">
+                <footer>
+                    <div class="footer-info">
+                        <a href="https://www.facebook.com/yuk068" target="_blank">
+                            <i class="fab fa-facebook"></i>
+                            <div class="footer-info-label">
+                                <p>Duy Pham Duc</p>
+                            </div>
+                        </a>
+                        <a href="https://github.com/yuk068" target="_blank">
+                            <i class="fab fa-github"></i>
+                            <div class="footer-info-label">
+                                <p>Yuk068</p>
+                            </div>
+                        </a>
+                        <a href="https://x.com/Yukano_50" target="_blank">
+                            <i class="fab fa-twitter"></i>
+                            <div class="footer-info-label">
+                                <p>@Yukano_50</p>
+                            </div>
+                        </a>
+                        <a href="https://www.instagram.com/yukano68/" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                            <div class="footer-info-label">
+                                <p>yukano68</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="copyright-text">
+                        <p>&copy; 2025 Yukano - <a href="/support-yuk">Support Yuk!</a></p>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </div>
+    <script src="/assets/js/pages-js/post-script.js"></script>
+    <div class="scroll-button-container">
+        <button id="scrollButton" onclick="scrollToTop()">
+            <img src="/assets/svg/double-arrow-up-circle.svg" alt="⇡">
+        </button>
+    </div>
+</body>
+
+</html>
