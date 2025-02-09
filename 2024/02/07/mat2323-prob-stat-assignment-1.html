@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="linkage" content="true">
+    <title>MAT2323 - Probability & Statistics Assignment 1</title>
+    <meta name="description" content="Assignment on Classical Probability">
+    <link rel="stylesheet" href="/assets/css/pages-css/post-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    
+    
+    <!-- KaTeX Stylesheet -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+
+    <!-- KaTeX Scripts -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"></script>
+
+    <!-- KaTeX Auto-render Initialization -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    { left: "$$", right: "$$", display: true },
+                    { left: "$", right: "$", display: false },
+                    { left: "\\(", right: "\\)", display: false },
+                    { left: "\\[", right: "\\]", display: true }
+                ]
+            });
+        });
+    </script>
+    
+
+    
+    
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="main-container">
+        <header id="post-header">
+            <div class="header-logo-container">
+                <button class="logo-button" onclick="handleLogoClick()">
+                    <div class="logo-container">
+                        <div class="logo">
+                            <div class="u-shape left-side"></div>
+                            <div class="u-shape bottom"></div>
+                            <div class="u-shape right-side"></div>
+                        </div>
+                        <div class="left-arrow-top"></div>
+                        <div class="right-arrow-top"></div>
+                        <div class="right-arrow-bottom"></div>
+                    </div>
+                </button>
+            </div>
+            <div class="home-header-title-mobile">
+                <h1 id="home-header-title">Yukano</h1>
+            </div>
+            <div class="nav-container">
+                <nav class="nav-bar">
+                    <ul>
+                        <a href="#" onclick="goBack()">
+                            <li>
+                                
+                                Back
+                                
+                            </li>
+                        </a>
+                        <div class="nav-bar-divider"></div>
+                        <a href="/">
+                            <li>
+                                
+                                Home
+                                
+                            </li>
+                        </a>
+                        <div class="nav-bar-divider" id="nav-disable-mobile"></div>
+                        <a href="/archive" id="nav-disable-mobile">
+                            <li id="nav-disable-mobile">
+                                
+                                Archive
+                                
+                            </li>
+                        </a>
+                        <div class="nav-bar-divider" id="nav-disable-mobile"></div>
+                        <a href="/projects" id="nav-disable-mobile">
+                            <li id="nav-disable-mobile">
+                                
+                                Projects
+                                
+                            </li>
+                        </a>
+                        <div class="nav-bar-divider" id="nav-disable-mobile"></div>
+                        <a href="#" onclick="notifyComingSoon()" id="nav-disable-mobile">
+                            <li id="nav-disable-mobile">
+                                
+                                Explore
+                                
+                            </li>
+                        </a>
+                    </ul>
+                </nav>
+            </div>
+            <div class="header-extra-container">
+                <button class="extra-button">
+                    <div class="extra-container">
+                        <div class="extra">
+                            <div class="extra-shape top"></div>
+                            <div class="extra-shape middle"></div>
+                            <div class="extra-shape bottom"></div>
+                        </div>
+                    </div>
+                </button>
+            </div>
+        </header>
+        <main>
+            <div id="overlay" class="overlay">
+                <div class="options-container">
+                    <p>
+                        
+                        Navigation
+                        
+                    </p>
+                    <div class="options-navigation">
+                        <button id="toBackButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-63ce7424ea57ea6c8380059e-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <path class="cls-63ce7424ea57ea6c8380059e-1"
+                                    d="M2.41,16.78H14.85A7.65,7.65,0,0,0,22.5,9.13h0a7.65,7.65,0,0,0-7.65-7.65H.5">
+                                </path>
+                                <polyline class="cls-63ce7424ea57ea6c8380059e-1"
+                                    points="8.15 22.52 2.41 16.78 8.15 11.04">
+                                </polyline>
+                            </svg>
+                            
+                            Back
+                            
+                        </button>
+                        <button id="toHomeButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-6374f8d9b67f094e4896c637-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <polyline class="cls-6374f8d9b67f094e4896c637-1" points="1 12 12 2.83 23 12"></polyline>
+                                <polyline class="cls-6374f8d9b67f094e4896c637-1"
+                                    points="19.33 9.25 19.33 21.17 14.75 21.17 14.75 13.83 9.25 13.83 9.25 21.17 4.67 21.17 4.67 9.25">
+                                </polyline>
+                            </svg>
+                            
+                            Home
+                            
+                        </button>
+                        <button id="toArchiveButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-6374f8d9b67f094e4896c633-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <polygon class="cls-6374f8d9b67f094e4896c633-1"
+                                    points="19.64 9.14 4.36 9.14 4.36 1.5 10.09 1.5 12 3.41 19.64 3.41 19.64 9.14">
+                                </polygon>
+                                <polygon class="cls-6374f8d9b67f094e4896c633-1"
+                                    points="1.5 9.14 22.5 9.14 20.59 22.5 3.41 22.5 1.5 9.14"></polygon>
+                            </svg>
+                            
+                            Archive
+                            
+                        </button>
+                        <button id="toProjectsButton"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                stroke-width="1.5" width="20" height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-637b8d40f95e86b59c57a2bd-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <g id="roll_brush" data-name="roll brush">
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="5.24" y1="11.08" x2="18.66"
+                                        y2="11.08">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="5.24" y1="18.76" x2="18.66"
+                                        y2="18.76">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="5.24" y1="14.92" x2="18.66"
+                                        y2="14.92">
+                                    </line>
+                                    <rect class="cls-637b8d40f95e86b59c57a2bd-1" x="1.4" y="1.49" width="21.1"
+                                        height="21.1"></rect>
+                                    <polygon class="cls-637b8d40f95e86b59c57a2bd-1"
+                                        points="22.5 7.25 16.23 7.25 14.31 7.25 1.4 7.25 1.4 1.49 22.5 1.49 22.5 7.25">
+                                    </polygon>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="4.28" y1="4.37" x2="6.2" y2="4.37">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="8.11" y1="4.37" x2="10.03"
+                                        y2="4.37">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="11.95" y1="4.37" x2="13.87"
+                                        y2="4.37">
+                                    </line>
+                                </g>
+                            </svg>
+                            
+                            Projects
+                            
+                        </button>
+                        <button id="toExploreButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-63ce7424ea57ea6c8380055b-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <polyline class="cls-63ce7424ea57ea6c8380055b-1" points="22 13 22 22 2 22 2 2 11 2">
+                                </polyline>
+                                <polyline class="cls-63ce7424ea57ea6c8380055b-1" points="14 2 22 2 22 10"></polyline>
+                                <line class="cls-63ce7424ea57ea6c8380055b-1" x1="22" y1="2" x2="10" y2="14"></line>
+                            </svg>
+                            
+                            Explore
+                            
+                        </button>
+                        <button id="toAboutButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-6374f8d9b67f094e4896c670-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <circle class="cls-6374f8d9b67f094e4896c670-1" cx="12" cy="7.25" r="5.73"></circle>
+                                <path class="cls-6374f8d9b67f094e4896c670-1"
+                                    d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05">
+                                </path>
+                            </svg>
+                            
+                            About
+                            
+                        </button>
+                    </div>
+                    <div class="option-horizontal-divider-line"></div>
+                    <p>
+                        
+                        Options
+                        
+                    </p>
+                    <div class="options-configuration">
+                        <button id="toTopButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-63ce7424ea57ea6c83800547-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <circle class="cls-63ce7424ea57ea6c83800547-1" cx="12" cy="12" r="10.5"></circle>
+                                <line class="cls-63ce7424ea57ea6c83800547-1" x1="12" y1="10.09" x2="12" y2="18.68">
+                                </line>
+                                <polyline class="cls-63ce7424ea57ea6c83800547-1"
+                                    points="7.23 10.09 12 5.32 16.77 10.09">
+                                </polyline>
+                                <polyline class="cls-63ce7424ea57ea6c83800547-1"
+                                    points="7.23 14.86 12 10.09 16.77 14.86">
+                                </polyline>
+                            </svg>
+                            
+                            To top
+                            
+                        </button>
+                        <button id="collapseExpandAllButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-63ce7424ea57ea6c8380059a-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <line class="cls-63ce7424ea57ea6c8380059a-1" x1="6" y1="2" x2="6" y2="23"></line>
+                                <polyline class="cls-63ce7424ea57ea6c8380059a-1" points="11 7 6 2 1 7"></polyline>
+                                <line class="cls-63ce7424ea57ea6c8380059a-1" x1="18" y1="22" x2="18" y2="1"></line>
+                                <polyline class="cls-63ce7424ea57ea6c8380059a-1" points="13 17 18 22 23 17"></polyline>
+                            </svg>
+                            
+                            Expand / Collapse all
+                            
+                        </button>
+                        <button id="themeButton"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                stroke-width="1.5" width="20" height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-637b8d40f95e86b59c57a2e7-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <g id="roll_brush" data-name="roll brush">
+                                    <circle class="cls-637b8d40f95e86b59c57a2e7-1" cx="11.99" cy="12.01" r="6.71">
+                                    </circle>
+                                    <path class="cls-637b8d40f95e86b59c57a2e7-1" d="M12,8.65a3.36,3.36,0,0,1,0,6.72Z">
+                                    </path>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="11.99" y1="0.5" x2="11.99"
+                                        y2="2.42">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="11.99" y1="21.6" x2="11.99"
+                                        y2="23.52">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="0.48" y1="12.01" x2="2.4"
+                                        y2="12.01">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="21.58" y1="12.01" x2="23.5"
+                                        y2="12.01">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="20.13" y1="3.87" x2="18.77"
+                                        y2="5.23">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="5.21" y1="18.79" x2="3.85"
+                                        y2="20.15">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="3.85" y1="3.87" x2="5.21"
+                                        y2="5.23">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="18.77" y1="18.79" x2="20.13"
+                                        y2="20.15"></line>
+                                </g>
+                            </svg>
+                            
+                            Theme
+                            
+                        </button>
+                        <button id="commentsButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-637642e7c3a86d32eae6f18f-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <path class="cls-637642e7c3a86d32eae6f18f-1"
+                                    d="M1.5,5.3v9.54a3.82,3.82,0,0,0,3.82,3.82H7.23v2.86L13,18.66h5.73a3.82,3.82,0,0,0,3.82-3.82V5.3a3.82,3.82,0,0,0-3.82-3.82H5.32A3.82,3.82,0,0,0,1.5,5.3Z">
+                                </path>
+                                <line class="cls-637642e7c3a86d32eae6f18f-1" x1="15.82" y1="10.07" x2="17.73"
+                                    y2="10.07">
+                                </line>
+                                <line class="cls-637642e7c3a86d32eae6f18f-1" x1="11.05" y1="10.07" x2="12.95"
+                                    y2="10.07">
+                                </line>
+                                <line class="cls-637642e7c3a86d32eae6f18f-1" x1="6.27" y1="10.07" x2="8.18" y2="10.07">
+                                </line>
+                            </svg>
+                            
+                            Comments
+                            
+                        </button>
+                    </div>
+                    <div class="option-horizontal-divider-line"></div>
+                    <div class="options-close">
+                        <button id="closeButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-6374f8d9b67f094e4896c61e-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <circle class="cls-6374f8d9b67f094e4896c61e-1" cx="12" cy="12" r="10.5"></circle>
+                                <line class="cls-6374f8d9b67f094e4896c61e-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77">
+                                </line>
+                                <line class="cls-6374f8d9b67f094e4896c61e-1" x1="7.23" y1="7.23" x2="16.77" y2="16.77">
+                                </line>
+                            </svg>
+                            
+                            Close
+                            
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="post-content">
+                <div class="post-info-card">
+                    <h1>
+                        <span class="category-svg">
+                            
+                            
+                            <img src="/assets/svg/categories/assignment.svg"
+                                alt="assignment category" onerror="this.remove()">
+                            
+                        </span>MAT2323 - Probability & Statistics Assignment 1
+                    </h1>
+                    <div class="post-tags">
+                        
+                        <span class="tag">#prob-stat</span>
+                        
+                        <span class="tag">#schoolwork</span>
+                        
+                    </div>
+                    <div class="date">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="16"
+                            height="16" color="#fff">
+                            <defs>
+                                <style>
+                                    .cls-6375f1aeb67f094e4896c9ea-1,
+                                    .cls-6375f1aeb67f094e4896c9ea-2 {
+                                        fill: none;
+                                        stroke: currentColor;
+                                        stroke-miterlimit: 10;
+                                    }
+
+                                    .cls-6375f1aeb67f094e4896c9ea-1 {
+                                        stroke-linecap: square;
+                                    }
+                                </style>
+                            </defs>
+                            <g id="calendar">
+                                <rect class="cls-6375f1aeb67f094e4896c9ea-1" x="1.5" y="2.43" width="21" height="4.77"
+                                    transform="translate(24 9.64) rotate(180)"></rect>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="17.73" y1="0.52" x2="17.73" y2="4.34">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="6.27" y1="0.52" x2="6.27" y2="4.34">
+                                </line>
+                                <polygon class="cls-6375f1aeb67f094e4896c9ea-1"
+                                    points="22.5 11.98 22.5 7.21 1.5 7.21 1.5 22.48 22.5 22.48 22.5 15.79 22.5 11.98">
+                                </polygon>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="11.02" x2="11.05" y2="11.02">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="11.02" x2="14.86"
+                                    y2="11.02"></line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="16.77" y1="11.02" x2="18.68"
+                                    y2="11.02"></line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="14.84" x2="11.05" y2="14.84">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="5.32" y1="14.84" x2="7.23" y2="14.84">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="14.84" x2="14.86"
+                                    y2="14.84"></line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="16.77" y1="14.84" x2="18.68"
+                                    y2="14.84"></line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="18.66" x2="11.05" y2="18.66">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="5.32" y1="18.66" x2="7.23" y2="18.66">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="18.66" x2="14.86"
+                                    y2="18.66"></line>
+                            </g>
+                        </svg>
+                        
+                        <span class="date-span">07/02/2024</span>
+
+                        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                            stroke-width="1.5" width="16" height="16" color="#fff">
+                            <defs>
+                                <style>
+                                    .cls-6374f8d9b67f094e4896c623-1 {
+                                        fill: none;
+                                        stroke: currentColor;
+                                        stroke-miterlimit: 10;
+                                    }
+                                </style>
+                            </defs>
+                            <circle class="cls-6374f8d9b67f094e4896c623-1" cx="12" cy="12" r="10.5"></circle>
+                            <circle class="cls-6374f8d9b67f094e4896c623-1" cx="12" cy="12" r="0.95"></circle>
+                            <polyline class="cls-6374f8d9b67f094e4896c623-1" points="12 4.36 12 12 16.77 16.77">
+                            </polyline>
+                        </svg>
+                        
+                        <span class="reading-time">
+                            7
+                            
+                            Min.
+                            
+                        </span>
+                        
+                    </div>
+                    <div class="author">
+                        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                            stroke-width="1.5" width="14" height="14" color="#fff">
+                            <defs>
+                                <style>
+                                    .cls-6374f8d9b67f094e4896c670-1 {
+                                        fill: none;
+                                        stroke: currentColor;
+                                        stroke-miterlimit: 10;
+                                    }
+                                </style>
+                            </defs>
+                            <circle class="cls-6374f8d9b67f094e4896c670-1" cx="12" cy="7.25" r="5.73"></circle>
+                            <path class="cls-6374f8d9b67f094e4896c670-1"
+                                d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05">
+                            </path>
+                        </svg>
+                        
+                        Written by:
+                        
+                        Yuk
+                    </div>
+                </div>
+                <div class="horizontal-divider-line"></div>
+                <div class="post-article">
+                    <article>
+                        <h3 id="problem-list">Problem List</h3>
+
+<blockquote>
+  <div id="table-of-contents"></div>
+</blockquote>
+
+<h2 id="assigned-by-dr-le-vi"><em>Assigned by <a href="http://mim.hus.vnu.edu.vn/vi/canbo/vile" target="_blank">Dr. Le Vi</a></em></h2>
+
+<h3 id="problem-1">Problem 1.</h3>
+
+<blockquote>
+
+  <p>Three fair and identical dice are rolled. Calculate the probability for the following cases:</p>
+  <ul>
+    <li>A. The sum of the results is 7.</li>
+    <li>B. The number of dots on each die is different across all three dice.</li>
+    <li>C. The product of the results is divisible by 3.</li>
+    <li>D. The product of the results is divisible by 6.</li>
+  </ul>
+</blockquote>
+
+<h4 id="solution-1">Solution 1.</h4>
+
+<p>Total number of outcomes: $ 6^3 = 216 $.</p>
+
+<h5 id="a-the-sum-of-the-results-is-7">A. The sum of the results is 7.</h5>
+
+<p><strong>Approach 1 - Counting:</strong> We can manually count each permutation, we can also reason how many are there:</p>
+
+<blockquote>
+  <table>
+    <thead>
+      <tr>
+        <th>Partition</th>
+        <th>Frequency Count</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>$(1,1,5)$</td>
+        <td>$3! / (2!1!) = 3$</td>
+      </tr>
+      <tr>
+        <td>$(1,2,4)$</td>
+        <td>$3! / (1!1!1!) = 6$</td>
+      </tr>
+      <tr>
+        <td>$(1,3,3)$</td>
+        <td>$3! / (1!2!) = 3$</td>
+      </tr>
+      <tr>
+        <td>$(2,2,3)$</td>
+        <td>$3! / (2!1!) = 3$</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>So there are $15$ valid cases, therefore we can calculate the result: $\frac{15}{216} = \frac{5}{72}$.</p>
+</blockquote>
+
+<p><strong>Approach 2 - Stars &amp; Bars:</strong> We can also reason that there are $15$ valid cases through the <a href="https://en.wikipedia.org/wiki/Stars_and_bars_(combinatorics)" target="_blank">Stars &amp; Bars method</a>:</p>
+
+<blockquote>
+  <p><strong>Step 1: Define the Problem</strong></p>
+
+  <p>We need to find the number of integer solutions to:</p>
+
+\[x_1 + x_2 + x_3 = 7\]
+
+  <p>Where each $x_i$ must satisfy:</p>
+
+\[1 \leq x_i \leq 6\]
+
+  <p><strong>Step 2: Change of Variables</strong></p>
+
+  <p>Since each die must be at least 1, define new variables:</p>
+
+\[y_i = x_i - 1 \implies 0 \leq y_i \leq 5\]
+
+  <p>Rewriting the equation gives us:</p>
+
+\[(y_1 + 1) + (y_2 + 1) + (y_3 + 1) = 7 \\[10pt]
+\leftrightarrow y_1 + y_2 + y_3 = 4 (0 \leq y_i \leq 5)\]
+
+  <p><strong>Step 3: Apply Stars &amp; Bars</strong></p>
+
+\[\binom{4+3-1}{3-1} = \binom{6}{2} = 15\]
+
+  <p>So there are $15$ valid cases, therefore we can calculate the result: $\frac{15}{216} = \frac{5}{72}$.</p>
+</blockquote>
+
+<h5 id="b-the-number-of-dots-on-each-die-is-different-across-all-three-dice">B. The number of dots on each die is different across all three dice.</h5>
+
+<blockquote>
+
+  <p>The number of ordered triples with all distinct numbers is $ 6 \times 5 \times 4 = 120 $.</p>
+
+  <p>The probability is $ \frac{120}{216} = \frac{5}{9} $.</p>
+</blockquote>
+
+<h5 id="c-the-product-of-the-results-is-divisible-by-3">C. The product of the results is divisible by 3.</h5>
+
+<blockquote>
+  <p>For the product of the three dice to be divisible by 3, at least one of the dice must show a multiple of 3. The multiples of 3 on a die are 3 and 6.</p>
+
+  <p>Instead of directly calculating the probability that the product is divisible by 3, we calculate the probability that the product is not divisible by 3. This happens only if <strong>none of the dice show a multiple of 3.</strong></p>
+
+  <p>The <strong>complementary probability</strong> (product not divisible by 3) occurs when all numbers are 1, 2, 4, or 5. The number of outcomes where none of the dice show a multiple of 3 is:</p>
+
+\[4 \times 4 \times 4 = 64\]
+
+  <p>The probability that the product is divisible by 3 is the complement of the above:</p>
+
+\[1 - \frac{64}{216} = \frac{152}{216} = \frac {19}{27}\]
+</blockquote>
+
+<h5 id="d-the-product-of-the-results-is-divisible-by-6">D. The product of the results is divisible by 6.</h5>
+
+<blockquote>
+  <p>For the product of the three dice to be divisible by 6, it must be divisible by both 2 and 3. This means:</p>
+  <ul>
+    <li>At least one die must show a multiple of 2 (even number: 2, 4, 6).</li>
+    <li>At least one die must show a multiple of 3 (3, 6).</li>
+  </ul>
+
+  <p>We calculate the probability that the product is not divisible by 6. Using the inclusion-exclusion principle, the probability of the complement is:</p>
+
+\[P(\nmid 2)+P(\nmid 3)−P(\nmid 2 \space \vee \nmid 3).\]
+
+  <p><strong>Probability of not divisible by 2:</strong> This happens only if all dice show odd numbers (1, 3, 5). The number of such outcomes is:</p>
+
+\[3 \times 3 \times 3 = 27\]
+
+  <p><strong>Probability of not divisible by 3:</strong> This happens only if none of the dice show a multiple of 3 (1, 2, 4, 5). The number of such outcomes is:</p>
+
+\[4 \times 4 \times 4 = 64\]
+
+  <p><strong>Probability of not divisible by 2 and not divisible by 3:</strong> This happens only if all dice show numbers that are both odd and not multiples of 3. The allowed numbers are 1 and 5. The number of such outcomes is:</p>
+
+\[2 \times 2 \times 2 = 8\]
+
+  <p>The probability that the product of the results is divisible by 6 is:</p>
+
+\[1 - \left( \frac{27}{216} + \frac{64}{216} - \frac{8}{216} \right) = \frac{133}{216}\]
+</blockquote>
+
+<hr />
+
+<h3 id="problem-2">Problem 2.</h3>
+
+<blockquote>
+
+  <p>From a group of 10 people, consisting of 6 men and 4 women, 7 people are selected. Calculate the probability that:</p>
+  <ul>
+    <li>A. The selected group contains exactly 4 men.</li>
+    <li>B. The selected group contains at least 2 women.</li>
+  </ul>
+</blockquote>
+
+<h4 id="solution-2">Solution 2.</h4>
+
+<h5 id="a-the-selected-group-contains-exactly-4-men">A. The selected group contains exactly 4 men.</h5>
+
+<blockquote>
+  <p>Total ways to choose 7 people from 10:</p>
+
+\[\binom{10}{7} = \binom{10}{3} = \frac{10 \times 9 \times 8}{3 \times 2 \times 1} = 120\]
+
+  <p>Favorable outcomes (4 men and 3 women):</p>
+  <ul>
+    <li>Choose 4 men from 6: $ \binom{6}{4} = 15 $.</li>
+    <li>Choose 3 women from 4: $ \binom{4}{3} = 4 $.</li>
+    <li>Total favorable outcomes: $ 15 \times 4 = 60 $.</li>
+  </ul>
+
+  <p>Probability: $ \frac{60}{120} = \frac{1}{2} $.</p>
+</blockquote>
+
+<h5 id="b-the-selected-group-contains-at-least-2-women">B. The selected group contains at least 2 women</h5>
+
+<blockquote>
+  <p>Complementary probability (fewer than 2 women):</p>
+
+  <ul>
+    <li>1 woman and 6 men:</li>
+  </ul>
+
+\[\binom{4}{1} \times \binom{6}{6} = 4 \times 1  = 4\]
+
+  <ul>
+    <li>Total complementary outcomes: $ 0 + 4 = 4 $.</li>
+    <li>Complementary probability: $ \frac{4}{120} = \frac{1}{30} $.</li>
+  </ul>
+
+  <p>Probability of at least 2 women: $ 1 - \frac{1}{30} = \frac{29}{30} $.</p>
+</blockquote>
+
+<hr />
+
+<h3 id="problem-3">Problem 3.</h3>
+
+<blockquote>
+
+  <p>There are 12 books, including 3 books by the author <a href="https://en.wikipedia.org/wiki/Nguy%E1%BB%85n_Nh%E1%BA%ADt_%C3%81nh" target="_blank">“Nguyen Nhat Anh”</a>. Arrange all 12 books on a bookshelf. Calculate the probability that no two books by “Nguyen Nhat Anh” are placed next to each other.</p>
+</blockquote>
+
+<h4 id="solution-3">Solution 3.</h4>
+
+<blockquote>
+  <p><strong>Total Arrangements:</strong> Assuming the 9 untitled books (lets call them red books) and the 3 by Nguyen Nhat Anh (lets call them blue books) are indistinguishable respectively, the total number of arrangements is:</p>
+
+\[\binom{12}{3} = 220\]
+
+  <p><strong>Favorable Arrangements (No Two Blue Books Together):</strong> First, place the 9 red books in a row. This creates 10 gaps (one before the first red book, one after the last red book, and 8 between the red books). To ensure that no two blue books are adjacent, each blue book must be placed in a different gap. Therefore, the number of favorable arrangements is:</p>
+
+\[\binom{10}{3} = 120\]
+
+  <p><strong>Probability Calculation:</strong> The probability that no two blue books are next to each other is the ratio of favorable arrangements to the total arrangements:</p>
+
+\[\frac{120}{220} = \frac{6}{11}\]
+</blockquote>
+
+<hr />
+
+<h3 id="problem-4">Problem 4.</h3>
+
+<blockquote>
+
+  <p>Binh, An, Chien, and Thang share 20 candies among themselves. Calculate the probability that Binh has at least 3 candies and An has at least 4 candies.</p>
+</blockquote>
+
+<h4 id="solution-4">Solution 4.</h4>
+
+<blockquote>
+  <p>Let’s denote the number of candies that Binh, An, Chien, and Thang receive by $ x_B $, $ x_A $, $ x_C $ and $ x_T $ respectively. Since all 20 candies are distributed, we have:</p>
+
+\[x_B + x_A + x_C + x_T = 20\]
+
+  <p><strong>Total Number of Distributions:</strong> Without any restrictions, the number of nonnegative integer solutions is given by the stars and bars formula:</p>
+
+\[\binom{20 + 4 - 1}{4 - 1} = \binom{23}{3} = 1771\]
+
+  <p><strong>Favorable Distributions:</strong> We are given that Binh must have at least 3 candies and An at least 4. Define new variables:</p>
+
+\[y_B = x_B - 3 \\[10pt]
+y_A = x_A - 4\]
+
+  <p>Substitute these into the total and simplifies:</p>
+
+\[(y_B + 3) + (y_A + 4) + x_C + x_T = 20 \\[10pt]
+\leftrightarrow y_B + y_A + x_C + x_T = 13\]
+
+  <p>The number of nonnegative integer solutions is:</p>
+
+\[\binom{13 + 4 - 1}{4 - 1} = \binom{16}{3} = 560\]
+
+  <p><strong>Probability Calculation:</strong> The probability that the conditions are met is the ratio of the favorable distributions to the total distributions:</p>
+
+\[\frac{560}{1771} = \frac{80}{253}\]
+</blockquote>
+
+                    </article>
+                </div>
+                <div class="horizontal-divider-line"></div>
+                
+
+                
+                <script src="https://giscus.app/client.js" data-repo="yuk068/yuk-blog-comments"
+                    data-repo-id="R_kgDONs1FhQ" data-category="Announcements" data-category-id="DIC_kwDONs1Fhc4CmLRI"
+                    data-mapping="title" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0"
+                    data-input-position="bottom" data-theme="dark_protanopia" data-lang="en" crossorigin="anonymous"
+                    async>
+                    </script>
+                
+
+                
+                <div class="final-horizontal-divider-line"></div>
+            </div>
+        </main>
+        <div class="footer-container">
+            <div class="relative-footer">
+                <footer>
+                    <div class="footer-info">
+                        <a href="https://www.facebook.com/yuk068" target="_blank">
+                            <i class="fab fa-facebook"></i>
+                            <div class="footer-info-label">
+                                <p>Duy Pham Duc</p>
+                            </div>
+                        </a>
+                        <a href="https://github.com/yuk068" target="_blank">
+                            <i class="fab fa-github"></i>
+                            <div class="footer-info-label">
+                                <p>Yuk068</p>
+                            </div>
+                        </a>
+                        <a href="https://x.com/Yukano_50" target="_blank">
+                            <i class="fab fa-twitter"></i>
+                            <div class="footer-info-label">
+                                <p>@Yukano_50</p>
+                            </div>
+                        </a>
+                        <a href="https://www.instagram.com/yukano68/" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                            <div class="footer-info-label">
+                                <p>yukano68</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="copyright-text">
+                        <p>&copy; 2025 Yukano - <a href="/support-yuk">Support Yuk!</a></p>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </div>
+    <script src="/assets/js/pages-js/post-script.js"></script>
+    <div class="scroll-button-container">
+        <button id="scrollButton" onclick="scrollToTop()">
+            <img src="/assets/svg/double-arrow-up-circle.svg" alt="⇡">
+        </button>
+    </div>
+</body>
+
+</html>
