@@ -1,4 +1,214 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-02-09T16:42:05+07:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Yuk’s Blog</title><subtitle></subtitle><entry><title type="html">Test Mermaid Graphics</title><link href="http://localhost:4000/2025/02/09/test-mermaid-graphic" rel="alternate" type="text/html" title="Test Mermaid Graphics" /><published>2025-02-09T00:00:00+07:00</published><updated>2025-02-09T00:00:00+07:00</updated><id>http://localhost:4000/2025/02/09/test-mermaid-graphic</id><content type="html" xml:base="http://localhost:4000/2025/02/09/test-mermaid-graphic"><![CDATA[<h2 id="mermaidjs"><a href="https://mermaid.js.org/" target="_blank">mermaid.js</a></h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-02-22T20:04:26+07:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Yuk’s Blog</title><subtitle></subtitle><entry><title type="html">Paper Comprehension: Enhancing Multi-Label Language Classification with Semantics</title><link href="http://localhost:4000/2025/02/22/comprehension-10n7x4" rel="alternate" type="text/html" title="Paper Comprehension: Enhancing Multi-Label Language Classification with Semantics" /><published>2025-02-22T00:00:00+07:00</published><updated>2025-02-22T00:00:00+07:00</updated><id>http://localhost:4000/2025/02/22/comprehension-10n7x4</id><content type="html" xml:base="http://localhost:4000/2025/02/22/comprehension-10n7x4"><![CDATA[<h1 id="improving-multi-label-classification-of-similar-languages-by-semantics-aware-word-embeddings">Improving Multi-Label Classification of Similar Languages by Semantics-Aware Word Embeddings</h1>
+
+<h5 id="paper-authors">Paper Authors</h5>
+
+<p>The Quyen Ngo¹, Thi Anh Phuong Nguyen², My Linh Ha¹, Thi Minh Huyen Nguyen¹, Phuong Le-Hong¹</p>
+
+<ul>
+  <li>¹ Vietnam National University, Hanoi, Vietnam</li>
+  <li>² Institute of Information Technology, Vietnam Academy of Science and Technology, Hanoi, Vietnam</li>
+</ul>
+
+<h5 id="access-paper"><a href="https://aclanthology.org/2024.vardial-1.21/" target="_blank">Access Paper</a></h5>
+
+<hr />
+
+<h3 id="table-of-content">Table of Content</h3>
+
+<blockquote>
+  <div id="table-of-contents"></div>
+</blockquote>
+
+<hr />
+
+<h3 id="abstract">Abstract</h3>
+
+<blockquote>
+
+  <p>“The VLP team participated in the DSL-ML  shared task of the VarDial 2024 workshop  which aims to distinguish texts in similar languages. This paper presents our approach to  solving the problem and discusses our experimental and official results. We propose to integrate semantics-aware word embeddings which  are learned from ConceptNet into a bidirectional long short-term memory network. This  approach achieves good performance – our system is ranked in the top two or three of the best  performing teams for the task.”</p>
+</blockquote>
+
+<h5 id="who-are-the-vlp-team">Who are the VLP team?</h5>
+
+<p>Not much info I can found about them, but VLP is probably short for Vietnamese Language Processing. They are most likely in association with Vietnam National University, Ha Noi.</p>
+
+<h5 id="what-is-dsl-ml">What is DSL-ML?</h5>
+
+<p>DSL-ML stands for <strong>“Discriminating between Similar Languages with Multi-Label classification”</strong>. The <strong>DSL-ML shared task at the VarDial 2024</strong> workshop challenged participants to create models that can accurately classify texts in similar languages. The task provided datasets from five macro-languages—English, Spanish, Portuguese, French, and Romanian—with multi-label annotations. Participants’ systems were evaluated based on their macro-average F1 scores across these datasets. <a href="https://sites.google.com/view/vardial-2024/shared-tasks/dsl-ml?utm_source=chatgpt.com" target="_blank">VarDial 2024.</a></p>
+
+<p>In the <strong>DSL-ML shared task at VarDial 2024</strong>, participants were provided with datasets for five language groups:</p>
+
+<ul>
+  <li>BCMS (Bosnian, Croatian, Montenegrin, Serbian).</li>
+  <li>EN (American and British English).</li>
+  <li>ES (Argentinian and Peninsular Spanish).</li>
+  <li>PT (Brazilian and European Portuguese).</li>
+  <li>FR (Belgian, Canadian, French, and Swiss French).</li>
+</ul>
+
+<p>Each dataset contained instances with multi-label annotations, where each instance consisted of a text segment and its corresponding label(s). The data files were formatted with two tab-separated columns: the first column contained the label(s), and the second column contained the text. Multiple labels were separated by commas. <a href="https://github.com/yvesscherrer/DSL-ML-2024" target="_blank">GitHub - DSL-ML-2024.</a></p>
+
+<h5 id="how-do-semantics-aware-word-embeddings-differ-from-normal-word-embeddings">How do semantics-aware word embeddings differ from normal word embeddings?</h5>
+
+<p>Semantics-aware word embeddings <strong>incorporate structured semantic knowledge</strong> from external resources, such as knowledge graphs, into the embedding space. This integration allows the embeddings to capture deeper relationships and nuances between words beyond their co-occurrence in text. In contrast, traditional word embeddings, like Word2Vec, rely solely on statistical information from large text corpora, which might miss certain semantic relationships.</p>
+
+<h5 id="what-is-conceptnet">What is ConceptNet?</h5>
+
+<p>ConceptNet is a <strong>multilingual knowledge graph</strong> that connects words and phrases with labeled edges, representing various semantic relationships between them. It serves as a valuable resource for enhancing word embeddings by providing structured semantic information, enabling models to understand context and relationships more effectively. <a href="https://blog.conceptnet.io/" target="_blank">ConceptNet Blog.</a></p>
+
+<hr />
+
+<p><strong>Brief difference between BiLSTM and vanilla LSTM:</strong> A vanilla Long Short-Term Memory (LSTM) network processes sequences in a single direction, maintaining information from the past to the present. In contrast, a Bidirectional LSTM (BiLSTM) processes sequences in both forward and backward directions, capturing context from both past and future states. This bidirectional approach allows BiLSTMs to understand the context more comprehensively, especially beneficial in tasks where the meaning of a word depends on both preceding and succeeding words.</p>
+
+<div class="mermaid">
+graph TD
+    %% Labels for Sections
+    V["**Vanilla LSTM**"]:::label
+    B["**Bidirectional LSTM**"]:::label
+
+    %% Vanilla LSTM (Unidirectional)
+    V --&gt; A[Input Sequence] --&gt;|Forward Pass| LSTM1[LSTM Layer] --&gt; H1[Hidden State] --&gt; Y[Output]
+
+    %% BiLSTM (Bidirectional)
+    B --&gt; A2[Input Sequence] --&gt;|Forward Pass| LSTM2[LSTM Layer Forward] --&gt; H2[Hidden State Forward] 
+    A2 --&gt;|Backward Pass| LSTM3[LSTM Layer Backward] --&gt; H3[Hidden State Backward] 
+    H2 &amp; H3 --&gt; Y2[Final Output]
+
+    %% Styling
+    classDef rounded fill:#000,stroke:#fff,stroke-width:2px,rx:10,ry:10;
+    classDef roundedLabel fill:#000,stroke:#ffffff,stroke-width:2px,rx:10,ry:10,font-weight:bold;
+    class A,A2,LSTM1,LSTM2,LSTM3,H1,H2,H3,Y,Y2, rounded;
+    class V,B roundedLabel;
+</div>
+
+<div class="description">LSTM (Unidirectional) and BiLSTM (Bidirectional)</div>
+
+<p>A <strong>macro-language</strong> is like a fruit category, such as citrus fruits.</p>
+<ul>
+  <li>Just as oranges, lemons, limes, and grapefruits all fall under the “citrus” category but have distinct flavors, Mandarin, Cantonese, and Hakka are all part of the “Chinese” macro-language but are distinct languages.</li>
+  <li>Some citrus fruits are more similar and interchangeable (like oranges and tangerines), just as some dialects within a macro-language are mutually intelligible.</li>
+  <li>Others, like grapefruits and limes, are more distinct but still belong to the same broad category—just like Arabic varieties, which can be quite different yet are grouped under one macro-language.
+In the DSL-ML task, classifying texts in macro-languages is like distinguishing between citrus fruits—it’s easy when they are very different (like Spanish vs. Portuguese) but much harder when they are closely related (like Brazilian Portuguese vs. European Portuguese).</li>
+</ul>
+
+<hr />
+
+<h2 id="1-introduction">1. Introduction</h2>
+
+<h3 id="the-problem-at-hand">The Problem at Hand</h3>
+
+<p>The problem at hand involves <strong>distinguishing between similar languages and language varieties</strong> through a computational lens, focusing on diatopic language variation. This task aims to evaluate system’s ability to classify text instances into <strong>multi-label categories</strong> based on five macro-languages: BCMS, EN, ES, Portuguese, and FR.</p>
+
+<h4 id="analogy-for-the-dsl-ml-shared-task">Analogy for the DSL-ML Shared Task</h4>
+
+<p>Imagine you’re a <strong>music streaming app</strong> trying to classify <strong>songs</strong> into <strong>specific genres and sub-genres</strong>.</p>
+
+<h4 id="the-challenge">The Challenge</h4>
+<ul>
+  <li>Some genres are very distinct (Jazz vs. Heavy Metal)—just like English vs. Japanese.</li>
+  <li>Some genres are very similar (Classical vs. Baroque, or Deep House vs. Tech House)—just like Argentinian Spanish vs. Peninsular Spanish.</li>
+  <li>Some songs may belong to <strong>multiple sub-genres at the same time</strong> (a song could be both “Synthwave” and “80s Pop”)—just like a text may belong to both “Brazilian Portuguese” and “European Portuguese” depending on certain linguistic traits.</li>
+</ul>
+
+<h4 id="how-this-relates-to-dsl-ml">How This Relates to DSL-ML</h4>
+<ul>
+  <li><strong>Multi-label classification</strong> is needed because a single text might belong to <strong>multiple language varieties</strong> (e.g., a document could have both American and British English spelling).</li>
+  <li><strong>Macro-languages</strong> like BCMS (Bosnian, Croatian, Montenegrin, Serbian) share a lot of similarities, making it difficult to separate them—similar to how music sub-genres blend into each other.</li>
+  <li><strong>The evaluation metric (macro-F1 score)</strong> ensures fair assessment across all language varieties, just like a good genre classifier should <strong>recognize niche genres</strong> without being biased toward the most common ones.</li>
+</ul>
+
+<h3 id="vlp-teams-approach">VLP Team’s Approach</h3>
+
+<p>The team aimed to improve <strong>multi-label classification of similar languages</strong> by enhancing their model with <strong>semantics-aware word embeddings</strong> from <strong>ConceptNet</strong>, a structured <strong>knowledge graph</strong> that captures real-world meanings and relationships between words. By incorporating <strong>ConceptNet-based embeddings</strong>, the system improves its understanding of language nuances beyond just syntax, making it more effective at distinguishing closely related languages and dialects. This approach leverages <strong>both linguistic structure (BiLSTM) and real-world meaning (ConceptNet)</strong>, leading to better classification performance in the DSL-ML shared task.</p>
+
+<hr />
+
+<h2 id="2-methods">2. Methods</h2>
+
+<p>The team designed a system that adhered strictly to the <strong>closed track constraints</strong>, <strong>AVOIDING</strong> pre-trained models and specialized / prohibited datasets while enhancing their <strong>BiLSTM network with ConceptNet embeddings</strong>. This approach allowed them to leverage semantic knowledge without violating the task’s rules, aiming for a purely <strong>data-driven and interpretable method</strong> for language variety classification.</p>
+
+<h3 id="21-bidirectional-lstm-model">2.1. Bidirectional LSTM Model</h3>
+
+<p>They implemented a Stacked Bidirectional LSTM architecture, where the hidden states from both left-to-right and right-to-left passes at layer $ k $ are concatenated and fed into layer $ (k + 1) $.</p>
+
+<p>For embeddings, they experimented with two approaches:</p>
+
+<ul>
+  <li><strong>Random Initialization</strong> – likely training both the tokenizer/vectorizer and LSTM from scratch.</li>
+  <li><strong>Precomputed ConceptNet Numberbatch Embeddings</strong> – details provided in the next section.</li>
+</ul>
+
+<p>After the final BiLSTM layer, a feedforward network with a softmax activation was used for multiway classification:</p>
+
+<blockquote>
+
+\[P(y_j \mid \vec{v_j}) = \text{softmax}(W \vec{v_j} + \vec{b})\]
+</blockquote>
+
+<p>Where $W$ and $b$ are learned parameters, thus they proposed the architecture:</p>
+
+<div class="mermaid">
+graph LR
+    E["Embedding Layer (w)"] --&gt; B["Stacked BiLSTM (h)"] --&gt; D1["Dense (d, ReLU)"] --&gt; D2["Dense (Softmax)"]
+
+    %% Styling
+    classDef rounded fill:#000,stroke:#fff,stroke-width:2px,rx:10,ry:10;
+    class E,B,D1,D2 rounded;
+</div>
+
+<div class="description">VLP Team's Proposed network architecture</div>
+
+<p>Where the hyperparameters $w$, $h$ and $d$ are the word embedding size, the recurrent hidden size and the dense hidden size.</p>
+
+<p>All models were trained using <strong>Adam</strong> with a learning rate of $ 5 \times 10^{-5} $, batch size <strong>32</strong>, and <strong>early stopping</strong> when accuracy stagnated for <strong>three epochs</strong> on the development set. The <strong>max sequence length</strong> was set to <strong>40 tokens</strong>. Each experiment was repeated <strong>five times</strong>, and results were averaged.</p>
+
+<p>During training, they optimized the cross-entropy loss to maximize correct predictions. While the official evaluation used <strong>per-class F1, weighted F1, and macro-averaged F1</strong>, they relied on <strong>accuracy</strong> for model tuning, despite its limitations on imbalanced datasets.</p>
+
+<h3 id="22-conceptnet-numberbatch">2.2. ConceptNet Numberbatch</h3>
+
+<p><strong>ConceptNet</strong> is a freely available semantic network designed to help computers understand word meanings. It has been used to create word embeddings similar to <strong>Word2Vec, GloVe, and FastText</strong> but with unique advantages. ConceptNet embeddings are <strong>free, multilingual, and aligned across languages</strong> while aiming to avoid harmful biases.</p>
+
+<div class="mermaid">
+graph TD
+    %% Nodes
+    A[ConceptNet]:::main --&gt;|is a| B[Semantic Network]
+    A --&gt;|is a| C[Knowledge Graph]:::blue
+    C --&gt;|has| D[Commonsense Knowledge]:::gray
+    D --&gt;|part of| E[Artificial Intelligence]:::gray
+    C --&gt;|is used for| F[Natural Language Understanding]:::gray
+    F --&gt;|part of| G[Word Embedding]:::yellow
+    G --&gt;|part of| E
+    
+    %% Additional Relation
+    A --&gt;|motivated by goal| H[Let computer understand what people already know]:::green
+
+    %% Styling
+    classDef main fill:#6A6AF2,stroke:#000,stroke-width:2px,rx:10,ry:10;
+    classDef blue fill:#457FD3,stroke:#000,stroke-width:2px,rx:10,ry:10;
+    classDef gray fill:#6F6F9B,stroke:#000,stroke-width:2px,rx:10,ry:10;
+    classDef yellow fill:#CFC573,stroke:#000,stroke-width:2px,rx:10,ry:10;
+    classDef green fill:#6ADA8F,stroke:#000,stroke-width:2px,rx:10,ry:10;
+
+    class A main;
+    class B,C blue;
+    class D,E,F gray;
+    class G yellow;
+    class H green;
+</div>
+
+<div class="description">An illustration of ConceptNet in graph</div>
+
+<p><strong>ConceptNet Numberbatch</strong> is a set of <strong>word embeddings</strong> trained on ConceptNet, incorporating <strong>semi-structured commonsense knowledge</strong> rather than relying solely on contextual word usage. This multilingual embedding space allows words from different languages to share a unified representation, making it well-suited for <strong>cross-lingual tasks.</strong></p>
+
+<p>These embeddings have shown strong performance in word similarity tasks and have been applied to natural language inference and dependency parsing. In this work, the team demonstrate their effectiveness in classifying similar languages.</p>
+
+<h2 id="3-results">3. Results</h2>
+
+<p>Their models were tested on development and test datasets in English, Spanish, French, and Portuguese languages. The <strong>LSTM-r model</strong> with randomly initialized word embeddings peaked at <strong>61.17% accuracy</strong> on the development set, but <strong>overfitted</strong> on the training set. The <strong>LSTM-c model</strong> using ConceptNet embeddings had better performance on the development set <strong>(66.57%)</strong> but underperformed on Portuguese due to a technical issue. The ConceptNet embeddings slightly improved performance on English and French test sets.</p>
+
+<h2 id="4-conclusion">4. Conclusion</h2>
+
+<p>Their model, leveraging <strong>ConceptNet embeddings</strong>, effectively distinguishes similar languages despite its simplicity. Currently, they use a multi-class classification approach but plan to explore <strong>multi-label classification</strong> in future work. They suggest <strong>integrating contrastive learning</strong> to improve representation learning by bringing similar instances closer in embedding space. Additionally, combining <strong>knowledge graph-based embeddings</strong> (e.g., WordNet, ConceptNet) with contrastive learning could enhance performance. While they tested <strong>XLM-R</strong> for this task, initial results were <strong>underwhelming</strong> compared to their method, warranting further investigation into the effectiveness of large language models for similar language classification.</p>]]></content><author><name></name></author><category term="technical" /><category term="paper comprehension" /><category term="nlp" /><summary type="html"><![CDATA[Improving Multi-Label Classification of Similar Languages by Semantics-Aware Word Embeddings - Ngo et al., 2024]]></summary></entry><entry><title type="html">Test Mermaid Graphics</title><link href="http://localhost:4000/2025/02/09/test-mermaid-graphic" rel="alternate" type="text/html" title="Test Mermaid Graphics" /><published>2025-02-09T00:00:00+07:00</published><updated>2025-02-09T00:00:00+07:00</updated><id>http://localhost:4000/2025/02/09/test-mermaid-graphic</id><content type="html" xml:base="http://localhost:4000/2025/02/09/test-mermaid-graphic"><![CDATA[<h2 id="mermaidjs"><a href="https://mermaid.js.org/" target="_blank">mermaid.js</a></h2>
 
 <div class="mermaid">
 ---
@@ -3762,579 +3972,4 @@ z ---&gt;NOT--|
   <li><a href="https://hoanganhduc.github.io/teaching/VNU-HUS/2024/winter/MAT3500-2/DM-Exercises.pdf" target="_blank">VNU - HUS MAT3500: Toán Rời Rạc: Danh sách bài tập - Hoàng Anh Đức</a></li>
 </ul>
 
-<div class="end-post">***</div>]]></content><author><name></name></author><category term="assignment" /><category term="discrete mathematics" /><category term="schoolwork" /><summary type="html"><![CDATA[Nội dung ôn tập môn Toán Rời Rạc của tôi cho cuối kì]]></summary></entry><entry><title type="html">Thread - Blog Update Log (Old)</title><link href="http://localhost:4000/2025/01/10/blog-updates-thread-old" rel="alternate" type="text/html" title="Thread - Blog Update Log (Old)" /><published>2025-01-10T00:00:00+07:00</published><updated>2025-01-10T00:00:00+07:00</updated><id>http://localhost:4000/2025/01/10/blog-updates-thread-old</id><content type="html" xml:base="http://localhost:4000/2025/01/10/blog-updates-thread-old"><![CDATA[<blockquote>
-  <div id="table-of-contents"></div>
-</blockquote>
-
-<p>This is <strong>Post A</strong>. Check out <a href="/2025/01/04/svm-notes" target="_blank">Post B</a>.</p>
-
-<h1 id="heading-level-1">Heading Level 1</h1>
-
-<p>This is a paragraph under a level 1 heading. It contains <strong>bold text</strong>, <em>italic text</em>, and <code class="language-plaintext highlighter-rouge">inline code</code>.</p>
-
-<h2 id="heading-level-2">Heading Level 2</h2>
-
-<h3 id="heading-level-3">Heading Level 3</h3>
-
-<p>Normal text <strong>bold text, and really long too</strong>, this is <em>italic text and really long too</em>, both at the <strong><em>same time, and really long too.</em></strong></p>
-
-<h1 id="heading-level-1-1">Heading level 1</h1>
-
-<h2 id="heading-level-2-1">Heading level 2</h2>
-
-<h3 id="heading-level-3-1">Heading level 3</h3>
-
-<h4 id="heading-level-4">Heading level 4</h4>
-
-<h5 id="heading-level-5">Heading level 5</h5>
-
-<h6 id="heading-level-6">Heading level 6</h6>
-
-<p>Here is a list:</p>
-
-<ol>
-  <li>Ordered list item 1</li>
-  <li>Ordered list item 2
-    <ol>
-      <li>Nested ordered list item 1</li>
-      <li>Nested ordered list item 2</li>
-    </ol>
-  </li>
-  <li>Ordered list item 3</li>
-</ol>
-
-<ul>
-  <li>Unordered list item 1</li>
-  <li>Unordered list item 2
-    <ul>
-      <li>Nested unordered list item 1</li>
-      <li>Nested unordered list item 2</li>
-    </ul>
-  </li>
-</ul>
-
-<h4 id="heading-level-4-1">Heading Level 4</h4>
-
-<blockquote>
-  <p>This is a blockquote.<br />
-It can contain multiple lines.</p>
-  <ul>
-    <li>You can include lists too.</li>
-  </ul>
-</blockquote>
-
-<h5 id="heading-level-5-1">Heading Level 5</h5>
-
-<p>Here’s a code block:</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">hello_world</span><span class="p">():</span>
-    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Hello, World!</span><span class="sh">"</span><span class="p">)</span>
-</code></pre></div></div>
-
-<h2 id="update-codeblocks-jan-10th-2025">Update Codeblocks (Jan. 10th 2025)</h2>
-
-<h3 id="codeblocks-line-numbers">Codeblocks Line Numbers</h3>
-
-<p>Codeblocks now have line numbers on the left (no line numbers on mobile)</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SevenSegmentDisplay</span> <span class="o">{</span>
-    <span class="c1">// Array representation of the 7-segment display for digits 0–9</span>
-    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span><span class="o">[][]</span> <span class="no">DIGITS</span> <span class="o">=</span> <span class="o">{</span>
-        <span class="o">{</span> <span class="s">" _ "</span><span class="o">,</span> <span class="s">"| |"</span><span class="o">,</span> <span class="s">"|_|"</span> <span class="o">},</span> <span class="c1">// 0</span>
-        <span class="o">{</span> <span class="s">"   "</span><span class="o">,</span> <span class="s">"  |"</span><span class="o">,</span> <span class="s">"  |"</span> <span class="o">},</span> <span class="c1">// 1</span>
-        <span class="o">{</span> <span class="s">" _ "</span><span class="o">,</span> <span class="s">" _|"</span><span class="o">,</span> <span class="s">"|_ "</span> <span class="o">},</span> <span class="c1">// 2</span>
-        <span class="o">{</span> <span class="s">" _ "</span><span class="o">,</span> <span class="s">" _|"</span><span class="o">,</span> <span class="s">" _|"</span> <span class="o">},</span> <span class="c1">// 3</span>
-        <span class="o">{</span> <span class="s">"   "</span><span class="o">,</span> <span class="s">"|_|"</span><span class="o">,</span> <span class="s">"  |"</span> <span class="o">},</span> <span class="c1">// 4</span>
-        <span class="o">{</span> <span class="s">" _ "</span><span class="o">,</span> <span class="s">"|_ "</span><span class="o">,</span> <span class="s">" _|"</span> <span class="o">},</span> <span class="c1">// 5</span>
-        <span class="o">{</span> <span class="s">" _ "</span><span class="o">,</span> <span class="s">"|_ "</span><span class="o">,</span> <span class="s">"|_|"</span> <span class="o">},</span> <span class="c1">// 6</span>
-        <span class="o">{</span> <span class="s">" _ "</span><span class="o">,</span> <span class="s">"  |"</span><span class="o">,</span> <span class="s">"  |"</span> <span class="o">},</span> <span class="c1">// 7</span>
-        <span class="o">{</span> <span class="s">" _ "</span><span class="o">,</span> <span class="s">"|_|"</span><span class="o">,</span> <span class="s">"|_|"</span> <span class="o">},</span> <span class="c1">// 8</span>
-        <span class="o">{</span> <span class="s">" _ "</span><span class="o">,</span> <span class="s">"|_|"</span><span class="o">,</span> <span class="s">" _|"</span> <span class="o">}</span>  <span class="c1">// 9</span>
-    <span class="o">};</span>
-
-    <span class="c1">// Function to display a single digit</span>
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">displayDigit</span><span class="o">(</span><span class="kt">int</span> <span class="n">digit</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">digit</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">digit</span> <span class="o">&gt;</span> <span class="mi">9</span><span class="o">)</span> <span class="o">{</span>
-            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Invalid digit. Only 0-9 are supported."</span><span class="o">);</span>
-            <span class="k">return</span><span class="o">;</span>
-        <span class="o">}</span>
-        <span class="k">for</span> <span class="o">(</span><span class="nc">String</span> <span class="n">row</span> <span class="o">:</span> <span class="no">DIGITS</span><span class="o">[</span><span class="n">digit</span><span class="o">])</span> <span class="o">{</span>
-            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">row</span><span class="o">);</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
-
-    <span class="c1">// Function to display a multi-digit number</span>
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">displayNumber</span><span class="o">(</span><span class="kt">int</span> <span class="n">number</span><span class="o">)</span> <span class="o">{</span>
-        <span class="nc">String</span> <span class="n">numberStr</span> <span class="o">=</span> <span class="nc">String</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">number</span><span class="o">);</span>
-        <span class="nc">StringBuilder</span><span class="o">[]</span> <span class="n">rows</span> <span class="o">=</span> <span class="o">{</span> <span class="k">new</span> <span class="nc">StringBuilder</span><span class="o">(),</span> <span class="k">new</span> <span class="nc">StringBuilder</span><span class="o">(),</span> <span class="k">new</span> <span class="nc">StringBuilder</span><span class="o">()</span> <span class="o">};</span>
-
-        <span class="k">for</span> <span class="o">(</span><span class="kt">char</span> <span class="n">c</span> <span class="o">:</span> <span class="n">numberStr</span><span class="o">.</span><span class="na">toCharArray</span><span class="o">())</span> <span class="o">{</span>
-            <span class="kt">int</span> <span class="n">digit</span> <span class="o">=</span> <span class="nc">Character</span><span class="o">.</span><span class="na">getNumericValue</span><span class="o">(</span><span class="n">c</span><span class="o">);</span>
-            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
-                <span class="n">rows</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">append</span><span class="o">(</span><span class="no">DIGITS</span><span class="o">[</span><span class="n">digit</span><span class="o">][</span><span class="n">i</span><span class="o">]).</span><span class="na">append</span><span class="o">(</span><span class="s">" "</span><span class="o">);</span>
-            <span class="o">}</span>
-        <span class="o">}</span>
-
-        <span class="k">for</span> <span class="o">(</span><span class="nc">StringBuilder</span> <span class="n">row</span> <span class="o">:</span> <span class="n">rows</span><span class="o">)</span> <span class="o">{</span>
-            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">row</span><span class="o">);</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
-
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Displaying single digit (5):"</span><span class="o">);</span>
-        <span class="n">displayDigit</span><span class="o">(</span><span class="mi">5</span><span class="o">);</span>
-
-        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"\nDisplaying number (12345):"</span><span class="o">);</span>
-        <span class="n">displayNumber</span><span class="o">(</span><span class="mi">12345</span><span class="o">);</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Dictionary representation of the 7-segment display for digits 0–9
-</span><span class="n">DIGITS</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="mi">0</span><span class="p">:</span> <span class="p">[</span><span class="sh">"</span><span class="s"> _ </span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">| |</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">|_|</span><span class="sh">"</span><span class="p">],</span>
-    <span class="mi">1</span><span class="p">:</span> <span class="p">[</span><span class="sh">"</span><span class="s">   </span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">  |</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">  |</span><span class="sh">"</span><span class="p">],</span>
-    <span class="mi">2</span><span class="p">:</span> <span class="p">[</span><span class="sh">"</span><span class="s"> _ </span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s"> _|</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">|_ </span><span class="sh">"</span><span class="p">],</span>
-    <span class="mi">3</span><span class="p">:</span> <span class="p">[</span><span class="sh">"</span><span class="s"> _ </span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s"> _|</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s"> _|</span><span class="sh">"</span><span class="p">],</span>
-    <span class="mi">4</span><span class="p">:</span> <span class="p">[</span><span class="sh">"</span><span class="s">   </span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">|_|</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">  |</span><span class="sh">"</span><span class="p">],</span>
-    <span class="mi">5</span><span class="p">:</span> <span class="p">[</span><span class="sh">"</span><span class="s"> _ </span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">|_ </span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s"> _|</span><span class="sh">"</span><span class="p">],</span>
-    <span class="mi">6</span><span class="p">:</span> <span class="p">[</span><span class="sh">"</span><span class="s"> _ </span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">|_ </span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">|_|</span><span class="sh">"</span><span class="p">],</span>
-    <span class="mi">7</span><span class="p">:</span> <span class="p">[</span><span class="sh">"</span><span class="s"> _ </span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">  |</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">  |</span><span class="sh">"</span><span class="p">],</span>
-    <span class="mi">8</span><span class="p">:</span> <span class="p">[</span><span class="sh">"</span><span class="s"> _ </span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">|_|</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">|_|</span><span class="sh">"</span><span class="p">],</span>
-    <span class="mi">9</span><span class="p">:</span> <span class="p">[</span><span class="sh">"</span><span class="s"> _ </span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">|_|</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s"> _|</span><span class="sh">"</span><span class="p">]</span>
-<span class="p">}</span>
-
-<span class="k">def</span> <span class="nf">display_digit</span><span class="p">(</span><span class="n">digit</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">digit</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">DIGITS</span><span class="p">:</span>
-        <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Invalid digit. Only 0-9 are supported.</span><span class="sh">"</span><span class="p">)</span>
-        <span class="k">return</span>
-    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">DIGITS</span><span class="p">[</span><span class="n">digit</span><span class="p">]:</span>
-        <span class="nf">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">display_number</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
-    <span class="n">number_str</span> <span class="o">=</span> <span class="nf">str</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
-    <span class="n">rows</span> <span class="o">=</span> <span class="p">[</span><span class="sh">""</span><span class="p">,</span> <span class="sh">""</span><span class="p">,</span> <span class="sh">""</span><span class="p">]</span>
-    
-    <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">number_str</span><span class="p">:</span>
-        <span class="n">digit</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="n">char</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">(</span><span class="n">DIGITS</span><span class="p">[</span><span class="n">digit</span><span class="p">]):</span>
-            <span class="n">rows</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">row</span> <span class="o">+</span> <span class="sh">"</span><span class="s"> </span><span class="sh">"</span>
-
-    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
-        <span class="nf">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
-
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="sh">"</span><span class="s">__main__</span><span class="sh">"</span><span class="p">:</span>
-    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Displaying single digit (5):</span><span class="sh">"</span><span class="p">)</span>
-    <span class="nf">display_digit</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-
-    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="se">\n</span><span class="s">Displaying number (12345):</span><span class="sh">"</span><span class="p">)</span>
-    <span class="nf">display_number</span><span class="p">(</span><span class="mi">12345</span><span class="p">)</span>
-</code></pre></div></div>
-
-<h3 id="two-new-web-projects">Two New Web Projects</h3>
-
-<ul>
-  <li>Tic Tac Toe</li>
-  <li>Game of Life</li>
-</ul>
-
-<h2 id="new-page-web-project-jan-10th-2025">New Page: Web Project (Jan. 10th 2025)</h2>
-
-<p>Added <strong>Web Project</strong> page. I will post web-related project there, I’m not really into web development so maybe don’t expect frequent uploads there. Best way to experience it is to try it yourself:</p>
-
-<p>(Deprecated)</p>
-
-<h2 id="new-features-on-yuks-blog-jan-9th-2025">New Features on Yuk’s Blog (Jan. 9th 2025)</h2>
-
-<h3 id="table-of-content">Table of Content</h3>
-
-<p>You can click on the entries to jump to the desired section. (On top of this page). Spoilers:</p>
-
-<p>(Deprecated)</p>
-
-<h3 id="linkage">Linkage</h3>
-
-<p>Table of content and certain headings will now have linkage “🔗” to them (not every post). Clicking on them will copy the link to your clipboard, you may use this link to access the post and immediately jump to the heading section upon loading the page for convenience.</p>
-
-<h3 id="animation-update">Animation Update</h3>
-
-<p>Various elements have been given animations because why not.</p>
-
-<h3 id="blockquotes-update">Blockquotes Update</h3>
-
-<p>Blockquotes are now more consistent with Codeblocks and is now affected by extend / collapse button.</p>
-
-<ul>
-  <li>Blockquotes will look like:</li>
-</ul>
-
-<blockquote>
-
-  <p>This is a blockquote</p>
-</blockquote>
-
-<blockquote>
-
-  <p>Sure! Here’s a long paragraph for you: The rapid advancement of technology in recent decades has brought about profound changes in various aspects of society, from the way we communicate to the way we work and live. With the rise of artificial intelligence, automation, and data analytics, many industries have experienced significant transformations, often leading to increased efficiency and innovation. However, these advancements have also raised important questions about the future of jobs, privacy, and ethical considerations. As automation continues to evolve, it is unclear what the long-term impact will be on the workforce, as many tasks once performed by humans are now being carried out by machines. Additionally, concerns about data privacy have become more prominent, with large-scale data collection and surveillance becoming commonplace in many parts of the world. In response to these concerns, governments, organizations, and individuals are increasingly looking for ways to balance innovation with privacy protection and ethical responsibility, recognizing that the future of technology will likely be shaped by these discussions. Despite the challenges, the potential for technological progress to solve complex global issues, such as climate change and healthcare, remains vast, offering hope for a future where technology serves as a force for good.</p>
-</blockquote>
-
-<blockquote>
-
-\[e \equiv \lim_{n\to\infty} \biggl( 1 + \frac{1}{n} \biggr)^n\]
-</blockquote>
-
-<blockquote>
-
-\[\int_{a}^{b} \left( \sum_{n=1}^{\infty} \frac{(-1)^n}{n!} \cdot \frac{d^n}{dx^n} \left( e^{x^2} \right) \right) \, dx = \lim_{N \to \infty} \sum_{n=0}^{N} \left( \int_{a}^{b} \frac{(-1)^n}{n!} \cdot \frac{d^n}{dx^n} \left( e^{x^2} \right) \, dx \right) = \sum_{n=0}^{\infty} \int_{a}^{b} \frac{(-1)^n}{n!} \cdot \frac{d^n}{dx^n} \left( e^{x^2} \right) \, dx\]
-</blockquote>
-
-<blockquote>
-
-\[\begin{bmatrix}
-    1 &amp; 2 &amp; 3 &amp; 4 &amp; 5 &amp; 6 &amp; 7 &amp; 8 &amp; 9 \\
-    10 &amp; 11 &amp; 12 &amp; 13 &amp; 14 &amp; 15 &amp; 16 &amp; 17 &amp; 18 \\
-    19 &amp; 20 &amp; 21 &amp; 22 &amp; 23 &amp; 24 &amp; 25 &amp; 26 &amp; 27 \\
-    28 &amp; 29 &amp; 30 &amp; 31 &amp; 32 &amp; 33 &amp; 34 &amp; 35 &amp; 36 \\
-    37 &amp; 38 &amp; 39 &amp; 40 &amp; 41 &amp; 42 &amp; 43 &amp; 44 &amp; 45 \\
-    46 &amp; 47 &amp; 48 &amp; 49 &amp; 50 &amp; 51 &amp; 52 &amp; 53 &amp; 54 \\
-    55 &amp; 56 &amp; 57 &amp; 58 &amp; 59 &amp; 60 &amp; 61 &amp; 62 &amp; 63 \\
-    64 &amp; 65 &amp; 66 &amp; 67 &amp; 68 &amp; 69 &amp; 70 &amp; 71 &amp; 72 \\
-    73 &amp; 74 &amp; 75 &amp; 76 &amp; 77 &amp; 78 &amp; 79 &amp; 80 &amp; 81 \\
-\end{bmatrix}\]
-</blockquote>
-
-<ul>
-  <li>Codeblocks will look like:</li>
-</ul>
-
-<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code>This is a codeblock
-</code></pre></div></div>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MinecraftComparator</span> <span class="o">{</span>
-
-    <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">isPowered</span><span class="o">;</span>
-    <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">isInSubtractionMode</span><span class="o">;</span>
-    
-    <span class="kd">public</span> <span class="nf">MinecraftComparator</span><span class="o">()</span> <span class="o">{</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">isPowered</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>  <span class="c1">// Comparator initially unpowered</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">isInSubtractionMode</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>  <span class="c1">// Default mode is comparison mode</span>
-    <span class="o">}</span>
-
-    <span class="c1">// Sets whether the comparator is powered (input signal)</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setPowered</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">powered</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">isPowered</span> <span class="o">=</span> <span class="n">powered</span><span class="o">;</span>
-    <span class="o">}</span>
-
-    <span class="c1">// Sets the mode of the comparator (comparison or subtraction)</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setSubtractionMode</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">subtractionMode</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">isInSubtractionMode</span> <span class="o">=</span> <span class="n">subtractionMode</span><span class="o">;</span>
-    <span class="o">}</span>
-
-    <span class="c1">// Simulates receiving an input signal and returning the output</span>
-    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getOutput</span><span class="o">(</span><span class="kt">int</span> <span class="n">input1</span><span class="o">,</span> <span class="kt">int</span> <span class="n">input2</span><span class="o">)</span> <span class="o">{</span>
-        <span class="c1">// If powered, the comparator reacts to the inputs</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">isPowered</span><span class="o">)</span> <span class="o">{</span>
-            <span class="k">if</span> <span class="o">(</span><span class="n">isInSubtractionMode</span><span class="o">)</span> <span class="o">{</span>
-                <span class="c1">// In subtraction mode, the output is the difference between the inputs</span>
-                <span class="k">return</span> <span class="nc">Math</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="n">input1</span> <span class="o">-</span> <span class="n">input2</span><span class="o">);</span>
-            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-                <span class="c1">// In comparison mode, the output is 15 if input1 is greater than or equal to input2, else 0</span>
-                <span class="k">return</span> <span class="o">(</span><span class="n">input1</span> <span class="o">&gt;=</span> <span class="n">input2</span><span class="o">)</span> <span class="o">?</span> <span class="mi">15</span> <span class="o">:</span> <span class="mi">0</span><span class="o">;</span>
-            <span class="o">}</span>
-        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-            <span class="c1">// If unpowered, the output is 0</span>
-            <span class="k">return</span> <span class="mi">0</span><span class="o">;</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
-
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-        <span class="nc">MinecraftComparator</span> <span class="n">comparator</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">MinecraftComparator</span><span class="o">();</span>
-
-        <span class="c1">// Set the comparator to powered and in comparison mode</span>
-        <span class="n">comparator</span><span class="o">.</span><span class="na">setPowered</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
-        <span class="n">comparator</span><span class="o">.</span><span class="na">setSubtractionMode</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>  <span class="c1">// Comparison mode</span>
-
-        <span class="kt">int</span> <span class="n">output1</span> <span class="o">=</span> <span class="n">comparator</span><span class="o">.</span><span class="na">getOutput</span><span class="o">(</span><span class="mi">10</span><span class="o">,</span> <span class="mi">5</span><span class="o">);</span>  <span class="c1">// Input 1 is 10, Input 2 is 5</span>
-        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Comparison Mode Output: "</span> <span class="o">+</span> <span class="n">output1</span><span class="o">);</span>  <span class="c1">// Should print 15 since 10 &gt;= 5</span>
-
-        <span class="c1">// Set the comparator to powered and in subtraction mode</span>
-        <span class="n">comparator</span><span class="o">.</span><span class="na">setSubtractionMode</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>  <span class="c1">// Subtraction mode</span>
-
-        <span class="kt">int</span> <span class="n">output2</span> <span class="o">=</span> <span class="n">comparator</span><span class="o">.</span><span class="na">getOutput</span><span class="o">(</span><span class="mi">10</span><span class="o">,</span> <span class="mi">5</span><span class="o">);</span>  <span class="c1">// Input 1 is 10, Input 2 is 5</span>
-        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Subtraction Mode Output: "</span> <span class="o">+</span> <span class="n">output2</span><span class="o">);</span>  <span class="c1">// Should print 5 (10 - 5)</span>
-
-        <span class="c1">// Test with comparator unpowered</span>
-        <span class="n">comparator</span><span class="o">.</span><span class="na">setPowered</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>
-        <span class="kt">int</span> <span class="n">output3</span> <span class="o">=</span> <span class="n">comparator</span><span class="o">.</span><span class="na">getOutput</span><span class="o">(</span><span class="mi">10</span><span class="o">,</span> <span class="mi">5</span><span class="o">);</span>
-        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Unpowered Comparator Output: "</span> <span class="o">+</span> <span class="n">output3</span><span class="o">);</span>  <span class="c1">// Should print 0</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Fibonacci</span> <span class="o">{</span>
-
-    <span class="c1">// Function to compute the nth Fibonacci number recursively</span>
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">fibonacci</span><span class="o">(</span><span class="kt">int</span> <span class="n">n</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
-            <span class="k">return</span> <span class="n">n</span><span class="o">;</span>
-        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-            <span class="k">return</span> <span class="nf">fibonacci</span><span class="o">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">+</span> <span class="n">fibonacci</span><span class="o">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="o">);</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
-
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-        <span class="kt">int</span> <span class="n">number</span> <span class="o">=</span> <span class="mi">10</span><span class="o">;</span> <span class="c1">// We will compute the 10th Fibonacci number</span>
-        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"The 10th Fibonacci number is: "</span> <span class="o">+</span> <span class="n">fibonacci</span><span class="o">(</span><span class="n">number</span><span class="o">));</span>
-
-        <span class="c1">// Printing the Fibonacci series up to the 10th number</span>
-        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Fibonacci Series up to 10th number:"</span><span class="o">);</span>
-        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">number</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
-            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="n">fibonacci</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">+</span> <span class="s">" "</span><span class="o">);</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
-<h3 id="revamp-date-formatting">Revamp Date Formatting</h3>
-
-<p>Dates now formats in something like Jan. 8th 2025 instead of 08/01/2025.</p>
-
-<h3 id="table-formatting">Table Formatting</h3>
-
-<p>Tried my best with tables:</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Age</th>
-      <th>Occupation</th>
-      <th>City</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Alice</td>
-      <td>30</td>
-      <td>Engineer</td>
-      <td>New York</td>
-    </tr>
-    <tr>
-      <td>Bob</td>
-      <td>25</td>
-      <td>Designer</td>
-      <td>San Francisco</td>
-    </tr>
-    <tr>
-      <td>Charlie</td>
-      <td>35</td>
-      <td>Developer</td>
-      <td>Chicago</td>
-    </tr>
-    <tr>
-      <td>Dana</td>
-      <td>28</td>
-      <td>Data Analyst</td>
-      <td>Austin</td>
-    </tr>
-    <tr>
-      <td>Eve</td>
-      <td>40</td>
-      <td>Project Manager</td>
-      <td>Boston</td>
-    </tr>
-  </tbody>
-</table>
-
-<table>
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>First Name</th>
-      <th>Last Name</th>
-      <th>Age</th>
-      <th>Occupation</th>
-      <th>City</th>
-      <th>Email</th>
-      <th>Phone Number</th>
-      <th>Country</th>
-      <th>Department</th>
-      <th>Salary</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>001</td>
-      <td>Alice</td>
-      <td>Johnson</td>
-      <td>30</td>
-      <td>Engineer</td>
-      <td>New York</td>
-      <td>alice.johnson@example.com</td>
-      <td>123-456-7890</td>
-      <td>USA</td>
-      <td>Engineering</td>
-      <td>$85,000</td>
-    </tr>
-    <tr>
-      <td>002</td>
-      <td>Bob</td>
-      <td>Smith</td>
-      <td>25</td>
-      <td>Designer</td>
-      <td>San Francisco</td>
-      <td>bob.smith@example.com</td>
-      <td>987-654-3210</td>
-      <td>USA</td>
-      <td>Design</td>
-      <td>$70,000</td>
-    </tr>
-    <tr>
-      <td>003</td>
-      <td>Charlie</td>
-      <td>Brown</td>
-      <td>35</td>
-      <td>Developer</td>
-      <td>Chicago</td>
-      <td>charlie.brown@example.com</td>
-      <td>555-123-4567</td>
-      <td>USA</td>
-      <td>Development</td>
-      <td>$95,000</td>
-    </tr>
-    <tr>
-      <td>004</td>
-      <td>Dana</td>
-      <td>White</td>
-      <td>28</td>
-      <td>Data Analyst</td>
-      <td>Austin</td>
-      <td>dana.white@example.com</td>
-      <td>444-555-6666</td>
-      <td>USA</td>
-      <td>Analytics</td>
-      <td>$80,000</td>
-    </tr>
-    <tr>
-      <td>005</td>
-      <td>Eve</td>
-      <td>Davis</td>
-      <td>40</td>
-      <td>Project Manager</td>
-      <td>Boston</td>
-      <td>eve.davis@example.com</td>
-      <td>333-777-8888</td>
-      <td>USA</td>
-      <td>Management</td>
-      <td>$105,000</td>
-    </tr>
-  </tbody>
-</table>
-
-<table>
-  <thead>
-    <tr>
-      <th>Function</th>
-      <th>Limit as \(x \to 0\)</th>
-      <th>Limit as \(x \to \infty\)</th>
-      <th>Remarks</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>\(\frac{\sin(x)}{x}\)</td>
-      <td>\(1\)</td>
-      <td>\(0\)</td>
-      <td>Standard limit for small \(x\)</td>
-    </tr>
-    <tr>
-      <td>\(e^x\)</td>
-      <td>\(1\)</td>
-      <td>\(\infty\)</td>
-      <td>Exponential growth</td>
-    </tr>
-    <tr>
-      <td>\(\frac{1}{x}\)</td>
-      <td>\(\infty\)</td>
-      <td>\(0\)</td>
-      <td>Reciprocal function</td>
-    </tr>
-    <tr>
-      <td>\(\ln(x)\)</td>
-      <td>\(-\infty\)</td>
-      <td>\(\infty\)</td>
-      <td>Logarithmic growth</td>
-    </tr>
-    <tr>
-      <td>\(\frac{1}{x^2}\)</td>
-      <td>\(\infty\)</td>
-      <td>\(0\)</td>
-      <td>Parabola in the reciprocal form</td>
-    </tr>
-    <tr>
-      <td>\(\frac{\tan(x)}{x}\)</td>
-      <td>\(1\)</td>
-      <td>\(\infty\)</td>
-      <td>Tangent behavior near \(x = 0\)</td>
-    </tr>
-  </tbody>
-</table>
-
-<h3 id="to-top-of-page-button">To Top of Page Button</h3>
-
-<p>Added a button at the footer of posts to jump to the head of the page.</p>
-
-<h3 id="vietnamese-support">Vietnamese Support</h3>
-
-<p>The blog has support for Vietnamese content now.</p>
-
-<h2 id="new-features-on-yuks-blog-oct-1st-2024">New Features on Yuk’s Blog (Oct. 1st 2024)</h2>
-
-<p>Since I don’t have time or even a good grasp on the recent development of my blog, I want to quickly summarizes and explain the new features on my blog here.</p>
-
-<h3 id="light--dark-mode-support">Light / Dark Mode Support</h3>
-
-<p>I’ve added light / dark mode support for the site, simply click the ☀️ / 🌙 button which will usually be located at the top right of the header to toggle between them.</p>
-
-<h3 id="codeblocks-update">Codeblocks Update</h3>
-
-<ul>
-  <li><strong>Collapse / Expand Codeblocks:</strong> Codeblocks on this blog can be quite lengthy at times, so I’ve added the 🔼 / 🔽 button at the top right of each of the codeblocks for you to collapse or expand them to your liking. On load, all codeblocks will be expanded by default, you can use the big 🔼 / 🔽 button at the top right of the header to collapse or expand all codeblocks in the current post.</li>
-  <li><strong>Copy Code:</strong> I’ve added the 📄 button to codeblocks, which will allow you to copy the entire codeblock with the click of a button, below is a dummy codeblock:</li>
-</ul>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">binary_search</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-    <span class="n">low</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">high</span> <span class="o">=</span> <span class="nf">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-    <span class="n">mid</span> <span class="o">=</span> <span class="mi">0</span>
-
-    <span class="k">while</span> <span class="n">low</span> <span class="o">&lt;=</span> <span class="n">high</span><span class="p">:</span>
-        <span class="n">mid</span> <span class="o">=</span> <span class="p">(</span><span class="n">high</span> <span class="o">+</span> <span class="n">low</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
-
-        <span class="k">if</span> <span class="n">arr</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">x</span><span class="p">:</span>
-            <span class="n">low</span> <span class="o">=</span> <span class="n">mid</span> <span class="o">+</span> <span class="mi">1</span>
-        <span class="k">elif</span> <span class="n">arr</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">x</span><span class="p">:</span>
-            <span class="n">high</span> <span class="o">=</span> <span class="n">mid</span> <span class="o">-</span> <span class="mi">1</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">mid</span>
-        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
-</code></pre></div></div>
-
-<h3 id="archive-page">Archive Page</h3>
-
-<h4 id="nav-bar">Nav Bar</h4>
-
-<ul>
-  <li><strong>Assign.:</strong> Where i post assignments of my formal courses at my university.</li>
-  <li><strong>Projects:</strong> You can find most of my project that i was able to make a post on here.</li>
-  <li><strong>Thread:</strong> These are running threads for stuff that is not suitable for a blog post, which will be updated occasionally.</li>
-  <li><strong>Update:</strong> I will post announcements about the blog or about me here.</li>
-  <li><strong>Technical:</strong> Posts that covers advanced mathematics, CS concepts, and more.</li>
-</ul>
-
-<h4 id="header-buttons">Header Buttons</h4>
-
-<ul>
-  <li><strong>The 🖼️ button:</strong> To toggle the thumbnail of posts in the archive page, which would allow for faster scrolling.</li>
-  <li><strong>The 🔑 button:</strong> Lets go gambling.</li>
-</ul>]]></content><author><name></name></author><category term="thread" /><category term="blogging" /><category term="update log" /><category term="old post" /><summary type="html"><![CDATA[Running thread of new features and changes on my (old) blog]]></summary></entry></feed>
+<div class="end-post">***</div>]]></content><author><name></name></author><category term="assignment" /><category term="discrete mathematics" /><category term="schoolwork" /><summary type="html"><![CDATA[Nội dung ôn tập môn Toán Rời Rạc của tôi cho cuối kì]]></summary></entry></feed>
