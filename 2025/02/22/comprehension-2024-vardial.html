@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="linkage" content="true">
+    <title>Paper Comprehension: Enhancing Multi-Label Language Classification with Semantics</title>
+    <meta name="description" content="Improving Multi-Label Classification of Similar Languages by Semantics-Aware Word Embeddings - Ngo et al., 2024">
+    <link rel="stylesheet" href="/assets/css/pages-css/post-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    
+    
+    <!-- Default to MathJax -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+
+    
+    <script type="text/javascript" src="https://unpkg.com/mermaid@11.4.1/dist/mermaid.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            mermaid.initialize({
+                startOnLoad: true,
+                theme: 'dark',
+                themeVariables: {
+                    'primaryColor': '#1e1e1e',
+                    'edgeLabelBackground': '#444444',
+                    'tertiaryColor': '#555555',
+                }
+            });
+        });
+    </script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="main-container">
+        <header id="post-header">
+            <div class="header-logo-container">
+                <button class="logo-button" onclick="handleLogoClick()">
+                    <div class="logo-container">
+                        <div class="logo">
+                            <div class="u-shape left-side"></div>
+                            <div class="u-shape bottom"></div>
+                            <div class="u-shape right-side"></div>
+                        </div>
+                        <div class="left-arrow-top"></div>
+                        <div class="right-arrow-top"></div>
+                        <div class="right-arrow-bottom"></div>
+                    </div>
+                </button>
+            </div>
+            <div class="home-header-title-mobile">
+                <h1 id="home-header-title">Yukano</h1>
+            </div>
+            <div class="nav-container">
+                <nav class="nav-bar">
+                    <ul>
+                        <a href="#" onclick="goBack()">
+                            <li>
+                                
+                                Back
+                                
+                            </li>
+                        </a>
+                        <div class="nav-bar-divider"></div>
+                        <a href="/">
+                            <li>
+                                
+                                Home
+                                
+                            </li>
+                        </a>
+                        <div class="nav-bar-divider" id="nav-disable-mobile"></div>
+                        <a href="/archive" id="nav-disable-mobile">
+                            <li id="nav-disable-mobile">
+                                
+                                Archive
+                                
+                            </li>
+                        </a>
+                        <div class="nav-bar-divider" id="nav-disable-mobile"></div>
+                        <a href="/projects" id="nav-disable-mobile">
+                            <li id="nav-disable-mobile">
+                                
+                                Projects
+                                
+                            </li>
+                        </a>
+                        <div class="nav-bar-divider" id="nav-disable-mobile"></div>
+                        <a href="#" onclick="notifyComingSoon()" id="nav-disable-mobile">
+                            <li id="nav-disable-mobile">
+                                
+                                Explore
+                                
+                            </li>
+                        </a>
+                    </ul>
+                </nav>
+            </div>
+            <div class="header-extra-container">
+                <button class="extra-button">
+                    <div class="extra-container">
+                        <div class="extra">
+                            <div class="extra-shape top"></div>
+                            <div class="extra-shape middle"></div>
+                            <div class="extra-shape bottom"></div>
+                        </div>
+                    </div>
+                </button>
+            </div>
+        </header>
+        <main>
+            <div id="overlay" class="overlay">
+                <div class="options-container">
+                    <p>
+                        
+                        Navigation
+                        
+                    </p>
+                    <div class="options-navigation">
+                        <button id="toBackButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-63ce7424ea57ea6c8380059e-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <path class="cls-63ce7424ea57ea6c8380059e-1"
+                                    d="M2.41,16.78H14.85A7.65,7.65,0,0,0,22.5,9.13h0a7.65,7.65,0,0,0-7.65-7.65H.5">
+                                </path>
+                                <polyline class="cls-63ce7424ea57ea6c8380059e-1"
+                                    points="8.15 22.52 2.41 16.78 8.15 11.04">
+                                </polyline>
+                            </svg>
+                            
+                            Back
+                            
+                        </button>
+                        <button id="toHomeButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-6374f8d9b67f094e4896c637-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <polyline class="cls-6374f8d9b67f094e4896c637-1" points="1 12 12 2.83 23 12"></polyline>
+                                <polyline class="cls-6374f8d9b67f094e4896c637-1"
+                                    points="19.33 9.25 19.33 21.17 14.75 21.17 14.75 13.83 9.25 13.83 9.25 21.17 4.67 21.17 4.67 9.25">
+                                </polyline>
+                            </svg>
+                            
+                            Home
+                            
+                        </button>
+                        <button id="toArchiveButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-6374f8d9b67f094e4896c633-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <polygon class="cls-6374f8d9b67f094e4896c633-1"
+                                    points="19.64 9.14 4.36 9.14 4.36 1.5 10.09 1.5 12 3.41 19.64 3.41 19.64 9.14">
+                                </polygon>
+                                <polygon class="cls-6374f8d9b67f094e4896c633-1"
+                                    points="1.5 9.14 22.5 9.14 20.59 22.5 3.41 22.5 1.5 9.14"></polygon>
+                            </svg>
+                            
+                            Archive
+                            
+                        </button>
+                        <button id="toProjectsButton"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                stroke-width="1.5" width="20" height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-637b8d40f95e86b59c57a2bd-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <g id="roll_brush" data-name="roll brush">
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="5.24" y1="11.08" x2="18.66"
+                                        y2="11.08">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="5.24" y1="18.76" x2="18.66"
+                                        y2="18.76">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="5.24" y1="14.92" x2="18.66"
+                                        y2="14.92">
+                                    </line>
+                                    <rect class="cls-637b8d40f95e86b59c57a2bd-1" x="1.4" y="1.49" width="21.1"
+                                        height="21.1"></rect>
+                                    <polygon class="cls-637b8d40f95e86b59c57a2bd-1"
+                                        points="22.5 7.25 16.23 7.25 14.31 7.25 1.4 7.25 1.4 1.49 22.5 1.49 22.5 7.25">
+                                    </polygon>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="4.28" y1="4.37" x2="6.2" y2="4.37">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="8.11" y1="4.37" x2="10.03"
+                                        y2="4.37">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="11.95" y1="4.37" x2="13.87"
+                                        y2="4.37">
+                                    </line>
+                                </g>
+                            </svg>
+                            
+                            Projects
+                            
+                        </button>
+                        <button id="toExploreButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-63ce7424ea57ea6c8380055b-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <polyline class="cls-63ce7424ea57ea6c8380055b-1" points="22 13 22 22 2 22 2 2 11 2">
+                                </polyline>
+                                <polyline class="cls-63ce7424ea57ea6c8380055b-1" points="14 2 22 2 22 10"></polyline>
+                                <line class="cls-63ce7424ea57ea6c8380055b-1" x1="22" y1="2" x2="10" y2="14"></line>
+                            </svg>
+                            
+                            Explore
+                            
+                        </button>
+                        <button id="toAboutButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-6374f8d9b67f094e4896c670-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <circle class="cls-6374f8d9b67f094e4896c670-1" cx="12" cy="7.25" r="5.73"></circle>
+                                <path class="cls-6374f8d9b67f094e4896c670-1"
+                                    d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05">
+                                </path>
+                            </svg>
+                            
+                            About
+                            
+                        </button>
+                    </div>
+                    <div class="option-horizontal-divider-line"></div>
+                    <p>
+                        
+                        Options
+                        
+                    </p>
+                    <div class="options-configuration">
+                        <button id="toTopButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-63ce7424ea57ea6c83800547-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <circle class="cls-63ce7424ea57ea6c83800547-1" cx="12" cy="12" r="10.5"></circle>
+                                <line class="cls-63ce7424ea57ea6c83800547-1" x1="12" y1="10.09" x2="12" y2="18.68">
+                                </line>
+                                <polyline class="cls-63ce7424ea57ea6c83800547-1"
+                                    points="7.23 10.09 12 5.32 16.77 10.09">
+                                </polyline>
+                                <polyline class="cls-63ce7424ea57ea6c83800547-1"
+                                    points="7.23 14.86 12 10.09 16.77 14.86">
+                                </polyline>
+                            </svg>
+                            
+                            To top
+                            
+                        </button>
+                        <button id="collapseExpandAllButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-63ce7424ea57ea6c8380059a-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <line class="cls-63ce7424ea57ea6c8380059a-1" x1="6" y1="2" x2="6" y2="23"></line>
+                                <polyline class="cls-63ce7424ea57ea6c8380059a-1" points="11 7 6 2 1 7"></polyline>
+                                <line class="cls-63ce7424ea57ea6c8380059a-1" x1="18" y1="22" x2="18" y2="1"></line>
+                                <polyline class="cls-63ce7424ea57ea6c8380059a-1" points="13 17 18 22 23 17"></polyline>
+                            </svg>
+                            
+                            Expand / Collapse all
+                            
+                        </button>
+                        <button id="themeButton"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                stroke-width="1.5" width="20" height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-637b8d40f95e86b59c57a2e7-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <g id="roll_brush" data-name="roll brush">
+                                    <circle class="cls-637b8d40f95e86b59c57a2e7-1" cx="11.99" cy="12.01" r="6.71">
+                                    </circle>
+                                    <path class="cls-637b8d40f95e86b59c57a2e7-1" d="M12,8.65a3.36,3.36,0,0,1,0,6.72Z">
+                                    </path>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="11.99" y1="0.5" x2="11.99"
+                                        y2="2.42">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="11.99" y1="21.6" x2="11.99"
+                                        y2="23.52">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="0.48" y1="12.01" x2="2.4"
+                                        y2="12.01">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="21.58" y1="12.01" x2="23.5"
+                                        y2="12.01">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="20.13" y1="3.87" x2="18.77"
+                                        y2="5.23">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="5.21" y1="18.79" x2="3.85"
+                                        y2="20.15">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="3.85" y1="3.87" x2="5.21"
+                                        y2="5.23">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="18.77" y1="18.79" x2="20.13"
+                                        y2="20.15"></line>
+                                </g>
+                            </svg>
+                            
+                            Theme
+                            
+                        </button>
+                        <button id="commentsButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-637642e7c3a86d32eae6f18f-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <path class="cls-637642e7c3a86d32eae6f18f-1"
+                                    d="M1.5,5.3v9.54a3.82,3.82,0,0,0,3.82,3.82H7.23v2.86L13,18.66h5.73a3.82,3.82,0,0,0,3.82-3.82V5.3a3.82,3.82,0,0,0-3.82-3.82H5.32A3.82,3.82,0,0,0,1.5,5.3Z">
+                                </path>
+                                <line class="cls-637642e7c3a86d32eae6f18f-1" x1="15.82" y1="10.07" x2="17.73"
+                                    y2="10.07">
+                                </line>
+                                <line class="cls-637642e7c3a86d32eae6f18f-1" x1="11.05" y1="10.07" x2="12.95"
+                                    y2="10.07">
+                                </line>
+                                <line class="cls-637642e7c3a86d32eae6f18f-1" x1="6.27" y1="10.07" x2="8.18" y2="10.07">
+                                </line>
+                            </svg>
+                            
+                            Comments
+                            
+                        </button>
+                    </div>
+                    <div class="option-horizontal-divider-line"></div>
+                    <div class="options-close">
+                        <button id="closeButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-6374f8d9b67f094e4896c61e-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <circle class="cls-6374f8d9b67f094e4896c61e-1" cx="12" cy="12" r="10.5"></circle>
+                                <line class="cls-6374f8d9b67f094e4896c61e-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77">
+                                </line>
+                                <line class="cls-6374f8d9b67f094e4896c61e-1" x1="7.23" y1="7.23" x2="16.77" y2="16.77">
+                                </line>
+                            </svg>
+                            
+                            Close
+                            
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="post-content">
+                <div class="post-info-card">
+                    <h1>
+                        <span class="category-svg">
+                            
+                            
+                            <img src="/assets/svg/categories/technical.svg"
+                                alt="technical category" onerror="this.remove()">
+                            
+                        </span>Paper Comprehension: Enhancing Multi-Label Language Classification with Semantics
+                    </h1>
+                    <div class="post-tags">
+                        
+                        <span class="tag">#paper-comprehension</span>
+                        
+                        <span class="tag">#nlp</span>
+                        
+                    </div>
+                    <div class="date">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="16"
+                            height="16" color="#fff">
+                            <defs>
+                                <style>
+                                    .cls-6375f1aeb67f094e4896c9ea-1,
+                                    .cls-6375f1aeb67f094e4896c9ea-2 {
+                                        fill: none;
+                                        stroke: currentColor;
+                                        stroke-miterlimit: 10;
+                                    }
+
+                                    .cls-6375f1aeb67f094e4896c9ea-1 {
+                                        stroke-linecap: square;
+                                    }
+                                </style>
+                            </defs>
+                            <g id="calendar">
+                                <rect class="cls-6375f1aeb67f094e4896c9ea-1" x="1.5" y="2.43" width="21" height="4.77"
+                                    transform="translate(24 9.64) rotate(180)"></rect>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="17.73" y1="0.52" x2="17.73" y2="4.34">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="6.27" y1="0.52" x2="6.27" y2="4.34">
+                                </line>
+                                <polygon class="cls-6375f1aeb67f094e4896c9ea-1"
+                                    points="22.5 11.98 22.5 7.21 1.5 7.21 1.5 22.48 22.5 22.48 22.5 15.79 22.5 11.98">
+                                </polygon>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="11.02" x2="11.05" y2="11.02">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="11.02" x2="14.86"
+                                    y2="11.02"></line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="16.77" y1="11.02" x2="18.68"
+                                    y2="11.02"></line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="14.84" x2="11.05" y2="14.84">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="5.32" y1="14.84" x2="7.23" y2="14.84">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="14.84" x2="14.86"
+                                    y2="14.84"></line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="16.77" y1="14.84" x2="18.68"
+                                    y2="14.84"></line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="18.66" x2="11.05" y2="18.66">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="5.32" y1="18.66" x2="7.23" y2="18.66">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="18.66" x2="14.86"
+                                    y2="18.66"></line>
+                            </g>
+                        </svg>
+                        
+                        <span class="date-span">22/02/2025</span>
+
+                        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                            stroke-width="1.5" width="16" height="16" color="#fff">
+                            <defs>
+                                <style>
+                                    .cls-6374f8d9b67f094e4896c623-1 {
+                                        fill: none;
+                                        stroke: currentColor;
+                                        stroke-miterlimit: 10;
+                                    }
+                                </style>
+                            </defs>
+                            <circle class="cls-6374f8d9b67f094e4896c623-1" cx="12" cy="12" r="10.5"></circle>
+                            <circle class="cls-6374f8d9b67f094e4896c623-1" cx="12" cy="12" r="0.95"></circle>
+                            <polyline class="cls-6374f8d9b67f094e4896c623-1" points="12 4.36 12 12 16.77 16.77">
+                            </polyline>
+                        </svg>
+                        
+                        <span class="reading-time">
+                            8
+                            
+                            Min.
+                            
+                        </span>
+                        
+                    </div>
+                    <div class="author">
+                        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                            stroke-width="1.5" width="14" height="14" color="#fff">
+                            <defs>
+                                <style>
+                                    .cls-6374f8d9b67f094e4896c670-1 {
+                                        fill: none;
+                                        stroke: currentColor;
+                                        stroke-miterlimit: 10;
+                                    }
+                                </style>
+                            </defs>
+                            <circle class="cls-6374f8d9b67f094e4896c670-1" cx="12" cy="7.25" r="5.73"></circle>
+                            <path class="cls-6374f8d9b67f094e4896c670-1"
+                                d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05">
+                            </path>
+                        </svg>
+                        
+                        Written by:
+                        
+                        Yuk
+                    </div>
+                </div>
+                <div class="horizontal-divider-line"></div>
+                <div class="post-article">
+                    <article>
+                        <h1 id="improving-multi-label-classification-of-similar-languages-by-semantics-aware-word-embeddings">Improving Multi-Label Classification of Similar Languages by Semantics-Aware Word Embeddings</h1>
+
+<h5 id="paper-authors">Paper Authors</h5>
+
+<p>The Quyen Ngo¹, Thi Anh Phuong Nguyen², My Linh Ha¹, Thi Minh Huyen Nguyen¹, Phuong Le-Hong¹</p>
+
+<ul>
+  <li>¹ Vietnam National University, Hanoi, Vietnam</li>
+  <li>² Institute of Information Technology, Vietnam Academy of Science and Technology, Hanoi, Vietnam</li>
+</ul>
+
+<h5 id="access-paper"><a href="https://aclanthology.org/2024.vardial-1.21/" target="_blank">Access Paper</a></h5>
+
+<hr />
+
+<h3 id="table-of-content">Table of Content</h3>
+
+<blockquote>
+  <div id="table-of-contents"></div>
+</blockquote>
+
+<hr />
+
+<h3 id="abstract">Abstract</h3>
+
+<blockquote>
+
+  <p>“The VLP team participated in the DSL-ML  shared task of the VarDial 2024 workshop  which aims to distinguish texts in similar languages. This paper presents our approach to  solving the problem and discusses our experimental and official results. We propose to integrate semantics-aware word embeddings which  are learned from ConceptNet into a bidirectional long short-term memory network. This  approach achieves good performance – our system is ranked in the top two or three of the best  performing teams for the task.”</p>
+</blockquote>
+
+<h5 id="who-are-the-vlp-team">Who are the VLP team?</h5>
+
+<p>Not much info I can found about them, but VLP is probably short for Vietnamese Language Processing. They are most likely in association with Vietnam National University, Ha Noi.</p>
+
+<h5 id="what-is-dsl-ml">What is DSL-ML?</h5>
+
+<p>DSL-ML stands for <strong>“Discriminating between Similar Languages with Multi-Label classification”</strong>. The <strong>DSL-ML shared task at the VarDial 2024</strong> workshop challenged participants to create models that can accurately classify texts in similar languages. The task provided datasets from five macro-languages—English, Spanish, Portuguese, French, and Romanian—with multi-label annotations. Participants’ systems were evaluated based on their macro-average F1 scores across these datasets. <a href="https://sites.google.com/view/vardial-2024/shared-tasks/dsl-ml?utm_source=chatgpt.com" target="_blank">VarDial 2024.</a></p>
+
+<p>In the <strong>DSL-ML shared task at VarDial 2024</strong>, participants were provided with datasets for five language groups:</p>
+
+<ul>
+  <li>BCMS (Bosnian, Croatian, Montenegrin, Serbian).</li>
+  <li>EN (American and British English).</li>
+  <li>ES (Argentinian and Peninsular Spanish).</li>
+  <li>PT (Brazilian and European Portuguese).</li>
+  <li>FR (Belgian, Canadian, French, and Swiss French).</li>
+</ul>
+
+<p>Each dataset contained instances with multi-label annotations, where each instance consisted of a text segment and its corresponding label(s). The data files were formatted with two tab-separated columns: the first column contained the label(s), and the second column contained the text. Multiple labels were separated by commas. <a href="https://github.com/yvesscherrer/DSL-ML-2024" target="_blank">GitHub - DSL-ML-2024.</a></p>
+
+<h5 id="how-do-semantics-aware-word-embeddings-differ-from-normal-word-embeddings">How do semantics-aware word embeddings differ from normal word embeddings?</h5>
+
+<p>Semantics-aware word embeddings <strong>incorporate structured semantic knowledge</strong> from external resources, such as knowledge graphs, into the embedding space. This integration allows the embeddings to capture deeper relationships and nuances between words beyond their co-occurrence in text. In contrast, traditional word embeddings, like Word2Vec, rely solely on statistical information from large text corpora, which might miss certain semantic relationships.</p>
+
+<h5 id="what-is-conceptnet">What is ConceptNet?</h5>
+
+<p>ConceptNet is a <strong>multilingual knowledge graph</strong> that connects words and phrases with labeled edges, representing various semantic relationships between them. It serves as a valuable resource for enhancing word embeddings by providing structured semantic information, enabling models to understand context and relationships more effectively. <a href="https://blog.conceptnet.io/" target="_blank">ConceptNet Blog.</a></p>
+
+<hr />
+
+<p><strong>Brief difference between BiLSTM and vanilla LSTM:</strong> A vanilla Long Short-Term Memory (LSTM) network processes sequences in a single direction, maintaining information from the past to the present. In contrast, a Bidirectional LSTM (BiLSTM) processes sequences in both forward and backward directions, capturing context from both past and future states. This bidirectional approach allows BiLSTMs to understand the context more comprehensively, especially beneficial in tasks where the meaning of a word depends on both preceding and succeeding words.</p>
+
+<div class="mermaid">
+graph TD
+    %% Labels for Sections
+    V["**Vanilla LSTM**"]:::label
+    B["**Bidirectional LSTM**"]:::label
+
+    %% Vanilla LSTM (Unidirectional)
+    V --&gt; A[Input Sequence] --&gt;|Forward Pass| LSTM1[LSTM Layer] --&gt; H1[Hidden State] --&gt; Y[Output]
+
+    %% BiLSTM (Bidirectional)
+    B --&gt; A2[Input Sequence] --&gt;|Forward Pass| LSTM2[LSTM Layer Forward] --&gt; H2[Hidden State Forward] 
+    A2 --&gt;|Backward Pass| LSTM3[LSTM Layer Backward] --&gt; H3[Hidden State Backward] 
+    H2 &amp; H3 --&gt; Y2[Final Output]
+
+    %% Styling
+    classDef rounded fill:#000,stroke:#fff,stroke-width:2px,rx:10,ry:10;
+    classDef roundedLabel fill:#000,stroke:#ffffff,stroke-width:2px,rx:10,ry:10,font-weight:bold;
+    class A,A2,LSTM1,LSTM2,LSTM3,H1,H2,H3,Y,Y2, rounded;
+    class V,B roundedLabel;
+</div>
+
+<div class="description">LSTM (Unidirectional) and BiLSTM (Bidirectional)</div>
+
+<p>A <strong>macro-language</strong> is like a fruit category, such as citrus fruits.</p>
+<ul>
+  <li>Just as oranges, lemons, limes, and grapefruits all fall under the “citrus” category but have distinct flavors, Mandarin, Cantonese, and Hakka are all part of the “Chinese” macro-language but are distinct languages.</li>
+  <li>Some citrus fruits are more similar and interchangeable (like oranges and tangerines), just as some dialects within a macro-language are mutually intelligible.</li>
+  <li>Others, like grapefruits and limes, are more distinct but still belong to the same broad category—just like Arabic varieties, which can be quite different yet are grouped under one macro-language.
+In the DSL-ML task, classifying texts in macro-languages is like distinguishing between citrus fruits—it’s easy when they are very different (like Spanish vs. Portuguese) but much harder when they are closely related (like Brazilian Portuguese vs. European Portuguese).</li>
+</ul>
+
+<hr />
+
+<h2 id="1-introduction">1. Introduction</h2>
+
+<h3 id="the-problem-at-hand">The Problem at Hand</h3>
+
+<p>The problem at hand involves <strong>distinguishing between similar languages and language varieties</strong> through a computational lens, focusing on diatopic language variation. This task aims to evaluate system’s ability to classify text instances into <strong>multi-label categories</strong> based on five macro-languages: BCMS, EN, ES, Portuguese, and FR.</p>
+
+<h4 id="analogy-for-the-dsl-ml-shared-task">Analogy for the DSL-ML Shared Task</h4>
+
+<p>Imagine you’re a <strong>music streaming app</strong> trying to classify <strong>songs</strong> into <strong>specific genres and sub-genres</strong>.</p>
+
+<h4 id="the-challenge">The Challenge</h4>
+<ul>
+  <li>Some genres are very distinct (Jazz vs. Heavy Metal)—just like English vs. Japanese.</li>
+  <li>Some genres are very similar (Classical vs. Baroque, or Deep House vs. Tech House)—just like Argentinian Spanish vs. Peninsular Spanish.</li>
+  <li>Some songs may belong to <strong>multiple sub-genres at the same time</strong> (a song could be both “Synthwave” and “80s Pop”)—just like a text may belong to both “Brazilian Portuguese” and “European Portuguese” depending on certain linguistic traits.</li>
+</ul>
+
+<h4 id="how-this-relates-to-dsl-ml">How This Relates to DSL-ML</h4>
+<ul>
+  <li><strong>Multi-label classification</strong> is needed because a single text might belong to <strong>multiple language varieties</strong> (e.g., a document could have both American and British English spelling).</li>
+  <li><strong>Macro-languages</strong> like BCMS (Bosnian, Croatian, Montenegrin, Serbian) share a lot of similarities, making it difficult to separate them—similar to how music sub-genres blend into each other.</li>
+  <li><strong>The evaluation metric (macro-F1 score)</strong> ensures fair assessment across all language varieties, just like a good genre classifier should <strong>recognize niche genres</strong> without being biased toward the most common ones.</li>
+</ul>
+
+<h3 id="vlp-teams-approach">VLP Team’s Approach</h3>
+
+<p>The team aimed to improve <strong>multi-label classification of similar languages</strong> by enhancing their model with <strong>semantics-aware word embeddings</strong> from <strong>ConceptNet</strong>, a structured <strong>knowledge graph</strong> that captures real-world meanings and relationships between words. By incorporating <strong>ConceptNet-based embeddings</strong>, the system improves its understanding of language nuances beyond just syntax, making it more effective at distinguishing closely related languages and dialects. This approach leverages <strong>both linguistic structure (BiLSTM) and real-world meaning (ConceptNet)</strong>, leading to better classification performance in the DSL-ML shared task.</p>
+
+<hr />
+
+<h2 id="2-methods">2. Methods</h2>
+
+<p>The team designed a system that adhered strictly to the <strong>closed track constraints</strong>, <strong>AVOIDING</strong> pre-trained models and specialized / prohibited datasets while enhancing their <strong>BiLSTM network with ConceptNet embeddings</strong>. This approach allowed them to leverage semantic knowledge without violating the task’s rules, aiming for a purely <strong>data-driven and interpretable method</strong> for language variety classification.</p>
+
+<h3 id="21-bidirectional-lstm-model">2.1. Bidirectional LSTM Model</h3>
+
+<p>They implemented a Stacked Bidirectional LSTM architecture, where the hidden states from both left-to-right and right-to-left passes at layer \(k\) are concatenated and fed into layer \((k + 1)\).</p>
+
+<p>For embeddings, they experimented with two approaches:</p>
+
+<ul>
+  <li><strong>Random Initialization</strong> – likely training both the tokenizer/vectorizer and LSTM from scratch.</li>
+  <li><strong>Precomputed ConceptNet Numberbatch Embeddings</strong> – details provided in the next section.</li>
+</ul>
+
+<p>After the final BiLSTM layer, a feedforward network with a softmax activation was used for multiway classification:</p>
+
+<blockquote>
+
+\[P(y_j \mid \vec{v}_j) = \text{softmax}(W \vec{v}_j + \vec{b})\]
+</blockquote>
+
+<p>Where \(W\) and \(b\) are learned parameters, thus they proposed the architecture:</p>
+
+<div class="mermaid">
+graph LR
+    E["Embedding Layer (w)"] --&gt; B["Stacked BiLSTM (h)"] --&gt; D1["Dense (d, ReLU)"] --&gt; D2["Dense (Softmax)"]
+
+    %% Styling
+    classDef rounded fill:#000,stroke:#fff,stroke-width:2px,rx:10,ry:10;
+    class E,B,D1,D2 rounded;
+</div>
+
+<div class="description">VLP Team's Proposed network architecture</div>
+
+<p>Where the hyperparameters \(w\), \(h\) and \(d\) are the word embedding size, the recurrent hidden size and the dense hidden size.</p>
+
+<p>All models were trained using <strong>Adam</strong> with a learning rate of \(5 \times 10^{-5}\), batch size <strong>32</strong>, and <strong>early stopping</strong> when accuracy stagnated for <strong>three epochs</strong> on the development set. The <strong>max sequence length</strong> was set to <strong>40 tokens</strong>. Each experiment was repeated <strong>five times</strong>, and results were averaged.</p>
+
+<p>During training, they optimized the cross-entropy loss to maximize correct predictions. While the official evaluation used <strong>per-class F1, weighted F1, and macro-averaged F1</strong>, they relied on <strong>accuracy</strong> for model tuning, despite its limitations on imbalanced datasets.</p>
+
+<h3 id="22-conceptnet-numberbatch">2.2. ConceptNet Numberbatch</h3>
+
+<p><strong>ConceptNet</strong> is a freely available semantic network designed to help computers understand word meanings. It has been used to create word embeddings similar to <strong>Word2Vec, GloVe, and FastText</strong> but with unique advantages. ConceptNet embeddings are <strong>free, multilingual, and aligned across languages</strong> while aiming to avoid harmful biases.</p>
+
+<div class="mermaid">
+graph TD
+    %% Nodes
+    A[ConceptNet]:::main --&gt;|is a| B[Semantic Network]
+    A --&gt;|is a| C[Knowledge Graph]:::blue
+    C --&gt;|has| D[Commonsense Knowledge]:::gray
+    D --&gt;|part of| E[Artificial Intelligence]:::gray
+    C --&gt;|is used for| F[Natural Language Understanding]:::gray
+    F --&gt;|part of| G[Word Embedding]:::yellow
+    G --&gt;|part of| E
+    
+    %% Additional Relation
+    A --&gt;|motivated by goal| H[Let computer understand what people already know]:::green
+
+    %% Styling
+    classDef main fill:#6A6AF2,stroke:#000,stroke-width:2px,rx:10,ry:10;
+    classDef blue fill:#457FD3,stroke:#000,stroke-width:2px,rx:10,ry:10;
+    classDef gray fill:#6F6F9B,stroke:#000,stroke-width:2px,rx:10,ry:10;
+    classDef yellow fill:#CFC573,stroke:#000,stroke-width:2px,rx:10,ry:10;
+    classDef green fill:#6ADA8F,stroke:#000,stroke-width:2px,rx:10,ry:10;
+
+    class A main;
+    class B,C blue;
+    class D,E,F gray;
+    class G yellow;
+    class H green;
+</div>
+
+<div class="description">An illustration of ConceptNet in graph</div>
+
+<p><strong>ConceptNet Numberbatch</strong> is a set of <strong>word embeddings</strong> trained on ConceptNet, incorporating <strong>semi-structured commonsense knowledge</strong> rather than relying solely on contextual word usage. This multilingual embedding space allows words from different languages to share a unified representation, making it well-suited for <strong>cross-lingual tasks.</strong></p>
+
+<p>These embeddings have shown strong performance in word similarity tasks and have been applied to natural language inference and dependency parsing. In this work, the team demonstrate their effectiveness in classifying similar languages.</p>
+
+<h2 id="3-results">3. Results</h2>
+
+<p>Their models were tested on development and test datasets in English, Spanish, French, and Portuguese languages. The <strong>LSTM-r model</strong> with randomly initialized word embeddings peaked at <strong>61.17% accuracy</strong> on the development set, but <strong>overfitted</strong> on the training set. The <strong>LSTM-c model</strong> using ConceptNet embeddings had better performance on the development set <strong>(66.57%)</strong> but underperformed on Portuguese due to a technical issue. The ConceptNet embeddings slightly improved performance on English and French test sets.</p>
+
+<h2 id="4-conclusion">4. Conclusion</h2>
+
+<p>Their model, leveraging <strong>ConceptNet embeddings</strong>, effectively distinguishes similar languages despite its simplicity. Currently, they use a multi-class classification approach but plan to explore <strong>multi-label classification</strong> in future work. They suggest <strong>integrating contrastive learning</strong> to improve representation learning by bringing similar instances closer in embedding space. Additionally, combining <strong>knowledge graph-based embeddings</strong> (e.g., WordNet, ConceptNet) with contrastive learning could enhance performance. While they tested <strong>XLM-R</strong> for this task, initial results were <strong>underwhelming</strong> compared to their method, warranting further investigation into the effectiveness of large language models for similar language classification.</p>
+
+                    </article>
+                </div>
+                <div class="horizontal-divider-line"></div>
+                
+
+                
+                <script src="https://giscus.app/client.js" data-repo="yuk068/yuk-blog-comments"
+                    data-repo-id="R_kgDONs1FhQ" data-category="Announcements" data-category-id="DIC_kwDONs1Fhc4CmLRI"
+                    data-mapping="title" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0"
+                    data-input-position="bottom" data-theme="dark_protanopia" data-lang="en" crossorigin="anonymous"
+                    async>
+                    </script>
+                
+
+                
+                <div class="final-horizontal-divider-line"></div>
+            </div>
+        </main>
+        <div class="footer-container">
+            <div class="relative-footer">
+                <footer>
+                    <div class="footer-info">
+                        <a href="https://www.facebook.com/yuk068" target="_blank">
+                            <i class="fab fa-facebook"></i>
+                            <div class="footer-info-label">
+                                <p>Duy Pham Duc</p>
+                            </div>
+                        </a>
+                        <a href="https://github.com/yuk068" target="_blank">
+                            <i class="fab fa-github"></i>
+                            <div class="footer-info-label">
+                                <p>Yuk068</p>
+                            </div>
+                        </a>
+                        <a href="https://x.com/Yukano_50" target="_blank">
+                            <i class="fab fa-twitter"></i>
+                            <div class="footer-info-label">
+                                <p>@Yukano_50</p>
+                            </div>
+                        </a>
+                        <a href="https://www.instagram.com/yukano68/" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                            <div class="footer-info-label">
+                                <p>yukano68</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="copyright-text">
+                        <p>&copy; 2025 Yukano - <a href="/support-yuk">Support Yuk!</a></p>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </div>
+    <script src="/assets/js/pages-js/post-script.js"></script>
+    <div class="scroll-button-container">
+        <button id="scrollButton" onclick="scrollToTop()">
+            <img src="/assets/svg/double-arrow-up-circle.svg" alt="⇡">
+        </button>
+    </div>
+</body>
+
+</html>

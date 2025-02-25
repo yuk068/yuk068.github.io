@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!highlight.querySelector('.language-label')) {
             const languageLabel = document.createElement('span');
             languageLabel.className = 'language-label';
-            languageLabel.textContent = `${language.charAt(0).toUpperCase() + language.slice(1)} #${languageCounts[language]}`;
+            languageLabel.textContent = `${language.charAt(0).toUpperCase() + language.slice(1)}`; //  #${languageCounts[language]
             highlight.appendChild(languageLabel);
         }
 
@@ -196,7 +196,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         blockquote.appendChild(content);
 
-        const blockNumber = `Block #${index + 1}`;
+        const blockNumber = `Block`; //  #${index + 1}
 
         if (!blockquote.querySelector('.collapse-button')) {
             const collapseButton = document.createElement('button');

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 
 <head>
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -12,18 +12,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="linkage" content="true">
-    <title>MAT1204 - Phương pháp Nghiên cứu Khoa học - Bài thu hoạch 1</title>
-    <meta name="description" content="Bài thu hoạch tổng quan về chủ đề "Nghiên cứu"">
+    <title>Paper Comprehension: Proposal for a Logic-Driven Framework for LLMs</title>
+    <meta name="description" content="Structured Knowledge meets GenAI: A Framework for Logic-Driven Language Models - Eldessouky et al., 2025">
     <link rel="stylesheet" href="/assets/css/pages-css/post-styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
     
     
-    <!-- Default to MathJax -->
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <!-- KaTeX Stylesheet -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+
+    <!-- KaTeX Scripts -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"></script>
+
+    <!-- KaTeX Auto-render Initialization -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    { left: "$$", right: "$$", display: true },
+                    { left: "$", right: "$", display: false },
+                    { left: "\\(", right: "\\)", display: false },
+                    { left: "\\[", right: "\\]", display: true }
+                ]
+            });
+        });
+    </script>
     
 
     
+    <script type="text/javascript" src="https://unpkg.com/mermaid@11.4.1/dist/mermaid.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            mermaid.initialize({
+                startOnLoad: true,
+                theme: 'dark',
+                themeVariables: {
+                    'primaryColor': '#1e1e1e',
+                    'edgeLabelBackground': '#444444',
+                    'tertiaryColor': '#555555',
+                }
+            });
+        });
+    </script>
     
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
@@ -55,7 +88,7 @@
                         <a href="#" onclick="goBack()">
                             <li>
                                 
-                                Trở lại
+                                Back
                                 
                             </li>
                         </a>
@@ -63,7 +96,7 @@
                         <a href="/">
                             <li>
                                 
-                                Trang chủ
+                                Home
                                 
                             </li>
                         </a>
@@ -71,7 +104,7 @@
                         <a href="/archive" id="nav-disable-mobile">
                             <li id="nav-disable-mobile">
                                 
-                                Lưu trữ
+                                Archive
                                 
                             </li>
                         </a>
@@ -79,7 +112,7 @@
                         <a href="/projects" id="nav-disable-mobile">
                             <li id="nav-disable-mobile">
                                 
-                                Dự án
+                                Projects
                                 
                             </li>
                         </a>
@@ -87,7 +120,7 @@
                         <a href="#" onclick="notifyComingSoon()" id="nav-disable-mobile">
                             <li id="nav-disable-mobile">
                                 
-                                Khám phá
+                                Explore
                                 
                             </li>
                         </a>
@@ -111,7 +144,7 @@
                 <div class="options-container">
                     <p>
                         
-                        Điều hướng
+                        Navigation
                         
                     </p>
                     <div class="options-navigation">
@@ -135,7 +168,7 @@
                                 </polyline>
                             </svg>
                             
-                            Trở lại
+                            Back
                             
                         </button>
                         <button id="toHomeButton"><svg id="Layer_1" data-name="Layer 1"
@@ -156,7 +189,7 @@
                                 </polyline>
                             </svg>
                             
-                            Trang chủ
+                            Home
                             
                         </button>
                         <button id="toArchiveButton"><svg id="Layer_1" data-name="Layer 1"
@@ -178,7 +211,7 @@
                                     points="1.5 9.14 22.5 9.14 20.59 22.5 3.41 22.5 1.5 9.14"></polygon>
                             </svg>
                             
-                            Lưu trữ
+                            Archive
                             
                         </button>
                         <button id="toProjectsButton"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
@@ -218,7 +251,7 @@
                                 </g>
                             </svg>
                             
-                            Dự án
+                            Projects
                             
                         </button>
                         <button id="toExploreButton"><svg id="Layer_1" data-name="Layer 1"
@@ -239,7 +272,7 @@
                                 <line class="cls-63ce7424ea57ea6c8380055b-1" x1="22" y1="2" x2="10" y2="14"></line>
                             </svg>
                             
-                            Khám phá
+                            Explore
                             
                         </button>
                         <button id="toAboutButton"><svg id="Layer_1" data-name="Layer 1"
@@ -260,14 +293,14 @@
                                 </path>
                             </svg>
                             
-                            Về tôi
+                            About
                             
                         </button>
                     </div>
                     <div class="option-horizontal-divider-line"></div>
                     <p>
                         
-                        Tùy chọn
+                        Options
                         
                     </p>
                     <div class="options-configuration">
@@ -294,7 +327,7 @@
                                 </polyline>
                             </svg>
                             
-                            Đầu trang
+                            To top
                             
                         </button>
                         <button id="collapseExpandAllButton"><svg id="Layer_1" data-name="Layer 1"
@@ -315,7 +348,7 @@
                                 <polyline class="cls-63ce7424ea57ea6c8380059a-1" points="13 17 18 22 23 17"></polyline>
                             </svg>
                             
-                            Rút gọn / Mở rộng tất cả
+                            Expand / Collapse all
                             
                         </button>
                         <button id="themeButton"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
@@ -360,7 +393,7 @@
                                 </g>
                             </svg>
                             
-                            Chủ đề
+                            Theme
                             
                         </button>
                         <button id="commentsButton"><svg id="Layer_1" data-name="Layer 1"
@@ -388,7 +421,7 @@
                                 </line>
                             </svg>
                             
-                            Bình luận
+                            Comments
                             
                         </button>
                     </div>
@@ -413,7 +446,7 @@
                                 </line>
                             </svg>
                             
-                            Đóng
+                            Close
                             
                         </button>
                     </div>
@@ -425,14 +458,16 @@
                         <span class="category-svg">
                             
                             
-                            <img src="/assets/svg/categories/assignment.svg"
-                                alt="assignment category" onerror="this.remove()">
+                            <img src="/assets/svg/categories/technical.svg"
+                                alt="technical category" onerror="this.remove()">
                             
-                        </span>MAT1204 - Phương pháp Nghiên cứu Khoa học - Bài thu hoạch 1
+                        </span>Paper Comprehension: Proposal for a Logic-Driven Framework for LLMs
                     </h1>
                     <div class="post-tags">
                         
-                        <span class="tag">#schoolwork</span>
+                        <span class="tag">#paper-comprehension</span>
+                        
+                        <span class="tag">#llm</span>
                         
                     </div>
                     <div class="date">
@@ -485,7 +520,7 @@
                             </g>
                         </svg>
                         
-                        <span class="date-span">02/02/2024</span>
+                        <span class="date-span">25/02/2025</span>
 
                         <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                             stroke-width="1.5" width="16" height="16" color="#fff">
@@ -505,9 +540,9 @@
                         </svg>
                         
                         <span class="reading-time">
-                            10
+                            6
                             
-                            Phút
+                            Min.
                             
                         </span>
                         
@@ -530,7 +565,7 @@
                             </path>
                         </svg>
                         
-                        Viết bởi:
+                        Written by:
                         
                         Yuk
                     </div>
@@ -538,111 +573,146 @@
                 <div class="horizontal-divider-line"></div>
                 <div class="post-article">
                     <article>
-                        <h1 id="tổng-quan-về-nghiên-cứu-khoa-học">Tổng quan về Nghiên cứu Khoa học</h1>
+                        <h1 id="structured-knowledge-meets-genai-a-framework-for-logic-driven-language-models">Structured Knowledge meets GenAI: A Framework for Logic-Driven Language Models</h1>
 
-<h3 id="tóm-tắt">Tóm tắt</h3>
+<h5 id="paper-authors">Paper Authors</h5>
 
-<p>Báo cáo này cung cấp tổng quan về nghiên cứu khoa học, bao gồm định nghĩa, các loại hình, quy trình, phương pháp, công bố, xu hướng và các yếu tố ảnh hưởng đến chất lượng nghiên cứu. Nghiên cứu được xem là một hoạt động sáng tạo có hệ thống nhằm làm giàu tri thức và ứng dụng thực tiễn. Có nhiều loại hình nghiên cứu như khoa học, nhân văn, nghệ thuật, cơ bản và ứng dụng, trong đó nghiên cứu cơ bản đặt nền tảng cho nghiên cứu ứng dụng. Quy trình nghiên cứu bao gồm các bước từ quan sát, nêu giả thuyết, thu thập và phân tích dữ liệu đến kiểm tra và rút ra kết luận. Phương pháp nghiên cứu có thể là định tính, định lượng, sử dụng dữ liệu sơ cấp hoặc thứ cấp, nghiên cứu khảo sát, xây dựng và thực nghiệm. Công bố nghiên cứu đóng vai trò quan trọng trong việc khẳng định bản quyền và đánh giá chất lượng. Xu hướng hiện nay cho thấy sự chuyển dịch từ nghiên cứu cơ bản sang nghiên cứu ứng dụng, đồng thời nhấn mạnh tính khách quan, tái tạo và đánh giá chất lượng nghiên cứu. Báo cáo cũng đề cập đến sự sáng tạo và độc đáo trong nghiên cứu, đặc biệt trong bối cảnh giáo dục và ảnh hưởng của các yếu tố văn hóa.</p>
+<p>Farida Eldessouky¹, Nourhan Ehab¹, Carolin Schindler², Mervat Abuelkheir¹, Wolfgang Minker²</p>
 
-<h3 id="mục-lục">Mục lục</h3>
+<ul>
+  <li>¹German University in Cairo</li>
+  <li>²Ulm University</li>
+</ul>
+
+<h5 id="access-paper"><a href="https://aclanthology.org/2025.genaik-1.7/" target="_blank">Access Paper</a></h5>
+
+<hr />
+
+<h3 id="table-of-content">Table of Content</h3>
 
 <blockquote>
   <div id="table-of-contents"></div>
 </blockquote>
 
-<h2 id="nghiên-cứu-là-gì">Nghiên cứu là gì?</h2>
+<hr />
 
-<p>Nghiên cứu được định nghĩa là một “hoạt động sáng tạo được thực hiện một cách có hệ thống nhằm làm giàu tri thức, bao gồm tri thức về con người, văn hóa và xã hội, và sử dụng vốn tri thức này để tạo ra những ứng dụng mới”<sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. Theo Martyn Shuttleworth, nghiên cứu bao hàm bất cứ sự thu thập dữ liệu, thông tin và dữ kiện nào nhằm thúc đẩy tri thức<sup id="fnref:1:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. Creswell định nghĩa nghiên cứu là một quá trình thu thập và phân tích thông tin để gia tăng sự hiểu biết về một chủ đề hoặc vấn đề, bao gồm ba bước: đặt câu hỏi, thu thập dữ liệu để trả lời câu hỏi, và trình bày câu trả lời<sup id="fnref:1:2" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. Từ điển Trực tuyến Merriam-Webster định nghĩa nghiên cứu là một truy vấn hay khảo sát cẩn thận, đặc biệt là sự khảo sát hay thể nghiệm nhắm đến việc phát hiện và diễn giải sự kiện, sự thay đổi những lý thuyết hoặc định luật đã được chấp nhận dựa trên những dữ kiện mới, hay sự ứng dụng thực tiễn những lý thuyết hoặc định luật mới hoặc đã được thay đổi đó<sup id="fnref:1:3" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</p>
+<h3 id="abstract">Abstract</h3>
 
-<h3 id="các-loại-hình-nghiên-cứu">Các loại hình nghiên cứu</h3>
+<blockquote>
 
-<p>Nghiên cứu có nhiều hình thức khác nhau, tùy thuộc vào mục tiêu và phương pháp tiếp cận:</p>
-
-<ul>
-  <li><strong>Nghiên cứu khoa học:</strong> Dựa vào việc ứng dụng các phương pháp khoa học, khai thác trí tò mò để cung cấp thông tin và lý thuyết khoa học nhằm giải thích bản chất và tính chất của thế giới<sup id="fnref:1:4" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. Nghiên cứu khoa học có thể tạo ra những ứng dụng thực tiễn và thường được tài trợ bởi các cơ quan chính quyền, tổ chức tài trợ và các nhóm tư nhân<sup id="fnref:1:5" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</li>
-  <li><strong>Nghiên cứu nhân văn:</strong> Liên quan đến những phương pháp khác nhau, chẳng hạn như chú giải văn bản cổ và ký hiệu học, và một nhận thức luận mang tính chất tương đối luận hơn<sup id="fnref:1:6" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. Các học giả trong các ngành nhân văn thường không tìm một câu trả lời đúng tối hậu cho một câu hỏi, mà khảo sát những vấn đề và đặc điểm liên quan đến câu trả lời đó<sup id="fnref:1:7" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. Bối cảnh ở đây rất quan trọng, và nó có thể mang tính xã hội, lịch sử, chính trị, văn hóa, hay chủng tộc<sup id="fnref:1:8" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</li>
-  <li><strong>Nghiên cứu nghệ thuật:</strong> Còn gọi là “nghiên cứu dựa trên thực hành”, có thể diễn ra khi công trình sáng tạo được xem vừa là một sự nghiên cứu vừa là một đối tượng của nghiên cứu<sup id="fnref:1:9" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</li>
-  <li><strong>Nghiên cứu cơ bản (Nghiên cứu nền tảng, nghiên cứu thuần túy):</strong> Được thực hiện bởi sự tò mò hoặc đam mê của nhà khoa học để trả lời những câu hỏi khoa học<sup id="fnref:1:10" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. Động lực thúc đẩy là mở rộng kiến thức chứ không phải kiếm lợi nhuận. Ví dụ về mục đích khoa học cơ bản là tìm câu trả lời cho những câu hỏi như vũ trụ hình thành như thế nào hoặc cấu trúc của proton<sup id="fnref:1:11" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</li>
-  <li><strong>Nghiên cứu ứng dụng:</strong> Được tiến hành để giải quyết các vấn đề thực tế của thế giới đương đại, không phải chỉ là hiểu để mà hiểu<sup id="fnref:1:12" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. Kết quả của nghiên cứu ứng dụng là để cải thiện cuộc sống con người<sup id="fnref:1:13" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. Ví dụ, nghiên cứu các cách để nâng cao năng suất của sản xuất lương thực hoặc xử lý hoặc chữa trị một căn bệnh nào đó<sup id="fnref:1:14" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</li>
-</ul>
-
-<h3 id="mối-quan-hệ-giữa-nghiên-cứu-cơ-bản-và-nghiên-cứu-ứng-dụng">Mối quan hệ giữa Nghiên cứu cơ bản và Nghiên cứu ứng dụng</h3>
-
-<p>Phần lớn các nhà khoa học cho rằng những hiểu biết một cách cơ bản, nền tảng về tất cả các khía cạnh của khoa học là thiết yếu cho phát triển<sup id="fnref:1:15" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. Nghiên cứu cơ bản đặt nền tảng cho nghiên cứu ứng dụng tiếp bước. Tuy nhiên, sự khác biệt giữa nghiên cứu cơ bản và ứng dụng không phải luôn luôn rõ ràng<sup id="fnref:1:16" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. Đôi khi nó phụ thuộc vào hoàn cảnh hay quan điểm của người đánh giá<sup id="fnref:1:17" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. Theo TS. Ashok Gadgil ở LBNL, một cách để nhìn nhận điều đó là hãy tìm cách trả lời câu hỏi: “Khoảng thời gian cần thiết trước khi một chương trình có kết quả thực tiễn từ nghiên cứu là bao lâu?”<sup id="fnref:1:18" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</p>
-
-<h3 id="quy-trình-nghiên-cứu">Quy trình nghiên cứu</h3>
-
-<p>Để nghiên cứu đạt được kết quả đúng đắn và đáng tin cậy, cần được thực hiện theo một quy trình khoa học<sup id="fnref:1:19" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. Quy trình này bao gồm các bước sau:</p>
-
-<ol>
-  <li><strong>Quan sát và định hình:</strong> Từ các quan sát ban đầu để phán đoán liệu có mối quan hệ giữa các nhân tố hay không, hoặc đọc các tài liệu để xem đã có ai trước đó đã nghiên cứu về vấn đề này hay chưa<sup id="fnref:1:20" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</li>
-  <li><strong>Nêu giả thuyết:</strong> Đưa ra một phán đoán về quan hệ giữa hai hay nhiều biến số<sup id="fnref:1:21" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. Ví dụ: phán đoán rằng ăn nhiều đường sẽ sâu răng.</li>
-  <li><strong>Định nghĩa:</strong> Mô tả chi tiết các khái niệm biến số, gắn với các khái niệm khác hiện có<sup id="fnref:1:22" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</li>
-  <li><strong>Thu thập dữ liệu:</strong> Bao gồm xác định tổng thể và mẫu mình sẽ lấy ở tổng thể đó<sup id="fnref:1:23" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. Thu thập thông tin sử dụng các công cụ nghiên cứu<sup id="fnref:1:24" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</li>
-  <li><strong>Phân tích dữ liệu:</strong> Tổng hợp dữ liệu, làm sạch, chia thành các nhóm khác nhau để rút ra kết luận<sup id="fnref:1:25" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</li>
-  <li><strong>Diễn giải dữ liệu:</strong> Diễn giải thông qua bảng, hình ảnh, và sau đó mô tả bằng văn viết<sup id="fnref:1:26" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</li>
-  <li><strong>Kiểm tra, sửa lại giả thuyết:</strong> Sau các bước trên, có thể khẳng định giả thuyết là đúng, sai, hay cần sửa để rõ hơn<sup id="fnref:1:27" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</li>
-  <li><strong>Tổng kết:</strong> Kết luận, hướng nghiên cứu sau nếu cần<sup id="fnref:1:28" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</li>
-</ol>
-
-<h3 id="các-phương-pháp-nghiên-cứu">Các phương pháp nghiên cứu</h3>
-
-<p>Có nhiều phương pháp nghiên cứu khác nhau, tùy thuộc vào mục tiêu và loại dữ liệu cần thu thập:</p>
-
-<ul>
-  <li><strong>Nghiên cứu định tính:</strong> Nghiên cứu mang tính mô tả nhiều hơn, chủ yếu về nghiên cứu ứng xử con người<sup id="fnref:1:29" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</li>
-  <li><strong>Nghiên cứu định lượng:</strong> Nghiên cứu sử dụng nhiều số liệu thống kê, chạy các mô hình kinh tế lượng để đánh giá tương quan giữa các biến số<sup id="fnref:1:30" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</li>
-  <li><strong>Sử dụng dữ liệu sơ cấp:</strong> Lục tìm các tài liệu, dữ liệu gốc chưa có ai xử lý hoặc tổng hợp chúng<sup id="fnref:1:31" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</li>
-  <li><strong>Sử dụng dữ liệu thứ cấp:</strong> Sử dụng lại các dữ liệu đã được tổng hợp biên soạn lại<sup id="fnref:1:32" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</li>
-  <li><strong>Nghiên cứu khảo sát (Exploratory research):</strong> Giúp xác định câu hỏi hoặc vấn đề nghiên cứu<sup id="fnref:1:33" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</li>
-  <li><strong>Nghiên cứu xây dựng (Constructive research):</strong> Đưa ra các lý thuyết, kiểm định lý thuyết để nhằm giải thích câu hỏi nghiên cứu<sup id="fnref:1:34" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</li>
-  <li><strong>Nghiên cứu thực nghiệm:</strong> Kiểm định lời giải mà mô hình lý thuyết đã giải, xem có đúng trong thực tế không, sử dụng các bằng chứng thực tế<sup id="fnref:1:35" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</li>
-</ul>
-
-<h2 id="công-bố-nghiên-cứu">Công bố nghiên cứu</h2>
-
-<p>Nghiên cứu khoa học thực thụ cần phải được công bố kết quả<sup id="fnref:1:36" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. Công bố cũng chứng tỏ mình là người đầu tiên nghiên cứu vấn đề này, coi như khẳng định bản quyền<sup id="fnref:1:37" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. Công bố cũng là thước đo để xác định nhà nghiên cứu có thực sự nghiên cứu hay không, có đáng được nhận lương hay không<sup id="fnref:1:38" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. Các nghiên cứu trước khi được công bố chính thức đều phải được bình duyệt<sup id="fnref:1:39" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</p>
-
-<h3 id="xu-hướng-nghiên-cứu-khoa-học">Xu hướng nghiên cứu khoa học</h3>
-
-<p>Hiện nay, có một sự chuyển dịch đáng chú ý trong “triết lý” đối với các dạng nghiên cứu đang nhận được đầu tư<sup id="fnref:1:40" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. Các trường đại học nhận được phần lớn tiền đầu tư của nhà nước từ quỹ hỗ trợ đầu tư khoa học<sup id="fnref:1:41" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. Một số nghị sĩ muốn giảm số tiền đầu tư cho các nghiên cứu cơ bản nào mà không thể đưa đến các ứng dụng sau một thời gian nhất định<sup id="fnref:1:42" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. Tuy nhiên, không phải tất cả các dự án lớn về nghiên cứu cơ bản đều bị cắt giảm<sup id="fnref:1:43" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</p>
-
-<h3 id="tính-khách-quan-trong-nghiên-cứu-khoa-học">Tính khách quan trong nghiên cứu khoa học</h3>
-
-<p>Locke và Kirkpatrick cho rằng việc tính toán các mối tương quan là một chuyện, nhưng giải thích chúng lại là một chuyện khác<sup id="fnref:2" role="doc-noteref"><a href="#fn:2" class="footnote" rel="footnote">2</a></sup>. Cần phải xem xét các mô hình nhân quả khác nhau và các yếu tố bên ngoài có thể ảnh hưởng đến kết quả nghiên cứu<sup id="fnref:2:1" role="doc-noteref"><a href="#fn:2" class="footnote" rel="footnote">2</a></sup>.</p>
-
-<h3 id="tái-tạo-nghiên-cứu">Tái tạo Nghiên cứu</h3>
-
-<p>Evanschitzky, Baumgarth và Hubbard đã chỉ ra rằng tỷ lệ tái tạo nghiên cứu trong lĩnh vực marketing đã giảm xuống còn 1.2%, điều này làm dấy lên mối lo ngại về tính tin cậy của các kết quả nghiên cứu<sup id="fnref:3" role="doc-noteref"><a href="#fn:3" class="footnote" rel="footnote">3</a></sup>. Họ khuyến nghị rằng các nhà thực hành nên hoài nghi về việc sử dụng các kết quả được công bố trên các tạp chí marketing cho đến khi chúng được tái tạo thành công<sup id="fnref:3:1" role="doc-noteref"><a href="#fn:3" class="footnote" rel="footnote">3</a></sup>.</p>
-
-<h3 id="đánh-giá-chất-lượng-nghiên-cứu">Đánh giá chất lượng nghiên cứu</h3>
-
-<p>Locke và Kirkpatrick đề xuất một phương pháp khách quan để đánh giá chất lượng của trường kinh doanh dựa trên ba tiêu chí: đầu vào (chất lượng sinh viên), quá trình (những gì sinh viên học được), và đầu ra (thành công của sinh viên trên thị trường việc làm)<sup id="fnref:2:2" role="doc-noteref"><a href="#fn:2" class="footnote" rel="footnote">2</a></sup>. Các biện pháp khách quan có thể bao gồm điểm GMAT, điểm trung bình đại học, tỷ lệ chấp nhận, kinh nghiệm làm việc, chất lượng giảng dạy và nghiên cứu của giảng viên, tỷ lệ sinh viên tốt nghiệp, tỷ lệ sinh viên có việc làm trước khi tốt nghiệp và mức lương khởi điểm<sup id="fnref:2:3" role="doc-noteref"><a href="#fn:2" class="footnote" rel="footnote">2</a></sup>.</p>
-
-<h3 id="tính-độc-đáo-và-sáng-tạo-trong-nghiên-cứu">Tính độc đáo và sáng tạo trong nghiên cứu</h3>
-
-<p>Trong bối cảnh giáo dục, tính độc đáo của nghiên cứu được coi là yếu tố quan trọng<sup id="fnref:4" role="doc-noteref"><a href="#fn:4" class="footnote" rel="footnote">4</a></sup>. Bộ Giáo dục Trung Quốc đặt ra tiêu chí đánh giá các dự án nghiên cứu giáo dục là phải có tính nguyên bản và tiên phong, khám phá bản chất và quy luật của giáo dục, tập trung vào nghiên cứu các vấn đề học thuật và thúc đẩy xây dựng ngành<sup id="fnref:4:1" role="doc-noteref"><a href="#fn:4" class="footnote" rel="footnote">4</a></sup>. Tuy nhiên, các nghiên cứu cũng chỉ ra rằng các yếu tố văn hóa và xã hội có thể ảnh hưởng đến sự sáng tạo của sinh viên<sup id="fnref:4:2" role="doc-noteref"><a href="#fn:4" class="footnote" rel="footnote">4</a></sup>.</p>
+  <p>“Large Language Models (LLMs) excel at generating fluent text but struggle with context sensitivity, logical reasoning, and personalization without extensive fine-tuning. This paper presents a logical modulator: an adaptable communication layer between Knowledge Graphs (KGs) and LLMs as a way to address these limitations. Unlike direct KG-LLM integrations, our modulator is domain-agnostic and incorporates logical dependencies and commonsense reasoning to achieve contextual personalization. By enhancing KG interaction, this method will produce linguistically coherent and logically sound outputs, increasing interpretability and reliability in generative AI.”</p>
+</blockquote>
 
 <hr />
 
-<h3 id="tài-liệu-tham-khảo">Tài liệu tham khảo</h3>
+<h5 id="why-exactly-is-fine-tuning-extensive-is-it-always-much-more-expensive">Why exactly is fine-tuning extensive, is it always much more expensive?</h5>
 
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:1" role="doc-endnote">
-      <p><a href="https://vi.wikipedia.org/w/index.php?title=Nghi%C3%AAn_c%E1%BB%A9u&amp;oldid=71057143" target="_blank">Wikipedia, “Nghiên cứu — Wikipedia, Bách khoa toàn thư mở”, 2024.</a> <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a> <a href="#fnref:1:1" class="reversefootnote" role="doc-backlink">&#8617;<sup>2</sup></a> <a href="#fnref:1:2" class="reversefootnote" role="doc-backlink">&#8617;<sup>3</sup></a> <a href="#fnref:1:3" class="reversefootnote" role="doc-backlink">&#8617;<sup>4</sup></a> <a href="#fnref:1:4" class="reversefootnote" role="doc-backlink">&#8617;<sup>5</sup></a> <a href="#fnref:1:5" class="reversefootnote" role="doc-backlink">&#8617;<sup>6</sup></a> <a href="#fnref:1:6" class="reversefootnote" role="doc-backlink">&#8617;<sup>7</sup></a> <a href="#fnref:1:7" class="reversefootnote" role="doc-backlink">&#8617;<sup>8</sup></a> <a href="#fnref:1:8" class="reversefootnote" role="doc-backlink">&#8617;<sup>9</sup></a> <a href="#fnref:1:9" class="reversefootnote" role="doc-backlink">&#8617;<sup>10</sup></a> <a href="#fnref:1:10" class="reversefootnote" role="doc-backlink">&#8617;<sup>11</sup></a> <a href="#fnref:1:11" class="reversefootnote" role="doc-backlink">&#8617;<sup>12</sup></a> <a href="#fnref:1:12" class="reversefootnote" role="doc-backlink">&#8617;<sup>13</sup></a> <a href="#fnref:1:13" class="reversefootnote" role="doc-backlink">&#8617;<sup>14</sup></a> <a href="#fnref:1:14" class="reversefootnote" role="doc-backlink">&#8617;<sup>15</sup></a> <a href="#fnref:1:15" class="reversefootnote" role="doc-backlink">&#8617;<sup>16</sup></a> <a href="#fnref:1:16" class="reversefootnote" role="doc-backlink">&#8617;<sup>17</sup></a> <a href="#fnref:1:17" class="reversefootnote" role="doc-backlink">&#8617;<sup>18</sup></a> <a href="#fnref:1:18" class="reversefootnote" role="doc-backlink">&#8617;<sup>19</sup></a> <a href="#fnref:1:19" class="reversefootnote" role="doc-backlink">&#8617;<sup>20</sup></a> <a href="#fnref:1:20" class="reversefootnote" role="doc-backlink">&#8617;<sup>21</sup></a> <a href="#fnref:1:21" class="reversefootnote" role="doc-backlink">&#8617;<sup>22</sup></a> <a href="#fnref:1:22" class="reversefootnote" role="doc-backlink">&#8617;<sup>23</sup></a> <a href="#fnref:1:23" class="reversefootnote" role="doc-backlink">&#8617;<sup>24</sup></a> <a href="#fnref:1:24" class="reversefootnote" role="doc-backlink">&#8617;<sup>25</sup></a> <a href="#fnref:1:25" class="reversefootnote" role="doc-backlink">&#8617;<sup>26</sup></a> <a href="#fnref:1:26" class="reversefootnote" role="doc-backlink">&#8617;<sup>27</sup></a> <a href="#fnref:1:27" class="reversefootnote" role="doc-backlink">&#8617;<sup>28</sup></a> <a href="#fnref:1:28" class="reversefootnote" role="doc-backlink">&#8617;<sup>29</sup></a> <a href="#fnref:1:29" class="reversefootnote" role="doc-backlink">&#8617;<sup>30</sup></a> <a href="#fnref:1:30" class="reversefootnote" role="doc-backlink">&#8617;<sup>31</sup></a> <a href="#fnref:1:31" class="reversefootnote" role="doc-backlink">&#8617;<sup>32</sup></a> <a href="#fnref:1:32" class="reversefootnote" role="doc-backlink">&#8617;<sup>33</sup></a> <a href="#fnref:1:33" class="reversefootnote" role="doc-backlink">&#8617;<sup>34</sup></a> <a href="#fnref:1:34" class="reversefootnote" role="doc-backlink">&#8617;<sup>35</sup></a> <a href="#fnref:1:35" class="reversefootnote" role="doc-backlink">&#8617;<sup>36</sup></a> <a href="#fnref:1:36" class="reversefootnote" role="doc-backlink">&#8617;<sup>37</sup></a> <a href="#fnref:1:37" class="reversefootnote" role="doc-backlink">&#8617;<sup>38</sup></a> <a href="#fnref:1:38" class="reversefootnote" role="doc-backlink">&#8617;<sup>39</sup></a> <a href="#fnref:1:39" class="reversefootnote" role="doc-backlink">&#8617;<sup>40</sup></a> <a href="#fnref:1:40" class="reversefootnote" role="doc-backlink">&#8617;<sup>41</sup></a> <a href="#fnref:1:41" class="reversefootnote" role="doc-backlink">&#8617;<sup>42</sup></a> <a href="#fnref:1:42" class="reversefootnote" role="doc-backlink">&#8617;<sup>43</sup></a> <a href="#fnref:1:43" class="reversefootnote" role="doc-backlink">&#8617;<sup>44</sup></a></p>
-    </li>
-    <li id="fn:2" role="doc-endnote">
-      <p><a href="https://web.archive.org/web/20100620223714/http://marketing.wharton.upenn.edu/documents/research/Business%20School%20Prestige.pdf" target="_blank">Armstrong, J.S., and T. Sperry. “Business School Prestige - Research versus Teaching.” Revista Organizações Em Contexto 2, no. 3 (June 30, 2006): 83–101.</a> <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#8617;</a> <a href="#fnref:2:1" class="reversefootnote" role="doc-backlink">&#8617;<sup>2</sup></a> <a href="#fnref:2:2" class="reversefootnote" role="doc-backlink">&#8617;<sup>3</sup></a> <a href="#fnref:2:3" class="reversefootnote" role="doc-backlink">&#8617;<sup>4</sup></a></p>
-    </li>
-    <li id="fn:3" role="doc-endnote">
-      <p><a href="https://web.archive.org/web/20100620220043/http://marketing.wharton.upenn.edu/ideas/pdf/Armstrong/Replications.pdf" target="_blank">Evanschitzky, Heiner, Carsten Baumgarth, Raymond Hubbard, and J. Scott Armstrong. “Replication Research in Marketing Revisited: A Note on a Disturbing Trend.” SSRN Electronic Journal, 2008.</a> <a href="#fnref:3" class="reversefootnote" role="doc-backlink">&#8617;</a> <a href="#fnref:3:1" class="reversefootnote" role="doc-backlink">&#8617;<sup>2</sup></a></p>
-    </li>
-    <li id="fn:4" role="doc-endnote">
-      <p><a href="https://www.aare.edu.au/data/publications/2009/li091380.pdf" target="_blank">Singh, Michael, and Bingyi Li. “Early Career Researcher Originality: Engaging Richard Florida’s International Competition for Creative Workers,” n.d.</a> <a href="#fnref:4" class="reversefootnote" role="doc-backlink">&#8617;</a> <a href="#fnref:4:1" class="reversefootnote" role="doc-backlink">&#8617;<sup>2</sup></a> <a href="#fnref:4:2" class="reversefootnote" role="doc-backlink">&#8617;<sup>3</sup></a></p>
-    </li>
-  </ol>
+<p><strong>Fine-tuning</strong> requires large datasets, significant compute resources, and careful optimization to <strong>prevent overfitting</strong> or catastrophic <strong>forgetting</strong>. It is often expensive because training large models, especially with domain-specific data, demands GPUs/TPUs, storage, and expertise. However, lightweight techniques like <strong>LoRA</strong> and <strong>adapters</strong> can reduce costs.</p>
+
+<h5 id="what-is-a-logical-modulator">What is a logical modulator?</h5>
+
+<p>It is an <strong>intermediary mechanism</strong> that refines and adapts LLM outputs by <strong>incorporating logical dependencies and commonsense reasoning</strong>, improving coherence, personalization, and interpretability <strong>WITHOUT</strong> modifying the core model.</p>
+
+<h5 id="what-is-domain-agnostic">What is domain-agnostic?</h5>
+
+<p><strong>Domain-agnostic</strong> means that a method, model, or system is <strong>NOT limited</strong> to a <strong>specific field or subject area</strong> and can be applied across <strong>different domains</strong>. In the context of the logical modulator, it means that the system can work with various <strong>Knowledge Graphs and LLMs</strong> regardless of the specific industry (e.g., healthcare, finance, or education) without requiring major modifications.</p>
+
+<h5 id="what-do-they-mean-by-adaptable-communication-layer">What do they mean by adaptable communication layer?</h5>
+
+<p>This refers to a flexible interface between <strong>Knowledge Graphs (KGs)</strong> and LLMs that dynamically adjusts how information flows, ensuring that the LLM receives <strong>structured, relevant knowledge</strong> while maintaining <strong>domain-agnostic</strong> applicability.</p>
+
+<h5 id="what-are-knowledge-graphs-kgs-examples">What are Knowledge Graphs (KGs), examples?</h5>
+
+<p><strong>KGs</strong> are structured representations of entities and their relationships, used to model real-world knowledge. Examples include <strong>Google’s Knowledge Graph</strong>, <strong>Wikidata</strong>, <strong>ConceptNet</strong>, and <strong>DBpedia</strong>.</p>
+
+<h5 id="how-does-a-modulator-and-direct-integration-as-they-put-it-differ">How does a modulator and direct integration as they put it differ?</h5>
+
+<p>Direct integration means <strong>feeding KG data directly</strong> into an LLM, which can be <strong>rigid and inefficient</strong>. A modulator, instead, acts as an intermediary, selectively incorporating logical dependencies and commonsense reasoning, leading to more <strong>adaptable, personalized, and logically consistent responses</strong>.</p>
+
+<h2 id="1-introduction">1. Introduction</h2>
+
+<p>The paper highlights the need for LLMs to be <strong>more explainable and context-aware</strong>, especially in <strong>critical domains</strong> like healthcare. Instead of just using KGs as external data sources, it proposes a <strong>bidirectional mediator</strong> that dynamically exchanges information between LLMs and KGs. This ensures responses are both accurate and fluent, improving trust and transparency.</p>
+
+<p><strong>Bidirectional</strong> in this context suggests that the mediator facilitates <strong>two-way communication</strong> between the <strong>LLM and the Knowledge Graph (KG)</strong>, rather than just a <strong>one-time retrieval</strong> of facts. This likely means:</p>
+
+<ul>
+  <li><strong>Dynamic querying</strong> – The LLM can request specific knowledge from the KG, and the KG can refine or adjust its response based on the LLM’s context.</li>
+  <li><strong>Iterative refinement</strong> – Instead of a single query-response cycle, the LLM and KG can exchange multiple rounds of information, improving the accuracy and coherence of responses.</li>
+  <li><strong>Context-aware updates</strong> – The mediator ensures that the KG’s structured knowledge is contextually relevant, allowing the LLM to modify its request based on intermediate results.</li>
+</ul>
+
+<p>This approach is different from direct KG-LLM integration, where the KG typically provides static facts without iterative refinement.</p>
+
+<h2 id="2-related-work">2. Related Work</h2>
+
+<p>Existing LLMs rely on <strong>statistical patterns</strong> rather than <strong>true reasoning</strong>, making them <strong>error-prone</strong> in critical fields like medicine and law. <strong>RAG</strong> improves factual accuracy by <strong>retrieving external knowledge</strong>, but it mainly relies on <strong>surface-level matching</strong>. <strong>Graph-based approaches</strong> like GraphRAG integrate <strong>structured knowledge</strong> but <strong>lose logical dependencies when converting KGs into embeddings</strong>. Some methods embed KG data into LLM prompts to enhance reasoning, but they <strong>struggle to retain full relational structures</strong>, limiting multi-step reasoning and contextual consistency. This reinforces <strong>the need for a bidirectional mediator</strong> that preserves logical dependencies while ensuring fluent, explainable responses.</p>
+
+<h2 id="3-a-framework-for-kg-enhanced-llm-reasoning">3. A Framework for KG-Enhanced LLM Reasoning</h2>
+
+<p>The authors propose a <strong>domain-independent end-to-end framework</strong> that enhances reasoning and personalization in LLMs using an <strong>independent mediator</strong>. This mediator <strong>acts as the retrieval mechanism</strong> in RAG but improves on it by structuring the reasoning process more effectively.</p>
+
+<p>Key features:</p>
+<ul>
+  <li><strong>Decompositional querying</strong> – The mediator <strong>breaks down user queries</strong> into smaller sub-queries for the Knowledge Graph (KG).</li>
+  <li><strong>Interpretation layer</strong> – It <strong>extracts relevant nodes and relationships</strong> from the KG, making structured data more understandable for the LLM.</li>
+  <li><strong>Bidirectional interaction</strong> – The mediator <strong>manages the exchange</strong> between the LLM and KG, ensuring multiple rounds of refinement for a more complete response.</li>
+</ul>
+
+<p>This approach <strong>optimizes structured knowledge use</strong>, making LLM outputs more logical, contextual, and explainable.</p>
+
+<div class="mermaid">
+graph TD;
+    A["**Input Layer:** <br /> Generic prompt that <br /> requires reasoning"] --&gt; B["**Reasoning Layer:** <br /> Mediator module managing KG <br /> queries, dependencies, and <br /> rule applications"];
+    
+    B --&gt; C["Prompt Decomposition"];
+    C --&gt; D["Multiple KG Querying: <br /> Retrieve relevant data"];
+    D --&gt; E["Logical conjunction of <br /> the retrieved data"];
+    
+    E --&gt;|Communicates with| F["**Knowledge Base Layer:** <br /> KG layer, representing <br /> stored entities, relationships, <br /> and rules"];
+    E --&gt;|Communicates with| G["**Language Generation Layer:** <br /> LLM module handling <br /> response generation"];
+
+    style B stroke-dasharray: 5,5;
+    style C stroke-dasharray: 5,5;
+    style D stroke-dasharray: 5,5;
+    style E stroke-dasharray: 5,5;
+    
+    classDef dashed fill:none,stroke:#fff,stroke-dasharray:5 5;
+    class B,C,D,E dashed;
 </div>
+
+<div class="description">Modular Architecture for our proposed end-end framework for KG-enhanced LLM reasoning - Eldessouky et al., 2025</div>
+
+<p>The authors argue that their <strong>mediator-driven framework</strong> improves reasoning and explainability by enabling the <strong>Knowledge Graph (KG) to be the primary reasoning source</strong>, while the <strong>LLM handles fluent text generation</strong>. Unlike retrieval-based methods like GraphRAG, which <strong>reduce KG data to embeddings</strong>, their approach <strong>directly interacts with the KG</strong> through a <strong>dynamic reasoning layer</strong>, preserving logical depth and personalization.</p>
+
+<p>Key advantages:</p>
+<ul>
+  <li><strong>Flexibility &amp; Interpretability</strong> – Separating LLM and KG modules with a mediator makes the system more adaptable and explainable.</li>
+  <li><strong>Enhanced Explainability</strong> – Symbolic AI integration allows responses to be <strong>traced back to KG elements and rules</strong>, improving trust.</li>
+  <li><strong>Logical Depth &amp; Accuracy</strong> – The structured knowledge from KGs is <strong>leveraged more effectively</strong>, preventing the loss of relational details seen in simpler KG-LLM integrations.</li>
+</ul>
+
+<p>This <strong>hybrid approach</strong> bridges structured knowledge and generative AI, <strong>improving factual accuracy, reasoning, and user-specific adaptability</strong>.</p>
+
+<blockquote>
+  <p><strong>Symbolic AI</strong> refers to an approach in artificial intelligence that represents knowledge using <strong>explicit symbols, rules, and logic</strong> rather than learned statistical patterns. It relies on <strong>symbol manipulation</strong>, such as if-then rules, ontologies, and logical reasoning, to process and infer knowledge.</p>
+
+  <p>In contrast to neural networks, which extract patterns from data, <strong>symbolic AI systems operate on structured knowledge</strong> (e.g., Knowledge Graphs, rule-based systems) and provide <strong>transparent, traceable reasoning</strong>, making them useful for <strong>explainability and logic-based decision-making</strong>.</p>
+</blockquote>
+
+<h2 id="4-conclusion-and-future-work">4. Conclusion and Future Work</h2>
+
+<p>The paper proposes a <strong>decompositional reasoning layer</strong> that enhances LLM reasoning by <strong>structuring interactions with Knowledge Graphs (KGs)</strong>. This approach ensures responses are both <strong>contextually grounded and fluent</strong>, making it particularly useful in fields like <strong>career development, healthcare, and legal advising</strong>. Future work will explore how the <strong>mediator can dynamically update KGs</strong>, allowing knowledge to evolve without manual intervention.</p>
+
+<h3 id="limitations-and-ethical-considerations">Limitations and Ethical Considerations</h3>
+
+<ul>
+  <li><strong>Latency</strong> – Complex KG queries and multi-step reasoning can slow response times.</li>
+  <li><strong>Entity Linking</strong> – Ambiguities and synonyms make accurate entity mapping difficult.</li>
+  <li><strong>Scalability</strong> – Expanding KGs increases storage and complexity, requiring efficient management.</li>
+  <li><strong>Evaluation &amp; Bias</strong> – Assessing reasoning quality and ensuring fair, transparent responses remain key concerns.</li>
+</ul>
+
+<p>Addressing these challenges is crucial for <strong>scalable, explainable, and ethically responsible</strong> KG-augmented LLM systems.</p>
 
                     </article>
                 </div>
@@ -653,7 +723,7 @@
                 <script src="https://giscus.app/client.js" data-repo="yuk068/yuk-blog-comments"
                     data-repo-id="R_kgDONs1FhQ" data-category="Announcements" data-category-id="DIC_kwDONs1Fhc4CmLRI"
                     data-mapping="title" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0"
-                    data-input-position="bottom" data-theme="dark_protanopia" data-lang="vi" crossorigin="anonymous"
+                    data-input-position="bottom" data-theme="dark_protanopia" data-lang="en" crossorigin="anonymous"
                     async>
                     </script>
                 

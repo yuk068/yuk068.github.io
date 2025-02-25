@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 
 <head>
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -12,51 +12,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="linkage" content="true">
-    <title>Paper Comprehension: Enhancing Multi-Label Language Classification with Semantics</title>
-    <meta name="description" content="Improving Multi-Label Classification of Similar Languages by Semantics-Aware Word Embeddings - Ngo et al., 2024">
+    <title>MAT1204 - Phương pháp Nghiên cứu Khoa học - Bài thu hoạch 1</title>
+    <meta name="description" content="Bài thu hoạch tổng quan về chủ đề "Nghiên cứu"">
     <link rel="stylesheet" href="/assets/css/pages-css/post-styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
     
     
-    <!-- KaTeX Stylesheet -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
-
-    <!-- KaTeX Scripts -->
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"></script>
-
-    <!-- KaTeX Auto-render Initialization -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            renderMathInElement(document.body, {
-                delimiters: [
-                    { left: "$$", right: "$$", display: true },
-                    { left: "$", right: "$", display: false },
-                    { left: "\\(", right: "\\)", display: false },
-                    { left: "\\[", right: "\\]", display: true }
-                ]
-            });
-        });
-    </script>
+    <!-- Default to MathJax -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     
 
     
-    <script type="text/javascript" src="https://unpkg.com/mermaid@11.4.1/dist/mermaid.min.js"></script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            mermaid.initialize({
-                startOnLoad: true,
-                theme: 'dark',
-                themeVariables: {
-                    'primaryColor': '#1e1e1e',
-                    'edgeLabelBackground': '#444444',
-                    'tertiaryColor': '#555555',
-                }
-            });
-        });
-    </script>
     
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
@@ -88,7 +55,7 @@
                         <a href="#" onclick="goBack()">
                             <li>
                                 
-                                Back
+                                Trở lại
                                 
                             </li>
                         </a>
@@ -96,7 +63,7 @@
                         <a href="/">
                             <li>
                                 
-                                Home
+                                Trang chủ
                                 
                             </li>
                         </a>
@@ -104,7 +71,7 @@
                         <a href="/archive" id="nav-disable-mobile">
                             <li id="nav-disable-mobile">
                                 
-                                Archive
+                                Lưu trữ
                                 
                             </li>
                         </a>
@@ -112,7 +79,7 @@
                         <a href="/projects" id="nav-disable-mobile">
                             <li id="nav-disable-mobile">
                                 
-                                Projects
+                                Dự án
                                 
                             </li>
                         </a>
@@ -120,7 +87,7 @@
                         <a href="#" onclick="notifyComingSoon()" id="nav-disable-mobile">
                             <li id="nav-disable-mobile">
                                 
-                                Explore
+                                Khám phá
                                 
                             </li>
                         </a>
@@ -144,7 +111,7 @@
                 <div class="options-container">
                     <p>
                         
-                        Navigation
+                        Điều hướng
                         
                     </p>
                     <div class="options-navigation">
@@ -168,7 +135,7 @@
                                 </polyline>
                             </svg>
                             
-                            Back
+                            Trở lại
                             
                         </button>
                         <button id="toHomeButton"><svg id="Layer_1" data-name="Layer 1"
@@ -189,7 +156,7 @@
                                 </polyline>
                             </svg>
                             
-                            Home
+                            Trang chủ
                             
                         </button>
                         <button id="toArchiveButton"><svg id="Layer_1" data-name="Layer 1"
@@ -211,7 +178,7 @@
                                     points="1.5 9.14 22.5 9.14 20.59 22.5 3.41 22.5 1.5 9.14"></polygon>
                             </svg>
                             
-                            Archive
+                            Lưu trữ
                             
                         </button>
                         <button id="toProjectsButton"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
@@ -251,7 +218,7 @@
                                 </g>
                             </svg>
                             
-                            Projects
+                            Dự án
                             
                         </button>
                         <button id="toExploreButton"><svg id="Layer_1" data-name="Layer 1"
@@ -272,7 +239,7 @@
                                 <line class="cls-63ce7424ea57ea6c8380055b-1" x1="22" y1="2" x2="10" y2="14"></line>
                             </svg>
                             
-                            Explore
+                            Khám phá
                             
                         </button>
                         <button id="toAboutButton"><svg id="Layer_1" data-name="Layer 1"
@@ -293,14 +260,14 @@
                                 </path>
                             </svg>
                             
-                            About
+                            Về tôi
                             
                         </button>
                     </div>
                     <div class="option-horizontal-divider-line"></div>
                     <p>
                         
-                        Options
+                        Tùy chọn
                         
                     </p>
                     <div class="options-configuration">
@@ -327,7 +294,7 @@
                                 </polyline>
                             </svg>
                             
-                            To top
+                            Đầu trang
                             
                         </button>
                         <button id="collapseExpandAllButton"><svg id="Layer_1" data-name="Layer 1"
@@ -348,7 +315,7 @@
                                 <polyline class="cls-63ce7424ea57ea6c8380059a-1" points="13 17 18 22 23 17"></polyline>
                             </svg>
                             
-                            Expand / Collapse all
+                            Rút gọn / Mở rộng tất cả
                             
                         </button>
                         <button id="themeButton"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
@@ -393,7 +360,7 @@
                                 </g>
                             </svg>
                             
-                            Theme
+                            Chủ đề
                             
                         </button>
                         <button id="commentsButton"><svg id="Layer_1" data-name="Layer 1"
@@ -421,7 +388,7 @@
                                 </line>
                             </svg>
                             
-                            Comments
+                            Bình luận
                             
                         </button>
                     </div>
@@ -446,7 +413,7 @@
                                 </line>
                             </svg>
                             
-                            Close
+                            Đóng
                             
                         </button>
                     </div>
@@ -458,16 +425,14 @@
                         <span class="category-svg">
                             
                             
-                            <img src="/assets/svg/categories/technical.svg"
-                                alt="technical category" onerror="this.remove()">
+                            <img src="/assets/svg/categories/assignment.svg"
+                                alt="assignment category" onerror="this.remove()">
                             
-                        </span>Paper Comprehension: Enhancing Multi-Label Language Classification with Semantics
+                        </span>MAT1204 - Phương pháp Nghiên cứu Khoa học - Bài thu hoạch 1
                     </h1>
                     <div class="post-tags">
                         
-                        <span class="tag">#paper-comprehension</span>
-                        
-                        <span class="tag">#nlp</span>
+                        <span class="tag">#schoolwork</span>
                         
                     </div>
                     <div class="date">
@@ -520,7 +485,7 @@
                             </g>
                         </svg>
                         
-                        <span class="date-span">22/02/2025</span>
+                        <span class="date-span">02/02/2025</span>
 
                         <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                             stroke-width="1.5" width="16" height="16" color="#fff">
@@ -540,9 +505,9 @@
                         </svg>
                         
                         <span class="reading-time">
-                            8
+                            10
                             
-                            Min.
+                            Phút
                             
                         </span>
                         
@@ -565,7 +530,7 @@
                             </path>
                         </svg>
                         
-                        Written by:
+                        Viết bởi:
                         
                         Yuk
                     </div>
@@ -573,217 +538,111 @@
                 <div class="horizontal-divider-line"></div>
                 <div class="post-article">
                     <article>
-                        <h1 id="improving-multi-label-classification-of-similar-languages-by-semantics-aware-word-embeddings">Improving Multi-Label Classification of Similar Languages by Semantics-Aware Word Embeddings</h1>
+                        <h1 id="tổng-quan-về-nghiên-cứu-khoa-học">Tổng quan về Nghiên cứu Khoa học</h1>
 
-<h5 id="paper-authors">Paper Authors</h5>
+<h3 id="tóm-tắt">Tóm tắt</h3>
 
-<p>The Quyen Ngo¹, Thi Anh Phuong Nguyen², My Linh Ha¹, Thi Minh Huyen Nguyen¹, Phuong Le-Hong¹</p>
+<p>Báo cáo này cung cấp tổng quan về nghiên cứu khoa học, bao gồm định nghĩa, các loại hình, quy trình, phương pháp, công bố, xu hướng và các yếu tố ảnh hưởng đến chất lượng nghiên cứu. Nghiên cứu được xem là một hoạt động sáng tạo có hệ thống nhằm làm giàu tri thức và ứng dụng thực tiễn. Có nhiều loại hình nghiên cứu như khoa học, nhân văn, nghệ thuật, cơ bản và ứng dụng, trong đó nghiên cứu cơ bản đặt nền tảng cho nghiên cứu ứng dụng. Quy trình nghiên cứu bao gồm các bước từ quan sát, nêu giả thuyết, thu thập và phân tích dữ liệu đến kiểm tra và rút ra kết luận. Phương pháp nghiên cứu có thể là định tính, định lượng, sử dụng dữ liệu sơ cấp hoặc thứ cấp, nghiên cứu khảo sát, xây dựng và thực nghiệm. Công bố nghiên cứu đóng vai trò quan trọng trong việc khẳng định bản quyền và đánh giá chất lượng. Xu hướng hiện nay cho thấy sự chuyển dịch từ nghiên cứu cơ bản sang nghiên cứu ứng dụng, đồng thời nhấn mạnh tính khách quan, tái tạo và đánh giá chất lượng nghiên cứu. Báo cáo cũng đề cập đến sự sáng tạo và độc đáo trong nghiên cứu, đặc biệt trong bối cảnh giáo dục và ảnh hưởng của các yếu tố văn hóa.</p>
 
-<ul>
-  <li>¹ Vietnam National University, Hanoi, Vietnam</li>
-  <li>² Institute of Information Technology, Vietnam Academy of Science and Technology, Hanoi, Vietnam</li>
-</ul>
-
-<h5 id="access-paper"><a href="https://aclanthology.org/2024.vardial-1.21/" target="_blank">Access Paper</a></h5>
-
-<hr />
-
-<h3 id="table-of-content">Table of Content</h3>
+<h3 id="mục-lục">Mục lục</h3>
 
 <blockquote>
   <div id="table-of-contents"></div>
 </blockquote>
 
-<hr />
+<h2 id="nghiên-cứu-là-gì">Nghiên cứu là gì?</h2>
 
-<h3 id="abstract">Abstract</h3>
+<p>Nghiên cứu được định nghĩa là một “hoạt động sáng tạo được thực hiện một cách có hệ thống nhằm làm giàu tri thức, bao gồm tri thức về con người, văn hóa và xã hội, và sử dụng vốn tri thức này để tạo ra những ứng dụng mới”<sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. Theo Martyn Shuttleworth, nghiên cứu bao hàm bất cứ sự thu thập dữ liệu, thông tin và dữ kiện nào nhằm thúc đẩy tri thức<sup id="fnref:1:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. Creswell định nghĩa nghiên cứu là một quá trình thu thập và phân tích thông tin để gia tăng sự hiểu biết về một chủ đề hoặc vấn đề, bao gồm ba bước: đặt câu hỏi, thu thập dữ liệu để trả lời câu hỏi, và trình bày câu trả lời<sup id="fnref:1:2" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. Từ điển Trực tuyến Merriam-Webster định nghĩa nghiên cứu là một truy vấn hay khảo sát cẩn thận, đặc biệt là sự khảo sát hay thể nghiệm nhắm đến việc phát hiện và diễn giải sự kiện, sự thay đổi những lý thuyết hoặc định luật đã được chấp nhận dựa trên những dữ kiện mới, hay sự ứng dụng thực tiễn những lý thuyết hoặc định luật mới hoặc đã được thay đổi đó<sup id="fnref:1:3" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</p>
 
-<blockquote>
+<h3 id="các-loại-hình-nghiên-cứu">Các loại hình nghiên cứu</h3>
 
-  <p>“The VLP team participated in the DSL-ML  shared task of the VarDial 2024 workshop  which aims to distinguish texts in similar languages. This paper presents our approach to  solving the problem and discusses our experimental and official results. We propose to integrate semantics-aware word embeddings which  are learned from ConceptNet into a bidirectional long short-term memory network. This  approach achieves good performance – our system is ranked in the top two or three of the best  performing teams for the task.”</p>
-</blockquote>
-
-<h5 id="who-are-the-vlp-team">Who are the VLP team?</h5>
-
-<p>Not much info I can found about them, but VLP is probably short for Vietnamese Language Processing. They are most likely in association with Vietnam National University, Ha Noi.</p>
-
-<h5 id="what-is-dsl-ml">What is DSL-ML?</h5>
-
-<p>DSL-ML stands for <strong>“Discriminating between Similar Languages with Multi-Label classification”</strong>. The <strong>DSL-ML shared task at the VarDial 2024</strong> workshop challenged participants to create models that can accurately classify texts in similar languages. The task provided datasets from five macro-languages—English, Spanish, Portuguese, French, and Romanian—with multi-label annotations. Participants’ systems were evaluated based on their macro-average F1 scores across these datasets. <a href="https://sites.google.com/view/vardial-2024/shared-tasks/dsl-ml?utm_source=chatgpt.com" target="_blank">VarDial 2024.</a></p>
-
-<p>In the <strong>DSL-ML shared task at VarDial 2024</strong>, participants were provided with datasets for five language groups:</p>
+<p>Nghiên cứu có nhiều hình thức khác nhau, tùy thuộc vào mục tiêu và phương pháp tiếp cận:</p>
 
 <ul>
-  <li>BCMS (Bosnian, Croatian, Montenegrin, Serbian).</li>
-  <li>EN (American and British English).</li>
-  <li>ES (Argentinian and Peninsular Spanish).</li>
-  <li>PT (Brazilian and European Portuguese).</li>
-  <li>FR (Belgian, Canadian, French, and Swiss French).</li>
+  <li><strong>Nghiên cứu khoa học:</strong> Dựa vào việc ứng dụng các phương pháp khoa học, khai thác trí tò mò để cung cấp thông tin và lý thuyết khoa học nhằm giải thích bản chất và tính chất của thế giới<sup id="fnref:1:4" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. Nghiên cứu khoa học có thể tạo ra những ứng dụng thực tiễn và thường được tài trợ bởi các cơ quan chính quyền, tổ chức tài trợ và các nhóm tư nhân<sup id="fnref:1:5" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</li>
+  <li><strong>Nghiên cứu nhân văn:</strong> Liên quan đến những phương pháp khác nhau, chẳng hạn như chú giải văn bản cổ và ký hiệu học, và một nhận thức luận mang tính chất tương đối luận hơn<sup id="fnref:1:6" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. Các học giả trong các ngành nhân văn thường không tìm một câu trả lời đúng tối hậu cho một câu hỏi, mà khảo sát những vấn đề và đặc điểm liên quan đến câu trả lời đó<sup id="fnref:1:7" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. Bối cảnh ở đây rất quan trọng, và nó có thể mang tính xã hội, lịch sử, chính trị, văn hóa, hay chủng tộc<sup id="fnref:1:8" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</li>
+  <li><strong>Nghiên cứu nghệ thuật:</strong> Còn gọi là “nghiên cứu dựa trên thực hành”, có thể diễn ra khi công trình sáng tạo được xem vừa là một sự nghiên cứu vừa là một đối tượng của nghiên cứu<sup id="fnref:1:9" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</li>
+  <li><strong>Nghiên cứu cơ bản (Nghiên cứu nền tảng, nghiên cứu thuần túy):</strong> Được thực hiện bởi sự tò mò hoặc đam mê của nhà khoa học để trả lời những câu hỏi khoa học<sup id="fnref:1:10" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. Động lực thúc đẩy là mở rộng kiến thức chứ không phải kiếm lợi nhuận. Ví dụ về mục đích khoa học cơ bản là tìm câu trả lời cho những câu hỏi như vũ trụ hình thành như thế nào hoặc cấu trúc của proton<sup id="fnref:1:11" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</li>
+  <li><strong>Nghiên cứu ứng dụng:</strong> Được tiến hành để giải quyết các vấn đề thực tế của thế giới đương đại, không phải chỉ là hiểu để mà hiểu<sup id="fnref:1:12" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. Kết quả của nghiên cứu ứng dụng là để cải thiện cuộc sống con người<sup id="fnref:1:13" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. Ví dụ, nghiên cứu các cách để nâng cao năng suất của sản xuất lương thực hoặc xử lý hoặc chữa trị một căn bệnh nào đó<sup id="fnref:1:14" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</li>
 </ul>
 
-<p>Each dataset contained instances with multi-label annotations, where each instance consisted of a text segment and its corresponding label(s). The data files were formatted with two tab-separated columns: the first column contained the label(s), and the second column contained the text. Multiple labels were separated by commas. <a href="https://github.com/yvesscherrer/DSL-ML-2024" target="_blank">GitHub - DSL-ML-2024.</a></p>
+<h3 id="mối-quan-hệ-giữa-nghiên-cứu-cơ-bản-và-nghiên-cứu-ứng-dụng">Mối quan hệ giữa Nghiên cứu cơ bản và Nghiên cứu ứng dụng</h3>
 
-<h5 id="how-do-semantics-aware-word-embeddings-differ-from-normal-word-embeddings">How do semantics-aware word embeddings differ from normal word embeddings?</h5>
+<p>Phần lớn các nhà khoa học cho rằng những hiểu biết một cách cơ bản, nền tảng về tất cả các khía cạnh của khoa học là thiết yếu cho phát triển<sup id="fnref:1:15" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. Nghiên cứu cơ bản đặt nền tảng cho nghiên cứu ứng dụng tiếp bước. Tuy nhiên, sự khác biệt giữa nghiên cứu cơ bản và ứng dụng không phải luôn luôn rõ ràng<sup id="fnref:1:16" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. Đôi khi nó phụ thuộc vào hoàn cảnh hay quan điểm của người đánh giá<sup id="fnref:1:17" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. Theo TS. Ashok Gadgil ở LBNL, một cách để nhìn nhận điều đó là hãy tìm cách trả lời câu hỏi: “Khoảng thời gian cần thiết trước khi một chương trình có kết quả thực tiễn từ nghiên cứu là bao lâu?”<sup id="fnref:1:18" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</p>
 
-<p>Semantics-aware word embeddings <strong>incorporate structured semantic knowledge</strong> from external resources, such as knowledge graphs, into the embedding space. This integration allows the embeddings to capture deeper relationships and nuances between words beyond their co-occurrence in text. In contrast, traditional word embeddings, like Word2Vec, rely solely on statistical information from large text corpora, which might miss certain semantic relationships.</p>
+<h3 id="quy-trình-nghiên-cứu">Quy trình nghiên cứu</h3>
 
-<h5 id="what-is-conceptnet">What is ConceptNet?</h5>
+<p>Để nghiên cứu đạt được kết quả đúng đắn và đáng tin cậy, cần được thực hiện theo một quy trình khoa học<sup id="fnref:1:19" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. Quy trình này bao gồm các bước sau:</p>
 
-<p>ConceptNet is a <strong>multilingual knowledge graph</strong> that connects words and phrases with labeled edges, representing various semantic relationships between them. It serves as a valuable resource for enhancing word embeddings by providing structured semantic information, enabling models to understand context and relationships more effectively. <a href="https://blog.conceptnet.io/" target="_blank">ConceptNet Blog.</a></p>
+<ol>
+  <li><strong>Quan sát và định hình:</strong> Từ các quan sát ban đầu để phán đoán liệu có mối quan hệ giữa các nhân tố hay không, hoặc đọc các tài liệu để xem đã có ai trước đó đã nghiên cứu về vấn đề này hay chưa<sup id="fnref:1:20" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</li>
+  <li><strong>Nêu giả thuyết:</strong> Đưa ra một phán đoán về quan hệ giữa hai hay nhiều biến số<sup id="fnref:1:21" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. Ví dụ: phán đoán rằng ăn nhiều đường sẽ sâu răng.</li>
+  <li><strong>Định nghĩa:</strong> Mô tả chi tiết các khái niệm biến số, gắn với các khái niệm khác hiện có<sup id="fnref:1:22" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</li>
+  <li><strong>Thu thập dữ liệu:</strong> Bao gồm xác định tổng thể và mẫu mình sẽ lấy ở tổng thể đó<sup id="fnref:1:23" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. Thu thập thông tin sử dụng các công cụ nghiên cứu<sup id="fnref:1:24" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</li>
+  <li><strong>Phân tích dữ liệu:</strong> Tổng hợp dữ liệu, làm sạch, chia thành các nhóm khác nhau để rút ra kết luận<sup id="fnref:1:25" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</li>
+  <li><strong>Diễn giải dữ liệu:</strong> Diễn giải thông qua bảng, hình ảnh, và sau đó mô tả bằng văn viết<sup id="fnref:1:26" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</li>
+  <li><strong>Kiểm tra, sửa lại giả thuyết:</strong> Sau các bước trên, có thể khẳng định giả thuyết là đúng, sai, hay cần sửa để rõ hơn<sup id="fnref:1:27" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</li>
+  <li><strong>Tổng kết:</strong> Kết luận, hướng nghiên cứu sau nếu cần<sup id="fnref:1:28" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</li>
+</ol>
+
+<h3 id="các-phương-pháp-nghiên-cứu">Các phương pháp nghiên cứu</h3>
+
+<p>Có nhiều phương pháp nghiên cứu khác nhau, tùy thuộc vào mục tiêu và loại dữ liệu cần thu thập:</p>
+
+<ul>
+  <li><strong>Nghiên cứu định tính:</strong> Nghiên cứu mang tính mô tả nhiều hơn, chủ yếu về nghiên cứu ứng xử con người<sup id="fnref:1:29" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</li>
+  <li><strong>Nghiên cứu định lượng:</strong> Nghiên cứu sử dụng nhiều số liệu thống kê, chạy các mô hình kinh tế lượng để đánh giá tương quan giữa các biến số<sup id="fnref:1:30" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</li>
+  <li><strong>Sử dụng dữ liệu sơ cấp:</strong> Lục tìm các tài liệu, dữ liệu gốc chưa có ai xử lý hoặc tổng hợp chúng<sup id="fnref:1:31" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</li>
+  <li><strong>Sử dụng dữ liệu thứ cấp:</strong> Sử dụng lại các dữ liệu đã được tổng hợp biên soạn lại<sup id="fnref:1:32" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</li>
+  <li><strong>Nghiên cứu khảo sát (Exploratory research):</strong> Giúp xác định câu hỏi hoặc vấn đề nghiên cứu<sup id="fnref:1:33" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</li>
+  <li><strong>Nghiên cứu xây dựng (Constructive research):</strong> Đưa ra các lý thuyết, kiểm định lý thuyết để nhằm giải thích câu hỏi nghiên cứu<sup id="fnref:1:34" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</li>
+  <li><strong>Nghiên cứu thực nghiệm:</strong> Kiểm định lời giải mà mô hình lý thuyết đã giải, xem có đúng trong thực tế không, sử dụng các bằng chứng thực tế<sup id="fnref:1:35" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</li>
+</ul>
+
+<h2 id="công-bố-nghiên-cứu">Công bố nghiên cứu</h2>
+
+<p>Nghiên cứu khoa học thực thụ cần phải được công bố kết quả<sup id="fnref:1:36" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. Công bố cũng chứng tỏ mình là người đầu tiên nghiên cứu vấn đề này, coi như khẳng định bản quyền<sup id="fnref:1:37" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. Công bố cũng là thước đo để xác định nhà nghiên cứu có thực sự nghiên cứu hay không, có đáng được nhận lương hay không<sup id="fnref:1:38" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. Các nghiên cứu trước khi được công bố chính thức đều phải được bình duyệt<sup id="fnref:1:39" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</p>
+
+<h3 id="xu-hướng-nghiên-cứu-khoa-học">Xu hướng nghiên cứu khoa học</h3>
+
+<p>Hiện nay, có một sự chuyển dịch đáng chú ý trong “triết lý” đối với các dạng nghiên cứu đang nhận được đầu tư<sup id="fnref:1:40" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. Các trường đại học nhận được phần lớn tiền đầu tư của nhà nước từ quỹ hỗ trợ đầu tư khoa học<sup id="fnref:1:41" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. Một số nghị sĩ muốn giảm số tiền đầu tư cho các nghiên cứu cơ bản nào mà không thể đưa đến các ứng dụng sau một thời gian nhất định<sup id="fnref:1:42" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. Tuy nhiên, không phải tất cả các dự án lớn về nghiên cứu cơ bản đều bị cắt giảm<sup id="fnref:1:43" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</p>
+
+<h3 id="tính-khách-quan-trong-nghiên-cứu-khoa-học">Tính khách quan trong nghiên cứu khoa học</h3>
+
+<p>Locke và Kirkpatrick cho rằng việc tính toán các mối tương quan là một chuyện, nhưng giải thích chúng lại là một chuyện khác<sup id="fnref:2" role="doc-noteref"><a href="#fn:2" class="footnote" rel="footnote">2</a></sup>. Cần phải xem xét các mô hình nhân quả khác nhau và các yếu tố bên ngoài có thể ảnh hưởng đến kết quả nghiên cứu<sup id="fnref:2:1" role="doc-noteref"><a href="#fn:2" class="footnote" rel="footnote">2</a></sup>.</p>
+
+<h3 id="tái-tạo-nghiên-cứu">Tái tạo Nghiên cứu</h3>
+
+<p>Evanschitzky, Baumgarth và Hubbard đã chỉ ra rằng tỷ lệ tái tạo nghiên cứu trong lĩnh vực marketing đã giảm xuống còn 1.2%, điều này làm dấy lên mối lo ngại về tính tin cậy của các kết quả nghiên cứu<sup id="fnref:3" role="doc-noteref"><a href="#fn:3" class="footnote" rel="footnote">3</a></sup>. Họ khuyến nghị rằng các nhà thực hành nên hoài nghi về việc sử dụng các kết quả được công bố trên các tạp chí marketing cho đến khi chúng được tái tạo thành công<sup id="fnref:3:1" role="doc-noteref"><a href="#fn:3" class="footnote" rel="footnote">3</a></sup>.</p>
+
+<h3 id="đánh-giá-chất-lượng-nghiên-cứu">Đánh giá chất lượng nghiên cứu</h3>
+
+<p>Locke và Kirkpatrick đề xuất một phương pháp khách quan để đánh giá chất lượng của trường kinh doanh dựa trên ba tiêu chí: đầu vào (chất lượng sinh viên), quá trình (những gì sinh viên học được), và đầu ra (thành công của sinh viên trên thị trường việc làm)<sup id="fnref:2:2" role="doc-noteref"><a href="#fn:2" class="footnote" rel="footnote">2</a></sup>. Các biện pháp khách quan có thể bao gồm điểm GMAT, điểm trung bình đại học, tỷ lệ chấp nhận, kinh nghiệm làm việc, chất lượng giảng dạy và nghiên cứu của giảng viên, tỷ lệ sinh viên tốt nghiệp, tỷ lệ sinh viên có việc làm trước khi tốt nghiệp và mức lương khởi điểm<sup id="fnref:2:3" role="doc-noteref"><a href="#fn:2" class="footnote" rel="footnote">2</a></sup>.</p>
+
+<h3 id="tính-độc-đáo-và-sáng-tạo-trong-nghiên-cứu">Tính độc đáo và sáng tạo trong nghiên cứu</h3>
+
+<p>Trong bối cảnh giáo dục, tính độc đáo của nghiên cứu được coi là yếu tố quan trọng<sup id="fnref:4" role="doc-noteref"><a href="#fn:4" class="footnote" rel="footnote">4</a></sup>. Bộ Giáo dục Trung Quốc đặt ra tiêu chí đánh giá các dự án nghiên cứu giáo dục là phải có tính nguyên bản và tiên phong, khám phá bản chất và quy luật của giáo dục, tập trung vào nghiên cứu các vấn đề học thuật và thúc đẩy xây dựng ngành<sup id="fnref:4:1" role="doc-noteref"><a href="#fn:4" class="footnote" rel="footnote">4</a></sup>. Tuy nhiên, các nghiên cứu cũng chỉ ra rằng các yếu tố văn hóa và xã hội có thể ảnh hưởng đến sự sáng tạo của sinh viên<sup id="fnref:4:2" role="doc-noteref"><a href="#fn:4" class="footnote" rel="footnote">4</a></sup>.</p>
 
 <hr />
 
-<p><strong>Brief difference between BiLSTM and vanilla LSTM:</strong> A vanilla Long Short-Term Memory (LSTM) network processes sequences in a single direction, maintaining information from the past to the present. In contrast, a Bidirectional LSTM (BiLSTM) processes sequences in both forward and backward directions, capturing context from both past and future states. This bidirectional approach allows BiLSTMs to understand the context more comprehensively, especially beneficial in tasks where the meaning of a word depends on both preceding and succeeding words.</p>
+<h3 id="tài-liệu-tham-khảo">Tài liệu tham khảo</h3>
 
-<div class="mermaid">
-graph TD
-    %% Labels for Sections
-    V["**Vanilla LSTM**"]:::label
-    B["**Bidirectional LSTM**"]:::label
-
-    %% Vanilla LSTM (Unidirectional)
-    V --&gt; A[Input Sequence] --&gt;|Forward Pass| LSTM1[LSTM Layer] --&gt; H1[Hidden State] --&gt; Y[Output]
-
-    %% BiLSTM (Bidirectional)
-    B --&gt; A2[Input Sequence] --&gt;|Forward Pass| LSTM2[LSTM Layer Forward] --&gt; H2[Hidden State Forward] 
-    A2 --&gt;|Backward Pass| LSTM3[LSTM Layer Backward] --&gt; H3[Hidden State Backward] 
-    H2 &amp; H3 --&gt; Y2[Final Output]
-
-    %% Styling
-    classDef rounded fill:#000,stroke:#fff,stroke-width:2px,rx:10,ry:10;
-    classDef roundedLabel fill:#000,stroke:#ffffff,stroke-width:2px,rx:10,ry:10,font-weight:bold;
-    class A,A2,LSTM1,LSTM2,LSTM3,H1,H2,H3,Y,Y2, rounded;
-    class V,B roundedLabel;
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p><a href="https://vi.wikipedia.org/w/index.php?title=Nghi%C3%AAn_c%E1%BB%A9u&amp;oldid=71057143" target="_blank">Wikipedia, “Nghiên cứu — Wikipedia, Bách khoa toàn thư mở”, 2024.</a> <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a> <a href="#fnref:1:1" class="reversefootnote" role="doc-backlink">&#8617;<sup>2</sup></a> <a href="#fnref:1:2" class="reversefootnote" role="doc-backlink">&#8617;<sup>3</sup></a> <a href="#fnref:1:3" class="reversefootnote" role="doc-backlink">&#8617;<sup>4</sup></a> <a href="#fnref:1:4" class="reversefootnote" role="doc-backlink">&#8617;<sup>5</sup></a> <a href="#fnref:1:5" class="reversefootnote" role="doc-backlink">&#8617;<sup>6</sup></a> <a href="#fnref:1:6" class="reversefootnote" role="doc-backlink">&#8617;<sup>7</sup></a> <a href="#fnref:1:7" class="reversefootnote" role="doc-backlink">&#8617;<sup>8</sup></a> <a href="#fnref:1:8" class="reversefootnote" role="doc-backlink">&#8617;<sup>9</sup></a> <a href="#fnref:1:9" class="reversefootnote" role="doc-backlink">&#8617;<sup>10</sup></a> <a href="#fnref:1:10" class="reversefootnote" role="doc-backlink">&#8617;<sup>11</sup></a> <a href="#fnref:1:11" class="reversefootnote" role="doc-backlink">&#8617;<sup>12</sup></a> <a href="#fnref:1:12" class="reversefootnote" role="doc-backlink">&#8617;<sup>13</sup></a> <a href="#fnref:1:13" class="reversefootnote" role="doc-backlink">&#8617;<sup>14</sup></a> <a href="#fnref:1:14" class="reversefootnote" role="doc-backlink">&#8617;<sup>15</sup></a> <a href="#fnref:1:15" class="reversefootnote" role="doc-backlink">&#8617;<sup>16</sup></a> <a href="#fnref:1:16" class="reversefootnote" role="doc-backlink">&#8617;<sup>17</sup></a> <a href="#fnref:1:17" class="reversefootnote" role="doc-backlink">&#8617;<sup>18</sup></a> <a href="#fnref:1:18" class="reversefootnote" role="doc-backlink">&#8617;<sup>19</sup></a> <a href="#fnref:1:19" class="reversefootnote" role="doc-backlink">&#8617;<sup>20</sup></a> <a href="#fnref:1:20" class="reversefootnote" role="doc-backlink">&#8617;<sup>21</sup></a> <a href="#fnref:1:21" class="reversefootnote" role="doc-backlink">&#8617;<sup>22</sup></a> <a href="#fnref:1:22" class="reversefootnote" role="doc-backlink">&#8617;<sup>23</sup></a> <a href="#fnref:1:23" class="reversefootnote" role="doc-backlink">&#8617;<sup>24</sup></a> <a href="#fnref:1:24" class="reversefootnote" role="doc-backlink">&#8617;<sup>25</sup></a> <a href="#fnref:1:25" class="reversefootnote" role="doc-backlink">&#8617;<sup>26</sup></a> <a href="#fnref:1:26" class="reversefootnote" role="doc-backlink">&#8617;<sup>27</sup></a> <a href="#fnref:1:27" class="reversefootnote" role="doc-backlink">&#8617;<sup>28</sup></a> <a href="#fnref:1:28" class="reversefootnote" role="doc-backlink">&#8617;<sup>29</sup></a> <a href="#fnref:1:29" class="reversefootnote" role="doc-backlink">&#8617;<sup>30</sup></a> <a href="#fnref:1:30" class="reversefootnote" role="doc-backlink">&#8617;<sup>31</sup></a> <a href="#fnref:1:31" class="reversefootnote" role="doc-backlink">&#8617;<sup>32</sup></a> <a href="#fnref:1:32" class="reversefootnote" role="doc-backlink">&#8617;<sup>33</sup></a> <a href="#fnref:1:33" class="reversefootnote" role="doc-backlink">&#8617;<sup>34</sup></a> <a href="#fnref:1:34" class="reversefootnote" role="doc-backlink">&#8617;<sup>35</sup></a> <a href="#fnref:1:35" class="reversefootnote" role="doc-backlink">&#8617;<sup>36</sup></a> <a href="#fnref:1:36" class="reversefootnote" role="doc-backlink">&#8617;<sup>37</sup></a> <a href="#fnref:1:37" class="reversefootnote" role="doc-backlink">&#8617;<sup>38</sup></a> <a href="#fnref:1:38" class="reversefootnote" role="doc-backlink">&#8617;<sup>39</sup></a> <a href="#fnref:1:39" class="reversefootnote" role="doc-backlink">&#8617;<sup>40</sup></a> <a href="#fnref:1:40" class="reversefootnote" role="doc-backlink">&#8617;<sup>41</sup></a> <a href="#fnref:1:41" class="reversefootnote" role="doc-backlink">&#8617;<sup>42</sup></a> <a href="#fnref:1:42" class="reversefootnote" role="doc-backlink">&#8617;<sup>43</sup></a> <a href="#fnref:1:43" class="reversefootnote" role="doc-backlink">&#8617;<sup>44</sup></a></p>
+    </li>
+    <li id="fn:2" role="doc-endnote">
+      <p><a href="https://web.archive.org/web/20100620223714/http://marketing.wharton.upenn.edu/documents/research/Business%20School%20Prestige.pdf" target="_blank">Armstrong, J.S., and T. Sperry. “Business School Prestige - Research versus Teaching.” Revista Organizações Em Contexto 2, no. 3 (June 30, 2006): 83–101.</a> <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#8617;</a> <a href="#fnref:2:1" class="reversefootnote" role="doc-backlink">&#8617;<sup>2</sup></a> <a href="#fnref:2:2" class="reversefootnote" role="doc-backlink">&#8617;<sup>3</sup></a> <a href="#fnref:2:3" class="reversefootnote" role="doc-backlink">&#8617;<sup>4</sup></a></p>
+    </li>
+    <li id="fn:3" role="doc-endnote">
+      <p><a href="https://web.archive.org/web/20100620220043/http://marketing.wharton.upenn.edu/ideas/pdf/Armstrong/Replications.pdf" target="_blank">Evanschitzky, Heiner, Carsten Baumgarth, Raymond Hubbard, and J. Scott Armstrong. “Replication Research in Marketing Revisited: A Note on a Disturbing Trend.” SSRN Electronic Journal, 2008.</a> <a href="#fnref:3" class="reversefootnote" role="doc-backlink">&#8617;</a> <a href="#fnref:3:1" class="reversefootnote" role="doc-backlink">&#8617;<sup>2</sup></a></p>
+    </li>
+    <li id="fn:4" role="doc-endnote">
+      <p><a href="https://www.aare.edu.au/data/publications/2009/li091380.pdf" target="_blank">Singh, Michael, and Bingyi Li. “Early Career Researcher Originality: Engaging Richard Florida’s International Competition for Creative Workers,” n.d.</a> <a href="#fnref:4" class="reversefootnote" role="doc-backlink">&#8617;</a> <a href="#fnref:4:1" class="reversefootnote" role="doc-backlink">&#8617;<sup>2</sup></a> <a href="#fnref:4:2" class="reversefootnote" role="doc-backlink">&#8617;<sup>3</sup></a></p>
+    </li>
+  </ol>
 </div>
-
-<div class="description">LSTM (Unidirectional) and BiLSTM (Bidirectional)</div>
-
-<p>A <strong>macro-language</strong> is like a fruit category, such as citrus fruits.</p>
-<ul>
-  <li>Just as oranges, lemons, limes, and grapefruits all fall under the “citrus” category but have distinct flavors, Mandarin, Cantonese, and Hakka are all part of the “Chinese” macro-language but are distinct languages.</li>
-  <li>Some citrus fruits are more similar and interchangeable (like oranges and tangerines), just as some dialects within a macro-language are mutually intelligible.</li>
-  <li>Others, like grapefruits and limes, are more distinct but still belong to the same broad category—just like Arabic varieties, which can be quite different yet are grouped under one macro-language.
-In the DSL-ML task, classifying texts in macro-languages is like distinguishing between citrus fruits—it’s easy when they are very different (like Spanish vs. Portuguese) but much harder when they are closely related (like Brazilian Portuguese vs. European Portuguese).</li>
-</ul>
-
-<hr />
-
-<h2 id="1-introduction">1. Introduction</h2>
-
-<h3 id="the-problem-at-hand">The Problem at Hand</h3>
-
-<p>The problem at hand involves <strong>distinguishing between similar languages and language varieties</strong> through a computational lens, focusing on diatopic language variation. This task aims to evaluate system’s ability to classify text instances into <strong>multi-label categories</strong> based on five macro-languages: BCMS, EN, ES, Portuguese, and FR.</p>
-
-<h4 id="analogy-for-the-dsl-ml-shared-task">Analogy for the DSL-ML Shared Task</h4>
-
-<p>Imagine you’re a <strong>music streaming app</strong> trying to classify <strong>songs</strong> into <strong>specific genres and sub-genres</strong>.</p>
-
-<h4 id="the-challenge">The Challenge</h4>
-<ul>
-  <li>Some genres are very distinct (Jazz vs. Heavy Metal)—just like English vs. Japanese.</li>
-  <li>Some genres are very similar (Classical vs. Baroque, or Deep House vs. Tech House)—just like Argentinian Spanish vs. Peninsular Spanish.</li>
-  <li>Some songs may belong to <strong>multiple sub-genres at the same time</strong> (a song could be both “Synthwave” and “80s Pop”)—just like a text may belong to both “Brazilian Portuguese” and “European Portuguese” depending on certain linguistic traits.</li>
-</ul>
-
-<h4 id="how-this-relates-to-dsl-ml">How This Relates to DSL-ML</h4>
-<ul>
-  <li><strong>Multi-label classification</strong> is needed because a single text might belong to <strong>multiple language varieties</strong> (e.g., a document could have both American and British English spelling).</li>
-  <li><strong>Macro-languages</strong> like BCMS (Bosnian, Croatian, Montenegrin, Serbian) share a lot of similarities, making it difficult to separate them—similar to how music sub-genres blend into each other.</li>
-  <li><strong>The evaluation metric (macro-F1 score)</strong> ensures fair assessment across all language varieties, just like a good genre classifier should <strong>recognize niche genres</strong> without being biased toward the most common ones.</li>
-</ul>
-
-<h3 id="vlp-teams-approach">VLP Team’s Approach</h3>
-
-<p>The team aimed to improve <strong>multi-label classification of similar languages</strong> by enhancing their model with <strong>semantics-aware word embeddings</strong> from <strong>ConceptNet</strong>, a structured <strong>knowledge graph</strong> that captures real-world meanings and relationships between words. By incorporating <strong>ConceptNet-based embeddings</strong>, the system improves its understanding of language nuances beyond just syntax, making it more effective at distinguishing closely related languages and dialects. This approach leverages <strong>both linguistic structure (BiLSTM) and real-world meaning (ConceptNet)</strong>, leading to better classification performance in the DSL-ML shared task.</p>
-
-<hr />
-
-<h2 id="2-methods">2. Methods</h2>
-
-<p>The team designed a system that adhered strictly to the <strong>closed track constraints</strong>, <strong>AVOIDING</strong> pre-trained models and specialized / prohibited datasets while enhancing their <strong>BiLSTM network with ConceptNet embeddings</strong>. This approach allowed them to leverage semantic knowledge without violating the task’s rules, aiming for a purely <strong>data-driven and interpretable method</strong> for language variety classification.</p>
-
-<h3 id="21-bidirectional-lstm-model">2.1. Bidirectional LSTM Model</h3>
-
-<p>They implemented a Stacked Bidirectional LSTM architecture, where the hidden states from both left-to-right and right-to-left passes at layer $ k $ are concatenated and fed into layer $ (k + 1) $.</p>
-
-<p>For embeddings, they experimented with two approaches:</p>
-
-<ul>
-  <li><strong>Random Initialization</strong> – likely training both the tokenizer/vectorizer and LSTM from scratch.</li>
-  <li><strong>Precomputed ConceptNet Numberbatch Embeddings</strong> – details provided in the next section.</li>
-</ul>
-
-<p>After the final BiLSTM layer, a feedforward network with a softmax activation was used for multiway classification:</p>
-
-<blockquote>
-
-\[P(y_j \mid \vec{v_j}) = \text{softmax}(W \vec{v_j} + \vec{b})\]
-</blockquote>
-
-<p>Where $W$ and $b$ are learned parameters, thus they proposed the architecture:</p>
-
-<div class="mermaid">
-graph LR
-    E["Embedding Layer (w)"] --&gt; B["Stacked BiLSTM (h)"] --&gt; D1["Dense (d, ReLU)"] --&gt; D2["Dense (Softmax)"]
-
-    %% Styling
-    classDef rounded fill:#000,stroke:#fff,stroke-width:2px,rx:10,ry:10;
-    class E,B,D1,D2 rounded;
-</div>
-
-<div class="description">VLP Team's Proposed network architecture</div>
-
-<p>Where the hyperparameters $w$, $h$ and $d$ are the word embedding size, the recurrent hidden size and the dense hidden size.</p>
-
-<p>All models were trained using <strong>Adam</strong> with a learning rate of $ 5 \times 10^{-5} $, batch size <strong>32</strong>, and <strong>early stopping</strong> when accuracy stagnated for <strong>three epochs</strong> on the development set. The <strong>max sequence length</strong> was set to <strong>40 tokens</strong>. Each experiment was repeated <strong>five times</strong>, and results were averaged.</p>
-
-<p>During training, they optimized the cross-entropy loss to maximize correct predictions. While the official evaluation used <strong>per-class F1, weighted F1, and macro-averaged F1</strong>, they relied on <strong>accuracy</strong> for model tuning, despite its limitations on imbalanced datasets.</p>
-
-<h3 id="22-conceptnet-numberbatch">2.2. ConceptNet Numberbatch</h3>
-
-<p><strong>ConceptNet</strong> is a freely available semantic network designed to help computers understand word meanings. It has been used to create word embeddings similar to <strong>Word2Vec, GloVe, and FastText</strong> but with unique advantages. ConceptNet embeddings are <strong>free, multilingual, and aligned across languages</strong> while aiming to avoid harmful biases.</p>
-
-<div class="mermaid">
-graph TD
-    %% Nodes
-    A[ConceptNet]:::main --&gt;|is a| B[Semantic Network]
-    A --&gt;|is a| C[Knowledge Graph]:::blue
-    C --&gt;|has| D[Commonsense Knowledge]:::gray
-    D --&gt;|part of| E[Artificial Intelligence]:::gray
-    C --&gt;|is used for| F[Natural Language Understanding]:::gray
-    F --&gt;|part of| G[Word Embedding]:::yellow
-    G --&gt;|part of| E
-    
-    %% Additional Relation
-    A --&gt;|motivated by goal| H[Let computer understand what people already know]:::green
-
-    %% Styling
-    classDef main fill:#6A6AF2,stroke:#000,stroke-width:2px,rx:10,ry:10;
-    classDef blue fill:#457FD3,stroke:#000,stroke-width:2px,rx:10,ry:10;
-    classDef gray fill:#6F6F9B,stroke:#000,stroke-width:2px,rx:10,ry:10;
-    classDef yellow fill:#CFC573,stroke:#000,stroke-width:2px,rx:10,ry:10;
-    classDef green fill:#6ADA8F,stroke:#000,stroke-width:2px,rx:10,ry:10;
-
-    class A main;
-    class B,C blue;
-    class D,E,F gray;
-    class G yellow;
-    class H green;
-</div>
-
-<div class="description">An illustration of ConceptNet in graph</div>
-
-<p><strong>ConceptNet Numberbatch</strong> is a set of <strong>word embeddings</strong> trained on ConceptNet, incorporating <strong>semi-structured commonsense knowledge</strong> rather than relying solely on contextual word usage. This multilingual embedding space allows words from different languages to share a unified representation, making it well-suited for <strong>cross-lingual tasks.</strong></p>
-
-<p>These embeddings have shown strong performance in word similarity tasks and have been applied to natural language inference and dependency parsing. In this work, the team demonstrate their effectiveness in classifying similar languages.</p>
-
-<h2 id="3-results">3. Results</h2>
-
-<p>Their models were tested on development and test datasets in English, Spanish, French, and Portuguese languages. The <strong>LSTM-r model</strong> with randomly initialized word embeddings peaked at <strong>61.17% accuracy</strong> on the development set, but <strong>overfitted</strong> on the training set. The <strong>LSTM-c model</strong> using ConceptNet embeddings had better performance on the development set <strong>(66.57%)</strong> but underperformed on Portuguese due to a technical issue. The ConceptNet embeddings slightly improved performance on English and French test sets.</p>
-
-<h2 id="4-conclusion">4. Conclusion</h2>
-
-<p>Their model, leveraging <strong>ConceptNet embeddings</strong>, effectively distinguishes similar languages despite its simplicity. Currently, they use a multi-class classification approach but plan to explore <strong>multi-label classification</strong> in future work. They suggest <strong>integrating contrastive learning</strong> to improve representation learning by bringing similar instances closer in embedding space. Additionally, combining <strong>knowledge graph-based embeddings</strong> (e.g., WordNet, ConceptNet) with contrastive learning could enhance performance. While they tested <strong>XLM-R</strong> for this task, initial results were <strong>underwhelming</strong> compared to their method, warranting further investigation into the effectiveness of large language models for similar language classification.</p>
 
                     </article>
                 </div>
@@ -794,7 +653,7 @@ graph TD
                 <script src="https://giscus.app/client.js" data-repo="yuk068/yuk-blog-comments"
                     data-repo-id="R_kgDONs1FhQ" data-category="Announcements" data-category-id="DIC_kwDONs1Fhc4CmLRI"
                     data-mapping="title" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0"
-                    data-input-position="bottom" data-theme="dark_protanopia" data-lang="en" crossorigin="anonymous"
+                    data-input-position="bottom" data-theme="dark_protanopia" data-lang="vi" crossorigin="anonymous"
                     async>
                     </script>
                 
