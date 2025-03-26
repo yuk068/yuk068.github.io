@@ -239,7 +239,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 // Add to TOC (for headings inside main content)
                 if (heading.closest('.post-content')) {
-                    const customColor = ["mục-lục", "tài-liệu-tham-khảo", "table-of-content", "references", "problem-list", "exercise-list"].includes(id)
+                    const customColor = ["mục-lục", "tài-liệu-tham-khảo", "table-of-content", "references", "problem-list", "exercise-list", "nguồn-tham-khảo"].includes(id)
                         ? " style=\"color:#434e64;\""
                         : "";
 

@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="linkage" content="true">
+    <title>MAT2323 - Xác suất - Thống kê - Ôn tập (Chương 2)</title>
+    <meta name="description" content="Chương 2: Đại lượng ngẫu nhiên rời rạc - Sách: Mở đầu về lí thuyết Xác suất và Các ứng dụng - Đặng Hùng Thắng">
+    <link rel="stylesheet" href="/assets/css/pages-css/post-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    
+    
+    <!-- KaTeX Stylesheet -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+
+    <!-- KaTeX Scripts -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"></script>
+
+    <!-- KaTeX Auto-render Initialization -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    { left: "$$", right: "$$", display: true },
+                    { left: "$", right: "$", display: false },
+                    { left: "\\(", right: "\\)", display: false },
+                    { left: "\\[", right: "\\]", display: true }
+                ]
+            });
+        });
+    </script>
+    
+
+    
+    
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="main-container">
+        <header id="post-header">
+            <div class="header-logo-container">
+                <button class="logo-button" onclick="handleLogoClick()">
+                    <div class="logo-container">
+                        <div class="logo">
+                            <div class="u-shape left-side"></div>
+                            <div class="u-shape bottom"></div>
+                            <div class="u-shape right-side"></div>
+                        </div>
+                        <div class="left-arrow-top"></div>
+                        <div class="right-arrow-top"></div>
+                        <div class="right-arrow-bottom"></div>
+                    </div>
+                </button>
+            </div>
+            <div class="home-header-title-mobile">
+                <h1 id="home-header-title">Yukano</h1>
+            </div>
+            <div class="nav-container">
+                <nav class="nav-bar">
+                    <ul>
+                        <a href="#" onclick="goBack()">
+                            <li>
+                                
+                                Trở lại
+                                
+                            </li>
+                        </a>
+                        <div class="nav-bar-divider"></div>
+                        <a href="/">
+                            <li>
+                                
+                                Trang chủ
+                                
+                            </li>
+                        </a>
+                        <div class="nav-bar-divider" id="nav-disable-mobile"></div>
+                        <a href="/archive" id="nav-disable-mobile">
+                            <li id="nav-disable-mobile">
+                                
+                                Lưu trữ
+                                
+                            </li>
+                        </a>
+                        <div class="nav-bar-divider" id="nav-disable-mobile"></div>
+                        <a href="/projects" id="nav-disable-mobile">
+                            <li id="nav-disable-mobile">
+                                
+                                Dự án
+                                
+                            </li>
+                        </a>
+                        <div class="nav-bar-divider" id="nav-disable-mobile"></div>
+                        <a href="#" onclick="notifyComingSoon()" id="nav-disable-mobile">
+                            <li id="nav-disable-mobile">
+                                
+                                Khám phá
+                                
+                            </li>
+                        </a>
+                    </ul>
+                </nav>
+            </div>
+            <div class="header-extra-container">
+                <button class="extra-button">
+                    <div class="extra-container">
+                        <div class="extra">
+                            <div class="extra-shape top"></div>
+                            <div class="extra-shape middle"></div>
+                            <div class="extra-shape bottom"></div>
+                        </div>
+                    </div>
+                </button>
+            </div>
+        </header>
+        <main>
+            <div id="overlay" class="overlay">
+                <div class="options-container">
+                    <p>
+                        
+                        Điều hướng
+                        
+                    </p>
+                    <div class="options-navigation">
+                        <button id="toBackButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-63ce7424ea57ea6c8380059e-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <path class="cls-63ce7424ea57ea6c8380059e-1"
+                                    d="M2.41,16.78H14.85A7.65,7.65,0,0,0,22.5,9.13h0a7.65,7.65,0,0,0-7.65-7.65H.5">
+                                </path>
+                                <polyline class="cls-63ce7424ea57ea6c8380059e-1"
+                                    points="8.15 22.52 2.41 16.78 8.15 11.04">
+                                </polyline>
+                            </svg>
+                            
+                            Trở lại
+                            
+                        </button>
+                        <button id="toHomeButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-6374f8d9b67f094e4896c637-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <polyline class="cls-6374f8d9b67f094e4896c637-1" points="1 12 12 2.83 23 12"></polyline>
+                                <polyline class="cls-6374f8d9b67f094e4896c637-1"
+                                    points="19.33 9.25 19.33 21.17 14.75 21.17 14.75 13.83 9.25 13.83 9.25 21.17 4.67 21.17 4.67 9.25">
+                                </polyline>
+                            </svg>
+                            
+                            Trang chủ
+                            
+                        </button>
+                        <button id="toArchiveButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-6374f8d9b67f094e4896c633-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <polygon class="cls-6374f8d9b67f094e4896c633-1"
+                                    points="19.64 9.14 4.36 9.14 4.36 1.5 10.09 1.5 12 3.41 19.64 3.41 19.64 9.14">
+                                </polygon>
+                                <polygon class="cls-6374f8d9b67f094e4896c633-1"
+                                    points="1.5 9.14 22.5 9.14 20.59 22.5 3.41 22.5 1.5 9.14"></polygon>
+                            </svg>
+                            
+                            Lưu trữ
+                            
+                        </button>
+                        <button id="toProjectsButton"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                stroke-width="1.5" width="20" height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-637b8d40f95e86b59c57a2bd-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <g id="roll_brush" data-name="roll brush">
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="5.24" y1="11.08" x2="18.66"
+                                        y2="11.08">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="5.24" y1="18.76" x2="18.66"
+                                        y2="18.76">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="5.24" y1="14.92" x2="18.66"
+                                        y2="14.92">
+                                    </line>
+                                    <rect class="cls-637b8d40f95e86b59c57a2bd-1" x="1.4" y="1.49" width="21.1"
+                                        height="21.1"></rect>
+                                    <polygon class="cls-637b8d40f95e86b59c57a2bd-1"
+                                        points="22.5 7.25 16.23 7.25 14.31 7.25 1.4 7.25 1.4 1.49 22.5 1.49 22.5 7.25">
+                                    </polygon>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="4.28" y1="4.37" x2="6.2" y2="4.37">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="8.11" y1="4.37" x2="10.03"
+                                        y2="4.37">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="11.95" y1="4.37" x2="13.87"
+                                        y2="4.37">
+                                    </line>
+                                </g>
+                            </svg>
+                            
+                            Dự án
+                            
+                        </button>
+                        <button id="toExploreButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-63ce7424ea57ea6c8380055b-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <polyline class="cls-63ce7424ea57ea6c8380055b-1" points="22 13 22 22 2 22 2 2 11 2">
+                                </polyline>
+                                <polyline class="cls-63ce7424ea57ea6c8380055b-1" points="14 2 22 2 22 10"></polyline>
+                                <line class="cls-63ce7424ea57ea6c8380055b-1" x1="22" y1="2" x2="10" y2="14"></line>
+                            </svg>
+                            
+                            Khám phá
+                            
+                        </button>
+                        <button id="toAboutButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-6374f8d9b67f094e4896c670-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <circle class="cls-6374f8d9b67f094e4896c670-1" cx="12" cy="7.25" r="5.73"></circle>
+                                <path class="cls-6374f8d9b67f094e4896c670-1"
+                                    d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05">
+                                </path>
+                            </svg>
+                            
+                            Về tôi
+                            
+                        </button>
+                    </div>
+                    <div class="option-horizontal-divider-line"></div>
+                    <p>
+                        
+                        Tùy chọn
+                        
+                    </p>
+                    <div class="options-configuration">
+                        <button id="toTopButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-63ce7424ea57ea6c83800547-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <circle class="cls-63ce7424ea57ea6c83800547-1" cx="12" cy="12" r="10.5"></circle>
+                                <line class="cls-63ce7424ea57ea6c83800547-1" x1="12" y1="10.09" x2="12" y2="18.68">
+                                </line>
+                                <polyline class="cls-63ce7424ea57ea6c83800547-1"
+                                    points="7.23 10.09 12 5.32 16.77 10.09">
+                                </polyline>
+                                <polyline class="cls-63ce7424ea57ea6c83800547-1"
+                                    points="7.23 14.86 12 10.09 16.77 14.86">
+                                </polyline>
+                            </svg>
+                            
+                            Đầu trang
+                            
+                        </button>
+                        <button id="collapseExpandAllButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-63ce7424ea57ea6c8380059a-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <line class="cls-63ce7424ea57ea6c8380059a-1" x1="6" y1="2" x2="6" y2="23"></line>
+                                <polyline class="cls-63ce7424ea57ea6c8380059a-1" points="11 7 6 2 1 7"></polyline>
+                                <line class="cls-63ce7424ea57ea6c8380059a-1" x1="18" y1="22" x2="18" y2="1"></line>
+                                <polyline class="cls-63ce7424ea57ea6c8380059a-1" points="13 17 18 22 23 17"></polyline>
+                            </svg>
+                            
+                            Rút gọn / Mở rộng tất cả
+                            
+                        </button>
+                        <button id="themeButton"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                stroke-width="1.5" width="20" height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-637b8d40f95e86b59c57a2e7-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <g id="roll_brush" data-name="roll brush">
+                                    <circle class="cls-637b8d40f95e86b59c57a2e7-1" cx="11.99" cy="12.01" r="6.71">
+                                    </circle>
+                                    <path class="cls-637b8d40f95e86b59c57a2e7-1" d="M12,8.65a3.36,3.36,0,0,1,0,6.72Z">
+                                    </path>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="11.99" y1="0.5" x2="11.99"
+                                        y2="2.42">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="11.99" y1="21.6" x2="11.99"
+                                        y2="23.52">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="0.48" y1="12.01" x2="2.4"
+                                        y2="12.01">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="21.58" y1="12.01" x2="23.5"
+                                        y2="12.01">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="20.13" y1="3.87" x2="18.77"
+                                        y2="5.23">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="5.21" y1="18.79" x2="3.85"
+                                        y2="20.15">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="3.85" y1="3.87" x2="5.21"
+                                        y2="5.23">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="18.77" y1="18.79" x2="20.13"
+                                        y2="20.15"></line>
+                                </g>
+                            </svg>
+                            
+                            Chủ đề
+                            
+                        </button>
+                        <button id="commentsButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-637642e7c3a86d32eae6f18f-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <path class="cls-637642e7c3a86d32eae6f18f-1"
+                                    d="M1.5,5.3v9.54a3.82,3.82,0,0,0,3.82,3.82H7.23v2.86L13,18.66h5.73a3.82,3.82,0,0,0,3.82-3.82V5.3a3.82,3.82,0,0,0-3.82-3.82H5.32A3.82,3.82,0,0,0,1.5,5.3Z">
+                                </path>
+                                <line class="cls-637642e7c3a86d32eae6f18f-1" x1="15.82" y1="10.07" x2="17.73"
+                                    y2="10.07">
+                                </line>
+                                <line class="cls-637642e7c3a86d32eae6f18f-1" x1="11.05" y1="10.07" x2="12.95"
+                                    y2="10.07">
+                                </line>
+                                <line class="cls-637642e7c3a86d32eae6f18f-1" x1="6.27" y1="10.07" x2="8.18" y2="10.07">
+                                </line>
+                            </svg>
+                            
+                            Bình luận
+                            
+                        </button>
+                    </div>
+                    <div class="option-horizontal-divider-line"></div>
+                    <div class="options-close">
+                        <button id="closeButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-6374f8d9b67f094e4896c61e-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <circle class="cls-6374f8d9b67f094e4896c61e-1" cx="12" cy="12" r="10.5"></circle>
+                                <line class="cls-6374f8d9b67f094e4896c61e-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77">
+                                </line>
+                                <line class="cls-6374f8d9b67f094e4896c61e-1" x1="7.23" y1="7.23" x2="16.77" y2="16.77">
+                                </line>
+                            </svg>
+                            
+                            Đóng
+                            
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="post-content">
+                <div class="post-info-card">
+                    <h1>
+                        <span class="category-svg">
+                            
+                            
+                            <img src="/assets/svg/categories/assignment.svg"
+                                alt="assignment category" onerror="this.remove()">
+                            
+                        </span>MAT2323 - Xác suất - Thống kê - Ôn tập (Chương 2)
+                    </h1>
+                    <div class="post-tags">
+                        
+                        <span class="tag">#prob-stat</span>
+                        
+                        <span class="tag">#schoolwork</span>
+                        
+                    </div>
+                    <div class="date">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="16"
+                            height="16" color="#fff">
+                            <defs>
+                                <style>
+                                    .cls-6375f1aeb67f094e4896c9ea-1,
+                                    .cls-6375f1aeb67f094e4896c9ea-2 {
+                                        fill: none;
+                                        stroke: currentColor;
+                                        stroke-miterlimit: 10;
+                                    }
+
+                                    .cls-6375f1aeb67f094e4896c9ea-1 {
+                                        stroke-linecap: square;
+                                    }
+                                </style>
+                            </defs>
+                            <g id="calendar">
+                                <rect class="cls-6375f1aeb67f094e4896c9ea-1" x="1.5" y="2.43" width="21" height="4.77"
+                                    transform="translate(24 9.64) rotate(180)"></rect>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="17.73" y1="0.52" x2="17.73" y2="4.34">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="6.27" y1="0.52" x2="6.27" y2="4.34">
+                                </line>
+                                <polygon class="cls-6375f1aeb67f094e4896c9ea-1"
+                                    points="22.5 11.98 22.5 7.21 1.5 7.21 1.5 22.48 22.5 22.48 22.5 15.79 22.5 11.98">
+                                </polygon>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="11.02" x2="11.05" y2="11.02">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="11.02" x2="14.86"
+                                    y2="11.02"></line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="16.77" y1="11.02" x2="18.68"
+                                    y2="11.02"></line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="14.84" x2="11.05" y2="14.84">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="5.32" y1="14.84" x2="7.23" y2="14.84">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="14.84" x2="14.86"
+                                    y2="14.84"></line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="16.77" y1="14.84" x2="18.68"
+                                    y2="14.84"></line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="18.66" x2="11.05" y2="18.66">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="5.32" y1="18.66" x2="7.23" y2="18.66">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="18.66" x2="14.86"
+                                    y2="18.66"></line>
+                            </g>
+                        </svg>
+                        
+                        <span class="date-span">25/03/2025</span>
+
+                        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                            stroke-width="1.5" width="16" height="16" color="#fff">
+                            <defs>
+                                <style>
+                                    .cls-6374f8d9b67f094e4896c623-1 {
+                                        fill: none;
+                                        stroke: currentColor;
+                                        stroke-miterlimit: 10;
+                                    }
+                                </style>
+                            </defs>
+                            <circle class="cls-6374f8d9b67f094e4896c623-1" cx="12" cy="12" r="10.5"></circle>
+                            <circle class="cls-6374f8d9b67f094e4896c623-1" cx="12" cy="12" r="0.95"></circle>
+                            <polyline class="cls-6374f8d9b67f094e4896c623-1" points="12 4.36 12 12 16.77 16.77">
+                            </polyline>
+                        </svg>
+                        
+                        <span class="reading-time">
+                            9
+                            
+                            Phút
+                            
+                        </span>
+                        
+                    </div>
+                    <div class="author">
+                        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                            stroke-width="1.5" width="14" height="14" color="#fff">
+                            <defs>
+                                <style>
+                                    .cls-6374f8d9b67f094e4896c670-1 {
+                                        fill: none;
+                                        stroke: currentColor;
+                                        stroke-miterlimit: 10;
+                                    }
+                                </style>
+                            </defs>
+                            <circle class="cls-6374f8d9b67f094e4896c670-1" cx="12" cy="7.25" r="5.73"></circle>
+                            <path class="cls-6374f8d9b67f094e4896c670-1"
+                                d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05">
+                            </path>
+                        </svg>
+                        
+                        Viết bởi:
+                        
+                        Yuk
+                    </div>
+                </div>
+                <div class="horizontal-divider-line"></div>
+                <div class="post-article">
+                    <article>
+                        <h1 id="sách-mở-đầu-về-lí-thuyết-xác-suất-và-các-ứng-dụng">Sách: Mở đầu về lí thuyết Xác suất và Các ứng dụng</h1>
+
+<p><strong>Tác giả:</strong> Đặng Hùng Thắng</p>
+
+<hr />
+
+<h3 id="mục-lục">Mục lục</h3>
+
+<blockquote>
+  <div id="table-of-contents"></div>
+</blockquote>
+
+<hr />
+
+<h2 id="chương-ii-đại-lượng-ngẫu-nhiên-rời-rạc">Chương II: Đại lượng ngẫu nhiên rời rạc</h2>
+
+<p>Ta nói một <strong>đại lượng ngẫu nhiên</strong> là <strong>rời rạc</strong> nếu như ta có thể đếm được tập giá trị của nó. Tập giá trị của ĐLNN $ X $ được kí hiệu $ X(\Omega) $. Ví dụ: xúc xắc, đồng xu, bộ bài.</p>
+
+<h3 id="bài-1-phân-bố-xác-suất-và-hàm-phân-bố-tr-42">Bài 1: Phân bố xác suất và hàm phân bố (tr. 42)</h3>
+
+<h5 id="phân-bố-xác-suất">Phân bố xác suất:</h5>
+
+<p><strong>Phân bố xác xuất</strong> của $ X $ có thể là một bảng:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>$X$</th>
+      <th>$x_1$</th>
+      <th>$x_2$</th>
+      <th>$ \ldots $</th>
+      <th>$x_n$</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>$P$</td>
+      <td>$p_1$</td>
+      <td>$p_2$</td>
+      <td>$ \ldots $</td>
+      <td>$p_n$</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Mà $ p_i = P(X = x_i) $. Lưu ý: $ \sum_{i=1}^n p_i = 1 $.</p>
+
+<p>Có được phân bố xác suất của $ X $ thì coi như ta có toàn bộ thông tin về $ X $.</p>
+
+<h5 id="hàm-phân-bố">Hàm phân bố:</h5>
+
+<p>Hàm phân bố của $X$ được xác định bởi:</p>
+
+\[F(x) = P(X &lt; x)\]
+
+<p>Lưu ý rằng:</p>
+
+<ul>
+  <li>$F(x)$ là <strong>xác suất tích lũy</strong>, tức là tổng các xác suất $P(X = x_i)$ của tất cả các giá trị nhỏ hơn $x$.</li>
+  <li>$F(x)$ là một <strong>hàm bậc thang</strong>, chỉ tăng tại các điểm mà $X$ có thể nhận giá trị.</li>
+</ul>
+
+<p>Cụ thể, ta có:</p>
+
+<blockquote>
+
+\[F(x) = \begin{cases}
+    0, &amp; \text{nếu } x \le x_1 \\  
+    p_1 + p_2 + \dots + p_{k-1}, &amp; \text{nếu } x_{k-1} &lt; x \leq x_k \\  
+    1, &amp; \text{nếu } x &gt; x_k
+\end{cases}\]
+</blockquote>
+
+<p>Trong đó:</p>
+
+<ul>
+  <li>Khi $x \leq x_1$, không có giá trị nào của $X$ nhỏ hơn $x$, nên $F(x) = 0$.</li>
+  <li>Khi $x_{k-1} &lt; x \leq x_k$, hàm phân bố bằng tổng xác suất của tất cả các giá trị trước đó.</li>
+  <li>Khi $x &gt; x_k$, tất cả các giá trị có thể của $X$ đã được tính hết, nên $F(x) = 1$.</li>
+</ul>
+
+<p>Hàm này giúp ta nhanh chóng tính các xác suất dạng $P(a &lt; X \leq b) = F(b) - F(a)$.</p>
+
+<h3 id="bài-2-kì-vọng-phương-sai-và-các-đặc-trưng-của-đại-lượng-ngẫu-nhiên-tr-46">Bài 2: Kì vọng, phương sai và các đặc trưng của đại lượng ngẫu nhiên (tr. 46)</h3>
+
+<p>Ta xét các tham số đặc trưng của một ĐLNN:</p>
+
+<h5 id="1-kỳ-vọng-expectation-ex">1. Kỳ vọng (Expectation) $E(X)$:</h5>
+<p>Kỳ vọng của một biến ngẫu nhiên $ X $ là giá trị trung bình mà ta mong đợi từ $ X $ nếu thực hiện nhiều lần thí nghiệm.</p>
+
+<ul>
+  <li><strong>Với biến ngẫu nhiên rời rạc</strong> có các giá trị $ x_i $ với xác suất tương ứng $ P(X = x_i) $:<br />
+\(E(X) = \sum x_i P(X = x_i)\)</li>
+  <li><strong>Với biến ngẫu nhiên liên tục</strong> có hàm mật độ xác suất $ f(x) $:<br />
+\(E(X) = \int_{-\infty}^{\infty} x f(x) dx\)</li>
+</ul>
+
+<p>Kỳ vọng có thể xem là <strong>trung bình lý thuyết</strong> của biến ngẫu nhiên $ X $.</p>
+
+<p>Ví dụ: Nếu gieo một con xúc xắc cân đối, ta có:<br />
+\(E(X) = \sum_{i=1}^{6} i \cdot \frac{1}{6} = \frac{1+2+3+4+5+6}{6} = 3.5.\)</p>
+
+<h5 id="2-mode-chế-độ---giá-trị-xuất-hiện-nhiều-nhất">2. Mode (Chế độ - Giá trị xuất hiện nhiều nhất):</h5>
+<p>Mode của một phân phối xác suất là giá trị xuất hiện với xác suất cao nhất.</p>
+
+<ul>
+  <li>Với dữ liệu rời rạc: Mode là giá trị có tần suất cao nhất.</li>
+  <li>Với dữ liệu liên tục: Mode là điểm cực đại của hàm mật độ xác suất $ f(x) $.</li>
+</ul>
+
+<p>Ví dụ: Trong bộ số ${2, 3, 3, 4, 4, 4, 5, 6}$, Mode = 4 vì 4 xuất hiện nhiều nhất.</p>
+
+<h5 id="3-phương-sai-variance--textvarx-">3. Phương sai (Variance) $ \text{Var}(X) $:</h5>
+<p>Phương sai đo lường <strong>mức độ phân tán</strong> của dữ liệu quanh giá trị kỳ vọng.</p>
+
+<ul>
+  <li><strong>Định nghĩa:</strong><br />
+\(\text{Var}(X) = E[(X - E(X))^2] \\\)
+Công thức triển khai:
+\(\text{Var}(X) = E(X^2) - [E(X)]^2.\)</li>
+  <li>Nếu $ \text{Var}(X) $ lớn → dữ liệu phân tán rộng.</li>
+  <li>Nếu $ \text{Var}(X) $ nhỏ → dữ liệu tập trung gần giá trị trung bình.</li>
+</ul>
+
+<p>Ví dụ: Nếu $ X $ là giá trị xúc xắc, ta có:
+  \(E(X^2) = \sum_{i=1}^{6} i^2 \cdot \frac{1}{6} = \frac{1+4+9+16+25+36}{6} = \frac{91}{6}.\)
+  \(\text{Var}(X) = \frac{91}{6} - (3.5)^2 = \frac{35}{12} \approx 2.92.\)</p>
+
+<h5 id="4-moment-momen-thống-kê">4. Moment (Momen thống kê):</h5>
+<p>Moment là một đại lượng giúp mô tả hình dạng của phân bố xác suất.</p>
+
+<ul>
+  <li><strong>Moment cấp $ k $</strong> của $ X $ quanh gốc (Moment tuyệt đối):<br />
+\(E(X^k)\)</li>
+  <li><strong>Moment cấp $ k $</strong> quanh giá trị kỳ vọng (Moment trung tâm):<br />
+\(E[(X - E(X))^k]\)</li>
+</ul>
+
+<p>Các moment quan trọng:</p>
+<ul>
+  <li><strong>Moment cấp 1</strong>: $ E(X) $ (kỳ vọng).</li>
+  <li><strong>Moment cấp 2</strong>: $ E[(X - E(X))^2] = \text{Var}(X) $ (phương sai).</li>
+  <li><strong>Moment cấp 3, 4</strong> được dùng để tính hệ số bất đối xứng và hệ số nhọn.</li>
+</ul>
+
+<h5 id="5-hệ-số-bất-đối-xứng-skewness--s-">5. Hệ số bất đối xứng (Skewness) $ S $:</h5>
+<p>Hệ số bất đối xứng đo lường <strong>mức độ lệch</strong> của phân phối so với trung tâm.</p>
+
+\[S = \frac{E[(X - E(X))^3]}{\text{Var}(X)^{3/2}}\]
+
+<ul>
+  <li>$ S = 0 $: Phân phối đối xứng.</li>
+  <li>$ S &gt; 0 $: Phân phối lệch phải (đuôi phải dài hơn).</li>
+  <li>$ S &lt; 0 $: Phân phối lệch trái (đuôi trái dài hơn).</li>
+</ul>
+
+<p>Ví dụ:</p>
+<ul>
+  <li>Thu nhập của dân số thường có <strong>skewness dương</strong> (nhiều người thu nhập thấp, một số rất giàu).</li>
+  <li>Điểm thi có thể có <strong>skewness âm</strong> nếu nhiều người điểm cao hơn trung bình.</li>
+</ul>
+
+<h5 id="6-hệ-số-nhọn-kurtosis--k-">6. Hệ số nhọn (Kurtosis) $ K $:</h5>
+<p>Hệ số nhọn đo độ <strong>bẹt hay nhọn</strong> của phân phối so với phân phối chuẩn.</p>
+
+\[K = \frac{E[(X - E(X))^4]}{\text{Var}(X)^2}\]
+
+<ul>
+  <li><strong>$ K = 3 $</strong>: Phân phối chuẩn.</li>
+  <li><strong>$ K &gt; 3 $</strong>: Phân phối nhọn hơn chuẩn (leptokurtic - có đỉnh cao và đuôi dài).</li>
+  <li><strong>$ K &lt; 3 $</strong>: Phân phối bẹt hơn chuẩn (platykurtic - có đỉnh thấp và đuôi ngắn).</li>
+</ul>
+
+<p>Ví dụ:</p>
+<ul>
+  <li>Phân phối chuẩn có $ K = 3 $.</li>
+  <li>Phân phối của giá cổ phiếu có thể có <strong>kurtosis cao</strong> do có nhiều biến động lớn.</li>
+</ul>
+
+<h3 id="bài-3-phân-bố-đồng-thời-và-hệ-số-tương-quan-tr-50">Bài 3: Phân bố đồng thời và hệ số tương quan (tr. 50)</h3>
+
+<h5 id="biểu-đồ-phân-bố-đồng-thời-của-hai-xúc-xắc">Biểu đồ phân bố đồng thời của hai xúc xắc</h5>
+
+<table>
+  <thead>
+    <tr>
+      <th>XX1 \ XX2</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>1,1</td>
+      <td>1,2</td>
+      <td>1,3</td>
+      <td>1,4</td>
+      <td>1,5</td>
+      <td>1,6</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>2,1</td>
+      <td>2,2</td>
+      <td>2,3</td>
+      <td>2,4</td>
+      <td>2,5</td>
+      <td>2,6</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>3,1</td>
+      <td>3,2</td>
+      <td>3,3</td>
+      <td>3,4</td>
+      <td>3,5</td>
+      <td>3,6</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>4,1</td>
+      <td>4,2</td>
+      <td>4,3</td>
+      <td>4,4</td>
+      <td>4,5</td>
+      <td>4,6</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>5,1</td>
+      <td>5,2</td>
+      <td>5,3</td>
+      <td>5,4</td>
+      <td>5,5</td>
+      <td>5,6</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>6,1</td>
+      <td>6,2</td>
+      <td>6,3</td>
+      <td>6,4</td>
+      <td>6,5</td>
+      <td>6,6</td>
+    </tr>
+  </tbody>
+</table>
+
+<h5 id="công-thức-lý-thuyết">Công thức lý thuyết</h5>
+
+<ul>
+  <li>
+    <p>Kỳ vọng của hai biến ngẫu nhiên $X, Y$:<br />
+\(E[X] = \sum_{i} x_i P(X = x_i), \quad E[Y] = \sum_{j} y_j P(Y = y_j)\)</p>
+  </li>
+  <li>
+    <p>Hiệp phương sai (Covariance):<br />
+\(\text{Cov}(X, Y) = E[(X - E[X])(Y - E[Y])]\)
+\(= E[XY] - E[X]E[Y]\)</p>
+  </li>
+  <li>
+    <p>Hệ số tương quan (Correlation coefficient):<br />
+\(\rho_{X,Y} = \frac{\text{Cov}(X,Y)}{\sigma_X \sigma_Y}\)<br />
+với<br />
+\(\sigma_X = \sqrt{E[X^2] - (E[X])^2}, \quad \sigma_Y = \sqrt{E[Y^2] - (E[Y])^2}\)</p>
+  </li>
+</ul>
+
+<h5 id="tính-toán-trên-bảng-phân-bố-đồng-thời-của-hai-xúc-xắc">Tính toán trên bảng phân bố đồng thời của hai xúc xắc</h5>
+
+<ul>
+  <li>Biến ngẫu nhiên $X, Y$ có phân phối đồng đều trên $\{1,2,3,4,5,6\}$</li>
+  <li>Mỗi giá trị xảy ra với xác suất $\frac{1}{6}$ độc lập</li>
+  <li>Tính kỳ vọng:<br />
+\(E[X] = E[Y] = \sum_{i=1}^{6} i \times \frac{1}{6} = \frac{1+2+3+4+5+6}{6} = 3.5\)</li>
+  <li>Tính kỳ vọng tích:<br />
+\(E[XY] = \sum_{i=1}^{6} \sum_{j=1}^{6} (i \cdot j) P(X = i, Y = j)\)<br />
+\(= \sum_{i=1}^{6} \sum_{j=1}^{6} (i \cdot j) \times \frac{1}{36}\)<br />
+\(= \frac{1}{36} \sum_{i=1}^{6} i \sum_{j=1}^{6} j\)<br />
+\(= \frac{1}{36} \times \left( \frac{6(7)}{2} \times \frac{6(7)}{2} \right) = \frac{1225}{36} \approx 12.25\)</li>
+  <li>Tính hiệp phương sai:<br />
+\(\text{Cov}(X, Y) = E[XY] - E[X]E[Y] = 12.25 - (3.5 \times 3.5) = 0\)</li>
+  <li>Tính độ lệch chuẩn:<br />
+\(\sigma_X = \sigma_Y = \sqrt{\frac{1}{6} \sum_{i=1}^{6} i^2 - 3.5^2}\)<br />
+\(= \sqrt{\frac{1}{6} \times \frac{6(7)(13)}{6} - 3.5^2}\)<br />
+\(= \sqrt{\frac{91}{6} - 12.25} = \sqrt{2.9167} \approx 1.71\)</li>
+  <li>Hệ số tương quan:<br />
+\(\rho_{X,Y} = \frac{\text{Cov}(X,Y)}{\sigma_X \sigma_Y} = \frac{0}{1.71 \times 1.71} = 0\)</li>
+</ul>
+
+<h5 id="kết-luận">Kết luận</h5>
+<p>Hai xúc xắc tung độc lập nên covariance bằng 0, chứng tỏ chúng không có sự phụ thuộc tuyến tính.</p>
+
+<h3 id="bài-4-hàm-của-hai-đại-lượng-ngẫu-nhiên-tr-56">Bài 4: Hàm của hai đại lượng ngẫu nhiên (tr. 56)</h3>
+
+<h5 id="hàm-của-hai-đại-lượng-ngẫu-nhiên">Hàm của hai đại lượng ngẫu nhiên:</h5>
+
+<blockquote>
+
+\[X(\Omega) = \{ x_1, x_2, \ldots, x_m \} \\
+Y(\Omega) = \{ y_1, y_2, \ldots, y_n \} \\
+\text{Khi đó:} \\
+Z(\Omega) = \{ \phi(x_i, y_j) \}_{i=1,\ldots,m ; j=1,\ldots, n}\]
+</blockquote>
+
+<h3 id="bài-5-phân-bố-có-điều-kiện-và-kì-vọng-có-điều-kiện-tr-59">Bài 5: Phân bố có điều kiện và kì vọng có điều kiện (tr. 59)</h3>
+
+<h5 id="phân-bố-có-điều-kiện">Phân bố có điều kiện:</h5>
+
+<ul>
+  <li>
+    <p>Nếu $X$ và $Y$ là các biến ngẫu nhiên rời rạc, <strong>phân bố có điều kiện</strong> của $Y$ khi biết $X = x$ bao gồm toàn bộ các giá trị $y$ có thể có, với xác suất được xác định bởi:</p>
+
+\[P(Y = y \mid X = x) = \frac{P(X = x, Y = y)}{P(X = x)}\]
+
+    <p>với điều kiện $P(X = x) &gt; 0$.</p>
+  </li>
+  <li>
+    <p>Nếu $X$ và $Y$ là các biến liên tục có hàm mật độ xác suất chung $f_{X,Y}(x,y)$, thì phân bố có điều kiện của $Y$ khi biết $X = x$ có mật độ:</p>
+
+\[f_{Y \mid X}(y \mid x) = \frac{f_{X,Y}(x,y)}{f_X(x)}\]
+
+    <p>với $f_X(x)$ là hàm mật độ biên của $X$.</p>
+  </li>
+</ul>
+
+<h5 id="kỳ-vọng-có-điều-kiện">Kỳ vọng có điều kiện:</h5>
+<p>Kỳ vọng có điều kiện của $ Y $ khi biết $ X $ (kí hiệu: $ E[Y \mid X] $) là giá trị trung bình của $ Y $ với một giá trị cố định của $ X $.</p>
+
+<ul>
+  <li>
+    <p>Với $ X, Y $ rời rạc:<br />
+\(E[Y \mid X = x] = \sum_{y} y P(Y = y \mid X = x)\)</p>
+  </li>
+  <li>
+    <p>Với $ X, Y $ liên tục:<br />
+\(E[Y \mid X = x] = \int_{-\infty}^{\infty} y f_{Y \mid X}(y \mid x) \, dy\)</p>
+  </li>
+</ul>
+
+<h3 id="bài-6-phân-bố-nhị-thức-tr-63">Bài 6: Phân bố nhị thức (tr. 63)</h3>
+
+<h5 id="3blue1brown---binomial-distributions--probabilities-of-probabilities-part-1">3Blue1Brown - Binomial distributions | Probabilities of probabilities, part 1</h5>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/8idr1WZ1A7Q" frameborder="0" allowfullscreen=""></iframe>
+
+<h3 id="bài-7-phân-bố-poisson-tr-66">Bài 7: Phân bố Poisson (tr. 66)</h3>
+
+<h5 id="the-organic-chemistry-tutor---introduction-to-poisson-distribution---probability--statistics">The Organic Chemistry Tutor - Introduction to Poisson Distribution - Probability &amp; Statistics</h5>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/m0o-585xwW0" frameborder="0" allowfullscreen=""></iframe>
+
+                    </article>
+                </div>
+                <div class="end-horizontal-divider-line"></div>
+                
+
+                
+                <script src="https://giscus.app/client.js" data-repo="yuk068/yuk-blog-comments"
+                    data-repo-id="R_kgDONs1FhQ" data-category="Announcements" data-category-id="DIC_kwDONs1Fhc4CmLRI"
+                    data-mapping="title" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0"
+                    data-input-position="bottom" data-theme="dark_protanopia" data-lang="vi" crossorigin="anonymous"
+                    async>
+                    </script>
+                
+
+                
+                <div class="final-horizontal-divider-line"></div>
+            </div>
+        </main>
+        <div class="footer-container">
+            <div class="relative-footer">
+                <footer>
+                    <div class="footer-info">
+                        <a href="https://www.facebook.com/yuk068" target="_blank">
+                            <i class="fab fa-facebook"></i>
+                            <div class="footer-info-label">
+                                <p>Duy Pham Duc</p>
+                            </div>
+                        </a>
+                        <a href="https://github.com/yuk068" target="_blank">
+                            <i class="fab fa-github"></i>
+                            <div class="footer-info-label">
+                                <p>Yuk068</p>
+                            </div>
+                        </a>
+                        <a href="https://x.com/Yukano_50" target="_blank">
+                            <i class="fab fa-twitter"></i>
+                            <div class="footer-info-label">
+                                <p>@Yukano_50</p>
+                            </div>
+                        </a>
+                        <a href="https://www.instagram.com/yukano68/" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                            <div class="footer-info-label">
+                                <p>yukano68</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="copyright-text">
+                        <p>&copy; 2025 Yukano - <a href="/support-yuk">
+                            
+                            Ủng hộ mình!
+                            
+                        </a></p>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </div>
+    <script src="/assets/js/pages-js/post-script.js"></script>
+    <div class="scroll-button-container">
+        <button id="scrollButton" onclick="scrollToTop()">
+            <img src="/assets/svg/double-arrow-up-circle.svg" alt="⇡">
+        </button>
+    </div>
+</body>
+
+</html>
