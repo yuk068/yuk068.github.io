@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-04-03T22:22:57+07:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Yuk’s Blog</title><subtitle></subtitle><entry><title type="html">MAT2323 - Tổng hợp công thức xác suất</title><link href="http://localhost:4000/2025/04/01/mat2323-tong-hop-cong-thuc-xac-suat" rel="alternate" type="text/html" title="MAT2323 - Tổng hợp công thức xác suất" /><published>2025-04-01T00:00:00+07:00</published><updated>2025-04-01T00:00:00+07:00</updated><id>http://localhost:4000/2025/04/01/mat2323-tong-hop-cong-thuc-xac-suat</id><content type="html" xml:base="http://localhost:4000/2025/04/01/mat2323-tong-hop-cong-thuc-xac-suat"><![CDATA[<h3 id="mục-lục">Mục lục</h3>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-04-04T07:36:46+07:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Yuk’s Blog</title><subtitle></subtitle><entry><title type="html">MAT2323 - Tổng hợp công thức xác suất</title><link href="http://localhost:4000/2025/04/01/mat2323-tong-hop-cong-thuc-xac-suat" rel="alternate" type="text/html" title="MAT2323 - Tổng hợp công thức xác suất" /><published>2025-04-01T00:00:00+07:00</published><updated>2025-04-01T00:00:00+07:00</updated><id>http://localhost:4000/2025/04/01/mat2323-tong-hop-cong-thuc-xac-suat</id><content type="html" xml:base="http://localhost:4000/2025/04/01/mat2323-tong-hop-cong-thuc-xac-suat"><![CDATA[<h3 id="mục-lục">Mục lục</h3>
 
 <blockquote>
   <div id="table-of-contents"></div>
@@ -699,16 +699,21 @@ P(M \geq 1 \mid F \geq 1) = \frac{P(M \geq 1 \cap F \geq 1)}{P(F \geq 1)} = \fra
 <h5 id="giải-9">Giải</h5>
 
 <blockquote>
-\[P(A) = 8/15
-P(B) = 7/15
-P(E \mid A) = 0.001
+\[P(A) = 8/15 \\
+P(B) = 7/15 \\
+P(E \mid A) = 0.001 \\
 P(E \mid B) = 0.004\]
 
   <ul>
-    <li>Đối với $ P(1E) $, ta cần phân tích tất cả các trường hợp chọn 2 mà có 1 sản phẩm lỗi (8 trường hợp).</li>
+    <li>Đối với $ P(1E) $, ta cần phân tích tất cả các trường hợp ĐÃ chọn 2 mà có 1 sản phẩm lỗi.</li>
+    <li>Với trường hợp AA: $ P(1E \mid AA) = 2 \cdot 0.001 \cdot 0.999 \approx 0.001998 $.</li>
+    <li>Với trường hợp BB: $ P(1E \mid BB) = 2 \cdot 0.004 \cdot 0.996 \approx 0.007968 $.</li>
+    <li>Với trường hợp AB: $ P(1E \mid AB) = 0.001 \cdot 0.996 + 0.004 \cdot 0.999 \approx 0.004992 $.</li>
   </ul>
 
-\[P(2A \mid 1E) = \frac{P(2A \cap 1E)}{P(1E)} = \frac{2 \cdot 8/15 \cdot 0.001 \cdot 8/15 \cdot (1-0.001)} {P(1E)} \approx 0.133\]
+\[P(1E) = \frac{\binom{8}{2}}{\binom{15}{2}} \cdot P(1E \mid AA) + \frac{\binom{7}{2}}{\binom{15}{2}} \cdot P(1E \mid BB) + \frac{8 \cdot 7}{\binom{15}{2}} \cdot &gt; P(1E \mid AB) \approx 0.0047893\]
+
+\[P(2A \mid 1E) = \frac{P(2A \cap 1E)}{P(1E)} = \frac{\frac{\binom{8}{2}}{\binom{15}{2}} \cdot P(1E \mid AA)} {P(1E)} \approx 0.1113\]
 </blockquote>
 
 <hr />
@@ -881,6 +886,19 @@ E[Y] = 3 - 9e^{-2}\]
 
 <h5 id="giải-15">Giải</h5>
 
+<blockquote>
+\[(a) \qquad P(I, II) = 1 - P(2I) - P(2II) = 1 - \frac{\binom{8}{2}}{\binom{11}{2}} - \frac{\binom{3}{2}}{\binom{11}{2}} = \frac{24}{55}\]
+
+  <p>b, Xét 3 trường hợp:</p>
+  <ul>
+    <li>TH lấy 2 loại I -&gt; còn lại 6 I, 3 II. -&gt; $ P(2I) = 28/55 $.</li>
+    <li>TH lấy có I và II -&gt; còn lại 7 I, 2 II. -&gt; $ P(I, II) = 24/55 $.</li>
+    <li>TH lấy 2 loại II -&gt; còn lại 8 I, 1 II. -&gt; $ P(2II) = 3/55 $.</li>
+  </ul>
+
+\[P(I \mid \text{Đã chọn 2}) = P(2I) \cdot 6/9 + P(I, II) \cdot 7/9 + P(2II) \cdot 8/9 = 8/11\]
+</blockquote>
+
 <hr />
 
 <h5 id="bài-2-2">Bài 2</h5>
@@ -926,6 +944,10 @@ E[Y] = 3 - 9e^{-2}\]
 </blockquote>
 
 <h5 id="giải-16">Giải</h5>
+
+\[P(X=-1) = 2/16 + 2/16 + 2/16 = 6/16
+P(X=0) = 1/16 + 2/16 + 2/16 = 5/16
+P(X=1) = 2/16 + 2/16 + 1/16 = 5/16\]
 
 <hr />
 
