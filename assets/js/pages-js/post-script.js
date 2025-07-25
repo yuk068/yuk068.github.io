@@ -239,7 +239,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 // Add to TOC (for headings inside main content)
                 if (heading.closest('.post-content')) {
-                    const customColor = ["mục-lục", "tài-liệu-tham-khảo", "table-of-content", "references", "problem-list", "exercise-list", "nguồn-tham-khảo", "danh-sách-bài-tập"].includes(id)
+                    const customColor = ["mục-lục", "tài-liệu-tham-khảo", "table-of-content", "references", "problem-list", "exercise-list", "nguồn-tham-khảo", "danh-sách-bài-tập", "danh-sách-đề"].includes(id)
                         ? " style=\"color:#434e64;\""
                         : "";
 
@@ -339,7 +339,7 @@ function onScroll() {
     const header = document.querySelector('#post-header');
     const navContainer = document.querySelector('.nav-container');
 
-    if (document.body.scrollTop > 0 || document.documentElement.scrollTop > 0) {
+    if (document.body.scrollTop > 10 || document.documentElement.scrollTop > 10) {
         header.classList.add('transformed');
         navContainer.style.fontSize = '19px';
     } else {
