@@ -118,3 +118,49 @@ function handleLogoClick() {
         window.location.href = '/';  // or simply use window.location.assign('/')
     }
 }
+
+function formatDate(dateString, language = 'en') {
+    const [day, month, year] = dateString.split('/').map(Number);
+
+    if (language === 'vi') {
+        // For Vietnamese, return in dd/mm/yyyy format
+        return `${day}/${month}/${year}`;
+    }
+
+    // English month names
+    const months = [
+        "Jan.", "Feb.", "Mar.", "Apr.", "May", "June",
+        "July", "Aug.", "Sept.", "Oct.", "Nov.", "Dec."
+    ];
+
+    const monthName = months[month - 1];
+
+    let dayWithSuffix = day;
+    if (day === 1 || day === 21 || day === 31) {
+        dayWithSuffix += "st";
+    } else if (day === 2 || day === 22) {
+        dayWithSuffix += "nd";
+    } else if (day === 3 || day === 23) {
+        dayWithSuffix += "rd";
+    } else {
+        dayWithSuffix += "th";
+    }
+
+    return `${monthName} ${dayWithSuffix} ${year}`;
+}
+
+function formatDates() {
+    const dateElements = document.querySelectorAll(".posts-date, .date-span");
+
+    for (const element of dateElements) {
+        const dateString = element.textContent.trim();
+        const language = document.documentElement.lang || 'en'; // Default to English if no lang attribute
+
+        if (dateString) {
+            const formattedDate = formatDate(dateString, language);
+            element.textContent = formattedDate;
+        }
+    }
+}
+
+document.addEventListener("DOMContentLoaded", formatDates);
