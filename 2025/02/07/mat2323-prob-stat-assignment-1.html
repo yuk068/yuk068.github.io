@@ -47,6 +47,31 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
+    <script>if (localStorage.getItem('theme') === 'light') document.documentElement.classList.add('light-mode');</script>
+
+    <link rel="stylesheet" href="https://unpkg.com/photoswipe@5/dist/photoswipe.css">
+    <script type="module">
+        import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5/dist/photoswipe-lightbox.esm.js';
+
+        const lightbox = new PhotoSwipeLightbox({
+            gallery: '.post-article',
+            children: 'img',
+            pswpModule: () => import('https://unpkg.com/photoswipe@5/dist/photoswipe.esm.js')
+        });
+
+        // Tell PhotoSwipe how to get image data from <img>
+        lightbox.addFilter('itemData', (itemData, index) => {
+            const img = document.querySelectorAll('.post-article img')[index];
+
+            return {
+                src: img.src,
+                width: img.naturalWidth || img.width,
+                height: img.naturalHeight || img.height
+            };
+        });
+
+        lightbox.init();
+    </script>
 </head>
 
 <body>
@@ -103,14 +128,14 @@
                                 
                             </li>
                         </a>
-                        <div class="nav-bar-divider" id="nav-disable-mobile"></div>
+                        <!-- <div class="nav-bar-divider" id="nav-disable-mobile"></div>
                         <a href="#" onclick="notifyComingSoon()" id="nav-disable-mobile">
                             <li id="nav-disable-mobile">
                                 
                                 Explore
                                 
                             </li>
-                        </a>
+                        </a> -->
                     </ul>
                 </nav>
             </div>
@@ -156,27 +181,6 @@
                             </svg>
                             
                             Back
-                            
-                        </button>
-                        <button id="toHomeButton"><svg id="Layer_1" data-name="Layer 1"
-                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
-                                height="20" color="#fff">
-                                <defs>
-                                    <style>
-                                        .cls-6374f8d9b67f094e4896c637-1 {
-                                            fill: none;
-                                            stroke: currentColor;
-                                            stroke-miterlimit: 10;
-                                        }
-                                    </style>
-                                </defs>
-                                <polyline class="cls-6374f8d9b67f094e4896c637-1" points="1 12 12 2.83 23 12"></polyline>
-                                <polyline class="cls-6374f8d9b67f094e4896c637-1"
-                                    points="19.33 9.25 19.33 21.17 14.75 21.17 14.75 13.83 9.25 13.83 9.25 21.17 4.67 21.17 4.67 9.25">
-                                </polyline>
-                            </svg>
-                            
-                            Home
                             
                         </button>
                         <button id="toArchiveButton"><svg id="Layer_1" data-name="Layer 1"
@@ -241,7 +245,7 @@
                             Projects
                             
                         </button>
-                        <button id="toExploreButton"><svg id="Layer_1" data-name="Layer 1"
+                        <!-- <button id="toExploreButton"><svg id="Layer_1" data-name="Layer 1"
                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
                                 height="20" color="#fff">
                                 <defs>
@@ -261,7 +265,7 @@
                             
                             Explore
                             
-                        </button>
+                        </button> -->
                         <button id="toAboutButton"><svg id="Layer_1" data-name="Layer 1"
                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
                                 height="20" color="#fff">
@@ -281,6 +285,27 @@
                             </svg>
                             
                             About
+                            
+                        </button>
+                        <button id="toHomeButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-6374f8d9b67f094e4896c637-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <polyline class="cls-6374f8d9b67f094e4896c637-1" points="1 12 12 2.83 23 12"></polyline>
+                                <polyline class="cls-6374f8d9b67f094e4896c637-1"
+                                    points="19.33 9.25 19.33 21.17 14.75 21.17 14.75 13.83 9.25 13.83 9.25 21.17 4.67 21.17 4.67 9.25">
+                                </polyline>
+                            </svg>
+                            
+                            Home
                             
                         </button>
                     </div>
@@ -445,8 +470,10 @@
                         <span class="category-svg">
                             
                             
-                            <img src="/assets/svg/categories/assignment.svg"
-                                alt="assignment category" onerror="this.remove()">
+                            
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24"><defs><style>.cls-637b83faf95e86b59c57a101-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><rect class="cls-637b83faf95e86b59c57a101-1" x="3.39" y="1.5" width="18.14" height="21"></rect><line class="cls-637b83faf95e86b59c57a101-1" x1="1.48" y1="6.27" x2="5.3" y2="6.27"></line><line class="cls-637b83faf95e86b59c57a101-1" x1="1.48" y1="13.91" x2="5.3" y2="13.91"></line><line class="cls-637b83faf95e86b59c57a101-1" x1="1.48" y1="10.09" x2="5.3" y2="10.09"></line><line class="cls-637b83faf95e86b59c57a101-1" x1="1.48" y1="17.73" x2="5.3" y2="17.73"></line><rect class="cls-637b83faf95e86b59c57a101-1" x="8.16" y="6.27" width="9.55" height="3.82"></rect><line class="cls-637b83faf95e86b59c57a101-1" x1="7.2" y1="13.91" x2="18.66" y2="13.91"></line></svg>
+
+
                             
                         </span>MAT2323 - Probability & Statistics Assignment 1
                     </h1>
@@ -834,29 +861,46 @@ y_A = x_A - 4\]
                 <div class="end-horizontal-divider-line"></div>
                 
 
-                
-                <script src="https://giscus.app/client.js" data-repo="yuk068/yuk-blog-comments"
-                    data-repo-id="R_kgDONs1FhQ" data-category="Announcements" data-category-id="DIC_kwDONs1Fhc4CmLRI"
-                    data-mapping="title" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0"
-                    data-input-position="bottom" data-theme="dark_protanopia" data-lang="en" crossorigin="anonymous"
-                    async>
-                    </script>
-                
+                <script>
+                    (function () {
+                        const isLight = document.documentElement.classList.contains('light-mode');
+                        const lang = document.documentElement.lang || 'en';
+                        const s = document.createElement('script');
+                        s.src = 'https://giscus.app/client.js';
+                        s.setAttribute('data-repo', 'yuk068/yuk-blog-comments');
+                        s.setAttribute('data-repo-id', 'R_kgDONs1FhQ');
+                        s.setAttribute('data-category', 'Announcements');
+                        s.setAttribute('data-category-id', 'DIC_kwDONs1Fhc4CmLRI');
+                        s.setAttribute('data-mapping', 'title');
+                        s.setAttribute('data-strict', '0');
+                        s.setAttribute('data-reactions-enabled', '1');
+                        s.setAttribute('data-emit-metadata', '0');
+                        s.setAttribute('data-input-position', 'bottom');
+                        s.setAttribute('data-theme', isLight ? 'light_protanopia' : 'dark_protanopia');
+                        s.setAttribute('data-lang', lang === 'vi' ? 'vi' : 'en');
+                        s.setAttribute('crossorigin', 'anonymous');
+                        s.async = true;
+                        document.currentScript.parentElement.appendChild(s);
+                    })();
+                </script>
 
                 
                 <div class="final-horizontal-divider-line"></div>
             </div>
         </main>
+        <div class="mapmyvisitors-container" style="display: none">
+            <script type="text/javascript" id="mapmyvisitors" src="//mapmyvisitors.com/map.js?d=TyTS_Cms5arYbHpOE5dIS5PZaKdz0WSGNMCIXLhWlPY&cl=ffffff&w=a"></script>
+        </div>
         <div class="footer-container">
             <div class="relative-footer">
                 <footer>
                     <div class="footer-info">
-                        <a href="https://www.linkedin.com/in/duy-pham-duc-226293350/" target="_blank">
+                        <!-- <a href="https://www.linkedin.com/in/duy-pham-duc-226293350/" target="_blank">
                             <i class="fab fa-linkedin"></i>
                             <div class="footer-info-label">
                                 <p>Duy Pham Duc</p>
                             </div>
-                        </a>
+                        </a> -->
                         <a href="https://www.youtube.com/@yuk.yukano" target="_blank">
                             <i class="fab fa-youtube"></i>
                             <div class="footer-info-label">
@@ -895,11 +939,11 @@ y_A = x_A - 4\]
                         </a>
                     </div>
                     <div class="copyright-text">
-                        <p>&copy; 2025 Yukano - <a href="/support-yuk">
+                        <p>&copy; 2026 Yukano<!-- - <a href="/support-yuk">
                                 
                                 Support Yuk!
                                 
-                            </a></p>
+                            </a>--></p>
                     </div>
                 </footer>
             </div>
@@ -908,7 +952,13 @@ y_A = x_A - 4\]
     <script src="/assets/js/pages-js/post-script.js"></script>
     <div class="scroll-button-container">
         <button id="scrollButton" onclick="scrollToTop()">
-            <img src="/assets/svg/double-arrow-up-circle.svg" alt="⇡">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="50" height="50"
+                fill="none" stroke="currentColor" stroke-miterlimit="10" aria-label="⇡">
+                <circle cx="12" cy="12" r="10.5"></circle>
+                <line x1="12" y1="10.09" x2="12" y2="18.68"></line>
+                <polyline points="7.23 10.09 12 5.32 16.77 10.09"></polyline>
+                <polyline points="7.23 14.86 12 10.09 16.77 14.86"></polyline>
+            </svg>
         </button>
     </div>
 </body>

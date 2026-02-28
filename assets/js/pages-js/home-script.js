@@ -180,6 +180,11 @@ function notifyComingSoon() {
     alert("Coming soon!");
 }
 
+function toggleTheme() {
+    const isLight = document.documentElement.classList.toggle('light-mode');
+    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+}
+
 function formatDate(dateString, language = 'en') {
     const [day, month, year] = dateString.split('/').map(Number);
 
@@ -347,7 +352,7 @@ overlay.addEventListener('click', (e) => {
 // Hook up the buttons by their IDs
 const toArchiveButton = document.getElementById('toArchiveButton');
 const toProjectsButton = document.getElementById('toProjectsButton');
-const toExploreButton = document.getElementById('toExploreButton');
+const themeButton = document.getElementById('themeButton');
 const toAboutButton = document.getElementById('toAboutButton');
 const closeButton = document.getElementById('closeButton');
 
@@ -362,8 +367,8 @@ toProjectsButton.addEventListener('click', () => {
     window.location.href = "/projects";
 });
 
-toExploreButton.addEventListener('click', () => {
-    notifyComingSoon();
+themeButton.addEventListener('click', () => {
+    toggleTheme();
     closeOptions();
 });
 

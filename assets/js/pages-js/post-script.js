@@ -289,6 +289,19 @@ function notifyComingSoon() {
     alert("Coming soon!");
 }
 
+function toggleTheme() {
+    const isLight = document.documentElement.classList.toggle('light-mode');
+    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    const giscusTheme = isLight ? 'light_protanopia' : 'dark_protanopia';
+    const iframe = document.querySelector('iframe.giscus-frame');
+    if (iframe) {
+        iframe.contentWindow.postMessage(
+            { giscus: { setConfig: { theme: giscusTheme } } },
+            'https://giscus.app'
+        );
+    }
+}
+
 function formatDate(dateString, language = 'en') {
     const [day, month, year] = dateString.split('/').map(Number);
 
@@ -428,7 +441,7 @@ toTopButton.addEventListener('click', () => {
 });
 
 themeButton.addEventListener('click', () => {
-    notifyComingSoon();
+    toggleTheme();
     closeOptions();
 });
 

@@ -20,6 +20,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
+    <script>if(localStorage.getItem('theme')==='light')document.documentElement.classList.add('light-mode');</script>
 </head>
 
 <body>
@@ -46,14 +47,14 @@
                 <div class="nav-container">
                     <nav class="nav-bar">
                         <ul>
-                            <a href="#" onclick="goBack()">
+                            <a href="#" onclick="goBack()" id="backButton">
                                 <li>
                                     
                                     Back
                                     
                                 </li>
                             </a>
-                            <div class="nav-bar-divider"></div>
+                            <div class="nav-bar-divider" id="backButtonDiv"></div>
                             <a href="/">
                                 <li>
                                     
@@ -61,36 +62,29 @@
                                     
                                 </li>
                             </a>
+                            <div class="nav-bar-divider"></div>
+                            <button id="theme-toggle-desktop" onclick="toggleTheme()">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="16" height="16" color="currentColor">
+                                    <defs><style>.ttd-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs>
+                                    <g>
+                                        <circle class="ttd-1" cx="11.99" cy="12.01" r="6.71"></circle>
+                                        <path class="ttd-1" d="M12,8.65a3.36,3.36,0,0,1,0,6.72Z"></path>
+                                        <line class="ttd-1" x1="11.99" y1="0.5" x2="11.99" y2="2.42"></line>
+                                        <line class="ttd-1" x1="11.99" y1="21.6" x2="11.99" y2="23.52"></line>
+                                        <line class="ttd-1" x1="0.48" y1="12.01" x2="2.4" y2="12.01"></line>
+                                        <line class="ttd-1" x1="21.58" y1="12.01" x2="23.5" y2="12.01"></line>
+                                        <line class="ttd-1" x1="20.13" y1="3.87" x2="18.77" y2="5.23"></line>
+                                        <line class="ttd-1" x1="5.21" y1="18.79" x2="3.85" y2="20.15"></line>
+                                        <line class="ttd-1" x1="3.85" y1="3.87" x2="5.21" y2="5.23"></line>
+                                        <line class="ttd-1" x1="18.77" y1="18.79" x2="20.13" y2="20.15"></line>
+                                    </g>
+                                </svg>
+                            </button>
+                            <div class="nav-bar-divider"></div>
                         </ul>
                     </nav>
                     <button id="translateButton" onclick="switchLanguage()">
-                        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                            stroke-width="2.5" width="22" height="22" color="fff">
-                            <defs>
-                                <style>
-                                    .cls-637b83faf95e86b59c57a0e7-1 {
-                                        fill: none;
-                                        stroke: currentColor;
-                                        stroke-miterlimit: 10;
-                                    }
-                                </style>
-                            </defs>
-                            <line class="cls-637b83faf95e86b59c57a0e7-1" x1="0.5" y1="3.35" x2="12" y2="3.35">
-                            </line>
-                            <line class="cls-637b83faf95e86b59c57a0e7-1" x1="6.25" y1="0.48" x2="6.25" y2="3.35"></line>
-                            <path class="cls-637b83faf95e86b59c57a0e7-1" d="M9.12,3.35c0,3.52-3.28,8.2-7.66,10.55">
-                            </path>
-                            <path class="cls-637b83faf95e86b59c57a0e7-1" d="M4.51,7.37A16.4,16.4,0,0,0,11,13.9">
-                            </path>
-                            <polyline class="cls-637b83faf95e86b59c57a0e7-1"
-                                points="12.96 22.52 16.79 11.98 17.75 11.98 21.58 22.52"></polyline>
-                            <line class="cls-637b83faf95e86b59c57a0e7-1" x1="20.43" y1="18.69" x2="15.07" y2="18.69">
-                            </line>
-                            <line class="cls-637b83faf95e86b59c57a0e7-1" x1="11.04" y1="22.52" x2="14.88" y2="22.52">
-                            </line>
-                            <line class="cls-637b83faf95e86b59c57a0e7-1" x1="19.67" y1="22.52" x2="23.5" y2="22.52">
-                            </line>
-                        </svg>
+                        <svg viewBox="0 0 24 24" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" color="currentColor"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;stroke-width:1.56;}</style></defs><line class="cls-1" x1="0.5" y1="3.35" x2="12" y2="3.35"></line><line class="cls-1" x1="6.25" y1="0.48" x2="6.25" y2="3.35"></line><path class="cls-1" d="M9.12,3.35c0,3.52-3.28,8.2-7.66,10.55"></path><path class="cls-1" d="M4.51,7.37A16.4,16.4,0,0,0,11,13.9"></path><polyline class="cls-1" points="12.96 22.52 16.79 11.98 17.75 11.98 21.58 22.52"></polyline><line class="cls-1" x1="20.43" y1="18.69" x2="15.07" y2="18.69"></line><line class="cls-1" x1="11.04" y1="22.52" x2="14.88" y2="22.52"></line><line class="cls-1" x1="19.67" y1="22.52" x2="23.5" y2="22.52"></line></g></svg>
                     </button>
                 </div>
             </header>
@@ -119,86 +113,88 @@
                                     <path class="cls-6374f8d9b67f094e4896c670-1"
                                         d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05">
                                     </path>
-                                </svg>Yukano (Yuk)</h3>
-                            <h4 id="welcome-to-yuks-blog-">Welcome to Yuk’s Blog! 🎉</h4>
+                                </svg>Yuk (Yukano)</h3>
+                            <p>-</p>
 
-<p>I go by <strong>Yuk</strong> (or <strong>Yukano</strong>) 🥴</p>
+<p>-</p>
 
-<p>I’m a second-year <strong>Computer Science undergrad</strong> 💻 at <strong>Hanoi University of Science – Vietnam National University (HUS - VNU)</strong> 🏫</p>
+<p>-</p>
 
-<p>I’m typically a <strong>quiet person</strong> 😷, but don’t mistake that for disinterest—while I might not be into short, surface-level exchanges, I’ll never turn down <strong>a good conversation</strong> 🍻</p>
+<p>-</p>
 
-<p>My passion lies in all things <strong>Machine Learning and AI</strong> 🤖👨‍💻📚, whether <strong>technical or philosophical</strong>, if I can connect it to AI, it’ll land in my scope sooner or later. I’m especially eager to foster a <strong>collaborative environment</strong> 🤝, so if you are up for collaboration, inspiration, or just a good buddy on your journey, <strong>I’m always here!</strong> 🤙</p>
+<p>-</p>
 
-<p>Even though I focus primarily on my career, I still enjoy a <strong>wide range of media, niches, and games</strong> 📽🎮🎹. I’d say I’ve dipped my hands into just about everything—<strong>try me!</strong> ✌</p>
+<p>-</p>
 
-<h2 id="current-interests--work-">Current Interests &amp; Work 🔨</h2>
+<p>-</p>
 
-<p>Currently as of <strong>Feb. 2025</strong> 📆, my <strong>most interested field</strong> in both research and application is <strong>multimodal AI</strong> 🤖. It feels like just the right challenge for me—giving me space to slowly master all the essentials and the time to still somewhat catch up with the break-neck innovation speed of AI</p>
+<p>-</p>
 
-<p>Though its not fully mapped out now, this semester I did signed up for a bunch of <strong>research-oriented courses and events</strong> 📚 and I can’t wait to craft up some great <strong>projects and reports</strong> 👨‍💻📄. Some events and courses includes (To be updated):</p>
+<p>-</p>
 
-<ul>
-  <li>Research Methodology (Phương pháp nghiên cứu khoa học) - MAT1204 (✅ Concluded)</li>
-  <li>Introduction to AI (Nhập môn trí tuệ nhân tạo) - MAT1206E (✅ Concluded)</li>
-  <li>Computer Vision (Thị giác máy tính) - MAT3562E (✅ Concluded)</li>
-</ul>
+<p>-</p>
 
-<p>If you are participating or just interested in some of these events or courses—feel free to reach out if you are looking for company! 🤝</p>
+<p>-</p>
 
-<h2 id="my-workspace-and-techstack-">My Workspace and Techstack 💻</h2>
+<p>-</p>
 
-<h4 id="for-coding-">For Coding 👨‍💻</h4>
+<p>-</p>
 
-<p>I’m actively using <strong>Python</strong> 🐍 with <strong>Anaconda</strong> 🐍 and <strong>Jupiter Lab</strong> 🚀 for rapid experiment and practices in Data Analysis, Machine Learning, and much more. My workflow is often deeply integrated with AI, using tools like <strong>LLMs</strong> 💬 and such allows me to jump right into ideas and execution without the the nitty gritty of the specifics of each tools or framework. Though I do feel like I’m quite good at just “figuring things out” when the LLMs doesn’t quite achieve what I want so that’s something 🥴</p>
+<p>-</p>
 
-<p>I also use <strong>Intellij IDEA</strong> and <strong>PyCharm</strong> for <strong>Java</strong> ☕ and <strong>Python</strong> 🐍 coding, respectively. For any other languages or workflow, I mainly use <strong>Visual Studio Code</strong></p>
+<p>-</p>
 
-<h4 id="for-writing-">For Writing 📝</h4>
+<p>-</p>
 
-<p>For technical writing, I mostly use <strong>Latex</strong> 📝 in <strong>Overleaf</strong> 🍃 for small-medium sized papers, for lengthier reports I use <strong>VSCode</strong> with extensions for compiling the Latex. If I’m working on a big project in collaboration with others, I’ll usually divide chapters into multiple <strong>Overleaf Projects</strong> as their free tier is quite limiting</p>
+<p>-</p>
 
-<p>I manage all of my research materials and literatures with <strong>Zotero</strong> and <strong>InfiniCLOUD</strong>. I also often print out papers for reading on campus too—its just a little hobby, don’t worry I’m divergent as hell so you are not disrupting my reading or anything 🥴</p>
+<p>-</p>
 
-<p>For this blog, I write content in <strong>Markdown</strong> in <strong>VSCode</strong></p>
+<p>-</p>
 
-<h4 id="for-resources-and-creative-work-">For Resources and Creative work 💻</h4>
+<p>-</p>
 
-<p>I usually leverage <strong>LLMs</strong> for primers on interested topics, then when I feel like I’ve got a good grasp of the subject, I’ll head out and explore the web. Here are some of my most used LLMs and AI tools ranked by my usage as of writing this:</p>
+<p>-</p>
 
-<ul>
-  <li><strong>ChatGPT:</strong> General purpose, good for primers, intuition and web search functionality. Code output is decent and can usually work with manual inspection and iteration</li>
-  <li><strong>Perplexity:</strong> Good for cited responses, even better for primers and intuition querying, though performance and accuracy often falls short</li>
-  <li><strong>Gemini:</strong> Light weight and free, mostly for trivial tasks to boost productivity</li>
-  <li><strong>Claude:</strong> Really good for coding, especially when ChatGPT can’t figure it out, though very limited usage with free tier</li>
-</ul>
+<p>-</p>
 
-<p>For technical papers, I usually look them up on <strong>Google Scholar</strong> 🎓 before anything else</p>
+<p>-</p>
 
-<p>I used to work with <strong>Adobe Photoshop</strong> and <strong>Adobe Illustrator</strong> quite a lot, I’m probably pretty rusty now but I still think I have the taste for designing in general 🎨</p>
+<p>-</p>
 
-<h2 id="yuks-hobbies-">Yuk’s Hobbies 📺</h2>
+<p>-</p>
 
-<p>Here are some of my hobbies <strong>OUTSIDE</strong> of work:</p>
+<p>-</p>
 
-<ul>
-  <li><strong>Gaming 🎮:</strong> Right now, Zenless Zone Zero is the only game that I actually play on a daily basis (on PC with a controller)</li>
-  <li><strong>Coffee ☕:</strong> It would definitely be more of a hobby when I’m less broke 🥴 though it does help as I’m trying to stop drinking energy drinks</li>
-  <li><strong>Watching / Listening 📼:</strong> I watch a lot of podcast, recap, video essay on stuff like AI and psychology on Youtube, sharing a Youtube Premium subscription with my homie</li>
-  <li><strong>Music 🎵:</strong> I can pretty much listen to anything and have listened to a lot of stuff, but some of my all time favorite are Nanahira, PSYQUI, Game OSTs, …</li>
-</ul>
+<p>-</p>
 
-<p><em>(I really want to stress that this is a TINY subset, yeah I do consider myself quite a Jack of all Trades)</em></p>
+<p>-</p>
 
-<h2 id="connect-with-me-">Connect with Me 🌟</h2>
+<p>-</p>
 
-<p>Most of my socials can be accessed at the footer of this blog. I’ve also provided a work email at the end of this page for something more formal.</p>
+<p>-</p>
 
-<p>I really hope this blog—and subsequently, me, could have inspire you even if its just a little. I really do think its as simple as if everyone is more true to themselves, they can be better and help others more, and if everyone helps eachother more, have more empathy and connection, this world would be so much nicer wouldn’t it.</p>
+<p>-</p>
 
-<p>In this age of AI, humanity itself is being challenged for the first time, because of that, lets try our best to at least keep the human within us and let it grow, wouldn’t you agree?</p>
+<p>-</p>
 
-<h6 id="yuk---feb-3rd-2025">Yuk - Feb. 3rd 2025</h6>
+<p>-</p>
+
+<p>-</p>
+
+<p>-</p>
+
+<p>-</p>
+
+<p>-</p>
+
+<p>-</p>
+
+<p>-</p>
+
+<!-- Không cần thiết đâu. You don't have to. それは必要ないだろう. -->
+
+<h6 id="yuk---feb-24th-2026">Yuk - Feb. 24th 2026</h6>
 
                         </div>
                     </div>
@@ -210,8 +206,8 @@
                             Site's Last Deployment:
                             
                             
-                            01:44 PM (GMT+0700) January 
-                            10th 2026
+                            10:58 PM (GMT+0700) February 
+                            28th 2026
                             
                         </h1>
                         <h1>
@@ -221,24 +217,24 @@
                                 
                             </a>
                         </h1>
-                        <h1>
-                            [23001855 at hus dot edu dot vn]
-                        </h1>
                     </div>
                 </div>
                 <div class="end-post"></div>
             </main>
         </div>
+        <div class="mapmyvisitors-container" style="display: none">
+            <script type="text/javascript" id="mapmyvisitors" src="//mapmyvisitors.com/map.js?d=TyTS_Cms5arYbHpOE5dIS5PZaKdz0WSGNMCIXLhWlPY&cl=ffffff&w=a"></script>
+        </div>
         <div class="footer-container">
             <div class="relative-footer">
                 <footer>
                     <div class="footer-info">
-                        <a href="https://www.linkedin.com/in/duy-pham-duc-226293350/" target="_blank">
+                        <!-- <a href="https://www.linkedin.com/in/duy-pham-duc-226293350/" target="_blank">
                             <i class="fab fa-linkedin"></i>
                             <div class="footer-info-label">
                                 <p>Duy Pham Duc</p>
                             </div>
-                        </a>
+                        </a> -->
                         <a href="https://www.youtube.com/@yuk.yukano" target="_blank">
                             <i class="fab fa-youtube"></i>
                             <div class="footer-info-label">
@@ -277,11 +273,11 @@
                         </a>
                     </div>
                     <div class="copyright-text">
-                        <p>&copy; 2025 Yukano - <a href="/support-yuk">
+                        <p>&copy; 2026 Yukano<!-- - <a href="/support-yuk">
                                 
                                 Support Yuk!
                                 
-                            </a></p>
+                            </a>--></p>
                     </div>
                 </footer>
             </div>

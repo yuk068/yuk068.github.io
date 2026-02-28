@@ -146,31 +146,10 @@ function notifyComingSoon() {
     alert("Coming soon!");
 }
 
-function toggleLightMode() {
-    const body = document.querySelector('body');
-    const isLightMode = body.classList.contains('light-mode');
-    body.classList.toggle('light-mode', !isLightMode);
-
-    const toggleButton = document.getElementById('toggle-mode-button');
-    toggleButton.textContent = !isLightMode ? '🌙' : '☀️';
+function toggleTheme() {
+    const isLight = document.documentElement.classList.toggle('light-mode');
+    localStorage.setItem('theme', isLight ? 'light' : 'dark');
 }
-
-// document.addEventListener('DOMContentLoaded', () => {
-//     const isLightMode = localStorage.getItem('light-mode') === 'true';
-//     const body = document.querySelector('body');
-//     const html = document.querySelector('html');
-//     const toggleButton = document.getElementById('toggle-mode-button');
-
-//     if (isLightMode) {
-//         body.classList.add('light-mode');
-//         html.classList.add('light-mode');
-//         toggleButton.textContent = '🌙';
-//     } else {
-//         body.classList.remove('light-mode');
-//         html.classList.remove('light-mode');
-//         toggleButton.textContent = '☀️';
-//     }
-// });
 
 function toggleThumbnail() {
     showThumbnails = !showThumbnails;

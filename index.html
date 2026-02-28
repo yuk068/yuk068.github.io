@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="/assets/css/pages-css/home-styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
+    <script>if (localStorage.getItem('theme') === 'light') document.documentElement.classList.add('light-mode');</script>
 </head>
 
 <body>
@@ -51,14 +52,41 @@
                             <a href="/projects">
                                 <li>Projects</li>
                             </a>
-                            <div class="nav-bar-divider"></div>
+                            <!-- <div class="nav-bar-divider"></div>
                             <a href="#" onclick="notifyComingSoon()">
                                 <li>Explore</li>
-                            </a>
+                            </a>-->
                             <div class="nav-bar-divider"></div>
                             <a href="/about-yuk-en">
                                 <li>About</li>
                             </a>
+                            <div class="nav-bar-divider"></div>
+                            <button id="theme-toggle-desktop" onclick="toggleTheme()">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5"
+                                    width="16" height="16" color="currentColor">
+                                    <defs>
+                                        <style>
+                                            .ttd-1 {
+                                                fill: none;
+                                                stroke: currentColor;
+                                                stroke-miterlimit: 10;
+                                            }
+                                        </style>
+                                    </defs>
+                                    <g>
+                                        <circle class="ttd-1" cx="11.99" cy="12.01" r="6.71"></circle>
+                                        <path class="ttd-1" d="M12,8.65a3.36,3.36,0,0,1,0,6.72Z"></path>
+                                        <line class="ttd-1" x1="11.99" y1="0.5" x2="11.99" y2="2.42"></line>
+                                        <line class="ttd-1" x1="11.99" y1="21.6" x2="11.99" y2="23.52"></line>
+                                        <line class="ttd-1" x1="0.48" y1="12.01" x2="2.4" y2="12.01"></line>
+                                        <line class="ttd-1" x1="21.58" y1="12.01" x2="23.5" y2="12.01"></line>
+                                        <line class="ttd-1" x1="20.13" y1="3.87" x2="18.77" y2="5.23"></line>
+                                        <line class="ttd-1" x1="5.21" y1="18.79" x2="3.85" y2="20.15"></line>
+                                        <line class="ttd-1" x1="3.85" y1="3.87" x2="5.21" y2="5.23"></line>
+                                        <line class="ttd-1" x1="18.77" y1="18.79" x2="20.13" y2="20.15"></line>
+                                    </g>
+                                </svg>
+                            </button>
                         </ul>
                     </nav>
                 </div>
@@ -80,7 +108,7 @@
                 <div id="overlay" class="overlay">
                     <div class="options-container">
                         <p>
-                            Navigation
+                            Options
                         </p>
                         <div class="options-navigation">
                             <button id="toArchiveButton"><svg id="Layer_1" data-name="Layer 1"
@@ -137,25 +165,49 @@
                                 </svg>
                                 Projects
                             </button>
-                            <button id="toExploreButton"><svg id="Layer_1" data-name="Layer 1"
-                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
-                                    height="20" color="#fff">
+                            <button id="themeButton"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                    stroke-width="1.5" width="20" height="20" color="#fff">
                                     <defs>
                                         <style>
-                                            .cls-63ce7424ea57ea6c8380055b-1 {
+                                            .cls-637b8d40f95e86b59c57a2e7-1 {
                                                 fill: none;
                                                 stroke: currentColor;
                                                 stroke-miterlimit: 10;
                                             }
                                         </style>
                                     </defs>
-                                    <polyline class="cls-63ce7424ea57ea6c8380055b-1" points="22 13 22 22 2 22 2 2 11 2">
-                                    </polyline>
-                                    <polyline class="cls-63ce7424ea57ea6c8380055b-1" points="14 2 22 2 22 10">
-                                    </polyline>
-                                    <line class="cls-63ce7424ea57ea6c8380055b-1" x1="22" y1="2" x2="10" y2="14"></line>
+                                    <g id="roll_brush" data-name="roll brush">
+                                        <circle class="cls-637b8d40f95e86b59c57a2e7-1" cx="11.99" cy="12.01" r="6.71">
+                                        </circle>
+                                        <path class="cls-637b8d40f95e86b59c57a2e7-1"
+                                            d="M12,8.65a3.36,3.36,0,0,1,0,6.72Z">
+                                        </path>
+                                        <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="11.99" y1="0.5" x2="11.99"
+                                            y2="2.42">
+                                        </line>
+                                        <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="11.99" y1="21.6" x2="11.99"
+                                            y2="23.52">
+                                        </line>
+                                        <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="0.48" y1="12.01" x2="2.4"
+                                            y2="12.01">
+                                        </line>
+                                        <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="21.58" y1="12.01" x2="23.5"
+                                            y2="12.01">
+                                        </line>
+                                        <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="20.13" y1="3.87" x2="18.77"
+                                            y2="5.23">
+                                        </line>
+                                        <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="5.21" y1="18.79" x2="3.85"
+                                            y2="20.15">
+                                        </line>
+                                        <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="3.85" y1="3.87" x2="5.21"
+                                            y2="5.23">
+                                        </line>
+                                        <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="18.77" y1="18.79" x2="20.13"
+                                            y2="20.15"></line>
+                                    </g>
                                 </svg>
-                                Explore
+                                Theme
                             </button>
                             <button id="toAboutButton"><svg id="Layer_1" data-name="Layer 1"
                                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
@@ -213,32 +265,6 @@
                                 
                                 
                                 <div class="swiper-slide">
-                                    <a href="/2025/06/27/text-to-sql-gemma-3-finetuning-qlora">
-                                        
-                                        
-                                        <img src="/assets/thumbnail/texttosqlgemma.webp" alt="Text-to-SQL SLM: Finetuning Gemma 3 with QLoRA">
-                                        <div class="slide-content">
-                                            <h2 class="slide-title">
-
-                                                
-                                                <span>
-                                                    
-                                                    
-                                                    <img src="/assets/svg/project-type/program.svg"
-                                                        alt="program category"
-                                                        onerror="this.remove()">
-                                                    
-                                                </span>
-                                                
-
-                                                Text-to-SQL SLM: Finetuning Gemma 3 with QLoRA
-                                            </h2>
-                                            <p class="slide-description">Complementary post for Project - Program: Text-to-SQL SLM (Small Language Model)</p>
-                                        </div>
-                                    </a>
-                                </div>
-                                
-                                <div class="swiper-slide">
                                     <a href="/2025/05/31/traffic-collision-anticipation-model">
                                         
                                         
@@ -250,9 +276,10 @@
                                                 <span>
                                                     
                                                     
-                                                    <img src="/assets/svg/project-type/program.svg"
-                                                        alt="program category"
-                                                        onerror="this.remove()">
+                                                    
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24"><defs><style>.cls-637a50fc15c5759009400660-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637a50fc15c5759009400660-1" x1="8.18" y1="22.5" x2="9.14" y2="17.73"></line><line class="cls-637a50fc15c5759009400660-1" x1="5.32" y1="22.5" x2="18.68" y2="22.5"></line><rect class="cls-637a50fc15c5759009400660-1" x="1.5" y="1.5" width="21" height="16.23" rx="1.91"></rect><line class="cls-637a50fc15c5759009400660-1" x1="15.75" y1="22.5" x2="14.8" y2="17.73"></line><line class="cls-637a50fc15c5759009400660-1" x1="1.5" y1="13.91" x2="22.5" y2="13.91"></line></svg>
+
+
                                                     
                                                 </span>
                                                 
@@ -276,9 +303,10 @@
                                                 <span>
                                                     
                                                     
-                                                    <img src="/assets/svg/project-type/paper.svg"
-                                                        alt="paper category"
-                                                        onerror="this.remove()">
+                                                    
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24"><defs><style>.cls-637647fac3a86d32eae6f204-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f204-1" x1="6.27" y1="13.91" x2="13.91" y2="13.91"></line><line class="cls-637647fac3a86d32eae6f204-1" x1="6.27" y1="10.09" x2="13.91" y2="10.09"></line><line class="cls-637647fac3a86d32eae6f204-1" x1="6.27" y1="17.73" x2="13.91" y2="17.73"></line><polygon class="cls-637647fac3a86d32eae6f204-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 16.77 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f204-1" points="16.77 18.68 20.59 18.68 20.59 4.36 20.59 1.5 7.23 1.5 7.23 5.32"></polyline></svg>
+
+
                                                     
                                                 </span>
                                                 
@@ -286,33 +314,6 @@
                                                 Automatic Knowledge Graph Construction with LLMs for Hybrid Retrieval and Chatbot Integration
                                             </h2>
                                             <p class="slide-description">Complementary post for Project - Paper: Research Methodology MAT1204</p>
-                                        </div>
-                                    </a>
-                                </div>
-                                
-                                <div class="swiper-slide">
-                                    <a href="/2025/03/22/automatic-knowledge-graph-construction">
-                                        
-                                        
-                                        <img src="/assets/thumbnail/fancykg.webp" alt="An Introduction to Automatic Knowledge Graph Construction">
-                                        <div class="slide-content">
-                                            <h2 class="slide-title">
-
-                                                
-
-                                                <span>
-                                                    
-                                                    
-                                                    <img src="/assets/svg/categories/technical.svg"
-                                                        alt="technical category" onerror="this.remove()">
-                                                    
-                                                </span>
-
-                                                
-
-                                                An Introduction to Automatic Knowledge Graph Construction
-                                            </h2>
-                                            <p class="slide-description">Brief Recap of Autonomous Knowledge Graph Construction, from traditional methodologies in NLP to LLM application</p>
                                         </div>
                                     </a>
                                 </div>
@@ -327,10 +328,6 @@
                             <div class="swiper-nav">
                                 
                                 <div class="swiper-nav-dot active"></div>
-                                
-                                <div class="swiper-nav-dot "></div>
-                                
-                                <div class="swiper-nav-dot "></div>
                                 
                                 <div class="swiper-nav-dot "></div>
                                 
@@ -351,127 +348,6 @@
                         
                         
                         
-                        <div class="post-card">
-                            <a href="/2025/07/28/awesome-ai-legal-domain-vietnam" class="post" data-written-by="Yuk"
-                                data-credits="" data-categories="post"
-                                data-tags="legal ai" data-date="28/07/2025"
-                                data-reading-time="47"
-                                data-order="175">
-                                <h2>
-                                    <span>
-                                        
-                                        
-                                        <img src="/assets/svg/categories/post.svg"
-                                            alt="post category" onerror="this.remove()">
-                                        
-                                    </span>
-                                    Awesome AI Legal Domain Vietnam
-                                </h2>
-                                <div>
-                                    <div class="post-description">
-                                        <div class="post-excerpt">
-                                            Review về Literature Landscape của AI trong lĩnh vực luật pháp Việt Nam
-                                        </div>
-                                        <div class="post-tags">
-                                            
-                                            
-                                            
-                                            <span class="tag">#legal-ai</span>
-                                            
-                                            
-                                        </div>
-                                        <div class="posts-details">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                                stroke-width="1.4" width="14" height="14" color="#686868">
-                                                <defs>
-                                                    <style>
-                                                        .cls-6375f1aeb67f094e4896c9ea-1,
-                                                        .cls-6375f1aeb67f094e4896c9ea-2 {
-                                                            fill: none;
-                                                            stroke: currentColor;
-                                                            stroke-miterlimit: 10;
-                                                        }
-
-                                                        .cls-6375f1aeb67f094e4896c9ea-1 {
-                                                            stroke-linecap: square;
-                                                        }
-                                                    </style>
-                                                </defs>
-                                                <g id="calendar">
-                                                    <rect class="cls-6375f1aeb67f094e4896c9ea-1" x="1.5" y="2.43"
-                                                        width="21" height="4.77"
-                                                        transform="translate(24 9.64) rotate(180)"></rect>
-                                                    <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="17.73" y1="0.52"
-                                                        x2="17.73" y2="4.34">
-                                                    </line>
-                                                    <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="6.27" y1="0.52"
-                                                        x2="6.27" y2="4.34">
-                                                    </line>
-                                                    <polygon class="cls-6375f1aeb67f094e4896c9ea-1"
-                                                        points="22.5 11.98 22.5 7.21 1.5 7.21 1.5 22.48 22.5 22.48 22.5 15.79 22.5 11.98">
-                                                    </polygon>
-                                                    <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="11.02"
-                                                        x2="11.05" y2="11.02">
-                                                    </line>
-                                                    <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="11.02"
-                                                        x2="14.86" y2="11.02"></line>
-                                                    <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="16.77" y1="11.02"
-                                                        x2="18.68" y2="11.02"></line>
-                                                    <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="14.84"
-                                                        x2="11.05" y2="14.84">
-                                                    </line>
-                                                    <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="5.32" y1="14.84"
-                                                        x2="7.23" y2="14.84">
-                                                    </line>
-                                                    <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="14.84"
-                                                        x2="14.86" y2="14.84"></line>
-                                                    <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="16.77" y1="14.84"
-                                                        x2="18.68" y2="14.84"></line>
-                                                    <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="18.66"
-                                                        x2="11.05" y2="18.66">
-                                                    </line>
-                                                    <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="5.32" y1="18.66"
-                                                        x2="7.23" y2="18.66">
-                                                    </line>
-                                                    <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="18.66"
-                                                        x2="14.86" y2="18.66"></line>
-                                                </g>
-                                            </svg>
-                                            
-                                            
-                                            
-                                            <span class="posts-date-vi" style="display: inline-block;">
-                                                28/07/2025
-                                            </span>
-                                            <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 24 24" stroke-width="1.3" width="14" height="14"
-                                                color="#686868">
-                                                <defs>
-                                                    <style>
-                                                        .cls-6374f8d9b67f094e4896c623-1 {
-                                                            fill: none;
-                                                            stroke: currentColor;
-                                                            stroke-miterlimit: 10;
-                                                        }
-                                                    </style>
-                                                </defs>
-                                                <circle class="cls-6374f8d9b67f094e4896c623-1" cx="12" cy="12" r="10.5">
-                                                </circle>
-                                                <circle class="cls-6374f8d9b67f094e4896c623-1" cx="12" cy="12" r="0.95">
-                                                </circle>
-                                                <polyline class="cls-6374f8d9b67f094e4896c623-1"
-                                                    points="12 4.36 12 12 16.77 16.77">
-                                                </polyline>
-                                            </svg>
-                                            47 Phút
-                                            
-                                            
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        
                         
                         
                         <div class="post-card">
@@ -484,8 +360,10 @@
                                     <span>
                                         
                                         
-                                        <img src="/assets/svg/categories/technical.svg"
-                                            alt="technical category" onerror="this.remove()">
+                                        
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24"><defs><style>.cls-637b7b44f95e86b59c579f7b-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-637b7b44f95e86b59c579f7b-1" d="M1.5,18.68H8.18A3.82,3.82,0,0,1,12,22.5v0a0,0,0,0,1,0,0H1.5a0,0,0,0,1,0,0V18.68A0,0,0,0,1,1.5,18.68Z"></path><path class="cls-637b7b44f95e86b59c579f7b-1" d="M15.82,18.68H22.5a0,0,0,0,1,0,0V22.5a0,0,0,0,1,0,0H12a0,0,0,0,1,0,0v0A3.82,3.82,0,0,1,15.82,18.68Z"></path><path class="cls-637b7b44f95e86b59c579f7b-1" d="M1.5,6.27H8.18A3.82,3.82,0,0,1,12,10.09V22.5a0,0,0,0,1,0,0H1.5a0,0,0,0,1,0,0V6.27A0,0,0,0,1,1.5,6.27Z"></path><path class="cls-637b7b44f95e86b59c579f7b-1" d="M19.64,6.27H22.5V22.5H12V10.09a3.82,3.82,0,0,1,3.82-3.82"></path><path class="cls-637b7b44f95e86b59c579f7b-1" d="M19.64,13l-1.91,1.91L15.82,13V3.41A1.9,1.9,0,0,1,17.73,1.5h0a1.91,1.91,0,0,1,1.91,1.91Z"></path></svg>
+
+
                                         
                                     </span>
                                     Ontology và Topology của Luật pháp Việt Nam cho Knowledge Graph
@@ -617,8 +495,10 @@
                                     <span>
                                         
                                         
-                                        <img src="/assets/svg/categories/technical.svg"
-                                            alt="technical category" onerror="this.remove()">
+                                        
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24"><defs><style>.cls-637b7b44f95e86b59c579f7b-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-637b7b44f95e86b59c579f7b-1" d="M1.5,18.68H8.18A3.82,3.82,0,0,1,12,22.5v0a0,0,0,0,1,0,0H1.5a0,0,0,0,1,0,0V18.68A0,0,0,0,1,1.5,18.68Z"></path><path class="cls-637b7b44f95e86b59c579f7b-1" d="M15.82,18.68H22.5a0,0,0,0,1,0,0V22.5a0,0,0,0,1,0,0H12a0,0,0,0,1,0,0v0A3.82,3.82,0,0,1,15.82,18.68Z"></path><path class="cls-637b7b44f95e86b59c579f7b-1" d="M1.5,6.27H8.18A3.82,3.82,0,0,1,12,10.09V22.5a0,0,0,0,1,0,0H1.5a0,0,0,0,1,0,0V6.27A0,0,0,0,1,1.5,6.27Z"></path><path class="cls-637b7b44f95e86b59c579f7b-1" d="M19.64,6.27H22.5V22.5H12V10.09a3.82,3.82,0,0,1,3.82-3.82"></path><path class="cls-637b7b44f95e86b59c579f7b-1" d="M19.64,13l-1.91,1.91L15.82,13V3.41A1.9,1.9,0,0,1,17.73,1.5h0a1.91,1.91,0,0,1,1.91,1.91Z"></path></svg>
+
+
                                         
                                     </span>
                                     Drag-and-Drop LLMs: Breakthrough or Fluff in Finetuning?
@@ -740,137 +620,6 @@
                         
                         
                         
-                        <div class="post-card">
-                            <a href="/2025/06/27/text-to-sql-gemma-3-finetuning-qlora" class="post" data-written-by="Yuk"
-                                data-credits="" data-categories="showcase"
-                                data-tags="project,slm,qlora" data-date="27/06/2025"
-                                data-reading-time="20"
-                                data-order="156">
-                                <h2>
-                                    <span>
-                                        
-                                        
-                                        <img src="/assets/svg/categories/showcase.svg"
-                                            alt="showcase category" onerror="this.remove()">
-                                        
-                                    </span>
-                                    Text-to-SQL SLM: Finetuning Gemma 3 with QLoRA
-                                </h2>
-                                <div>
-                                    <div class="post-description">
-                                        <div class="post-excerpt">
-                                            Complementary post for Project - Program: Text-to-SQL SLM (Small Language Model)
-                                        </div>
-                                        <div class="post-tags">
-                                            
-                                            
-                                            
-                                            <span class="tag">#project</span>
-                                            
-                                            
-                                            
-                                            
-                                            <span class="tag">#slm</span>
-                                            
-                                            
-                                            
-                                            
-                                            <span class="tag">#qlora</span>
-                                            
-                                            
-                                        </div>
-                                        <div class="posts-details">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                                stroke-width="1.4" width="14" height="14" color="#686868">
-                                                <defs>
-                                                    <style>
-                                                        .cls-6375f1aeb67f094e4896c9ea-1,
-                                                        .cls-6375f1aeb67f094e4896c9ea-2 {
-                                                            fill: none;
-                                                            stroke: currentColor;
-                                                            stroke-miterlimit: 10;
-                                                        }
-
-                                                        .cls-6375f1aeb67f094e4896c9ea-1 {
-                                                            stroke-linecap: square;
-                                                        }
-                                                    </style>
-                                                </defs>
-                                                <g id="calendar">
-                                                    <rect class="cls-6375f1aeb67f094e4896c9ea-1" x="1.5" y="2.43"
-                                                        width="21" height="4.77"
-                                                        transform="translate(24 9.64) rotate(180)"></rect>
-                                                    <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="17.73" y1="0.52"
-                                                        x2="17.73" y2="4.34">
-                                                    </line>
-                                                    <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="6.27" y1="0.52"
-                                                        x2="6.27" y2="4.34">
-                                                    </line>
-                                                    <polygon class="cls-6375f1aeb67f094e4896c9ea-1"
-                                                        points="22.5 11.98 22.5 7.21 1.5 7.21 1.5 22.48 22.5 22.48 22.5 15.79 22.5 11.98">
-                                                    </polygon>
-                                                    <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="11.02"
-                                                        x2="11.05" y2="11.02">
-                                                    </line>
-                                                    <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="11.02"
-                                                        x2="14.86" y2="11.02"></line>
-                                                    <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="16.77" y1="11.02"
-                                                        x2="18.68" y2="11.02"></line>
-                                                    <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="14.84"
-                                                        x2="11.05" y2="14.84">
-                                                    </line>
-                                                    <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="5.32" y1="14.84"
-                                                        x2="7.23" y2="14.84">
-                                                    </line>
-                                                    <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="14.84"
-                                                        x2="14.86" y2="14.84"></line>
-                                                    <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="16.77" y1="14.84"
-                                                        x2="18.68" y2="14.84"></line>
-                                                    <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="18.66"
-                                                        x2="11.05" y2="18.66">
-                                                    </line>
-                                                    <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="5.32" y1="18.66"
-                                                        x2="7.23" y2="18.66">
-                                                    </line>
-                                                    <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="18.66"
-                                                        x2="14.86" y2="18.66"></line>
-                                                </g>
-                                            </svg>
-                                            
-                                            
-                                            
-                                            <span class="posts-date" style="display: inline-block;">
-                                                27/06/2025
-                                            </span>
-                                            <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 24 24" stroke-width="1.3" width="14" height="14"
-                                                color="#686868">
-                                                <defs>
-                                                    <style>
-                                                        .cls-6374f8d9b67f094e4896c623-1 {
-                                                            fill: none;
-                                                            stroke: currentColor;
-                                                            stroke-miterlimit: 10;
-                                                        }
-                                                    </style>
-                                                </defs>
-                                                <circle class="cls-6374f8d9b67f094e4896c623-1" cx="12" cy="12" r="10.5">
-                                                </circle>
-                                                <circle class="cls-6374f8d9b67f094e4896c623-1" cx="12" cy="12" r="0.95">
-                                                </circle>
-                                                <polyline class="cls-6374f8d9b67f094e4896c623-1"
-                                                    points="12 4.36 12 12 16.77 16.77">
-                                                </polyline>
-                                            </svg>
-                                            20 Min.
-                                            
-                                            
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        
                         
                         
                         
@@ -889,8 +638,10 @@
                                     <span>
                                         
                                         
-                                        <img src="/assets/svg/categories/showcase.svg"
-                                            alt="showcase category" onerror="this.remove()">
+                                        
+<svg xmlns="http://www.w3.org/2000/svg" stroke-width="1.5" viewBox="0 0 17.405 23.021" width="24" height="24"><g id="star-lightbulb" transform="translate(-3.19 -0.434)"><path id="Path_40" data-name="Path 40" d="M12,7.23l.75,1.57,1.69.25-1.22,1.22L13.51,12,12,11.19,10.49,12l.29-1.73L9.56,9.05l1.69-.25Z" fill="none" stroke="currentColor" stroke-miterlimit="10"></path><path id="Path_41" data-name="Path 41" d="M19.64,9.14A7.64,7.64,0,1,0,6.92,14.83a3.81,3.81,0,0,1,1.26,2.83v2.93a1.91,1.91,0,0,0,1.91,1.91h3.82a1.91,1.91,0,0,0,1.91-1.91V17.66a3.76,3.76,0,0,1,1.25-2.82,7.62,7.62,0,0,0,2.57-5.7Z" fill="none" stroke="currentColor" stroke-miterlimit="10"></path><line id="Line_20" data-name="Line 20" x2="7.64" transform="translate(8.18 17.73)" fill="none" stroke="currentColor" stroke-miterlimit="10"></line></g></svg>
+
+
                                         
                                     </span>
                                     Automatic Knowledge Graph Construction with LLMs for Hybrid Retrieval and Chatbot Integration
@@ -1037,6 +788,8 @@
                         
                         
                         
+                        
+                        
                         <div class="post-card">
                             <a href="/2025/03/22/automatic-knowledge-graph-construction" class="post" data-written-by="Yuk"
                                 data-credits="" data-categories="technical"
@@ -1047,8 +800,10 @@
                                     <span>
                                         
                                         
-                                        <img src="/assets/svg/categories/technical.svg"
-                                            alt="technical category" onerror="this.remove()">
+                                        
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24"><defs><style>.cls-637b7b44f95e86b59c579f7b-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-637b7b44f95e86b59c579f7b-1" d="M1.5,18.68H8.18A3.82,3.82,0,0,1,12,22.5v0a0,0,0,0,1,0,0H1.5a0,0,0,0,1,0,0V18.68A0,0,0,0,1,1.5,18.68Z"></path><path class="cls-637b7b44f95e86b59c579f7b-1" d="M15.82,18.68H22.5a0,0,0,0,1,0,0V22.5a0,0,0,0,1,0,0H12a0,0,0,0,1,0,0v0A3.82,3.82,0,0,1,15.82,18.68Z"></path><path class="cls-637b7b44f95e86b59c579f7b-1" d="M1.5,6.27H8.18A3.82,3.82,0,0,1,12,10.09V22.5a0,0,0,0,1,0,0H1.5a0,0,0,0,1,0,0V6.27A0,0,0,0,1,1.5,6.27Z"></path><path class="cls-637b7b44f95e86b59c579f7b-1" d="M19.64,6.27H22.5V22.5H12V10.09a3.82,3.82,0,0,1,3.82-3.82"></path><path class="cls-637b7b44f95e86b59c579f7b-1" d="M19.64,13l-1.91,1.91L15.82,13V3.41A1.9,1.9,0,0,1,17.73,1.5h0a1.91,1.91,0,0,1,1.91,1.91Z"></path></svg>
+
+
                                         
                                     </span>
                                     An Introduction to Automatic Knowledge Graph Construction
@@ -1284,9 +1039,28 @@
                         
                         
                         
+                        
+                        
                         <div class="archive-link">
-                            <h3>All posts? See <a href="/archive">Archive <img src="/assets/svg/folder-archive.svg"
-                                        alt="🠊"></a></h3>
+                            <h3>All posts? See <a href="/archive">Archive <svg id="Layer_1" data-name="Layer 1"
+                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5"
+                                        width="24" height="24" color="#fff">
+                                        <defs>
+                                            <style>
+                                                .cls-6374f8d9b67f094e4896c633-1 {
+                                                    fill: none;
+                                                    stroke: currentColor;
+                                                    stroke-miterlimit: 10;
+                                                }
+                                            </style>
+                                        </defs>
+                                        <polygon class="cls-6374f8d9b67f094e4896c633-1"
+                                            points="19.64 9.14 4.36 9.14 4.36 1.5 10.09 1.5 12 3.41 19.64 3.41 19.64 9.14">
+                                        </polygon>
+                                        <polygon class="cls-6374f8d9b67f094e4896c633-1"
+                                            points="1.5 9.14 22.5 9.14 20.59 22.5 3.41 22.5 1.5 9.14"></polygon>
+                                    </svg>
+                                </a></h3>
                         </div>
                         <div class="horizontal-divider-line"></div>
                     </div>
@@ -1296,7 +1070,7 @@
                                 <div class="short-intro-image-container">
                                     <img src="/assets/images/main/dingus.png" alt="dingus">
                                 </div>
-                                <h2><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
+                                <h2><svg id="personSVG" data-name="Person SVG" xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff">
                                         <defs>
                                             <style>
@@ -1313,10 +1087,173 @@
                                             d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05">
                                         </path>
                                     </svg>Yuk (Yukano)</h2>
-                                <p>I'm an undergrad in Computer Science. Trying my best to move towards what I believe
-                                    in.
-                                    I like all things machine learning and AI, technical or
-                                    philosophical. I'm always here if you want to reach out about anything.</p>
+                                <p>
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    Computer Science student, interested in working on AI in tandem with Simulation and Digitization (ie. Digital Twin). Wanting to break into Autonomous Vehicle and Robotics.
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    </p>
                             </div>
                         </a>
                         <div class="horizontal-divider-line"></div>
@@ -1410,7 +1347,11 @@
                                     
                                     
                                     
-                                    <li>This blog was last updated in summer 2025. Coming soon.</li>
+                                    
+                                    
+                                    
+                                    
+                                    <li>Released TrafficLab 3D v1.0, check it out!</li>
                                     
                                     
                                     
@@ -1607,7 +1548,13 @@
                                     
                                     
                                     
-                                    <li>This blog was last updated in summer 2025. Coming soon.</li>
+                                    
+                                    
+                                    
+                                    
+                                    <li>Building towards something big, 新宿区.</li>
+                                    
+                                    <li>Coursework for Differential Equations, C++ and vehicle physics, stay tuned!.</li>
                                     
                                     
                                     
@@ -1728,6 +1675,94 @@
                         
                         <div class="project-preview-card">
                             <div class="project-card-image-container">
+                                <img src="/assets/thumbnail/traflab3d_demo_thumb.webp"
+                                    alt="TrafficLab3D: Digital-twin with just Mp4 and Google Maps">
+                            </div>
+                            <div class="project-card-title">
+                                <h2>
+                                    
+                                    <span>
+                                        
+                                        
+                                        
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24"><defs><style>.cls-637a50fc15c5759009400660-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637a50fc15c5759009400660-1" x1="8.18" y1="22.5" x2="9.14" y2="17.73"></line><line class="cls-637a50fc15c5759009400660-1" x1="5.32" y1="22.5" x2="18.68" y2="22.5"></line><rect class="cls-637a50fc15c5759009400660-1" x="1.5" y="1.5" width="21" height="16.23" rx="1.91"></rect><line class="cls-637a50fc15c5759009400660-1" x1="15.75" y1="22.5" x2="14.8" y2="17.73"></line><line class="cls-637a50fc15c5759009400660-1" x1="1.5" y1="13.91" x2="22.5" y2="13.91"></line></svg>
+
+
+                                        
+                                    </span>
+                                    
+                                    Program: TrafficLab3D
+                                </h2>
+                            </div>
+                            <div class="project-card-more">
+                                <div class="access-button">
+                                    <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24" stroke-width="1.5" width="13" height="13" color="#fff">
+                                        <defs>
+                                            <style>
+                                                .cls-63ce7424ea57ea6c8380055b-1 {
+                                                    fill: none;
+                                                    stroke: currentColor;
+                                                    stroke-miterlimit: 10;
+                                                }
+                                            </style>
+                                        </defs>
+                                        <polyline class="cls-63ce7424ea57ea6c8380055b-1"
+                                            points="22 13 22 22 2 22 2 2 11 2">
+                                        </polyline>
+                                        <polyline class="cls-63ce7424ea57ea6c8380055b-1" points="14 2 22 2 22 10">
+                                        </polyline>
+                                        <line class="cls-63ce7424ea57ea6c8380055b-1" x1="22" y1="2" x2="10" y2="14">
+                                        </line>
+                                    </svg>
+                                    
+                                    
+                                    <a href="https://github.com/duy-phamduc68/TrafficLab-3D" target="_blank" rel="noopener noreferrer">
+                                        <p>
+                                            
+                                            Access
+                                            
+                                        </p>
+                                    </a>
+                                    
+                                    
+                                </div>
+
+                                <div class="see-more-button">
+                                    <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24" stroke-width="1.5" width="13" height="13" color="#fff">
+                                        <defs>
+                                            <style>
+                                                .cls-6374f8d9b67f094e4896c676-1 {
+                                                    fill: none;
+                                                    stroke: currentColor;
+                                                    stroke-miterlimit: 10;
+                                                }
+                                            </style>
+                                        </defs>
+                                        <path class="cls-6374f8d9b67f094e4896c676-1"
+                                            d="M7.23,20.59l-4.78,1,1-4.78L17.89,2.29A2.69,2.69,0,0,1,19.8,1.5h0a2.7,2.7,0,0,1,2.7,2.7h0a2.69,2.69,0,0,1-.79,1.91Z">
+                                        </path>
+                                        <line class="cls-6374f8d9b67f094e4896c676-1" x1="0.55" y1="22.5" x2="23.45"
+                                            y2="22.5"></line>
+                                        <line class="cls-6374f8d9b67f094e4896c676-1" x1="19.64" y1="8.18" x2="15.82"
+                                            y2="4.36"></line>
+                                    </svg>
+                                    
+                                    <a href="#" onclick="notifyComingSoon()">
+                                        <p>
+                                            
+                                            See more
+                                            
+                                        </p>
+                                    </a>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="project-preview-card">
+                            <div class="project-card-image-container">
                                 <img src="/assets/thumbnail/texttosqlgemma.webp"
                                     alt="Text-to-SQL SLM: Finetuning Gemma 3 with QLoRA">
                             </div>
@@ -1737,8 +1772,10 @@
                                     <span>
                                         
                                         
-                                        <img src="/assets/svg/project-type/program.svg"
-                                            alt="program category" onerror="this.remove()">
+                                        
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24"><defs><style>.cls-637a50fc15c5759009400660-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637a50fc15c5759009400660-1" x1="8.18" y1="22.5" x2="9.14" y2="17.73"></line><line class="cls-637a50fc15c5759009400660-1" x1="5.32" y1="22.5" x2="18.68" y2="22.5"></line><rect class="cls-637a50fc15c5759009400660-1" x="1.5" y="1.5" width="21" height="16.23" rx="1.91"></rect><line class="cls-637a50fc15c5759009400660-1" x1="15.75" y1="22.5" x2="14.8" y2="17.73"></line><line class="cls-637a50fc15c5759009400660-1" x1="1.5" y1="13.91" x2="22.5" y2="13.91"></line></svg>
+
+
                                         
                                     </span>
                                     
@@ -1823,8 +1860,10 @@
                                     <span>
                                         
                                         
-                                        <img src="/assets/svg/project-type/program.svg"
-                                            alt="program category" onerror="this.remove()">
+                                        
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24"><defs><style>.cls-637a50fc15c5759009400660-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637a50fc15c5759009400660-1" x1="8.18" y1="22.5" x2="9.14" y2="17.73"></line><line class="cls-637a50fc15c5759009400660-1" x1="5.32" y1="22.5" x2="18.68" y2="22.5"></line><rect class="cls-637a50fc15c5759009400660-1" x="1.5" y="1.5" width="21" height="16.23" rx="1.91"></rect><line class="cls-637a50fc15c5759009400660-1" x1="15.75" y1="22.5" x2="14.8" y2="17.73"></line><line class="cls-637a50fc15c5759009400660-1" x1="1.5" y1="13.91" x2="22.5" y2="13.91"></line></svg>
+
+
                                         
                                     </span>
                                     
@@ -1909,8 +1948,10 @@
                                     <span>
                                         
                                         
-                                        <img src="/assets/svg/project-type/paper.svg"
-                                            alt="paper category" onerror="this.remove()">
+                                        
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24"><defs><style>.cls-637647fac3a86d32eae6f204-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f204-1" x1="6.27" y1="13.91" x2="13.91" y2="13.91"></line><line class="cls-637647fac3a86d32eae6f204-1" x1="6.27" y1="10.09" x2="13.91" y2="10.09"></line><line class="cls-637647fac3a86d32eae6f204-1" x1="6.27" y1="17.73" x2="13.91" y2="17.73"></line><polygon class="cls-637647fac3a86d32eae6f204-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 16.77 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f204-1" points="16.77 18.68 20.59 18.68 20.59 4.36 20.59 1.5 7.23 1.5 7.23 5.32"></polyline></svg>
+
+
                                         
                                     </span>
                                     
@@ -1995,8 +2036,10 @@
                                     <span>
                                         
                                         
-                                        <img src="/assets/svg/project-type/web.svg"
-                                            alt="web category" onerror="this.remove()">
+                                        
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24"><defs><style>.cls-637b8d40f95e86b59c57a314-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><g id="roll_brush" data-name="roll brush"><rect class="cls-637b8d40f95e86b59c57a314-1" x="1.46" y="1.5" width="21.1" height="21.1"></rect><polygon class="cls-637b8d40f95e86b59c57a314-1" points="22.56 7.25 16.28 7.25 14.37 7.25 1.46 7.25 1.46 1.5 22.56 1.5 22.56 7.25"></polygon><line class="cls-637b8d40f95e86b59c57a314-1" x1="4.34" y1="4.38" x2="6.25" y2="4.38"></line><line class="cls-637b8d40f95e86b59c57a314-1" x1="8.17" y1="4.38" x2="10.09" y2="4.38"></line><line class="cls-637b8d40f95e86b59c57a314-1" x1="12.01" y1="4.38" x2="13.93" y2="4.38"></line></g></svg>
+
+
                                         
                                     </span>
                                     
@@ -2079,8 +2122,10 @@
                                     <span>
                                         
                                         
-                                        <img src="/assets/svg/project-type/paper.svg"
-                                            alt="paper category" onerror="this.remove()">
+                                        
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24"><defs><style>.cls-637647fac3a86d32eae6f204-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f204-1" x1="6.27" y1="13.91" x2="13.91" y2="13.91"></line><line class="cls-637647fac3a86d32eae6f204-1" x1="6.27" y1="10.09" x2="13.91" y2="10.09"></line><line class="cls-637647fac3a86d32eae6f204-1" x1="6.27" y1="17.73" x2="13.91" y2="17.73"></line><polygon class="cls-637647fac3a86d32eae6f204-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 16.77 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f204-1" points="16.77 18.68 20.59 18.68 20.59 4.36 20.59 1.5 7.23 1.5 7.23 5.32"></polyline></svg>
+
+
                                         
                                     </span>
                                     
@@ -2154,92 +2199,6 @@
                             </div>
                         </div>
                         
-                        <div class="project-preview-card">
-                            <div class="project-card-image-container">
-                                <img src="/assets/thumbnail/neural-network-from-scratch-in-java-github-repo.webp"
-                                    alt="Program: MNIST Workshop">
-                            </div>
-                            <div class="project-card-title">
-                                <h2>
-                                    
-                                    <span>
-                                        
-                                        
-                                        <img src="/assets/svg/project-type/program.svg"
-                                            alt="program category" onerror="this.remove()">
-                                        
-                                    </span>
-                                    
-                                    Program: MNIST Workshop
-                                </h2>
-                            </div>
-                            <div class="project-card-more">
-                                <div class="access-button">
-                                    <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 24 24" stroke-width="1.5" width="13" height="13" color="#fff">
-                                        <defs>
-                                            <style>
-                                                .cls-63ce7424ea57ea6c8380055b-1 {
-                                                    fill: none;
-                                                    stroke: currentColor;
-                                                    stroke-miterlimit: 10;
-                                                }
-                                            </style>
-                                        </defs>
-                                        <polyline class="cls-63ce7424ea57ea6c8380055b-1"
-                                            points="22 13 22 22 2 22 2 2 11 2">
-                                        </polyline>
-                                        <polyline class="cls-63ce7424ea57ea6c8380055b-1" points="14 2 22 2 22 10">
-                                        </polyline>
-                                        <line class="cls-63ce7424ea57ea6c8380055b-1" x1="22" y1="2" x2="10" y2="14">
-                                        </line>
-                                    </svg>
-                                    
-                                    
-                                    <a href="https://github.com/yuk068/mnist-workshop-machine-learning-fnn" target="_blank" rel="noopener noreferrer">
-                                        <p>
-                                            
-                                            Access
-                                            
-                                        </p>
-                                    </a>
-                                    
-                                    
-                                </div>
-
-                                <div class="see-more-button">
-                                    <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 24 24" stroke-width="1.5" width="13" height="13" color="#fff">
-                                        <defs>
-                                            <style>
-                                                .cls-6374f8d9b67f094e4896c676-1 {
-                                                    fill: none;
-                                                    stroke: currentColor;
-                                                    stroke-miterlimit: 10;
-                                                }
-                                            </style>
-                                        </defs>
-                                        <path class="cls-6374f8d9b67f094e4896c676-1"
-                                            d="M7.23,20.59l-4.78,1,1-4.78L17.89,2.29A2.69,2.69,0,0,1,19.8,1.5h0a2.7,2.7,0,0,1,2.7,2.7h0a2.69,2.69,0,0,1-.79,1.91Z">
-                                        </path>
-                                        <line class="cls-6374f8d9b67f094e4896c676-1" x1="0.55" y1="22.5" x2="23.45"
-                                            y2="22.5"></line>
-                                        <line class="cls-6374f8d9b67f094e4896c676-1" x1="19.64" y1="8.18" x2="15.82"
-                                            y2="4.36"></line>
-                                    </svg>
-                                    
-                                    <a href="#" onclick="notifyComingSoon()">
-                                        <p>
-                                            
-                                            See more
-                                            
-                                        </p>
-                                    </a>
-                                    
-                                </div>
-                            </div>
-                        </div>
-                        
                         <div class="explore-project-card">
                             <a href="/projects">SEE MORE</a>
                         </div>
@@ -2250,16 +2209,20 @@
                 </div>
             </main>
         </div>
+        <div class="mapmyvisitors-container" style="display: none">
+            <script type='text/javascript' id='mapmyvisitors' src='https://mapmyvisitors.com/map.js?cl=ffffff&w=700&t=n&d=TyTS_Cms5arYbHpOE5dIS5PZaKdz0WSGNMCIXLhWlPY&co=05070a&cmo=3f3f3f&cmn=6bd9fa&ct=ffffff'></script>
+        </div>
+        <!-- https://mapmyvisitors.com/web/1c2wz -->
         <div class="footer-container">
             <div class="relative-footer">
                 <footer>
                     <div class="footer-info">
-                        <a href="https://www.linkedin.com/in/duy-pham-duc-226293350/" target="_blank">
+                        <!-- <a href="https://www.linkedin.com/in/duy-pham-duc-226293350/" target="_blank">
                             <i class="fab fa-linkedin"></i>
                             <div class="footer-info-label">
                                 <p>Duy Pham Duc</p>
                             </div>
-                        </a>
+                        </a> -->
                         <a href="https://www.youtube.com/@yuk.yukano" target="_blank">
                             <i class="fab fa-youtube"></i>
                             <div class="footer-info-label">
@@ -2298,7 +2261,7 @@
                         </a>
                     </div>
                     <div class="copyright-text">
-                        <p>&copy; 2025 Yukano - <a href="/support-yuk">Support Yuk!</a></p>
+                        <p>&copy; 2026 Yukano<!-- - <a href="/support-yuk">Support Yuk!</a>--></p>
                     </div>
                 </footer>
             </div>
@@ -2306,7 +2269,23 @@
     </div>
     <script src="/assets/js/pages-js/home-script.js"></script>
     <button id="scrollButton" onclick="scrollToTop()">
-        <img src="/assets/svg/double-arrow-up-circle.svg" alt="⇡">
+        <!-- <img src="/assets/svg/double-arrow-up-circle.svg" alt="⇡"> -->
+        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5"
+            width="50" height="50" color="#fff">
+            <defs>
+                <style>
+                    .cls-63ce7424ea57ea6c83800547-1 {
+                        fill: none;
+                        stroke: currentColor;
+                        stroke-miterlimit: 10;
+                    }
+                </style>
+            </defs>
+            <circle class="cls-63ce7424ea57ea6c83800547-1" cx="12" cy="12" r="10.5"></circle>
+            <line class="cls-63ce7424ea57ea6c83800547-1" x1="12" y1="10.09" x2="12" y2="18.68"></line>
+            <polyline class="cls-63ce7424ea57ea6c83800547-1" points="7.23 10.09 12 5.32 16.77 10.09"></polyline>
+            <polyline class="cls-63ce7424ea57ea6c83800547-1" points="7.23 14.86 12 10.09 16.77 14.86"></polyline>
+        </svg>
     </button>
 </body>
 
