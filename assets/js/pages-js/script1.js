@@ -76,4 +76,11 @@ function switchLanguage() {
 function toggleTheme() {
     const isLight = document.documentElement.classList.toggle('light-mode');
     localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    const giscusFrame = document.querySelector('iframe.giscus-frame');
+    if (giscusFrame) {
+        giscusFrame.contentWindow.postMessage(
+            { giscus: { setConfig: { theme: isLight ? 'light_protanopia' : 'dark_protanopia' } } },
+            'https://giscus.app'
+        );
+    }
 }

@@ -267,7 +267,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         tocContent += "</ul>";
-        toc.innerHTML = tocContent;
+        if (toc) toc.innerHTML = tocContent;
     }
 });
 
@@ -463,7 +463,6 @@ const toBackButton = document.getElementById('toBackButton');
 const toHomeButton = document.getElementById('toHomeButton');
 const toArchiveButton = document.getElementById('toArchiveButton');
 const toProjectsButton = document.getElementById('toProjectsButton');
-const toExploreButton = document.getElementById('toExploreButton');
 const toAboutButton = document.getElementById('toAboutButton');
 
 // Add event listeners for functionality (placeholders for now)
@@ -485,11 +484,6 @@ toArchiveButton.addEventListener('click', () => {
 toProjectsButton.addEventListener('click', () => {
     closeOptions();
     window.location.href = "/projects";
-});
-
-toExploreButton.addEventListener('click', () => {
-    notifyComingSoon();
-    closeOptions();
 });
 
 toAboutButton.addEventListener('click', () => {

@@ -627,7 +627,7 @@ blockquote li {
 }
 
 .post-info-card {
-    margin-top: 115px;
+    margin-top: 85px;
 }
 
 .post-info-card h1 {
@@ -652,13 +652,17 @@ h1 .category-svg {
 h1 .category-svg img {
     width: 46px;
     height: auto;
-    color: var(--post-h1-color);
+    color: var(--link-color);
+}
+
+h1 .category-svg svg {
+    color: var(--link-color);
 }
 
 .post-info-card .date {
     color: var(--link-color);
     margin-top: 5px;
-    font-size: 20px;
+    font-size: 18px;
 }
 
 .post-info-card .date svg {
@@ -704,6 +708,14 @@ h1 .category-svg img {
     background-color: var(--neon-aqua-accent);
     border-color: var(--neon-aqua-accent);
     font-weight: bolder !important;
+}
+
+.post-description {
+    color: var(--description-color);
+    font-size: 18px;
+    text-align: left !important;
+    text-indent: 0 !important;
+    margin: 5px 0 5px 0;
 }
 
 .post-content {
@@ -1386,7 +1398,7 @@ header#post-header {
     top: 0;
     left: 50%;
     transform: translateX(-51%);
-    width: 60%;
+    width: 50%;
     padding: 10px 60px 10px 60px;
     background-color: rgba(16, 20, 27, 0.3);
     color: white;
@@ -1709,10 +1721,6 @@ li[role="doc-endnote"] p {
         gap: 20px;
     }
 
-    .footer-info p {
-        display: none;
-    }
-
     .footer-info i {
         font-size: 20px;
         color: var(--link-color);
@@ -1753,6 +1761,10 @@ li[role="doc-endnote"] p {
 @media (max-width: 790px) {
 
     /* Styles for small screens (landscape phones/small tablets) */
+    .post-description {
+        font-size: 16px;
+    }
+
     .post-content {
         padding: 0;
         width: 95%;
@@ -1764,7 +1776,7 @@ li[role="doc-endnote"] p {
     }
 
     .post-info-card {
-        margin-top: 100px;
+        margin-top: 70px;
     }
 
     .header-logo-container {
@@ -2072,6 +2084,7 @@ body.light-mode #reading-progress-bar::after {
 html.light-mode header#post-header,
 body.light-mode header#post-header {
     height: 77px;
+    padding: 10px 80px 10px 80px;
     background: linear-gradient(to right,
         transparent 0%,
         var(--header-bg-color) 6%,
@@ -2085,6 +2098,7 @@ body.light-mode header#post-header {
 html.light-mode header#post-header.transformed,
 body.light-mode header#post-header.transformed {
     height: 32px;
+    padding: 10px 70px 10px 70px;
 }
 
 html.light-mode header#post-header::after,
@@ -2092,16 +2106,26 @@ body.light-mode header#post-header::after {
     content: "";
     position: absolute;
     bottom: 0;
-    left: 5%;
-    width: 90%;
+    left: 7%;
+    width: 89%;
     height: 3px;
     border-radius: 2px;
     background-color: var(--header-footer-shadeLight);
+}
+
+html.light-mode .post-info-card,
+body.light-mode .post-info-card {
+    margin-top: 110px;
 }
 
 @media (max-width: 790px) {
     html.light-mode header#post-header,
     body.light-mode header#post-header {
         background: var(--header-bg-color);
+    }
+
+    html.light-mode .post-info-card,
+    body.light-mode .post-info-card {
+        margin-top: 105px;
     }
 }
