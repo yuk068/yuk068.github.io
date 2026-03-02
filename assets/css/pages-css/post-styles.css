@@ -58,7 +58,7 @@
     --light-post-h3-color: #0f78c9;
     --light-post-h4-color: #0c87da;
     --light-post-h5-color: #3995d3;
-    --light-description-color: #444444;
+    --light-description-color: #363636;
     --light-language-plaintext: #272727;
     --light-codeblock-highlight-bg: #f0f0f0;
     --light-highlight-code: #333333;
@@ -1252,6 +1252,10 @@ tbody tr td:first-child {
     cursor: pointer;
 }
 
+.copy-toc svg {
+    color: var(--description-color);
+}
+
 blockquote .copy-toc {
     padding: 0 0 0 2px;
 }
@@ -1365,9 +1369,20 @@ h4 .copy-toc svg {
     transform: translateX(0);
 }
 
+#reading-progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 1px;
+    background: linear-gradient(to right, var(--neon-aqua-accent), var(--post-h2-color));
+    z-index: 1001;
+    pointer-events: none;
+}
+
 header#post-header {
     position: fixed;
-    height: 75px;
+    height: 76px;
     top: 0;
     left: 50%;
     transform: translateX(-51%);
@@ -1386,7 +1401,7 @@ header#post-header {
 }
 
 header#post-header.transformed {
-    height: 30px;
+    height: 31px;
     padding: 10px 50px 12px 50px;
 }
 
@@ -1749,7 +1764,7 @@ li[role="doc-endnote"] p {
     }
 
     .post-info-card {
-        margin-top: 85px;
+        margin-top: 100px;
     }
 
     .header-logo-container {
@@ -2038,8 +2053,25 @@ body.light-mode table td {
     border: 1px solid var(--header-footer-shadeLight);
 }
 
+html.light-mode #reading-progress-bar,
+body.light-mode #reading-progress-bar {
+    height: 2px;
+}
+
+/* html.light-mode #reading-progress-bar::after,
+body.light-mode #reading-progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: white;
+} */
+
 html.light-mode header#post-header,
 body.light-mode header#post-header {
+    height: 77px;
     background: linear-gradient(to right,
         transparent 0%,
         var(--header-bg-color) 6%,
@@ -2048,6 +2080,11 @@ body.light-mode header#post-header {
     );
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
+}
+
+html.light-mode header#post-header.transformed,
+body.light-mode header#post-header.transformed {
+    height: 32px;
 }
 
 html.light-mode header#post-header::after,

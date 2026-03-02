@@ -352,6 +352,11 @@ function onScroll() {
     const header = document.querySelector('#post-header');
     const navContainer = document.querySelector('.nav-container');
 
+    const progressBar = document.getElementById('reading-progress-bar');
+    const scrollTop = document.body.scrollTop;
+    const docHeight = document.body.scrollHeight - document.body.clientHeight;
+    progressBar.style.width = (docHeight > 0 ? (scrollTop / docHeight) * 100 : 0) + '%';
+
     if (document.body.scrollTop > 10 || document.documentElement.scrollTop > 10) {
         header.classList.add('transformed');
         navContainer.style.fontSize = '19px';
