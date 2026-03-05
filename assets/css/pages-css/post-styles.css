@@ -41,8 +41,8 @@
     --light-bg-secondary-color: #fcfbfb;
     --light-neon-aqua-accent: #2e50af;
     --light-header-bg-color: #f7f7f7;
-    --light-header-footer-shadeLight: #e0e0e0;
-    --light-header-footer-shadeDark: #d8d8d8;
+    --light-header-footer-shadeLight: #dadada;
+    --light-header-footer-shadeDark: #d1d1d1;
     --light-blockquote-bg-color: #f0f0f0;
     --light-tag-bg-color: #f0f0f0;
     --light-blockquote-scroll-track: #c0c0c0;
@@ -142,7 +142,7 @@ html {
 body {
     overflow-x: hidden;
     overflow-y: auto;
-    display: none;
+    /* display: none; */
     min-height: 100vh;
     height: 100%;
     position: relative;
@@ -206,7 +206,7 @@ hr {
     height: 3px;
     border-radius: 2px;
     background-color: var(--header-footer-shadeLight);
-    margin: 20px 0 0 0;
+    margin: 20px 0 5px 0;
     flex-shrink: 0;
     box-sizing: border-box;
     backface-visibility: hidden;
@@ -715,7 +715,7 @@ h1 .category-svg svg {
     font-size: 18px;
     text-align: left !important;
     text-indent: 0 !important;
-    margin: 5px 0 5px 0;
+    margin: 6px 0 5px 0;
 }
 
 .post-content {
@@ -735,7 +735,9 @@ h1 .category-svg svg {
     color: var(--link-color);
     font-style: italic;
     transition: all 0.2s ease;
-    text-decoration: underline;
+    text-decoration: underline dotted;
+    text-decoration-color: var(--date-color);
+    text-underline-offset: 4px;
 }
 
 .post-content iframe {
@@ -882,6 +884,36 @@ blockquote ol {
     overflow: hidden;
     position: relative;
     transition: all 0.3s ease;
+}
+
+.post-article .js-plotly-plot {
+    box-shadow: var(--box-shadow-part-1), var(--box-shadow-part-2);
+    border: var(--border-width) solid var(--header-footer-shadeLight);
+    box-sizing: border-box;
+    width: 95%;
+    display: block;
+    margin: 20px auto;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.post-article .js-plotly-plot .plot-container,
+.post-article .js-plotly-plot .svg-container {
+    width: 100% !important;
+}
+
+.js-plotly-plot::-webkit-scrollbar {
+    display: none;
+}
+
+.js-plotly-plot::-webkit-scrollbar-track {
+    display: none;
+}
+
+.js-plotly-plot::-webkit-scrollbar-thumb {
+    display: none;
 }
 
 .end-post {
@@ -1698,6 +1730,10 @@ li[role="doc-endnote"] p {
         border-color: var(--neon-aqua-accent);
         cursor: pointer;
     }
+
+    .post-article .js-plotly-plot:hover {
+        border-color: var(--neon-aqua-accent);
+    }
 }
 
 /* Medium devices (portrait desktops or tablets, 992px and below) */
@@ -1714,6 +1750,10 @@ li[role="doc-endnote"] p {
     }
 
     .post-article img {
+        max-width: 100%;
+    }
+
+    .post-article .js-plotly-plot {
         max-width: 100%;
     }
 
@@ -2050,6 +2090,12 @@ li[role="doc-endnote"] p {
         border-radius: 8px;
         padding: 2px 7px;
     }
+
+    .post-article .js-plotly-plot {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: auto;
+    }
 }
 
 /* Light mode: table inner borders */
@@ -2069,17 +2115,6 @@ html.light-mode #reading-progress-bar,
 body.light-mode #reading-progress-bar {
     height: 2px;
 }
-
-/* html.light-mode #reading-progress-bar::after,
-body.light-mode #reading-progress-bar::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 1px;
-    background: white;
-} */
 
 html.light-mode header#post-header,
 body.light-mode header#post-header {
@@ -2106,8 +2141,8 @@ body.light-mode header#post-header::after {
     content: "";
     position: absolute;
     bottom: 0;
-    left: 7%;
-    width: 89%;
+    left: 5.5%;
+    width: 90%;
     height: 3px;
     border-radius: 2px;
     background-color: var(--header-footer-shadeLight);
