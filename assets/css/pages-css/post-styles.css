@@ -13,7 +13,7 @@
     --link-color: #f4f8fc;
     --hover-color: #3a3a3a;
     --date-color: #686868;
-    --strong-color: #7ae4ff;
+    --strong-color: #9be8fc;
     --paragraph-color: #e7e6e6;
     --post-h1-color: #9aeaf0;
     --post-h2-color: #77abf8;
@@ -733,7 +733,6 @@ h1 .category-svg svg {
 
 .post-content a {
     color: var(--link-color);
-    font-style: italic;
     transition: all 0.2s ease;
     text-decoration: underline dotted;
     text-decoration-color: var(--date-color);
@@ -770,7 +769,7 @@ h1 .category-svg svg {
 .post-content h1 {
     color: var(--post-h1-color);
     display: inline-block;
-    margin: 25px 0 0 0;
+    margin: 20px 0 5px 0;
     font-size: 43px;
 }
 
@@ -819,7 +818,7 @@ h1 .category-svg svg {
     font-weight: normal;
 }
 
-.description {
+.media-description {
     color: var(--navbar-bg-color);
     width: 100%;
     margin-bottom: 2em;
@@ -914,6 +913,20 @@ blockquote ol {
 
 .js-plotly-plot::-webkit-scrollbar-thumb {
     display: none;
+}
+
+.plotly-notifier .notifier-note {
+    box-shadow: var(--box-shadow-part-1), var(--box-shadow-part-2);
+    background-color: var(--header-bg-color) !important;
+    border: var(--border-width) solid var(--header-footer-shadeLight) !important;
+    border-radius: 10px !important;
+    transform: translateX(-10%) translateY(20%) !important;
+    color: var(--paragraph-color) !important;
+    font-family: 'Nunito', sans-serif !important;
+}
+
+.plotly-notifier .notifier-close {
+    color: var(--paragraph-color) !important;
 }
 
 .end-post {
@@ -1186,20 +1199,24 @@ table {
 
 table::-webkit-scrollbar {
     margin: 0 10px;
-    border-radius: 10px;
+    background: var(--header-footer-shadeLight);
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
     width: 10px;
     height: 10px;
 }
 
 table::-webkit-scrollbar-track {
     background: var(--header-footer-shadeLight);
-    border-radius: 4px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
     padding: 10px;
 }
 
 table::-webkit-scrollbar-thumb {
     background: var(--header-bg-color);
-    border-radius: 4px;
+    background-clip: padding-box;
+    border-radius: 10px;
     border: 2px solid transparent;
     background-clip: padding-box;
 }
@@ -1727,12 +1744,7 @@ li[role="doc-endnote"] p {
     }
 
     .post-article img:hover {
-        border-color: var(--neon-aqua-accent);
         cursor: pointer;
-    }
-
-    .post-article .js-plotly-plot:hover {
-        border-color: var(--neon-aqua-accent);
     }
 }
 
@@ -1800,6 +1812,10 @@ li[role="doc-endnote"] p {
 /* Small devices (landscape phones or small tablets, 768px and below) */
 @media (max-width: 790px) {
 
+    #reading-progress-bar {
+        height: 2px !important;
+    }
+
     /* Styles for small screens (landscape phones/small tablets) */
     .post-description {
         font-size: 16px;
@@ -1816,7 +1832,7 @@ li[role="doc-endnote"] p {
     }
 
     .post-info-card {
-        margin-top: 70px;
+        margin-top: 75px;
     }
 
     .header-logo-container {
@@ -2055,7 +2071,7 @@ li[role="doc-endnote"] p {
         gap: 4px;
     }
 
-    .description {
+    .media-description {
         margin-bottom: 1.4em;
     }
 

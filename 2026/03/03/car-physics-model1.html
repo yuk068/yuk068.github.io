@@ -1,0 +1,2277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="linkage" content="true">
+    <title>Car Physics - Model 1: Longitudinal Point Mass</title>
+    <meta name="description" content="Implementing and Comprehending Marco Monster’s Car Physics model - Part 1">
+    <link rel="stylesheet" href="/assets/css/pages-css/post-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    
+    
+    <!-- KaTeX Stylesheet -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+
+    <!-- KaTeX Scripts -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"></script>
+
+    <!-- KaTeX Auto-render Initialization -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    { left: "$$", right: "$$", display: true },
+                    { left: "$", right: "$", display: false },
+                    { left: "\\(", right: "\\)", display: false },
+                    { left: "\\[", right: "\\]", display: true }
+                ]
+            });
+        });
+    </script>
+    
+
+    
+    
+
+    
+    <script src="https://cdn.plot.ly/plotly-3.3.1.min.js" charset="utf-8"></script>
+    <script>
+        window.addEventListener('load', function () {
+            setTimeout(function () {
+                document.querySelectorAll('.js-plotly-plot').forEach(function (el) {
+                    Plotly.Plots.resize(el);
+                });
+            }, 250);
+        });
+    </script>
+    
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=M+PLUS+Rounded+1c&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+
+    <script>if (localStorage.getItem('theme') === 'light') document.documentElement.classList.add('light-mode');</script>
+
+    <link rel="stylesheet" href="https://unpkg.com/photoswipe@5/dist/photoswipe.css">
+    <script type="module">
+        import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5/dist/photoswipe-lightbox.esm.js';
+
+        const lightbox = new PhotoSwipeLightbox({
+            gallery: '.post-article',
+            children: 'img',
+            pswpModule: () => import('https://unpkg.com/photoswipe@5/dist/photoswipe.esm.js')
+        });
+
+        // Tell PhotoSwipe how to get image data from <img>
+        lightbox.addFilter('itemData', (itemData, index) => {
+            const img = document.querySelectorAll('.post-article img')[index];
+
+            return {
+                src: img.src,
+                width: img.naturalWidth || img.width,
+                height: img.naturalHeight || img.height
+            };
+        });
+
+        lightbox.init();
+    </script>
+</head>
+
+<body>
+    <div id="reading-progress-bar"></div>
+    <div class="main-container">
+        <header id="post-header">
+            <div class="header-logo-container">
+                <button class="logo-button" onclick="handleLogoClick()">
+                    <div class="logo-container">
+                        <div class="logo">
+                            <div class="u-shape left-side"></div>
+                            <div class="u-shape bottom"></div>
+                            <div class="u-shape right-side"></div>
+                        </div>
+                        <div class="left-arrow-top"></div>
+                        <div class="right-arrow-top"></div>
+                        <div class="right-arrow-bottom"></div>
+                    </div>
+                </button>
+            </div>
+            <div class="home-header-title-mobile">
+                <h1 id="home-header-title">Yukano</h1>
+            </div>
+            <div class="nav-container">
+                <nav class="nav-bar">
+                    <ul>
+                        <a href="#" onclick="goBack()">
+                            <li>
+                                
+                                Back
+                                
+                            </li>
+                        </a>
+                        <div class="nav-bar-divider"></div>
+                        <a href="/">
+                            <li>
+                                
+                                Home
+                                
+                            </li>
+                        </a>
+                        <div class="nav-bar-divider" id="nav-disable-mobile"></div>
+                        <a href="/archive" id="nav-disable-mobile">
+                            <li id="nav-disable-mobile">
+                                
+                                Archive
+                                
+                            </li>
+                        </a>
+                        <div class="nav-bar-divider" id="nav-disable-mobile"></div>
+                        <a href="/projects" id="nav-disable-mobile">
+                            <li id="nav-disable-mobile">
+                                
+                                Projects
+                                
+                            </li>
+                        </a>
+                        <!-- <div class="nav-bar-divider" id="nav-disable-mobile"></div>
+                        <a href="#" onclick="notifyComingSoon()" id="nav-disable-mobile">
+                            <li id="nav-disable-mobile">
+                                
+                                Explore
+                                
+                            </li>
+                        </a> -->
+                    </ul>
+                </nav>
+            </div>
+            <div class="header-extra-container">
+                <button class="extra-button">
+                    <div class="extra-container">
+                        <div class="extra">
+                            <div class="extra-shape top"></div>
+                            <div class="extra-shape middle"></div>
+                            <div class="extra-shape bottom"></div>
+                        </div>
+                    </div>
+                </button>
+            </div>
+        </header>
+        <main>
+            <div id="overlay" class="overlay">
+                <div class="options-container">
+                    <p>
+                        
+                        Navigation
+                        
+                    </p>
+                    <div class="options-navigation">
+                        <button id="toBackButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-63ce7424ea57ea6c8380059e-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <path class="cls-63ce7424ea57ea6c8380059e-1"
+                                    d="M2.41,16.78H14.85A7.65,7.65,0,0,0,22.5,9.13h0a7.65,7.65,0,0,0-7.65-7.65H.5">
+                                </path>
+                                <polyline class="cls-63ce7424ea57ea6c8380059e-1"
+                                    points="8.15 22.52 2.41 16.78 8.15 11.04">
+                                </polyline>
+                            </svg>
+                            
+                            Back
+                            
+                        </button>
+                        <button id="toArchiveButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-6374f8d9b67f094e4896c633-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <polygon class="cls-6374f8d9b67f094e4896c633-1"
+                                    points="19.64 9.14 4.36 9.14 4.36 1.5 10.09 1.5 12 3.41 19.64 3.41 19.64 9.14">
+                                </polygon>
+                                <polygon class="cls-6374f8d9b67f094e4896c633-1"
+                                    points="1.5 9.14 22.5 9.14 20.59 22.5 3.41 22.5 1.5 9.14"></polygon>
+                            </svg>
+                            
+                            Archive
+                            
+                        </button>
+                        <button id="toProjectsButton"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                stroke-width="1.5" width="20" height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-637b8d40f95e86b59c57a2bd-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <g id="roll_brush" data-name="roll brush">
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="5.24" y1="11.08" x2="18.66"
+                                        y2="11.08">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="5.24" y1="18.76" x2="18.66"
+                                        y2="18.76">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="5.24" y1="14.92" x2="18.66"
+                                        y2="14.92">
+                                    </line>
+                                    <rect class="cls-637b8d40f95e86b59c57a2bd-1" x="1.4" y="1.49" width="21.1"
+                                        height="21.1"></rect>
+                                    <polygon class="cls-637b8d40f95e86b59c57a2bd-1"
+                                        points="22.5 7.25 16.23 7.25 14.31 7.25 1.4 7.25 1.4 1.49 22.5 1.49 22.5 7.25">
+                                    </polygon>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="4.28" y1="4.37" x2="6.2" y2="4.37">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="8.11" y1="4.37" x2="10.03"
+                                        y2="4.37">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="11.95" y1="4.37" x2="13.87"
+                                        y2="4.37">
+                                    </line>
+                                </g>
+                            </svg>
+                            
+                            Projects
+                            
+                        </button>
+                        <!-- <button id="toExploreButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-63ce7424ea57ea6c8380055b-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <polyline class="cls-63ce7424ea57ea6c8380055b-1" points="22 13 22 22 2 22 2 2 11 2">
+                                </polyline>
+                                <polyline class="cls-63ce7424ea57ea6c8380055b-1" points="14 2 22 2 22 10"></polyline>
+                                <line class="cls-63ce7424ea57ea6c8380055b-1" x1="22" y1="2" x2="10" y2="14"></line>
+                            </svg>
+                            
+                            Explore
+                            
+                        </button> -->
+                        <button id="toAboutButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-6374f8d9b67f094e4896c670-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <circle class="cls-6374f8d9b67f094e4896c670-1" cx="12" cy="7.25" r="5.73"></circle>
+                                <path class="cls-6374f8d9b67f094e4896c670-1"
+                                    d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05">
+                                </path>
+                            </svg>
+                            
+                            About
+                            
+                        </button>
+                        <button id="toHomeButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-6374f8d9b67f094e4896c637-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <polyline class="cls-6374f8d9b67f094e4896c637-1" points="1 12 12 2.83 23 12"></polyline>
+                                <polyline class="cls-6374f8d9b67f094e4896c637-1"
+                                    points="19.33 9.25 19.33 21.17 14.75 21.17 14.75 13.83 9.25 13.83 9.25 21.17 4.67 21.17 4.67 9.25">
+                                </polyline>
+                            </svg>
+                            
+                            Home
+                            
+                        </button>
+                    </div>
+                    <div class="option-horizontal-divider-line"></div>
+                    <p>
+                        
+                        Options
+                        
+                    </p>
+                    <div class="options-configuration">
+                        <button id="toTopButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-63ce7424ea57ea6c83800547-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <circle class="cls-63ce7424ea57ea6c83800547-1" cx="12" cy="12" r="10.5"></circle>
+                                <line class="cls-63ce7424ea57ea6c83800547-1" x1="12" y1="10.09" x2="12" y2="18.68">
+                                </line>
+                                <polyline class="cls-63ce7424ea57ea6c83800547-1"
+                                    points="7.23 10.09 12 5.32 16.77 10.09">
+                                </polyline>
+                                <polyline class="cls-63ce7424ea57ea6c83800547-1"
+                                    points="7.23 14.86 12 10.09 16.77 14.86">
+                                </polyline>
+                            </svg>
+                            
+                            To top
+                            
+                        </button>
+                        <button id="collapseExpandAllButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-63ce7424ea57ea6c8380059a-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <line class="cls-63ce7424ea57ea6c8380059a-1" x1="6" y1="2" x2="6" y2="23"></line>
+                                <polyline class="cls-63ce7424ea57ea6c8380059a-1" points="11 7 6 2 1 7"></polyline>
+                                <line class="cls-63ce7424ea57ea6c8380059a-1" x1="18" y1="22" x2="18" y2="1"></line>
+                                <polyline class="cls-63ce7424ea57ea6c8380059a-1" points="13 17 18 22 23 17"></polyline>
+                            </svg>
+                            
+                            Expand / Collapse all
+                            
+                        </button>
+                        <button id="themeButton"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                stroke-width="1.5" width="20" height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-637b8d40f95e86b59c57a2e7-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <g id="roll_brush" data-name="roll brush">
+                                    <circle class="cls-637b8d40f95e86b59c57a2e7-1" cx="11.99" cy="12.01" r="6.71">
+                                    </circle>
+                                    <path class="cls-637b8d40f95e86b59c57a2e7-1" d="M12,8.65a3.36,3.36,0,0,1,0,6.72Z">
+                                    </path>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="11.99" y1="0.5" x2="11.99"
+                                        y2="2.42">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="11.99" y1="21.6" x2="11.99"
+                                        y2="23.52">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="0.48" y1="12.01" x2="2.4"
+                                        y2="12.01">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="21.58" y1="12.01" x2="23.5"
+                                        y2="12.01">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="20.13" y1="3.87" x2="18.77"
+                                        y2="5.23">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="5.21" y1="18.79" x2="3.85"
+                                        y2="20.15">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="3.85" y1="3.87" x2="5.21"
+                                        y2="5.23">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="18.77" y1="18.79" x2="20.13"
+                                        y2="20.15"></line>
+                                </g>
+                            </svg>
+                            
+                            Theme
+                            
+                        </button>
+                        <button id="commentsButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-637642e7c3a86d32eae6f18f-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <path class="cls-637642e7c3a86d32eae6f18f-1"
+                                    d="M1.5,5.3v9.54a3.82,3.82,0,0,0,3.82,3.82H7.23v2.86L13,18.66h5.73a3.82,3.82,0,0,0,3.82-3.82V5.3a3.82,3.82,0,0,0-3.82-3.82H5.32A3.82,3.82,0,0,0,1.5,5.3Z">
+                                </path>
+                                <line class="cls-637642e7c3a86d32eae6f18f-1" x1="15.82" y1="10.07" x2="17.73"
+                                    y2="10.07">
+                                </line>
+                                <line class="cls-637642e7c3a86d32eae6f18f-1" x1="11.05" y1="10.07" x2="12.95"
+                                    y2="10.07">
+                                </line>
+                                <line class="cls-637642e7c3a86d32eae6f18f-1" x1="6.27" y1="10.07" x2="8.18" y2="10.07">
+                                </line>
+                            </svg>
+                            
+                            Comments
+                            
+                        </button>
+                    </div>
+                    <div class="option-horizontal-divider-line"></div>
+                    <div class="options-close">
+                        <button id="closeButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-6374f8d9b67f094e4896c61e-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <circle class="cls-6374f8d9b67f094e4896c61e-1" cx="12" cy="12" r="10.5"></circle>
+                                <line class="cls-6374f8d9b67f094e4896c61e-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77">
+                                </line>
+                                <line class="cls-6374f8d9b67f094e4896c61e-1" x1="7.23" y1="7.23" x2="16.77" y2="16.77">
+                                </line>
+                            </svg>
+                            
+                            Close
+                            
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="post-content">
+                <div class="post-info-card">
+                    <h1>
+                        <span class="category-svg">
+                            
+                            
+                            
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24"><defs><style>.cls-637b7b44f95e86b59c579f7b-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-637b7b44f95e86b59c579f7b-1" d="M1.5,18.68H8.18A3.82,3.82,0,0,1,12,22.5v0a0,0,0,0,1,0,0H1.5a0,0,0,0,1,0,0V18.68A0,0,0,0,1,1.5,18.68Z"></path><path class="cls-637b7b44f95e86b59c579f7b-1" d="M15.82,18.68H22.5a0,0,0,0,1,0,0V22.5a0,0,0,0,1,0,0H12a0,0,0,0,1,0,0v0A3.82,3.82,0,0,1,15.82,18.68Z"></path><path class="cls-637b7b44f95e86b59c579f7b-1" d="M1.5,6.27H8.18A3.82,3.82,0,0,1,12,10.09V22.5a0,0,0,0,1,0,0H1.5a0,0,0,0,1,0,0V6.27A0,0,0,0,1,1.5,6.27Z"></path><path class="cls-637b7b44f95e86b59c579f7b-1" d="M19.64,6.27H22.5V22.5H12V10.09a3.82,3.82,0,0,1,3.82-3.82"></path><path class="cls-637b7b44f95e86b59c579f7b-1" d="M19.64,13l-1.91,1.91L15.82,13V3.41A1.9,1.9,0,0,1,17.73,1.5h0a1.91,1.91,0,0,1,1.91,1.91Z"></path></svg>
+
+
+                            
+                        </span>Car Physics - Model 1: Longitudinal Point Mass
+                    </h1>
+                    <div class="post-tags">
+                        
+                        
+                        
+                        <span class="tag new-tag">NEW</span>
+                        
+                        
+                        
+                        
+                        <span class="tag">#game-physics</span>
+                        
+                        
+                        
+                        
+                        <span class="tag">#differential-equations</span>
+                        
+                        
+                        
+                        
+                        <span class="tag">#simulation</span>
+                        
+                        
+                        
+                        
+                        <span class="tag">#interactive-plot</span>
+                        
+                        
+                        
+                        
+                        <span class="tag">#python</span>
+                        
+                        
+                    </div>
+                    <div class="date">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="16"
+                            height="16" color="#fff">
+                            <defs>
+                                <style>
+                                    .cls-6375f1aeb67f094e4896c9ea-1,
+                                    .cls-6375f1aeb67f094e4896c9ea-2 {
+                                        fill: none;
+                                        stroke: currentColor;
+                                        stroke-miterlimit: 10;
+                                    }
+
+                                    .cls-6375f1aeb67f094e4896c9ea-1 {
+                                        stroke-linecap: square;
+                                    }
+                                </style>
+                            </defs>
+                            <g id="calendar">
+                                <rect class="cls-6375f1aeb67f094e4896c9ea-1" x="1.5" y="2.43" width="21" height="4.77"
+                                    transform="translate(24 9.64) rotate(180)"></rect>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="17.73" y1="0.52" x2="17.73" y2="4.34">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="6.27" y1="0.52" x2="6.27" y2="4.34">
+                                </line>
+                                <polygon class="cls-6375f1aeb67f094e4896c9ea-1"
+                                    points="22.5 11.98 22.5 7.21 1.5 7.21 1.5 22.48 22.5 22.48 22.5 15.79 22.5 11.98">
+                                </polygon>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="11.02" x2="11.05" y2="11.02">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="11.02" x2="14.86"
+                                    y2="11.02"></line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="16.77" y1="11.02" x2="18.68"
+                                    y2="11.02"></line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="14.84" x2="11.05" y2="14.84">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="5.32" y1="14.84" x2="7.23" y2="14.84">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="14.84" x2="14.86"
+                                    y2="14.84"></line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="16.77" y1="14.84" x2="18.68"
+                                    y2="14.84"></line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="18.66" x2="11.05" y2="18.66">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="5.32" y1="18.66" x2="7.23" y2="18.66">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="18.66" x2="14.86"
+                                    y2="18.66"></line>
+                            </g>
+                        </svg>
+                        
+                        <span class="date-span">03/03/2026</span>
+
+                        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                            stroke-width="1.5" width="16" height="16" color="#fff">
+                            <defs>
+                                <style>
+                                    .cls-6374f8d9b67f094e4896c623-1 {
+                                        fill: none;
+                                        stroke: currentColor;
+                                        stroke-miterlimit: 10;
+                                    }
+                                </style>
+                            </defs>
+                            <circle class="cls-6374f8d9b67f094e4896c623-1" cx="12" cy="12" r="10.5"></circle>
+                            <circle class="cls-6374f8d9b67f094e4896c623-1" cx="12" cy="12" r="0.95"></circle>
+                            <polyline class="cls-6374f8d9b67f094e4896c623-1" points="12 4.36 12 12 16.77 16.77">
+                            </polyline>
+                        </svg>
+                        
+                        <span class="reading-time">
+                            26
+                            
+                            Min.
+                            
+                        </span>
+                        
+                    </div>
+                    <div class="post-description">
+                        Implementing and Comprehending Marco Monster’s Car Physics model - Part 1
+                    </div>
+                    <div class="author">
+                        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                            stroke-width="1.5" width="14" height="14" color="#fff">
+                            <defs>
+                                <style>
+                                    .cls-6374f8d9b67f094e4896c670-1 {
+                                        fill: none;
+                                        stroke: currentColor;
+                                        stroke-miterlimit: 10;
+                                    }
+                                </style>
+                            </defs>
+                            <circle class="cls-6374f8d9b67f094e4896c670-1" cx="12" cy="7.25" r="5.73"></circle>
+                            <path class="cls-6374f8d9b67f094e4896c670-1"
+                                d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05">
+                            </path>
+                        </svg>
+                        
+                        Written by:
+                        
+                        Yuk
+                    </div>
+                </div>
+                <div class="horizontal-divider-line"></div>
+                <div class="post-article">
+                    <article>
+                        <h3 id="table-of-content">Table of Content</h3>
+
+<blockquote>
+  <div id="table-of-contents"></div>
+</blockquote>
+
+<ul>
+  <li><strong>Main reference: <a href="https://www.asawicki.info/Mirror/Car%20Physics%20for%20Games/Car%20Physics%20for%20Games.html" target="_blank">Marco Monster’s Car Physics</a></strong></li>
+  <li><strong>Main Github repo: <a href="https://github.com/duy-phamduc68/Car-Physics" target="_blank">duy-phamduc68/Car-Physics</a>.</strong></li>
+</ul>
+
+<hr />
+
+<h3 id="roadmap">Roadmap</h3>
+
+<blockquote>
+  <ul>
+    <li><strong><a href="/2026/03/03/car-physics-model1">Model 1: Longitudinal Point Mass (1D)</a></strong>
+      <ul>
+        <li>Straight Line Physics</li>
+        <li>Magic Constants</li>
+        <li>Braking</li>
+      </ul>
+    </li>
+    <li><strong><a href="#" onclick="notifyComingSoon(); return false;">Model 2: Load Transfer Without Traction Limits (1D)</a></strong>
+      <ul>
+        <li>Weight Transfer</li>
+      </ul>
+    </li>
+    <li><strong><a href="#" onclick="notifyComingSoon(); return false;">Model 3: Engine Torque + Gearing without Slip (1D)</a></strong>
+      <ul>
+        <li>Engine Force</li>
+        <li>Gear Ratios</li>
+        <li>Drive Wheel Acceleration (simplified)</li>
+      </ul>
+    </li>
+    <li><strong><a href="#" onclick="notifyComingSoon(); return false;">Model 4: Wheel Rotational Dynamics (1D)</a></strong>
+      <ul>
+        <li>Drive Wheel Acceleration (full)</li>
+      </ul>
+    </li>
+    <li><strong><a href="#" onclick="notifyComingSoon(); return false;">Model 5: Slip Ratio + Traction Curve (1D)</a></strong>
+      <ul>
+        <li>Slip Ratio &amp; Traction Force</li>
+      </ul>
+    </li>
+    <li><strong><a href="#" onclick="notifyComingSoon(); return false;">Model 6: Low-Speed Kinematic Turning (2D)</a></strong>
+      <ul>
+        <li>Curves (low speed)</li>
+      </ul>
+    </li>
+    <li><strong><a href="#" onclick="notifyComingSoon(); return false;">Model 7: High-Speed Lateral Tire Model (2D)</a></strong>
+      <ul>
+        <li>High Speed Turning</li>
+      </ul>
+    </li>
+    <li><strong><a href="#" onclick="notifyComingSoon(); return false;">Model 8: Full Coupled Tire Model (2D)</a></strong></li>
+  </ul>
+</blockquote>
+
+<hr />
+
+<h3 id="prologue">Prologue</h3>
+
+<p>So recently after my new project <a href="https://github.com/duy-phamduc68/TrafficLab-3D" target="_blank">TrafficLab 3D</a>, beside my new found interest for simulation and digital twins, I’ve also got more into utilizing those environments themselves for something like autonomous driving. Moreover, I also sign up for a differential equations course this semester, so I thought might as well.</p>
+
+<p>I’ve already scout what’s possible and pre-existing implementations, some cool stuff I found are:</p>
+
+<ul>
+  <li><a href="https://aaserver.net/projects/cardemo/?" target="_blank">Car Demo</a>.</li>
+  <li><a href="https://github.com/DanieloM83/R3F-Car-Racing" target="_blank">DanieloM83/R3F-Car-Racing</a>.</li>
+  <li><a href="https://github.com/mattbradley/dash" target="_blank">mattbradley/dash</a>.</li>
+  <li><a href="https://github.com/TUMFTM/Open-Car-Dynamics" target="_blank">TUMFTM/Open-Car-Dynamics</a>.</li>
+  <li><a href="https://metadriverse.github.io/metadrive/" target="_blank">MetaDrive</a>.</li>
+</ul>
+
+<p>All is cool and all, but my end goal with this project is actually something like <a href="https://github.com/jongallant/CarSimulator" target="_blank">jongallant/CarSimulator</a>. It seems simple enough, but also relevant to my current direction, particularly it resonates with my long-term goal of TrafficLab 3D (validating errors) and my new found interest for self-driving. Honestly, I was a bit worried that I might be doing less “AI” by taking up this project, but honestly, for self-driving car, most often time physics should come first before AI.</p>
+
+<p><img src="/assets/images/q1-2026/car-physics/model1/jongallant-CarSimulator.png" alt="jongallant-CarSimulator" /></p>
+
+<div class="media-description">jongallant's demo: <a href="https://www.jgallant.com/CarSim/" target="_blank" rel="noopener noreferrer">jgallant.com</a></div>
+
+<p>Anyway, <a href="https://github.com/jongallant/CarSimulator" target="_blank">jongallant/CarSimulator</a> reference the <a href="https://www.asawicki.info/Mirror/Car%20Physics%20for%20Games/Car%20Physics%20for%20Games.html" target="_blank">Marco Monster’s Car Physics</a> guide heavily, after reviewing both of them thoroughly, I find this challenge worthy to be tackled and eventually put on my portfolio. I plan to approach it from an educational standpoint first, which is why I’ve devise an 8 model roadmap, until I can achieve a complete implementation close to the one from jongallant. In this post, we will be deriving the very first model in the road map: <strong>Model 1: Longitudinal Point Mass (1D)</strong>. I will assume a lot from the guide a lot so do have it on another tab or something.</p>
+
+<hr />
+
+<h2 id="a-continuous-math-derivation">A. Continuous Math Derivation</h2>
+
+<h3 id="1-states">1. States</h3>
+
+<ul>
+  <li>$x(t) \geq 0$ : Position of the car. Meters (m).</li>
+  <li>$v(t) = \frac{dx}{dt}$ : Velocity or the car. Meters per second (m/s).</li>
+  <li>$a(t) = \frac{dv}{dt}$ : Acceleration of the car. Meters per second squared (m/s<sup>2</sup>).</li>
+</ul>
+
+<hr />
+
+<h3 id="2-mental-model">2. Mental Model</h3>
+
+<p>1D line, side profile of the car visible.</p>
+
+<p><img src="/assets/images/q1-2026/car-physics/model1/car-side-profile-example.webp" alt="car-side-profile-example" /></p>
+
+<div class="media-description">Image referenced from <a href="https://iwant2study.org/lookangejss/02_newtonianmechanics_2kinematics/ejss_model_kinematics/index.html" target="_blank" rel="noopener noreferrer">iwant2study.org</a></div>
+
+<hr />
+
+<h3 id="3-forces">3. Forces</h3>
+
+<h4 id="31-traction">3.1. Traction</h4>
+
+<blockquote>
+
+\[F_{\text{engine}} = u(t) \cdot F_{\text{engineMax}}\]
+</blockquote>
+
+<p>Where:</p>
+
+<ul>
+  <li>$u(t) \in [0,1]$ - Analog input.</li>
+</ul>
+
+<h4 id="32-resistance">3.2. Resistance</h4>
+
+<blockquote>
+
+\[\begin{align*}
+F_{\text{resist}} &amp;= F_{\text{rr}} + F_{\text{drag}} \\
+&amp;= C_{\text{rr}} \cdot v + C_{\text{drag}} \cdot v \cdot |v|
+\end{align*}\]
+</blockquote>
+
+<p>Where:</p>
+
+<ul>
+  <li>$F_{\text{rr}}$ : Rolling resistance (simplified - tires &lt;-&gt; road).</li>
+  <li>$F_{\text{drag}}$ : Air resistance, a.k.a. aerodynamic drag (air &lt;-&gt; vehicle).</li>
+</ul>
+
+<p><strong>Magic constants:</strong></p>
+
+<blockquote>
+
+\[C_{\text{drag}} = 0.5 \cdot C_d \cdot A \cdot \rho = 0.5 \cdot 0.30 \cdot 2.2 \cdot 1.29 \approx 0.4257\]
+</blockquote>
+
+<p>Where:</p>
+
+<ul>
+  <li>$C_d$ : Coefficient of friction, determined from <a href="https://en.wikipedia.org/wiki/Wind_tunnel" target="_blank">wind tunnel tests</a>. Here approximated to 0.30 reference for a <a href="https://en.wikipedia.org/wiki/Chevrolet_Corvette" target="_blank">Corvette</a>.</li>
+  <li>$A$ : Frontal area of the car, approx 2.2m<sup>2</sup> here.</li>
+  <li>$\rho = 1.29$ kg/m<sup>3</sup> : Air density.</li>
+</ul>
+
+<blockquote>
+
+\[C_{\text{rr}} \approx 30 \cdot C_{\text{drag}} \approx 12.8\]
+</blockquote>
+
+<p>Very approximated.</p>
+
+<h4 id="33-braking">3.3. Braking</h4>
+
+<p>Assumed a binary handbrake: $B(t) \in \{0, 1\}$.</p>
+
+<blockquote>
+
+\[F_{\text{braking}}(v, B) = 
+\begin{cases} 
+B \cdot C_{\text{braking}} &amp; \text{if } v &gt; 0 \\ 
+0 &amp; \text{if } v = 0 
+\end{cases}\]
+</blockquote>
+
+<h4 id="34-total-master-ode">3.4. Total (master ODE)</h4>
+
+<p>Remember Newton’s 2nd law: $ a = \frac{F}{m} $.</p>
+
+<blockquote>
+
+\[F_{\text{net}} = m \cdot a(t) = m \cdot \frac{dv}{dt} \\
+\frac{dv}{dt} = \frac{1}{m} \left(F_{\text{engine}} - F_{\text{resist}} - F_{\text{braking}} \right)\\
+\frac{dv}{dt} = \frac{1}{m} \left(u \cdot F_{\text{engineMax}} - \left(C_{\text{rr}} \cdot v + C_{\text{drag}} \cdot v \cdot |v| \right) - F_{\text{braking}}(B, v) \right)\]
+</blockquote>
+
+<hr />
+
+<h3 id="4-constraint">4. Constraint</h3>
+
+<p>For this model, we put this constraint for simplicity and preventing the car from going backwards:</p>
+
+<blockquote>
+
+\[\text{If } v = 0 \text{ and } \frac{dv}{dt} &lt; 0, \text{ then set } \frac{dv}{dt} = 0\]
+</blockquote>
+
+<p>it basically mean we can only accelerate, cruse, decelerate to stop, or hard stop, but we can’t go backwards, this might seem a pretty silly restriction, for video games, yeah its pretty silly, but I plan that we will approach going in reverse once we get to <strong><a href="#" onclick="notifyComingSoon(); return false;">Model 3: Engine Torque + Gearing without Slip (1D)</a></strong>, where we have an actual gear for going in reverse.</p>
+
+<hr />
+
+<h3 id="5-exploring-the-model">5. Exploring the model</h3>
+
+<p>Now that we have our Master ODE (ordinary differential equations), let’s interrogate it. In this section, we’ll translate the math back into driving experiences.</p>
+
+<h4 id="51-the-force-balance-dashboard">5.1 The force balance dashboard</h4>
+
+<p>The heart of Model 1 is the battle between <strong>propulsion and resistance</strong>. This dashboard lets you see that battle in real-time.</p>
+
+<div id="forceDashboard" style="width:100%; aspect-ratio: 16/9;"></div>
+
+<div style="margin: 1rem 0;">
+  <label>Throttle (u): <span id="throttleValue">1.00</span></label>
+  <input type="range" id="throttleSlider" min="0" max="1" step="0.01" value="1" style="width: 200px;" />
+  <label style="margin-left: 1rem;">
+    <input type="checkbox" id="brakeToggle" /> Hard Brake
+  </label>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // === PARAMETERS (Match your Model 1 constants) ===
+    const m = 1500;              // kg
+    const F_engineMax = 3000;    // N
+    const C_rr = 13.0;           // kg/s
+    const C_drag = 0.43;         // kg/m
+    const C_braking = 12000;     // N
+
+    // Velocity range for plot (0 to 80 m/s ≈ 0-288 km/h)
+    const v = Array.from({length: 200}, (_, i) => i * 0.4);
+
+    // Initial state
+    let u = 1.0;
+    let B = 0;
+
+    // Force calculation functions
+    function F_engine(u) { return u * F_engineMax; }
+    function F_resist(v) { return C_rr * v + C_drag * v * Math.abs(v); }
+    function F_brake(v, B) { return (v > 0 && B) ? C_braking : 0; }
+    function F_net(v, u, B) {
+        return F_engine(u) - F_resist(v) - F_brake(v, B);
+    }
+
+    // Initial plot data
+    function getTraces(u, B) {
+        const engine = v.map(() => F_engine(u));
+        const resist = v.map(F_resist);
+        const net = v.map(vel => F_net(vel, u, B));
+        
+        return [
+            {
+                x: v, y: engine,
+                type: 'scatter', mode: 'lines',
+                name: 'Engine',
+                line: {color: '#2E86AB', width: 2}
+            },
+            {
+                x: v, y: resist,
+                type: 'scatter', mode: 'lines',
+                name: 'Resistance (Rolling + Drag)',
+                line: {color: '#A23B72', width: 2, dash: 'dash'}
+            },
+            {
+                x: v, y: net,
+                type: 'scatter', mode: 'lines',
+                name: 'Net Force',
+                line: {color: net[0] >= 0 ? '#2ECC71' : '#C73E1D', width: 3}
+            },
+            // Zero line for reference
+            {
+                x: [0, Math.max(...v)], y: [0, 0],
+                type: 'scatter', mode: 'lines',
+                name: 'Equilibrium (a=0)',
+                line: {color: '#666', width: 1, dash: 'dot'},
+                showlegend: false
+            }
+        ];
+    }
+
+    // Layout
+    const layout = {
+            autosize: true,
+            title: {
+                text: '<b>Force Balance vs. Velocity</b>',
+                font: { size: 20 }
+            },
+            xaxis: {
+                title: {
+                    text: 'Velocity <b>v</b> (m/s)',
+                    font: { size: 14, color: '#333' }
+                },
+                range: [0, Math.max(...v)],
+                showgrid: true,
+                gridcolor: '#eee'
+            },
+            yaxis: {
+                title: {
+                    text: 'Force <b>F</b> (N)',
+                    font: { size: 14, color: '#333' }
+                },
+                showgrid: true,
+                gridcolor: '#eee'
+            },
+            plot_bgcolor: '#fff',
+            paper_bgcolor: '#f8f9fa',
+            hovermode: 'x unified',
+            legend: { orientation: 'h', y: -0.3 }, // Adjusted y to make room for axis title
+            margin: { t: 60, b: 80, l: 80, r: 40 }   // Increased margins for labels
+        };
+
+    // Render initial plot
+    Plotly.newPlot('forceDashboard', getTraces(u, B), layout, {responsive: true});
+
+    // Interactive controls
+    const throttleSlider = document.getElementById('throttleSlider');
+    const throttleValue = document.getElementById('throttleValue');
+    const brakeToggle = document.getElementById('brakeToggle');
+
+    function updatePlot() {
+        u = parseFloat(throttleSlider.value);
+        B = brakeToggle.checked;
+        throttleValue.textContent = u.toFixed(2);
+        
+        const newTraces = getTraces(u, B);
+        // Update data efficiently
+        Plotly.react('forceDashboard', newTraces, layout, {responsive: true});
+    }
+
+    throttleSlider.addEventListener('input', updatePlot);
+    brakeToggle.addEventListener('change', updatePlot);
+});
+</script>
+
+<p>Note: these are just dummy stats, not from any real car:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">M</span> <span class="o">=</span> <span class="mi">1500</span>            <span class="c1"># kg
+</span><span class="n">F_ENGINE_MAX</span> <span class="o">=</span> <span class="mi">3000</span> <span class="c1"># N
+</span><span class="n">C_RR</span> <span class="o">=</span> <span class="mf">13.0</span>         <span class="c1"># kg/s
+</span><span class="n">C_DRAG</span> <span class="o">=</span> <span class="mf">0.43</span>       <span class="c1"># kg/m
+</span><span class="n">C_BRAKING</span> <span class="o">=</span> <span class="mi">12000</span>   <span class="c1"># N
+</span></code></pre></div></div>
+
+<p><strong>Key insight: Reading equilibrium</strong></p>
+
+<p>The most important feature of this plot is the <strong>intersection point</strong>:</p>
+
+<ul>
+  <li><strong>Top speed occurs where <code class="language-plaintext highlighter-rouge">Engine Force = Resistance Force</code></strong>.</li>
+  <li>(i.e., where the Net Force line crosses zero)</li>
+</ul>
+
+<p>Here are some intuitions you might want to walkthrough:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Action</th>
+      <th>Intuition</th>
+      <th>What Actually Happens</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Reduce throttle to 0.5</td>
+      <td><em>Engine line drops → top speed decreases</em></td>
+      <td>The intersection point shifts left</td>
+    </tr>
+    <tr>
+      <td>Toggle Hard Brake</td>
+      <td><em>Net force becomes negative at all speeds</em></td>
+      <td>Red line drops below zero; car decelerates everywhere</td>
+    </tr>
+    <tr>
+      <td>Set throttle=0, brake=0</td>
+      <td><em>Net force = -Resistance (always negative)</em></td>
+      <td>Car always coasts to a stop</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Mathematically, this is solving:</p>
+
+<blockquote>
+
+\[u \cdot F_{\text{engineMax}} = C_{\text{rr}} \cdot v_{max} + C_{\text{drag}} \cdot v_{max}^2\]
+</blockquote>
+
+<p>You can solve this quadratic analytically (see <a href="#53-derivable-quantities">Section 5.3</a>), but the plot gives you an <strong>instant visual answer</strong>. Drag the throttle slider and watch the equilibrium point slide along the velocity axis.</p>
+
+<p>On the same note, you can just see how simplified the braking here is. In reality, neither the handbrake nor the footbrake is binary, but instead analog. Also, a <strong>real car takes much longer to decelerate</strong> if you don’t plan for it, if you are zooming at top speed (in the dashboard above, say 70m/s $\approx$ 252km/h), don’t expect the car to stop sub-second or even in 2-3 seconds irl. This will be partially address in <strong><a href="#" onclick="notifyComingSoon(); return false;">Model 2: Load Transfer Without Traction Limits (1D)</a></strong>.</p>
+
+<h4 id="52-scenario-walkthroughs">5.2 Scenario walkthroughs</h4>
+
+<p>The Master ODE is a compact statement, but it encodes many scenario in of itself. In this section, we’ll simulate specific scenarios and watch how the equation responds.</p>
+
+<blockquote>
+  <p>!Tips: <strong>Keep the Dashboard Open</strong>: Open <a href="#51-the-force-balance-dashboard">Section 5.1</a> in another tab. We’ll reference it constantly.</p>
+</blockquote>
+
+<hr />
+
+<ul>
+  <li><strong>Scenario 1: The Launch (Full Throttle from Stop)</strong></li>
+</ul>
+
+<table>
+  <thead>
+    <tr>
+      <th>Aspect</th>
+      <th>Details</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Situation</strong></td>
+      <td>Car at rest ($v=0$). Driver floors the throttle ($u=1$), no brake ($B=0$).</td>
+    </tr>
+    <tr>
+      <td><strong>Inputs</strong></td>
+      <td>$u=1$, $B=0$, $v=0$</td>
+    </tr>
+    <tr>
+      <td><strong>Dominant Term</strong></td>
+      <td>$\frac{F_{engine}}{m}$ (Inertia is the only opponent)</td>
+    </tr>
+    <tr>
+      <td><strong>ODE Says</strong></td>
+      <td>$\frac{dv}{dt} = \frac{F_{max}}{m} \approx \frac{3000}{1500} = 2.0 \, \text{m/s}^2$</td>
+    </tr>
+    <tr>
+      <td><strong>Real-World Feel</strong></td>
+      <td>“Pushed back in your seat” (maximum acceleration happens right at launch).</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Why?</strong> At $v=0$, both resistance terms vanish:
+\(C_{rr} \cdot 0 = 0 \quad \text{and} \quad C_{drag} \cdot 0^2 = 0\)
+The engine fights only <strong>mass</strong>, not air or friction.</p>
+
+<hr />
+
+<ul>
+  <li><strong>Scenario 2: The Cruise (Top Speed Equilibrium)</strong></li>
+</ul>
+
+<table>
+  <thead>
+    <tr>
+      <th>Aspect</th>
+      <th>Details</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Situation</strong></td>
+      <td>Car at full throttle, has reached constant speed.</td>
+    </tr>
+    <tr>
+      <td><strong>Inputs</strong></td>
+      <td>$u=1$, $B=0$, $v = v_{max}$</td>
+    </tr>
+    <tr>
+      <td><strong>Dominant Term</strong></td>
+      <td>Force Balance: $F_{engine} = F_{resist}$</td>
+    </tr>
+    <tr>
+      <td><strong>ODE Says</strong></td>
+      <td>$\frac{dv}{dt} = 0$ (Net force is zero)</td>
+    </tr>
+    <tr>
+      <td><strong>Real-World Feel</strong></td>
+      <td>Max speed, but speedometer won’t budge.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Why?</strong> As speed increases, drag ($v^2$) grows rapidly. Eventually:
+\(F_{max} = C_{rr} v_{max} + C_{drag} v_{max}^2\)
+The engine’s forward push is exactly canceled by air + road pushing back.</p>
+
+<p><strong>Analytical Bonus</strong>: Solve for $v_{max}$ directly:
+\(v_{max} = \frac{-C_{rr} + \sqrt{C_{rr}^2 + 4 C_{drag} F_{engine}}}{2 C_{drag}}\)
+Plug in our constants: $v_{max} \approx 70 \, \text{m/s} \approx 252 \, \text{km/h}$.</p>
+
+<hr />
+
+<ul>
+  <li><strong>Scenario 3: The Coast (Lifting Off at Highway Speed)</strong></li>
+</ul>
+
+<table>
+  <thead>
+    <tr>
+      <th>Aspect</th>
+      <th>Details</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Situation</strong></td>
+      <td>Car at 30 m/s (108 km/h). Driver releases throttle ($u=0$), no brake.</td>
+    </tr>
+    <tr>
+      <td><strong>Inputs</strong></td>
+      <td>$u=0$, $B=0$, $v=30$</td>
+    </tr>
+    <tr>
+      <td><strong>Dominant Term</strong></td>
+      <td>$-C_{drag} v^2$ (Drag dominates at high speed)</td>
+    </tr>
+    <tr>
+      <td><strong>ODE Says</strong></td>
+      <td>$\frac{dv}{dt} = -\frac{1}{m}(C_{rr} \cdot 30 + C_{drag} \cdot 30^2) \approx -2.8 \, \text{m/s}^2$</td>
+    </tr>
+    <tr>
+      <td><strong>Real-World Feel</strong></td>
+      <td>Rapid slowdown when you lift off at highway speeds.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Why?</strong> Drag scales with $v^2$. At 30 m/s:
+\(F_{drag} = 0.43 \cdot 30^2 \approx 387 \, \text{N} \quad \text{vs} \quad F_{rr} = 13 \cdot 30 = 390 \, \text{N}\)
+They’re comparable here, but drag grows much faster as speed increases.</p>
+
+<hr />
+
+<ul>
+  <li><strong>Scenario 4: The Creep (Rolling to a Stop)</strong></li>
+</ul>
+
+<table>
+  <thead>
+    <tr>
+      <th>Aspect</th>
+      <th>Details</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Situation</strong></td>
+      <td>Car coasting at very low speed ($v \approx 1 \, \text{m/s}$).</td>
+    </tr>
+    <tr>
+      <td><strong>Inputs</strong></td>
+      <td>$u=0$, $B=0$, $v=1$</td>
+    </tr>
+    <tr>
+      <td><strong>Dominant Term</strong></td>
+      <td>$-C_{rr} v$ (Rolling resistance dominates at low speed)</td>
+    </tr>
+    <tr>
+      <td><strong>ODE Says</strong></td>
+      <td>$\frac{dv}{dt} = -\frac{1}{m}(C_{rr} \cdot 1 + C_{drag} \cdot 1^2) \approx -0.009 \, \text{m/s}^2$</td>
+    </tr>
+    <tr>
+      <td><strong>Real-World Feel</strong></td>
+      <td>The car seems to roll forever when creeping.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Why?</strong> At low $v$, the $v^2$ drag term becomes negligible:
+\(C_{drag} \cdot 1^2 = 0.43 \, \text{N} \quad \text{vs} \quad C_{rr} \cdot 1 = 13 \, \text{N}\)
+Rolling resistance dominates, but it’s small → tiny deceleration.</p>
+
+<blockquote>
+  <p><strong>The “Infinite Stop” Quirk</strong>: Because $F_{resist} \propto v$, as $v \to 0$, force $\to 0$. Mathematically, the car <em>asymptotically</em> approaches zero but never reaches it in finite time. In reality, static friction and our <strong>Hard Stop Constraint</strong> (<a href="#4-constraint">Section 4</a>) handle the final halt. We accept this trade-off for mathematical smoothness.</p>
+</blockquote>
+
+<hr />
+
+<ul>
+  <li><strong>Scenario 5: The Hard Brake (Emergency Stop)</strong></li>
+</ul>
+
+<table>
+  <thead>
+    <tr>
+      <th>Aspect</th>
+      <th>Details</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Situation</strong></td>
+      <td>Car at 30 m/s. Driver slams brakes ($B=1$), no throttle.</td>
+    </tr>
+    <tr>
+      <td><strong>Inputs</strong></td>
+      <td>$u=0$, $B=1$, $v=30$</td>
+    </tr>
+    <tr>
+      <td><strong>Dominant Term</strong></td>
+      <td>$-C_{braking}$ (Constant brake force dominates)</td>
+    </tr>
+    <tr>
+      <td><strong>ODE Says</strong></td>
+      <td>$\frac{dv}{dt} = -\frac{1}{m}(12000 + 390 + 387) \approx -8.5 \, \text{m/s}^2 \approx 0.87g$</td>
+    </tr>
+    <tr>
+      <td><strong>Real-World Feel</strong></td>
+      <td>Strong, consistent deceleration.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Why?</strong> The brake force ($12,000 \, \text{N}$) dwarfs resistance forces at most speeds. Deceleration is nearly constant until $v$ gets very low.</p>
+
+<hr />
+
+<ul>
+  <li><strong>Scenario 6: The Hard Stop (At Rest, Holding Brake)</strong></li>
+</ul>
+
+<table>
+  <thead>
+    <tr>
+      <th>Aspect</th>
+      <th>Details</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Situation</strong></td>
+      <td>Car stopped ($v=0$), brake held ($B=1$).</td>
+    </tr>
+    <tr>
+      <td><strong>Inputs</strong></td>
+      <td>$u=0$, $B=1$, $v=0$</td>
+    </tr>
+    <tr>
+      <td><strong>Dominant Term</strong></td>
+      <td><strong>Constraint Logic</strong> (Not the ODE itself)</td>
+    </tr>
+    <tr>
+      <td><strong>ODE Says</strong></td>
+      <td>Raw: $\frac{dv}{dt} = 0$. Constraint: “If $v=0$ and force would be negative, clamp to 0.”</td>
+    </tr>
+    <tr>
+      <td><strong>Real-World Feel</strong></td>
+      <td>“Car stays put at a stoplight.”</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Why?</strong> At $v=0$, braking force is defined as zero (it only opposes <em>motion</em>). The <strong>constraint</strong> (Section 4) prevents the car from accelerating backward due to any residual negative force.</p>
+
+<hr />
+
+<p><strong>Quick Reference: Scenario &lt;-&gt; Dominant Term</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Scenario</th>
+      <th>Speed Range</th>
+      <th>Dominant Term in ODE</th>
+      <th>Effect on $\frac{dv}{dt}$</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Launch</strong></td>
+      <td>$v \approx 0$</td>
+      <td>$+F_{engine}/m$</td>
+      <td>Large positive acceleration</td>
+    </tr>
+    <tr>
+      <td><strong>Cruise</strong></td>
+      <td>$v = v_{max}$</td>
+      <td>$F_{engine} = F_{resist}$</td>
+      <td>Zero acceleration (equilibrium)</td>
+    </tr>
+    <tr>
+      <td><strong>Coast (High)</strong></td>
+      <td>$v &gt; 20 \, \text{m/s}$</td>
+      <td>$-C_{drag}v^2/m$</td>
+      <td>Strong negative acceleration</td>
+    </tr>
+    <tr>
+      <td><strong>Coast (Low)</strong></td>
+      <td>$v &lt; 5 \, \text{m/s}$</td>
+      <td>$-C_{rr}v/m$</td>
+      <td>Gentle negative acceleration</td>
+    </tr>
+    <tr>
+      <td><strong>Hard Brake</strong></td>
+      <td>Any $v &gt; 0$</td>
+      <td>$-C_{braking}/m$</td>
+      <td>Strong, nearly constant deceleration</td>
+    </tr>
+    <tr>
+      <td><strong>At Rest</strong></td>
+      <td>$v = 0$</td>
+      <td>Constraint</td>
+      <td>Zero acceleration (clamped)</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h4 id="53-derivable-quantities">5.3 Derivable quantities</h4>
+
+<p>One of the most satisfying aspects of having a formal ODE is that you can calculate exact answers without running a simulation.</p>
+
+<p>In this section, we’ll derive a few key performance metrics directly from the Master ODE:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Quantity</th>
+      <th>What It Tells You</th>
+      <th>Math Tool Required</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Top Speed</strong> ($v_{max}$)</td>
+      <td>Maximum achievable velocity</td>
+      <td>Algebra (quadratic formula)</td>
+    </tr>
+    <tr>
+      <td><strong>0→100 km/h Time</strong></td>
+      <td>Acceleration performance</td>
+      <td>Integral $\int \frac{1}{a(v)} dv$</td>
+    </tr>
+    <tr>
+      <td><strong>Stopping Distance</strong></td>
+      <td>Braking performance</td>
+      <td>Integral $\int \frac{v}{a(v)} dv$</td>
+    </tr>
+  </tbody>
+</table>
+
+<blockquote>
+  <p><strong>Why This Matters</strong>: These formulas let you <strong>tune your car analytically</strong>. Want a 10% faster top speed? The equations tell you exactly how much to increase engine force or reduce drag.</p>
+</blockquote>
+
+<hr />
+
+<h5 id="derivable-1-top-speed">Derivable 1: Top Speed</h5>
+
+<p><strong>The Question</strong>: What is the maximum speed achievable at full throttle?</p>
+
+<p><strong>The Insight</strong>: At top speed, acceleration is zero ($\frac{dv}{dt} = 0$). The engine force exactly balances resistance.</p>
+
+<p><strong>Derivation</strong>:</p>
+
+<blockquote>
+
+\[\begin{align*}
+0 &amp;= \frac{1}{m} \left( F_{engine} - C_{rr} v_{max} - C_{drag} v_{max}^2 \right) \\
+F_{engine} &amp;= C_{rr} v_{max} + C_{drag} v_{max}^2 \\
+C_{drag} v_{max}^2 + C_{rr} v_{max} - F_{engine} &amp;= 0
+\end{align*}\]
+</blockquote>
+
+<p>This is a quadratic equation $ax^2 + bx + c = 0$ with:</p>
+<ul>
+  <li>$a = C_{drag}$</li>
+  <li>$b = C_{rr}$</li>
+  <li>$c = -F_{engine}$</li>
+</ul>
+
+<p><strong>Solution</strong> (positive root only, since $v \ge 0$):</p>
+
+<blockquote>
+
+\[\boxed{ v_{max} = \frac{-C_{rr} + \sqrt{C_{rr}^2 + 4 C_{drag} F_{engine}}}{2 C_{drag}} }\]
+</blockquote>
+
+<p><strong>Interactive Calculator</strong>:</p>
+
+<div id="topSpeedCalc" style="width:100%; aspect-ratio: 5/3;"></div>
+
+<div style="margin: 1rem 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+  <div>
+    <label>Engine Force (N): <span id="fEngineValue">3000</span></label><br />
+    <input type="range" id="fEngineSlider" min="1000" max="6000" step="100" value="3000" style="width: 100%;" />
+  </div>
+  <div>
+    <label>Drag Coeff (kg/m): <span id="cDragValue">0.43</span></label><br />
+    <input type="range" id="cDragSlider" min="0.2" max="1.0" step="0.01" value="0.43" style="width: 100%;" />
+  </div>
+  <div>
+    <label>Rolling Coeff (kg/s): <span id="cRrValue">13.0</span></label><br />
+    <input type="range" id="cRrSlider" min="5" max="30" step="0.5" value="13.0" style="width: 100%;" />
+  </div>
+</div>
+
+<div style="background-color: var(--header-bg-color); padding: 1rem; border-radius: 10px; margin: 1rem 0; border: var(--border-width) solid var(--header-footer-shadeLight);">
+  <strong>Result:</strong> 
+  <span id="vmaxResult" style="font-size: 1.2rem; font-weight: bold; color: var(--neon-aqua-accent);">69.8 m/s</span>
+  <br /><span style="color: var(--description-color);">≈ <span id="vmaxKmh">251</span> km/h ≈ <span id="vmaxMph">156</span> mph</span>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Default parameters
+    let F_engine = 3000;
+    let C_drag = 0.43;
+    let C_rr = 13.0;
+
+    // Calculate top speed
+    function calcVmax(F, Cd, Crr) {
+        const discriminant = Crr*Crr + 4*Cd*F;
+        return (-Crr + Math.sqrt(discriminant)) / (2*Cd);
+    }
+
+    // Update display
+    function updateDisplay() {
+        const vmax = calcVmax(F_engine, C_drag, C_rr);
+        document.getElementById('vmaxResult').textContent = vmax.toFixed(1) + ' m/s';
+        document.getElementById('vmaxKmh').textContent = (vmax * 3.6).toFixed(0);
+        document.getElementById('vmaxMph').textContent = (vmax * 2.237).toFixed(0);
+        
+        // Update force balance plot
+        updatePlot();
+    }
+
+    // Force balance plot for context
+    function updatePlot() {
+        const v = Array.from({length: 150}, (_, i) => i * 0.6); // 0-90 m/s
+        const F_eng = v.map(() => F_engine);
+        const F_res = v.map(vel => C_rr * vel + C_drag * vel * vel);
+        const vmax = calcVmax(F_engine, C_drag, C_rr);
+        
+        const traces = [
+            {
+                x: v, y: F_eng,
+                type: 'scatter', mode: 'lines',
+                name: 'Engine Force',
+                line: {color: '#2E86AB'}
+            },
+            {
+                x: v, y: F_res,
+                type: 'scatter', mode: 'lines',
+                name: 'Resistance',
+                line: {color: '#A23B72'}
+            },
+            // Vertical line at v_max
+            {
+                x: [vmax, vmax], y: [0, F_engine],
+                type: 'scatter', mode: 'lines',
+                name: 'Top Speed',
+                line: {color: '#C73E1D', width: 2, dash: 'dash'},
+                showlegend: true
+            }
+        ];
+        
+        const layout = {
+            autosize: true,
+            title: 'Force Balance at Calculated Top Speed',
+            xaxis: {title: 'Velocity (m/s)', range: [0, 90]},
+            yaxis: {title: 'Force (N)', range: [0, Math.max(F_engine, 4000)]},
+            plot_bgcolor: '#fff',
+            paper_bgcolor: '#f8f9fa',
+            hovermode: 'x unified',
+            margin: {t: 40, b: 40}
+        };
+        
+        Plotly.react('topSpeedCalc', traces, layout, {responsive: true});
+    }
+
+    // Event listeners
+    document.getElementById('fEngineSlider').addEventListener('input', function(e) {
+        F_engine = parseFloat(e.target.value);
+        document.getElementById('fEngineValue').textContent = F_engine;
+        updateDisplay();
+    });
+    
+    document.getElementById('cDragSlider').addEventListener('input', function(e) {
+        C_drag = parseFloat(e.target.value);
+        document.getElementById('cDragValue').textContent = C_drag.toFixed(2);
+        updateDisplay();
+    });
+    
+    document.getElementById('cRrSlider').addEventListener('input', function(e) {
+        C_rr = parseFloat(e.target.value);
+        document.getElementById('cRrValue').textContent = C_rr.toFixed(1);
+        updateDisplay();
+    });
+
+    // Initial render
+    updateDisplay();
+});
+</script>
+
+<p><strong>Key Insight</strong>: Top speed depends on the square root of engine force but only linearly on drag reduction.</p>
+
+<hr />
+
+<h5 id="derivable-2-0-to-100-kmh-time">Derivable 2: 0 to 100 km/h Time</h5>
+
+<p><strong>The Question</strong>: How long does it take to accelerate from rest to 100 km/h (27.8 m/s)?</p>
+
+<p><strong>The Insight</strong>: Time is the integral of “inverse acceleration” over velocity.</p>
+
+<p><strong>Derivation</strong>:</p>
+
+<blockquote>
+
+\[\begin{align*}
+a &amp;= \frac{dv}{dt} \quad \Rightarrow \quad dt = \frac{dv}{a(v)} \\
+t_{0-100} &amp;= \int_{0}^{27.8} \frac{1}{a(v)} \, dv = \int_{0}^{27.8} \frac{m}{F_{engine} - C_{rr}v - C_{drag}v^2} \, dv
+\end{align*}\]
+</blockquote>
+
+<p><strong>The Challenge</strong>: This integral has no simple closed form (it involves $\arctan$ or $\ln$ depending on the discriminant). But we can <strong>evaluate it numerically for display</strong>.</p>
+
+<p><strong>Interactive Visualization</strong>:</p>
+
+<div id="accelTimePlot" style="width:100%; aspect-ratio: 16/9;"></div>
+
+<div style="background-color: var(--header-bg-color); padding: 1rem; border-radius: 10px; margin: 1rem 0; border: var(--border-width) solid var(--header-footer-shadeLight);">
+  <strong>Calculated 0→100 km/h time:</strong>
+  <span id="t0100Result" style="font-weight: bold; color: var(--neon-aqua-accent);">8.2 seconds</span>
+  <br /><small style="color: var(--description-color);">Numerical integration of $\int_0^{27.8} \frac{m}{F_{net}(v)} dv$</small>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Parameters (match Model 1 defaults)
+    const m = 1500;
+    const F_engine = 3000;
+    const C_rr = 13.0;
+    const C_drag = 0.43;
+    
+    // Velocity range for integration
+    const v_target = 27.8; // 100 km/h in m/s
+    const dv = 0.1; // Integration step
+    let t_accum = 0;
+    const v_points = [];
+    const t_points = [];
+    
+    // Numerical integration (simple Euler-style)
+    for (let v = dv; v <= v_target; v += dv) {
+        const F_net = F_engine - C_rr*v - C_drag*v*v;
+        if (F_net <= 0) break; // Can't accelerate further
+        const dt = dv * m / F_net;
+        t_accum += dt;
+        v_points.push(v);
+        t_points.push(t_accum);
+    }
+    
+    // Plot: Velocity vs. Time
+    const trace = {
+        x: t_points,
+        y: v_points.map(v => v * 3.6), // Convert to km/h for readability
+        type: 'scatter',
+        mode: 'lines',
+        name: 'Velocity',
+        line: {color: '#2E86AB', width: 3},
+        fill: 'tozeroy',
+        fillcolor: 'rgba(46, 134, 171, 0.1)'
+    };
+    
+    // Add target line at 100 km/h
+    const targetTrace = {
+        x: [0, Math.max(...t_points)],
+        y: [100, 100],
+        type: 'scatter',
+        mode: 'lines',
+        name: '100 km/h Target',
+        line: {color: '#C73E1D', width: 2, dash: 'dash'}
+    };
+    
+    const layout = {
+        autosize: true,
+        title: 'Acceleration Profile: 0 → 100 km/h',
+        xaxis: {title: 'Time (seconds)', showgrid: true, gridcolor: '#eee'},
+        yaxis: {title: 'Velocity (km/h)', showgrid: true, gridcolor: '#eee'},
+        plot_bgcolor: '#fff',
+        paper_bgcolor: '#f8f9fa',
+        hovermode: 'x unified',
+        margin: {t: 40, b: 40}
+    };
+    
+    Plotly.newPlot('accelTimePlot', [trace, targetTrace], layout, {responsive: true});
+    
+    // Display result
+    const t_0_100 = t_points[t_points.length - 1];
+    document.getElementById('t0100Result').textContent = t_0_100.toFixed(1) + ' seconds';
+});
+</script>
+
+<p><strong>Why Mass Matters Here</strong>: Unlike top speed, acceleration time <strong>does depend on mass</strong>. Heavier cars have smaller $a = F/m$, so the integral takes longer to accumulate. Try This: Double the mass in the code ($m = 3000$). The 0→100 time roughly doubles (not exactly, because resistance forces don’t scale with mass).</p>
+
+<hr />
+
+<h5 id="derivable-3-stopping-distance">Derivable 3: Stopping Distance</h5>
+
+<p><strong>The Question</strong>: How far does the car travel when braking hard from speed $v_0$ to rest?</p>
+
+<p><strong>The Insight</strong>: Use the chain rule trick: $a = v \frac{dv}{dx} \Rightarrow dx = \frac{v}{a(v)} dv$.</p>
+
+<p><strong>Derivation</strong>:</p>
+
+<blockquote>
+
+\[\begin{align*}
+a &amp;= \frac{dv}{dt} = \frac{dv}{dx} \cdot \frac{dx}{dt} = v \frac{dv}{dx} \\
+\Rightarrow \quad dx &amp;= \frac{v}{a(v)} dv \\
+d_{stop} &amp;= \int_{v_0}^{0} \frac{v}{a(v)} dv = \int_{0}^{v_0} \frac{m \cdot v}{C_{braking} + C_{rr}v + C_{drag}v^2} dv
+\end{align*}\]
+</blockquote>
+
+<p><strong>Note</strong>: The limits flip because we’re integrating from high speed to zero, but distance is positive.</p>
+
+<p><strong>Interactive Calculator</strong>:</p>
+
+<div id="stopDistCalc" style="width:100%; aspect-ratio: 5/3;"></div>
+
+<div style="margin: 1rem 0;">
+  <label><strong>Initial Speed (km/h):</strong> <span id="v0Value">100</span></label><br />
+  <input type="range" id="v0Slider" min="20" max="200" step="5" value="100" style="width: 100%;" />
+</div>
+
+<div style="background: var(--header-bg-color); padding: 0.8rem; border-radius: 10px; margin: 1rem 0; border: var(--border-width) solid var(--header-footer-shadeLight);">
+  <strong>Stopping Distance:</strong> 
+  <span id="dStopResult" style="font-weight: bold; color: var(--neon-aqua-accent);">42.3 meters</span>
+  <br /><small style="color: var(--description-color)">Numerical integration</small>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Parameters
+    const m = 1500;
+    const C_braking = 12000;
+    const C_rr = 13.0;
+    const C_drag = 0.43;
+    
+    function calcStopDist(v0_ms) {
+        // Numerical integration: d = ∫ (m*v) / (F_brake + F_resist) dv
+        const dv = 0.1;
+        let d_accum = 0;
+        for (let v = dv; v <= v0_ms; v += dv) {
+            const F_total = C_braking + C_rr*v + C_drag*v*v;
+            const dd = (m * v / F_total) * dv;
+            d_accum += dd;
+        }
+        return d_accum;
+    }
+    
+    function updateStopDist() {
+        const v0_kmh = parseFloat(document.getElementById('v0Slider').value);
+        const v0_ms = v0_kmh / 3.6;
+        document.getElementById('v0Value').textContent = v0_kmh;
+        
+        const d_stop = calcStopDist(v0_ms);
+        document.getElementById('dStopResult').textContent = d_stop.toFixed(1) + ' meters';
+        
+        // Update plot: stopping distance vs. initial speed
+        const speeds_kmh = Array.from({length: 37}, (_, i) => 20 + i*5); // 20-200 km/h
+        const distances = speeds_kmh.map(v_kmh => calcStopDist(v_kmh/3.6));
+        
+        const trace = {
+            x: speeds_kmh,
+            y: distances,
+            type: 'scatter',
+            mode: 'lines+markers',
+            name: 'Stopping Distance',
+            line: {color: '#C73E1D', width: 2},
+            marker: {size: 4}
+        };
+        
+        const layout = {
+            autosize: true,
+            title: 'Stopping Distance vs. Initial Speed',
+            xaxis: {title: 'Initial Speed (km/h)'},
+            yaxis: {title: 'Distance (meters)'},
+            plot_bgcolor: '#fff',
+            paper_bgcolor: '#f8f9fa',
+            hovermode: 'x unified',
+            margin: {t: 40, b: 40}
+        };
+        
+        Plotly.react('stopDistCalc', [trace], layout, {responsive: true});
+    }
+    
+    document.getElementById('v0Slider').addEventListener('input', updateStopDist);
+    updateStopDist(); // Initial render
+});
+</script>
+
+<p><strong>Key Insight</strong>: Stopping distance scales <strong>roughly with $v_0^2$</strong> (because kinetic energy is $\frac{1}{2}mv^2$). Doubling your speed quadruples your stopping distance.</p>
+
+<p><strong>Mass Matters</strong>: Unlike top speed, stopping distance <strong>increases with mass</strong> because $d \propto m$ in the integral. Heavier cars take longer to stop.</p>
+
+<hr />
+
+<h5 id="summary-what-you-can-calculate-analytically">Summary: What You Can Calculate Analytically</h5>
+
+<table>
+  <thead>
+    <tr>
+      <th>Quantity</th>
+      <th>Formula / Method</th>
+      <th>Depends on Mass?</th>
+      <th>Use Case</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Top Speed</strong></td>
+      <td>Quadratic formula</td>
+      <td>!cross</td>
+      <td>Tuning aerodynamics vs. engine</td>
+    </tr>
+    <tr>
+      <td><strong>0→100 Time</strong></td>
+      <td>$\int \frac{m}{F_{net}} dv$ (numerical)</td>
+      <td>!tick</td>
+      <td>Performance benchmarking</td>
+    </tr>
+    <tr>
+      <td><strong>Stopping Distance</strong></td>
+      <td>$\int \frac{mv}{F_{brake}+F_{resist}} dv$</td>
+      <td>!tick</td>
+      <td>Safety calculations, AI braking</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="b-code-implementation">B. Code Implementation</h2>
+
+<p>Now that we have a solid mental model of the <strong>continuous mathematics</strong>, we need to bridge the gap to <strong>discrete computation</strong>.</p>
+
+<h3 id="6-the-discretization-bridge">6. The discretization bridge</h3>
+
+<h4 id="61-the-core-problem">6.1. The core problem</h4>
+
+<p>Our Master ODE describes instantaneous change:</p>
+
+<blockquote>
+
+\[\frac{dv}{dt} = \frac{1}{m} \left( F_{engine} - F_{resist} - F_{braking}(v, B) \right)\]
+</blockquote>
+
+<p>The term $\frac{dv}{dt}$ is a derivative, it asks: “What is the rate of change at this exact instant?”</p>
+
+<p><strong>Computers cannot compute “instants.”</strong> They compute <strong>steps</strong>. We need to approximate the continuous derivative using discrete time intervals.</p>
+
+<hr />
+
+<h4 id="62-eulers-method">6.2. Euler’s Method</h4>
+
+<p>The simplest discretization is <strong>Forward Euler Integration</strong>, if you are familiar with <a href="/2024/06/21/neural-network-from-scratch-java-repo" target="_blank">implementing a neural network from scratch</a>, particularly, <strong>Gradient Descent</strong> in code, then its very similar. Here’s the derivation:</p>
+
+<ul>
+  <li><strong>Step 1: Start with the derivative definition</strong></li>
+</ul>
+
+<blockquote>
+
+\[\frac{dv}{dt} \approx \frac{v_{new} - v_{old}}{\Delta t}\]
+</blockquote>
+
+<p>Where $\Delta t$ (often written as <code class="language-plaintext highlighter-rouge">dt</code>) is the time step between updates.</p>
+
+<ul>
+  <li><strong>Step 2: Substitute the ODE</strong></li>
+</ul>
+
+<blockquote>
+
+\[\frac{v_{new} - v_{old}}{\Delta t} = \frac{1}{m} F_{net}(v_{old})\]
+</blockquote>
+
+<ul>
+  <li><strong>Step 3: Solve for $v_{new}$</strong></li>
+</ul>
+
+<blockquote>
+
+\[v_{new} = v_{old} + \Delta t \cdot \frac{F_{net}(v_{old})}{m}\]
+</blockquote>
+
+<ul>
+  <li><strong>Step 4: Similarly for position</strong></li>
+</ul>
+
+<blockquote>
+
+\[x_{new} = x_{old} + \Delta t \cdot v_{old}\]
+</blockquote>
+
+<blockquote>
+  <p>The derivative $\frac{dv}{dt}$ becomes a finite difference $\frac{\Delta v}{\Delta t}$. We’re approximating the slope over a tiny interval instead of at an exact point.</p>
+</blockquote>
+
+<hr />
+
+<h4 id="63-choosing-timestep">6.3. Choosing timestep</h4>
+
+<p>The timestep is a <strong>trade-off between accuracy and performance</strong>:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Timestep</th>
+      <th>Accuracy</th>
+      <th>Performance</th>
+      <th>Use Case</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">dt = 0.001</code> (1 ms)</td>
+      <td>Excellent</td>
+      <td>Expensive (1000 updates/sec)</td>
+      <td>High-fidelity simulation</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">dt = 0.01</code> (10 ms)</td>
+      <td>Good</td>
+      <td>Reasonable (100 updates/sec)</td>
+      <td>Most games</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">dt = 0.016</code> (60 Hz)</td>
+      <td>Acceptable</td>
+      <td>Cheap (60 updates/sec)</td>
+      <td>Tied to frame rate</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">dt = 0.1</code> (100 ms)</td>
+      <td>Poor</td>
+      <td>Very cheap</td>
+      <td>Turn-based, low precision</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h4 id="64-the-core-discrete-update-function-pseudocode">6.4. The Core discrete update function (Pseudocode)</h4>
+
+<p>Here’s the Master ODE translated into discrete steps:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># === CONSTANTS (from Model 1) ===
+</span><span class="n">M</span> <span class="o">=</span> <span class="mi">1500</span>            <span class="c1"># kg
+</span><span class="n">F_ENGINE_MAX</span> <span class="o">=</span> <span class="mi">3000</span> <span class="c1"># N
+</span><span class="n">C_RR</span> <span class="o">=</span> <span class="mf">13.0</span>         <span class="c1"># kg/s
+</span><span class="n">C_DRAG</span> <span class="o">=</span> <span class="mf">0.43</span>       <span class="c1"># kg/m
+</span><span class="n">C_BRAKING</span> <span class="o">=</span> <span class="mi">12000</span>   <span class="c1"># N
+</span>
+
+<span class="k">class</span> <span class="nc">CarModel</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+        <span class="c1"># === STATE ===
+</span>        <span class="n">self</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="mf">0.0</span>  <span class="c1"># position (m)
+</span>        <span class="n">self</span><span class="p">.</span><span class="n">v</span> <span class="o">=</span> <span class="mf">0.0</span>  <span class="c1"># velocity (m/s)
+</span>
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">B</span><span class="p">):</span>
+        <span class="sh">"""</span><span class="s">
+        dt : timestep (seconds)
+        u  : throttle [0, 1]
+        B  : brake [0, 1] (binary)
+        </span><span class="sh">"""</span>
+
+        <span class="c1"># 1. Calculate Forces
+</span>        <span class="n">F_engine</span> <span class="o">=</span> <span class="n">u</span> <span class="o">*</span> <span class="n">F_ENGINE_MAX</span>
+        <span class="n">F_rr</span> <span class="o">=</span> <span class="n">C_RR</span> <span class="o">*</span> <span class="n">self</span><span class="p">.</span><span class="n">v</span>
+        <span class="n">F_drag</span> <span class="o">=</span> <span class="n">C_DRAG</span> <span class="o">*</span> <span class="n">self</span><span class="p">.</span><span class="n">v</span> <span class="o">*</span> <span class="nf">abs</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">v</span><span class="p">)</span>
+        <span class="n">F_brake</span> <span class="o">=</span> <span class="n">C_BRAKING</span> <span class="nf">if </span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">v</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">B</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="k">else</span> <span class="mi">0</span>
+
+        <span class="c1"># 2. Net Force
+</span>        <span class="n">F_net</span> <span class="o">=</span> <span class="n">F_engine</span> <span class="o">-</span> <span class="n">F_rr</span> <span class="o">-</span> <span class="n">F_drag</span> <span class="o">-</span> <span class="n">F_brake</span>
+
+        <span class="c1"># 3. Acceleration (Newton's 2nd Law)
+</span>        <span class="n">a</span> <span class="o">=</span> <span class="n">F_net</span> <span class="o">/</span> <span class="n">M</span>
+
+        <span class="c1"># 4. Integrate Velocity
+</span>        <span class="n">self</span><span class="p">.</span><span class="n">v</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">v</span> <span class="o">+</span> <span class="n">dt</span> <span class="o">*</span> <span class="n">a</span>
+
+        <span class="c1"># 5. Apply Hard Stop Constraint
+</span>        <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">v</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">self</span><span class="p">.</span><span class="n">v</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="c1"># 6. Integrate Position
+</span>        <span class="n">self</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">dt</span> <span class="o">*</span> <span class="n">self</span><span class="p">.</span><span class="n">v</span>
+</code></pre></div></div>
+
+<hr />
+
+<h4 id="65-side-by-side-continuous-vs-discrete">6.5. Side-by-Side: continuous vs. discrete</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>Continuous (ODE)</th>
+      <th>Discrete (Code)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>$\frac{dv}{dt} = \frac{1}{m} F_{net}$</td>
+      <td><code class="language-plaintext highlighter-rouge">v = v + dt * (F_net / m)</code></td>
+    </tr>
+    <tr>
+      <td>$\frac{dx}{dt} = v$</td>
+      <td><code class="language-plaintext highlighter-rouge">x = x + dt * v</code></td>
+    </tr>
+    <tr>
+      <td>$v(t)$ is a function</td>
+      <td><code class="language-plaintext highlighter-rouge">v</code> is a variable (state)</td>
+    </tr>
+    <tr>
+      <td>Time is continuous</td>
+      <td>Time advances by <code class="language-plaintext highlighter-rouge">dt</code> each step</td>
+    </tr>
+    <tr>
+      <td>Exact solution</td>
+      <td>Approximate solution</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h3 id="7-simulator">7. Simulator</h3>
+
+<p>Now after all of that, I built a simulator in Python for Model 1, you can check out the code at <a href="https://github.com/duy-phamduc68/Car-Physics" target="_blank">duy-phamduc68/Car-Physics</a>.</p>
+
+<p><img src="/assets/thumbnail/car-physics-model1-thumbnail.webp" alt="car-physics-model1" /></p>
+
+<hr />
+
+<h2 id="c-final-takeaways">C. Final Takeaways</h2>
+
+<p>This section wraps up <strong>Model 1: Longitudinal Point Mass (1D)</strong> with a concise recap of what we built, what it can (and can’t) do, and where we’re heading next.</p>
+
+<hr />
+
+<p><strong>The Master ODE (Continuous Math)</strong></p>
+
+<blockquote>
+
+\[\boxed{ \frac{dv}{dt} = \frac{1}{m} \left( u \cdot F_{max} - B \cdot C_{braking} - C_{rr} v - C_{drag} v^2 \right) }\]
+</blockquote>
+
+<p><strong>Subject to constraint:</strong> If $v = 0$ and $\frac{dv}{dt} &lt; 0$, then $\frac{dv}{dt} = 0$.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Symbol</th>
+      <th>Meaning</th>
+      <th>Assumed Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>$m$</td>
+      <td>Vehicle mass</td>
+      <td>1500 kg</td>
+    </tr>
+    <tr>
+      <td>$u$</td>
+      <td>Throttle input</td>
+      <td>[0, 1]</td>
+    </tr>
+    <tr>
+      <td>$B$</td>
+      <td>Brake input</td>
+      <td>{0, 1}</td>
+    </tr>
+    <tr>
+      <td>$C_{rr}$</td>
+      <td>Rolling resistance</td>
+      <td>13.0 kg/s</td>
+    </tr>
+    <tr>
+      <td>$C_{drag}$</td>
+      <td>Aerodynamic drag</td>
+      <td>0.43 kg/m</td>
+    </tr>
+    <tr>
+      <td>$C_{braking}$</td>
+      <td>Braking force</td>
+      <td>12000 N</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<p><strong>The Core update function</strong></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># === CONSTANTS (from Model 1) ===
+</span><span class="n">M</span> <span class="o">=</span> <span class="mi">1500</span>            <span class="c1"># kg
+</span><span class="n">F_ENGINE_MAX</span> <span class="o">=</span> <span class="mi">3000</span> <span class="c1"># N
+</span><span class="n">C_RR</span> <span class="o">=</span> <span class="mf">13.0</span>         <span class="c1"># kg/s
+</span><span class="n">C_DRAG</span> <span class="o">=</span> <span class="mf">0.43</span>       <span class="c1"># kg/m
+</span><span class="n">C_BRAKING</span> <span class="o">=</span> <span class="mi">12000</span>   <span class="c1"># N
+</span>
+
+<span class="k">class</span> <span class="nc">CarModel</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+        <span class="c1"># === STATE ===
+</span>        <span class="n">self</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="mf">0.0</span>  <span class="c1"># position (m)
+</span>        <span class="n">self</span><span class="p">.</span><span class="n">v</span> <span class="o">=</span> <span class="mf">0.0</span>  <span class="c1"># velocity (m/s)
+</span>
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">B</span><span class="p">):</span>
+        <span class="sh">"""</span><span class="s">
+        dt : timestep (seconds)
+        u  : throttle [0, 1]
+        B  : brake [0, 1] (binary)
+        </span><span class="sh">"""</span>
+
+        <span class="c1"># 1. Calculate Forces
+</span>        <span class="n">F_engine</span> <span class="o">=</span> <span class="n">u</span> <span class="o">*</span> <span class="n">F_ENGINE_MAX</span>
+        <span class="n">F_rr</span> <span class="o">=</span> <span class="n">C_RR</span> <span class="o">*</span> <span class="n">self</span><span class="p">.</span><span class="n">v</span>
+        <span class="n">F_drag</span> <span class="o">=</span> <span class="n">C_DRAG</span> <span class="o">*</span> <span class="n">self</span><span class="p">.</span><span class="n">v</span> <span class="o">*</span> <span class="nf">abs</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">v</span><span class="p">)</span>
+        <span class="n">F_brake</span> <span class="o">=</span> <span class="n">C_BRAKING</span> <span class="nf">if </span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">v</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">B</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="k">else</span> <span class="mi">0</span>
+
+        <span class="c1"># 2. Net Force
+</span>        <span class="n">F_net</span> <span class="o">=</span> <span class="n">F_engine</span> <span class="o">-</span> <span class="n">F_rr</span> <span class="o">-</span> <span class="n">F_drag</span> <span class="o">-</span> <span class="n">F_brake</span>
+
+        <span class="c1"># 3. Acceleration (Newton's 2nd Law)
+</span>        <span class="n">a</span> <span class="o">=</span> <span class="n">F_net</span> <span class="o">/</span> <span class="n">M</span>
+
+        <span class="c1"># 4. Integrate Velocity
+</span>        <span class="n">self</span><span class="p">.</span><span class="n">v</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">v</span> <span class="o">+</span> <span class="n">dt</span> <span class="o">*</span> <span class="n">a</span>
+
+        <span class="c1"># 5. Apply Hard Stop Constraint
+</span>        <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">v</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">self</span><span class="p">.</span><span class="n">v</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="c1"># 6. Integrate Position
+</span>        <span class="n">self</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">dt</span> <span class="o">*</span> <span class="n">self</span><span class="p">.</span><span class="n">v</span>
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="8-what-model-1-can-do">8. What Model 1 CAN Do</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Capability</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Straight-line acceleration</strong></td>
+      <td>Simulates 0 $\rightarrow$ 100 km/h, quarter-mile</td>
+    </tr>
+    <tr>
+      <td><strong>Top speed prediction</strong></td>
+      <td>Calculates equilibrium speed analytically</td>
+    </tr>
+    <tr>
+      <td><strong>Braking simulation</strong></td>
+      <td>Models hard stops with constant brake force</td>
+    </tr>
+    <tr>
+      <td><strong>Coasting behavior</strong></td>
+      <td>Natural deceleration from drag + rolling resistance</td>
+    </tr>
+    <tr>
+      <td><strong>Parameter sensitivity</strong></td>
+      <td>Shows how changes to $C_{drag}$, $m$, etc. affect performance</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h3 id="9-what-model-1-cant-do">9. What Model 1 CAN’T Do</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Limitation</th>
+      <th>Why It Matters</th>
+      <th>Fixed In</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>No turning</strong></td>
+      <td>Car is a point mass on a line, no lateral forces</td>
+      <td>Model 6–8</td>
+    </tr>
+    <tr>
+      <td><strong>No load transfer</strong></td>
+      <td>Braking doesn’t shift weight to front wheels</td>
+      <td><strong>Model 2 (next)</strong></td>
+    </tr>
+    <tr>
+      <td><strong>No traction limits</strong></td>
+      <td>Engine force is unlimited, no wheel spin</td>
+      <td>Model 5</td>
+    </tr>
+    <tr>
+      <td><strong>No engine torque curve</strong></td>
+      <td>Force is constant, not RPM-dependent</td>
+      <td>Model 3</td>
+    </tr>
+    <tr>
+      <td><strong>No wheel rotation</strong></td>
+      <td>Wheels don’t have inertia or slip</td>
+      <td>Model 4</td>
+    </tr>
+    <tr>
+      <td><strong>No reverse gear</strong></td>
+      <td>Car can’t go backward yet</td>
+      <td>Model 3</td>
+    </tr>
+    <tr>
+      <td><strong>Simplified rolling resistance</strong></td>
+      <td>Linear ($v$) instead of constant</td>
+      <td>Future refinement</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>If you spot any mistake or have any suggestions, please let me know! See you in <strong><a href="#" onclick="notifyComingSoon(); return false;">Model 2: Load Transfer Without Traction Limits (1D)</a></strong> :).</p>
+
+                    </article>
+                </div>
+                <div class="end-horizontal-divider-line"></div>
+                
+                <div class="disable-comments">
+                    <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                        stroke-width="1.6" width="100" height="100" color="#343c4d">
+                        <defs>
+                            <style>
+                                .cls-637642e7c3a86d32eae6f187-1 {
+                                    fill: none;
+                                    stroke: currentColor;
+                                    stroke-miterlimit: 10;
+                                }
+                            </style>
+                        </defs>
+                        <line class="cls-637642e7c3a86d32eae6f187-1" x1="15.82" y1="6.25" x2="8.18" y2="13.89"></line>
+                        <line class="cls-637642e7c3a86d32eae6f187-1" x1="8.18" y1="6.25" x2="15.82" y2="13.89"></line>
+                        <path class="cls-637642e7c3a86d32eae6f187-1"
+                            d="M18.68,1.48H5.32A3.82,3.82,0,0,0,1.5,5.3v9.54a3.82,3.82,0,0,0,3.82,3.82H9.14L12,21.52l2.86-2.86h3.82a3.82,3.82,0,0,0,3.82-3.82V5.3A3.82,3.82,0,0,0,18.68,1.48Z">
+                        </path>
+                    </svg>
+                    <h2>
+                        
+                        Comments are disabled for this post
+                        
+                    </h2>
+                </div>
+                
+                <div class="final-horizontal-divider-line"></div>
+            </div>
+        </main>
+
+<!-- MAPMYVISITORS_START        <div class="mapmyvisitors-container" style="display: none">
+            <script type="text/javascript" id="mapmyvisitors"
+                src="//mapmyvisitors.com/map.js?d=TyTS_Cms5arYbHpOE5dIS5PZaKdz0WSGNMCIXLhWlPY&cl=ffffff&w=a"></script>
+        </div>MAPMYVISITORS_END -->
+
+        <div class="footer-container">
+            <div class="relative-footer">
+                <footer>
+                    <div class="footer-info">
+                        <!-- <a href="https://www.linkedin.com/in/duy-pham-duc-226293350/" target="_blank">
+                            <i class="fab fa-linkedin"></i>
+                            <div class="footer-info-label">
+                                <p>Duy Pham Duc</p>
+                            </div>
+                        </a> -->
+                        <a href="https://www.youtube.com/@yuk.yukano" target="_blank">
+                            <i class="fab fa-youtube"></i>
+                            <div class="footer-info-label">
+                                <p>@yuk.yukano</p>
+                            </div>
+                        </a>
+                        <a href="https://github.com/duy-phamduc68" target="_blank">
+                            <i class="fab fa-github"></i>
+                            <div class="footer-info-label">
+                                <p>duy-phamduc68</p>
+                            </div>
+                        </a>
+                        <a href="https://github.com/yuk068" target="_blank">
+                            <i class="fab fa-github"></i>
+                            <div class="footer-info-label">
+                                <p>yuk068</p>
+                            </div>
+                        </a>
+                        <a href="https://x.com/Yukano_50" target="_blank">
+                            <i class="fab fa-twitter"></i>
+                            <div class="footer-info-label">
+                                <p>@Yukano_50</p>
+                            </div>
+                        </a>
+                        <a href="https://www.tiktok.com/@yuk.yukano" target="_blank" style="display: none">
+                            <i class="fab fa-tiktok"></i>
+                            <div class="footer-info-label">
+                                <p>@yuk.yukano</p>
+                            </div>
+                        </a>
+                        <a href="https://www.facebook.com/yuk.pham.2025" target="_blank">
+                            <i class="fab fa-facebook"></i>
+                            <div class="footer-info-label">
+                                <p>Duy Pham Duc</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="copyright-text">
+                        <p>&copy; 2026 Yukano<!-- - <a href="/support-yuk">
+                                
+                                Support Yuk!
+                                
+                            </a>--></p>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </div>
+    <script src="/assets/js/pages-js/post-script.js"></script>
+    <div class="scroll-button-container">
+        <button id="scrollButton" onclick="scrollToTop()">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="50" height="50"
+                fill="none" stroke="currentColor" stroke-miterlimit="10" aria-label="⇡">
+                <circle cx="12" cy="12" r="10.5"></circle>
+                <line x1="12" y1="10.09" x2="12" y2="18.68"></line>
+                <polyline points="7.23 10.09 12 5.32 16.77 10.09"></polyline>
+                <polyline points="7.23 14.86 12 10.09 16.77 14.86"></polyline>
+            </svg>
+        </button>
+    </div>
+</body>
+
+</html>

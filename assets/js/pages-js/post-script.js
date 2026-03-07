@@ -284,6 +284,41 @@ function copyToClipboard(event, text) {
     });
 }
 
+// Replace table token markers (!tick, !cross) with inline SVG icons
+document.addEventListener('DOMContentLoaded', function () {
+    const tickSVG = `
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" style="color:var(--paragraph-color); vertical-align:middle;" aria-hidden="true">
+            <defs><style>.s{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}</style></defs>
+            <polyline class="s" points="20 6 9 17 4 12" />
+        </svg>`;
+
+    const crossSVG = `
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" style="color:var(--paragraph-color); vertical-align:middle;" aria-hidden="true">
+            <defs><style>.s{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}</style></defs>
+            <line class="s" x1="18" y1="6" x2="6" y2="18" />
+            <line class="s" x1="6" y1="6" x2="18" y2="18" />
+        </svg>`;
+
+    // Replace tokens in table header and body cells. We replace occurrences in the HTML so tokens inside markup are handled.
+    const cells = document.querySelectorAll('table td, table th');
+    cells.forEach(cell => {
+        // Use a simple replace for the token strings
+        let html = cell.innerHTML;
+        let replaced = false;
+
+        if (html.indexOf('!tick') !== -1) {
+            html = html.split('!tick').join(tickSVG);
+            replaced = true;
+        }
+        if (html.indexOf('!cross') !== -1) {
+            html = html.split('!cross').join(crossSVG);
+            replaced = true;
+        }
+
+        if (replaced) cell.innerHTML = html;
+    });
+});
+
 
 function notifyComingSoon() {
     if (!document.getElementById('notify-coming-soon-styles')) {
