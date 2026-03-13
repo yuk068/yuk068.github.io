@@ -14,9 +14,43 @@
     <meta name="linkage" content="true">
     <title>An Introduction to Automatic Knowledge Graph Construction</title>
     <meta name="description" content="Brief Recap of Autonomous Knowledge Graph Construction, from traditional methodologies in NLP to LLM application">
-    <link rel="stylesheet" href="/assets/css/pages-css/post-styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
+    <!-- SEO & Social Meta -->
+    
+    
+    
+    
+    
+    
+    
+    <meta name="author" content="Yuk">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="http://localhost:4000/2025/03/22/automatic-knowledge-graph-construction">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="An Introduction to Automatic Knowledge Graph Construction">
+    <meta property="og:description" content="Brief Recap of Autonomous Knowledge Graph Construction, from traditional methodologies in NLP to LLM application">
+    <meta property="og:url" content="http://localhost:4000/2025/03/22/automatic-knowledge-graph-construction">
+    <meta property="og:image" content="http://localhost:4000/assets/thumbnail/fancykg.webp">
+    <meta property="og:site_name" content="Yuk's Blog">
+    <meta property="og:locale" content="en_US">
+    <meta property="article:published_time" content="2025-03-22T00:00:00+07:00">
+    <meta property="article:author" content="Yuk">
+    <meta property="article:tag" content="knowledge graph"><meta property="article:tag" content="llm">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@Yukano_50">
+    <meta name="twitter:creator" content="@Yukano_50">
+    <meta name="twitter:title" content="An Introduction to Automatic Knowledge Graph Construction">
+    <meta name="twitter:description" content="Brief Recap of Autonomous Knowledge Graph Construction, from traditional methodologies in NLP to LLM application">
+    <meta name="twitter:image" content="http://localhost:4000/assets/thumbnail/fancykg.webp">
+
+    <link rel="stylesheet" href="/assets/css/pages-css/post-styles.css">
+
+    <!-- NOTE: KaTeX is the preferred engine going forward. MathJax is kept as the legacy
+         fallback (default) for older posts. For any future conflicts, prioritize KaTeX. -->
     
     
     <!-- KaTeX Stylesheet -->
@@ -50,12 +84,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=M+PLUS+Rounded+1c&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
 
     <script>if (localStorage.getItem('theme') === 'light') document.documentElement.classList.add('light-mode');</script>
 
@@ -69,7 +100,7 @@
             pswpModule: () => import('https://unpkg.com/photoswipe@5/dist/photoswipe.esm.js')
         });
 
-        // Tell PhotoSwipe how to get image data from <img>
+        // Tell PhotoSwipe how to get image data from <img loading="lazy">
         lightbox.addFilter('itemData', (itemData, index) => {
             const img = document.querySelectorAll('.post-article img')[index];
 
@@ -85,6 +116,18 @@
 </head>
 
 <body>
+    <!-- <div id="page-loader">
+        <div class="loader-logo-container">
+            <div class="loader-logo">
+                <div class="loader-u-shape loader-left-side"></div>
+                <div class="loader-u-shape loader-bottom"></div>
+                <div class="loader-u-shape loader-right-side"></div>
+            </div>
+            <div class="loader-left-arrow-top"></div>
+            <div class="loader-right-arrow-top"></div>
+            <div class="loader-right-arrow-bottom"></div>
+        </div>
+    </div> -->
     <div id="reading-progress-bar"></div>
     <div class="main-container">
         <header id="post-header">
@@ -551,7 +594,11 @@
                             </g>
                         </svg>
                         
-                        <span class="date-span">22/03/2025</span>
+                        
+                        
+                        
+                        
+                        <span class="date-span">Mar. 22nd 2025</span>
 
                         <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                             stroke-width="1.5" width="16" height="16" color="#fff">
@@ -607,21 +654,36 @@
                 <div class="horizontal-divider-line"></div>
                 <div class="post-article">
                     <article>
-                        <h3 id="table-of-content">Table of Content</h3>
+                        <h3 id="table-of-content">Table of Content<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#table-of-content')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
 
-<blockquote>
-  <div id="table-of-contents"></div>
-</blockquote>
+<blockquote><div class="content">
+  <div id="table-of-contents"><ul><li class="h3"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#table-of-content')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#table-of-content" style="color:#434e64;">Table of Content</a></div></li>
+<li class="h3"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#overview')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#overview">Overview</a></div></li>
+<li class="h2"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#introduction')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#introduction">Introduction</a></div></li>
+<li class="h3"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#graph-and-knowledge')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#graph-and-knowledge">Graph and Knowledge</a></div></li>
+<li class="h2"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#components-of-a-knowledge-graph')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#components-of-a-knowledge-graph">Components of a Knowledge Graph</a></div></li>
+<li class="h3"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#ontology')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#ontology">Ontology</a></div></li>
+<li class="h4"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#sparse-ontologies')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#sparse-ontologies">Sparse Ontologies</a></div></li>
+<li class="h4"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#fuzzy-boundaries')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#fuzzy-boundaries">Fuzzy Boundaries</a></div></li>
+<li class="h4"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#disregarded-in-practice')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#disregarded-in-practice">Disregarded in Practice</a></div></li>
+<li class="h3"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#knowledge-graph-nodes')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#knowledge-graph-nodes">Knowledge Graph Nodes</a></div></li>
+<li class="h4"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#unstructured-nodes')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#unstructured-nodes">Unstructured Nodes</a></div></li>
+<li class="h4"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#structured-nodes')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#structured-nodes">Structured Nodes</a></div></li>
+<li class="h4"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#semi-structured-nodes')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#semi-structured-nodes">Semi-Structured Nodes</a></div></li>
+<li class="h3"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#relations')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#relations">Relations</a></div></li>
+<li class="h2"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#evolution-of-autonomous-kg-construction')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#evolution-of-autonomous-kg-construction">Evolution of Autonomous KG Construction</a></div></li>
+<li class="h2"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#structured-knowledge-in-llms-the-current-landscape')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#structured-knowledge-in-llms-the-current-landscape">Structured Knowledge in LLMs: The Current Landscape</a></div></li></ul></div>
+</div><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
 
-<h3 id="overview">Overview</h3>
+<h3 id="overview">Overview<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#overview')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
 
 <p>In this post, we are going to go through a primer on the concept of knowledge graphs, a form of <strong>structured knowledge representation</strong> that had its roots from the 70s. We will be covering its evolution from pure heuristic to LLM and AI driven work in recent years. More importantly, this post will be focusing on the topic of <strong>autonomous knowledge graph construction</strong>, a non-trivial task in the literature that is actively being researched.</p>
 
-<h2 id="introduction">Introduction</h2>
+<h2 id="introduction">Introduction<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#introduction')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
 
 <p><strong>Knowledge Graph</strong> or <strong>KG</strong> is a form of knowledge representation that was originally developed for structured information and data. A notable early application of KG is modeling the World Wide Web (WWW) for search engines such as Google, which actually pioneered said concept in 2012. Other fields also had promising integration such as in medical inquiry, financial analysis, and most recently in AI systems.</p>
 
-<h3 id="graph-and-knowledge">Graph and Knowledge</h3>
+<h3 id="graph-and-knowledge">Graph and Knowledge<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#graph-and-knowledge')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
 
 <p>If you are unfamiliar with the concept of a graph, it consist of nodes and edges, where nodes are connected to each other through edges which can either be directed or undirected (bidirectional relationship). While graphs originate from graph theory in discrete mathematics, knowledge graphs are one of the most novel real-world applications of this theory. Due to the flexibility and rigidity of the graph data structure, utilizing it to model knowledge in the real world was almost natural.</p>
 
@@ -629,25 +691,25 @@
 
 <p>A <strong>triplet</strong> in a KG consists of a Head, Relation, and Tail, where the Head and Tail are nodes, and the Relation represents the edge connecting them. Usually, knowledge graphs are directed to more robustly model knowledge as often times A -&gt; SOMETHING -&gt; B does not necessarily translate to B -&gt; SOMETHING -&gt; A. More times than not, these Head, Tail, and Relation will have restriction regarding their <strong>node types</strong> and <strong>relation types</strong>, KG without such restrictions are usually called a <strong>heterogeneous knowledge graph</strong> in contrast to <strong>homogeneous knowledge graph</strong>.</p>
 
-<h2 id="components-of-a-knowledge-graph">Components of a Knowledge Graph</h2>
+<h2 id="components-of-a-knowledge-graph">Components of a Knowledge Graph<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#components-of-a-knowledge-graph')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
 
-<h3 id="ontology">Ontology</h3>
+<h3 id="ontology">Ontology<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#ontology')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
 
 <p><strong>Ontology</strong> in the context of knowledge graphs refers to the structured schema that defines entity types, relationships, and constraints. It provides the semantic backbone that allows a KG to maintain logical consistency and enables reasoning over its contents. The idea is that by enforcing a well-defined ontology, knowledge can be structured in a way that is both interpretable and machine-readable. In theory, this sounds like an essential component-without it, how can a KG even function properly? However, in practice, ontologies are often sparse, fuzzy, or even disregarded entirely.</p>
 
-<h4 id="sparse-ontologies">Sparse Ontologies</h4>
+<h4 id="sparse-ontologies">Sparse Ontologies<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#sparse-ontologies')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h4>
 
 <p>While a perfectly defined ontology would be ideal, real-world KGs rarely achieve this. Designing a comprehensive schema is not just difficult-it often takes years, sometimes even decades, with domain experts continuously refining classifications, relationships, and constraints. Fields like medicine, law, and scientific research rely on meticulously crafted ontologies that evolve as new discoveries emerge. However, achieving an <strong>optimal ontology</strong> is about as feasible as mapping an entire ecosystem down to every microorganism-by the time you think you’ve captured everything, new variables emerge, forcing continuous revisions.</p>
 
 <p>For beginners, working with ontologies can feel overwhelming. The fear of <strong>dismissing or misclassifying information</strong> can make the process intimidating, especially when dealing with ambiguous data. Unlike structured databases with clear categories, KGs often involve edge cases where multiple classifications could be valid, making it difficult to decide what should be enforced as “ground truth.” This hesitation can lead to either excessive caution-slowing down progress-or overly rigid structures that fail to capture the complexity of real-world knowledge.</p>
 
-<h4 id="fuzzy-boundaries">Fuzzy Boundaries</h4>
+<h4 id="fuzzy-boundaries">Fuzzy Boundaries<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#fuzzy-boundaries')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h4>
 
 <p>Even when ontologies are present, they tend to be <strong>more fluid than rigid</strong>. Many relationships and categories are <strong>context-dependent</strong>, meaning that the same entity can belong to multiple types depending on the perspective. For example, a company like Apple could simultaneously be categorized under technology, retail, and entertainment, making strict ontological classification difficult. Similarly, some relationships are not clearly binary but exist on a spectrum, further complicating the structured nature of an ontology.</p>
 
 <p>More importantly, an <strong>ontology doesn’t even guarantee that a knowledge graph will function as intended</strong>. The sheer number of moving parts in KG systems makes them feel brittle-small inconsistencies or missing relationships can ripple through the entire structure, causing unexpected failures or incorrect inferences. In reality, only organizations with significant resources and manpower can afford to maintain truly robust KGs, making their accessibility feel almost like an illusion. From the outside, KGs appear to offer a clean, structured way to model knowledge, but the deeper you go, the more evident it becomes that without a dedicated team to continuously refine and update it, a KG can just as easily become a barrier to progress rather than a tool for it. This has been my own experience-rather than enabling seamless knowledge representation, working with KGs often feels like struggling against the very system that was meant to simplify things.</p>
 
-<h4 id="disregarded-in-practice">Disregarded in Practice</h4>
+<h4 id="disregarded-in-practice">Disregarded in Practice<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#disregarded-in-practice')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h4>
 
 <p>With the rise of LLMs and embedding-based KG representations, some modern knowledge graphs move away from traditional ontology-based approaches altogether. Instead of relying on predefined schemas, these methods learn relational patterns from large datasets, often using vector embeddings or probabilistic reasoning. This shift allows for greater scalability and adaptability, making it possible to construct large, dynamic KGs without the bottleneck of manual ontology curation.</p>
 
@@ -655,7 +717,7 @@
 
 <p>In practice, this means that while modern KGs are more automated and scalable, they often sacrifice semantic reliability in the process. This raises a fundamental question: at what point does a knowledge graph stop being a structured knowledge system and start resembling just another probabilistic model?</p>
 
-<h3 id="knowledge-graph-nodes">Knowledge Graph Nodes</h3>
+<h3 id="knowledge-graph-nodes">Knowledge Graph Nodes<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#knowledge-graph-nodes')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
 
 <p>Nodes in a knowledge graph (KG) can take many forms, ranging from simple labels to richly attributed entities. At their core, nodes represent the entities in a KG, but what these nodes actually contain varies depending on the structure of the graph. Some nodes are strictly defined with labels and attributes, while others are more loosely connected, resembling free-text data rather than structured knowledge.</p>
 
@@ -673,7 +735,7 @@
   </li>
 </ol>
 
-<h4 id="unstructured-nodes">Unstructured Nodes</h4>
+<h4 id="unstructured-nodes">Unstructured Nodes<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#unstructured-nodes')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h4>
 
 <p>From my experience, <strong>automatic KG construction with LLMs</strong> is risky because they can easily generate <strong>unstructured nodes</strong>, creating the illusion of structured knowledge. This is especially true with smaller local LLMs, which lack the precision of larger models and often produce loosely connected text blocks rather than well-defined entities.</p>
 
@@ -681,7 +743,7 @@
 
 <p>The ease of generating these nodes makes automatic KGs feel <strong>deceptively complete</strong>, but in reality, they lack the precision and consistency required for structured reasoning. While useful for search and exploration, relying too heavily on unstructured nodes risks turning a KG into just another document network rather than a system of true knowledge representation.</p>
 
-<h4 id="structured-nodes">Structured Nodes</h4>
+<h4 id="structured-nodes">Structured Nodes<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#structured-nodes')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h4>
 
 <p><strong>Structured nodes</strong> are the most common and the most explicitly defined in a knowledge graph. They contain a clear label, a name, and well-defined relationships, making them the closest thing to what most people imagine when thinking of a KG. However, despite their structured nature, they are also the <strong>hardest to automatically construct</strong>, which is why they are typically found in <strong>human-annotated graphs, niche benchmarks, and task-specific toy datasets</strong> rather than large-scale, real-world KGs.</p>
 
@@ -704,7 +766,7 @@
 
 <p>Because of these challenges, structured nodes remain more of an ideal than a reality in large-scale, automated KG construction. While they are essential for high-quality benchmarks and specialized domains, their real-world application is often limited to areas where human supervision is feasible.</p>
 
-<h4 id="semi-structured-nodes">Semi-Structured Nodes</h4>
+<h4 id="semi-structured-nodes">Semi-Structured Nodes<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#semi-structured-nodes')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h4>
 
 <p><strong>Semi-structured nodes</strong> are an emerging concept in recent KG research. While <strong>text-attributed nodes</strong> have existed for a long time, recent efforts focus on optimizing the balance of structured and textual content, especially in response to the rise of LLMs. Instead of rigidly defined entities or purely unstructured text, these nodes contain both attributes and free text, allowing for greater adaptability while maintaining some level of structure.</p>
 
@@ -718,7 +780,7 @@
 
 <p>Tuning the right amount of textual content is key-too little, and the nodes lose adaptability; too much, and they drift toward unstructured representations. As research progresses, semi-structured nodes may bridge the gap between traditional KGs and modern AI-driven knowledge systems, making large-scale, automatically constructed KGs a more realistic goal.</p>
 
-<h3 id="relations">Relations</h3>
+<h3 id="relations">Relations<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#relations')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
 
 <p>In a KG, <strong>relations</strong> define meaning-they are what transform a collection of entities into a structured representation of knowledge. While various approaches exist for modeling relationships, I believe explicit and concise relations are the most effective. Implicit relationships, often justified through graph topology and embeddings, fail to provide clear semantic meaning, making them less convincing in real-world KG applications.</p>
 
@@ -726,7 +788,7 @@
 
 <p>Finding the right level of granularity in relations is crucial. Overly complex schemas can make reasoning brittle, while oversimplified relations can lose the depth necessary for meaningful inference. Striking this balance is what determines whether a KG remains usable, interpretable, and scalable in practice.</p>
 
-<h2 id="evolution-of-autonomous-kg-construction">Evolution of Autonomous KG Construction</h2>
+<h2 id="evolution-of-autonomous-kg-construction">Evolution of Autonomous KG Construction<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#evolution-of-autonomous-kg-construction')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
 
 <p>Automatic knowledge graph construction has evolved through three major stages, each with distinct advantages and challenges:</p>
 
@@ -744,7 +806,7 @@
 
 <p>This progression reflects a shift from precise but rigid systems to adaptive but uncertain models. While LLMs offer unprecedented automation, they also blur the line between structured knowledge and probabilistic inference, raising fundamental questions about KG reliability in real-world applications.</p>
 
-<h2 id="structured-knowledge-in-llms-the-current-landscape">Structured Knowledge in LLMs: The Current Landscape</h2>
+<h2 id="structured-knowledge-in-llms-the-current-landscape">Structured Knowledge in LLMs: The Current Landscape<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#structured-knowledge-in-llms-the-current-landscape')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
 
 <p>Without <strong>specialized or fine-tuned models</strong>, the integration of structured knowledge into LLMs is largely constrained to two main approaches:</p>
 
