@@ -15,7 +15,7 @@ if (Test-Path "_site") {
     # 3. Git commands inside _site
     git add .
     git commit -m "$msg"
-    git push origin main
+    git push
     
     # 4. Return to the main project directory
     Pop-Location
