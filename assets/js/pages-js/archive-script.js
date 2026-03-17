@@ -16,139 +16,37 @@ function handleLogoClick() {
 }
 
 function notifyComingSoon() {
-    if (!document.getElementById('notify-coming-soon-styles')) {
-        const style = document.createElement('style');
-        style.id = 'notify-coming-soon-styles';
-        style.textContent = `
-            #notify-overlay {
-                display: flex;
-                position: fixed;
-                top: 0; left: 0;
-                width: 100%; height: 100%;
-                background-color: rgba(0, 0, 0, 0.5);
-                z-index: 99999;
-                justify-content: center;
-                align-items: center;
-                backdrop-filter: blur(5px);
-                animation: notify-fade-in 0.3s ease;
-            }
-            @keyframes notify-fade-in {
-                from { opacity: 0; }
-                to { opacity: 1; }
-            }
-            #notify-container {
-                padding: 24px;
-                border: var(--border-width, 1px) solid var(--header-footer-shadeLight, #343c4d);
-                background-color: var(--header-bg-color, #1b2130);
-                border-radius: 20px;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                gap: 14px;
-                width: 320px;
-                max-width: 90vw;
-                box-shadow: var(--box-shadow-part-1, 0 0 10px rgba(0,0,0,0.2)), var(--box-shadow-part-2, 0 0 25px rgba(0,0,0,0.4));
-                animation: notify-slide-in 0.4s ease;
-                box-sizing: border-box;
-                font-family: 'Nunito', sans-serif;
-            }
-            @keyframes notify-slide-in {
-                from { opacity: 0; transform: translateY(-40px); }
-                to { opacity: 1; transform: translateY(0); }
-            }
-            #notify-container p.notify-title {
-                color: var(--neon-aqua-accent, #6bd9fa);
-                margin: 0;
-                font-size: 20px;
-                font-family: 'Quicksand', sans-serif;
-            }
-            #notify-container span.notify-desc {
-                color: var(--paragraph-color, #e7e6e6);
-                font-size: 15px;
-                text-align: center;
-                font-family: 'Nunito', sans-serif;
-            }
-            #notify-divider {
-                width: 100%;
-                height: 2px;
-                border-radius: 2px;
-                background-color: var(--header-footer-shadeLight, #343c4d);
-                flex-shrink: 0;
-            }
-            #notify-close-btn {
-                all: unset;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 6px;
-                cursor: pointer;
-                color: var(--paragraph-color, #e7e6e6);
-                border: var(--border-width, 1px) solid var(--header-footer-shadeLight, #343c4d);
-                background-color: var(--header-bg-color, #1b2130);
-                border-radius: 8px;
-                width: 100%;
-                padding: 12px;
-                text-align: center;
-                box-shadow: var(--box-shadow-part-1, 0 0 10px rgba(0,0,0,0.2));
-                box-sizing: border-box;
-                transition: border-color 0.3s ease;
-                font-size: 15px;
-                font-family: 'Nunito', sans-serif;
-            }
-            @media (hover: hover) {
-                #notify-close-btn:hover {
-                    border-color: var(--neon-aqua-accent, #6bd9fa);
-                }
-            }
-        `;
-        document.head.appendChild(style);
+    const overlay = document.getElementById('notify-overlay');
+    if (!overlay) return;
+
+    overlay.style.display = 'flex';
+    overlay.style.animation = 'notify-fade-in 0.3s ease';
+
+    const container = document.getElementById('notify-container');
+    if (container) {
+        container.style.animation = 'notify-slide-in 0.4s ease';
     }
 
-    const overlay = document.createElement('div');
-    overlay.id = 'notify-overlay';
-
-    const container = document.createElement('div');
-    container.id = 'notify-container';
-
-    const svgWrapper = document.createElement('div');
-    svgWrapper.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="40" height="40" fill="none" stroke="var(--neon-aqua-accent, #6bd9fa)" stroke-miterlimit="10"><circle cx="12" cy="12" r="10.5"/><polyline points="12 6.5 12 12 16 14.5"/></svg>`;
-
-    const title = document.createElement('p');
-    title.className = 'notify-title';
-    title.textContent = 'Coming Soon!';
-
-    const divider = document.createElement('div');
-    divider.id = 'notify-divider';
-
-    const descTop = document.createElement('span');
-    descTop.className = 'notify-desc';
-    descTop.textContent = "This is not available yet...";
-
-    const descBottom = document.createElement('span');
-    descBottom.className = 'notify-desc';
-    descBottom.textContent = "Check back later!";
-
-    const closeBtn = document.createElement('button');
-    closeBtn.id = 'notify-close-btn';
-    closeBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="16" height="16" fill="none" stroke="currentColor" stroke-miterlimit="10"><circle cx="12" cy="12" r="10.5"/><line x1="8.18" y1="8.18" x2="15.82" y2="15.82"/><line x1="15.82" y1="8.18" x2="8.18" y2="15.82"/></svg> Dismiss`;
-
-    container.appendChild(svgWrapper);
-    container.appendChild(title);
-    container.appendChild(divider);
-    container.appendChild(descTop);
-    container.appendChild(descBottom);
-    container.appendChild(closeBtn);
-    overlay.appendChild(container);
-    document.body.appendChild(overlay);
-
+    const closeBtn = document.getElementById('notify-close-btn');
+    
     function dismiss() {
         overlay.style.opacity = '0';
         overlay.style.transition = 'opacity 0.3s ease';
-        setTimeout(() => overlay.remove(), 300);
+        setTimeout(() => {
+            overlay.style.display = 'none';
+            overlay.style.opacity = '1';
+        }, 300);
+        
+        if (closeBtn) closeBtn.removeEventListener('click', dismiss);
+        overlay.removeEventListener('click', overlayClick);
+    }
+    
+    function overlayClick(e) {
+        if (e.target === overlay) dismiss();
     }
 
-    closeBtn.addEventListener('click', dismiss);
-    overlay.addEventListener('click', (e) => { if (e.target === overlay) dismiss(); });
+    if (closeBtn) closeBtn.addEventListener('click', dismiss);
+    overlay.addEventListener('click', overlayClick);
 }
 
 function formatDate(dateString, language = 'en') {
@@ -506,14 +404,14 @@ document.addEventListener('DOMContentLoaded', () => {
             // Function to remove accents from Vietnamese characters
             function removeAccents(str) {
                 const map = {
-                    'à': 'a', 'á': 'a', 'ả': 'a', 'ã': 'a', 'ạ': 'a', 'ă': 'a', 'ằ': 'a', 'ắ': 'a', 'ẳ': 'a', 'ẵ': 'a', 'ặ': 'a',
-                    'â': 'a', 'ầ': 'a', 'ấ': 'a', 'ẩ': 'a', 'ẫ': 'a', 'ậ': 'a', 'è': 'e', 'é': 'e', 'ẻ': 'e', 'ẽ': 'e', 'ẹ': 'e',
-                    'ê': 'e', 'ề': 'e', 'ế': 'e', 'ể': 'e', 'ễ': 'e', 'ệ': 'e', 'ì': 'i', 'í': 'i', 'ỉ': 'i', 'ĩ': 'i', 'ị': 'i',
-                    'ò': 'o', 'ó': 'o', 'ỏ': 'o', 'õ': 'o', 'ọ': 'o', 'ô': 'o', 'ồ': 'o', 'ố': 'o', 'ổ': 'o', 'ỗ': 'o', 'ộ': 'o',
-                    'ơ': 'o', 'ờ': 'o', 'ớ': 'o', 'ở': 'o', 'ỡ': 'o', 'ợ': 'o', 'ù': 'u', 'ú': 'u', 'ủ': 'u', 'ũ': 'u', 'ụ': 'u',
-                    'ư': 'u', 'ừ': 'u', 'ứ': 'u', 'ử': 'u', 'ữ': 'u', 'ự': 'u', 'ỳ': 'y', 'ý': 'y', 'ỷ': 'y', 'ỹ': 'y', 'ỵ': 'y',
-                    'đ': 'd', 'Ạ': 'A', 'Ả': 'A', 'Ắ': 'A', 'Ằ': 'A', 'Ẵ': 'A', 'Ả': 'A', 'Á': 'A', 'Ê': 'E', 'Ô': 'O', 'Ơ': 'O',
-                    'Ư': 'U', 'Đ': 'D'
+                    'Ã ': 'a', 'Ã¡': 'a', 'áº£': 'a', 'Ã£': 'a', 'áº¡': 'a', 'Äƒ': 'a', 'áº±': 'a', 'áº¯': 'a', 'áº³': 'a', 'áºµ': 'a', 'áº·': 'a',
+                    'Ã¢': 'a', 'áº§': 'a', 'áº¥': 'a', 'áº©': 'a', 'áº«': 'a', 'áº­': 'a', 'Ã¨': 'e', 'Ã©': 'e', 'áº»': 'e', 'áº½': 'e', 'áº¹': 'e',
+                    'Ãª': 'e', 'á»': 'e', 'áº¿': 'e', 'á»ƒ': 'e', 'á»…': 'e', 'á»‡': 'e', 'Ã¬': 'i', 'Ã­': 'i', 'á»‰': 'i', 'Ä©': 'i', 'á»‹': 'i',
+                    'Ã²': 'o', 'Ã³': 'o', 'á»': 'o', 'Ãµ': 'o', 'á»': 'o', 'Ã´': 'o', 'á»“': 'o', 'á»‘': 'o', 'á»•': 'o', 'á»—': 'o', 'á»™': 'o',
+                    'Æ¡': 'o', 'á»': 'o', 'á»›': 'o', 'á»Ÿ': 'o', 'á»¡': 'o', 'á»£': 'o', 'Ã¹': 'u', 'Ãº': 'u', 'á»§': 'u', 'Å©': 'u', 'á»¥': 'u',
+                    'Æ°': 'u', 'á»«': 'u', 'á»©': 'u', 'á»­': 'u', 'á»¯': 'u', 'á»±': 'u', 'á»³': 'y', 'Ã½': 'y', 'á»·': 'y', 'á»¹': 'y', 'á»µ': 'y',
+                    'Ä‘': 'd', 'áº ': 'A', 'áº¢': 'A', 'áº®': 'A', 'áº°': 'A', 'áº´': 'A', 'áº¢': 'A', 'Ã': 'A', 'ÃŠ': 'E', 'Ã”': 'O', 'Æ ': 'O',
+                    'Æ¯': 'U', 'Ä': 'D'
                 };
                 return str.replace(/[\u00C0-\u1EF9]/g, match => map[match] || match).toLowerCase();
             }

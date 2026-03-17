@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://yuk068.github.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://yuk068.github.io//" rel="alternate" type="text/html" /><updated>2026-03-13T07:14:07+07:00</updated><id>https://yuk068.github.io//feed.xml</id><title type="html">Yuk’s Blog</title><subtitle></subtitle><entry><title type="html">Car Physics - Model 2: Load Transfer Without Traction Limits</title><link href="https://yuk068.github.io//2026/03/12/car-physics-model2" rel="alternate" type="text/html" title="Car Physics - Model 2: Load Transfer Without Traction Limits" /><published>2026-03-12T00:00:00+07:00</published><updated>2026-03-12T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/03/12/car-physics-model2</id><content type="html" xml:base="https://yuk068.github.io//2026/03/12/car-physics-model2"><![CDATA[<h3 id="table-of-content">Table of Content</h3>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2026-03-18T02:05:37+07:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Yuk’s Blog</title><subtitle></subtitle><entry><title type="html">Car Physics - Model 3: Engine Torque + Gearing without Slip</title><link href="http://localhost:4000/2026/03/15/car-physics-model3" rel="alternate" type="text/html" title="Car Physics - Model 3: Engine Torque + Gearing without Slip" /><published>2026-03-15T00:00:00+07:00</published><updated>2026-03-15T00:00:00+07:00</updated><id>http://localhost:4000/2026/03/15/car-physics-model3</id><content type="html" xml:base="http://localhost:4000/2026/03/15/car-physics-model3"><![CDATA[<h3 id="table-of-content">Table of Content</h3>
 
 <blockquote><div class="content">
   <div id="table-of-contents"></div>
@@ -27,7 +27,658 @@
         <li>Weight Transfer</li>
       </ul>
     </li>
-    <li><strong><a href="#" onclick="notifyComingSoon(); return false;">Model 3: Engine Torque + Gearing without Slip (1D)</a></strong>
+    <li><strong><a href="/2026/03/15/car-physics-model3">Model 3: Engine Torque + Gearing without Slip (1D)</a></strong>
+      <ul>
+        <li>Engine Force</li>
+        <li>Gear Ratios</li>
+        <li>Drive Wheel Acceleration (simplified)</li>
+      </ul>
+    </li>
+    <li><strong><a href="#" onclick="notifyComingSoon(); return false;">Model 4: Wheel Rotational Dynamics (1D)</a></strong>
+      <ul>
+        <li>Drive Wheel Acceleration (full)</li>
+      </ul>
+    </li>
+    <li><strong><a href="#" onclick="notifyComingSoon(); return false;">Model 5: Slip Ratio + Traction Curve (1D)</a></strong>
+      <ul>
+        <li>Slip Ratio &amp; Traction Force</li>
+      </ul>
+    </li>
+    <li><strong><a href="#" onclick="notifyComingSoon(); return false;">Model 6: Low-Speed Kinematic Turning (2D)</a></strong>
+      <ul>
+        <li>Curves (low speed)</li>
+      </ul>
+    </li>
+    <li><strong><a href="#" onclick="notifyComingSoon(); return false;">Model 7: High-Speed Lateral Tire Model (2D)</a></strong>
+      <ul>
+        <li>High Speed Turning</li>
+      </ul>
+    </li>
+    <li><strong><a href="#" onclick="notifyComingSoon(); return false;">Model 8: Full Coupled Tire Model (2D)</a></strong></li>
+  </ul>
+</div><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<hr />
+
+<h2 id="model-3-recap">Model 3 Recap</h2>
+
+<p>Alright my bad, in the previous <strong><a href="/2026/03/12/car-physics-model2">Model 2: Load Transfer Without Traction Limits (1D)</a></strong> post, I placed a lot of emphasis on how model 2 feel pointless until model 3. Well, now that I actually have studied model 3, apparently, model 2 are still kinda pointless for model 3 lol… They probably won’t matter up until model 5, but… there’s at least a merit for this, that is model 3 will affect model 2, so there’s that.</p>
+
+<p>So yeah, its also now that i realized my roadmap is not the best to grasp this entire system, but then again, its mine, and its my learning…</p>
+
+<p>For model 3, the most important thing is that we will basically replace our current drive force derivation:</p>
+
+<blockquote><div class="content">
+
+  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>F</mi><mtext>engine</mtext></msub><mo>=</mo><mi>u</mi><mo stretchy="false">(</mo><mi>t</mi><mo stretchy="false">)</mo><mo>⋅</mo><msub><mi>F</mi><mtext>engineMax</mtext></msub></mrow><annotation encoding="application/x-tex">F_{\text{engine}} = u(t) \cdot F_{\text{engineMax}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9694em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3175em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">engine</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">u</span><span class="mopen">(</span><span class="mord mathnormal">t</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.9694em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">engineMax</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span></span>
+</div><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<p>With a much more complex subsystem that involves an actual engine with an actual gearbox. Whats more, model 3 is also kinda similar to model 2 in that we will also be deriving some values that feels pointless right now, but essential later on.</p>
+
+<p>The physics and stuff will pretty much remain the same, meaning if you let the car decelerate without pressing anything, it will pretty much be the same as simulator 1 and 2, what will be different, is mostly… controls.</p>
+
+<p>If I had to, this image pretty much sums up model 3… And I will explain why in this post:</p>
+
+<p><img loading="lazy" src="/assets/images/q1-2026/car-physics/model3/suctioncupwheels.png" alt="suction cup wheels" /></p>
+
+<hr />
+
+<h2 id="1-the-engine">1. The Engine</h2>
+
+<p>In model 1 and model 2, we can imagine the car as a rocket that just magically produce forward motion, well, real cars don’t do that, they have an engine, and it produces <strong>torque</strong>.</p>
+
+<p>Torque is basically just a rotational force compared to the “straight” force that we have been working with for the last 2 models. And thats exactly what the engine do, it spins.</p>
+
+<p>To kind of just get to the gist of it, if previously, we were doing:</p>
+
+<blockquote><div class="content">
+
+  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>F</mi><mtext>engine</mtext></msub><mo>=</mo><mi>u</mi><mo stretchy="false">(</mo><mi>t</mi><mo stretchy="false">)</mo><mo>⋅</mo><msub><mi>F</mi><mtext>engineMax</mtext></msub></mrow><annotation encoding="application/x-tex">F_{\text{engine}} = u(t) \cdot F_{\text{engineMax}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9694em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3175em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">engine</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">u</span><span class="mopen">(</span><span class="mord mathnormal">t</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.9694em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">engineMax</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span></span>
+</div><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<p>now we will be doing:</p>
+
+<blockquote><div class="content">
+
+  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>F</mi><mtext>engine</mtext></msub><mo>=</mo><msub><mi>F</mi><mrow><mi>d</mi><mi>r</mi><mi>i</mi><mi>v</mi><mi>e</mi></mrow></msub><mo>=</mo><mfrac><mrow><mi>u</mi><mo>⋅</mo><msub><mi>T</mi><mrow><mi>e</mi><mi>n</mi><mi>g</mi><mi>i</mi><mi>n</mi><mi>e</mi><mi>M</mi><mi>a</mi><mi>x</mi></mrow></msub><mo>⋅</mo><msub><mi>x</mi><mi>g</mi></msub><mo>⋅</mo><msub><mi>x</mi><mi>d</mi></msub><mo>⋅</mo><mi>n</mi></mrow><msub><mi>R</mi><mi>w</mi></msub></mfrac></mrow><annotation encoding="application/x-tex">F_{\text{engine}} = F_{drive} = \frac{u \cdot T_{engineMax} \cdot x_g \cdot x_d \cdot n}{R_w}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9694em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3175em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">engine</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">d</span><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span><span class="mord mathnormal mtight">i</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">v</span><span class="mord mathnormal mtight">e</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.1963em;vertical-align:-0.836em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3603em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0077em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.02691em;">w</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">u</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">e</span><span class="mord mathnormal mtight">n</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">g</span><span class="mord mathnormal mtight">in</span><span class="mord mathnormal mtight">e</span><span class="mord mathnormal mtight" style="margin-right:0.10903em;">M</span><span class="mord mathnormal mtight">a</span><span class="mord mathnormal mtight">x</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">g</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">d</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord mathnormal">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.836em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span>
+</div><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<ul>
+  <li><strong>Units breakdown</strong></li>
+</ul>
+
+<table>
+  <thead>
+    <tr>
+      <th>Term</th>
+      <th>Meaning</th>
+      <th>Unit</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>$F_{drive}$</td>
+      <td>drive force</td>
+      <td>Newton (N)</td>
+    </tr>
+    <tr>
+      <td>$u$</td>
+      <td>direction</td>
+      <td>unitless</td>
+    </tr>
+    <tr>
+      <td>$T_{engine}$</td>
+      <td>engine torque</td>
+      <td>Newton-meter (N·m)</td>
+    </tr>
+    <tr>
+      <td>$x_g$</td>
+      <td>gear ratio</td>
+      <td>unitless</td>
+    </tr>
+    <tr>
+      <td>$x_d$</td>
+      <td>differential ratio</td>
+      <td>unitless</td>
+    </tr>
+    <tr>
+      <td>$n$</td>
+      <td>efficiency</td>
+      <td>unitless     (0.0–1.0)</td>
+    </tr>
+    <tr>
+      <td>$R_w$</td>
+      <td>wheel radius</td>
+      <td>meters (m)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Quick consistency check: $\frac{N \cdot m}{m} = N$, so, still a force like $F_{\text{engine}}$.</p>
+
+<p>For now, lets focus on $ T_{engineMax} $.</p>
+
+<hr />
+
+<h3 id="11-the-torquepower-curve">1.1. The Torque/Power Curve</h3>
+
+<h4 id="111-first-intuition">1.1.1. First Intuition</h4>
+
+<p>In their guide, they have this plot:</p>
+
+<p><img loading="lazy" src="/assets/images/q1-2026/car-physics/model3/torquepowercurve.png" alt="torque power curve" /></p>
+
+<div class="media-description"><a href="https://www.asawicki.info/Mirror/Car%20Physics%20for%20Games/Car%20Physics%20for%20Games.html" target="_blank" rel="noopener noreferrer">Macro Monster, 2003</a></div>
+
+<p>Now, a quickie: <code class="language-plaintext highlighter-rouge">rpm</code> (revolution per minute), basically how many times the engine made a full 360 degree spin with its shaft in 1 minute. In this context, we can think of the relationship between torque and rpm as follow:</p>
+
+<blockquote><div class="content">
+
+  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>T</mi><mrow><mi>e</mi><mi>n</mi><mi>g</mi><mi>i</mi><mi>n</mi><mi>e</mi><mi>M</mi><mi>a</mi><mi>x</mi></mrow></msub><mo>=</mo><mi>f</mi><mo stretchy="false">(</mo><mi>r</mi><mi>p</mi><mi>m</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">T_{engineMax} = f(rpm)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9694em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">e</span><span class="mord mathnormal mtight">n</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">g</span><span class="mord mathnormal mtight">in</span><span class="mord mathnormal mtight">e</span><span class="mord mathnormal mtight" style="margin-right:0.10903em;">M</span><span class="mord mathnormal mtight">a</span><span class="mord mathnormal mtight">x</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal">p</span><span class="mord mathnormal">m</span><span class="mclose">)</span></span></span></span></span>
+</div><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<p>And by the way, we won’t be touching <code class="language-plaintext highlighter-rouge">hp</code> (horsepower) in pretty much our entire roadmap, its just an equivalent unit more commonly used amongst car folks and engineers.</p>
+
+<p>Here’s the same plot using SI units, matching our current unit set:</p>
+
+<p><img loading="lazy" src="/assets/images/q1-2026/car-physics/model3/torquepowercurvesiunit.png" alt="torque power curve si" /></p>
+
+<div class="media-description"><a href="https://www.asawicki.info/Mirror/Car%20Physics%20for%20Games/Car%20Physics%20for%20Games.html" target="_blank" rel="noopener noreferrer">Macro Monster, 2003</a></div>
+
+<p>Again, we will only be focusing on torque, so pay attention to the orange line for now.</p>
+
+<p>Now, as someone who have never driven before, when I first look at this, my first question is: <em>“Why isn’t this orange line always increasing?”</em>. Well, the engine basically have a “sweet-spot” for it to be able to deliver maximum torque, which is usually around the mid-high range of this line as you can see, once we go past that maxima, both torque and power goes down.</p>
+
+<p>What’s more, notice how this plot isn’t defined at $ \leq 1000 $ rpm and $ ~&gt; 6000 $ rpm, the specific value here doesn’t really matter, lets just call them the left side and the right side…</p>
+
+<p>In car lingo, the left side is called the <strong>stall zone</strong> meaning you can’t really produce torque successfully at that rpm, again, we are not dealing with an arbitrary force generator anymore, we are dealing with a real life engine. Basically if you start an engine, it <em>have</em> to start spinning at that rpm. Not that it can’t literally spin at that rpm, but rather, it can’t maintain it without dying and needing to restart.</p>
+
+<p>And beyond the right side, is what they call the <strong>redline</strong>, if you go beyond this point, you will damage your engine.</p>
+
+<hr />
+
+<h4 id="112-example-torque-curve-implementation">1.1.2. Example Torque Curve Implementation</h4>
+
+<p><strong><em>But now, what does this curve actually mean for us? And what is its relation to the new $F_{drive}$ equation?</em></strong></p>
+
+<p>Having defined that $T_{engineMax} = f(rpm)$, and seeing that the torque curve doesn’t seem to be a function (these curves are determined from engine tests), we can imagine that we will be implementing this torque thing with a look up table, something like this:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div><div class="line-number">19</div><div class="line-number">20</div><div class="line-number">21</div><div class="line-number">22</div><div class="line-number">23</div><div class="line-number">24</div><div class="line-number">25</div><div class="line-number">26</div><div class="line-number">27</div></div><pre class="highlight"><code><span class="c1"># Simplified Torque Lookup Table for an LS1 Engine (RPM, Torque in Nm)
+# Based on SI unit plot values
+</span><span class="n">TORQUE_CURVE</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">390</span><span class="p">),</span>
+    <span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">430</span><span class="p">),</span>
+    <span class="p">(</span><span class="mi">3000</span><span class="p">,</span> <span class="mi">450</span><span class="p">),</span>
+    <span class="p">(</span><span class="mi">4000</span><span class="p">,</span> <span class="mi">470</span><span class="p">),</span>
+    <span class="p">(</span><span class="mi">4400</span><span class="p">,</span> <span class="mi">475</span><span class="p">),</span> <span class="c1"># Peak Torque
+</span>    <span class="p">(</span><span class="mi">5000</span><span class="p">,</span> <span class="mi">460</span><span class="p">),</span>
+    <span class="p">(</span><span class="mi">6000</span><span class="p">,</span> <span class="mi">390</span><span class="p">)</span>  <span class="c1"># Redline
+</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">get_max_torque</span><span class="p">(</span><span class="n">rpm</span><span class="p">):</span>
+    <span class="c1"># Handle Stall Zone and Redline boundaries
+</span>    <span class="k">if</span> <span class="n">rpm</span> <span class="o">&lt;=</span> <span class="n">TORQUE_CURVE</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]:</span> <span class="k">return</span> <span class="n">TORQUE_CURVE</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">rpm</span> <span class="o">&gt;=</span> <span class="n">TORQUE_CURVE</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]:</span> <span class="k">return</span> <span class="n">TORQUE_CURVE</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+    
+    <span class="c1"># Linear Interpolation between points
+</span>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">TORQUE_CURVE</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">rpm_low</span><span class="p">,</span> <span class="n">torque_low</span> <span class="o">=</span> <span class="n">TORQUE_CURVE</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">rpm_high</span><span class="p">,</span> <span class="n">torque_high</span> <span class="o">=</span> <span class="n">TORQUE_CURVE</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+        
+        <span class="k">if</span> <span class="n">rpm_low</span> <span class="o">&lt;=</span> <span class="n">rpm</span> <span class="o">&lt;=</span> <span class="n">rpm_high</span><span class="p">:</span>
+            <span class="c1"># Calculate how far we are between the two points (0.0 to 1.0)
+</span>            <span class="n">fraction</span> <span class="o">=</span> <span class="p">(</span><span class="n">rpm</span> <span class="o">-</span> <span class="n">rpm_low</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">rpm_high</span> <span class="o">-</span> <span class="n">rpm_low</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">torque_low</span> <span class="o">+</span> <span class="n">fraction</span> <span class="o">*</span> <span class="p">(</span><span class="n">torque_high</span> <span class="o">-</span> <span class="n">torque_low</span><span class="p">)</span>
+    <span class="k">return</span> <span class="mi">0</span>
+</code></pre><span class="language-label">Python</span><button class="copy-button"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<p>And for <code class="language-plaintext highlighter-rouge">rpm</code>, we can calculate it from the car’s current motion:</p>
+
+<blockquote><div class="content">
+
+  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>rpm</mtext><mo>=</mo><msub><mi>ω</mi><mrow><mi>w</mi><mi>h</mi><mi>e</mi><mi>e</mi><mi>l</mi></mrow></msub><mo>⋅</mo><msub><mi>x</mi><mi>g</mi></msub><mo>⋅</mo><msub><mi>x</mi><mi>d</mi></msub><mo>⋅</mo><mfrac><mn>60</mn><mrow><mn>2</mn><mi>π</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">\text{rpm} = \omega_{wheel} \cdot x_g \cdot x_d \cdot \frac{60}{2\pi}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">rpm</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.5945em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">ω</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.02691em;">w</span><span class="mord mathnormal mtight">h</span><span class="mord mathnormal mtight">ee</span><span class="mord mathnormal mtight" style="margin-right:0.01968em;">l</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7306em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">g</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.5945em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">d</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:2.0074em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3214em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">2</span><span class="mord mathnormal" style="margin-right:0.03588em;">π</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">60</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span>
+</div><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<p>where:</p>
+
+<blockquote><div class="content">
+
+  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>ω</mi><mrow><mi>w</mi><mi>h</mi><mi>e</mi><mi>e</mi><mi>l</mi></mrow></msub><mo>=</mo><mfrac><mi>v</mi><msub><mi>R</mi><mi>w</mi></msub></mfrac></mrow><annotation encoding="application/x-tex">\omega_{wheel} = \frac{v}{R_w}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">ω</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.02691em;">w</span><span class="mord mathnormal mtight">h</span><span class="mord mathnormal mtight">ee</span><span class="mord mathnormal mtight" style="margin-right:0.01968em;">l</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.9436em;vertical-align:-0.836em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.1076em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0077em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.02691em;">w</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.836em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span>
+</div><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<p>But remember our <strong>stall zone</strong>? in implementation, we can do something like this:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div></div><pre class="highlight"><code><span class="n">rpm</span> <span class="o">=</span> <span class="nf">max</span><span class="p">(</span><span class="n">rpm</span><span class="p">,</span> <span class="n">rpm_idle</span><span class="p">)</span>  <span class="c1"># rpm_idle ~1000
+</span></code></pre><span class="language-label">Python</span><button class="copy-button"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<p>So technically, the engine is <strong>always</strong> running for our simulator. You may be asking, if the engine is spinning, and both rpm and torque is only defined starting from 1000 and below 6000, so meaning that we are idling with the engine spinning at 1000 rpm, so is my car going to always move? Well, for that, we are going to talk about a real pedal in a car called a <strong>clutch</strong>, its a component for the driver to disconnect the engine from the wheels, meaning the engine spins but the wheels doesn’t. We are going to talk more about it later, for now, don’t worry about that.</p>
+
+<p>And about the <strong>redline</strong>, if we simply do:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div></div><pre class="highlight"><code><span class="n">rpm</span> <span class="o">=</span> <span class="nf">min</span><span class="p">(</span><span class="n">rpm</span><span class="p">,</span> <span class="n">rpm_redline</span><span class="p">)</span>
+</code></pre><span class="language-label">Python</span><button class="copy-button"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<p>then we aren’t actually simulating a “limit”, we are just pretending the engine stops getting faster while still allowing it to produce maximum force.</p>
+
+<p>So instead, what we should do is:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div></div><pre class="highlight"><code><span class="k">if</span> <span class="n">rpm</span> <span class="o">&gt;</span> <span class="n">rpm_redline</span><span class="p">:</span>
+    <span class="n">T_engine</span> <span class="o">=</span> <span class="mi">0</span>
+</code></pre><span class="language-label">Python</span><button class="copy-button"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<p>above approach is called a <code class="language-plaintext highlighter-rouge">rev limiter</code>. This creates a “hard cut” where the engine stops producing torque until the RPM drops back into the safe zone. This provides immediate feedback to the player that they need to <strong>shift gears</strong>. If this gets confusing… it was and probably still is for me too, just kinda know that actual real cars does this rev limiter thing. In real car, say the engine is doing a smooth continuous “rvrrrrrrr”, this rev limiter thing is what make that “rvrm rvrm rvrm rvrm rvrm rvrm” sound, which exactly translate to us setting <code class="language-plaintext highlighter-rouge">T_engine = 0</code> continuously as we are just neck close to the redline.</p>
+
+<p>So thats $T_{engineMax}$ for us, but remember that the entire engine is:</p>
+
+<blockquote><div class="content">
+
+  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>F</mi><mrow><mi>d</mi><mi>r</mi><mi>i</mi><mi>v</mi><mi>e</mi></mrow></msub><mo>=</mo><mfrac><mrow><mi>u</mi><mo>⋅</mo><msub><mi>T</mi><mrow><mi>e</mi><mi>n</mi><mi>g</mi><mi>i</mi><mi>n</mi><mi>e</mi><mi>M</mi><mi>a</mi><mi>x</mi></mrow></msub><mo>⋅</mo><msub><mi>x</mi><mi>g</mi></msub><mo>⋅</mo><msub><mi>x</mi><mi>d</mi></msub><mo>⋅</mo><mi>n</mi></mrow><msub><mi>R</mi><mi>w</mi></msub></mfrac></mrow><annotation encoding="application/x-tex">F_{drive} = \frac{u \cdot T_{engineMax} \cdot x_g \cdot x_d \cdot n}{R_w}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">d</span><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span><span class="mord mathnormal mtight">i</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">v</span><span class="mord mathnormal mtight">e</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.1963em;vertical-align:-0.836em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3603em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0077em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.02691em;">w</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">u</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">e</span><span class="mord mathnormal mtight">n</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">g</span><span class="mord mathnormal mtight">in</span><span class="mord mathnormal mtight">e</span><span class="mord mathnormal mtight" style="margin-right:0.10903em;">M</span><span class="mord mathnormal mtight">a</span><span class="mord mathnormal mtight">x</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">g</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">d</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord mathnormal">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.836em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span>
+</div><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<p>In the next section, we will be breaking down the rest of the arguments in the above equation.</p>
+
+<hr />
+
+<h3 id="12-gear-ratios">1.2. Gear Ratios</h3>
+
+<p>In our drive force equation, $x_g$ (Gear Ratio) and $x_d$ (Differential Ratio) transform engine effort into wheel force. For a Corvette C5, the values look like this:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Gear</th>
+      <th style="text-align: left">Ratio ($x_g$)</th>
+      <th style="text-align: left">Total Multiplier ($x_g \cdot x_d$)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">First gear</td>
+      <td style="text-align: left">2.66</td>
+      <td style="text-align: left">~9.10</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Second gear</td>
+      <td style="text-align: left">1.78</td>
+      <td style="text-align: left">~6.08</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Third gear</td>
+      <td style="text-align: left">1.30</td>
+      <td style="text-align: left">~4.44</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Fourth gear</td>
+      <td style="text-align: left">1.00</td>
+      <td style="text-align: left">~3.42</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Fifth gear</td>
+      <td style="text-align: left">0.74</td>
+      <td style="text-align: left">~2.53</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Sixth gear</td>
+      <td style="text-align: left">0.50</td>
+      <td style="text-align: left">~1.71</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Reverse</td>
+      <td style="text-align: left">2.90</td>
+      <td style="text-align: left">~9.91</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Differential</td>
+      <td style="text-align: left">$x_d = 3.42$</td>
+      <td style="text-align: left">—</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Think of the Differential Ratio as a global multiplier that’s always on. The Gear Ratio is the one the driver (or your code) swaps out.</p>
+
+<p>In 1st gear, your total multiplier is 9.1. This means for every $1\text{ Nm}$ of torque your engine makes, the axle gets $9.1\text{ Nm}$ of twisting force. Even if we lose 30% of that energy to heat and friction ($n = 0.7$), we still end up with a massive mechanical advantage.</p>
+
+<hr />
+
+<h4 id="121-strength-vs-speed">1.2.1. Strength vs. Speed</h4>
+
+<p>You can’t just multiply torque forever and get a rocket ship for free. Physics demands a trade-off: Strength vs. Speed.</p>
+
+<ul>
+  <li><strong>Low Gears (High Ratio)</strong>: You get massive torque (strength) to overcome the car’s inertia and start moving, but the engine has to spin 9.1 times just to make the wheels spin once.</li>
+  <li><strong>High Gears (Low Ratio)</strong>: You get less torque, but the wheels can spin much faster relative to the engine. This is why you can’t start a car in 6th gear. You have the speed, but not the muscle to move the mass.</li>
+</ul>
+
+<p><img loading="lazy" src="/assets/images/q1-2026/car-physics/model3/torquecurvepergear.png" alt="torque power curve per gear" /></p>
+
+<div class="media-description"><a href="https://www.asawicki.info/Mirror/Car%20Physics%20for%20Games/Car%20Physics%20for%20Games.html" target="_blank" rel="noopener noreferrer">Macro Monster, 2003</a></div>
+
+<p>This is how it looks when we plot it. The yellow line (Gear 1) is a huge spike of torque, but it runs out of RPM very quickly. The dark blue line (Gear 6) is much lower, but it stretches way further to the right.</p>
+
+<p>The above plot we looked at was technically correct, but it’s a bit confusing. It tells you what the motor is doing, but it doesn’t tell you what the car is doing. To bridge that gap, take a look at this plot:</p>
+
+<div id="gearingPlot" style="width:100%; aspect-ratio: 5/3;"></div>
+
+<div style="margin: 1rem 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+  <div>
+    <label>Final Drive Ratio: <span id="fdValue">3.42</span></label><br />
+    <input type="range" id="fdSlider" min="2.0" max="5.0" step="0.01" value="3.42" style="width: 100%;" />
+  </div>
+  <div>
+    <label>Peak Engine Torque (N·m): <span id="tqValue">450</span></label><br />
+    <input type="range" id="tqSlider" min="200" max="1000" step="10" value="450" style="width: 100%;" />
+  </div>
+  <div>
+    <label>Wheel Radius (m): <span id="rValue">0.33</span></label><br />
+    <input type="range" id="rSlider" min="0.25" max="0.45" step="0.01" value="0.33" style="width: 100%;" />
+  </div>
+</div>
+
+<div style="background-color: var(--header-bg-color); padding: 1rem; border-radius: 10px; margin: 1rem 0; border: var(--border-width) solid var(--header-footer-shadeLight);">
+  <strong>Drivetrain Specs:</strong><br />
+  <span style="color: var(--description-color);">Max Tractive Force (Gear 1): <span id="maxForceResult" style="font-size: 1.2rem; font-weight: bold; color: var(--neon-aqua-accent);">12404 N</span></span><br />
+  <span style="color: var(--description-color);">Theoretical Top Speed (Gear 6 @ 6000 RPM): <span id="topSpeedResult">92.6 m/s (333 km/h)</span></span>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initial Parameters
+    let finalDrive = 3.42;
+    let peakTorque = 450;
+    let wheelRadius = 0.33;
+    
+    // Standard 6-speed manual gear ratios (e.g., Tremec T56)
+    const gearRatios = [2.66, 1.78, 1.30, 1.00, 0.74, 0.50];
+    
+    // Normalized Engine Torque Curve [RPM, NormalizedTorque]
+    const baseEngineCurve = [
+        [800, 0.60], [1000, 0.70], [2000, 0.85], [3000, 0.95], 
+        [4000, 1.00], [5000, 0.95], [6000, 0.80], [6500, 0.60]
+    ];
+    const idleRpm = 800;
+    const redlineRpm = 6500;
+
+    // Linear interpolation for engine torque
+    function getTorqueAtRpm(rpm) {
+        if (rpm < idleRpm || rpm > redlineRpm) return 0;
+        for (let i = 0; i < baseEngineCurve.length - 1; i++) {
+            if (rpm >= baseEngineCurve[i][0] && rpm <= baseEngineCurve[i + 1][0]) {
+                const rpm1 = baseEngineCurve[i][0], tq1 = baseEngineCurve[i][1];
+                const rpm2 = baseEngineCurve[i + 1][0], tq2 = baseEngineCurve[i + 1][1];
+                const ratio = (rpm - rpm1) / (rpm2 - rpm1);
+                return (tq1 + ratio * (tq2 - tq1)) * peakTorque;
+            }
+        }
+        return 0;
+    }
+
+    function updateGearingPlot() {
+        const traces = [];
+        const colors = ['#2E86AB', '#A23B72', '#F4A261', '#2A9D8F', '#E76F51', '#8AB17D'];
+        
+        let globalMaxForce = 0;
+        let globalMaxSpeed = 0;
+
+        // 1. Generate traces for each gear
+        gearRatios.forEach((gear, index) => {
+            const v_array = [];
+            const f_array = [];
+            
+            for (let rpm = idleRpm; rpm <= redlineRpm; rpm += 100) {
+                // Wheel speed in rad/s = (Engine RPM * 2PI / 60) / (Gear * FinalDrive)
+                const w_wheel = (rpm * 2 * Math.PI / 60) / (gear * finalDrive);
+                const v = w_wheel * wheelRadius; // Speed in m/s
+                
+                const engineTq = getTorqueAtRpm(rpm);
+                // Tractive Force = Engine Torque * Gear * FinalDrive / WheelRadius
+                const force = (engineTq * gear * finalDrive) / wheelRadius;
+                
+                v_array.push(v);
+                f_array.push(force);
+                
+                if (force > globalMaxForce) globalMaxForce = force;
+                if (v > globalMaxSpeed) globalMaxSpeed = v;
+            }
+            
+            traces.push({
+                x: v_array, y: f_array,
+                type: 'scatter', mode: 'lines',
+                name: `Gear ${index + 1} (${gear.toFixed(2)})`,
+                line: {color: colors[index], width: 2}
+            });
+        });
+
+        // 2. Generate the Optimal Envelope trace
+        const env_v_array = [];
+        const env_f_array = [];
+        const speedStep = globalMaxSpeed / 200;
+        
+        for (let v = 0; v <= globalMaxSpeed; v += speedStep) {
+            let maxForceAtV = 0;
+            // Check which gear gives the most force at this speed
+            gearRatios.forEach(gear => {
+                // Back-calculate RPM from speed
+                const w_wheel = v / wheelRadius;
+                const rpm = (w_wheel * gear * finalDrive * 60) / (2 * Math.PI);
+                
+                if (rpm >= idleRpm && rpm <= redlineRpm) {
+                    const tq = getTorqueAtRpm(rpm);
+                    const f = (tq * gear * finalDrive) / wheelRadius;
+                    if (f > maxForceAtV) maxForceAtV = f;
+                }
+            });
+            if (maxForceAtV > 0) {
+                env_v_array.push(v);
+                env_f_array.push(maxForceAtV);
+            }
+        }
+
+        // Add Envelope to traces
+        traces.push({
+            x: env_v_array, y: env_f_array,
+            type: 'scatter', mode: 'lines',
+            name: 'Optimal Envelope',
+            line: {color: '#333333', width: 4, dash: 'dot'},
+            hoverinfo: 'skip'
+        });
+
+        // 3. Layout configuration matching your specific style
+        const layout = {
+            autosize: true,
+            title: 'Tractive Force vs. Vehicle Speed',
+            xaxis: {
+                title: {text: 'Speed (m/s)'},
+                rangemode: 'tozero',
+                zeroline: true,
+                zerolinewidth: 1.5,
+                zerolinecolor: '#333',
+                showgrid: true,
+                gridcolor: '#e5e7eb',
+                automargin: true
+            },
+            yaxis: {
+                title: {text: 'Tractive Force (N)'},
+                rangemode: 'tozero',
+                zeroline: true,
+                zerolinewidth: 1.5,
+                zerolinecolor: '#333',
+                showgrid: true,
+                gridcolor: '#e5e7eb',
+                automargin: true
+            },
+            plot_bgcolor: '#ffffff',
+            paper_bgcolor: '#ffffff',
+            hovermode: 'x unified',
+            margin: {t: 40, b: 70, l: 80, r: 20},
+            legend: {
+                x: 1, y: 1,
+                xanchor: 'right', yanchor: 'top',
+                bgcolor: 'rgba(255,255,255,0.8)'
+            }
+        };
+
+        Plotly.react('gearingPlot', traces, layout, {responsive: true});
+
+        // 4. Update the info box text
+        document.getElementById('maxForceResult').textContent = globalMaxForce.toFixed(0) + ' N';
+        const topSpeedKmh = globalMaxSpeed * 3.6;
+        document.getElementById('topSpeedResult').textContent = `${globalMaxSpeed.toFixed(1)} m/s (${topSpeedKmh.toFixed(0)} km/h)`;
+    }
+
+    // Event Listeners
+    document.getElementById('fdSlider').addEventListener('input', function(e) {
+        finalDrive = parseFloat(e.target.value);
+        document.getElementById('fdValue').textContent = finalDrive.toFixed(2);
+        updateGearingPlot();
+    });
+    
+    document.getElementById('tqSlider').addEventListener('input', function(e) {
+        peakTorque = parseFloat(e.target.value);
+        document.getElementById('tqValue').textContent = peakTorque;
+        updateGearingPlot();
+    });
+    
+    document.getElementById('rSlider').addEventListener('input', function(e) {
+        wheelRadius = parseFloat(e.target.value);
+        document.getElementById('rValue').textContent = wheelRadius.toFixed(2);
+        updateGearingPlot();
+    });
+
+    // Initial render
+    updateGearingPlot();
+});
+</script>
+
+<ul>
+  <li><strong>The X-Axis (Speed in m/s)</strong>: Now, you can see exactly how much “road” each gear covers.</li>
+  <li><strong>The Y-Axis (Tractive Force in N)</strong>: Instead of Torque (which is rotational), we are measuring Newtons. This is the direct translation for the tires exert against the asphalt to move the car’s mass forward.</li>
+</ul>
+
+<p>Each coloured curve is generated from the same core relationships:</p>
+
+<ul>
+  <li>Total torque multiplication (engine -&gt; wheel):</li>
+</ul>
+
+<blockquote><div class="content">
+
+  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>Wheel Torque</mtext><mo>=</mo><mtext>Engine Torque</mtext><mo>×</mo><msub><mi>x</mi><mi>g</mi></msub><mo>×</mo><msub><mi>x</mi><mi>d</mi></msub></mrow><annotation encoding="application/x-tex">\text{Wheel Torque} = \text{Engine Torque} \times x_g \times x_d</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">Wheel Torque</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">Engine Torque</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8694em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">g</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">d</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span>
+</div><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<ul>
+  <li>Tractive force (convert rotational torque to linear thrust):</li>
+</ul>
+
+<blockquote><div class="content">
+
+  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>F</mi><mrow><mi mathvariant="normal">t</mi><mi mathvariant="normal">r</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">c</mi><mi mathvariant="normal">t</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">v</mi><mi mathvariant="normal">e</mi></mrow></msub><mo>=</mo><mfrac><mtext>Wheel Torque</mtext><msub><mi>R</mi><mi>w</mi></msub></mfrac></mrow><annotation encoding="application/x-tex">F_{\mathrm{tractive}} = \frac{\text{Wheel Torque}}{R_w}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3175em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathrm mtight">tractive</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.2074em;vertical-align:-0.836em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3714em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0077em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.02691em;">w</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord text"><span class="mord">Wheel Torque</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.836em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span>
+</div><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<ul>
+  <li>Speed translation (engine RPM → vehicle speed):</li>
+</ul>
+
+<blockquote><div class="content">
+
+  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>v</mi><mo>=</mo><mfrac><mrow><mtext>RPM</mtext><mo>×</mo><mn>2</mn><mi>π</mi><mo>×</mo><msub><mi>R</mi><mi>w</mi></msub></mrow><mrow><mn>60</mn><mo>×</mo><msub><mi>x</mi><mi>g</mi></msub><mo>×</mo><msub><mi>x</mi><mi>d</mi></msub></mrow></mfrac></mrow><annotation encoding="application/x-tex">v = \frac{\text{RPM} \times 2\pi \times R_w}{60 \times x_g \times x_d}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.3324em;vertical-align:-0.9721em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3603em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">60</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">g</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">d</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord text"><span class="mord">RPM</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">2</span><span class="mord mathnormal" style="margin-right:0.03588em;">π</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0077em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.02691em;">w</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.9721em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span>
+</div><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<p>The black dotted curve is the <strong>Optimal Envelope</strong>: for each speed it shows the maximum tractive force available across all gears. Staying on this envelope maximizes acceleration. Where two gear curves cross is the mathematical shift point, beyond that speed a higher gear produces more tractive force, so remaining in the lower gear would reduce acceleration.</p>
+
+<hr />
+
+<h4 id="122-the-final-calculation">1.2.2. The Final Calculation</h4>
+
+<p>To get the final $F_{drive}$ that we actually plug into our physics loop, we take that engine torque and finish the math:</p>
+
+<blockquote><div class="content">
+
+  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>F</mi><mrow><mi>d</mi><mi>r</mi><mi>i</mi><mi>v</mi><mi>e</mi></mrow></msub><mo>=</mo><mfrac><mrow><msub><mi>T</mi><mrow><mi>e</mi><mi>n</mi><mi>g</mi><mi>i</mi><mi>n</mi><mi>e</mi></mrow></msub><mo>⋅</mo><msub><mi>x</mi><mi>g</mi></msub><mo>⋅</mo><msub><mi>x</mi><mi>d</mi></msub><mo>⋅</mo><mi>n</mi></mrow><msub><mi>R</mi><mi>w</mi></msub></mfrac></mrow><annotation encoding="application/x-tex">F_{drive} = \frac{T_{engine} \cdot x_g \cdot x_d \cdot n}{R_w}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">d</span><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span><span class="mord mathnormal mtight">i</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">v</span><span class="mord mathnormal mtight">e</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.1963em;vertical-align:-0.836em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3603em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0077em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.02691em;">w</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">e</span><span class="mord mathnormal mtight">n</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">g</span><span class="mord mathnormal mtight">in</span><span class="mord mathnormal mtight">e</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">g</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">d</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord mathnormal">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.836em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span>
+</div><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<p>Using the Corvette example at peak torque ($475\text{ Nm}$) in 1st gear:</p>
+
+<blockquote><div class="content">
+
+  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mfrac><mrow><mn>475</mn><mo>⋅</mo><mn>2.66</mn><mo>⋅</mo><mn>3.42</mn><mo>⋅</mo><mn>0.7</mn></mrow><mn>0.33</mn></mfrac><mo>≈</mo><mn>9166</mn><mtext> N of force</mtext></mrow><annotation encoding="application/x-tex">\frac{475 \cdot 2.66 \cdot 3.42 \cdot 0.7}{0.33} \approx 9166\text{ N of force}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:2.0074em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3214em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">0.33</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">475</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">2.66</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">3.42</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">0.7</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord">9166</span><span class="mord text"><span class="mord"> N of force</span></span></span></span></span></span>
+</div><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<p>With $9166\text{ N}$ of force pushing a $1439\text{ kg}$ car, you get an acceleration of $6.4\text{ m/s}^2$.</p>
+
+<blockquote><div class="content">
+  <p>Note: if you notice, some curves in the plot above are defined within the <strong>stall zone</strong> that we mentioned. Its crucial to know that X-axis on this specific plot isn’t representing Engine RPM (like in the torque power curve plot) anymore, it is representing Axle RPM (the speed of the rear wheels). Which is why that black curve is literally just “engine”</p>
+
+  <p>When you are in a high gear ratio (like 1st gear), the wheels spin much slower than the engine.</p>
+</div><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<hr />
+
+<h4 id="123-about-the-clutch">1.2.3. About the Clutch</h4>
+
+<p>Earlier, I briefly mentioned the clutch, to recap: Up until now, we’ve been assuming that the engine and the wheels are always perfectly connected. In reality, that’s not always true, and this is where the clutch comes in.</p>
+
+<p>The clutch is a component that allows the driver to temporarily disconnect the engine from the drivetrain. When you press the clutch pedal, the engine can keep spinning freely without forcing the wheels to spin with it.</p>
+
+<p>Now, for our simulator(s), we are <strong>not implementing the clutch</strong> (at least not until much later, probably). I think right now, it just adds way to much complexity and is genuinely a difficult component to grasp especially for people who have never driven before. This is not physically perfect, but it keeps the system stable, simple, and focused on the core ideas.</p>
+
+<hr />
+
+<h4 id="124-transmission-modes-going-forward">1.2.4. Transmission Modes Going Forward</h4>
+
+<p>“Transmission” just mean a connection between the engine and the wheels when talking about a car, it “transmits” power. With that being said, starting from model 3, I will be focusing on 2 main transmissions:</p>
+
+<ul>
+  <li><strong>Manual transmission:</strong>
+    <ul>
+      <li>You control gear shifting directly</li>
+      <li>No clutch (so this is a simplified manual)</li>
+    </ul>
+  </li>
+  <li><strong>Automatic transmission:</strong>
+    <ul>
+      <li>The system shifts gears for you</li>
+      <li>Brake can also act as reverse at low speeds</li>
+    </ul>
+  </li>
+</ul>
+
+<p>This lets us explore the physics and behaviors without literally learning how to drive. Automatic will also be helpful if in the future we want to explore autonomous vehicles ;).</p>
+
+<hr />
+
+<h2 id="2-the-suction-cup-wheels">2. The Suction Cup Wheels</h2>
+
+<p>This post is a work in progress, sorry i had to push it early cause im testing something</p>]]></content><author><name></name></author><category term="technical" /><category term="work in progress" /><category term="game physics" /><category term="simulation" /><category term="interactive plot" /><category term="python" /><summary type="html"><![CDATA[Implementing and Comprehending Marco Monster’s Car Physics model - Part 3]]></summary></entry><entry><title type="html">Car Physics - Model 2: Load Transfer Without Traction Limits</title><link href="http://localhost:4000/2026/03/12/car-physics-model2" rel="alternate" type="text/html" title="Car Physics - Model 2: Load Transfer Without Traction Limits" /><published>2026-03-12T00:00:00+07:00</published><updated>2026-03-12T00:00:00+07:00</updated><id>http://localhost:4000/2026/03/12/car-physics-model2</id><content type="html" xml:base="http://localhost:4000/2026/03/12/car-physics-model2"><![CDATA[<h3 id="table-of-content">Table of Content</h3>
+
+<blockquote><div class="content">
+  <div id="table-of-contents"></div>
+</div><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<ul>
+  <li><strong>Main reference: <a href="https://www.asawicki.info/Mirror/Car%20Physics%20for%20Games/Car%20Physics%20for%20Games.html" target="_blank">Marco Monster’s Car Physics</a></strong></li>
+  <li><strong>Main Github repo: <a href="https://github.com/duy-phamduc68/Car-Physics" target="_blank">duy-phamduc68/Car-Physics</a>.</strong></li>
+</ul>
+
+<hr />
+
+<h3 id="roadmap">Roadmap</h3>
+
+<blockquote><div class="content">
+  <ul>
+    <li><strong><a href="/2026/03/03/car-physics-model1">Model 1: Longitudinal Point Mass (1D)</a></strong>
+      <ul>
+        <li>Straight Line Physics</li>
+        <li>Magic Constants</li>
+        <li>Braking</li>
+      </ul>
+    </li>
+    <li><strong><a href="/2026/03/12/car-physics-model2">Model 2: Load Transfer Without Traction Limits (1D)</a></strong>
+      <ul>
+        <li>Weight Transfer</li>
+      </ul>
+    </li>
+    <li><strong><a href="/2026/03/15/car-physics-model3">Model 3: Engine Torque + Gearing without Slip (1D)</a></strong>
       <ul>
         <li>Engine Force</li>
         <li>Gear Ratios</li>
@@ -869,7 +1520,7 @@ We simply compute additional values after acceleration is known.</p>
   <li>Model 3: those axles finally determine how force reaches the ground</li>
 </ul>
 
-<p>And that is where things start to behave like a real car. With that being said, within the <strong>Main Github repo: <a href="https://github.com/duy-phamduc68/Car-Physics" target="_blank">duy-phamduc68/Car-Physics</a></strong>, the entry for simulator 2 will be very similar to simulator 1, so I don’t plan to give it much highlights, the real deal will be in <strong><a href="#" onclick="notifyComingSoon(); return false;">Model 3: Engine Torque + Gearing without Slip (1D)</a></strong>, so stay tuned for that :).</p>]]></content><author><name></name></author><category term="technical" /><category term="new" /><category term="game physics" /><category term="simulation" /><category term="interactive plot" /><category term="python" /><summary type="html"><![CDATA[Implementing and Comprehending Marco Monster’s Car Physics model - Part 2]]></summary></entry><entry><title type="html">Test Plotly</title><link href="https://yuk068.github.io//2026/03/03/test-plotly" rel="alternate" type="text/html" title="Test Plotly" /><published>2026-03-03T00:00:00+07:00</published><updated>2026-03-03T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/03/03/test-plotly</id><content type="html" xml:base="https://yuk068.github.io//2026/03/03/test-plotly"><![CDATA[<h3 id="plotly"><a href="https://plotly.com/" target="_blank">Plotly</a></h3>
+<p>And that is where things start to behave like a real car. With that being said, within the <strong>Main Github repo: <a href="https://github.com/duy-phamduc68/Car-Physics" target="_blank">duy-phamduc68/Car-Physics</a></strong>, the entry for simulator 2 will be very similar to simulator 1, so I don’t plan to give it much highlights, the real deal will be in <strong><a href="/2026/03/15/car-physics-model3">Model 3: Engine Torque + Gearing without Slip (1D)</a></strong>, so stay tuned for that :).</p>]]></content><author><name></name></author><category term="technical" /><category term="game physics" /><category term="simulation" /><category term="interactive plot" /><category term="python" /><summary type="html"><![CDATA[Implementing and Comprehending Marco Monster’s Car Physics model - Part 2]]></summary></entry><entry><title type="html">Test Plotly</title><link href="http://localhost:4000/2026/03/03/test-plotly" rel="alternate" type="text/html" title="Test Plotly" /><published>2026-03-03T00:00:00+07:00</published><updated>2026-03-03T00:00:00+07:00</updated><id>http://localhost:4000/2026/03/03/test-plotly</id><content type="html" xml:base="http://localhost:4000/2026/03/03/test-plotly"><![CDATA[<h3 id="plotly"><a href="https://plotly.com/" target="_blank">Plotly</a></h3>
 
 <div id="plotlyLine" style="width:100%;aspect-ratio:4/3;"></div>
 
@@ -1485,7 +2136,7 @@ document.addEventListener('DOMContentLoaded', function () {
     <span class="p">);</span>
 <span class="p">});</span>
 <span class="nt">&lt;/script&gt;</span>
-</code></pre><span class="language-label">Html</span><button class="copy-button"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>]]></content><author><name></name></author><category term="code" /><category term="resources" /><summary type="html"><![CDATA[Some sample test for Plotly]]></summary></entry><entry><title type="html">Car Physics - Model 1: Longitudinal Point Mass</title><link href="https://yuk068.github.io//2026/03/03/car-physics-model1" rel="alternate" type="text/html" title="Car Physics - Model 1: Longitudinal Point Mass" /><published>2026-03-03T00:00:00+07:00</published><updated>2026-03-03T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/03/03/car-physics-model1</id><content type="html" xml:base="https://yuk068.github.io//2026/03/03/car-physics-model1"><![CDATA[<h3 id="table-of-content">Table of Content</h3>
+</code></pre><span class="language-label">Html</span><button class="copy-button"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>]]></content><author><name></name></author><category term="code" /><category term="resources" /><summary type="html"><![CDATA[Some sample test for Plotly]]></summary></entry><entry><title type="html">Car Physics - Model 1: Longitudinal Point Mass</title><link href="http://localhost:4000/2026/03/03/car-physics-model1" rel="alternate" type="text/html" title="Car Physics - Model 1: Longitudinal Point Mass" /><published>2026-03-03T00:00:00+07:00</published><updated>2026-03-03T00:00:00+07:00</updated><id>http://localhost:4000/2026/03/03/car-physics-model1</id><content type="html" xml:base="http://localhost:4000/2026/03/03/car-physics-model1"><![CDATA[<h3 id="table-of-content">Table of Content</h3>
 
 <blockquote><div class="content">
   <div id="table-of-contents"></div>
@@ -1514,7 +2165,7 @@ document.addEventListener('DOMContentLoaded', function () {
         <li>Weight Transfer</li>
       </ul>
     </li>
-    <li><strong><a href="#" onclick="notifyComingSoon(); return false;">Model 3: Engine Torque + Gearing without Slip (1D)</a></strong>
+    <li><strong><a href="/2026/03/15/car-physics-model3">Model 3: Engine Torque + Gearing without Slip (1D)</a></strong>
       <ul>
         <li>Engine Force</li>
         <li>Gear Ratios</li>
@@ -1682,7 +2333,7 @@ B \cdot C_{\text{braking}} &amp; \text{if } v &gt; 0 \\
   <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>If </mtext><mi>v</mi><mo>=</mo><mn>0</mn><mtext> and </mtext><mfrac><mrow><mi>d</mi><mi>v</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>&lt;</mo><mn>0</mn><mo separator="true">,</mo><mtext> then set </mtext><mfrac><mrow><mi>d</mi><mi>v</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\text{If } v = 0 \text{ and } \frac{dv}{dt} &lt; 0, \text{ then set } \frac{dv}{dt} = 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord text"><span class="mord">If </span></span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.0574em;vertical-align:-0.686em;"></span><span class="mord">0</span><span class="mord text"><span class="mord"> and </span></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3714em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="mord mathnormal">t</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.0574em;vertical-align:-0.686em;"></span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord text"><span class="mord"> then set </span></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3714em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="mord mathnormal">t</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span></span>
 </div><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
 
-<p>it basically mean we can only accelerate, cruse, decelerate to stop, or hard stop, but we can’t go backwards, this might seem a pretty silly restriction, for video games, yeah its pretty silly, but I plan that we will approach going in reverse once we get to <strong><a href="#" onclick="notifyComingSoon(); return false;">Model 3: Engine Torque + Gearing without Slip (1D)</a></strong>, where we have an actual gear for going in reverse.</p>
+<p>it basically mean we can only accelerate, cruse, decelerate to stop, or hard stop, but we can’t go backwards, this might seem a pretty silly restriction, for video games, yeah its pretty silly, but I plan that we will approach going in reverse once we get to <strong><a href="/2026/03/15/car-physics-model3">Model 3: Engine Torque + Gearing without Slip (1D)</a></strong>, where we have an actual gear for going in reverse.</p>
 
 <hr />
 
@@ -3035,7 +3686,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <p>If it helps, <strong>model 1 behaves more like a rocket or a boat</strong> than an actual car. Whats more, the car in the simulator is a lie, this model act as if its a single point, with mass, acted upon by forces, in a 1D environment, hence, <strong>“Longitudinal Point Mass”</strong>.</p>
 
-<p>If you spot any mistake or have any suggestions, please let me know! See you in <strong><a href="/2026/03/12/car-physics-model2">Model 2: Load Transfer Without Traction Limits (1D)</a></strong> :).</p>]]></content><author><name></name></author><category term="technical" /><category term="game physics" /><category term="differential equations" /><category term="simulation" /><category term="interactive plot" /><category term="python" /><summary type="html"><![CDATA[Implementing and Comprehending Marco Monster’s Car Physics model - Part 1]]></summary></entry><entry><title type="html">Yuk Drawing Phase and Recent Graphics Design Works</title><link href="https://yuk068.github.io//2026/02/26/yuk-drawing-phase-and-graphics-design" rel="alternate" type="text/html" title="Yuk Drawing Phase and Recent Graphics Design Works" /><published>2026-02-26T00:00:00+07:00</published><updated>2026-02-26T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/02/26/yuk-drawing-phase-and-graphics-design</id><content type="html" xml:base="https://yuk068.github.io//2026/02/26/yuk-drawing-phase-and-graphics-design"><![CDATA[<h2 id="lore-intro">Lore Intro</h2>
+<p>If you spot any mistake or have any suggestions, please let me know! See you in <strong><a href="/2026/03/12/car-physics-model2">Model 2: Load Transfer Without Traction Limits (1D)</a></strong> :).</p>]]></content><author><name></name></author><category term="technical" /><category term="game physics" /><category term="differential equations" /><category term="simulation" /><category term="interactive plot" /><category term="python" /><summary type="html"><![CDATA[Implementing and Comprehending Marco Monster’s Car Physics model - Part 1]]></summary></entry><entry><title type="html">Yuk Drawing Phase and Recent Graphics Design Works</title><link href="http://localhost:4000/2026/02/26/yuk-drawing-phase-and-graphics-design" rel="alternate" type="text/html" title="Yuk Drawing Phase and Recent Graphics Design Works" /><published>2026-02-26T00:00:00+07:00</published><updated>2026-02-26T00:00:00+07:00</updated><id>http://localhost:4000/2026/02/26/yuk-drawing-phase-and-graphics-design</id><content type="html" xml:base="http://localhost:4000/2026/02/26/yuk-drawing-phase-and-graphics-design"><![CDATA[<h2 id="lore-intro">Lore Intro</h2>
 
 <p>So recently I went home for Lunar New Year, and I found some of my old “drawings” lol, just thought I’d share them here. “Drawings” in quotations because, I guess some of these is closer to what artists call “trace”, yeah most of these is me looking at a reference and basically copying them, but there is some stuff I draw on my own, and I still think they tell a story or something at least. Back then, I used the alias “Zax” or “Zaclord” (son 😭), these probably dates way back to 2016, 10 frickin years lol.</p>
 
@@ -3118,7 +3769,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <p><img loading="lazy" src="/assets/images/q1-2026/yukart/shinjuku2.webp" alt="shinjuku2" /></p>
 
-<p>So that’s a side of my that I’ve never really shared here before. After adding some new features to my blog recently, I plan to become more active and have a more “real” writing output on here, one of the place that I still have control over. Hope you enjoyed this, until next time.</p>]]></content><author><name></name></author><category term="post" /><category term="yuk lore" /><category term="graphics design" /><summary type="html"><![CDATA[Just found some of my old drawings, which might explain my capability for graphic designs]]></summary></entry><entry><title type="html">HUS - Ibaraki Exchange Event - My experience</title><link href="https://yuk068.github.io//2026/02/26/hang-out-with-ibaraki-friends" rel="alternate" type="text/html" title="HUS - Ibaraki Exchange Event - My experience" /><published>2026-02-26T00:00:00+07:00</published><updated>2026-02-26T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/02/26/hang-out-with-ibaraki-friends</id><content type="html" xml:base="https://yuk068.github.io//2026/02/26/hang-out-with-ibaraki-friends"><![CDATA[<h3 id="prologue">Prologue</h3>
+<p>So that’s a side of my that I’ve never really shared here before. After adding some new features to my blog recently, I plan to become more active and have a more “real” writing output on here, one of the place that I still have control over. Hope you enjoyed this, until next time.</p>]]></content><author><name></name></author><category term="post" /><category term="yuk lore" /><category term="graphics design" /><summary type="html"><![CDATA[Just found some of my old drawings, which might explain my capability for graphic designs]]></summary></entry><entry><title type="html">HUS - Ibaraki Exchange Event - My experience</title><link href="http://localhost:4000/2026/02/26/hang-out-with-ibaraki-friends" rel="alternate" type="text/html" title="HUS - Ibaraki Exchange Event - My experience" /><published>2026-02-26T00:00:00+07:00</published><updated>2026-02-26T00:00:00+07:00</updated><id>http://localhost:4000/2026/02/26/hang-out-with-ibaraki-friends</id><content type="html" xml:base="http://localhost:4000/2026/02/26/hang-out-with-ibaraki-friends"><![CDATA[<h3 id="prologue">Prologue</h3>
 
 <p>Its been awhile since i last post. But, I suppose I’m back, I have plans, and I intend to follow them through. Amongst those intentions include rebooting my blog, so beside from finally adding a light mode, in this post, I’d like to share my wonderful experience with friends from <strong>Ibaraki University</strong> in an exchange event with HUS - VNU that I helped host around September 2025. So as you can see, it was quite awhile since then, but I still cherish those memories vividly.</p>
 
@@ -3232,7 +3883,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <h2 id="epilogue">Epilogue</h2>
 
-<p>Im just gonna go out and say it, this was one of the best time in my life, I never thought I would ever had this kind of fun, with all the people, friends, that I can feel comfortable around. Im not gonna lie, I was going through some stuff in life then, and still is now, but during the time we spent together, I’ve had so much fun and relaxed so much, it helped me a lot through that time, now, I think I’ll be fine. Shu, Haruta, Anna, Hinako, Hatsune, thank you guys for spending time with me then, I truly appreciate it. I hope one day, I can meet you guys again :).</p>]]></content><author><name></name></author><category term="post" /><category term="yuk irl" /><category term="yuk lore" /><category term="japan" /><summary type="html"><![CDATA[My time with friends from Ibaraki University - Japan]]></summary></entry><entry><title type="html">日本語の文字とふりがなのテスト</title><link href="https://yuk068.github.io//2026/02/20/test-japanese-writing" rel="alternate" type="text/html" title="日本語の文字とふりがなのテスト" /><published>2026-02-20T00:00:00+07:00</published><updated>2026-02-20T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/02/20/test-japanese-writing</id><content type="html" xml:base="https://yuk068.github.io//2026/02/20/test-japanese-writing"><![CDATA[<h2 id="新宿多様性が交差する東京の中心地">新宿：多様性が交差する東京の中心地</h2>
+<p>Im just gonna go out and say it, this was one of the best time in my life, I never thought I would ever had this kind of fun, with all the people, friends, that I can feel comfortable around. Im not gonna lie, I was going through some stuff in life then, and still is now, but during the time we spent together, I’ve had so much fun and relaxed so much, it helped me a lot through that time, now, I think I’ll be fine. Shu, Haruta, Anna, Hinako, Hatsune, thank you guys for spending time with me then, I truly appreciate it. I hope one day, I can meet you guys again :).</p>]]></content><author><name></name></author><category term="post" /><category term="yuk irl" /><category term="yuk lore" /><category term="japan" /><summary type="html"><![CDATA[My time with friends from Ibaraki University - Japan]]></summary></entry><entry><title type="html">日本語の文字とふりがなのテスト</title><link href="http://localhost:4000/2026/02/20/test-japanese-writing" rel="alternate" type="text/html" title="日本語の文字とふりがなのテスト" /><published>2026-02-20T00:00:00+07:00</published><updated>2026-02-20T00:00:00+07:00</updated><id>http://localhost:4000/2026/02/20/test-japanese-writing</id><content type="html" xml:base="http://localhost:4000/2026/02/20/test-japanese-writing"><![CDATA[<h2 id="新宿多様性が交差する東京の中心地">新宿：多様性が交差する東京の中心地</h2>
 
 <h3 id="shinjuku-the-hub-of-tokyo-where-diversity-intersects">(Shinjuku: The Hub of Tokyo Where Diversity Intersects)</h3>
 
@@ -3339,7 +3990,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <blockquote><div class="content">
   <p>“I can’t escape from the maze of Shinjuku Station!”</p>
-</div><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>]]></content><author><name></name></author><category term="post" /><category term="resources" /><summary type="html"><![CDATA[私のブログのためのふりがな付き日本語ライティングのサンプルテスト]]></summary></entry><entry><title type="html">TrafficLab3D: Digital-twin with just Mp4 and Google Maps</title><link href="https://yuk068.github.io//2026/02/20/traffilclab-3d" rel="alternate" type="text/html" title="TrafficLab3D: Digital-twin with just Mp4 and Google Maps" /><published>2026-02-20T00:00:00+07:00</published><updated>2026-02-20T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/02/20/traffilclab-3d</id><content type="html" xml:base="https://yuk068.github.io//2026/02/20/traffilclab-3d"><![CDATA[]]></content><author><name></name></author><category term="showcase" /><category term="project" /><summary type="html"><![CDATA[Complementary post for Project - Program: TrafficLab3D]]></summary></entry><entry><title type="html">Ôn tập giữa kì Mật mã và an toàn dữ liệu 2025</title><link href="https://yuk068.github.io//2025/11/02/compsec-review-midterm" rel="alternate" type="text/html" title="Ôn tập giữa kì Mật mã và an toàn dữ liệu 2025" /><published>2025-11-02T00:00:00+07:00</published><updated>2025-11-02T00:00:00+07:00</updated><id>https://yuk068.github.io//2025/11/02/compsec-review-midterm</id><content type="html" xml:base="https://yuk068.github.io//2025/11/02/compsec-review-midterm"><![CDATA[<h1 id="mat3539---mật-mã-và-an-toàn-dữ-liệu">MAT3539 - Mật mã và an toàn dữ liệu</h1>
+</div><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>]]></content><author><name></name></author><category term="post" /><category term="resources" /><summary type="html"><![CDATA[私のブログのためのふりがな付き日本語ライティングのサンプルテスト]]></summary></entry><entry><title type="html">TrafficLab3D: Digital-twin with just Mp4 and Google Maps</title><link href="http://localhost:4000/2026/02/20/traffilclab-3d-future-roadmap" rel="alternate" type="text/html" title="TrafficLab3D: Digital-twin with just Mp4 and Google Maps" /><published>2026-02-20T00:00:00+07:00</published><updated>2026-02-20T00:00:00+07:00</updated><id>http://localhost:4000/2026/02/20/traffilclab-3d-future-roadmap</id><content type="html" xml:base="http://localhost:4000/2026/02/20/traffilclab-3d-future-roadmap"><![CDATA[<h3 id="table-of-content">Table of Content</h3>
+
+<blockquote><div class="content">
+  <div id="table-of-contents"></div>
+</div><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<ul>
+  <li><strong>Github Repo at <a href="duy-phamduc68/trafficlab-3d" target="_blank">duy-phamduc68/trafficlab-3d</a></strong></li>
+  <li><strong>Youtube Demo at <a href="https://www.youtube.com/watch?v=AYUXXnzenvk" target="_blank">TrafficLab 3D v1.0 Demo</a></strong></li>
+  <li><strong>Youtube Guide at <a href="https://www.youtube.com/watch?v=PeL2v1YEdYA" target="_blank">TrafficLab 3D Guide</a></strong></li>
+  <li><strong>Check out full academic report at <a href="https://drive.google.com/file/d/1CmP-sYHWvxN3JxYA_rR2S4tW9YdQcVjg/view?usp=sharing" target="_blank">Google Drive</a></strong></li>
+</ul>
+
+<h2 id="prologue">Prologue</h2>]]></content><author><name></name></author><category term="showcase" /><category term="new" /><category term="project" /><category term="computer vision" /><category term="traffic analysis" /><summary type="html"><![CDATA[Complementary post for Project - Program: TrafficLab3D]]></summary></entry><entry><title type="html">Ôn tập giữa kì Mật mã và an toàn dữ liệu 2025</title><link href="http://localhost:4000/2025/11/02/compsec-review-midterm" rel="alternate" type="text/html" title="Ôn tập giữa kì Mật mã và an toàn dữ liệu 2025" /><published>2025-11-02T00:00:00+07:00</published><updated>2025-11-02T00:00:00+07:00</updated><id>http://localhost:4000/2025/11/02/compsec-review-midterm</id><content type="html" xml:base="http://localhost:4000/2025/11/02/compsec-review-midterm"><![CDATA[<h1 id="mat3539---mật-mã-và-an-toàn-dữ-liệu">MAT3539 - Mật mã và an toàn dữ liệu</h1>
 
 <blockquote><div class="content">
   <div id="table-of-contents"></div>
@@ -4937,7 +5601,7 @@ khóa bí mật là $x$.</p>
 <ul>
   <li>Dựa trên cùng nguyên lý Diffie–Hellman.</li>
   <li>Dạng mã hóa <strong>ngẫu nhiên</strong> — cùng bản rõ, khóa khác → bản mã khác nhau.</li>
-</ul>]]></content><author><name></name></author><category term="assignment" /><category term="schoolwork" /><category term="compsec" /><summary type="html"><![CDATA[Phương trình đồng dư, lý thuyết số, mật mã cổ điển...]]></summary></entry><entry><title type="html">Awesome AI Legal Domain Vietnam</title><link href="https://yuk068.github.io//2025/07/28/awesome-ai-legal-domain-vietnam" rel="alternate" type="text/html" title="Awesome AI Legal Domain Vietnam" /><published>2025-07-28T00:00:00+07:00</published><updated>2025-07-28T00:00:00+07:00</updated><id>https://yuk068.github.io//2025/07/28/awesome-ai-legal-domain-vietnam</id><content type="html" xml:base="https://yuk068.github.io//2025/07/28/awesome-ai-legal-domain-vietnam"><![CDATA[<h3 id="lời-nói-đầu">Lời nói đầu</h3>
+</ul>]]></content><author><name></name></author><category term="assignment" /><category term="schoolwork" /><category term="compsec" /><summary type="html"><![CDATA[Phương trình đồng dư, lý thuyết số, mật mã cổ điển...]]></summary></entry><entry><title type="html">Awesome AI Legal Domain Vietnam</title><link href="http://localhost:4000/2025/07/28/awesome-ai-legal-domain-vietnam" rel="alternate" type="text/html" title="Awesome AI Legal Domain Vietnam" /><published>2025-07-28T00:00:00+07:00</published><updated>2025-07-28T00:00:00+07:00</updated><id>http://localhost:4000/2025/07/28/awesome-ai-legal-domain-vietnam</id><content type="html" xml:base="http://localhost:4000/2025/07/28/awesome-ai-legal-domain-vietnam"><![CDATA[<h3 id="lời-nói-đầu">Lời nói đầu</h3>
 
 <p>Sau bài post trước, lần đầu tiên mình chạm tay vào AI cho lĩnh vực luật pháp Việt Nam, lần này, mình muốn nghiêm túc hơn một chút. Thay vì chỉ khảo sát sơ bộ hay viết theo cảm hứng, mình thực sự muốn <strong>khám phá xem literature hiện tại của lĩnh vực này đang trông như thế nào</strong>. Ai đang làm gì? Những bài toán nào đã có lời giải? Còn khoảng trống nào mình có thể lấp vào?</p>
 
@@ -5498,531 +6162,4 @@ khóa bí mật là $x$.</p>
   <li><strong>Cấu trúc dataset cho phân loại văn bản pháp luật</strong>: Mô tả các trường dữ liệu (ví dụ: <code class="language-plaintext highlighter-rouge">text</code>, <code class="language-plaintext highlighter-rouge">label_linh_vuc</code>, <code class="language-plaintext highlighter-rouge">label_loai_van_ban</code>).</li>
 </ul>
 
-<p>Việc xây dựng các sơ đồ này đòi hỏi một giai đoạn thiết kế và phân tích sâu hơn, thường là một phần của quá trình phát triển dự án cụ thể.</p>]]></content><author><name></name></author><category term="post" /><category term="legal ai" /><summary type="html"><![CDATA[Review về Literature Landscape của AI trong lĩnh vực luật pháp Việt Nam]]></summary></entry><entry><title type="html">Ontology và Topology của Luật pháp Việt Nam cho Knowledge Graph</title><link href="https://yuk068.github.io//2025/07/22/ontology-va-topology-luat-viet-nam" rel="alternate" type="text/html" title="Ontology và Topology của Luật pháp Việt Nam cho Knowledge Graph" /><published>2025-07-22T00:00:00+07:00</published><updated>2025-07-22T00:00:00+07:00</updated><id>https://yuk068.github.io//2025/07/22/ontology-va-topology-luat-viet-nam</id><content type="html" xml:base="https://yuk068.github.io//2025/07/22/ontology-va-topology-luat-viet-nam"><![CDATA[<h3 id="lời-nói-đầu">Lời nói đầu</h3>
-
-<p>Gần đây, mình có được một startup AI tại Việt Nam phỏng vấn cho vị trí AI Engineer Intern - tuy không được nhận vào lúc này, nhưng việc được trực tiếp giao lưu với một anh Founder vừa có tâm và có tầm thực sự là một trải nghiệm đáng giá. Khi nhận được feedback, anh ấy đã để lại cho mình rất nhiều cảm hứng và động lực.</p>
-
-<p>Thú thực thì trước kia, mình không có thiện cảm với những chủ đề như này lắm, chủ yếu đó là ứng dụng AI/Chatbot vào những lĩnh vực “high-stake” - điển hình là <strong>luật pháp</strong> và <strong>y tế</strong>. Hơi cringe tí nhưng kiểu, với kinh nghiệm biết về những vấn đề và giới hạn căn bản của LLM và ML nói chung, mình thấy rằng nếu chưa đạt được đến gọi là <em>99.99%</em> độ chính xác, thì việc ai đó muốn ứng dụng AI có khi còn là ngây thơ hay thậm chí ngạo mạn. Nhưng, hiện giờ thì góc nhìn của mình đã khác đi nhiều, đặc biệt là sau cuộc phỏng vấn với anh Founder, mình đã được thấy tận mắt những người trong ngành, mang lại tinh thần “nếu không thể tiến gần tới 100%, ta không deploy, ta cần theo tiêu chuẩn của client”.</p>
-
-<p>Chính vì vậy, gần đây một hứng thú của mình như được khơi dậy lại, đến từ project <strong>Knowledge Graph</strong> của mình. Trước kia, mình làm về Knowledge Graph rất là sơ khai thôi, gần như cũng chả khác mấy tutorial trên youtube mấy đâu, chủ yếu là để học thôi. Giờ khi mà đã có thêm kinh nghiệm và kiến thức, mình thấy rằng dù không thể 100% được ngay bây giờ - hay một mình, mình vẫn muốn thử sức với thách thức này, nó không còn vô nghĩa với mình nữa. Sau một hồi suy nghĩ, và gợi ý của anh Founder, mình đã quyết định là sẽ làm một project mới liên quan đến luật pháp Việt Nam, có thể nói là đỡ “high-stake” hơn y tế, nhưng vẫn rất thiết thực, và gần gũi với môi trường hiện tại của mình.</p>
-
-<p>Mình cũng vừa nhận ra mình chưa học tín pháp luật đại cương 🥴.</p>
-
-<blockquote><div class="content">
-  <p><strong>DISCLAIMER:</strong> Mình không hề có kiến thức formal nào về luật pháp, tất cả những thông tin và ý định của mình là trên tinh thần học hỏi và những thông tin trong post này nên được hiểu là đến từ quá trình tự tìm hiểu của mình. Thậm chí nếu có bạn nào hiểu rõ về luật pháp và muốn góp ý/làm việc với mình, mình luôn chào đón.</p>
-</div><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
-
-<hr />
-
-<h3 id="mục-lục">Mục lục</h3>
-
-<blockquote><div class="content">
-  <div id="table-of-contents"></div>
-</div><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
-
-<hr />
-
-<h2 id="1-hệ-thống-luật-pháp-việt-nam">1. Hệ thống luật pháp Việt Nam</h2>
-
-<h3 id="11-hệ-thống-luật-pháp-trên-thế-giới">1.1. Hệ thống luật pháp trên thế giới</h3>
-
-<p>Trên thế giới hiện nay, có ba hệ thống pháp luật phổ biến: <strong>dân luật (civil law)</strong>, <strong>thông luật (common law)</strong> và <strong>luật tôn giáo (religious law)</strong>. Mỗi hệ thống phản ánh đặc điểm lịch sử và văn hóa của các quốc gia áp dụng chúng.</p>
-
-<ul>
-  <li><strong>Dân luật</strong>: Bắt nguồn từ La Mã và phổ biến ở châu Âu lục địa, châu Á và Mỹ Latinh. Pháp luật được xây dựng chủ yếu từ các văn bản pháp luật thành văn, trong đó vai trò của thẩm phán là áp dụng luật chứ không phải tạo ra luật.</li>
-  <li><strong>Thông luật</strong>: Xuất phát từ Anh và được áp dụng rộng rãi ở các nước như Mỹ, Canada, Úc. Luật phát triển thông qua án lệ (các phán quyết của tòa án). Thẩm phán có vai trò quan trọng trong việc diễn giải và tạo ra luật qua các vụ án. Quyết định trong một vụ án có thể trở thành chuẩn mực ràng buộc cho các vụ án sau.</li>
-  <li><strong>Luật tôn giáo</strong>: Là hệ thống dựa trên giáo lý và quy định của tôn giáo, điển hình như <strong>luật Sharia</strong> trong Hồi giáo. Hệ thống này thường điều chỉnh cả đời sống cá nhân lẫn xã hội theo khuôn khổ niềm tin tôn giáo.</li>
-</ul>
-
-<p>Mặc dù chia theo ba hệ thống lớn, mỗi quốc gia có thể pha trộn, điều chỉnh để phù hợp với điều kiện thực tế, tạo nên bản sắc pháp lý riêng.</p>
-
-<h3 id="12-sơ-lược-về-hệ-thống-luật-pháp-việt-nam">1.2. Sơ lược về hệ thống luật pháp Việt Nam</h3>
-
-<h4 id="121-tổng-quan">1.2.1. Tổng quan</h4>
-
-<p>Pháp luật Việt Nam đóng vai trò là <strong>công cụ quản lý nhà nước và bảo vệ quyền, lợi ích hợp pháp của công dân và tổ chức</strong>. Là quốc gia theo hệ thống dân luật, pháp luật Việt Nam đặc trưng bởi:</p>
-
-<ul>
-  <li>Luật thành văn là nguồn luật chủ yếu.</li>
-  <li>Vai trò của thẩm phán là áp dụng luật, không tạo ra luật.</li>
-  <li>Các văn bản pháp luật có tính thứ bậc và hiệu lực ràng buộc lẫn nhau.</li>
-  <li>Việc xây dựng và ban hành pháp luật tập trung ở các cơ quan nhà nước có thẩm quyền như Quốc hội, Chính phủ, Bộ ngành…</li>
-</ul>
-
-<p>Hệ thống pháp luật của Việt Nam có đầy đủ các đặc điểm của <strong>hệ thống đân luật</strong>, về cơ bản dựa trên luật thành văn (được ghi chép rõ ràng).</p>
-
-<p>Hệ thống luật pháp Việt Nam bao gồm ba yếu tố cơ bản như sau:</p>
-
-<ul>
-  <li><strong>Quy phạm pháp luật</strong> (đơn vị cơ bản của hệ thống);</li>
-  <li><strong>Chế định pháp luật</strong> (nhóm các quy phạm pháp luật có cùng đặc điểm và điều chỉnh một nhóm quan hệ xã hội tương ứng);</li>
-  <li><strong>Ngành luật</strong> (hệ thống các quy phạm pháp luật có những đặc điểm riêng để điều chỉnh một loại quan hệ xã hội trong một lĩnh vực nhất định của xã hội).</li>
-</ul>
-
-<h4 id="122-ngành-luật">1.2.2. Ngành luật</h4>
-
-<p>Trong hệ thống luật pháp Việt Nam, có nhiều ngành luật khác nhau, như sau:</p>
-
-<ul>
-  <li>Ngành Luật Hiến pháp</li>
-  <li>Ngành Luật Hành chính</li>
-  <li>Ngành Luật Tài chính</li>
-  <li>Ngành Luật Ngân hàng</li>
-  <li>Ngành Luật Đất đai</li>
-  <li>Ngành Luật Dân sự</li>
-  <li>Ngành Luật Lao động</li>
-  <li>Ngành Luật Hình sự</li>
-  <li>Ngành Luật Kinh tế</li>
-</ul>
-
-<p>Danh sách các ngành luật này là những ngành cơ bản và quan trọng trong hệ thống pháp luật Việt Nam. Một số nguồn có thể phân loại chi tiết hơn hoặc gộp một số ngành lại, ví dụ như Luật Kinh tế thường được xem là một phần của Luật Dân sự và Luật Thương mại, hoặc có thể tách riêng Luật Hôn nhân và Gia đình, Luật Tố tụng,…</p>
-
-<p>Tại Việt Nam, hệ thống pháp luật được phân chia thành các ngành luật cơ bản và quan trọng như sau (được công nhận và sử dụng rộng rãi trong giảng dạy &amp; lập pháp):</p>
-
-<p><strong>Ngành luật công (Public law):</strong></p>
-
-<ul>
-  <li>Luật Hiến pháp</li>
-  <li>Luật Hành chính</li>
-  <li>Luật Hình sự</li>
-  <li>Luật Tố tụng hình sự</li>
-  <li>Luật Tố tụng hành chính</li>
-  <li>Luật Quốc tế công…</li>
-</ul>
-
-<p><strong>Ngành luật tư (Private law):</strong></p>
-
-<ul>
-  <li>Luật Dân sự</li>
-  <li>Luật Hôn nhân và Gia đình</li>
-  <li>Luật Thương mại (hoặc Luật Kinh tế)</li>
-  <li>Luật Lao động</li>
-  <li>Luật Tố tụng dân sự</li>
-  <li>Luật Quốc tế tư…</li>
-</ul>
-
-<p><strong>Ngành luật hỗn hợp / liên ngành (có yếu tố công - tư đan xen):</strong></p>
-
-<ul>
-  <li>Luật Đất đai</li>
-  <li>Luật Tài chính - Ngân hàng</li>
-  <li>Luật Môi trường</li>
-  <li>Luật Sở hữu trí tuệ</li>
-  <li>Luật Giao thông</li>
-  <li>Luật Công nghệ thông tin, An ninh mạng,…</li>
-</ul>
-
-<p>Đây là các ngành luật đã được xác lập ổn định, có giáo trình giảng dạy, có văn bản luật chủ đạo và được sử dụng chính thức.</p>
-
-<h4 id="123-văn-bản-pháp-luật">1.2.3. Văn bản pháp luật</h4>
-
-<p>Hệ thống pháp luật Việt Nam được tổ chức theo <strong>trật tự thứ bậc hiệu lực pháp lý</strong>, tức là văn bản cấp dưới không được trái với văn bản cấp trên. Mỗi loại văn bản gắn với cơ quan ban hành, thẩm quyền, phạm vi điều chỉnh khác nhau:</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Cấp bậc</th>
-      <th>Loại văn bản</th>
-      <th>Cơ quan ban hành</th>
-      <th>Mục đích chính</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>1</td>
-      <td><strong>Hiến pháp</strong></td>
-      <td>Quốc hội</td>
-      <td>Luật gốc tối cao, định hướng toàn bộ hệ thống</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td><strong>Luật / Bộ luật</strong></td>
-      <td>Quốc hội</td>
-      <td>Điều chỉnh các lĩnh vực lớn, lâu dài</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td><strong>Pháp lệnh, Nghị quyết</strong></td>
-      <td>UBTVQH</td>
-      <td>Văn bản chuyên đề, bổ sung khẩn thiết</td>
-    </tr>
-    <tr>
-      <td>4</td>
-      <td><strong>Nghị định</strong></td>
-      <td>Chính phủ</td>
-      <td>Hướng dẫn luật chi tiết hơn, cụ thể hóa</td>
-    </tr>
-    <tr>
-      <td>5</td>
-      <td><strong>Quyết định</strong></td>
-      <td>Thủ tướng Chính phủ</td>
-      <td>Triển khai hành chính cụ thể</td>
-    </tr>
-    <tr>
-      <td>6</td>
-      <td><strong>Thông tư</strong></td>
-      <td>Bộ trưởng, Thống đốc NHNN,…</td>
-      <td>Hướng dẫn thực hiện trong ngành dọc</td>
-    </tr>
-    <tr>
-      <td>7</td>
-      <td><strong>Văn bản địa phương</strong></td>
-      <td>HĐND, UBND các cấp</td>
-      <td>Cụ thể hóa luật theo vùng, không trái cấp trên</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>Khi xây knowledeg graph, đây là xương sống để gắn kết các luật, điều khoản và văn bản cụ thể theo thứ bậc và liên kết ngữ nghĩa.</p>
-
-<h4 id="124-thực-trạng-và-xu-hướng-pháp-luật-hiện-đại">1.2.4. Thực trạng và xu hướng pháp luật hiện đại</h4>
-
-<p>Dù có vẻ đồ sộ và đôi khi đan xen khó nắm bắt, <strong>hệ thống pháp luật Việt Nam không phải là một hệ thống phi cấu trúc</strong>. Trái lại, nó được xây dựng dựa trên logic rõ ràng: từ <strong>quy phạm pháp luật</strong>, qua <strong>chế định</strong>, đến <strong>ngành luật</strong>, và thể hiện dưới dạng <strong>văn bản pháp luật chính quy</strong>.</p>
-
-<p>Tuy nhiên, <strong>đối với người dân bình thường hay cả những nhà phát triển công nghệ</strong>, việc <strong>tra cứu và hiểu hệ thống này vẫn là một thử thách</strong>. Có nhiều nguồn điện tử tồn tại song song - từ Cơ sở dữ liệu quốc gia về pháp luật đến các trang như Chinhphu.vn, Quốc hội, Bộ Tư pháp - nhưng việc xác định đâu là nguồn trung tâm, đâu là dữ liệu “đã hợp lệ và cập nhật” vẫn khá rắc rối.</p>
-
-<p>Trong những năm gần đây, <strong>nỗ lực số hóa pháp luật đã có chuyển biến</strong>, điển hình như:</p>
-
-<ul>
-  <li><strong>Dự án Cơ sở dữ liệu quốc gia về pháp luật (vbpl.vn)</strong></li>
-  <li><strong>Đề án phát triển Chính phủ điện tử, hướng tới Chính phủ số</strong></li>
-  <li><strong>Cổng dữ liệu quốc gia (data.gov.vn)</strong> cung cấp dữ liệu mở, bao gồm cả dữ liệu ngành tư pháp</li>
-</ul>
-
-<p>Mặc dù còn chưa hoàn chỉnh, <strong>tiềm năng ứng dụng AI vào lĩnh vực pháp luật là rất lớn</strong> - nhất là khi so với các lĩnh vực như y tế (thường nhiều rào cản đạo đức và high-stake hơn). Việc xây dựng các <strong>hệ thống truy vấn pháp luật thông minh, knowledge graph pháp lý, hoặc trợ lý pháp lý ảo</strong> là hoàn toàn khả thi, đặc biệt khi công nghệ xử lý ngôn ngữ tự nhiên (NLP), mô hình ngôn ngữ (LLM), và nhận dạng văn bản pháp lý và semantic retrieval ngày càng phát triển.</p>
-
-<hr />
-
-<h2 id="2-mô-hình-hóa-luật-pháp-việt-nam">2. Mô hình hóa luật pháp Việt Nam</h2>
-
-<h3 id="21-động-lực-cá-nhân">2.1. Động lực cá nhân</h3>
-
-<p>Ở phần này, mình đặt ra một bài toán cụ thể, xuất phát từ trải nghiệm cá nhân gần đây. Khi là sinh viên đang thử sức với một vài cơ hội việc làm, mình nhận ra: những trao đổi ban đầu với bên tuyển dụng thường thiếu rõ ràng, nhất là về <strong>thời gian làm việc</strong>, <strong>mức đãi ngộ</strong>, hay <strong>quyền lợi pháp lý</strong>. Mình không muốn hỏi quá trực tiếp, nhưng cũng không muốn “mù mờ” mãi. Với sinh viên như mình, <strong>việc hiểu và tra cứu các quy định pháp luật cơ bản là điều cần thiết</strong>.</p>
-
-<p>Từ đó, mình muốn thử xây dựng một <strong>hệ thống tri thức</strong> thu hẹp vào các lĩnh vực gần gũi với sinh viên, người mới đi làm, và cá nhân sáng tạo:</p>
-
-<ul>
-  <li>Luật Lao động</li>
-  <li>Luật Dân sự</li>
-  <li>Luật Sở hữu trí tuệ</li>
-  <li>Luật Giáo dục</li>
-  <li>Luật Công nghệ thông tin và An ninh mạng</li>
-  <li>…</li>
-</ul>
-
-<p>Thay vì cố gắng làm một “chatbot luật sư” quá chung chung và dễ gây hiểu lầm, mình muốn phát triển một hệ thống đơn giản, từng phần, rõ trọng tâm, như một <strong>chatbot hỗ trợ về hợp đồng làm thêm</strong>, hay một <strong>trợ lý hỏi-đáp về quyền sở hữu tác phẩm</strong>.</p>
-
-<p>Dù còn giới hạn về nguồn lực và hiểu biết, nhưng với phạm vi đã được thu hẹp, mình tin đây là một dự án có thể tiếp cận được, vừa mang tính học thuật, vừa ứng dụng. Từ đây, ta sẽ bắt đầu tiếp cận việc <strong>mô hình hóa luật pháp Việt Nam</strong> - từ góc nhìn cấu trúc đến khả năng triển khai bằng kỹ thuật số.</p>
-
-<h3 id="22-tiếp-cận-văn-bản-pháp-luật">2.2. Tiếp cận văn bản pháp luật</h3>
-
-<h4 id="221-thuvienphapluatvn">2.2.1. thuvienphapluat.vn</h4>
-
-<p>Điểm khởi đầu cho dự án này là <strong>Bộ luật Lao động 2019</strong>, một trong những ngành luật thiết yếu nhất đối với sinh viên, người lao động, cũng như các doanh nghiệp tại Việt Nam. Mình lựa chọn phiên bản văn bản được đăng tải trên <a href="https://thuvienphapluat.vn/van-ban/Lao-dong-Tien-luong/Bo-Luat-lao-dong-2019-333670.aspx" target="_blank">thuvienphapluat.vn</a> làm nguồn chính cho việc trích xuất và mô hình hóa.</p>
-
-<p>Trang này cung cấp một bản <strong>HTML sạch</strong>, có định dạng rõ ràng, được chuyển từ file PDF chính thống do nhà nước ban hành. Đặc biệt, các <strong>nghị định, thông tư hướng dẫn và sửa đổi bổ sung sau này</strong> cũng được chú thích và liên kết trực tiếp, giúp theo dõi toàn bộ lifecycle của văn bản pháp luật một cách liền mạch.</p>
-
-<p>Mình đã kiểm tra file <code class="language-plaintext highlighter-rouge">robots.txt</code> của trang và không thấy có dấu hiệu hạn chế việc crawl nội dung. Vì vậy, có thể tạm xem đây là một <strong>nguồn dữ liệu thân thiện với việc thu thập tự động</strong>, rất phù hợp để thử nghiệm một chatbot hỗ trợ tra cứu pháp luật - cụ thể là trong lĩnh vực <strong>luật lao động</strong>.</p>
-
-<h4 id="222-giới-thiệu-bộ-luật-lao-động-2019">2.2.2. Giới thiệu Bộ Luật lao động 2019</h4>
-
-<p><strong>Bộ luật Lao động 2019</strong> là đạo luật nền tảng điều chỉnh các quan hệ lao động tại Việt Nam, được Quốc hội khóa XIV thông qua tại <strong>Kỳ họp thứ 8 ngày 20/11/2019</strong>, và chính thức có <strong>hiệu lực từ ngày 01/01/2021</strong>, thay thế cho Bộ luật Lao động 2012.</p>
-
-<p>Bộ luật Lao động 2019 có tổng cộng:</p>
-
-<ul>
-  <li><strong>17 chương</strong></li>
-  <li><strong>220 điều</strong></li>
-</ul>
-
-<p>Các nội dung chính xoay quanh:</p>
-
-<ul>
-  <li>Hợp đồng lao động, tiền lương, thời giờ làm việc, kỷ luật</li>
-  <li>Đối thoại, thỏa ước lao động tập thể, tổ chức đại diện</li>
-  <li>Giải quyết tranh chấp, đình công</li>
-  <li>Bảo hiểm xã hội, bảo hiểm thất nghiệp</li>
-  <li>Lao động nữ, lao động chưa thành niên, lao động nước ngoài,…</li>
-</ul>
-
-<p>Về mặt cấu trúc pháp lý, Bộ luật Lao động 2019 có các đơn vị tổ chức theo dạng phân cấp như sau:</p>
-
-<ol>
-  <li><strong>Chương</strong>: Là đơn vị lớn nhất, mỗi chương đề cập đến một lĩnh vực chủ đề lớn (VD: Chương III - Hợp đồng lao động).</li>
-  <li><strong>Mục</strong> <em>(có thể có hoặc không)</em>: Một số chương được chia thành các mục nhỏ để nhóm các điều luật cùng tính chất.</li>
-  <li><strong>Điều</strong>: Là đơn vị cơ bản nhất, mỗi điều thể hiện một quy phạm pháp luật cụ thể.</li>
-  <li><strong>Khoản</strong>, <strong>Điểm</strong>: Các điều có thể được chia nhỏ hơn thành các khoản, và trong mỗi khoản có thể có các điểm để làm rõ nội dung chi tiết.</li>
-</ol>
-
-<p>Ví dụ:</p>
-
-<ul>
-  <li>Điều 34. <strong>Các trường hợp chấm dứt hợp đồng lao động</strong>
--&gt; Khoản 1. Hết hạn hợp đồng
--&gt; Khoản 2. Đã hoàn thành công việc
--&gt; …
--&gt; Điểm a, b, c trong từng khoản (nếu có)</li>
-</ul>
-
-<p>Vậy, ta có thể nhận thấy ngay rằng, <strong>khác với các văn bản tuần tự thông thường</strong>, và đặc biệt nếu so với cách tiếp cận đơn giản như <strong>Naive RAG</strong>, thì <strong>các văn bản pháp luật hành chính tại Việt Nam đã mang trong mình một cấu trúc ngữ nghĩa (semantic structure) khá rõ ràng, có thể khai thác trực tiếp cho mô hình hóa tri thức</strong>.</p>
-
-<div class="language-markdown highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div><div class="line-number">19</div><div class="line-number">20</div><div class="line-number">21</div><div class="line-number">22</div></div><pre class="highlight"><code>Bộ luật Lao động 2019
-│
-├── Chương I: Những quy định chung
-│   ├── Điều 1
-│   ├── Điều 2
-│   └── ...
-│
-├── Chương II: Hợp đồng lao động
-│   ├── Mục 1: Giao kết hợp đồng
-│   │   ├── Điều 13
-│   │   ├── Điều 14
-│   │   └── ...
-│   └── Mục 2: Thực hiện hợp đồng
-│       ├── Điều 21
-│       ├── Điều 22
-│       └── ...
-│
-├── ...
-│
-└── Chương XVII: Điều khoản thi hành
-    ├── Điều 219
-    └── Điều 220
-</code></pre><span class="language-label">Markdown</span><button class="copy-button"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
-
-<h4 id="223-outline-ví-dụ-cho-chatbot-hỗ-trợ-luật-lao-động">2.2.3. Outline ví dụ cho Chatbot hỗ trợ Luật lao động</h4>
-
-<p>Khi đã làm quen với <strong>cấu trúc và nội dung của văn bản pháp luật</strong>, ta có thể hình dung một workflow cơ bản mà một <strong>chatbot hỗ trợ pháp luật lao động</strong> có thể hoạt động dựa trên tri thức đã được chuẩn hóa và cấu trúc lại. Ở giai đoạn này, ta <strong>chưa cần quan tâm đến cách ingest hoặc truy xuất tri thức</strong>, mà chỉ tập trung vào <strong>bức tranh tổng quát về trải nghiệm truy vấn - sử dụng sau khi tri thức đã có thể được diễn dịch thành dạng machine-readable</strong> như ontology, graph, hay structured corpus.</p>
-
-<h5 id="workflow-giả-định-của-một-chatbot-hỗ-trợ-luật-lao-động">Workflow giả định của một chatbot hỗ trợ Luật Lao động:</h5>
-
-<ol>
-  <li>Người dùng đưa ra truy vấn bằng ngôn ngữ tự nhiên.</li>
-  <li>Truy vấn được ánh xạ về ý định và thực thể pháp lý liên quan.</li>
-  <li>Hệ thống tham chiếu đến tri thức có cấu trúc (knowledge graph / ontology / full text indexed corpus).</li>
-  <li>Sinh câu trả lời có trích dẫn nguồn rõ ràng.</li>
-  <li>(Optional): Gợi ý các văn bản liên quan, hoặc Nghị định hướng dẫn áp dụng.</li>
-</ol>
-
-<h5 id="ví-dụ-hội-thoại-giả-định">Ví dụ hội thoại giả định:</h5>
-
-<blockquote><div class="content">
-  <p>👤 <strong>Người dùng:</strong> Em đang thử việc 2 tháng rồi, mà công ty vẫn chưa ký hợp đồng chính thức, như vậy có vi phạm gì không ạ?</p>
-
-  <p>🤖 <strong>Chatbot:</strong>
-Theo Điều 20 và 21 của Bộ luật Lao động 2019, thời gian thử việc tối đa phụ thuộc vào tính chất công việc, và sau thời gian đó, nếu người lao động tiếp tục làm việc thì phải ký hợp đồng lao động chính thức.</p>
-
-  <p>📌 <strong>Trích dẫn:</strong>
-<em>Điều 20 (Bộ luật Lao động 2019): “Người sử dụng lao động và người lao động có thể thỏa thuận về việc làm thử… Sau thời gian thử việc, nếu người lao động tiếp tục làm việc thì người sử dụng lao động phải giao kết hợp đồng lao động.”</em></p>
-
-  <p>📎 Bạn có muốn xem mẫu hợp đồng và quy định xử phạt nếu không ký không?</p>
-</div><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
-
-<p>Phía sau hội thoại như vậy là một hệ thống có thể được xây dựng theo nhiều mức độ:</p>
-
-<ul>
-  <li><strong>Full-text Search + Indexing</strong>: cho phép truy xuất nhanh theo từ khóa/điều luật.</li>
-  <li><strong>RAG (Retrieval-Augmented Generation)</strong>: kết hợp LLM với đoạn trích trong luật để sinh câu trả lời tự nhiên.</li>
-  <li><strong>Knowledge Graph</strong>: ánh xạ quan hệ giữa các khái niệm như “thử việc”, “hợp đồng”, “quyền lợi”, “vi phạm”,… cho phép reasoning ngữ nghĩa cao hơn.</li>
-</ul>
-
-<p>Dù bạn chọn kỹ thuật nào, điều quan trọng là cấu trúc của luật Việt Nam, như đã thấy ở trên: <strong>hoàn toàn cho phép chuẩn hóa</strong> thành dạng dữ liệu hỗ trợ tri thức.</p>
-
-<h3 id="23-một-ontology-sơ-khai-cho-bộ-luật-lao-động-2019">2.3. Một Ontology sơ khai cho Bộ Luật lao động 2019</h3>
-
-<p>Mình nhận ra mình vẫn chưa để định nghĩa của Ontology hay Topology, hơi ảo tí nhưng đến giờ mình mới nghĩ đến thì chắc là giờ mới quan trọng 🥴:</p>
-
-<h5 id="ontology">Ontology:</h5>
-
-<p><strong>Ontology</strong> là một cấu trúc hình thức mô tả các <strong>thực thể (entities)</strong> trong một miền tri thức (domain) cùng với <strong>các thuộc tính, quan hệ, và ràng buộc giữa chúng</strong>.</p>
-
-<ul>
-  <li><strong>Nguồn gốc</strong>: Từ <em>triết học</em> (bản thể luận), được hình thức hóa trong <em>logic hình thức</em> và <em>khoa học máy tính</em> để mô hình hóa tri thức.</li>
-  <li><strong>Trong Knowledge Graph</strong>: Ontology là “xương sống” định nghĩa các lớp (classes), thuộc tính (properties), và quan hệ (relations) - ví dụ: “Người lao động”, “Hợp đồng”, “Có quyền”, “Bị xử phạt”,…</li>
-  <li><strong>Trong ngữ cảnh pháp luật Việt Nam</strong>: Giúp chuẩn hóa cách ta hiểu và diễn giải các khái niệm pháp lý, từ đó làm cơ sở cho việc truy vấn, suy luận, và sinh câu trả lời tự động.</li>
-</ul>
-
-<h5 id="topology">Topology:</h5>
-
-<p><strong>Topology</strong> (tô pô) trong ngữ cảnh này là cách mà <strong>các thực thể và quan hệ trong ontology được kết nối, tổ chức và phân bố trong không gian tri thức</strong>.</p>
-
-<ul>
-  <li><strong>Nguồn gốc</strong>: Từ <em>toán học tô pô</em>, chuyên nghiên cứu về tính liên thông và cấu trúc hình học bất biến.</li>
-  <li><strong>Trong Knowledge Graph</strong>: Topology mô tả hình dạng và chiều sâu của mạng tri thức - ví dụ: mức độ phân cấp, vòng lặp khái niệm, các cluster như “quyền lợi”, “nghĩa vụ”, “quy trình”,…</li>
-  <li><strong>Trong ngữ cảnh pháp luật Việt Nam</strong>: Topology của luật giúp ta hiểu văn bản nào dẫn chiếu tới văn bản nào, điều nào quan hệ với điều nào, chế định nào bao trùm nhiều điều, hoặc nhiều ngành luật cùng dẫn tới một thực thể.</li>
-</ul>
-
-<h4 id="231-tại-sao-cần-ontology--topology-nghiêm-túc">2.3.1. Tại sao cần Ontology &amp; Topology nghiêm túc?</h4>
-
-<p>Với kinh nghiệm của mình, khi làm việc với <strong>Knowledge Graph mà không hề có restraint nào về Ontology hay Topology</strong>, thì ứng dụng đó rất dễ trở thành một món đồ chơi - một dạng thí nghiệm hay demo nhỏ lẻ chứ không thật sự sử dụng được. Ở một miền tri thức <em>nghiêm túc và critical</em> như pháp luật, không thể đơn giản nói “áp dụng Knowledge Graph” là sẽ ra ngay kết quả.</p>
-
-<p>Ở đây, <strong>Ontology và Topology</strong> (gọi tắt là T&amp;P) đóng vai trò thiết yếu trong việc đảm bảo:</p>
-
-<ul>
-  <li><strong>Traceability</strong> - Có thể lần ngược lại nguồn gốc thông tin: từ kết luận -&gt; quy định -&gt; văn bản gốc.</li>
-  <li><strong>Transparency</strong> - Rõ ràng trong cấu trúc và quan hệ tri thức.</li>
-  <li><strong>Reasoning</strong> - Khả năng suy luận logic dựa trên quan hệ giữa các thực thể.</li>
-  <li><strong>Retrieval</strong> - Tối ưu hóa việc tìm kiếm thông tin theo ngữ nghĩa, không chỉ dựa trên từ khóa.</li>
-  <li>… và đặc biệt là giữ được <strong>tính hệ thống</strong>, <strong>tái sử dụng</strong>, và <strong>mở rộng tri thức</strong> theo thời gian.</li>
-</ul>
-
-<h4 id="232-granularity---chọn-độ-phân-giải-của-tri-thức">2.3.2. Granularity - Chọn “độ phân giải” của tri thức</h4>
-
-<p>Một điểm quan trọng nữa là: <strong>Ontology nên chi tiết tới mức nào?</strong></p>
-
-<p>Trong ví dụ trước về luật lao động, bạn thấy những khái niệm như “thử việc”, “hợp đồng”, “người lao động” đều có thể ánh xạ thành các thực thể. Nhưng điều đó đặt ra một câu hỏi quan trọng:</p>
-
-<blockquote><div class="content">
-  <p>Liệu ta chỉ nên dừng lại ở mức <strong>vĩ mô</strong> (ví dụ: chương, điều, khoản - các đơn vị pháp lý rõ ràng),
-Hay có thể <strong>vi mô hóa</strong> ontology đến mức các đối tượng xã hội, quyền lợi cụ thể, hành vi, thậm chí tình huống?</p>
-</div><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
-
-<p>Mức độ granularity này phải được <strong>kiểm soát cực kỳ cẩn thận</strong>. Nếu quá rối rắm, bạn sẽ có một graph với hàng ngàn node như:</p>
-
-<div class="language-markdown highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div></div><pre class="highlight"><code>"không hoàn thành công việc" -&gt; "bị xử lý"
--&gt; "theo nội quy công ty" -&gt; "nội dung quy chế công ty"
--&gt; "ban hành bởi..." -&gt; "được phép bởi điều X" 
--&gt; "văn bản Y" -&gt; "nghị định Z sửa đổi điều X"
-</code></pre><span class="language-label">Markdown</span><button class="copy-button"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
-
-<p>…và khi đó, graph không khác gì một <strong>mê cung</strong> - khó trace, khó query, khó mở rộng, và rất dễ sinh lỗi mâu thuẫn hoặc lặp thông tin.</p>
-
-<p>Do đó, bài toán khi mô hình hóa luật pháp Việt Nam <strong>không phải là</strong> “làm được Knowledge Graph hay không”,
-Mà là:</p>
-
-<blockquote><div class="content">
-  <p><em>Làm thế nào để chọn được một Ontology đủ rõ ràng, nhất quán, có granularity hợp lý và một Topology đủ trực quan, mở rộng được?</em></p>
-</div><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
-
-<hr />
-
-<h2 id="3-nghiên-cứu-về-ontology-cho-domain-legal-của-việt-nam">3. Nghiên cứu về Ontology cho domain legal của Việt Nam</h2>
-
-<p>Chúng ta đã cùng đi qua một bài thực hành khá thực tế với <strong>Bộ luật Lao động 2019</strong> - từ việc chọn nguồn dữ liệu, đọc văn bản, đến việc phác thảo một cách tiếp cận tri thức theo kiểu bán-cấu trúc. Dù mới chỉ ở mức sơ khai, phần đó cũng đã hé lộ nhiều điều:</p>
-
-<ul>
-  <li>Các văn bản pháp luật Việt Nam <strong>không hề phi cấu trúc</strong>, ngược lại còn có tính phân cấp rất rõ, giàu ngữ nghĩa.</li>
-  <li>Tuy nhiên, việc chuyển đổi từ dạng văn bản sang một hệ thống tri thức có thể <strong>tìm kiếm, truy vấn, suy luận được</strong> là không hề đơn giản.</li>
-  <li>Và quan trọng nhất: <strong>Ontology chính là yếu tố phân biệt giữa “thông tin” và “tri thức có thể dùng được trong hệ thống NLP nghiêm túc”.</strong></li>
-</ul>
-
-<p>Cũng từ đây, mình bắt đầu nhận ra rằng: Đây không chỉ là một dự án nhỏ vui vui về “chatbot luật”. Đây là một <strong>hướng nghiên cứu hoàn toàn nghiêm túc</strong> và đầy tiềm năng trong NLP Việt Nam - một lĩnh vực hiếm khi được đầu tư bài bản, nhưng lại có thể tạo ra ảnh hưởng rất lớn nếu được phát triển đúng cách. Một trong những sản phẩm mà bạn có thể chưa biết trong mảng này đó là <strong>Chatbot Luật Pháp chính thức trên cổng quốc gia</strong>: <a href="https://ai.phapluat.gov.vn/" target="_blank">ai.phapluat.gov.vn</a>.</p>
-
-<p>Với mục tiêu đó, chương này sẽ đi vào tìm hiểu:</p>
-
-<ul>
-  <li>Những nỗ lực đã có trong việc xây dựng <strong>Ontology hoặc Schema cho lĩnh vực pháp luật Việt Nam</strong>.</li>
-  <li>Những bài học và hướng đi từ các hệ thống ontology nước ngoài (như LKIF, LegalRuleML, EuroVoc…).</li>
-</ul>
-
-<p><strong>Tất cả nguồn tài liệu tham khảo được cung cấp ở cuối post.</strong></p>
-
-<h3 id="31-lý-thuyết-nền-và-lựa-chọn-ontology-cho-lĩnh-vực-pháp-lý">3.1. Lý thuyết nền và lựa chọn ontology cho lĩnh vực pháp lý</h3>
-
-<p>Trong <strong>Leone et al 2018.,</strong> <strong>InvestigatiOnt</strong> đã được đề xuất. InvestigatiOnt nhằm hỗ trợ các nhà phát triển và người dùng cuối không có chuyên môn về luật pháp lựa chọn ontology pháp lý phù hợp nhất với yêu cầu mô hình hóa của một miền pháp lý quan tâm. Điều đặc biệt là InvestigatiOnt không chỉ gợi ý một ontology sau khi người dùng trả lời một loạt câu hỏi, mà còn <strong>hướng dẫn họ trong một quá trình học tập</strong>, cung cấp sự hiểu biết tốt hơn về các đặc điểm riêng biệt của từng ontology.</p>
-
-<p>InvestigatiOnt được thiết kế để xử lý những phức tạp đặc trưng của lĩnh vực pháp lý, bao gồm:</p>
-<ul>
-  <li><strong>Các hệ thống pháp luật khác nhau</strong> (ví dụ: luật thông thường, luật dân sự).</li>
-  <li><strong>Các khu vực tài phán khác nhau</strong> (ví dụ: địa phương, quốc gia, quốc tế).</li>
-  <li><strong>Các tương tác phức tạp giữa các quy tắc</strong> (ví dụ: quy tắc biểu thị nghĩa vụ phải hoàn thành nếu nghĩa vụ khác bị vi phạm, hoặc quy tắc biểu thị một ngoại lệ đối với một nghĩa vụ).</li>
-  <li><strong>Cấu trúc cố định của các văn bản pháp lý</strong> (ví dụ: phân chia thành điều, khoản, định nghĩa).</li>
-</ul>
-
-<p>Công cụ này cung cấp hai loại dịch vụ chính:</p>
-<ol>
-  <li><strong>Dịch vụ trực quan hóa (visualization service):</strong> Hiển thị thông tin về một ontology dưới dạng biểu đồ thể hiện các phụ thuộc của nó với các ontology được tái sử dụng khác. Thông tin hiển thị bao gồm tên đầy đủ và viết tắt, năm xuất bản, lần cập nhật cuối cùng, giấy phép sử dụng lại, và liên kết đến mô tả chính thức và tải xuống.</li>
-  <li><strong>Dịch vụ tìm kiếm (search service):</strong> Gợi ý một hoặc nhiều ontology phù hợp với yêu cầu của người dùng bằng cách phân tích câu trả lời của họ cho một bộ câu hỏi. Các câu hỏi được thiết kế để hiểu cam kết ngữ nghĩa pháp lý mà người dùng muốn đảm nhận, và đi kèm với các ví dụ minh họa để dễ hiểu hơn. Các câu hỏi này giúp phân biệt các đặc điểm cụ thể của các ontology trong cùng một lĩnh vực.</li>
-</ol>
-
-<p>InvestigatiOnt hiện đang xử lý 12 ontology thuộc sáu lĩnh vực pháp lý khác nhau, bao gồm: các quy phạm pháp luật, chính sách, giấy phép, biểu diễn/lập chỉ mục tài liệu pháp lý, quyền riêng tư trong GDPR, và đấu thầu công. Qua đó, InvestigatiOnt cung cấp một sự minh bạch hoàn toàn về đề xuất cuối cùng, giúp người dùng đưa ra quyết định sáng suốt.</p>
-
-<h3 id="32-nghiên-cứu-ứng-dụng-tại-việt-nam">3.2. Nghiên cứu ứng dụng tại Việt Nam</h3>
-
-<p>Tại Việt Nam, số lượng văn bản pháp luật ngày càng tăng, cùng với sự đan xen phức tạp giữa chúng, dẫn đến nhiều khó khăn trong việc tìm kiếm và áp dụng trên thực tế. Các văn bản pháp lý sau này có thể thay đổi hoặc làm mất hiệu lực các văn bản trước đó. Trong bối cảnh chuyển đổi số còn hạn chế trong lĩnh vực luật pháp Việt Nam, việc xây dựng các ontology và đồ thị tri thức pháp lý là vô cùng cần thiết.</p>
-
-<p>Một trong những nỗ lực đáng chú ý là nghiên cứu của <strong>Ngo et al 2024.,</strong>, đề xuất <strong>tiếp cận bản đồ tri thức dựa trên ontology để xây dựng dữ liệu liên kết pháp lý tiếng Việt</strong> từ kho dữ liệu khoảng 325.000 văn bản pháp lý. Nghiên cứu này bao gồm một <strong>ontology tích hợp (VLegalO)</strong> để biểu diễn tri thức pháp lý từ các văn bản. Mô hình này tích hợp ontology tri thức quan hệ và đồ thị thực thể dưới dạng đồ thị khái niệm, có thể biểu thị ngữ nghĩa của nội dung một văn bản pháp lý nhất định. VLegalO được thiết kế để kết nối các văn bản pháp lý, các tổ chức ban hành, người ký, các địa điểm hoặc tổ chức bị ảnh hưởng, và các thực thể liên quan. Về mặt cấu trúc, VLegalO bao gồm một tập hợp các khái niệm (C), các quan hệ định nghĩa trước (R) và các quy tắc suy luận (RULES), cùng với một đồ thị khái niệm (Inst, Rel, weight) biểu diễn các quan hệ giữa các thực thể hoặc cụm từ khóa trong tài liệu luật. Ontology này được triển khai bằng công cụ Protege.</p>
-
-<p>Quá trình xây dựng VLegalKMaps bao gồm hai phần: một phần cho các mục có cấu trúc và quan hệ của tài liệu, và một phần khác cho các đồ thị khái niệm của tri thức pháp lý trong tài liệu. Các phần tử này được trích xuất và chuyển đổi thành bộ ba RDF (subject, predicate, object). Các ứng dụng tiềm năng dựa trên dữ liệu liên kết pháp lý được xây dựng từ VLegalKMaps bao gồm:</p>
-<ul>
-  <li><strong>Công cụ tìm kiếm văn bản pháp lý:</strong> Cải thiện khả năng truy cập và đối chiếu thông tin pháp lý từ các nguồn đa dạng.</li>
-  <li><strong>Hệ thống trả lời câu hỏi pháp lý:</strong> Tăng cường khả năng hiểu và diễn giải ý nghĩa của các khái niệm pháp lý, đảm bảo câu trả lời chính xác theo ngữ cảnh.</li>
-  <li><strong>Truy xuất thông tin pháp lý:</strong> Cải thiện chất lượng dữ liệu thông qua việc sử dụng các từ vựng và ontology được chuẩn hóa, giúp giảm sự mơ hồ và không chính xác.</li>
-  <li><strong>Tìm kiếm vụ án tòa án pháp lý:</strong> Cho phép truy cập qua mạng lưới rộng lớn các nguồn tri thức pháp lý liên kết.</li>
-  <li><strong>Luận điểm pháp lý:</strong> Cung cấp một khuôn khổ mạnh mẽ để tổ chức, kết nối và phân tích thông tin pháp lý, nâng cao hiệu quả và độ chính xác của lập luận pháp lý.</li>
-</ul>
-
-<p>Một nghiên cứu quan trọng khác là của <strong>Nguyen et al 2022.,</strong>, giới thiệu <strong>ViLO – Một Ontology cốt lõi của các văn bản pháp lý Việt Nam</strong>. ViLO là một ontology cốt lõi, hay còn gọi là ontology kiến tạo, thường bao gồm các khái niệm và quan hệ trung tâm của một miền. ViLO được xây dựng thông qua một quy trình cộng tác dựa trên phương pháp NeOn, có sự tham gia của các kỹ sư ontology và chuyên gia pháp lý, nhằm loại bỏ sự mơ hồ trong luật pháp. Ontology này bao gồm các thể chế liên quan của hệ thống chính trị Việt Nam, các loại và cấu trúc của văn bản pháp luật. Mục tiêu của ViLO là nâng cao các tác vụ tìm kiếm, truy xuất hoặc xác thực cho các văn bản pháp lý Việt Nam, và là nền tảng cho việc phát triển các ứng dụng AI chuyên biệt cho luật pháp Việt Nam. ViLO được thiết kế thành ba module riêng biệt: module người ban hành (promulgator), module văn bản pháp lý (legal document) và module tài nguyên tái sử dụng (reused-resource). Nó cũng được triển khai bằng công cụ Protégé và sử dụng các tiên đề (axioms) để thể hiện rõ ràng các hàm ý pháp lý.</p>
-
-<p>Luận án tiến sĩ của <strong>Vương Thị Hải Yến (2024)</strong> cũng tập trung vào việc <strong>xây dựng một đồ thị tri thức cho các vụ án pháp lý Việt Nam với đồ thị Heterogeneous</strong> để tổ chức thông tin pháp lý hiệu quả và nâng cao các tác vụ xử lý ngôn ngữ tự nhiên về sau. Luận án nhấn mạnh việc tận dụng các mối quan hệ văn bản và cấu trúc trong dữ liệu pháp lý để cải thiện hiệu suất của các bài toán truy xuất thông tin pháp lý (IR) và trả lời câu hỏi (QA). Đặc biệt, một <strong>đồ thị tri thức pháp lý Heterogeneous</strong> đã được định nghĩa và xây dựng để tận dụng các mối quan hệ giữa luật thành văn và án lệ (statutory-case law retrieval). Đồ thị này kết nối các thực thể như tòa án, vụ án, lĩnh vực và luật, làm giàu thông tin được cung cấp bởi các hệ thống truy xuất.</p>
-
-<h3 id="33-kỹ-thuật-xây-dựng-hệ-thống-và-tri-thức-hóa-kg-pháp-lý">3.3. Kỹ thuật xây dựng hệ thống và tri thức hóa KG pháp lý</h3>
-
-<p>Việc xây dựng một đồ thị tri thức pháp lý đòi hỏi các kỹ thuật phức tạp để trích xuất, cấu trúc hóa và biểu diễn thông tin từ các văn bản không cấu trúc. Phương pháp của <strong>Vuong et al. (2023)</strong> cho việc xây dựng đồ thị tri thức cho các vụ án pháp lý và luật liên quan tại Việt Nam bao gồm ba bước chính:</p>
-
-<ol>
-  <li><strong>Thu thập dữ liệu (Data Crawling):</strong>
-    <ul>
-      <li>Hệ thống thu thập một lượng lớn tài liệu vụ án pháp lý và các luật liên quan từ nhiều nguồn khác nhau, cung cấp một cơ sở dữ liệu phong phú để xử lý tiếp theo.</li>
-      <li>Cụ thể, nghiên cứu đã thu thập 9578 vụ án tòa án được công bố bởi Tòa án Nhân dân Tối cao Việt Nam dưới dạng văn bản thuần túy và 225 bộ luật hợp lệ của Việt Nam. Các bộ luật được thu thập từ thuvienphapluat.vn, trong khi các vụ án được cào từ congbobanan.toaan.gov.vn.</li>
-      <li>Dữ liệu vụ án bao gồm hai phần: siêu dữ liệu (meta-data) và nội dung vụ án (case document). Phần siêu dữ liệu chứa thông tin cơ bản (số vụ án, tên vụ án, loại vụ án). Nội dung vụ án gồm bốn phần: Giới thiệu, Nội dung vụ án, Nhận định của Tòa án và Quyết định của Tòa án.</li>
-    </ul>
-  </li>
-  <li><strong>Trích xuất thông tin (Information Extraction):</strong>
-    <ul>
-      <li>Bước này sử dụng các kỹ thuật xử lý ngôn ngữ tự nhiên (NLP) để trích xuất các thực thể như tòa án, vụ án, lĩnh vực và luật, cũng như các mối quan hệ của chúng từ văn bản không cấu trúc.</li>
-      <li>Các thực thể như tòa án, lĩnh vực và vụ án được trích xuất từ cả siêu dữ liệu và nội dung vụ án bằng cách sử dụng các biểu thức chính quy (regular expressions).</li>
-      <li>Đối với các thực thể luật, chúng được trích xuất bằng cách đối sánh các câu chứa thông tin luật với một cơ sở dữ liệu gồm 225 bộ luật của Việt Nam.</li>
-      <li>Các thuộc tính của các thực thể bao gồm:
-        <ul>
-          <li><strong>Vụ án (Case):</strong> id vụ án, số vụ án, loại tài liệu, cấp tòa án, nội dung vụ án, văn bản đầy đủ, ngày ghi nhận, id tòa án, id lĩnh vực.</li>
-          <li><strong>Lĩnh vực (Domain):</strong> id lĩnh vực, tên lĩnh vực (ví dụ: Hình sự, Dân sự), phân lĩnh vực (tội phạm, quan hệ pháp luật).</li>
-          <li><strong>Tòa án (Court):</strong> id tòa án, tên tòa án, cấp tòa án.</li>
-          <li><strong>Luật (Law):</strong> id luật, tên luật.</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li><strong>Triển khai Đồ thị Tri thức (Knowledge Graph Deployment):</strong>
-    <ul>
-      <li>Đồ thị tri thức được triển khai bằng cách kết nối các thực thể dựa trên các mối quan hệ đã trích xuất, tạo ra một đồ thị Heterogeneous biểu diễn hiệu quả thông tin pháp lý.</li>
-      <li>Đồ thị Heterogeneous G = (V,E) chứa một tập hợp các thực thể V và một tập hợp các quan hệ E. Các loại thực thể (A) và loại quan hệ (R) là khác nhau.</li>
-      <li><strong>Bốn loại thực thể chính</strong> được định nghĩa: <strong>nút vụ án (Case node)</strong>, <strong>nút lĩnh vực (Domain node)</strong>, <strong>nút tòa án (Court node)</strong>, và <strong>nút luật (Law node)</strong>.</li>
-      <li><strong>Ba loại quan hệ chính</strong> giữa các thực thể: quan hệ <strong>“Decide”</strong> (giữa tòa án và vụ án), quan hệ <strong>“Belong-to”</strong> (giữa vụ án và lĩnh vực), và quan hệ <strong>“Based-on”</strong> (giữa vụ án và luật).</li>
-      <li><strong>Meta-paths:</strong> Trong một đồ thị Heterogeneous, hai thực thể có thể được kết nối thông qua các đường dẫn ngữ nghĩa khác nhau, được gọi là meta-paths (ví dụ: Case-Court-Case (CCC) hoặc Case-Domain-Case (CDC)). Mỗi meta-path tiết lộ ngữ nghĩa khác nhau (ví dụ: CCC nghĩa là các vụ án được xét xử bởi cùng một tòa án, CDC nghĩa là chúng thuộc cùng một lĩnh vực).</li>
-      <li>Đồ thị tri thức pháp lý được xây dựng có tổng cộng 10.181 nút, trong đó 9078 nút là vụ án. Tổng số cạnh là 54.110, với 35.954 cạnh giữa nút vụ án và nút luật.</li>
-    </ul>
-  </li>
-</ol>
-
-<p><strong>Liên hệ Graph Learning:</strong>
-Việc xây dựng đồ thị tri thức pháp lý mở ra nhiều cơ hội cho các ứng dụng dựa trên <strong>học đồ thị (graph learning)</strong>. Đồ thị tri thức có thể biểu diễn hiệu quả lượng lớn tri thức với ý nghĩa ngữ nghĩa, tạo điều kiện dễ dàng truy cập và truy vấn có cấu trúc. Các phương pháp học đồ thị, chẳng hạn như <strong>Mạng thần kinh tích chập đồ thị (Graph Convolutional Networks - GCNs)</strong>, có thể được sử dụng để khám phá các mối quan hệ phức tạp và ngữ cảnh ẩn trong dữ liệu pháp lý.</p>
-
-<p>Trong nghiên cứu của Vuong et al. (2023), đồ thị tri thức đã được áp dụng để xác định các luật liên quan cho một vụ án pháp lý nhất định. Bằng cách giảm không gian tìm kiếm thông qua meta-path “Case-Domain-Case” trong đồ thị tri thức, hiệu suất F1 của việc tìm kiếm luật liên quan đã tăng đáng kể (tăng 21% so với các phương pháp chỉ dựa trên từ khóa). Điều này cho thấy tiềm năng to lớn của việc tích hợp các kỹ thuật học đồ thị để cải thiện hiệu suất truy xuất và phân tích thông tin pháp lý. Hơn nữa, các mô hình học đồ thị có thể kết hợp cả đặc điểm văn bản và cấu trúc của dữ liệu pháp lý để nâng cao hiệu suất tổng thể của các hệ thống AI pháp lý.</p>
-
-<hr />
-
-<h3 id="lời-bạt">Lời bạt</h3>
-
-<p>Thật ra mà nói thì, mảng này quá rộng và phức tạp để một người làm được gì lớn. Ngay cả mình cũng thấy rõ là còn thiếu nhiều thứ. Nhưng qua bài post này, ít nhất mình cũng cho thấy là mình bắt đầu nhìn nhận lĩnh vực này một cách nghiêm túc hơn, dù nó rối, khó, và ở Việt Nam thì chưa có nhiều người thật sự làm sâu.</p>
-
-<p>Sau buổi phỏng vấn với anh founder, mình có thêm động lực thật. Cảm giác kiểu, nếu làm tốt thì biết đâu kì tới lại có cơ hội thật sự (anh ấy cũng ngụ ý vậy mà keke). Còn giờ thì mình cứ tiếp tục học, đọc, và thử làm từng bước một. Dự án này chưa phải gì lớn, nhưng là một hướng mình thấy đáng theo.</p>
-
-<p>Cảm ơn bạn đã đọc tới đây. Nếu sau này mình có làm được bản demo hay thử nghiệm gì cụ thể hơn, mình sẽ chia sẻ tiếp. Hy vọng là nó không dừng lại ở đây, đón chờ nhé 🥴.</p>
-
-<hr />
-
-<h3 id="tài-liệu-tham-khảo">Tài liệu tham khảo</h3>
-
-<ul>
-  <li><a href="https://cacj-ajp.org/vietnam/legal-system/legal-system-of-vietnam/overview-of-the-legal-system-of-vietnam/" target="_blank">CACJ - Overview of the Legal System of Vietnam</a></li>
-  <li><a href="https://vi.wikipedia.org/wiki/H%E1%BB%87_th%E1%BB%91ng_ph%C3%A1p_lu%E1%BA%ADt_tr%C3%AAn_th%E1%BA%BF_gi%E1%BB%9Bi" target="_blank">Wikipedia - Hệ thống pháp luật trên thế giới</a></li>
-  <li><a href="https://thuvienphapluat.vn/van-ban/Lao-dong-Tien-luong/Bo-Luat-lao-dong-2019-333670.aspx" target="_blank">thuvienphapluat.vn - Bộ Luật lao động 2019</a></li>
-  <li><a href="https://ai.phapluat.gov.vn/" target="_blank">ai.phapluat.gov.vn - Chatbot hỗ trợ luật pháp</a></li>
-  <li><a href="https://github.com/Liquid-Legal-Institute/Legal-Ontologies" target="_blank">Github - Liquid-Legal-Institute/Legal-Ontologies</a></li>
-  <li><a href="https://arxiv.org/pdf/2309.09069v1" target="_blank">Vuong et al., 2023 - Constructing a Knowledge Graph for Vietnamese Legal Cases with Heterogeneous Graphs</a></li>
-  <li><a href="https://ceur-ws.org/Vol-2180/paper-36.pdf" target="_blank">Leone et al., 2018 - Legal Ontologies and How to Choose Them:the InvestigatiOnt Tool</a></li>
-  <li><a href="https://www.worldscientific.com/doi/epdf/10.1142/S2196888824500015" target="_blank">Ngo et al., 2024 - Ontology Knowledge Map Approach Towards BuildingLinked Data for Vietnamese Legal Applications</a></li>
-  <li><a href="https://www.worldscientific.com/doi/epdf/10.1142/S2196888822500178" target="_blank">Nguyen et al., 2022 - ViLO: A Core Ontology of VietnameseLegal Documents</a></li>
-  <li><a href="https://uet.vnu.edu.vn/wp-content/uploads/2024/07/Luan-an-tien-si_Vuong-Thi-Hai-Yen.pdf" target="_blank">PhD: Vuong Thi Hai Yen - MODELING AND LEARNINGTEXTUAL AND STRUCTURAL RELATIONSFOR DEEP LEGAL INFORMATION RETRIEVAL</a></li>
-</ul>]]></content><author><name></name></author><category term="technical" /><category term="knowledge graph" /><category term="chatbot" /><category term="legal ai" /><summary type="html"><![CDATA[Tìm hiểu về hệ thống pháp luật tại Việt Nam với ví dụ và nghiên cứu thực tế - thiên hướng về ứng dụng Knowledge Graph]]></summary></entry></feed>
+<p>Việc xây dựng các sơ đồ này đòi hỏi một giai đoạn thiết kế và phân tích sâu hơn, thường là một phần của quá trình phát triển dự án cụ thể.</p>]]></content><author><name></name></author><category term="post" /><category term="legal ai" /><summary type="html"><![CDATA[Review về Literature Landscape của AI trong lĩnh vực luật pháp Việt Nam]]></summary></entry></feed>
