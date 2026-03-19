@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="linkage" content="true">
+    <title>Traffic Collision Anticipation with Continuous Sliding Window Risk Prediction</title>
+    <meta name="description" content="Complementary post for Project - Program: Computer Vision MAT3562E">
+
+    <!-- SEO & Social Meta -->
+    
+    
+    
+    
+    
+    
+    
+    <meta name="author" content="Yuk">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="http://localhost:4000/2025/05/31/traffic-collision-anticipation-model">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Traffic Collision Anticipation with Continuous Sliding Window Risk Prediction">
+    <meta property="og:description" content="Complementary post for Project - Program: Computer Vision MAT3562E">
+    <meta property="og:url" content="http://localhost:4000/2025/05/31/traffic-collision-anticipation-model">
+    <meta property="og:image" content="http://localhost:4000/assets/thumbnail/effnetb0farnetcn.webp">
+    <meta property="og:site_name" content="Yuk's Blog">
+    <meta property="og:locale" content="en_US">
+    <meta property="article:published_time" content="2025-05-31T00:00:00+07:00">
+    <meta property="article:author" content="Yuk">
+    <meta property="article:tag" content="project"><meta property="article:tag" content="computer vision"><meta property="article:tag" content="deep learning">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@Yukano_50">
+    <meta name="twitter:creator" content="@Yukano_50">
+    <meta name="twitter:title" content="Traffic Collision Anticipation with Continuous Sliding Window Risk Prediction">
+    <meta name="twitter:description" content="Complementary post for Project - Program: Computer Vision MAT3562E">
+    <meta name="twitter:image" content="http://localhost:4000/assets/thumbnail/effnetb0farnetcn.webp">
+
+    <link rel="stylesheet" href="/assets/css/pages-css/post-styles.css">
+
+    <!-- NOTE: KaTeX is the preferred engine going forward. MathJax is kept as the legacy
+         fallback (default) for older posts. For any future conflicts, prioritize KaTeX. -->
+    
+    
+    <!-- KaTeX Stylesheet -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+
+    <!-- KaTeX Scripts -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"></script>
+
+    <!-- KaTeX Auto-render Initialization -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    { left: "$$", right: "$$", display: true },
+                    { left: "$", right: "$", display: false },
+                    { left: "\\(", right: "\\)", display: false },
+                    { left: "\\[", right: "\\]", display: true }
+                ]
+            });
+        });
+    </script>
+    
+
+    
+    
+
+    
+    
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
+
+    <script>if (localStorage.getItem('theme') === 'light') document.documentElement.classList.add('light-mode');</script>
+
+    <link rel="stylesheet" href="https://unpkg.com/photoswipe@5/dist/photoswipe.css">
+
+    <script type="module">
+        import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5/dist/photoswipe-lightbox.esm.js';
+
+        const lightbox = new PhotoSwipeLightbox({
+            gallery: '.post-article',
+            children: 'img',
+            pswpModule: () => import('https://unpkg.com/photoswipe@5/dist/photoswipe.esm.js')
+        });
+
+        // Tell PhotoSwipe how to get image data from <img loading="lazy">
+        lightbox.addFilter('itemData', (itemData, index) => {
+            const img = document.querySelectorAll('.post-article img')[index];
+
+            return {
+                src: img.src,
+                width: img.naturalWidth || img.width,
+                height: img.naturalHeight || img.height
+            };
+        });
+
+        lightbox.init();
+    </script>
+</head>
+
+<body>
+    <!-- <div id="page-loader">
+        <div class="loader-logo-container">
+            <div class="loader-logo">
+                <div class="loader-u-shape loader-left-side"></div>
+                <div class="loader-u-shape loader-bottom"></div>
+                <div class="loader-u-shape loader-right-side"></div>
+            </div>
+            <div class="loader-left-arrow-top"></div>
+            <div class="loader-right-arrow-top"></div>
+            <div class="loader-right-arrow-bottom"></div>
+        </div>
+    </div> -->
+    <div id="reading-progress-bar"></div>
+    <div class="main-container">
+        <header id="post-header">
+            <div class="header-logo-container">
+                <button class="logo-button" onclick="handleLogoClick()">
+                    <div class="logo-container">
+                        <div class="logo">
+                            <div class="u-shape left-side"></div>
+                            <div class="u-shape bottom"></div>
+                            <div class="u-shape right-side"></div>
+                        </div>
+                        <div class="left-arrow-top"></div>
+                        <div class="right-arrow-top"></div>
+                        <div class="right-arrow-bottom"></div>
+                    </div>
+                </button>
+            </div>
+            <div class="home-header-title-mobile">
+                <h1 id="home-header-title">Yukano</h1>
+            </div>
+            <div class="nav-container">
+                <nav class="nav-bar">
+                    <ul>
+                        <a href="#" onclick="goBack()">
+                            <li>
+                                
+                                Back
+                                
+                            </li>
+                        </a>
+                        <div class="nav-bar-divider"></div>
+                        <a href="/">
+                            <li>
+                                
+                                Home
+                                
+                            </li>
+                        </a>
+                        <div class="nav-bar-divider" id="nav-disable-mobile"></div>
+                        <a href="/archive" id="nav-disable-mobile">
+                            <li id="nav-disable-mobile">
+                                
+                                Archive
+                                
+                            </li>
+                        </a>
+                        <div class="nav-bar-divider" id="nav-disable-mobile"></div>
+                        <a href="/projects" id="nav-disable-mobile">
+                            <li id="nav-disable-mobile">
+                                
+                                Projects
+                                
+                            </li>
+                        </a>
+                        <!-- <div class="nav-bar-divider" id="nav-disable-mobile"></div>
+                        <a href="#" onclick="notifyComingSoon()" id="nav-disable-mobile">
+                            <li id="nav-disable-mobile">
+                                
+                                Explore
+                                
+                            </li>
+                        </a> -->
+                    </ul>
+                </nav>
+            </div>
+            <div class="header-extra-container">
+                <button class="extra-button">
+                    <div class="extra-container">
+                        <div class="extra">
+                            <div class="extra-shape top"></div>
+                            <div class="extra-shape middle"></div>
+                            <div class="extra-shape bottom"></div>
+                        </div>
+                    </div>
+                </button>
+            </div>
+        </header>
+        <main>
+            <div id="overlay" class="overlay">
+                <div class="options-container">
+                    <p>
+                        
+                        Navigation
+                        
+                    </p>
+                    <div class="options-navigation">
+                        <button id="toBackButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-63ce7424ea57ea6c8380059e-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <path class="cls-63ce7424ea57ea6c8380059e-1"
+                                    d="M2.41,16.78H14.85A7.65,7.65,0,0,0,22.5,9.13h0a7.65,7.65,0,0,0-7.65-7.65H.5">
+                                </path>
+                                <polyline class="cls-63ce7424ea57ea6c8380059e-1"
+                                    points="8.15 22.52 2.41 16.78 8.15 11.04">
+                                </polyline>
+                            </svg>
+                            
+                            Back
+                            
+                        </button>
+                        <button id="toArchiveButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-6374f8d9b67f094e4896c633-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <polygon class="cls-6374f8d9b67f094e4896c633-1"
+                                    points="19.64 9.14 4.36 9.14 4.36 1.5 10.09 1.5 12 3.41 19.64 3.41 19.64 9.14">
+                                </polygon>
+                                <polygon class="cls-6374f8d9b67f094e4896c633-1"
+                                    points="1.5 9.14 22.5 9.14 20.59 22.5 3.41 22.5 1.5 9.14"></polygon>
+                            </svg>
+                            
+                            Archive
+                            
+                        </button>
+                        <button id="toProjectsButton"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                stroke-width="1.5" width="20" height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-637b8d40f95e86b59c57a2bd-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <g id="roll_brush" data-name="roll brush">
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="5.24" y1="11.08" x2="18.66"
+                                        y2="11.08">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="5.24" y1="18.76" x2="18.66"
+                                        y2="18.76">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="5.24" y1="14.92" x2="18.66"
+                                        y2="14.92">
+                                    </line>
+                                    <rect class="cls-637b8d40f95e86b59c57a2bd-1" x="1.4" y="1.49" width="21.1"
+                                        height="21.1"></rect>
+                                    <polygon class="cls-637b8d40f95e86b59c57a2bd-1"
+                                        points="22.5 7.25 16.23 7.25 14.31 7.25 1.4 7.25 1.4 1.49 22.5 1.49 22.5 7.25">
+                                    </polygon>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="4.28" y1="4.37" x2="6.2" y2="4.37">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="8.11" y1="4.37" x2="10.03"
+                                        y2="4.37">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="11.95" y1="4.37" x2="13.87"
+                                        y2="4.37">
+                                    </line>
+                                </g>
+                            </svg>
+                            
+                            Projects
+                            
+                        </button>
+                        <!-- <button id="toExploreButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-63ce7424ea57ea6c8380055b-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <polyline class="cls-63ce7424ea57ea6c8380055b-1" points="22 13 22 22 2 22 2 2 11 2">
+                                </polyline>
+                                <polyline class="cls-63ce7424ea57ea6c8380055b-1" points="14 2 22 2 22 10"></polyline>
+                                <line class="cls-63ce7424ea57ea6c8380055b-1" x1="22" y1="2" x2="10" y2="14"></line>
+                            </svg>
+                            
+                            Explore
+                            
+                        </button> -->
+                        <button id="toAboutButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-6374f8d9b67f094e4896c670-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <circle class="cls-6374f8d9b67f094e4896c670-1" cx="12" cy="7.25" r="5.73"></circle>
+                                <path class="cls-6374f8d9b67f094e4896c670-1"
+                                    d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05">
+                                </path>
+                            </svg>
+                            
+                            About
+                            
+                        </button>
+                        <button id="toHomeButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-6374f8d9b67f094e4896c637-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <polyline class="cls-6374f8d9b67f094e4896c637-1" points="1 12 12 2.83 23 12"></polyline>
+                                <polyline class="cls-6374f8d9b67f094e4896c637-1"
+                                    points="19.33 9.25 19.33 21.17 14.75 21.17 14.75 13.83 9.25 13.83 9.25 21.17 4.67 21.17 4.67 9.25">
+                                </polyline>
+                            </svg>
+                            
+                            Home
+                            
+                        </button>
+                    </div>
+                    <div class="option-horizontal-divider-line"></div>
+                    <p>
+                        
+                        Options
+                        
+                    </p>
+                    <div class="options-configuration">
+                        <button id="toTopButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-63ce7424ea57ea6c83800547-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <circle class="cls-63ce7424ea57ea6c83800547-1" cx="12" cy="12" r="10.5"></circle>
+                                <line class="cls-63ce7424ea57ea6c83800547-1" x1="12" y1="10.09" x2="12" y2="18.68">
+                                </line>
+                                <polyline class="cls-63ce7424ea57ea6c83800547-1"
+                                    points="7.23 10.09 12 5.32 16.77 10.09">
+                                </polyline>
+                                <polyline class="cls-63ce7424ea57ea6c83800547-1"
+                                    points="7.23 14.86 12 10.09 16.77 14.86">
+                                </polyline>
+                            </svg>
+                            
+                            To top
+                            
+                        </button>
+                        <button id="collapseExpandAllButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-63ce7424ea57ea6c8380059a-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <line class="cls-63ce7424ea57ea6c8380059a-1" x1="6" y1="2" x2="6" y2="23"></line>
+                                <polyline class="cls-63ce7424ea57ea6c8380059a-1" points="11 7 6 2 1 7"></polyline>
+                                <line class="cls-63ce7424ea57ea6c8380059a-1" x1="18" y1="22" x2="18" y2="1"></line>
+                                <polyline class="cls-63ce7424ea57ea6c8380059a-1" points="13 17 18 22 23 17"></polyline>
+                            </svg>
+                            
+                            Expand / Collapse all
+                            
+                        </button>
+                        <button id="themeButton"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                stroke-width="1.5" width="20" height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-637b8d40f95e86b59c57a2e7-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <g id="roll_brush" data-name="roll brush">
+                                    <circle class="cls-637b8d40f95e86b59c57a2e7-1" cx="11.99" cy="12.01" r="6.71">
+                                    </circle>
+                                    <path class="cls-637b8d40f95e86b59c57a2e7-1" d="M12,8.65a3.36,3.36,0,0,1,0,6.72Z">
+                                    </path>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="11.99" y1="0.5" x2="11.99"
+                                        y2="2.42">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="11.99" y1="21.6" x2="11.99"
+                                        y2="23.52">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="0.48" y1="12.01" x2="2.4"
+                                        y2="12.01">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="21.58" y1="12.01" x2="23.5"
+                                        y2="12.01">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="20.13" y1="3.87" x2="18.77"
+                                        y2="5.23">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="5.21" y1="18.79" x2="3.85"
+                                        y2="20.15">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="3.85" y1="3.87" x2="5.21"
+                                        y2="5.23">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="18.77" y1="18.79" x2="20.13"
+                                        y2="20.15"></line>
+                                </g>
+                            </svg>
+                            
+                            Theme
+                            
+                        </button>
+                        <button id="commentsButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-637642e7c3a86d32eae6f18f-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <path class="cls-637642e7c3a86d32eae6f18f-1"
+                                    d="M1.5,5.3v9.54a3.82,3.82,0,0,0,3.82,3.82H7.23v2.86L13,18.66h5.73a3.82,3.82,0,0,0,3.82-3.82V5.3a3.82,3.82,0,0,0-3.82-3.82H5.32A3.82,3.82,0,0,0,1.5,5.3Z">
+                                </path>
+                                <line class="cls-637642e7c3a86d32eae6f18f-1" x1="15.82" y1="10.07" x2="17.73"
+                                    y2="10.07">
+                                </line>
+                                <line class="cls-637642e7c3a86d32eae6f18f-1" x1="11.05" y1="10.07" x2="12.95"
+                                    y2="10.07">
+                                </line>
+                                <line class="cls-637642e7c3a86d32eae6f18f-1" x1="6.27" y1="10.07" x2="8.18" y2="10.07">
+                                </line>
+                            </svg>
+                            
+                            Comments
+                            
+                        </button>
+                    </div>
+                    <div class="option-horizontal-divider-line"></div>
+                    <div class="options-close">
+                        <button id="closeButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-6374f8d9b67f094e4896c61e-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <circle class="cls-6374f8d9b67f094e4896c61e-1" cx="12" cy="12" r="10.5"></circle>
+                                <line class="cls-6374f8d9b67f094e4896c61e-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77">
+                                </line>
+                                <line class="cls-6374f8d9b67f094e4896c61e-1" x1="7.23" y1="7.23" x2="16.77" y2="16.77">
+                                </line>
+                            </svg>
+                            
+                            Close
+                            
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="post-content">
+                <div class="post-info-card">
+                    <h1>
+                        <span class="category-svg">
+                            
+                            
+                            
+<svg xmlns="http://www.w3.org/2000/svg" stroke-width="1.5" viewBox="0 0 17.405 23.021" width="24" height="24"><g id="star-lightbulb" transform="translate(-3.19 -0.434)"><path id="Path_40" data-name="Path 40" d="M12,7.23l.75,1.57,1.69.25-1.22,1.22L13.51,12,12,11.19,10.49,12l.29-1.73L9.56,9.05l1.69-.25Z" fill="none" stroke="currentColor" stroke-miterlimit="10"></path><path id="Path_41" data-name="Path 41" d="M19.64,9.14A7.64,7.64,0,1,0,6.92,14.83a3.81,3.81,0,0,1,1.26,2.83v2.93a1.91,1.91,0,0,0,1.91,1.91h3.82a1.91,1.91,0,0,0,1.91-1.91V17.66a3.76,3.76,0,0,1,1.25-2.82,7.62,7.62,0,0,0,2.57-5.7Z" fill="none" stroke="currentColor" stroke-miterlimit="10"></path><line id="Line_20" data-name="Line 20" x2="7.64" transform="translate(8.18 17.73)" fill="none" stroke="currentColor" stroke-miterlimit="10"></line></g></svg>
+
+
+                            
+                        </span>Traffic Collision Anticipation with Continuous Sliding Window Risk Prediction
+                    </h1>
+                    <div class="post-tags">
+                        
+                        
+                        
+                        <span class="tag">#project</span>
+                        
+                        
+                        
+                        
+                        <span class="tag">#computer-vision</span>
+                        
+                        
+                        
+                        
+                        <span class="tag">#deep-learning</span>
+                        
+                        
+                    </div>
+                    <div class="date">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="16"
+                            height="16" color="#fff">
+                            <defs>
+                                <style>
+                                    .cls-6375f1aeb67f094e4896c9ea-1,
+                                    .cls-6375f1aeb67f094e4896c9ea-2 {
+                                        fill: none;
+                                        stroke: currentColor;
+                                        stroke-miterlimit: 10;
+                                    }
+
+                                    .cls-6375f1aeb67f094e4896c9ea-1 {
+                                        stroke-linecap: square;
+                                    }
+                                </style>
+                            </defs>
+                            <g id="calendar">
+                                <rect class="cls-6375f1aeb67f094e4896c9ea-1" x="1.5" y="2.43" width="21" height="4.77"
+                                    transform="translate(24 9.64) rotate(180)"></rect>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="17.73" y1="0.52" x2="17.73" y2="4.34">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="6.27" y1="0.52" x2="6.27" y2="4.34">
+                                </line>
+                                <polygon class="cls-6375f1aeb67f094e4896c9ea-1"
+                                    points="22.5 11.98 22.5 7.21 1.5 7.21 1.5 22.48 22.5 22.48 22.5 15.79 22.5 11.98">
+                                </polygon>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="11.02" x2="11.05" y2="11.02">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="11.02" x2="14.86"
+                                    y2="11.02"></line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="16.77" y1="11.02" x2="18.68"
+                                    y2="11.02"></line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="14.84" x2="11.05" y2="14.84">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="5.32" y1="14.84" x2="7.23" y2="14.84">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="14.84" x2="14.86"
+                                    y2="14.84"></line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="16.77" y1="14.84" x2="18.68"
+                                    y2="14.84"></line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="18.66" x2="11.05" y2="18.66">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="5.32" y1="18.66" x2="7.23" y2="18.66">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="18.66" x2="14.86"
+                                    y2="18.66"></line>
+                            </g>
+                        </svg>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <span class="date-span">May 31st 2025</span>
+
+                        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                            stroke-width="1.5" width="16" height="16" color="#fff">
+                            <defs>
+                                <style>
+                                    .cls-6374f8d9b67f094e4896c623-1 {
+                                        fill: none;
+                                        stroke: currentColor;
+                                        stroke-miterlimit: 10;
+                                    }
+                                </style>
+                            </defs>
+                            <circle class="cls-6374f8d9b67f094e4896c623-1" cx="12" cy="12" r="10.5"></circle>
+                            <circle class="cls-6374f8d9b67f094e4896c623-1" cx="12" cy="12" r="0.95"></circle>
+                            <polyline class="cls-6374f8d9b67f094e4896c623-1" points="12 4.36 12 12 16.77 16.77">
+                            </polyline>
+                        </svg>
+                        
+                        <span class="reading-time">
+                            17
+                            
+                            Min.
+                            
+                        </span>
+                        
+                    </div>
+                    <div class="post-description">
+                        Complementary post for Project - Program: Computer Vision MAT3562E
+                    </div>
+                    <div class="author">
+                        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                            stroke-width="1.5" width="14" height="14" color="#fff">
+                            <defs>
+                                <style>
+                                    .cls-6374f8d9b67f094e4896c670-1 {
+                                        fill: none;
+                                        stroke: currentColor;
+                                        stroke-miterlimit: 10;
+                                    }
+                                </style>
+                            </defs>
+                            <circle class="cls-6374f8d9b67f094e4896c670-1" cx="12" cy="7.25" r="5.73"></circle>
+                            <path class="cls-6374f8d9b67f094e4896c670-1"
+                                d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05">
+                            </path>
+                        </svg>
+                        
+                        Written by:
+                        
+                        Yuk
+                    </div>
+                </div>
+                <div class="horizontal-divider-line"></div>
+                <div class="post-article">
+                    <article>
+                        
+                        
+                        
+                        
+                        <h5 id="access-links">Access Links</h5>
+
+<ul>
+  <li><strong>👨‍💻 Model &amp; Code:</strong> <a href="https://github.com/yuk068/traffic-collision-anticipation-model" target="_blank">yuk068/traffic-collision-anticipation-model</a></li>
+  <li><strong>🎥 Video Demo:</strong> <a href="https://www.youtube.com/watch?v=9aFxLdJvUYI" target="_blank">Youtube - Yuk</a></li>
+  <li>⌛ The project spanned from the middle of May, 2025 till around the end of May, 2025.</li>
+</ul>
+
+<h3 id="prologue">Prologue<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#prologue')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+
+<p>This was my work for the <strong>MAT3562E - Computer Vision</strong> course at HUS-VNU. The story and motivation behind it was relatively similar to my project for the <strong>MAT3533 - Machine Learning</strong> course last semester, but also a fresh experience. And yeah, I’m the only second year in the class again.</p>
+
+<p>So yeah this semester i signed up for computer vision, also looking to make a project like with machine learning. Its a longer story actually, originally for this semester (2nd semes of second year), I signed up for like 3 project driven courses, and was planning to tackle all of them with 1 project, at first I was thinking of multimodal AI because it ticks all the box for the courses, but, some stuff happened so this project was much more separate from anything LLM or NLP, I might talk about this semester more in some other post.</p>
+
+<p>But anyway, this course, this project, was pretty decent. I was especially intrigued by the lecturer of the class, in this wackahh school, she actually seems genuinely passionate about her craft and her connection with the students. It almost feel like she is in the wrong place, much like me lol, but, i quite admire her, even if she didnt grade the project as high as the machine learning one.</p>
+
+<p>This project, originally, I had much bigger ambition for it, but, due to time constraint and more, the end product is still acceptable for me.</p>
+
+<hr />
+
+<h3 id="table-of-content">Table of Content<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#table-of-content')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+
+<blockquote><div class="content">
+  <div id="table-of-contents"><ul><li class="h3"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#prologue')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#prologue">Prologue</a></div></li>
+<li class="h3"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#table-of-content')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#table-of-content" style="color:#434e64;">Table of Content</a></div></li>
+<li class="h2"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#project-overview')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#project-overview">Project Overview</a></div></li>
+<li class="h3"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#nexar-dashcam-crash-prediction-challenge')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#nexar-dashcam-crash-prediction-challenge">Nexar Dashcam Crash Prediction Challenge</a></div></li>
+<li class="h3"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#planned-methodologies')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#planned-methodologies">Planned Methodologies</a></div></li>
+<li class="h3"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#efficientnetb0')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#efficientnetb0">EfficientNetB0</a></div></li>
+<li class="h3"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#gunnar-farneback-optical-flow')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#gunnar-farneback-optical-flow">Gunnar-Farneback Optical Flow</a></div></li>
+<li class="h4"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#optical-flow')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#optical-flow">Optical Flow</a></div></li>
+<li class="h4"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#image-patches-as-quadratic-polynomials')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#image-patches-as-quadratic-polynomials">Image Patches as Quadratic Polynomials</a></div></li>
+<li class="h4"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#fitting-a-qp-to-a-pixel')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#fitting-a-qp-to-a-pixel">Fitting a QP to a pixel</a></div></li>
+<li class="h4"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#estimating-motion-between-image-patches')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#estimating-motion-between-image-patches">Estimating Motion between Image Patches</a></div></li>
+<li class="h4"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#the-pyramid-strategy')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#the-pyramid-strategy">The Pyramid Strategy</a></div></li>
+<li class="h3"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#hybrid-feature-extractor')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#hybrid-feature-extractor">Hybrid Feature Extractor</a></div></li>
+<li class="h3"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#temporal-convolutional-network-tcn')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#temporal-convolutional-network-tcn">Temporal Convolutional Network (TCN)</a></div></li>
+<li class="h3"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#final-product')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#final-product">“Final” Product</a></div></li>
+<li class="h3"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#epilogue')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#epilogue">Epilogue</a></div></li></ul></div>
+</div><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<hr />
+
+<h2 id="project-overview">Project Overview<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#project-overview')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
+
+<p>So like I said, at first I was planning to do something with multimodal AI to use the computer vision section in it for this course, but, this project is pretty rooted in both computer vision and deep learning. With such a change of plan, I was scouring for some kind of problem to solve for the final project. Yuk being Yuk, I just wanted to really do something that has value and also learn as much as possible, so, I start checking out the recent competitions on Kaggle, and I came across <a href="https://www.kaggle.com/competitions/nexar-collision-prediction" target="_blank">🚗💥 Nexar Dashcam Crash Prediction Challenge</a>.</p>
+
+<h3 id="nexar-dashcam-crash-prediction-challenge">Nexar Dashcam Crash Prediction Challenge<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#nexar-dashcam-crash-prediction-challenge')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+
+<p>The data consists of ~3,000 videos, divided into two groups: normal and with/near collisions. The training set includes 1,500 videos lasting 20-40 seconds, accompanied by timestamps for warnings and collisions, while the test set consists of shorter videos (~10 seconds) containing only the initial part before a potential collision.</p>
+
+<p>The goal of the competition was to create an <strong>Early Traffic Collision Anticipation</strong> model, this is different from <strong>Traffic Collision Prediction</strong> in that we have to be able to spot the risk in real time and give ample warning for the driver, not detecting a collision in post. So you dont just provide a risk score for a video, but you need a running risk score that is as relevant to the live POV of the driver as possible. This make it significantly more high-stake and harder from a technical stand point, but i liked it. You know when sitting in some cars, when a near collision is of risk it beeps like crazy? What I wanted to achieve was similar to that.</p>
+
+<p>Another thing about the task is that we are only given dashcam footage and timestamp, so no extra sensory data, LIDAR, etc… This kinda makes it an ill-posed problem, but I had this implication: perhaps by just using dashcam footage, we are striving for a more experimental, incremental approach. To not only utilize the already vast amount of dashcam footage that might have not been annotated. Furthermore, this is a kind of application that is quick and easy to implement, dashcams are already almost a necessity in most vehicle, and it does not require any additional physical modification to the vehicle. But thats just my two cent.</p>
+
+<h3 id="planned-methodologies">Planned Methodologies<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#planned-methodologies')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+
+<p>Anyway, the challenge immediately caught my eye, a real problem, dataset from a company, truly a step up from my machine learning project, so I took it up. After some researching, originally I planned to tackle 2 approach for the problem, for funsies I also generated two “thumbnail” for the two methods lol:</p>
+
+<ul>
+  <li><strong>M1 (Method 1)</strong>: A more symbolic approach, using object detection and segmentation as the backbone. So we dont bother with things like what color is a car or road is and so on. In its simplest implementation that I could thought off, something like, use YOLO to segment cars, then estimate stuff like distance and motion, depth, and so on, and from there, maybe even somehow estimate speed, other aspect like traffic lights, weather, pedestrian, etc… All of which will be fed into a GNN (Graph Neural Network), which I believed was suitable for the kind of input we are talking about. Sadly, due to time constraint, I hadn’t actually explore this approach, so, I guess I’ll put a tack on this, what I did implement, is this project-method 2.</li>
+  <li><strong>M2 (Method 2)</strong>: Global semantic approach, instead of focusing on subjects like M1, we take in everything, or less elegantly, just chuck it into the usual pretrained CNN lol. So yeah thats basically the gist of this approach, much more straightforward and conventional, definitely in the realm of “blackbox”, but worth trying nevertheless.</li>
+</ul>
+
+<p><img loading="lazy" src="/assets/images/projects/cvcourseproj/m1.webp" alt="m1viz" /></p>
+
+<div class="media-description">Visualizing method 1</div>
+
+<p><img loading="lazy" src="/assets/images/projects/cvcourseproj/m2.webp" alt="m2viz" /></p>
+
+<div class="media-description">Visualizing method 2</div>
+
+<p>Long story short, exploring the M2 approach, I eventually crafted the model below:</p>
+
+<p><img loading="lazy" src="/assets/images/projects/cvcourseproj/m2model.webp" alt="m2model" /></p>
+
+<div class="media-description">Full pipeline of the proposed "M2 Model"</div>
+
+<p>In general, the model is divided into two module:</p>
+
+<ul>
+  <li><strong>Hybrid Feature Extractor</strong>: Hope of achieving a comprehensive understanding or both image and motion, producing a rich feature vector for each frame.
+    <ul>
+      <li>CNN-backbone: EfficientNetB0</li>
+      <li>Motion input: Gunnar Farneback Optical Flow</li>
+    </ul>
+  </li>
+  <li><strong>Temporal Convolutional Network (TCN)</strong>: For temporal modeling, as prediction from a sequence of frames is definitely more feasible than one.</li>
+</ul>
+
+<h3 id="efficientnetb0">EfficientNetB0<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#efficientnetb0')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+
+<p>EfficientNet is a family of pre-trained CNNs first introduced in <a href="https://arxiv.org/abs/1905.11946" target="_blank">Tan &amp; Le., 2019</a>, I’ve actually already covered the model that I used (EfficientNetB0) in this post: <a href="/2025/05/25/efficientnet-overview" target="_blank">CNN Technical Breakdown: EfficientNetB0</a>.</p>
+
+<p>In short: CNN-backbone, similar to those pre-trained with ImageNet, used for the <strong>“Image Understanding”</strong> of this hybrid feature extractor. It produces 1280-length feature vector. I chose this one because it was relatively fast, capable of running on edge-devices, easy to work with, accessible too. Furthermore the original paper was co-authored by a Vietnamese so yeah.</p>
+
+<h3 id="gunnar-farneback-optical-flow">Gunnar-Farneback Optical Flow<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#gunnar-farneback-optical-flow')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+
+<p>This is the <strong>“Motion Understanding”</strong> module of the hybrid feature extractor. I’m probably won’t go too deep into this algorithm and save it for like a separate post or maybe even a Youtube video because this thing is actually quite difficult to breakdown without visualization. In this section im just gonna show some math that ive written down.</p>
+
+<p>Honestly, this is one of the most fascinating algorithm that I’ve ever come across, and it make me truly admire the man behind it-Gunnar Farneback, like how the hell did he came up with this??? This algorithm seems to be originally introduced in his paper: <a href="https://link.springer.com/chapter/10.1007/3-540-45103-x_50" target="_blank">Farneback., 2003</a>.</p>
+
+<p>Also, there is very likely to be errors in the derivation, so I’d really appreciate any suggestion and correction in the comments, I highly advice you to double check the math should you follow this.</p>
+
+<h4 id="optical-flow">Optical Flow<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#optical-flow')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h4>
+
+<p><strong>Optical flow</strong> in this context, is the apparent motion of brightness patterns (intensity) in an image sequence, typically between two consecutive frames. It represents how each pixel in the first frame has moved to a new location in the second frame, encoded as a <strong>2D displacement vector field</strong>. This motion estimation is foundational in understanding scene dynamics, object tracking, and video analysis.</p>
+
+<p>In our case of 2 frame -&gt; vector field, there are 3 main algorithms:</p>
+
+<ul>
+  <li><strong>Lucas-Kanade</strong></li>
+  <li><strong>Horn-Schnuck</strong></li>
+  <li><strong>Gunnar Farneback</strong></li>
+</ul>
+
+<p>We will cover the Gunnar Farneback algorithm in this section. Thus, we will formalize our input and output:</p>
+
+<ul>
+  <li><strong>Inputs:</strong>
+    <ul>
+      <li>Given frame 1: $ F_1 \in \mathbb{R}^{W \times H} $ as our starting image/frame of width $ W $ and height $ H $.</li>
+      <li>Given frame 2: $ F_2 \in \mathbb{R}^{W \times H} $ as the target frame of our motion estimation task.</li>
+    </ul>
+  </li>
+  <li><strong>Output:</strong> Dense 2D vector flow field $ D \in \mathbb{R}^{W \times H \times 2} $.</li>
+</ul>
+
+<h4 id="image-patches-as-quadratic-polynomials">Image Patches as Quadratic Polynomials<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#image-patches-as-quadratic-polynomials')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h4>
+
+<p>At the heart of the algorithm, Farneback introduced a brilliant idea: we estimate dense global motion by using local “patches”, its basically a $ p \times p $ area of an image, much like a filter/kernel in convolution just by mental image. But, if we are able to identify a patch by its brightness/intensity pattern, how would we know where it has moved in the image?</p>
+
+<p>Lets just consider the simplest case, where the image is binary, ie. 0 intensity represent white and 1 intensity represent black (this algorithm works on grayscale image btw, so if we are estimating between two RGB images the algo will convert it to grayscale). Say with a $ 5 \times 5 $ patch, one way to figure whether it has moved or not is to scan the entire image to find that exact $ 5 \times 5 $ patch again, but obviously, this is impractical, and doesn’t make sense in an actual sequence say a robot arm monitoring system or dashcam footage.</p>
+
+<p>So, Farneback’s solution? modeling each patch as a quadratic polynomial. Instead of intensity $ I(\mathbf{x}) $ where $ \mathbf{x} = (x, y) $ being just a single number (0/1, 0-255,…), we model this pixel in tandem with its local neighboring pixels as:</p>
+
+<blockquote><div class="content">
+
+  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>I</mi><mo stretchy="false">(</mo><mi mathvariant="bold">x</mi><mo stretchy="false">)</mo><mo>≈</mo><mi mathvariant="bold">x</mi><mi>A</mi><msup><mi mathvariant="bold">x</mi><mi mathvariant="normal">⊤</mi></msup><mo>+</mo><msup><mi>b</mi><mi mathvariant="normal">⊤</mi></msup><mi mathvariant="bold">x</mi><mo>+</mo><mi>c</mi></mrow><annotation encoding="application/x-tex">I(\mathbf{x}) \approx \mathbf{x} A \mathbf{x}^\top + b^\top \mathbf{x} + c</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mopen">(</span><span class="mord mathbf">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.9824em;vertical-align:-0.0833em;"></span><span class="mord mathbf">x</span><span class="mord mathnormal">A</span><span class="mord"><span class="mord mathbf">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8991em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">⊤</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.9824em;vertical-align:-0.0833em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8991em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">⊤</span></span></span></span></span></span></span></span><span class="mord mathbf">x</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">c</span></span></span></span></span>
+</div><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<p>Where:</p>
+
+<p><span class='katex'>
+  <span class='katex-html'>
+    <span style='color: #cc0000'>
+      undefined not callable (property &#39;fill&#39; of [object Array])
+    </span>
+  </span>
+</span>
+
+<span class='katex'>
+  <span class='katex-html'>
+    <span style='color: #cc0000'>
+      undefined not callable (property &#39;fill&#39; of [object Array])
+    </span>
+  </span>
+</span>
+
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo separator="true">;</mo><mi>c</mi><mo>=</mo><msub><mi>a</mi><mn>6</mn></msub></mrow><annotation encoding="application/x-tex">; c = a_6</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mpunct">;</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">c</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">6</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></p>
+
+<p>Thus we have:</p>
+
+<blockquote><div class="content">
+
+  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>I</mi><mo stretchy="false">(</mo><mi>x</mi><mo separator="true">,</mo><mi>y</mi><mo stretchy="false">)</mo><mo>≈</mo><msub><mi>a</mi><mn>1</mn></msub><msup><mi>x</mi><mn>2</mn></msup><mo>+</mo><msub><mi>a</mi><mn>2</mn></msub><msup><mi>y</mi><mn>2</mn></msup><mo>+</mo><msub><mi>a</mi><mn>3</mn></msub><mi>x</mi><mi>y</mi><mo>+</mo><msub><mi>a</mi><mn>4</mn></msub><mi>x</mi><mo>+</mo><msub><mi>a</mi><mn>5</mn></msub><mi>y</mi><mo>+</mo><msub><mi>a</mi><mn>6</mn></msub></mrow><annotation encoding="application/x-tex">I(x, y) \approx a_1 x^2 + a_2 y^2 + a_3 x y + a_4 x + a_5 y + a_6</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.0141em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0585em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7778em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathnormal">x</span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">4</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7778em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">5</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">6</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span>
+</div><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<p>For the scope of this post, you can just assume intuition wise that this quadratic polynomial (QP) is enough to capture not only 1 pixel but also its neighboring region, thus, a pixel now is “identified” by not just its intensity but also its neighboring structure.</p>
+
+<h4 id="fitting-a-qp-to-a-pixel">Fitting a QP to a pixel<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#fitting-a-qp-to-a-pixel')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h4>
+
+<p>Now that we have:</p>
+
+<blockquote><div class="content">
+
+  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>I</mi><mo stretchy="false">(</mo><mi>x</mi><mo separator="true">,</mo><mi>y</mi><mo stretchy="false">)</mo><mo>≈</mo><msub><mi>a</mi><mn>1</mn></msub><msup><mi>x</mi><mn>2</mn></msup><mo>+</mo><msub><mi>a</mi><mn>2</mn></msub><msup><mi>y</mi><mn>2</mn></msup><mo>+</mo><msub><mi>a</mi><mn>3</mn></msub><mi>x</mi><mi>y</mi><mo>+</mo><msub><mi>a</mi><mn>4</mn></msub><mi>x</mi><mo>+</mo><msub><mi>a</mi><mn>5</mn></msub><mi>y</mi><mo>+</mo><msub><mi>a</mi><mn>6</mn></msub></mrow><annotation encoding="application/x-tex">I(x, y) \approx a_1 x^2 + a_2 y^2 + a_3 x y + a_4 x + a_5 y + a_6</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.0141em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0585em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7778em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathnormal">x</span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">4</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7778em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">5</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">6</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span>
+</div><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<p>We can define:</p>
+
+<blockquote><div class="content">
+
+  <span class='katex'>
+  <span class='katex-html'>
+    <span style='color: #cc0000'>
+      undefined not callable (property &#39;fill&#39; of [object Array])
+    </span>
+  </span>
+</span>
+
+</div><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<p>And get:</p>
+
+<blockquote><div class="content">
+
+  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>I</mi><mo stretchy="false">(</mo><mi>x</mi><mo separator="true">,</mo><mi>y</mi><mo stretchy="false">)</mo><mo>≈</mo><mi>ϕ</mi><mo stretchy="false">(</mo><mi>x</mi><mo separator="true">,</mo><mi>y</mi><msup><mo stretchy="false">)</mo><mi mathvariant="normal">⊤</mi></msup><mi mathvariant="bold">a</mi></mrow><annotation encoding="application/x-tex">I(x, y) \approx \phi(x, y)^\top \mathbf{a}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.1491em;vertical-align:-0.25em;"></span><span class="mord mathnormal">ϕ</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8991em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">⊤</span></span></span></span></span></span></span></span><span class="mord mathbf">a</span></span></span></span></span>
+</div><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<p>Now, for a $ p \times p $ region, and $ n = p^2 $, we have:</p>
+
+<blockquote><div class="content">
+
+  <span class='katex'>
+  <span class='katex-html'>
+    <span style='color: #cc0000'>
+      undefined not callable (property &#39;fill&#39; of [object Array])
+    </span>
+  </span>
+</span>
+
+</div><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<p>Stacking this into a <strong>linear system</strong>, we get ourselves an <strong>overdetermined least squares problem</strong>:</p>
+
+<blockquote><div class="content">
+
+  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi mathvariant="normal">Φ</mi><mi mathvariant="bold">a</mi><mo>=</mo><mi mathvariant="bold">I</mi></mrow><annotation encoding="application/x-tex">\Phi \mathbf{a} = \mathbf{I}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord">Φ</span><span class="mord mathbf">a</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6861em;"></span><span class="mord mathbf">I</span></span></span></span></span>
+</div><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<p>We now can solve for the coefficients $ \mathbf{a} $ using <strong>Ordinary Least Squares (OLS)</strong>:</p>
+
+<blockquote><div class="content">
+
+  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi mathvariant="bold">a</mi><mo>=</mo><msup><mrow><mo fence="true">(</mo><msup><mi mathvariant="normal">Φ</mi><mi mathvariant="normal">⊤</mi></msup><mi>W</mi><mi mathvariant="normal">Φ</mi><mo fence="true">)</mo></mrow><mrow><mo>−</mo><mn>1</mn></mrow></msup><msup><mi mathvariant="normal">Φ</mi><mi mathvariant="normal">⊤</mi></msup><mi>W</mi><mi mathvariant="bold">I</mi></mrow><annotation encoding="application/x-tex">\mathbf{a} = \left(\Phi^\top W \Phi \right)^{-1} \Phi^\top W \mathbf{I}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4444em;"></span><span class="mord mathbf">a</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.4531em;vertical-align:-0.35em;"></span><span class="minner"><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size1">(</span></span><span class="mord"><span class="mord">Φ</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8991em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">⊤</span></span></span></span></span></span></span></span><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="mord">Φ</span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size1">)</span></span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:1.1031em;"><span style="top:-3.352em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord">Φ</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8991em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">⊤</span></span></span></span></span></span></span></span><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="mord mathbf">I</span></span></span></span></span>
+</div><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<p>Where, for now, you can just assume $ W = I \in \mathbb{R}^{n \times 6} $ (identity). Similar to <strong>linear regression</strong>, this can either be solved by a closed form solution or iteratively (<code class="language-plaintext highlighter-rouge">opencv</code> implements iterative solver) And remember that:</p>
+
+<p><span class='katex'>
+  <span class='katex-html'>
+    <span style='color: #cc0000'>
+      undefined not callable (property &#39;fill&#39; of [object Array])
+    </span>
+  </span>
+</span>
+
+<span class='katex'>
+  <span class='katex-html'>
+    <span style='color: #cc0000'>
+      undefined not callable (property &#39;fill&#39; of [object Array])
+    </span>
+  </span>
+</span>
+
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo separator="true">;</mo><mi>c</mi><mo>=</mo><msub><mi>a</mi><mn>6</mn></msub></mrow><annotation encoding="application/x-tex">; c = a_6</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mpunct">;</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">c</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">6</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></p>
+
+<p>Thus, by solving for $ \mathbf{a} $ we will get our desired estimation via QP:</p>
+
+<blockquote><div class="content">
+
+  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>I</mi><mo stretchy="false">(</mo><mi mathvariant="bold">x</mi><mo stretchy="false">)</mo><mo>≈</mo><mi mathvariant="bold">x</mi><mi>A</mi><msup><mi mathvariant="bold">x</mi><mi mathvariant="normal">⊤</mi></msup><mo>+</mo><msup><mi>b</mi><mi mathvariant="normal">⊤</mi></msup><mi mathvariant="bold">x</mi><mo>+</mo><mi>c</mi></mrow><annotation encoding="application/x-tex">I(\mathbf{x}) \approx \mathbf{x} A \mathbf{x}^\top + b^\top \mathbf{x} + c</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mopen">(</span><span class="mord mathbf">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.9824em;vertical-align:-0.0833em;"></span><span class="mord mathbf">x</span><span class="mord mathnormal">A</span><span class="mord"><span class="mord mathbf">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8991em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">⊤</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.9824em;vertical-align:-0.0833em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8991em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">⊤</span></span></span></span></span></span></span></span><span class="mord mathbf">x</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">c</span></span></span></span></span>
+</div><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<p>That represent a single pixel in relation to its local structure.</p>
+
+<h4 id="estimating-motion-between-image-patches">Estimating Motion between Image Patches<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#estimating-motion-between-image-patches')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h4>
+
+<p>The assumption that enables the estimation of motion between 2 patches in the algorithm, is that the patches are still the same QP, just shifted slightly, formalizing this:</p>
+
+<ul>
+  <li>Say we have two patches $ I_1 $ and $ I_2 $:</li>
+</ul>
+
+<blockquote><div class="content">
+
+  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>I</mi><mn>1</mn></msub><mo stretchy="false">(</mo><mi mathvariant="bold">x</mi><mo stretchy="false">)</mo><mo>≈</mo><mi mathvariant="bold">x</mi><msub><mi>A</mi><mn>1</mn></msub><msup><mi mathvariant="bold">x</mi><mi mathvariant="normal">⊤</mi></msup><mo>+</mo><msubsup><mi>b</mi><mn>1</mn><mi mathvariant="normal">⊤</mi></msubsup><mi mathvariant="bold">x</mi><mo>+</mo><msub><mi>c</mi><mn>1</mn></msub><mspace linebreak="newline"></mspace><msub><mi>I</mi><mn>2</mn></msub><mo stretchy="false">(</mo><mi mathvariant="bold">x</mi><mo stretchy="false">)</mo><mo>≈</mo><mi mathvariant="bold">x</mi><msub><mi>A</mi><mn>2</mn></msub><msup><mi mathvariant="bold">x</mi><mi mathvariant="normal">⊤</mi></msup><mo>+</mo><msubsup><mi>b</mi><mn>2</mn><mi mathvariant="normal">⊤</mi></msubsup><mi mathvariant="bold">x</mi><mo>+</mo><msub><mi>c</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">I_1(\mathbf{x}) \approx \mathbf{x} A_1 \mathbf{x}^\top + b_1^\top \mathbf{x} + c_1 \\
+I_2(\mathbf{x}) \approx \mathbf{x} A_2 \mathbf{x}^\top + b_2^\top \mathbf{x} + c_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0785em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathbf">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.0491em;vertical-align:-0.15em;"></span><span class="mord mathbf">x</span><span class="mord"><span class="mord mathnormal">A</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathbf">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8991em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">⊤</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.1461em;vertical-align:-0.247em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8991em;"><span style="top:-2.453em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">⊤</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.247em;"><span></span></span></span></span></span></span><span class="mord mathbf">x</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">c</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span><span class="mspace newline"></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0785em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathbf">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.0491em;vertical-align:-0.15em;"></span><span class="mord mathbf">x</span><span class="mord"><span class="mord mathnormal">A</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathbf">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8991em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">⊤</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.1461em;vertical-align:-0.247em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8991em;"><span style="top:-2.453em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">⊤</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.247em;"><span></span></span></span></span></span></span><span class="mord mathbf">x</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">c</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span>
+</div><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<blockquote><div class="content">
+
+  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>I</mi><mn>2</mn></msub><mo stretchy="false">(</mo><mi mathvariant="bold">x</mi><mo stretchy="false">)</mo><mo>=</mo><msub><mi>I</mi><mn>1</mn></msub><mo stretchy="false">(</mo><mi mathvariant="bold">x</mi><mo>−</mo><mi mathvariant="bold">d</mi><mo stretchy="false">)</mo><mo>=</mo><mo stretchy="false">(</mo><mi mathvariant="bold">x</mi><mo>−</mo><mi mathvariant="bold">d</mi><mo stretchy="false">)</mo><msub><mi>A</mi><mn>1</mn></msub><mo stretchy="false">(</mo><mi mathvariant="bold">x</mi><mo>−</mo><mi mathvariant="bold">d</mi><msup><mo stretchy="false">)</mo><mi mathvariant="normal">⊤</mi></msup><mo>+</mo><msubsup><mi>b</mi><mn>1</mn><mi mathvariant="normal">⊤</mi></msubsup><mo stretchy="false">(</mo><mi mathvariant="bold">x</mi><mo>−</mo><mi mathvariant="bold">d</mi><mo stretchy="false">)</mo><mo>+</mo><msub><mi>c</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">I_2(\mathbf{x}) = I_1(\mathbf{x} - \mathbf{d}) = (\mathbf{x} - \mathbf{d}) A_1 (\mathbf{x} - \mathbf{d})^\top + b_1^\top (\mathbf{x} - \mathbf{d}) + c_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0785em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathbf">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0785em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathbf">x</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathbf">d</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathbf">x</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathbf">d</span><span class="mclose">)</span><span class="mord"><span class="mord mathnormal">A</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathbf">x</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.1491em;vertical-align:-0.25em;"></span><span class="mord mathbf">d</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8991em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">⊤</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.1491em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8991em;"><span style="top:-2.453em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">⊤</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.247em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathbf">x</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathbf">d</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">c</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span>
+</div><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<p>Where by using a very strong assumption that $ A_1 = A_2 = A $ (it was hard for me to accept that too… you may do your research on why so far there are so many strong assumptions), then you can directly solve for $ \mathbf{d} $ using the closed form solution (derivation as an exercise to the reader lol):</p>
+
+<blockquote><div class="content">
+
+  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi mathvariant="bold">d</mi><mo>=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><msup><mi>A</mi><mrow><mo>−</mo><mn>1</mn></mrow></msup><mo stretchy="false">(</mo><msub><mi>b</mi><mn>1</mn></msub><mo>−</mo><msub><mi>b</mi><mn>2</mn></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\mathbf{d} = \frac{1}{2} A^{-1} (b_1 - b_2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathbf">d</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.0074em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3214em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">2</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mord"><span class="mord mathnormal">A</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span>
+</div><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<p>Thus, we get the vector $ \mathbf{d} \in \mathbb{R}^2 $ as the displacement vector between pixels-represented-by-patch $ I_1 $ and $ I_2 $. Do this for the entire image, and we will get the dense vector field $ D \in \mathbb{R}^{W \times H \times 2} $.</p>
+
+<p>Note: $ I_1 $ and $ I_2 $ represent THE SAME pixel in two frames, we are NOT looking for $ I_1 $ in frame 2 by scanning the image or something.</p>
+
+<h4 id="the-pyramid-strategy">The Pyramid Strategy<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#the-pyramid-strategy')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h4>
+
+<p>If you are following this, you may wonder, with all these assumptions, how the hell can these premises even track motion by as little as a single pixel shift between 2 frames? This is where, the <strong>Pyramid Strategy</strong> comes in. Im now going to guide you through a mental model that helps to visualize this so called pyramid, Ill also include an illustration for clarity (yeah this is the part that is much more easily explained with a video):</p>
+
+<p>Imagine the frames that you got, there are 2 of them, both of size $ W \times H \times 1 $ (grayscale), now stack them on top of eachother, this is the base for our pyramid, also called layer $ L_0 $.</p>
+
+<p>Now, use Gaussian blur to downsample both frames, say by a factor of two, now, at layer $ L_1 $ of our pyramid, we got 2 frames that are of size $ W/2 \times H/2 \times 1 $.</p>
+
+<p>Repeat this until some arbitrary $ L_k $ layer, if the factor was instead some arbitrary $ z $ where the size of the two frames are now $ W/z^k \times H/z^k \times 1 $.</p>
+
+<p><img loading="lazy" src="/assets/images/projects/cvcourseproj/pyramid.webp" alt="pyramid" /></p>
+
+<div class="media-description">Visualization of "the pyramid"</div>
+
+<p>Now, we will work our way down from layer $ L_k $, because we will have frame $ F_k^1 $ and frame $ F_k^2 $ denoting the two frames at layer $ L_k $, we can solve for our first vector field $ D_k $, which will be of size $ W/z^k \times H/z^k \times 2 $</p>
+
+<p>And, now that we have our first vector field $ D_k $, we will use it to “warp” frame $ F_{k-1}^2 $. In $ D_k $, define $ D_k(\mathbf{x}) = d_k(x, y) = (u, v) $ which is the motion vector at pixel positioned at $ x $ and $ y $:</p>
+
+<blockquote><div class="content">
+
+  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>warped</mtext><mrow><mo fence="true">(</mo><msubsup><mi>I</mi><mi>k</mi><mn>2</mn></msubsup><mo stretchy="false">(</mo><mi>x</mi><mo separator="true">,</mo><mi>y</mi><mo stretchy="false">)</mo><mo fence="true">)</mo></mrow><mo>=</mo><msubsup><mi>I</mi><mi>k</mi><mn>2</mn></msubsup><mo stretchy="false">(</mo><mi>x</mi><mo>+</mo><mi>u</mi><mo separator="true">,</mo><mi>y</mi><mo>+</mo><mi>v</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\text{warped}\left(I_k^2(x, y)\right) = I_k^2(x + u, y + v)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.2141em;vertical-align:-0.35em;"></span><span class="mord text"><span class="mord">warped</span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size1">(</span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-2.453em;margin-left:-0.0785em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.247em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mclose">)</span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size1">)</span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.1141em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-2.453em;margin-left:-0.0785em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.247em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7778em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mclose">)</span></span></span></span></span>
+</div><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<p>Note that we are going to need some interpolation because $ x + u $ and $ y + v $ might not be ints. After getting this new warped second frame, we continue to solve for $ D_{k - 1} $, and work out way until $ k = 0 $, obtaining $ D_0 $, our vector field describing the motion between frame $ F_1 $ and frame $ F_2 $.</p>
+
+<p>I get that this in genuinely pretty hard to grasp, so I don’t really expect you to get it on the first try, and that this derivation isnt really rigorous anyway, so im just gonna put some bullet points:</p>
+
+<ul>
+  <li>The pyramid is what makes the Farneback algorithm practical, its fascinating, its like he came up with 2 algorithm with 1, 1 algorithm that has 2.</li>
+  <li>The higher the layer, the more “abstracted” the movement are between two frames, so you may interpret that vector fields at those level describe more global motion.</li>
+  <li>We warp the second frame with a prior vector field to somewhat compensate for the fact that the algorithm assumes very small motion, so with the pyramid, even when motion are big (eg. like a quick swipe from a turk, a turn from a car) we can still estimate them.</li>
+</ul>
+
+<p>I truly suggest you look further into this algorithm, again, I appreciate any suggestion and correction. This small section really doesnt do this algorithm justice.</p>
+
+<h3 id="hybrid-feature-extractor">Hybrid Feature Extractor<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#hybrid-feature-extractor')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+
+<p>Now that we have broken down the technical details of the two component in the hybrid feature extractor, do note that, the first component-the CNN, produces 1280 size feature vector. But, for the motion part, $ W \times H \times 2 $ (in this case 320x180x2) was obviously way too many values, so I basically divided the vector field into equally sized grids, and “summarized” the motion in that grid with statistics, dominant component, and so on, eventually reducing the motion information to a 720 size feature vector.</p>
+
+<p>Concatenating the two feature vector, image and motion, gives us a 2000 size rich feature vector, for each frame, ready to be put through the next module-temporal modeling.</p>
+
+<h3 id="temporal-convolutional-network-tcn">Temporal Convolutional Network (TCN)<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#temporal-convolutional-network-tcn')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+
+<p>After we got our hybrid feature extractor, now each frame (or frame-pair) will get a rich representation that captures both <strong>Image</strong> and <strong>Motion</strong> understanding, comes our next step in the pipeline: <strong>Temporal Modeling</strong>.</p>
+
+<p>At first, because we already have feature vector for each frame, and we can even stack them to form a <code class="language-plaintext highlighter-rouge">[batch_size, sequence_length, num_features]</code>, I immediately think of recurrent models, like LSTM and GRU, however:</p>
+
+<ul>
+  <li>They are too slow for real time processing, can’t be parallelized.</li>
+  <li>They are quite notorious for being hard to train.</li>
+</ul>
+
+<p>So after some extra researching, I stumbled upon a network that ive never heard of before: <strong>Temporal Convolutional Network (TCN)</strong>, which was first introduced in <a href="https://arxiv.org/abs/1609.03499" target="_blank">Oord et al., 2016</a>. Which essentially solved all the problems that I had with recurrent models. Im not really feeling like going deep into this model, Imma be real its not exactly a perfect fit for the task and I didnt really utilize it fully, so for another day I guess.</p>
+
+<p>Anyway, I chose the sequence length to be 2 seconds, which equates to 20 frames, each with a feature vector of size 2000, making it <code class="language-plaintext highlighter-rouge">[batch_size, 20, 2000]</code>, to output a single risk score. Again, due to time constraint, the training was quite half-assed and I believe the fact that I didnt do much with the data contributed to the limitation of this project.</p>
+
+<h3 id="final-product">“Final” Product<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#final-product')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+
+<p>At this point the deadline was closing in so I just trained and it was actually kinda fine, definitely not up to my standard for a task so high-stake, but presentable for the finals at least.</p>
+
+<p><img loading="lazy" src="/assets/thumbnail/effnetb0farnetcn.webp" alt="livepredprogram" /></p>
+
+<div class="media-description">Live prediction program using the M2 Model</div>
+
+<p>You may watch the demo here: <a href="https://www.youtube.com/watch?v=9aFxLdJvUYI" target="_blank">Youtube - Yuk</a>.</p>
+
+<hr />
+
+<h3 id="epilogue">Epilogue<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#epilogue')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+
+<p>So yeah, if you haven’t already noticed I’m not exactly that excited with this project anymore. Mostly because that for me, computer vision is often more trivial than NLP lol. Like nowadays to solve any CV task you essentially have a plethora of tools in the box already, and I do think vision models are generally more robust than LLMs, especially when taking model size into account. Another reason is because right now, as of writing this, I’m aiming for a job that is much more oriented to NLP, but, I still wanted to write about this project, I had been postponing it anyway.</p>
+
+<p>Who knows, maybe, one day I’ll pick up this project again, and explore that M1 that is still very intriguing to me. Perhaps this could have been more than what it is now had it not been tied to the span of the course. But, yeah, I think I did my best, I tackled something new, learned a ton of new stuff, and, had a presentable demo.</p>
+
+<p>I think my biggest fascination when it comes to computer vision, is to eventually work on some kind of vision system for robotics, or maybe even to contribute towards the recent research on world models like V-JEPA, so yeah, I definitely don’t “dislike” CV, its just that I do think a lot of its simplest problems are as saturated as web dev projects (though lets be fair, LLMs are getting to that level as well).</p>
+
+<p>Thanks for reading through this, Ive just been trying to finish these up in like less than a day, so its sloppy I know, but, i do feel good that I still did it, until next time.</p>
+
+                    </article>
+                </div>
+                <div class="end-horizontal-divider-line"></div>
+                
+
+                <script>
+                    (function () {
+                        const isLight = document.documentElement.classList.contains('light-mode');
+                        const lang = document.documentElement.lang || 'en';
+                        const s = document.createElement('script');
+                        s.src = 'https://giscus.app/client.js';
+                        s.setAttribute('data-repo', 'yuk068/yuk-blog-comments');
+                        s.setAttribute('data-repo-id', 'R_kgDONs1FhQ');
+                        s.setAttribute('data-category', 'Announcements');
+                        s.setAttribute('data-category-id', 'DIC_kwDONs1Fhc4CmLRI');
+                        s.setAttribute('data-mapping', 'title');
+                        s.setAttribute('data-strict', '0');
+                        s.setAttribute('data-reactions-enabled', '1');
+                        s.setAttribute('data-emit-metadata', '0');
+                        s.setAttribute('data-input-position', 'bottom');
+                        s.setAttribute('data-theme', isLight ? 'light_protanopia' : 'dark_protanopia');
+                        s.setAttribute('data-lang', lang === 'vi' ? 'vi' : 'en');
+                        s.setAttribute('crossorigin', 'anonymous');
+                        s.async = true;
+                        document.currentScript.parentElement.appendChild(s);
+                    })();
+                </script>
+
+                
+                <div class="final-horizontal-divider-line"></div>
+            </div>
+        </main>
+
+
+
+        <div class="footer-container">
+    <div class="relative-footer">
+        <footer>
+            <div class="footer-info">
+                <!-- <a href="https://www.linkedin.com/in/duy-pham-duc-226293350/" target="_blank">
+                    <i class="fab fa-linkedin"></i>
+                    <div class="footer-info-label">
+                        <p>Duy Pham Duc</p>
+                    </div>
+                </a> -->
+                <a href="https://www.youtube.com/@yuk.yukano" target="_blank">
+                    <i class="fab fa-youtube"></i>
+                    <div class="footer-info-label">
+                        <p>@yuk.yukano</p>
+                    </div>
+                </a>
+                <a href="https://github.com/duy-phamduc68" target="_blank">
+                    <i class="fab fa-github"></i>
+                    <div class="footer-info-label">
+                        <p>duy-phamduc68</p>
+                    </div>
+                </a>
+                <a href="https://github.com/yuk068" target="_blank">
+                    <i class="fab fa-github"></i>
+                    <div class="footer-info-label">
+                        <p>yuk068</p>
+                    </div>
+                </a>
+                <a href="https://x.com/Yukano_50" target="_blank">
+                    <i class="fab fa-twitter"></i>
+                    <div class="footer-info-label">
+                        <p>@Yukano_50</p>
+                    </div>
+                </a>
+                <a href="https://www.tiktok.com/@yuk.yukano" target="_blank" style="display: none">
+                    <i class="fab fa-tiktok"></i>
+                    <div class="footer-info-label">
+                        <p>@yuk.yukano</p>
+                    </div>
+                </a>
+                <a href="https://www.facebook.com/yuk.pham.2025" target="_blank">
+                    <i class="fab fa-facebook"></i>
+                    <div class="footer-info-label">
+                        <p>Duy Pham Duc</p>
+                    </div>
+                </a>
+            </div>
+            <div class="copyright-text">
+                <p>&copy; 2026 Yukano</p>
+            </div>
+        </footer>
+    </div>
+</div>
+    </div>
+    <div id="svg-repo" style="display: none;">
+        <div id="svg-up-arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff">
+                    <defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs>
+                    <line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line>
+                    <polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline>
+                    <line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line>
+                    <polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline>
+                    <line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line>
+                </svg></div>
+        <div id="svg-down-arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff">
+                    <defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs>
+                    <line class="cls-1" x1="6.25" y1="17.73" x2="6.25" y2="0.48"></line>
+                    <polyline class="cls-1" points="1.46 12.94 6.25 17.73 11.04 12.94"></polyline>
+                    <line class="cls-1" x1="17.75" y1="17.73" x2="17.75" y2="0.48"></line>
+                    <polyline class="cls-1" points="12.96 12.94 17.75 17.73 22.54 12.94"></polyline>
+                    <line class="cls-1" x1="0.5" y1="22.52" x2="23.5" y2="22.52"></line>
+                </svg></div>
+        <div id="svg-check"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c627-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><circle class="cls-6374f8d9b67f094e4896c627-1" cx="12" cy="12" r="10.5"></circle><polyline class="cls-6374f8d9b67f094e4896c627-1" points="6.27 12 10.09 15.82 17.73 8.18"></polyline></svg></div>
+        <div id="svg-document"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></div>
+    </div>
+    <div id="notify-overlay" style="display: none;">
+    <div id="notify-container">
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="40" height="40" fill="none" stroke="var(--neon-aqua-accent, #6bd9fa)" stroke-miterlimit="10"><circle cx="12" cy="12" r="10.5"/><polyline points="12 6.5 12 12 16 14.5"/></svg>
+        </div>
+        <p class="notify-title">Coming Soon!</p>
+        <div id="notify-divider"></div>
+        <span class="notify-desc">This is not available yet...</span>
+        <span class="notify-desc">Check back later!</span>
+        <button id="notify-close-btn" onclick="dismissNotify()">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="16" height="16" fill="none" stroke="currentColor" stroke-miterlimit="10"><circle cx="12" cy="12" r="10.5"/><line x1="8.18" y1="8.18" x2="15.82" y2="15.82"/><line x1="15.82" y1="8.18" x2="8.18" y2="15.82"/></svg> Dismiss
+        </button>
+    </div>
+</div>
+    <script src="/assets/js/pages-js/post-script.js"></script>
+    <div class="scroll-button-container">
+        <button id="scrollButton" onclick="scrollToTop()">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="50" height="50"
+                fill="none" stroke="currentColor" stroke-miterlimit="10" aria-label="⇡">
+                <circle cx="12" cy="12" r="10.5"></circle>
+                <line x1="12" y1="10.09" x2="12" y2="18.68"></line>
+                <polyline points="7.23 10.09 12 5.32 16.77 10.09"></polyline>
+                <polyline points="7.23 14.86 12 10.09 16.77 14.86"></polyline>
+            </svg>
+        </button>
+    </div>
+</body>
+
+</html>

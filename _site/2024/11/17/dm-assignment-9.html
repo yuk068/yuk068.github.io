@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="linkage" content="false">
+    <title>MAT3500 - Graph Theory Assignment - Part 1</title>
+    <meta name="description" content="Assignment on Graph Theory">
+
+    <!-- SEO & Social Meta -->
+    
+    
+    
+    
+    
+    
+    
+    <meta name="author" content="Yuk">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="http://localhost:4000/2024/11/17/dm-assignment-9">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="MAT3500 - Graph Theory Assignment - Part 1">
+    <meta property="og:description" content="Assignment on Graph Theory">
+    <meta property="og:url" content="http://localhost:4000/2024/11/17/dm-assignment-9">
+    <meta property="og:image" content="http://localhost:4000/assets/thumbnail/default.webp">
+    <meta property="og:site_name" content="Yuk's Blog">
+    <meta property="og:locale" content="en_US">
+    <meta property="article:published_time" content="2024-11-17T00:00:00+07:00">
+    <meta property="article:author" content="Yuk">
+    <meta property="article:tag" content="discrete mathematics"><meta property="article:tag" content="schoolwork">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@Yukano_50">
+    <meta name="twitter:creator" content="@Yukano_50">
+    <meta name="twitter:title" content="MAT3500 - Graph Theory Assignment - Part 1">
+    <meta name="twitter:description" content="Assignment on Graph Theory">
+    <meta name="twitter:image" content="http://localhost:4000/assets/thumbnail/default.webp">
+
+    <link rel="stylesheet" href="/assets/css/pages-css/post-styles.css">
+
+    <!-- NOTE: KaTeX is the preferred engine going forward. MathJax is kept as the legacy
+         fallback (default) for older posts. For any future conflicts, prioritize KaTeX. -->
+    
+    
+    <!-- Default to MathJax -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+
+    
+    
+
+    
+    
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
+
+    <script>if (localStorage.getItem('theme') === 'light') document.documentElement.classList.add('light-mode');</script>
+
+    <link rel="stylesheet" href="https://unpkg.com/photoswipe@5/dist/photoswipe.css">
+
+    <script type="module">
+        import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5/dist/photoswipe-lightbox.esm.js';
+
+        const lightbox = new PhotoSwipeLightbox({
+            gallery: '.post-article',
+            children: 'img',
+            pswpModule: () => import('https://unpkg.com/photoswipe@5/dist/photoswipe.esm.js')
+        });
+
+        // Tell PhotoSwipe how to get image data from <img loading="lazy">
+        lightbox.addFilter('itemData', (itemData, index) => {
+            const img = document.querySelectorAll('.post-article img')[index];
+
+            return {
+                src: img.src,
+                width: img.naturalWidth || img.width,
+                height: img.naturalHeight || img.height
+            };
+        });
+
+        lightbox.init();
+    </script>
+</head>
+
+<body>
+    <!-- <div id="page-loader">
+        <div class="loader-logo-container">
+            <div class="loader-logo">
+                <div class="loader-u-shape loader-left-side"></div>
+                <div class="loader-u-shape loader-bottom"></div>
+                <div class="loader-u-shape loader-right-side"></div>
+            </div>
+            <div class="loader-left-arrow-top"></div>
+            <div class="loader-right-arrow-top"></div>
+            <div class="loader-right-arrow-bottom"></div>
+        </div>
+    </div> -->
+    <div id="reading-progress-bar"></div>
+    <div class="main-container">
+        <header id="post-header">
+            <div class="header-logo-container">
+                <button class="logo-button" onclick="handleLogoClick()">
+                    <div class="logo-container">
+                        <div class="logo">
+                            <div class="u-shape left-side"></div>
+                            <div class="u-shape bottom"></div>
+                            <div class="u-shape right-side"></div>
+                        </div>
+                        <div class="left-arrow-top"></div>
+                        <div class="right-arrow-top"></div>
+                        <div class="right-arrow-bottom"></div>
+                    </div>
+                </button>
+            </div>
+            <div class="home-header-title-mobile">
+                <h1 id="home-header-title">Yukano</h1>
+            </div>
+            <div class="nav-container">
+                <nav class="nav-bar">
+                    <ul>
+                        <a href="#" onclick="goBack()">
+                            <li>
+                                
+                                Back
+                                
+                            </li>
+                        </a>
+                        <div class="nav-bar-divider"></div>
+                        <a href="/">
+                            <li>
+                                
+                                Home
+                                
+                            </li>
+                        </a>
+                        <div class="nav-bar-divider" id="nav-disable-mobile"></div>
+                        <a href="/archive" id="nav-disable-mobile">
+                            <li id="nav-disable-mobile">
+                                
+                                Archive
+                                
+                            </li>
+                        </a>
+                        <div class="nav-bar-divider" id="nav-disable-mobile"></div>
+                        <a href="/projects" id="nav-disable-mobile">
+                            <li id="nav-disable-mobile">
+                                
+                                Projects
+                                
+                            </li>
+                        </a>
+                        <!-- <div class="nav-bar-divider" id="nav-disable-mobile"></div>
+                        <a href="#" onclick="notifyComingSoon()" id="nav-disable-mobile">
+                            <li id="nav-disable-mobile">
+                                
+                                Explore
+                                
+                            </li>
+                        </a> -->
+                    </ul>
+                </nav>
+            </div>
+            <div class="header-extra-container">
+                <button class="extra-button">
+                    <div class="extra-container">
+                        <div class="extra">
+                            <div class="extra-shape top"></div>
+                            <div class="extra-shape middle"></div>
+                            <div class="extra-shape bottom"></div>
+                        </div>
+                    </div>
+                </button>
+            </div>
+        </header>
+        <main>
+            <div id="overlay" class="overlay">
+                <div class="options-container">
+                    <p>
+                        
+                        Navigation
+                        
+                    </p>
+                    <div class="options-navigation">
+                        <button id="toBackButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-63ce7424ea57ea6c8380059e-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <path class="cls-63ce7424ea57ea6c8380059e-1"
+                                    d="M2.41,16.78H14.85A7.65,7.65,0,0,0,22.5,9.13h0a7.65,7.65,0,0,0-7.65-7.65H.5">
+                                </path>
+                                <polyline class="cls-63ce7424ea57ea6c8380059e-1"
+                                    points="8.15 22.52 2.41 16.78 8.15 11.04">
+                                </polyline>
+                            </svg>
+                            
+                            Back
+                            
+                        </button>
+                        <button id="toArchiveButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-6374f8d9b67f094e4896c633-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <polygon class="cls-6374f8d9b67f094e4896c633-1"
+                                    points="19.64 9.14 4.36 9.14 4.36 1.5 10.09 1.5 12 3.41 19.64 3.41 19.64 9.14">
+                                </polygon>
+                                <polygon class="cls-6374f8d9b67f094e4896c633-1"
+                                    points="1.5 9.14 22.5 9.14 20.59 22.5 3.41 22.5 1.5 9.14"></polygon>
+                            </svg>
+                            
+                            Archive
+                            
+                        </button>
+                        <button id="toProjectsButton"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                stroke-width="1.5" width="20" height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-637b8d40f95e86b59c57a2bd-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <g id="roll_brush" data-name="roll brush">
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="5.24" y1="11.08" x2="18.66"
+                                        y2="11.08">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="5.24" y1="18.76" x2="18.66"
+                                        y2="18.76">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="5.24" y1="14.92" x2="18.66"
+                                        y2="14.92">
+                                    </line>
+                                    <rect class="cls-637b8d40f95e86b59c57a2bd-1" x="1.4" y="1.49" width="21.1"
+                                        height="21.1"></rect>
+                                    <polygon class="cls-637b8d40f95e86b59c57a2bd-1"
+                                        points="22.5 7.25 16.23 7.25 14.31 7.25 1.4 7.25 1.4 1.49 22.5 1.49 22.5 7.25">
+                                    </polygon>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="4.28" y1="4.37" x2="6.2" y2="4.37">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="8.11" y1="4.37" x2="10.03"
+                                        y2="4.37">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="11.95" y1="4.37" x2="13.87"
+                                        y2="4.37">
+                                    </line>
+                                </g>
+                            </svg>
+                            
+                            Projects
+                            
+                        </button>
+                        <!-- <button id="toExploreButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-63ce7424ea57ea6c8380055b-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <polyline class="cls-63ce7424ea57ea6c8380055b-1" points="22 13 22 22 2 22 2 2 11 2">
+                                </polyline>
+                                <polyline class="cls-63ce7424ea57ea6c8380055b-1" points="14 2 22 2 22 10"></polyline>
+                                <line class="cls-63ce7424ea57ea6c8380055b-1" x1="22" y1="2" x2="10" y2="14"></line>
+                            </svg>
+                            
+                            Explore
+                            
+                        </button> -->
+                        <button id="toAboutButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-6374f8d9b67f094e4896c670-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <circle class="cls-6374f8d9b67f094e4896c670-1" cx="12" cy="7.25" r="5.73"></circle>
+                                <path class="cls-6374f8d9b67f094e4896c670-1"
+                                    d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05">
+                                </path>
+                            </svg>
+                            
+                            About
+                            
+                        </button>
+                        <button id="toHomeButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-6374f8d9b67f094e4896c637-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <polyline class="cls-6374f8d9b67f094e4896c637-1" points="1 12 12 2.83 23 12"></polyline>
+                                <polyline class="cls-6374f8d9b67f094e4896c637-1"
+                                    points="19.33 9.25 19.33 21.17 14.75 21.17 14.75 13.83 9.25 13.83 9.25 21.17 4.67 21.17 4.67 9.25">
+                                </polyline>
+                            </svg>
+                            
+                            Home
+                            
+                        </button>
+                    </div>
+                    <div class="option-horizontal-divider-line"></div>
+                    <p>
+                        
+                        Options
+                        
+                    </p>
+                    <div class="options-configuration">
+                        <button id="toTopButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-63ce7424ea57ea6c83800547-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <circle class="cls-63ce7424ea57ea6c83800547-1" cx="12" cy="12" r="10.5"></circle>
+                                <line class="cls-63ce7424ea57ea6c83800547-1" x1="12" y1="10.09" x2="12" y2="18.68">
+                                </line>
+                                <polyline class="cls-63ce7424ea57ea6c83800547-1"
+                                    points="7.23 10.09 12 5.32 16.77 10.09">
+                                </polyline>
+                                <polyline class="cls-63ce7424ea57ea6c83800547-1"
+                                    points="7.23 14.86 12 10.09 16.77 14.86">
+                                </polyline>
+                            </svg>
+                            
+                            To top
+                            
+                        </button>
+                        <button id="collapseExpandAllButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-63ce7424ea57ea6c8380059a-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <line class="cls-63ce7424ea57ea6c8380059a-1" x1="6" y1="2" x2="6" y2="23"></line>
+                                <polyline class="cls-63ce7424ea57ea6c8380059a-1" points="11 7 6 2 1 7"></polyline>
+                                <line class="cls-63ce7424ea57ea6c8380059a-1" x1="18" y1="22" x2="18" y2="1"></line>
+                                <polyline class="cls-63ce7424ea57ea6c8380059a-1" points="13 17 18 22 23 17"></polyline>
+                            </svg>
+                            
+                            Expand / Collapse all
+                            
+                        </button>
+                        <button id="themeButton"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                stroke-width="1.5" width="20" height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-637b8d40f95e86b59c57a2e7-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <g id="roll_brush" data-name="roll brush">
+                                    <circle class="cls-637b8d40f95e86b59c57a2e7-1" cx="11.99" cy="12.01" r="6.71">
+                                    </circle>
+                                    <path class="cls-637b8d40f95e86b59c57a2e7-1" d="M12,8.65a3.36,3.36,0,0,1,0,6.72Z">
+                                    </path>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="11.99" y1="0.5" x2="11.99"
+                                        y2="2.42">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="11.99" y1="21.6" x2="11.99"
+                                        y2="23.52">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="0.48" y1="12.01" x2="2.4"
+                                        y2="12.01">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="21.58" y1="12.01" x2="23.5"
+                                        y2="12.01">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="20.13" y1="3.87" x2="18.77"
+                                        y2="5.23">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="5.21" y1="18.79" x2="3.85"
+                                        y2="20.15">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="3.85" y1="3.87" x2="5.21"
+                                        y2="5.23">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="18.77" y1="18.79" x2="20.13"
+                                        y2="20.15"></line>
+                                </g>
+                            </svg>
+                            
+                            Theme
+                            
+                        </button>
+                        <button id="commentsButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-637642e7c3a86d32eae6f18f-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <path class="cls-637642e7c3a86d32eae6f18f-1"
+                                    d="M1.5,5.3v9.54a3.82,3.82,0,0,0,3.82,3.82H7.23v2.86L13,18.66h5.73a3.82,3.82,0,0,0,3.82-3.82V5.3a3.82,3.82,0,0,0-3.82-3.82H5.32A3.82,3.82,0,0,0,1.5,5.3Z">
+                                </path>
+                                <line class="cls-637642e7c3a86d32eae6f18f-1" x1="15.82" y1="10.07" x2="17.73"
+                                    y2="10.07">
+                                </line>
+                                <line class="cls-637642e7c3a86d32eae6f18f-1" x1="11.05" y1="10.07" x2="12.95"
+                                    y2="10.07">
+                                </line>
+                                <line class="cls-637642e7c3a86d32eae6f18f-1" x1="6.27" y1="10.07" x2="8.18" y2="10.07">
+                                </line>
+                            </svg>
+                            
+                            Comments
+                            
+                        </button>
+                    </div>
+                    <div class="option-horizontal-divider-line"></div>
+                    <div class="options-close">
+                        <button id="closeButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-6374f8d9b67f094e4896c61e-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <circle class="cls-6374f8d9b67f094e4896c61e-1" cx="12" cy="12" r="10.5"></circle>
+                                <line class="cls-6374f8d9b67f094e4896c61e-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77">
+                                </line>
+                                <line class="cls-6374f8d9b67f094e4896c61e-1" x1="7.23" y1="7.23" x2="16.77" y2="16.77">
+                                </line>
+                            </svg>
+                            
+                            Close
+                            
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="post-content">
+                <div class="post-info-card">
+                    <h1>
+                        <span class="category-svg">
+                            
+                            
+                            
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24"><defs><style>.cls-637b83faf95e86b59c57a101-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><rect class="cls-637b83faf95e86b59c57a101-1" x="3.39" y="1.5" width="18.14" height="21"></rect><line class="cls-637b83faf95e86b59c57a101-1" x1="1.48" y1="6.27" x2="5.3" y2="6.27"></line><line class="cls-637b83faf95e86b59c57a101-1" x1="1.48" y1="13.91" x2="5.3" y2="13.91"></line><line class="cls-637b83faf95e86b59c57a101-1" x1="1.48" y1="10.09" x2="5.3" y2="10.09"></line><line class="cls-637b83faf95e86b59c57a101-1" x1="1.48" y1="17.73" x2="5.3" y2="17.73"></line><rect class="cls-637b83faf95e86b59c57a101-1" x="8.16" y="6.27" width="9.55" height="3.82"></rect><line class="cls-637b83faf95e86b59c57a101-1" x1="7.2" y1="13.91" x2="18.66" y2="13.91"></line></svg>
+
+
+                            
+                        </span>MAT3500 - Graph Theory Assignment - Part 1
+                    </h1>
+                    <div class="post-tags">
+                        
+                        
+                        
+                        <span class="tag">#discrete-mathematics</span>
+                        
+                        
+                        
+                        
+                        <span class="tag">#schoolwork</span>
+                        
+                        
+                    </div>
+                    <div class="date">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="16"
+                            height="16" color="#fff">
+                            <defs>
+                                <style>
+                                    .cls-6375f1aeb67f094e4896c9ea-1,
+                                    .cls-6375f1aeb67f094e4896c9ea-2 {
+                                        fill: none;
+                                        stroke: currentColor;
+                                        stroke-miterlimit: 10;
+                                    }
+
+                                    .cls-6375f1aeb67f094e4896c9ea-1 {
+                                        stroke-linecap: square;
+                                    }
+                                </style>
+                            </defs>
+                            <g id="calendar">
+                                <rect class="cls-6375f1aeb67f094e4896c9ea-1" x="1.5" y="2.43" width="21" height="4.77"
+                                    transform="translate(24 9.64) rotate(180)"></rect>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="17.73" y1="0.52" x2="17.73" y2="4.34">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="6.27" y1="0.52" x2="6.27" y2="4.34">
+                                </line>
+                                <polygon class="cls-6375f1aeb67f094e4896c9ea-1"
+                                    points="22.5 11.98 22.5 7.21 1.5 7.21 1.5 22.48 22.5 22.48 22.5 15.79 22.5 11.98">
+                                </polygon>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="11.02" x2="11.05" y2="11.02">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="11.02" x2="14.86"
+                                    y2="11.02"></line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="16.77" y1="11.02" x2="18.68"
+                                    y2="11.02"></line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="14.84" x2="11.05" y2="14.84">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="5.32" y1="14.84" x2="7.23" y2="14.84">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="14.84" x2="14.86"
+                                    y2="14.84"></line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="16.77" y1="14.84" x2="18.68"
+                                    y2="14.84"></line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="18.66" x2="11.05" y2="18.66">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="5.32" y1="18.66" x2="7.23" y2="18.66">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="18.66" x2="14.86"
+                                    y2="18.66"></line>
+                            </g>
+                        </svg>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <span class="date-span">Nov. 17th 2024</span>
+
+                        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                            stroke-width="1.5" width="16" height="16" color="#fff">
+                            <defs>
+                                <style>
+                                    .cls-6374f8d9b67f094e4896c623-1 {
+                                        fill: none;
+                                        stroke: currentColor;
+                                        stroke-miterlimit: 10;
+                                    }
+                                </style>
+                            </defs>
+                            <circle class="cls-6374f8d9b67f094e4896c623-1" cx="12" cy="12" r="10.5"></circle>
+                            <circle class="cls-6374f8d9b67f094e4896c623-1" cx="12" cy="12" r="0.95"></circle>
+                            <polyline class="cls-6374f8d9b67f094e4896c623-1" points="12 4.36 12 12 16.77 16.77">
+                            </polyline>
+                        </svg>
+                        
+                        <span class="reading-time">
+                            6
+                            
+                            Min.
+                            
+                        </span>
+                        
+                    </div>
+                    <div class="post-description">
+                        Assignment on Graph Theory
+                    </div>
+                    <div class="author">
+                        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                            stroke-width="1.5" width="14" height="14" color="#fff">
+                            <defs>
+                                <style>
+                                    .cls-6374f8d9b67f094e4896c670-1 {
+                                        fill: none;
+                                        stroke: currentColor;
+                                        stroke-miterlimit: 10;
+                                    }
+                                </style>
+                            </defs>
+                            <circle class="cls-6374f8d9b67f094e4896c670-1" cx="12" cy="7.25" r="5.73"></circle>
+                            <path class="cls-6374f8d9b67f094e4896c670-1"
+                                d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05">
+                            </path>
+                        </svg>
+                        
+                        Written by:
+                        
+                        Yuk
+                    </div>
+                </div>
+                <div class="horizontal-divider-line"></div>
+                <div class="post-article">
+                    <article>
+                        
+                        
+                        
+                        
+                        <h3 id="graph-theory-i---hoang-anh-duc---mim---hus---vnu"><a href="https://hoanganhduc.github.io/teaching/VNU-HUS/2024/winter/MAT3500-2/Graphs_I.pdf" target="_blank">Graph Theory I - Hoang Anh Duc - MIM - HUS - VNU</a></h3>
+
+<h4 id="work-1">Work 1.</h4>
+
+<blockquote><div class="content">
+
+  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mtable rowspacing="0.25em" columnalign="right left" columnspacing="0em"><mtr><mtd class ="mtr-glue"></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mrow></mrow><mtext>Given graph </mtext><mi>G</mi><mtext> with </mtext><mi>n</mi><mrow><mi>v</mi><mi>e</mi><mi>r</mi><mi>t</mi><mi>i</mi><mi>c</mi><mi>e</mi><mi>s</mi><mi>a</mi><mi>n</mi><mi>d</mi></mrow><mi>m</mi><mtext> edges</mtext><mspace width="1em"/></mrow></mstyle></mtd><mtd class ="mtr-glue"></mtd><mtd class ="mml-eqn-num"></mtd></mtr><mtr><mtd class ="mtr-glue"></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mrow></mrow><mtext>Let </mtext><mi mathvariant="normal">Δ</mi><mo stretchy="false">(</mo><mi>G</mi><mo stretchy="false">)</mo><mtext> and </mtext><mi>σ</mi><mo stretchy="false">(</mo><mi>G</mi><mo stretchy="false">)</mo><mtext> be the largest and smallest</mtext><mspace width="1em"/></mrow></mstyle></mtd><mtd class ="mtr-glue"></mtd><mtd class ="mml-eqn-num"></mtd></mtr><mtr><mtd class ="mtr-glue"></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mrow></mrow><mtext>degree of a vertex in </mtext><mi>G</mi><mtext>, respectively. Prove that:</mtext><mspace width="1em"/></mrow></mstyle></mtd><mtd class ="mtr-glue"></mtd><mtd class ="mml-eqn-num"></mtd></mtr><mtr><mtd class ="mtr-glue"></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mrow></mrow><mspace width="2em"/><mspace width="2em"/><mspace width="2em"/><mi>σ</mi><mo stretchy="false">(</mo><mi>G</mi><mo stretchy="false">)</mo><mo>≤</mo><mfrac><mrow><mn>2</mn><mi>m</mi></mrow><mi>n</mi></mfrac><mo>≤</mo><mi mathvariant="normal">Δ</mi><mo stretchy="false">(</mo><mi>G</mi><mo stretchy="false">)</mo></mrow></mstyle></mtd><mtd class ="mtr-glue"></mtd><mtd class ="mml-eqn-num"></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{align}
+&amp; \text{Given graph } G \text{ with } n { vertices and } m \text{ edges} \quad \\[5pt]
+&amp; \text{Let } \Delta(G) \text{ and } \sigma(G) \text{ be the largest and smallest} \quad \\[5pt]
+&amp; \text{degree of a vertex in } G \text{, respectively. Prove that:} \quad \\[5pt]
+&amp; \qquad \qquad \qquad \sigma(G) \leq \frac{2m}{n} \leq \Delta(G)
+\end{align}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:8.3074em;vertical-align:-3.9037em;"></span><span class="mtable"><span class="col-align-r"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:4.4037em;"><span style="top:-6.8852em;"><span class="pstrut" style="height:3.3214em;"></span><span class="mord"></span></span><span style="top:-4.8852em;"><span class="pstrut" style="height:3.3214em;"></span><span class="mord"></span></span><span style="top:-2.8852em;"><span class="pstrut" style="height:3.3214em;"></span><span class="mord"></span></span><span style="top:-0.4037em;"><span class="pstrut" style="height:3.3214em;"></span><span class="mord"></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:3.9037em;"><span></span></span></span></span></span><span class="col-align-l"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:4.4037em;"><span style="top:-6.8852em;"><span class="pstrut" style="height:3.3214em;"></span><span class="mord"><span class="mord"></span><span class="mord text"><span class="mord">Given graph </span></span><span class="mord mathnormal">G</span><span class="mord text"><span class="mord"> with </span></span><span class="mord mathnormal">n</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mord mathnormal" style="margin-right:0.02778em;">er</span><span class="mord mathnormal">t</span><span class="mord mathnormal">i</span><span class="mord mathnormal">ces</span><span class="mord mathnormal">an</span><span class="mord mathnormal">d</span></span><span class="mord mathnormal">m</span><span class="mord text"><span class="mord"> edges</span></span><span class="mspace" style="margin-right:1em;"></span></span></span><span style="top:-4.8852em;"><span class="pstrut" style="height:3.3214em;"></span><span class="mord"><span class="mord"></span><span class="mord text"><span class="mord">Let </span></span><span class="mord">Δ</span><span class="mopen">(</span><span class="mord mathnormal">G</span><span class="mclose">)</span><span class="mord text"><span class="mord"> and </span></span><span class="mord mathnormal" style="margin-right:0.03588em;">σ</span><span class="mopen">(</span><span class="mord mathnormal">G</span><span class="mclose">)</span><span class="mord text"><span class="mord"> be the largest and smallest</span></span><span class="mspace" style="margin-right:1em;"></span></span></span><span style="top:-2.8852em;"><span class="pstrut" style="height:3.3214em;"></span><span class="mord"><span class="mord"></span><span class="mord text"><span class="mord">degree of a vertex in </span></span><span class="mord mathnormal">G</span><span class="mord text"><span class="mord">, respectively. Prove that:</span></span><span class="mspace" style="margin-right:1em;"></span></span></span><span style="top:-0.4037em;"><span class="pstrut" style="height:3.3214em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right:2em;"></span><span class="mspace" style="margin-right:2em;"></span><span class="mspace" style="margin-right:2em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">σ</span><span class="mopen">(</span><span class="mord mathnormal">G</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3214em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">n</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">2</span><span class="mord mathnormal">m</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord">Δ</span><span class="mopen">(</span><span class="mord mathnormal">G</span><span class="mclose">)</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:3.9037em;"><span></span></span></span></span></span></span></span><span class="tag"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:4.4037em;"><span style="top:-6.8852em;"><span class="pstrut" style="height:3.3214em;"></span><span class="eqn-num"></span></span><span style="top:-4.8852em;"><span class="pstrut" style="height:3.3214em;"></span><span class="eqn-num"></span></span><span style="top:-2.8852em;"><span class="pstrut" style="height:3.3214em;"></span><span class="eqn-num"></span></span><span style="top:-0.4037em;"><span class="pstrut" style="height:3.3214em;"></span><span class="eqn-num"></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:3.9037em;"><span></span></span></span></span></span></span></span></span>
+</div><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<ul>
+  <li><strong>Solution:</strong></li>
+</ul>
+
+<blockquote><div class="content">
+
+  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mtable rowspacing="0.25em" columnalign="right left" columnspacing="0em"><mtr><mtd class ="mtr-glue"></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mrow></mrow><mtext>By the handshaking lemma:</mtext><mspace width="1em"/></mrow></mstyle></mtd><mtd class ="mtr-glue"></mtd><mtd class ="mml-eqn-num"></mtd></mtr><mtr><mtd class ="mtr-glue"></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mrow></mrow><munder><mo>∑</mo><mrow><mi>v</mi><mo>∈</mo><mi>V</mi><mo stretchy="false">(</mo><mi>G</mi><mo stretchy="false">)</mo></mrow></munder><mtext>deg</mtext><mo stretchy="false">(</mo><mi>v</mi><mo stretchy="false">)</mo><mo>=</mo><mn>2</mn><mi>m</mi><mspace width="1em"/></mrow></mstyle></mtd><mtd class ="mtr-glue"></mtd><mtd class ="mml-eqn-num"></mtd></mtr><mtr><mtd class ="mtr-glue"></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mrow></mrow><mtext>So the average degree is </mtext><mfrac><mrow><mn>2</mn><mi>m</mi></mrow><mi>n</mi></mfrac><mspace width="1em"/></mrow></mstyle></mtd><mtd class ="mtr-glue"></mtd><mtd class ="mml-eqn-num"></mtd></mtr><mtr><mtd class ="mtr-glue"></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mrow></mrow><mtext>Since deg</mtext><mo stretchy="false">(</mo><mi>v</mi><mo stretchy="false">)</mo><mo>≥</mo><mi>σ</mi><mo stretchy="false">(</mo><mi>G</mi><mo stretchy="false">)</mo><mspace width="1em"/><mi mathvariant="normal">∀</mi><mi>v</mi><mspace width="1em"/></mrow></mstyle></mtd><mtd class ="mtr-glue"></mtd><mtd class ="mml-eqn-num"></mtd></mtr><mtr><mtd class ="mtr-glue"></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mrow></mrow><munder><mo>∑</mo><mrow><mi>v</mi><mo>∈</mo><mi>V</mi><mo stretchy="false">(</mo><mi>G</mi><mo stretchy="false">)</mo></mrow></munder><mtext>deg</mtext><mo stretchy="false">(</mo><mi>v</mi><mo stretchy="false">)</mo><mo>≥</mo><mi>n</mi><mo>⋅</mo><mi>σ</mi><mo stretchy="false">(</mo><mi>G</mi><mo stretchy="false">)</mo><mtext>  </mtext><mo>⟹</mo><mtext>  </mtext><mfrac><mrow><mn>2</mn><mi>m</mi></mrow><mi>n</mi></mfrac><mo>≥</mo><mi>σ</mi><mo stretchy="false">(</mo><mi>G</mi><mo stretchy="false">)</mo><mspace width="1em"/></mrow></mstyle></mtd><mtd class ="mtr-glue"></mtd><mtd class ="mml-eqn-num"></mtd></mtr><mtr><mtd class ="mtr-glue"></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mrow></mrow><mtext>Since deg</mtext><mo stretchy="false">(</mo><mi>v</mi><mo stretchy="false">)</mo><mo>≤</mo><mi mathvariant="normal">Δ</mi><mo stretchy="false">(</mo><mi>G</mi><mo stretchy="false">)</mo><mspace width="1em"/><mi mathvariant="normal">∀</mi><mi>v</mi><mspace width="1em"/></mrow></mstyle></mtd><mtd class ="mtr-glue"></mtd><mtd class ="mml-eqn-num"></mtd></mtr><mtr><mtd class ="mtr-glue"></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mrow></mrow><munder><mo>∑</mo><mrow><mi>v</mi><mo>∈</mo><mi>V</mi><mo stretchy="false">(</mo><mi>G</mi><mo stretchy="false">)</mo></mrow></munder><mtext>deg</mtext><mo stretchy="false">(</mo><mi>v</mi><mo stretchy="false">)</mo><mo>≤</mo><mi>n</mi><mo>⋅</mo><mi mathvariant="normal">Δ</mi><mo stretchy="false">(</mo><mi>G</mi><mo stretchy="false">)</mo><mtext>  </mtext><mo>⟹</mo><mtext>  </mtext><mfrac><mrow><mn>2</mn><mi>m</mi></mrow><mi>n</mi></mfrac><mo>≤</mo><mi mathvariant="normal">Δ</mi><mo stretchy="false">(</mo><mi>G</mi><mo stretchy="false">)</mo><mspace width="1em"/></mrow></mstyle></mtd><mtd class ="mtr-glue"></mtd><mtd class ="mml-eqn-num"></mtd></mtr><mtr><mtd class ="mtr-glue"></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mrow></mrow><mtext>Thus: </mtext><mi>σ</mi><mo stretchy="false">(</mo><mi>G</mi><mo stretchy="false">)</mo><mo>≤</mo><mfrac><mrow><mn>2</mn><mi>m</mi></mrow><mi>n</mi></mfrac><mo>≤</mo><mi mathvariant="normal">Δ</mi><mo stretchy="false">(</mo><mi>G</mi><mo stretchy="false">)</mo><mspace width="1em"/></mrow></mstyle></mtd><mtd class ="mtr-glue"></mtd><mtd class ="mml-eqn-num"></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{align}
+&amp; \text{By the handshaking lemma:} \quad \\[5pt]
+&amp; \sum_{v \in V(G)} \text{deg}(v) = 2m \quad \\[5pt]
+&amp; \text{So the average degree is } \frac{2m}{n} \quad \\[5pt]
+&amp; \text{Since deg}(v) \geq \sigma(G) \quad \forall v \quad \\[5pt]
+&amp; \sum_{v \in V(G)} \text{deg}(v) \geq n \cdot \sigma(G) \implies \frac{2m}{n} \geq \sigma(G) \quad \\[5pt]
+&amp; \text{Since deg}(v) \leq \Delta(G) \quad \forall v \quad \\[5pt]
+&amp; \sum_{v \in V(G)} \text{deg}(v) \leq n \cdot \Delta(G) \implies \frac{2m}{n} \leq \Delta(G) \quad \\[5pt]
+&amp; \text{Thus: } \sigma(G) \leq \frac{2m}{n} \leq \Delta(G) \quad
+\end{align}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:19.9298em;vertical-align:-9.7149em;"></span><span class="mtable"><span class="col-align-r"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:10.2149em;"><span style="top:-12.6963em;"><span class="pstrut" style="height:3.3214em;"></span><span class="mord"></span></span><span style="top:-10.4863em;"><span class="pstrut" style="height:3.3214em;"></span><span class="mord"></span></span><span style="top:-7.3489em;"><span class="pstrut" style="height:3.3214em;"></span><span class="mord"></span></span><span style="top:-5.3489em;"><span class="pstrut" style="height:3.3214em;"></span><span class="mord"></span></span><span style="top:-2.8674em;"><span class="pstrut" style="height:3.3214em;"></span><span class="mord"></span></span><span style="top:-0.2114em;"><span class="pstrut" style="height:3.3214em;"></span><span class="mord"></span></span><span style="top:2.27em;"><span class="pstrut" style="height:3.3214em;"></span><span class="mord"></span></span><span style="top:5.4075em;"><span class="pstrut" style="height:3.3214em;"></span><span class="mord"></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:9.7149em;"><span></span></span></span></span></span><span class="col-align-l"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:10.2149em;"><span style="top:-12.6963em;"><span class="pstrut" style="height:3.3214em;"></span><span class="mord"><span class="mord"></span><span class="mord text"><span class="mord">By the handshaking lemma:</span></span><span class="mspace" style="margin-right:1em;"></span></span></span><span style="top:-10.4863em;"><span class="pstrut" style="height:3.3214em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.05em;"><span style="top:-1.809em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">v</span><span class="mrel mtight">∈</span><span class="mord mathnormal mtight" style="margin-right:0.22222em;">V</span><span class="mopen mtight">(</span><span class="mord mathnormal mtight">G</span><span class="mclose mtight">)</span></span></span></span><span style="top:-3.05em;"><span class="pstrut" style="height:3.05em;"></span><span><span class="mop op-symbol large-op">∑</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.516em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord text"><span class="mord">deg</span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord">2</span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:1em;"></span></span></span><span style="top:-7.3489em;"><span class="pstrut" style="height:3.3214em;"></span><span class="mord"><span class="mord"></span><span class="mord text"><span class="mord">So the average degree is </span></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3214em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">n</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">2</span><span class="mord mathnormal">m</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:1em;"></span></span></span><span style="top:-5.3489em;"><span class="pstrut" style="height:3.3214em;"></span><span class="mord"><span class="mord"></span><span class="mord text"><span class="mord">Since deg</span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">σ</span><span class="mopen">(</span><span class="mord mathnormal">G</span><span class="mclose">)</span><span class="mspace" style="margin-right:1em;"></span><span class="mord">∀</span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mspace" style="margin-right:1em;"></span></span></span><span style="top:-2.8674em;"><span class="pstrut" style="height:3.3214em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.05em;"><span style="top:-1.809em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">v</span><span class="mrel mtight">∈</span><span class="mord mathnormal mtight" style="margin-right:0.22222em;">V</span><span class="mopen mtight">(</span><span class="mord mathnormal mtight">G</span><span class="mclose mtight">)</span></span></span></span><span style="top:-3.05em;"><span class="pstrut" style="height:3.05em;"></span><span><span class="mop op-symbol large-op">∑</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.516em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord text"><span class="mord">deg</span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">σ</span><span class="mopen">(</span><span class="mord mathnormal">G</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">⟹</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3214em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">n</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">2</span><span class="mord mathnormal">m</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">σ</span><span class="mopen">(</span><span class="mord mathnormal">G</span><span class="mclose">)</span><span class="mspace" style="margin-right:1em;"></span></span></span><span style="top:-0.2114em;"><span class="pstrut" style="height:3.3214em;"></span><span class="mord"><span class="mord"></span><span class="mord text"><span class="mord">Since deg</span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord">Δ</span><span class="mopen">(</span><span class="mord mathnormal">G</span><span class="mclose">)</span><span class="mspace" style="margin-right:1em;"></span><span class="mord">∀</span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mspace" style="margin-right:1em;"></span></span></span><span style="top:2.27em;"><span class="pstrut" style="height:3.3214em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.05em;"><span style="top:-1.809em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">v</span><span class="mrel mtight">∈</span><span class="mord mathnormal mtight" style="margin-right:0.22222em;">V</span><span class="mopen mtight">(</span><span class="mord mathnormal mtight">G</span><span class="mclose mtight">)</span></span></span></span><span style="top:-3.05em;"><span class="pstrut" style="height:3.05em;"></span><span><span class="mop op-symbol large-op">∑</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.516em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord text"><span class="mord">deg</span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">Δ</span><span class="mopen">(</span><span class="mord mathnormal">G</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">⟹</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3214em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">n</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">2</span><span class="mord mathnormal">m</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord">Δ</span><span class="mopen">(</span><span class="mord mathnormal">G</span><span class="mclose">)</span><span class="mspace" style="margin-right:1em;"></span></span></span><span style="top:5.4075em;"><span class="pstrut" style="height:3.3214em;"></span><span class="mord"><span class="mord"></span><span class="mord text"><span class="mord">Thus: </span></span><span class="mord mathnormal" style="margin-right:0.03588em;">σ</span><span class="mopen">(</span><span class="mord mathnormal">G</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3214em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">n</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">2</span><span class="mord mathnormal">m</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord">Δ</span><span class="mopen">(</span><span class="mord mathnormal">G</span><span class="mclose">)</span><span class="mspace" style="margin-right:1em;"></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:9.7149em;"><span></span></span></span></span></span></span></span><span class="tag"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:10.2149em;"><span style="top:-12.6963em;"><span class="pstrut" style="height:3.3214em;"></span><span class="eqn-num"></span></span><span style="top:-10.4863em;"><span class="pstrut" style="height:3.3214em;"></span><span class="eqn-num"></span></span><span style="top:-7.3489em;"><span class="pstrut" style="height:3.3214em;"></span><span class="eqn-num"></span></span><span style="top:-5.3489em;"><span class="pstrut" style="height:3.3214em;"></span><span class="eqn-num"></span></span><span style="top:-2.8674em;"><span class="pstrut" style="height:3.3214em;"></span><span class="eqn-num"></span></span><span style="top:-0.2114em;"><span class="pstrut" style="height:3.3214em;"></span><span class="eqn-num"></span></span><span style="top:2.27em;"><span class="pstrut" style="height:3.3214em;"></span><span class="eqn-num"></span></span><span style="top:5.4075em;"><span class="pstrut" style="height:3.3214em;"></span><span class="eqn-num"></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:9.7149em;"><span></span></span></span></span></span></span></span></span>
+</div><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<div class="end-post"></div>
+
+<h4 id="work-3">Work 3.</h4>
+
+<ul>
+  <li>A <strong>regular graph</strong> is a graph where all of its vertices have the same degree. We call a graph <strong><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span>-regular graph</strong> if it is a regular graph which all vertices have the same degree of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span>.</li>
+</ul>
+
+<blockquote><div class="content">
+
+  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mtable rowspacing="0.25em" columnalign="right left right" columnspacing="0em 1em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mrow></mrow><mtext>With what values of </mtext><mi>n</mi><mtext> do these graphs</mtext><mspace width="1em"/></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mrow></mrow><mtext>are considered regular graphs:</mtext><mspace width="1em"/></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mrow></mrow><mo stretchy="false">(</mo><mi>a</mi><mo stretchy="false">)</mo><mspace width="1em"/><msub><mi>K</mi><mi>n</mi></msub><mspace width="1em"/></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mo stretchy="false">(</mo><mi>c</mi><mo stretchy="false">)</mo><mspace width="1em"/><msub><mi>W</mi><mi>n</mi></msub><mspace width="1em"/></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mrow></mrow><mo stretchy="false">(</mo><mi>b</mi><mo stretchy="false">)</mo><mspace width="1em"/><msub><mi>C</mi><mi>n</mi></msub><mspace width="1em"/></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mo stretchy="false">(</mo><mi>d</mi><mo stretchy="false">)</mo><mspace width="1em"/><msub><mi>Q</mi><mi>n</mi></msub><mspace width="1em"/></mrow></mstyle></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{aligned}
+&amp; \text{With what values of } n \text{ do these graphs} \quad \\[5pt]
+&amp; \text{are considered regular graphs:} \quad \\[5pt]
+&amp; (a) \quad K_n \quad &amp; (c) \quad W_n \quad \\[5pt]
+&amp; (b) \quad C_n \quad &amp; (d) \quad Q_n \quad \\[5pt]
+\end{aligned}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:8em;vertical-align:-3.75em;"></span><span class="mord"><span class="mtable"><span class="col-align-r"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:4.25em;"><span style="top:-6.25em;"><span class="pstrut" style="height:2.84em;"></span><span class="mord"></span></span><span style="top:-4.25em;"><span class="pstrut" style="height:2.84em;"></span><span class="mord"></span></span><span style="top:-2.25em;"><span class="pstrut" style="height:2.84em;"></span><span class="mord"></span></span><span style="top:-0.25em;"><span class="pstrut" style="height:2.84em;"></span><span class="mord"></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:3.75em;"><span></span></span></span></span></span><span class="col-align-l"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:4.25em;"><span style="top:-6.41em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mord text"><span class="mord">With what values of </span></span><span class="mord mathnormal">n</span><span class="mord text"><span class="mord"> do these graphs</span></span><span class="mspace" style="margin-right:1em;"></span></span></span><span style="top:-4.41em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mord text"><span class="mord">are considered regular graphs:</span></span><span class="mspace" style="margin-right:1em;"></span></span></span><span style="top:-2.41em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mopen">(</span><span class="mord mathnormal">a</span><span class="mclose">)</span><span class="mspace" style="margin-right:1em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0715em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:1em;"></span></span></span><span style="top:-0.41em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mopen">(</span><span class="mord mathnormal">b</span><span class="mclose">)</span><span class="mspace" style="margin-right:1em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0715em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:1em;"></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:3.75em;"><span></span></span></span></span></span><span class="arraycolsep" style="width:1em;"></span><span class="col-align-r"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.25em;"><span style="top:-2.41em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mopen">(</span><span class="mord mathnormal">c</span><span class="mclose">)</span><span class="mspace" style="margin-right:1em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:1em;"></span></span></span><span style="top:-0.41em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mopen">(</span><span class="mord mathnormal">d</span><span class="mclose">)</span><span class="mspace" style="margin-right:1em;"></span><span class="mord"><span class="mord mathnormal">Q</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:1em;"></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:3.75em;"><span></span></span></span></span></span></span></span></span></span></span></span>
+</div><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<ul>
+  <li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>K</mi><mi>n</mi></msub></mrow><annotation encoding="application/x-tex">K_n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0715em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>​ (Complete graph): Each vertex connects to every other vertex. The degree of each vertex is <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">n−1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>, making <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>K</mi><mi>n</mi></msub></mrow><annotation encoding="application/x-tex">K_n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0715em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>​ regular for all <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span>.</li>
+  <li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>C</mi><mi>n</mi></msub></mrow><annotation encoding="application/x-tex">C_n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0715em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>​ (Cycle graph): Each vertex in a cycle graph connects to two neighbors. The degree of every vertex is <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn></mrow><annotation encoding="application/x-tex">2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2</span></span></span></span>, so <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>C</mi><mi>n</mi></msub></mrow><annotation encoding="application/x-tex">C_n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0715em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>​ is regular for all <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>≥</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">n \geq 3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719em;vertical-align:-0.136em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">3</span></span></span></span>.</li>
+  <li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>W</mi><mi>n</mi></msub></mrow><annotation encoding="application/x-tex">W_n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>​ (Wheel graph): Consists of a cycle <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>C</mi><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow></msub></mrow><annotation encoding="application/x-tex">C_{n−1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8917em;vertical-align:-0.2083em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0715em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2083em;"><span></span></span></span></span></span></span></span></span></span>​ and a central vertex connected to all vertices of the cycle. Central vertex degree: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">n−1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>. Cycle vertices degree: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn></mrow><annotation encoding="application/x-tex">3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">3</span></span></span></span>. Only when <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">n=3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">3</span></span></span></span> (triangle + center), all vertices have degree <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn></mrow><annotation encoding="application/x-tex">4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">4</span></span></span></span>, making <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>W</mi><mi>n</mi></msub></mrow><annotation encoding="application/x-tex">W_n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>​ regular.</li>
+  <li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Q</mi><mi>n</mi></msub></mrow><annotation encoding="application/x-tex">Q_n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal">Q</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> ​(Hypercube graph): Each vertex connects to <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span> others (binary representation differing by <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn></mrow><annotation encoding="application/x-tex">1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span> bit). Degree is <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span> for all vertices, so <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Q</mi><mi>n</mi></msub></mrow><annotation encoding="application/x-tex">Q_n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal">Q</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> is regular for all <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span>.</li>
+</ul>
+
+<div class="end-post"></div>
+
+<h4 id="work-5">Work 5.</h4>
+
+<ul>
+  <li>
+    <p>A simple undirected graph <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi><mo>=</mo><mo stretchy="false">(</mo><mi>V</mi><mo separator="true">,</mo><mi>E</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">G = (V, E)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">G</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="mclose">)</span></span></span></span> is a <strong>bipartite graph</strong> if and only if there is a way to color each vertex of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi></mrow><annotation encoding="application/x-tex">G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">G</span></span></span></span> with two colors such that no two adjacent vertices are colored the same.</p>
+  </li>
+  <li>
+    <p>(a)   Prove the statement above.</p>
+  </li>
+  <li>
+    <p><strong>Solution:</strong></p>
+  </li>
+  <li>To prove the statement that a graph <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi><mo>=</mo><mo stretchy="false">(</mo><mi>V</mi><mo separator="true">,</mo><mi>E</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">G=(V,E)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">G</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="mclose">)</span></span></span></span> is bipartite if and only if there exists a way to color each vertex with two colors such that no two adjacent vertices are colored the same, we will prove both directions.</li>
+  <li>Proof (If Part): Assume <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi><mo>=</mo><mo stretchy="false">(</mo><mi>V</mi><mo separator="true">,</mo><mi>E</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">G=(V,E)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">G</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="mclose">)</span></span></span></span> is a bipartite graph. By definition, a bipartite graph can be partitioned into two disjoint sets <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">V_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> ​and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">V_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>, such that every edge <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>e</mi><mo>∈</mo><mi>E</mi></mrow><annotation encoding="application/x-tex">e \in E</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mord mathnormal">e</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">E</span></span></span></span> connects a vertex in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">V_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> ​to a vertex in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">V_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>. We can color the vertices of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">V_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>​ with one color (say color 1) and the vertices of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">V_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>​ with another color (say color 2). Since edges only connect vertices from <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">V_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>​ to <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">V_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>, no two adjacent vertices will share the same color. Therefore, such a 2-coloring exists, proving that a bipartite graph can be 2-colored.</li>
+  <li>
+    <p>Proof (Only If Part): Now, assume that there exists a 2-coloring of the vertices of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi></mrow><annotation encoding="application/x-tex">G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">G</span></span></span></span> such that no two adjacent vertices share the same color. We will show that <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi></mrow><annotation encoding="application/x-tex">G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">G</span></span></span></span> is bipartite. Partition the vertices of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi></mrow><annotation encoding="application/x-tex">G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">G</span></span></span></span> into two sets: one containing all vertices colored with color 1, and the other containing all vertices colored with color 2. Since adjacent vertices are colored differently, all edges must connect a vertex in the first set to a vertex in the second set. Thus, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi></mrow><annotation encoding="application/x-tex">G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">G</span></span></span></span> is bipartite by definition. Conclusion: A graph <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi></mrow><annotation encoding="application/x-tex">G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">G</span></span></span></span> is bipartite if and only if there exists a way to color the vertices with two colors such that no two adjacent vertices share the same color.</p>
+  </li>
+  <li>(b)   Are these graphs a bipartite graph.</li>
+</ul>
+
+<p><img loading="lazy" src="/assets/images/discretemath/graph.webp" alt="graphs" /></p>
+
+<ul>
+  <li>
+    <p><strong>Solution:</strong></p>
+  </li>
+  <li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>G</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">G_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">G</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> -&gt; Yes</li>
+  <li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>G</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">G_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">G</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> -&gt; No (Contains cycle)</li>
+  <li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>G</mi><mn>3</mn></msub></mrow><annotation encoding="application/x-tex">G_3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">G</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> -&gt; No (Contains cycle)</li>
+</ul>
+
+<div class="end-post"></div>
+
+<h4 id="work-6">Work 6.</h4>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div></div><pre class="highlight"><code>How many vertices and edges does these graphs have:
+
+(a) K_n         (d) K_{m, n}
+(b) C_n         (e) Q_n
+(c) W_n 
+</code></pre><span class="language-label">Markdown</span><button class="copy-button"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<ul>
+  <li><strong>Solution:</strong></li>
+</ul>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div></div><pre class="highlight"><code>(a) n_v = n,    n_e = (n(n-1))/2
+(b) n_v = n,    n_e = n
+(c) n_v = n,    n_e = 2(n-1)
+(d) n_v = m+n,  n_e = m.n
+(e) n_v = 2^n,  n_e = n.2^(n-1)
+</code></pre><span class="language-label">Markdown</span><button class="copy-button"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<div class="end-post"></div>
+
+<h4 id="work-7">Work 7.</h4>
+
+<ul>
+  <li>
+    <p>Given a simple undirected graph <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi><mo>=</mo><mo stretchy="false">(</mo><mi>V</mi><mo separator="true">,</mo><mi>E</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">G = (V, E)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">G</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="mclose">)</span></span></span></span> with <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>≥</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">n \geq 3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719em;vertical-align:-0.136em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">3</span></span></span></span> vertices. Let <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi><mo>=</mo><mo stretchy="false">(</mo><mi>W</mi><mo separator="true">,</mo><mi>F</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">H = (W, F)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mclose">)</span></span></span></span> be a subgraph of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi></mrow><annotation encoding="application/x-tex">G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">G</span></span></span></span> with at least two vertices. Prove that if <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi></mrow><annotation encoding="application/x-tex">G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">G</span></span></span></span> is a bipartite graph, then <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi></mrow><annotation encoding="application/x-tex">H</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span></span></span></span> is also a bipartite graph.</p>
+  </li>
+  <li>
+    <p><strong>Solution:</strong></p>
+  </li>
+  <li>Bipartition of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi></mrow><annotation encoding="application/x-tex">G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">G</span></span></span></span>: Since <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi></mrow><annotation encoding="application/x-tex">G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">G</span></span></span></span> is bipartite, by definition, there exists a partition of 𝑉 V into two sets <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">V_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> ​ and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">V_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> ​ such that for every edge <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>u</mi><mo separator="true">,</mo><mi>v</mi><mo stretchy="false">)</mo><mo>∈</mo><mi>E</mi></mrow><annotation encoding="application/x-tex">(u, v) \in E</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">E</span></span></span></span>, we have <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>u</mi><mo>∈</mo><msub><mi>V</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">u \in V_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mord mathnormal">u</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> ​ and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>v</mi><mo>∈</mo><msub><mi>V</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">v \in V_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> ​ , or <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>u</mi><mo>∈</mo><msub><mi>V</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">u \in V_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mord mathnormal">u</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> ​ and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>v</mi><mo>∈</mo><msub><mi>V</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">v \in V_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>.</li>
+  <li>Subgraph <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi></mrow><annotation encoding="application/x-tex">H</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span></span></span></span>: Let <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi><mo>=</mo><mo stretchy="false">(</mo><mi>W</mi><mo separator="true">,</mo><mi>F</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">H=(W,F)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mclose">)</span></span></span></span> be a subgraph of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi></mrow><annotation encoding="application/x-tex">G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">G</span></span></span></span>, where <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>W</mi><mo>⊂</mo><mi>V</mi></mrow><annotation encoding="application/x-tex">W \subset V</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7224em;vertical-align:-0.0391em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">⊂</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.22222em;">V</span></span></span></span> and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mo>⊂</mo><mi>E</mi></mrow><annotation encoding="application/x-tex">F \subset E</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7224em;vertical-align:-0.0391em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">⊂</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">E</span></span></span></span>. The key observation is that the edges of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi></mrow><annotation encoding="application/x-tex">F</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span></span></span></span> are subsets of the edges of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi></mrow><annotation encoding="application/x-tex">G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">G</span></span></span></span>, meaning that each edge in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi></mrow><annotation encoding="application/x-tex">F</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span></span></span></span> connects two vertices in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>W</mi></mrow><annotation encoding="application/x-tex">W</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">W</span></span></span></span> and is also an edge in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi></mrow><annotation encoding="application/x-tex">G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">G</span></span></span></span>.</li>
+  <li>Induced Bipartition: Since <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi></mrow><annotation encoding="application/x-tex">G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">G</span></span></span></span> is bipartite, its partition <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><msub><mi>V</mi><mn>1</mn></msub><mtext>​</mtext><mo separator="true">,</mo><msub><mi>V</mi><mn>2</mn></msub><mtext>​</mtext><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(V_1 ​ ,V_2 ​ )</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord">​</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord">​</span><span class="mclose">)</span></span></span></span> induces a partition on <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>W</mi></mrow><annotation encoding="application/x-tex">W</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">W</span></span></span></span>. Specifically: Let <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>W</mi><mn>1</mn></msub><mtext>​</mtext><mo>=</mo><mi>W</mi><mo>∩</mo><msub><mi>V</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">W_1 ​ =W \cap V_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord">​</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">∩</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> ​ be the set of vertices in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>W</mi></mrow><annotation encoding="application/x-tex">W</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">W</span></span></span></span> that belong to <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">V_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> ​ , Let <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>W</mi><mn>2</mn></msub><mtext>​</mtext><mo>=</mo><mi>W</mi><mo>∩</mo><msub><mi>V</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">W_2 ​ =W \cap V_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord">​</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">∩</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> ​ be the set of vertices in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>W</mi></mrow><annotation encoding="application/x-tex">W</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">W</span></span></span></span> that belong to <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">V_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>.</li>
+  <li>Edges in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi></mrow><annotation encoding="application/x-tex">F</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span></span></span></span>: Any edge in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi></mrow><annotation encoding="application/x-tex">F</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span></span></span></span> is an edge in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi></mrow><annotation encoding="application/x-tex">G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">G</span></span></span></span>, and since <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi></mrow><annotation encoding="application/x-tex">G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">G</span></span></span></span> is bipartite, each edge in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi></mrow><annotation encoding="application/x-tex">F</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span></span></span></span> must connect a vertex in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">V_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> ​ to a vertex in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">V_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> ​ (since no edge in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi></mrow><annotation encoding="application/x-tex">G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">G</span></span></span></span> connects two vertices within <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">V_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> ​ or within <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">V_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> ​ ).</li>
+  <li>Conclusion: Since all edges in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi></mrow><annotation encoding="application/x-tex">F</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span></span></span></span> must connect a vertex in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>W</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">W_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> ​ to a vertex in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>W</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">W_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> ​ , the set of vertices <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>W</mi></mrow><annotation encoding="application/x-tex">W</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">W</span></span></span></span> is also bipartite, with the partition <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><msub><mi>W</mi><mn>1</mn></msub><mtext>​</mtext><mo separator="true">,</mo><msub><mi>W</mi><mn>2</mn></msub><mtext>​</mtext><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(W_1 ​ ,W_2 ​ )</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord">​</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord">​</span><span class="mclose">)</span></span></span></span>. Therefore, the subgraph <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi></mrow><annotation encoding="application/x-tex">H</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span></span></span></span> is bipartite, because its vertices can be partitioned into two sets <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>W</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">W_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> ​ and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>W</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">W_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> ​ , with edges only between vertices in different sets.</li>
+  <li>Thus, we have shown that if <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi></mrow><annotation encoding="application/x-tex">G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">G</span></span></span></span> is bipartite, then any subgraph <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi></mrow><annotation encoding="application/x-tex">H</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span></span></span></span> of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi></mrow><annotation encoding="application/x-tex">G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">G</span></span></span></span> is also bipartite.</li>
+</ul>
+
+<div class="end-post"></div>
+
+<h4 id="work-11">Work 11.</h4>
+
+<blockquote><div class="content">
+
+  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mtable rowspacing="0.25em" columnalign="center" columnspacing="0em"><mtr><mtd class ="mtr-glue"></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mtext>Suppose </mtext><mi>G</mi><mtext> and </mtext><mi>H</mi><mtext> are simple graphs such that</mtext><mspace width="1em"/></mrow></mstyle></mtd><mtd class ="mtr-glue"></mtd><mtd class ="mml-eqn-num"></mtd></mtr><mtr><mtd class ="mtr-glue"></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mi>G</mi><mo>≃</mo><mi>H</mi><mi mathvariant="normal">.</mi><mtext> Prove that </mtext><mover accent="true"><mi>G</mi><mo stretchy="true">‾</mo></mover><mo>≃</mo><mover accent="true"><mi>H</mi><mo stretchy="true">‾</mo></mover><mspace width="1em"/></mrow></mstyle></mtd><mtd class ="mtr-glue"></mtd><mtd class ="mml-eqn-num"></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{gather}
+\text{Suppose } G \text{ and } H  \text{ are simple graphs such that} \quad \\[5pt]
+G \simeq H. \text{ Prove that } \overline{G} \simeq \overline{H} \quad
+\end{gather}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:3.5433em;vertical-align:-1.5217em;"></span><span class="mtable"><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:2.0217em;"><span style="top:-4.1817em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord text"><span class="mord">Suppose </span></span><span class="mord mathnormal">G</span><span class="mord text"><span class="mord"> and </span></span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="mord text"><span class="mord"> are simple graphs such that</span></span><span class="mspace" style="margin-right:1em;"></span></span></span><span style="top:-2.1383em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">G</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≃</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="mord">.</span><span class="mord text"><span class="mord"> Prove that </span></span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">G</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≃</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord overline"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8833em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.08125em;">H</span></span></span><span style="top:-3.8033em;"><span class="pstrut" style="height:3em;"></span><span class="overline-line" style="border-bottom-width:0.04em;"></span></span></span></span></span></span><span class="mspace" style="margin-right:1em;"></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.5217em;"><span></span></span></span></span></span></span></span><span class="tag"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:2.0217em;"><span style="top:-4.065em;"><span class="pstrut" style="height:2.8833em;"></span><span class="eqn-num"></span></span><span style="top:-2.0217em;"><span class="pstrut" style="height:2.8833em;"></span><span class="eqn-num"></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.5217em;"><span></span></span></span></span></span></span></span></span>
+</div><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+                    </article>
+                </div>
+                <div class="end-horizontal-divider-line"></div>
+                
+
+                <script>
+                    (function () {
+                        const isLight = document.documentElement.classList.contains('light-mode');
+                        const lang = document.documentElement.lang || 'en';
+                        const s = document.createElement('script');
+                        s.src = 'https://giscus.app/client.js';
+                        s.setAttribute('data-repo', 'yuk068/yuk-blog-comments');
+                        s.setAttribute('data-repo-id', 'R_kgDONs1FhQ');
+                        s.setAttribute('data-category', 'Announcements');
+                        s.setAttribute('data-category-id', 'DIC_kwDONs1Fhc4CmLRI');
+                        s.setAttribute('data-mapping', 'title');
+                        s.setAttribute('data-strict', '0');
+                        s.setAttribute('data-reactions-enabled', '1');
+                        s.setAttribute('data-emit-metadata', '0');
+                        s.setAttribute('data-input-position', 'bottom');
+                        s.setAttribute('data-theme', isLight ? 'light_protanopia' : 'dark_protanopia');
+                        s.setAttribute('data-lang', lang === 'vi' ? 'vi' : 'en');
+                        s.setAttribute('crossorigin', 'anonymous');
+                        s.async = true;
+                        document.currentScript.parentElement.appendChild(s);
+                    })();
+                </script>
+
+                
+                <div class="final-horizontal-divider-line"></div>
+            </div>
+        </main>
+
+
+
+        <div class="footer-container">
+    <div class="relative-footer">
+        <footer>
+            <div class="footer-info">
+                <!-- <a href="https://www.linkedin.com/in/duy-pham-duc-226293350/" target="_blank">
+                    <i class="fab fa-linkedin"></i>
+                    <div class="footer-info-label">
+                        <p>Duy Pham Duc</p>
+                    </div>
+                </a> -->
+                <a href="https://www.youtube.com/@yuk.yukano" target="_blank">
+                    <i class="fab fa-youtube"></i>
+                    <div class="footer-info-label">
+                        <p>@yuk.yukano</p>
+                    </div>
+                </a>
+                <a href="https://github.com/duy-phamduc68" target="_blank">
+                    <i class="fab fa-github"></i>
+                    <div class="footer-info-label">
+                        <p>duy-phamduc68</p>
+                    </div>
+                </a>
+                <a href="https://github.com/yuk068" target="_blank">
+                    <i class="fab fa-github"></i>
+                    <div class="footer-info-label">
+                        <p>yuk068</p>
+                    </div>
+                </a>
+                <a href="https://x.com/Yukano_50" target="_blank">
+                    <i class="fab fa-twitter"></i>
+                    <div class="footer-info-label">
+                        <p>@Yukano_50</p>
+                    </div>
+                </a>
+                <a href="https://www.tiktok.com/@yuk.yukano" target="_blank" style="display: none">
+                    <i class="fab fa-tiktok"></i>
+                    <div class="footer-info-label">
+                        <p>@yuk.yukano</p>
+                    </div>
+                </a>
+                <a href="https://www.facebook.com/yuk.pham.2025" target="_blank">
+                    <i class="fab fa-facebook"></i>
+                    <div class="footer-info-label">
+                        <p>Duy Pham Duc</p>
+                    </div>
+                </a>
+            </div>
+            <div class="copyright-text">
+                <p>&copy; 2026 Yukano</p>
+            </div>
+        </footer>
+    </div>
+</div>
+    </div>
+    <div id="svg-repo" style="display: none;">
+        <div id="svg-up-arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff">
+                    <defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs>
+                    <line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line>
+                    <polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline>
+                    <line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line>
+                    <polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline>
+                    <line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line>
+                </svg></div>
+        <div id="svg-down-arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff">
+                    <defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs>
+                    <line class="cls-1" x1="6.25" y1="17.73" x2="6.25" y2="0.48"></line>
+                    <polyline class="cls-1" points="1.46 12.94 6.25 17.73 11.04 12.94"></polyline>
+                    <line class="cls-1" x1="17.75" y1="17.73" x2="17.75" y2="0.48"></line>
+                    <polyline class="cls-1" points="12.96 12.94 17.75 17.73 22.54 12.94"></polyline>
+                    <line class="cls-1" x1="0.5" y1="22.52" x2="23.5" y2="22.52"></line>
+                </svg></div>
+        <div id="svg-check"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c627-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><circle class="cls-6374f8d9b67f094e4896c627-1" cx="12" cy="12" r="10.5"></circle><polyline class="cls-6374f8d9b67f094e4896c627-1" points="6.27 12 10.09 15.82 17.73 8.18"></polyline></svg></div>
+        <div id="svg-document"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></div>
+    </div>
+    <div id="notify-overlay" style="display: none;">
+    <div id="notify-container">
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="40" height="40" fill="none" stroke="var(--neon-aqua-accent, #6bd9fa)" stroke-miterlimit="10"><circle cx="12" cy="12" r="10.5"/><polyline points="12 6.5 12 12 16 14.5"/></svg>
+        </div>
+        <p class="notify-title">Coming Soon!</p>
+        <div id="notify-divider"></div>
+        <span class="notify-desc">This is not available yet...</span>
+        <span class="notify-desc">Check back later!</span>
+        <button id="notify-close-btn" onclick="dismissNotify()">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="16" height="16" fill="none" stroke="currentColor" stroke-miterlimit="10"><circle cx="12" cy="12" r="10.5"/><line x1="8.18" y1="8.18" x2="15.82" y2="15.82"/><line x1="15.82" y1="8.18" x2="8.18" y2="15.82"/></svg> Dismiss
+        </button>
+    </div>
+</div>
+    <script src="/assets/js/pages-js/post-script.js"></script>
+    <div class="scroll-button-container">
+        <button id="scrollButton" onclick="scrollToTop()">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="50" height="50"
+                fill="none" stroke="currentColor" stroke-miterlimit="10" aria-label="⇡">
+                <circle cx="12" cy="12" r="10.5"></circle>
+                <line x1="12" y1="10.09" x2="12" y2="18.68"></line>
+                <polyline points="7.23 10.09 12 5.32 16.77 10.09"></polyline>
+                <polyline points="7.23 14.86 12 10.09 16.77 14.86"></polyline>
+            </svg>
+        </button>
+    </div>
+</body>
+
+</html>

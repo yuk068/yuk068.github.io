@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="linkage" content="true">
+    <title>Text-to-SQL SLM: Finetuning Gemma 3 with QLoRA</title>
+    <meta name="description" content="Complementary post for Project - Program: Text-to-SQL SLM (Small Language Model)">
+
+    <!-- SEO & Social Meta -->
+    
+    
+    
+    
+    
+    
+    
+    <meta name="author" content="Yuk">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="http://localhost:4000/2025/06/27/text-to-sql-gemma-3-finetuning-qlora">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Text-to-SQL SLM: Finetuning Gemma 3 with QLoRA">
+    <meta property="og:description" content="Complementary post for Project - Program: Text-to-SQL SLM (Small Language Model)">
+    <meta property="og:url" content="http://localhost:4000/2025/06/27/text-to-sql-gemma-3-finetuning-qlora">
+    <meta property="og:image" content="http://localhost:4000/assets/thumbnail/texttosqlgemma.webp">
+    <meta property="og:site_name" content="Yuk's Blog">
+    <meta property="og:locale" content="en_US">
+    <meta property="article:published_time" content="2025-06-27T00:00:00+07:00">
+    <meta property="article:author" content="Yuk">
+    <meta property="article:tag" content="project"><meta property="article:tag" content="slm"><meta property="article:tag" content="qlora">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@Yukano_50">
+    <meta name="twitter:creator" content="@Yukano_50">
+    <meta name="twitter:title" content="Text-to-SQL SLM: Finetuning Gemma 3 with QLoRA">
+    <meta name="twitter:description" content="Complementary post for Project - Program: Text-to-SQL SLM (Small Language Model)">
+    <meta name="twitter:image" content="http://localhost:4000/assets/thumbnail/texttosqlgemma.webp">
+
+    <link rel="stylesheet" href="/assets/css/pages-css/post-styles.css">
+
+    <!-- NOTE: KaTeX is the preferred engine going forward. MathJax is kept as the legacy
+         fallback (default) for older posts. For any future conflicts, prioritize KaTeX. -->
+    
+    
+    <!-- Default to MathJax -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+
+    
+    
+
+    
+    
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
+
+    <script>if (localStorage.getItem('theme') === 'light') document.documentElement.classList.add('light-mode');</script>
+
+    <link rel="stylesheet" href="https://unpkg.com/photoswipe@5/dist/photoswipe.css">
+
+    <script type="module">
+        import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5/dist/photoswipe-lightbox.esm.js';
+
+        const lightbox = new PhotoSwipeLightbox({
+            gallery: '.post-article',
+            children: 'img',
+            pswpModule: () => import('https://unpkg.com/photoswipe@5/dist/photoswipe.esm.js')
+        });
+
+        // Tell PhotoSwipe how to get image data from <img loading="lazy">
+        lightbox.addFilter('itemData', (itemData, index) => {
+            const img = document.querySelectorAll('.post-article img')[index];
+
+            return {
+                src: img.src,
+                width: img.naturalWidth || img.width,
+                height: img.naturalHeight || img.height
+            };
+        });
+
+        lightbox.init();
+    </script>
+</head>
+
+<body>
+    <!-- <div id="page-loader">
+        <div class="loader-logo-container">
+            <div class="loader-logo">
+                <div class="loader-u-shape loader-left-side"></div>
+                <div class="loader-u-shape loader-bottom"></div>
+                <div class="loader-u-shape loader-right-side"></div>
+            </div>
+            <div class="loader-left-arrow-top"></div>
+            <div class="loader-right-arrow-top"></div>
+            <div class="loader-right-arrow-bottom"></div>
+        </div>
+    </div> -->
+    <div id="reading-progress-bar"></div>
+    <div class="main-container">
+        <header id="post-header">
+            <div class="header-logo-container">
+                <button class="logo-button" onclick="handleLogoClick()">
+                    <div class="logo-container">
+                        <div class="logo">
+                            <div class="u-shape left-side"></div>
+                            <div class="u-shape bottom"></div>
+                            <div class="u-shape right-side"></div>
+                        </div>
+                        <div class="left-arrow-top"></div>
+                        <div class="right-arrow-top"></div>
+                        <div class="right-arrow-bottom"></div>
+                    </div>
+                </button>
+            </div>
+            <div class="home-header-title-mobile">
+                <h1 id="home-header-title">Yukano</h1>
+            </div>
+            <div class="nav-container">
+                <nav class="nav-bar">
+                    <ul>
+                        <a href="#" onclick="goBack()">
+                            <li>
+                                
+                                Back
+                                
+                            </li>
+                        </a>
+                        <div class="nav-bar-divider"></div>
+                        <a href="/">
+                            <li>
+                                
+                                Home
+                                
+                            </li>
+                        </a>
+                        <div class="nav-bar-divider" id="nav-disable-mobile"></div>
+                        <a href="/archive" id="nav-disable-mobile">
+                            <li id="nav-disable-mobile">
+                                
+                                Archive
+                                
+                            </li>
+                        </a>
+                        <div class="nav-bar-divider" id="nav-disable-mobile"></div>
+                        <a href="/projects" id="nav-disable-mobile">
+                            <li id="nav-disable-mobile">
+                                
+                                Projects
+                                
+                            </li>
+                        </a>
+                        <!-- <div class="nav-bar-divider" id="nav-disable-mobile"></div>
+                        <a href="#" onclick="notifyComingSoon()" id="nav-disable-mobile">
+                            <li id="nav-disable-mobile">
+                                
+                                Explore
+                                
+                            </li>
+                        </a> -->
+                    </ul>
+                </nav>
+            </div>
+            <div class="header-extra-container">
+                <button class="extra-button">
+                    <div class="extra-container">
+                        <div class="extra">
+                            <div class="extra-shape top"></div>
+                            <div class="extra-shape middle"></div>
+                            <div class="extra-shape bottom"></div>
+                        </div>
+                    </div>
+                </button>
+            </div>
+        </header>
+        <main>
+            <div id="overlay" class="overlay">
+                <div class="options-container">
+                    <p>
+                        
+                        Navigation
+                        
+                    </p>
+                    <div class="options-navigation">
+                        <button id="toBackButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-63ce7424ea57ea6c8380059e-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <path class="cls-63ce7424ea57ea6c8380059e-1"
+                                    d="M2.41,16.78H14.85A7.65,7.65,0,0,0,22.5,9.13h0a7.65,7.65,0,0,0-7.65-7.65H.5">
+                                </path>
+                                <polyline class="cls-63ce7424ea57ea6c8380059e-1"
+                                    points="8.15 22.52 2.41 16.78 8.15 11.04">
+                                </polyline>
+                            </svg>
+                            
+                            Back
+                            
+                        </button>
+                        <button id="toArchiveButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-6374f8d9b67f094e4896c633-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <polygon class="cls-6374f8d9b67f094e4896c633-1"
+                                    points="19.64 9.14 4.36 9.14 4.36 1.5 10.09 1.5 12 3.41 19.64 3.41 19.64 9.14">
+                                </polygon>
+                                <polygon class="cls-6374f8d9b67f094e4896c633-1"
+                                    points="1.5 9.14 22.5 9.14 20.59 22.5 3.41 22.5 1.5 9.14"></polygon>
+                            </svg>
+                            
+                            Archive
+                            
+                        </button>
+                        <button id="toProjectsButton"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                stroke-width="1.5" width="20" height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-637b8d40f95e86b59c57a2bd-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <g id="roll_brush" data-name="roll brush">
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="5.24" y1="11.08" x2="18.66"
+                                        y2="11.08">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="5.24" y1="18.76" x2="18.66"
+                                        y2="18.76">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="5.24" y1="14.92" x2="18.66"
+                                        y2="14.92">
+                                    </line>
+                                    <rect class="cls-637b8d40f95e86b59c57a2bd-1" x="1.4" y="1.49" width="21.1"
+                                        height="21.1"></rect>
+                                    <polygon class="cls-637b8d40f95e86b59c57a2bd-1"
+                                        points="22.5 7.25 16.23 7.25 14.31 7.25 1.4 7.25 1.4 1.49 22.5 1.49 22.5 7.25">
+                                    </polygon>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="4.28" y1="4.37" x2="6.2" y2="4.37">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="8.11" y1="4.37" x2="10.03"
+                                        y2="4.37">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="11.95" y1="4.37" x2="13.87"
+                                        y2="4.37">
+                                    </line>
+                                </g>
+                            </svg>
+                            
+                            Projects
+                            
+                        </button>
+                        <!-- <button id="toExploreButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-63ce7424ea57ea6c8380055b-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <polyline class="cls-63ce7424ea57ea6c8380055b-1" points="22 13 22 22 2 22 2 2 11 2">
+                                </polyline>
+                                <polyline class="cls-63ce7424ea57ea6c8380055b-1" points="14 2 22 2 22 10"></polyline>
+                                <line class="cls-63ce7424ea57ea6c8380055b-1" x1="22" y1="2" x2="10" y2="14"></line>
+                            </svg>
+                            
+                            Explore
+                            
+                        </button> -->
+                        <button id="toAboutButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-6374f8d9b67f094e4896c670-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <circle class="cls-6374f8d9b67f094e4896c670-1" cx="12" cy="7.25" r="5.73"></circle>
+                                <path class="cls-6374f8d9b67f094e4896c670-1"
+                                    d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05">
+                                </path>
+                            </svg>
+                            
+                            About
+                            
+                        </button>
+                        <button id="toHomeButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-6374f8d9b67f094e4896c637-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <polyline class="cls-6374f8d9b67f094e4896c637-1" points="1 12 12 2.83 23 12"></polyline>
+                                <polyline class="cls-6374f8d9b67f094e4896c637-1"
+                                    points="19.33 9.25 19.33 21.17 14.75 21.17 14.75 13.83 9.25 13.83 9.25 21.17 4.67 21.17 4.67 9.25">
+                                </polyline>
+                            </svg>
+                            
+                            Home
+                            
+                        </button>
+                    </div>
+                    <div class="option-horizontal-divider-line"></div>
+                    <p>
+                        
+                        Options
+                        
+                    </p>
+                    <div class="options-configuration">
+                        <button id="toTopButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-63ce7424ea57ea6c83800547-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <circle class="cls-63ce7424ea57ea6c83800547-1" cx="12" cy="12" r="10.5"></circle>
+                                <line class="cls-63ce7424ea57ea6c83800547-1" x1="12" y1="10.09" x2="12" y2="18.68">
+                                </line>
+                                <polyline class="cls-63ce7424ea57ea6c83800547-1"
+                                    points="7.23 10.09 12 5.32 16.77 10.09">
+                                </polyline>
+                                <polyline class="cls-63ce7424ea57ea6c83800547-1"
+                                    points="7.23 14.86 12 10.09 16.77 14.86">
+                                </polyline>
+                            </svg>
+                            
+                            To top
+                            
+                        </button>
+                        <button id="collapseExpandAllButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-63ce7424ea57ea6c8380059a-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <line class="cls-63ce7424ea57ea6c8380059a-1" x1="6" y1="2" x2="6" y2="23"></line>
+                                <polyline class="cls-63ce7424ea57ea6c8380059a-1" points="11 7 6 2 1 7"></polyline>
+                                <line class="cls-63ce7424ea57ea6c8380059a-1" x1="18" y1="22" x2="18" y2="1"></line>
+                                <polyline class="cls-63ce7424ea57ea6c8380059a-1" points="13 17 18 22 23 17"></polyline>
+                            </svg>
+                            
+                            Expand / Collapse all
+                            
+                        </button>
+                        <button id="themeButton"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                stroke-width="1.5" width="20" height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-637b8d40f95e86b59c57a2e7-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <g id="roll_brush" data-name="roll brush">
+                                    <circle class="cls-637b8d40f95e86b59c57a2e7-1" cx="11.99" cy="12.01" r="6.71">
+                                    </circle>
+                                    <path class="cls-637b8d40f95e86b59c57a2e7-1" d="M12,8.65a3.36,3.36,0,0,1,0,6.72Z">
+                                    </path>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="11.99" y1="0.5" x2="11.99"
+                                        y2="2.42">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="11.99" y1="21.6" x2="11.99"
+                                        y2="23.52">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="0.48" y1="12.01" x2="2.4"
+                                        y2="12.01">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="21.58" y1="12.01" x2="23.5"
+                                        y2="12.01">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="20.13" y1="3.87" x2="18.77"
+                                        y2="5.23">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="5.21" y1="18.79" x2="3.85"
+                                        y2="20.15">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="3.85" y1="3.87" x2="5.21"
+                                        y2="5.23">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="18.77" y1="18.79" x2="20.13"
+                                        y2="20.15"></line>
+                                </g>
+                            </svg>
+                            
+                            Theme
+                            
+                        </button>
+                        <button id="commentsButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-637642e7c3a86d32eae6f18f-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <path class="cls-637642e7c3a86d32eae6f18f-1"
+                                    d="M1.5,5.3v9.54a3.82,3.82,0,0,0,3.82,3.82H7.23v2.86L13,18.66h5.73a3.82,3.82,0,0,0,3.82-3.82V5.3a3.82,3.82,0,0,0-3.82-3.82H5.32A3.82,3.82,0,0,0,1.5,5.3Z">
+                                </path>
+                                <line class="cls-637642e7c3a86d32eae6f18f-1" x1="15.82" y1="10.07" x2="17.73"
+                                    y2="10.07">
+                                </line>
+                                <line class="cls-637642e7c3a86d32eae6f18f-1" x1="11.05" y1="10.07" x2="12.95"
+                                    y2="10.07">
+                                </line>
+                                <line class="cls-637642e7c3a86d32eae6f18f-1" x1="6.27" y1="10.07" x2="8.18" y2="10.07">
+                                </line>
+                            </svg>
+                            
+                            Comments
+                            
+                        </button>
+                    </div>
+                    <div class="option-horizontal-divider-line"></div>
+                    <div class="options-close">
+                        <button id="closeButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-6374f8d9b67f094e4896c61e-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <circle class="cls-6374f8d9b67f094e4896c61e-1" cx="12" cy="12" r="10.5"></circle>
+                                <line class="cls-6374f8d9b67f094e4896c61e-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77">
+                                </line>
+                                <line class="cls-6374f8d9b67f094e4896c61e-1" x1="7.23" y1="7.23" x2="16.77" y2="16.77">
+                                </line>
+                            </svg>
+                            
+                            Close
+                            
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="post-content">
+                <div class="post-info-card">
+                    <h1>
+                        <span class="category-svg">
+                            
+                            
+                            
+<svg xmlns="http://www.w3.org/2000/svg" stroke-width="1.5" viewBox="0 0 17.405 23.021" width="24" height="24"><g id="star-lightbulb" transform="translate(-3.19 -0.434)"><path id="Path_40" data-name="Path 40" d="M12,7.23l.75,1.57,1.69.25-1.22,1.22L13.51,12,12,11.19,10.49,12l.29-1.73L9.56,9.05l1.69-.25Z" fill="none" stroke="currentColor" stroke-miterlimit="10"></path><path id="Path_41" data-name="Path 41" d="M19.64,9.14A7.64,7.64,0,1,0,6.92,14.83a3.81,3.81,0,0,1,1.26,2.83v2.93a1.91,1.91,0,0,0,1.91,1.91h3.82a1.91,1.91,0,0,0,1.91-1.91V17.66a3.76,3.76,0,0,1,1.25-2.82,7.62,7.62,0,0,0,2.57-5.7Z" fill="none" stroke="currentColor" stroke-miterlimit="10"></path><line id="Line_20" data-name="Line 20" x2="7.64" transform="translate(8.18 17.73)" fill="none" stroke="currentColor" stroke-miterlimit="10"></line></g></svg>
+
+
+                            
+                        </span>Text-to-SQL SLM: Finetuning Gemma 3 with QLoRA
+                    </h1>
+                    <div class="post-tags">
+                        
+                        
+                        
+                        <span class="tag">#project</span>
+                        
+                        
+                        
+                        
+                        <span class="tag">#slm</span>
+                        
+                        
+                        
+                        
+                        <span class="tag">#qlora</span>
+                        
+                        
+                    </div>
+                    <div class="date">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="16"
+                            height="16" color="#fff">
+                            <defs>
+                                <style>
+                                    .cls-6375f1aeb67f094e4896c9ea-1,
+                                    .cls-6375f1aeb67f094e4896c9ea-2 {
+                                        fill: none;
+                                        stroke: currentColor;
+                                        stroke-miterlimit: 10;
+                                    }
+
+                                    .cls-6375f1aeb67f094e4896c9ea-1 {
+                                        stroke-linecap: square;
+                                    }
+                                </style>
+                            </defs>
+                            <g id="calendar">
+                                <rect class="cls-6375f1aeb67f094e4896c9ea-1" x="1.5" y="2.43" width="21" height="4.77"
+                                    transform="translate(24 9.64) rotate(180)"></rect>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="17.73" y1="0.52" x2="17.73" y2="4.34">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="6.27" y1="0.52" x2="6.27" y2="4.34">
+                                </line>
+                                <polygon class="cls-6375f1aeb67f094e4896c9ea-1"
+                                    points="22.5 11.98 22.5 7.21 1.5 7.21 1.5 22.48 22.5 22.48 22.5 15.79 22.5 11.98">
+                                </polygon>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="11.02" x2="11.05" y2="11.02">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="11.02" x2="14.86"
+                                    y2="11.02"></line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="16.77" y1="11.02" x2="18.68"
+                                    y2="11.02"></line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="14.84" x2="11.05" y2="14.84">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="5.32" y1="14.84" x2="7.23" y2="14.84">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="14.84" x2="14.86"
+                                    y2="14.84"></line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="16.77" y1="14.84" x2="18.68"
+                                    y2="14.84"></line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="18.66" x2="11.05" y2="18.66">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="5.32" y1="18.66" x2="7.23" y2="18.66">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="18.66" x2="14.86"
+                                    y2="18.66"></line>
+                            </g>
+                        </svg>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <span class="date-span">June 27th 2025</span>
+
+                        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                            stroke-width="1.5" width="16" height="16" color="#fff">
+                            <defs>
+                                <style>
+                                    .cls-6374f8d9b67f094e4896c623-1 {
+                                        fill: none;
+                                        stroke: currentColor;
+                                        stroke-miterlimit: 10;
+                                    }
+                                </style>
+                            </defs>
+                            <circle class="cls-6374f8d9b67f094e4896c623-1" cx="12" cy="12" r="10.5"></circle>
+                            <circle class="cls-6374f8d9b67f094e4896c623-1" cx="12" cy="12" r="0.95"></circle>
+                            <polyline class="cls-6374f8d9b67f094e4896c623-1" points="12 4.36 12 12 16.77 16.77">
+                            </polyline>
+                        </svg>
+                        
+                        <span class="reading-time">
+                            20
+                            
+                            Min.
+                            
+                        </span>
+                        
+                    </div>
+                    <div class="post-description">
+                        Complementary post for Project - Program: Text-to-SQL SLM (Small Language Model)
+                    </div>
+                    <div class="author">
+                        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                            stroke-width="1.5" width="14" height="14" color="#fff">
+                            <defs>
+                                <style>
+                                    .cls-6374f8d9b67f094e4896c670-1 {
+                                        fill: none;
+                                        stroke: currentColor;
+                                        stroke-miterlimit: 10;
+                                    }
+                                </style>
+                            </defs>
+                            <circle class="cls-6374f8d9b67f094e4896c670-1" cx="12" cy="7.25" r="5.73"></circle>
+                            <path class="cls-6374f8d9b67f094e4896c670-1"
+                                d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05">
+                            </path>
+                        </svg>
+                        
+                        Written by:
+                        
+                        Yuk
+                    </div>
+                </div>
+                <div class="horizontal-divider-line"></div>
+                <div class="post-article">
+                    <article>
+                        
+                        
+                        
+                        
+                        <h5 id="access-links">Access Links</h5>
+
+<ul>
+  <li><strong>👨‍💻 Model &amp; Code:</strong> <a href="https://huggingface.co/Yuk050/gemma-3-1b-text-to-sql-model" target="_blank">Yuk050/gemma-3-1b-text-to-sql-model</a></li>
+  <li><strong>🤗 HuggingFace Space:</strong> <a href="https://huggingface.co/spaces/Yuk050/gemma-3-1b-text-to-sql" target="_blank">Yuk050/gemma-3-1b-text-to-sql</a></li>
+  <li>⌛ The project spanned from June 26th, 2025 till around the end of June.</li>
+</ul>
+
+<h3 id="prologue">Prologue<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#prologue')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+
+<p>Honestly, I don’t really see much value in doing a project like this one. In my opinion, as of now working with LLMs, especially in research, is still quite informal and chaotic, I probably will make a separate post to talk about this more in depth, but basically, I believe that, unless given the clear cut goal, rigorous backing, and most importantly compute, then “LLM research” is still quite insignificant to me. Nevertheless, because of my recent aspirations, and the fact that, I do want to try everything before having a say about them, leads to this project. Yeah, this is probably the most “project for the sake of projects” among my list as of now, but you know what, better than doing nothing I guess, and I can say I tried it at least, not gonna have a lot to say about this one though, probably just gonna cover the math which is somewhat intriguing.</p>
+
+<hr />
+
+<h3 id="table-of-content">Table of Content<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#table-of-content')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+
+<blockquote><div class="content">
+  <div id="table-of-contents"><ul><li class="h3"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#prologue')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#prologue">Prologue</a></div></li>
+<li class="h3"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#table-of-content')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#table-of-content" style="color:#434e64;">Table of Content</a></div></li>
+<li class="h2"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#project-overview')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#project-overview">Project Overview</a></div></li>
+<li class="h3"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#text-to-sql-task')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#text-to-sql-task">Text-to-SQL Task</a></div></li>
+<li class="h3"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#gemma-3')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#gemma-3">Gemma 3</a></div></li>
+<li class="h3"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#qlora')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#qlora">QLoRA</a></div></li>
+<li class="h4"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#quantization-for-llms')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#quantization-for-llms">Quantization for LLMs</a></div></li>
+<li class="h4"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#intuition-of-lora')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#intuition-of-lora">Intuition of LoRA</a></div></li>
+<li class="h4"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#math-of-qlora')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#math-of-qlora">Math of QLoRA</a></div></li>
+<li class="h4"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#qlora-in-practice')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#qlora-in-practice">QLoRA in Practice</a></div></li>
+<li class="h3"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#hugging-face-deployment')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#hugging-face-deployment">Hugging Face Deployment</a></div></li>
+<li class="h3"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#epilogue')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#epilogue">Epilogue</a></div></li></ul></div>
+</div><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<hr />
+
+<h2 id="project-overview">Project Overview<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#project-overview')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
+
+<p>Only meaningful math here is QLoRA I guess, other stuff, I will cover briefly, some refresher can’t hurt. The project is exactly what it sounds like:</p>
+
+<ul>
+  <li><strong>A Text-to-SQL Dataset</strong>: Synthetic Text-to-SQL (<a href="https://huggingface.co/datasets/gretelai/synthetic_text_to_sql" target="_blank">gretelai/synthetic_text_to_sql</a>)</li>
+  <li><strong>An SLM (Small Language Model)</strong>: Gemma 3 1B (<a href="https://huggingface.co/google/gemma-3-1b-it" target="_blank">google/gemma-3-1b-it</a>)</li>
+  <li><strong>Finetuning method</strong>: QLoRA (<a href="https://arxiv.org/pdf/2305.14314" target="_blank">Dettmers et al., 2023</a>)</li>
+  <li><strong>Hugging Face deployment</strong>: Spaces (<a href="https://huggingface.co/spaces" target="_blank">Hugging Face Spaces</a>)</li>
+</ul>
+
+<p>Pretty straightforward: Finetune a Gemma 3 1B model for the text-to-SQL task using QLoRA, deploy on Hugging Face Spaces. With these primers to finetuning, I recommend <a href="https://unsloth.ai/" target="_blank">Unsloth</a>, they provide a ton of resources on working with LLMs and my notebook is even heavily based on their collection of starter notebooks. You can literally just load up one of their pre-made notebooks in Google Colab, dive in and try stuff, with those-being able to say that you “did finetuning” is kinda trivially easy.</p>
+
+<p>But yeah, that alone did not satisfy me, so i delved into the math of QLoRA, and its quite interesting, more interesting than most LLM research I suppose.</p>
+
+<h3 id="text-to-sql-task">Text-to-SQL Task<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#text-to-sql-task')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+
+<p>Not much to say here, I guess one of the best way to get familiar with this concept is to go to any <strong>Data Studio</strong> page of a dataset hosted on Hugging Face, for example: <a href="https://huggingface.co/datasets/gretelai/synthetic_text_to_sql/viewer" target="_blank">gretelai/synthetic_text_to_sql/viewer</a>. To the right you will immediately see a section with a chatbox that prompts <em>“Ask AI to help write your query…“</em>. This is what I consider to be the gold standard in terms of handling a text-to-SQL task.</p>
+
+<p>In its simplest form, you are going to need: full schema-context of an SQL table + a natural language query to be able to perform this task meaningfully, as going from just a natural language query to SQL query without any schema is ill-posed and honestly kinda shady. But I have seen models that do just that on Hugging Face before, so yeah watch out for that, you NEED schemas.</p>
+
+<p>Lets take an sample from our dataset to examine a real example, suppose we have this SQL table:</p>
+
+<div class="table-wrapper"><table>
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>cost</th>
+      <th>type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>500</td>
+      <td>Insulation</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>1000</td>
+      <td>HVAC</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>1500</td>
+      <td>Lighting</td>
+    </tr>
+  </tbody>
+</table></div>
+
+<p>That were created with this SQL schema context:</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div></div><pre class="highlight"><code><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">upgrades</span> <span class="p">(</span>
+    <span class="n">id</span> <span class="nb">INT</span><span class="p">,</span>
+    <span class="n">cost</span> <span class="nb">FLOAT</span><span class="p">,</span>
+    <span class="k">type</span> <span class="nb">TEXT</span>
+<span class="p">);</span>
+
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">upgrades</span> <span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">cost</span><span class="p">,</span> <span class="k">type</span><span class="p">)</span> <span class="k">VALUES</span>
+    <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="s1">'Insulation'</span><span class="p">),</span>
+    <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="s1">'HVAC'</span><span class="p">),</span>
+    <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1500</span><span class="p">,</span> <span class="s1">'Lighting'</span><span class="p">);</span>
+</code></pre><span class="language-label">Sql</span><button class="copy-button"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<p>If just given this natural language question: <em>“Find the energy efficiency upgrades with the highest cost and their types.”</em>, a model might output something like:</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div></div><pre class="highlight"><code><span class="k">SELECT</span>
+    <span class="n">u</span><span class="p">.</span><span class="n">cost</span><span class="p">,</span>
+    <span class="n">ut</span><span class="p">.</span><span class="n">type_name</span>
+<span class="k">FROM</span>
+    <span class="n">upgrades</span> <span class="k">AS</span> <span class="n">u</span>
+<span class="k">JOIN</span>
+    <span class="n">upgrade_types</span> <span class="k">AS</span> <span class="n">ut</span> <span class="k">ON</span> <span class="n">u</span><span class="p">.</span><span class="n">upgrade_type_id</span> <span class="o">=</span> <span class="n">ut</span><span class="p">.</span><span class="n">type_id</span>
+<span class="k">WHERE</span>
+    <span class="n">u</span><span class="p">.</span><span class="n">cost</span> <span class="o">=</span> <span class="p">(</span><span class="k">SELECT</span> <span class="k">MAX</span><span class="p">(</span><span class="n">cost</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">upgrades</span><span class="p">);</span>
+</code></pre><span class="language-label">Sql</span><button class="copy-button"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<div class="media-description">Actual result from prompting Gemini 2.5 Flash</div>
+
+<p>Running the actual SQL query gives:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div></div><pre class="highlight"><code>Error: no such table: upgrade_types
+</code></pre><span class="language-label">Bash</span><button class="copy-button"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<p>But if you include the SQL schema context into the prompt, the model responses with:</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div></div><pre class="highlight"><code><span class="k">SELECT</span>
+    <span class="n">cost</span><span class="p">,</span>
+    <span class="k">type</span>
+<span class="k">FROM</span>
+    <span class="n">upgrades</span>
+<span class="k">WHERE</span>
+    <span class="n">cost</span> <span class="o">=</span> <span class="p">(</span><span class="k">SELECT</span> <span class="k">MAX</span><span class="p">(</span><span class="n">cost</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">upgrades</span><span class="p">);</span>
+</code></pre><span class="language-label">Sql</span><button class="copy-button"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<div class="media-description">Actual result from prompting Gemini 2.5 Flash</div>
+
+<p>Running this query outputs:</p>
+
+<div class="table-wrapper"><table>
+  <thead>
+    <tr>
+      <th>cost</th>
+      <th>type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1500</td>
+      <td>Lightning</td>
+    </tr>
+  </tbody>
+</table></div>
+
+<p>Meanwhile the groundtruth SQL query from the dataset for this sample is:</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div></div><pre class="highlight"><code><span class="k">SELECT</span>
+    <span class="k">type</span><span class="p">,</span>
+    <span class="n">cost</span>
+<span class="k">FROM</span>
+    <span class="p">(</span><span class="k">SELECT</span>
+        <span class="k">type</span><span class="p">,</span>
+        <span class="n">cost</span><span class="p">,</span>
+        <span class="n">ROW_NUMBER</span><span class="p">()</span> <span class="n">OVER</span> <span class="p">(</span><span class="k">ORDER</span> <span class="k">BY</span> <span class="n">cost</span> <span class="k">DESC</span><span class="p">)</span> <span class="k">AS</span> <span class="n">rn</span>
+    <span class="k">FROM</span>
+        <span class="n">upgrades</span>
+    <span class="p">)</span> <span class="k">AS</span> <span class="n">sub</span>
+<span class="k">WHERE</span>
+    <span class="n">rn</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</code></pre><span class="language-label">Sql</span><button class="copy-button"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<p>And running the groundtruth query gives:</p>
+
+<div class="table-wrapper"><table>
+  <thead>
+    <tr>
+      <th>cost</th>
+      <th>type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1500</td>
+      <td>Lightning</td>
+    </tr>
+  </tbody>
+</table></div>
+
+<p>So 2 things to take note of:</p>
+
+<ol>
+  <li>You need schema, if its not present then the SQL query is wishful thinking.</li>
+  <li>Best way to evaluate performance is to run the actual SQL query in a console (I used <a href="https://www.programiz.com/sql/online-compiler" target="_blank">Programiz Online SQL Compiler</a> for quick checking)</li>
+</ol>
+
+<p>Having rarely touched SQL queries before, this feature on Hugging Face was a huge help for my projects, I mean sooner or latter im gonna have to pick up some SQL anyway, but its one of those thing that I think is not really about any sort of “learning” in terms of coding, rather its mostly just syntax memorization.</p>
+
+<p>Nevertheless, this task have broad implications, whether it be in apps like that Hugging Face feature, for propriety use in a company for employees, and so on.</p>
+
+<h3 id="gemma-3">Gemma 3<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#gemma-3')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+
+<p>Gemma 3 is a recent State-of-the-art (SOTA) open-source family of models from Google. You can checkout this model from a plethora of sources already. I picked this model mostly because I expect to be working with them more in the future, they are quite decent.</p>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/FagNt06rSBk" frameborder="0" allowfullscreen=""></iframe>
+
+<p>In this project, I chose the 1 billion parameter <a href="https://huggingface.co/google/gemma-3-1b-it" target="_blank">google/gemma-3-1b-it</a>, there was already plenty of resources on finetuining this particular model.</p>
+
+<h3 id="qlora">QLoRA<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#qlora')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+
+<p>This is where the bulk of the math is, and probably the only part that I had fun with during this project lmao. So, QLoRA (LoRA stands for Low-rank Adaptation, Q here most likely mean Quantization-aware), to really get to its roots I recommend reading these papers in order:</p>
+
+<ul>
+  <li><a href="https://arxiv.org/abs/2210.17323" target="_blank">Frantar et al., 2023</a>: Roots of quantizing LLMs, different quantization methods for LLMs.</li>
+  <li><a href="https://arxiv.org/abs/2106.09685" target="_blank">Hu et al., 2021</a>: Original LoRA paper, fundamental concepts are here, QLoRA builds upon LoRA by considering quantized models</li>
+  <li><a href="https://arxiv.org/abs/2305.14314" target="_blank">Dettmers et al., 2023</a>: The QLoRA paper.</li>
+</ul>
+
+<p>Also, I highly recommend these videos for QLoRA:</p>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/XpoKB3usmKc" frameborder="0" allowfullscreen=""></iframe>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/t1caDsMzWBk" frameborder="0" allowfullscreen=""></iframe>
+
+<p>So, lets go over a few primers:</p>
+
+<h4 id="quantization-for-llms">Quantization for LLMs<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#quantization-for-llms')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h4>
+
+<p>Quantization, in the context of Large Language Models (LLMs), is a technique that reduces the precision of the numerical representations of a model’s weights and activations. Instead of using high-precision floating-point numbers (like FP32), quantization converts them to lower-precision formats (like INT8 or INT4). This process offers significant benefits, primarily in reducing memory footprint and accelerating inference speed, making LLMs more accessible on resource-constrained hardware, such as consumer-grade GPUs or edge devices.</p>
+
+<p>At its core, quantization is about trading off a small amount of precision for substantial gains in efficiency. The fundamental concept is to map a range of floating-point values to a smaller set of integer values. This mapping involves a <code class="language-plaintext highlighter-rouge">scale</code> factor and often a <code class="language-plaintext highlighter-rouge">zero-point</code> (offset) to ensure that the quantized values accurately represent the original range. The formula for uniform quantization is typically <code class="language-plaintext highlighter-rouge">q = round(r / S) + Z</code>, where <code class="language-plaintext highlighter-rouge">q</code> is the quantized integer, <code class="language-plaintext highlighter-rouge">r</code> is the real-valued floating-point number, <code class="language-plaintext highlighter-rouge">S</code> is the scale factor, and <code class="language-plaintext highlighter-rouge">Z</code> is the zero-point. The inverse operation, dequantization, recovers an approximation of the original floating-point value: <code class="language-plaintext highlighter-rouge">r_approx = (q - Z) * S</code>.</p>
+
+<h5 id="why-quantization">Why Quantization?</h5>
+
+<p>The primary motivations behind quantizing LLMs are clear: memory and speed. Modern LLMs can have billions or even trillions of parameters, each typically stored as a 32-bit floating-point number. This leads to massive model sizes (e.g., a 7B parameter model requires approximately 28 GB of memory in FP32 precision). Such large memory requirements make it challenging to load and run these models on consumer hardware. By reducing the precision to, say, 4-bit integers, the memory footprint can be reduced by 8x, making it feasible to run larger models on smaller GPUs. This memory reduction also translates directly into faster inference times, as less data needs to be moved between memory and processing units.</p>
+
+<h5 id="static-vs-dynamic-quantization">Static vs. Dynamic Quantization</h5>
+
+<p>Quantization methods can be broadly categorized into static and dynamic, based on when the quantization parameters (scale and zero-point) are determined:</p>
+
+<ul>
+  <li><strong>Dynamic Quantization</strong>: In dynamic quantization, weights are quantized offline (statically), but activations are quantized on-the-fly during inference. This means the scale and zero-point for activations are computed dynamically for each input tensor. This approach is simpler to implement and generally offers better accuracy than static quantization for activations, as it adapts to the actual range of values during runtime. However, the overhead of computing these parameters at runtime can introduce latency, making it less ideal for latency-sensitive applications.</li>
+  <li><strong>Static Quantization (Post-Training Static Quantization - PTSQ)</strong>: Static quantization determines the quantization parameters for both weights and activations <em>before</em> inference, typically by running a calibration dataset through the model. This pre-computation eliminates the runtime overhead of dynamic quantization, leading to faster inference. However, it requires a representative calibration dataset, and the fixed quantization ranges might not perfectly capture the full range of values during actual inference, potentially leading to a slight drop in accuracy compared to dynamic quantization or full-precision models. For LLMs, static quantization is often preferred for maximizing throughput and reducing latency due to their computational intensity.</li>
+</ul>
+
+<h5 id="uniform-vs-non-uniform-quantization">Uniform vs. Non-Uniform Quantization</h5>
+
+<p>Another distinction in quantization schemes is whether the quantization intervals are uniform or non-uniform:</p>
+
+<ul>
+  <li><strong>Uniform Quantization</strong>: This is the simplest form, where the value range is divided into equally spaced intervals. Each interval is mapped to a unique integer. While straightforward to implement, uniform quantization can be suboptimal for data distributions that are not uniform, such as the weight distributions in neural networks, which often follow a bell-shaped curve (e.g., Gaussian). Outliers in the distribution can disproportionately affect the quantization range, leading to reduced precision for the majority of values.</li>
+  <li><strong>Non-Uniform Quantization</strong>: This approach uses non-uniform spacing for the quantization intervals, allowing for finer granularity in regions where the data is more concentrated (e.g., around zero for weight distributions) and coarser granularity for less frequent values (outliers). This can lead to higher accuracy for a given bit-width compared to uniform quantization, as it better captures the underlying data distribution. NormalFloat 4 (NF4), used in QLoRA, is a prime example of a non-uniform quantization scheme.</li>
+</ul>
+
+<h5 id="bit-level-layout-of-q4-and-the-q_kms-terminology">Bit-level Layout of Q4 (and the <code class="language-plaintext highlighter-rouge">Q_K/M/S</code> Terminology)</h5>
+
+<p>When you encounter terms like <code class="language-plaintext highlighter-rouge">Q4_K</code>, <code class="language-plaintext highlighter-rouge">Q4_M</code>, or <code class="language-plaintext highlighter-rouge">Q4_S</code> in the context of quantized LLMs, especially with <code class="language-plaintext highlighter-rouge">ggml</code> or <code class="language-plaintext highlighter-rouge">GGUF</code> formats, it refers to specific 4-bit quantization schemes that optimize for different trade-offs between model size, performance, and accuracy. The <code class="language-plaintext highlighter-rouge">K</code> in <code class="language-plaintext highlighter-rouge">Q_K</code> often refers to <code class="language-plaintext highlighter-rouge">k-quant</code> methods, which are generally designed to have less perplexity loss relative to their size .</p>
+
+<p>Let’s demystify the <code class="language-plaintext highlighter-rouge">Q_4_K/M/S</code> terminology and connect it with practical implications. The <code class="language-plaintext highlighter-rouge">Q</code> signifies quantization, and <code class="language-plaintext highlighter-rouge">4</code> indicates 4-bit precision. The suffixes (<code class="language-plaintext highlighter-rouge">K</code>, <code class="language-plaintext highlighter-rouge">M</code>, <code class="language-plaintext highlighter-rouge">S</code>) denote variations in how the 4-bit quantization is applied, particularly concerning block sizes and the handling of scaling factors and zero-points.</p>
+
+<p>In essence, 4-bit quantization means that each original 32-bit floating-point value is compressed into a 4-bit integer. A 4-bit integer can represent 2^4 = 16 distinct values. For example, if we have a range of <code class="language-plaintext highlighter-rouge">[-1.0, 1.0]</code> and we uniformly quantize it to 4 bits, each step would be <code class="language-plaintext highlighter-rouge">2.0 / 15</code> (since there are 15 intervals between 16 values). The original floating-point value is then scaled and rounded to fit into one of these 16 integer bins.</p>
+
+<p>However, simple uniform 4-bit quantization can lead to significant accuracy loss, especially for LLMs. This is where the more advanced <code class="language-plaintext highlighter-rouge">Q_K</code> variants come in. These methods often employ a block-wise quantization strategy, where weights are grouped into blocks, and each block has its own scaling factor and zero-point. This allows for more granular control over the quantization process, adapting to local variations in weight distributions.</p>
+
+<ul>
+  <li><strong>Q4_K</strong>: This is a family of 4-bit quantization methods that often involve hybrid quantization, where some parts of the model (e.g., important layers or outliers) might be quantized to a higher precision (e.g., 5-bit or 6-bit) while the majority remains at 4-bit. This aims to preserve critical information while still achieving significant compression. <code class="language-plaintext highlighter-rouge">Q4_K</code> models generally offer a good balance between size and performance.</li>
+  <li><strong>Q4_K_M</strong>: The <code class="language-plaintext highlighter-rouge">M</code> often stands for <code class="language-plaintext highlighter-rouge">Medium</code>, suggesting a balance between size and quality. These models are often recommended for general use as they provide a good compromise between perplexity (a measure of how well a probability distribution predicts a sample) and model size. I often find myself using <code class="language-plaintext highlighter-rouge">Q4_K_M</code> for my own experiments when I’m not using <code class="language-plaintext highlighter-rouge">Q8_0</code>.</li>
+  <li><strong>Q4_K_S</strong>: The <code class="language-plaintext highlighter-rouge">S</code> typically stands for <code class="language-plaintext highlighter-rouge">Small</code>, indicating a model that is more aggressively compressed, resulting in a smaller file size but potentially lower quality (higher perplexity) compared to <code class="language-plaintext highlighter-rouge">Q4_K_M</code>. These models are suitable for scenarios where memory or storage is extremely limited.</li>
+</ul>
+
+<p>Here’s a simplified table to compare these quantization schemes:</p>
+
+<div class="table-wrapper"><table>
+  <thead>
+    <tr>
+      <th>Quantization Scheme</th>
+      <th>Description</th>
+      <th>Use Case</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Q8_0</strong></td>
+      <td>8-bit quantization. Offers the best quality among quantized models, with a larger file size.</td>
+      <td>When you want the best possible performance from a quantized model and have sufficient VRAM.</td>
+    </tr>
+    <tr>
+      <td><strong>Q4_K_M</strong></td>
+      <td>4-bit quantization with a medium level of compression. A good balance between model size and performance.</td>
+      <td>General use, especially on consumer GPUs where VRAM is a constraint.</td>
+    </tr>
+    <tr>
+      <td><strong>Q4_K_S</strong></td>
+      <td>4-bit quantization with a high level of compression. The smallest file size, but with a potential trade-off in performance.</td>
+      <td>When memory or storage is extremely limited, and you’re willing to sacrifice some performance.</td>
+    </tr>
+    <tr>
+      <td><strong>NF4</strong></td>
+      <td>4-bit NormalFloat. A non-uniform quantization scheme that is information-theoretically optimal for normally distributed data (like LLM weights).</td>
+      <td>Used in QLoRA for fine-tuning, as it preserves more information than uniform 4-bit quantization.</td>
+    </tr>
+  </tbody>
+</table></div>
+
+<p>At first, I was also confused with all the tags like <code class="language-plaintext highlighter-rouge">Q_8</code>, <code class="language-plaintext highlighter-rouge">Q_4</code>, etc., when working with open-source LLMs. My personal preference is to use <code class="language-plaintext highlighter-rouge">Q8_0</code> for the best quality, but <code class="language-plaintext highlighter-rouge">Q4_K_M</code> is perfectly fine for experimentation and when VRAM is a concern.</p>
+
+<h4 id="intuition-of-lora">Intuition of LoRA<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#intuition-of-lora')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h4>
+
+<p>Now, let’s get to the heart of the matter: LoRA, or Low-Rank Adaptation. The core idea behind LoRA is to make the fine-tuning of large language models more efficient by drastically reducing the number of trainable parameters. Full fine-tuning, where you update all the weights of a massive model, is incredibly expensive, both in terms of computational resources and memory. LoRA provides a clever workaround.</p>
+
+<p>Instead of updating the entire weight matrix <code class="language-plaintext highlighter-rouge">W</code> of a pre-trained model, LoRA freezes <code class="language-plaintext highlighter-rouge">W</code> and injects a pair of smaller, trainable matrices, <code class="language-plaintext highlighter-rouge">A</code> and <code class="language-plaintext highlighter-rouge">B</code>, into each layer of the model. The update to the weight matrix, <code class="language-plaintext highlighter-rouge">ΔW</code>, is then represented by the product of these two smaller matrices: <code class="language-plaintext highlighter-rouge">ΔW = A * B</code>. This is where the “low-rank” part comes in. The rank of a matrix is a measure of its complexity, and by decomposing the weight update into two smaller matrices, we are essentially approximating the full-rank update with a low-rank one.</p>
+
+<p>Let’s look at the dimensions to understand the parameter reduction. If the original weight matrix <code class="language-plaintext highlighter-rouge">W</code> has dimensions <code class="language-plaintext highlighter-rouge">d x k</code>, then the update <code class="language-plaintext highlighter-rouge">ΔW</code> also has dimensions <code class="language-plaintext highlighter-rouge">d x k</code>. In LoRA, the matrix <code class="language-plaintext highlighter-rouge">A</code> has dimensions <code class="language-plaintext highlighter-rouge">d x r</code> and <code class="language-plaintext highlighter-rouge">B</code> has dimensions <code class="language-plaintext highlighter-rouge">r x k</code>, where <code class="language-plaintext highlighter-rouge">r</code> is the rank and is much smaller than <code class="language-plaintext highlighter-rouge">d</code> and <code class="language-plaintext highlighter-rouge">k</code> (<code class="language-plaintext highlighter-rouge">r &lt;&lt; min(d, k)</code>). The number of trainable parameters in LoRA is <code class="language-plaintext highlighter-rouge">r * d + r * k = r * (d + k)</code>, whereas the number of parameters in the original weight matrix is <code class="language-plaintext highlighter-rouge">d * k</code>. Since <code class="language-plaintext highlighter-rouge">r</code> is small, <code class="language-plaintext highlighter-rouge">r * (d + k)</code> is significantly smaller than <code class="language-plaintext highlighter-rouge">d * k</code>, leading to a massive reduction in the number of trainable parameters.</p>
+
+<p>For example, if we have a layer with <code class="language-plaintext highlighter-rouge">d = 4096</code> and <code class="language-plaintext highlighter-rouge">k = 4096</code>, and we choose a rank <code class="language-plaintext highlighter-rouge">r = 8</code>, the number of trainable parameters in LoRA would be <code class="language-plaintext highlighter-rouge">8 * (4096 + 4096) = 65,536</code>. In contrast, the original weight matrix has <code class="language-plaintext highlighter-rouge">4096 * 4096 = 16,777,216</code> parameters. That’s a reduction of over 250x in the number of trainable parameters for that layer!</p>
+
+<p>This low-rank approximation works because the updates to the weights during fine-tuning have been shown to have a low intrinsic rank. In other words, the changes needed to adapt a pre-trained model to a new task are often low-dimensional, and LoRA cleverly exploits this property.</p>
+
+<p>Here’s a diagram illustrating the difference between a standard fine-tuning update and a LoRA update:</p>
+
+<p><strong>Standard Fine-Tuning:</strong></p>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div></div><pre class="highlight"><code>   +-----------------+     +-----------------+     +-----------------+
+   |   Input (x)     | --&gt; |   Pre-trained   | --&gt; |   Output (h)    |
+   |                 |     |   Weight (W)    |     |                 |
+   +-----------------+     +-----------------+     +-----------------+
+                                   |
+                                   v
+                              +---------+
+                              |  ΔW     |
+                              +---------+
+</code></pre><span class="language-label">Markdown</span><button class="copy-button"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<p><strong>LoRA Fine-Tuning:</strong></p>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div></div><pre class="highlight"><code>   +-----------------+     +-----------------+     +-----------------+
+   |   Input (x)     | --&gt; |   Pre-trained   | --&gt; |   Output (h)    |
+   |                 |     |   Weight (W)    |     |                 |
+   +-----------------+     +-----------------+     +-----------------+
+                                   |
+                                   v
+                              +---------+     +---------+
+                              |    A    | --&gt; |    B    | --&gt; ΔW
+                              +---------+     +---------+
+</code></pre><span class="language-label">Markdown</span><button class="copy-button"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<h4 id="math-of-qlora">Math of QLoRA<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#math-of-qlora')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h4>
+
+<p>QLoRA takes the efficiency of LoRA a step further by combining it with quantization. It allows for fine-tuning quantized models, which was previously not possible without significant performance degradation. QLoRA introduces three key innovations: 4-bit NormalFloat (NF4), double quantization, and paged optimizers.</p>
+
+<h5 id="normalfloat-4-nf4">NormalFloat 4 (NF4)</h5>
+
+<p>As we discussed earlier, NF4 is a non-uniform 4-bit quantization scheme that is information-theoretically optimal for normally distributed data. This is crucial because the weights of pre-trained neural networks are typically normally distributed. Unlike uniform quantization, which uses evenly spaced quantization levels, NF4 uses quantiles to create the quantization bins. This means that the bins are more densely packed around the center of the distribution (where most of the weights are) and more spread out in the tails. This allows NF4 to represent the original weight distribution with higher fidelity than uniform 4-bit quantization, leading to better performance.</p>
+
+<p>To be more specific, NF4 is a data type that has an equal number of expected values in each quantization bin. It is built upon Quantile Quantization, which is a method that ensures each quantization bin has the same number of values from a source distribution. This is achieved by estimating the quantiles of the source distribution and then assigning the mean of the values in each bin as the representative value for that bin. This process results in a non-uniform quantization scheme that is highly effective for normally distributed data.</p>
+
+<p>Let’s try to manually map some real numbers to NF4. Suppose we have the following numbers: <code class="language-plaintext highlighter-rouge">[0.01, -0.25, 0.6, -1.2]</code>. The first step would be to normalize these values to a standard normal distribution. Then, we would use the pre-computed quantiles of the standard normal distribution to determine the appropriate 4-bit integer representation for each value. The exact mapping would depend on the specific NF4 implementation, but the key idea is to use the quantiles to create a non-uniform mapping that preserves the most important information in the data.</p>
+
+<h5 id="double-quantization">Double Quantization</h5>
+
+<p>Double quantization is a clever trick to further reduce the memory footprint of the quantization process. When we quantize a model, we need to store the quantization parameters (scale and zero-point) for each block of weights. These parameters are typically stored in a higher-precision format (e.g., FP32), which can add up to a significant amount of memory overhead. Double quantization addresses this by quantizing the quantization constants themselves.</p>
+
+<p>In essence, we perform a second level of quantization on the scaling factors. This is done by grouping the scaling factors into blocks and then quantizing them using a lower-precision format (e.g., 8-bit). This reduces the memory required to store the quantization metadata, leading to further memory savings. The authors of the QLoRA paper found that this technique can save up to 0.5 bits per parameter on average, which is a significant reduction when dealing with billions of parameters.</p>
+
+<h5 id="paged-optimizers">Paged Optimizers</h5>
+
+<p>Finally, QLoRA introduces paged optimizers to handle memory spikes during training. When we fine-tune a model, the optimizer (e.g., AdamW) needs to store the optimizer states (e.g., momentum and variance) for each trainable parameter. For large models, these optimizer states can consume a significant amount of GPU memory. Paged optimizers use a feature of NVIDIA GPUs called unified memory to automatically page the optimizer states between the GPU and CPU memory. This means that when the GPU runs out of memory, the optimizer states are automatically moved to the CPU RAM, and then moved back to the GPU when they are needed. This allows us to fine-tune much larger models on a single GPU than would otherwise be possible.</p>
+
+<h4 id="qlora-in-practice">QLoRA in Practice<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#qlora-in-practice')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h4>
+
+<p>So, how does all of this come together in practice? The workflow for using QLoRA is surprisingly simple, thanks to libraries like <code class="language-plaintext highlighter-rouge">bitsandbytes</code> and <code class="language-plaintext highlighter-rouge">peft</code> (Parameter-Efficient Fine-Tuning) from Hugging Face, and of course, Unsloth, which makes it even easier.</p>
+
+<p>Here’s a high-level overview of the steps involved:</p>
+
+<ol>
+  <li><strong>Load the model in 4-bit</strong>: The first step is to load the pre-trained model in 4-bit precision. This is typically done by setting the <code class="language-plaintext highlighter-rouge">load_in_4bit=True</code> flag when loading the model using the <code class="language-plaintext highlighter-rouge">from_pretrained</code> method from the <code class="language-plaintext highlighter-rouge">transformers</code> library. You’ll also specify the 4-bit quantization type, such as <code class="language-plaintext highlighter-rouge">nf4</code>.</li>
+  <li><strong>Apply LoRA on top</strong>: Once the model is loaded in 4-bit, you apply LoRA on top of it using the <code class="language-plaintext highlighter-rouge">peft</code> library. This involves creating a <code class="language-plaintext highlighter-rouge">LoraConfig</code> object where you specify the LoRA parameters, such as the rank (<code class="language-plaintext highlighter-rouge">r</code>), the LoRA alpha (<code class="language-plaintext highlighter-rouge">lora_alpha</code>), and the target modules (the layers of the model where you want to apply LoRA).</li>
+  <li><strong>Train only the adapters</strong>: With the LoRA adapters in place, you can now train the model. The key here is that you only train the LoRA adapters, while the original pre-trained weights remain frozen. This is what makes the training process so efficient. You’ll also use a paged optimizer, such as <code class="language-plaintext highlighter-rouge">paged_adamw_8bit</code>, to manage memory usage during training.</li>
+  <li><strong>Save only the LoRA adapters</strong>: After training is complete, you only need to save the LoRA adapters, not the entire model. This results in a very small checkpoint file (typically a few megabytes), which makes it easy to share and deploy the fine-tuned model.</li>
+</ol>
+
+<p>Here’s a simplified code snippet to illustrate the process:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div></div><pre class="highlight"><code><span class="kn">from</span> <span class="n">transformers</span> <span class="kn">import</span> <span class="n">AutoModelForCausalLM</span><span class="p">,</span> <span class="n">AutoTokenizer</span><span class="p">,</span> <span class="n">BitsAndBytesConfig</span>
+<span class="kn">from</span> <span class="n">peft</span> <span class="kn">import</span> <span class="n">get_peft_model</span><span class="p">,</span> <span class="n">LoraConfig</span>
+
+<span class="c1"># Load the model in 4-bit
+</span><span class="n">quantization_config</span> <span class="o">=</span> <span class="nc">BitsAndBytesConfig</span><span class="p">(</span><span class="n">load_in_4bit</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">bnb_4bit_compute_dtype</span><span class="o">=</span><span class="sh">"</span><span class="s">bfloat16</span><span class="sh">"</span><span class="p">,</span> <span class="n">bnb_4bit_quant_type</span><span class="o">=</span><span class="sh">"</span><span class="s">nf4</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">AutoModelForCausalLM</span><span class="p">.</span><span class="nf">from_pretrained</span><span class="p">(</span><span class="sh">"</span><span class="s">google/gemma-3-1b-it</span><span class="sh">"</span><span class="p">,</span> <span class="n">quantization_config</span><span class="o">=</span><span class="n">quantization_config</span><span class="p">)</span>
+
+<span class="c1"># Apply LoRA on top
+</span><span class="n">lora_config</span> <span class="o">=</span> <span class="nc">LoraConfig</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">lora_alpha</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">target_modules</span><span class="o">=</span><span class="p">[</span><span class="sh">"</span><span class="s">q_proj</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">k_proj</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">v_proj</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">o_proj</span><span class="sh">"</span><span class="p">],</span> <span class="n">lora_dropout</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="sh">"</span><span class="s">none</span><span class="sh">"</span><span class="p">,</span> <span class="n">task_type</span><span class="o">=</span><span class="sh">"</span><span class="s">CAUSAL_LM</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="nf">get_peft_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">lora_config</span><span class="p">)</span>
+
+<span class="c1"># Train the model (training code omitted for brevity)
+</span>
+<span class="c1"># Save the LoRA adapters
+</span><span class="n">model</span><span class="p">.</span><span class="nf">save_pretrained</span><span class="p">(</span><span class="sh">"</span><span class="s">gemma-3-1b-it-lora-adapters</span><span class="sh">"</span><span class="p">)</span>
+</code></pre><span class="language-label">Python</span><button class="copy-button"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<p>And yeah thats about it. With just a few lines of code, you can fine-tune a massive language model on a single consumer-grade GPU, thanks to the power of QLoRA. It’s a game-changer for democratizing access to large language models and enabling a wide range of new applications.</p>
+
+<h3 id="hugging-face-deployment">Hugging Face Deployment<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#hugging-face-deployment')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+
+<p>Easy place to deploy LLM and AI/ML projects? Hugging Face Spaces. Its a git-based interface so it should be familiar to all partitioners, furthermore they provide generous free hosting, hardware, and accessible UI. Perfect for this kind of project.</p>
+
+<p><img loading="lazy" src="/assets/thumbnail/texttosqlgemma.webp" alt="huggingfacesqltext" /></p>
+
+<div class="media-description">Deployment on a Hugging Face Space</div>
+
+<p>You can try the finetuned model right now by visiting <a href="https://huggingface.co/spaces/Yuk050/gemma-3-1b-text-to-sql" target="_blank">Yuk050/gemma-3-1b-text-to-sql</a>.</p>
+
+<hr />
+
+<h3 id="epilogue">Epilogue<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#epilogue')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+
+<p>So yeah, I was mostly doing this project for the math (of which is not that relevant to the project anyway). Nevertheless, now I can say I did it, I do want to give some thoughts on the current state of LLM practices though. As of July 2025, I kinda feel like its not exactly worth it to just do these kind of projects for projects sake, as the landscape is extremely vast and non-formal. An endless flavor of LLMs (Llama, Qwen, Gemma, Aya, Jan nano, etc…) means each and everyone of them have there own little quirks, not to mention, sometimes you might even run into troubles that are hardware-specific. Weird numeric handling, different quantization format, the blackbox nature that is STILL not addressed, yeah, unless the goal post is clear and the miscellaneous is clean, i dont recommend picking up one of these projects for fun. I believe that my finetuning only worked that fast is because I based it off the Unsloth notebook.</p>
+
+<p>But, I had some fun I suppose, one more step towards grasping all thing LLMs, I’m looking forward to try some RLHF (Reinforcement Learning from Human Feedback), so until then, thanks for reading.</p>
+
+                    </article>
+                </div>
+                <div class="end-horizontal-divider-line"></div>
+                
+
+                <script>
+                    (function () {
+                        const isLight = document.documentElement.classList.contains('light-mode');
+                        const lang = document.documentElement.lang || 'en';
+                        const s = document.createElement('script');
+                        s.src = 'https://giscus.app/client.js';
+                        s.setAttribute('data-repo', 'yuk068/yuk-blog-comments');
+                        s.setAttribute('data-repo-id', 'R_kgDONs1FhQ');
+                        s.setAttribute('data-category', 'Announcements');
+                        s.setAttribute('data-category-id', 'DIC_kwDONs1Fhc4CmLRI');
+                        s.setAttribute('data-mapping', 'title');
+                        s.setAttribute('data-strict', '0');
+                        s.setAttribute('data-reactions-enabled', '1');
+                        s.setAttribute('data-emit-metadata', '0');
+                        s.setAttribute('data-input-position', 'bottom');
+                        s.setAttribute('data-theme', isLight ? 'light_protanopia' : 'dark_protanopia');
+                        s.setAttribute('data-lang', lang === 'vi' ? 'vi' : 'en');
+                        s.setAttribute('crossorigin', 'anonymous');
+                        s.async = true;
+                        document.currentScript.parentElement.appendChild(s);
+                    })();
+                </script>
+
+                
+                <div class="final-horizontal-divider-line"></div>
+            </div>
+        </main>
+
+
+
+        <div class="footer-container">
+    <div class="relative-footer">
+        <footer>
+            <div class="footer-info">
+                <!-- <a href="https://www.linkedin.com/in/duy-pham-duc-226293350/" target="_blank">
+                    <i class="fab fa-linkedin"></i>
+                    <div class="footer-info-label">
+                        <p>Duy Pham Duc</p>
+                    </div>
+                </a> -->
+                <a href="https://www.youtube.com/@yuk.yukano" target="_blank">
+                    <i class="fab fa-youtube"></i>
+                    <div class="footer-info-label">
+                        <p>@yuk.yukano</p>
+                    </div>
+                </a>
+                <a href="https://github.com/duy-phamduc68" target="_blank">
+                    <i class="fab fa-github"></i>
+                    <div class="footer-info-label">
+                        <p>duy-phamduc68</p>
+                    </div>
+                </a>
+                <a href="https://github.com/yuk068" target="_blank">
+                    <i class="fab fa-github"></i>
+                    <div class="footer-info-label">
+                        <p>yuk068</p>
+                    </div>
+                </a>
+                <a href="https://x.com/Yukano_50" target="_blank">
+                    <i class="fab fa-twitter"></i>
+                    <div class="footer-info-label">
+                        <p>@Yukano_50</p>
+                    </div>
+                </a>
+                <a href="https://www.tiktok.com/@yuk.yukano" target="_blank" style="display: none">
+                    <i class="fab fa-tiktok"></i>
+                    <div class="footer-info-label">
+                        <p>@yuk.yukano</p>
+                    </div>
+                </a>
+                <a href="https://www.facebook.com/yuk.pham.2025" target="_blank">
+                    <i class="fab fa-facebook"></i>
+                    <div class="footer-info-label">
+                        <p>Duy Pham Duc</p>
+                    </div>
+                </a>
+            </div>
+            <div class="copyright-text">
+                <p>&copy; 2026 Yukano</p>
+            </div>
+        </footer>
+    </div>
+</div>
+    </div>
+    <div id="svg-repo" style="display: none;">
+        <div id="svg-up-arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff">
+                    <defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs>
+                    <line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line>
+                    <polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline>
+                    <line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line>
+                    <polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline>
+                    <line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line>
+                </svg></div>
+        <div id="svg-down-arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff">
+                    <defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs>
+                    <line class="cls-1" x1="6.25" y1="17.73" x2="6.25" y2="0.48"></line>
+                    <polyline class="cls-1" points="1.46 12.94 6.25 17.73 11.04 12.94"></polyline>
+                    <line class="cls-1" x1="17.75" y1="17.73" x2="17.75" y2="0.48"></line>
+                    <polyline class="cls-1" points="12.96 12.94 17.75 17.73 22.54 12.94"></polyline>
+                    <line class="cls-1" x1="0.5" y1="22.52" x2="23.5" y2="22.52"></line>
+                </svg></div>
+        <div id="svg-check"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c627-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><circle class="cls-6374f8d9b67f094e4896c627-1" cx="12" cy="12" r="10.5"></circle><polyline class="cls-6374f8d9b67f094e4896c627-1" points="6.27 12 10.09 15.82 17.73 8.18"></polyline></svg></div>
+        <div id="svg-document"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></div>
+    </div>
+    <div id="notify-overlay" style="display: none;">
+    <div id="notify-container">
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="40" height="40" fill="none" stroke="var(--neon-aqua-accent, #6bd9fa)" stroke-miterlimit="10"><circle cx="12" cy="12" r="10.5"/><polyline points="12 6.5 12 12 16 14.5"/></svg>
+        </div>
+        <p class="notify-title">Coming Soon!</p>
+        <div id="notify-divider"></div>
+        <span class="notify-desc">This is not available yet...</span>
+        <span class="notify-desc">Check back later!</span>
+        <button id="notify-close-btn" onclick="dismissNotify()">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="16" height="16" fill="none" stroke="currentColor" stroke-miterlimit="10"><circle cx="12" cy="12" r="10.5"/><line x1="8.18" y1="8.18" x2="15.82" y2="15.82"/><line x1="15.82" y1="8.18" x2="8.18" y2="15.82"/></svg> Dismiss
+        </button>
+    </div>
+</div>
+    <script src="/assets/js/pages-js/post-script.js"></script>
+    <div class="scroll-button-container">
+        <button id="scrollButton" onclick="scrollToTop()">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="50" height="50"
+                fill="none" stroke="currentColor" stroke-miterlimit="10" aria-label="⇡">
+                <circle cx="12" cy="12" r="10.5"></circle>
+                <line x1="12" y1="10.09" x2="12" y2="18.68"></line>
+                <polyline points="7.23 10.09 12 5.32 16.77 10.09"></polyline>
+                <polyline points="7.23 14.86 12 10.09 16.77 14.86"></polyline>
+            </svg>
+        </button>
+    </div>
+</body>
+
+</html>

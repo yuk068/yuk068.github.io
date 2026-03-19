@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="linkage" content="false">
+    <title>My first bot - Tic Tac Toe - Part I</title>
+    <meta name="description" content="Tic Tac Toe with GUI in Java with Swing">
+
+    <!-- SEO & Social Meta -->
+    
+    
+    
+    
+    
+    
+    
+    <meta name="author" content="Yuk">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="http://localhost:4000/2024/05/16/tictactoebot-one">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="My first bot - Tic Tac Toe - Part I">
+    <meta property="og:description" content="Tic Tac Toe with GUI in Java with Swing">
+    <meta property="og:url" content="http://localhost:4000/2024/05/16/tictactoebot-one">
+    <meta property="og:image" content="http://localhost:4000/assets/thumbnail/default.webp">
+    <meta property="og:site_name" content="Yuk's Blog">
+    <meta property="og:locale" content="en_US">
+    <meta property="article:published_time" content="2024-05-16T00:00:00+07:00">
+    <meta property="article:author" content="Yuk">
+    <meta property="article:tag" content="old post">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@Yukano_50">
+    <meta name="twitter:creator" content="@Yukano_50">
+    <meta name="twitter:title" content="My first bot - Tic Tac Toe - Part I">
+    <meta name="twitter:description" content="Tic Tac Toe with GUI in Java with Swing">
+    <meta name="twitter:image" content="http://localhost:4000/assets/thumbnail/default.webp">
+
+    <link rel="stylesheet" href="/assets/css/pages-css/post-styles.css">
+
+    <!-- NOTE: KaTeX is the preferred engine going forward. MathJax is kept as the legacy
+         fallback (default) for older posts. For any future conflicts, prioritize KaTeX. -->
+    
+    
+    <!-- Default to MathJax -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+
+    
+    
+
+    
+    
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
+
+    <script>if (localStorage.getItem('theme') === 'light') document.documentElement.classList.add('light-mode');</script>
+
+    <link rel="stylesheet" href="https://unpkg.com/photoswipe@5/dist/photoswipe.css">
+
+    <script type="module">
+        import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5/dist/photoswipe-lightbox.esm.js';
+
+        const lightbox = new PhotoSwipeLightbox({
+            gallery: '.post-article',
+            children: 'img',
+            pswpModule: () => import('https://unpkg.com/photoswipe@5/dist/photoswipe.esm.js')
+        });
+
+        // Tell PhotoSwipe how to get image data from <img loading="lazy">
+        lightbox.addFilter('itemData', (itemData, index) => {
+            const img = document.querySelectorAll('.post-article img')[index];
+
+            return {
+                src: img.src,
+                width: img.naturalWidth || img.width,
+                height: img.naturalHeight || img.height
+            };
+        });
+
+        lightbox.init();
+    </script>
+</head>
+
+<body>
+    <!-- <div id="page-loader">
+        <div class="loader-logo-container">
+            <div class="loader-logo">
+                <div class="loader-u-shape loader-left-side"></div>
+                <div class="loader-u-shape loader-bottom"></div>
+                <div class="loader-u-shape loader-right-side"></div>
+            </div>
+            <div class="loader-left-arrow-top"></div>
+            <div class="loader-right-arrow-top"></div>
+            <div class="loader-right-arrow-bottom"></div>
+        </div>
+    </div> -->
+    <div id="reading-progress-bar"></div>
+    <div class="main-container">
+        <header id="post-header">
+            <div class="header-logo-container">
+                <button class="logo-button" onclick="handleLogoClick()">
+                    <div class="logo-container">
+                        <div class="logo">
+                            <div class="u-shape left-side"></div>
+                            <div class="u-shape bottom"></div>
+                            <div class="u-shape right-side"></div>
+                        </div>
+                        <div class="left-arrow-top"></div>
+                        <div class="right-arrow-top"></div>
+                        <div class="right-arrow-bottom"></div>
+                    </div>
+                </button>
+            </div>
+            <div class="home-header-title-mobile">
+                <h1 id="home-header-title">Yukano</h1>
+            </div>
+            <div class="nav-container">
+                <nav class="nav-bar">
+                    <ul>
+                        <a href="#" onclick="goBack()">
+                            <li>
+                                
+                                Back
+                                
+                            </li>
+                        </a>
+                        <div class="nav-bar-divider"></div>
+                        <a href="/">
+                            <li>
+                                
+                                Home
+                                
+                            </li>
+                        </a>
+                        <div class="nav-bar-divider" id="nav-disable-mobile"></div>
+                        <a href="/archive" id="nav-disable-mobile">
+                            <li id="nav-disable-mobile">
+                                
+                                Archive
+                                
+                            </li>
+                        </a>
+                        <div class="nav-bar-divider" id="nav-disable-mobile"></div>
+                        <a href="/projects" id="nav-disable-mobile">
+                            <li id="nav-disable-mobile">
+                                
+                                Projects
+                                
+                            </li>
+                        </a>
+                        <!-- <div class="nav-bar-divider" id="nav-disable-mobile"></div>
+                        <a href="#" onclick="notifyComingSoon()" id="nav-disable-mobile">
+                            <li id="nav-disable-mobile">
+                                
+                                Explore
+                                
+                            </li>
+                        </a> -->
+                    </ul>
+                </nav>
+            </div>
+            <div class="header-extra-container">
+                <button class="extra-button">
+                    <div class="extra-container">
+                        <div class="extra">
+                            <div class="extra-shape top"></div>
+                            <div class="extra-shape middle"></div>
+                            <div class="extra-shape bottom"></div>
+                        </div>
+                    </div>
+                </button>
+            </div>
+        </header>
+        <main>
+            <div id="overlay" class="overlay">
+                <div class="options-container">
+                    <p>
+                        
+                        Navigation
+                        
+                    </p>
+                    <div class="options-navigation">
+                        <button id="toBackButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-63ce7424ea57ea6c8380059e-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <path class="cls-63ce7424ea57ea6c8380059e-1"
+                                    d="M2.41,16.78H14.85A7.65,7.65,0,0,0,22.5,9.13h0a7.65,7.65,0,0,0-7.65-7.65H.5">
+                                </path>
+                                <polyline class="cls-63ce7424ea57ea6c8380059e-1"
+                                    points="8.15 22.52 2.41 16.78 8.15 11.04">
+                                </polyline>
+                            </svg>
+                            
+                            Back
+                            
+                        </button>
+                        <button id="toArchiveButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-6374f8d9b67f094e4896c633-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <polygon class="cls-6374f8d9b67f094e4896c633-1"
+                                    points="19.64 9.14 4.36 9.14 4.36 1.5 10.09 1.5 12 3.41 19.64 3.41 19.64 9.14">
+                                </polygon>
+                                <polygon class="cls-6374f8d9b67f094e4896c633-1"
+                                    points="1.5 9.14 22.5 9.14 20.59 22.5 3.41 22.5 1.5 9.14"></polygon>
+                            </svg>
+                            
+                            Archive
+                            
+                        </button>
+                        <button id="toProjectsButton"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                stroke-width="1.5" width="20" height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-637b8d40f95e86b59c57a2bd-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <g id="roll_brush" data-name="roll brush">
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="5.24" y1="11.08" x2="18.66"
+                                        y2="11.08">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="5.24" y1="18.76" x2="18.66"
+                                        y2="18.76">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="5.24" y1="14.92" x2="18.66"
+                                        y2="14.92">
+                                    </line>
+                                    <rect class="cls-637b8d40f95e86b59c57a2bd-1" x="1.4" y="1.49" width="21.1"
+                                        height="21.1"></rect>
+                                    <polygon class="cls-637b8d40f95e86b59c57a2bd-1"
+                                        points="22.5 7.25 16.23 7.25 14.31 7.25 1.4 7.25 1.4 1.49 22.5 1.49 22.5 7.25">
+                                    </polygon>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="4.28" y1="4.37" x2="6.2" y2="4.37">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="8.11" y1="4.37" x2="10.03"
+                                        y2="4.37">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="11.95" y1="4.37" x2="13.87"
+                                        y2="4.37">
+                                    </line>
+                                </g>
+                            </svg>
+                            
+                            Projects
+                            
+                        </button>
+                        <!-- <button id="toExploreButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-63ce7424ea57ea6c8380055b-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <polyline class="cls-63ce7424ea57ea6c8380055b-1" points="22 13 22 22 2 22 2 2 11 2">
+                                </polyline>
+                                <polyline class="cls-63ce7424ea57ea6c8380055b-1" points="14 2 22 2 22 10"></polyline>
+                                <line class="cls-63ce7424ea57ea6c8380055b-1" x1="22" y1="2" x2="10" y2="14"></line>
+                            </svg>
+                            
+                            Explore
+                            
+                        </button> -->
+                        <button id="toAboutButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-6374f8d9b67f094e4896c670-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <circle class="cls-6374f8d9b67f094e4896c670-1" cx="12" cy="7.25" r="5.73"></circle>
+                                <path class="cls-6374f8d9b67f094e4896c670-1"
+                                    d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05">
+                                </path>
+                            </svg>
+                            
+                            About
+                            
+                        </button>
+                        <button id="toHomeButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-6374f8d9b67f094e4896c637-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <polyline class="cls-6374f8d9b67f094e4896c637-1" points="1 12 12 2.83 23 12"></polyline>
+                                <polyline class="cls-6374f8d9b67f094e4896c637-1"
+                                    points="19.33 9.25 19.33 21.17 14.75 21.17 14.75 13.83 9.25 13.83 9.25 21.17 4.67 21.17 4.67 9.25">
+                                </polyline>
+                            </svg>
+                            
+                            Home
+                            
+                        </button>
+                    </div>
+                    <div class="option-horizontal-divider-line"></div>
+                    <p>
+                        
+                        Options
+                        
+                    </p>
+                    <div class="options-configuration">
+                        <button id="toTopButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-63ce7424ea57ea6c83800547-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <circle class="cls-63ce7424ea57ea6c83800547-1" cx="12" cy="12" r="10.5"></circle>
+                                <line class="cls-63ce7424ea57ea6c83800547-1" x1="12" y1="10.09" x2="12" y2="18.68">
+                                </line>
+                                <polyline class="cls-63ce7424ea57ea6c83800547-1"
+                                    points="7.23 10.09 12 5.32 16.77 10.09">
+                                </polyline>
+                                <polyline class="cls-63ce7424ea57ea6c83800547-1"
+                                    points="7.23 14.86 12 10.09 16.77 14.86">
+                                </polyline>
+                            </svg>
+                            
+                            To top
+                            
+                        </button>
+                        <button id="collapseExpandAllButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-63ce7424ea57ea6c8380059a-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <line class="cls-63ce7424ea57ea6c8380059a-1" x1="6" y1="2" x2="6" y2="23"></line>
+                                <polyline class="cls-63ce7424ea57ea6c8380059a-1" points="11 7 6 2 1 7"></polyline>
+                                <line class="cls-63ce7424ea57ea6c8380059a-1" x1="18" y1="22" x2="18" y2="1"></line>
+                                <polyline class="cls-63ce7424ea57ea6c8380059a-1" points="13 17 18 22 23 17"></polyline>
+                            </svg>
+                            
+                            Expand / Collapse all
+                            
+                        </button>
+                        <button id="themeButton"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                stroke-width="1.5" width="20" height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-637b8d40f95e86b59c57a2e7-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <g id="roll_brush" data-name="roll brush">
+                                    <circle class="cls-637b8d40f95e86b59c57a2e7-1" cx="11.99" cy="12.01" r="6.71">
+                                    </circle>
+                                    <path class="cls-637b8d40f95e86b59c57a2e7-1" d="M12,8.65a3.36,3.36,0,0,1,0,6.72Z">
+                                    </path>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="11.99" y1="0.5" x2="11.99"
+                                        y2="2.42">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="11.99" y1="21.6" x2="11.99"
+                                        y2="23.52">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="0.48" y1="12.01" x2="2.4"
+                                        y2="12.01">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="21.58" y1="12.01" x2="23.5"
+                                        y2="12.01">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="20.13" y1="3.87" x2="18.77"
+                                        y2="5.23">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="5.21" y1="18.79" x2="3.85"
+                                        y2="20.15">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="3.85" y1="3.87" x2="5.21"
+                                        y2="5.23">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="18.77" y1="18.79" x2="20.13"
+                                        y2="20.15"></line>
+                                </g>
+                            </svg>
+                            
+                            Theme
+                            
+                        </button>
+                        <button id="commentsButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-637642e7c3a86d32eae6f18f-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <path class="cls-637642e7c3a86d32eae6f18f-1"
+                                    d="M1.5,5.3v9.54a3.82,3.82,0,0,0,3.82,3.82H7.23v2.86L13,18.66h5.73a3.82,3.82,0,0,0,3.82-3.82V5.3a3.82,3.82,0,0,0-3.82-3.82H5.32A3.82,3.82,0,0,0,1.5,5.3Z">
+                                </path>
+                                <line class="cls-637642e7c3a86d32eae6f18f-1" x1="15.82" y1="10.07" x2="17.73"
+                                    y2="10.07">
+                                </line>
+                                <line class="cls-637642e7c3a86d32eae6f18f-1" x1="11.05" y1="10.07" x2="12.95"
+                                    y2="10.07">
+                                </line>
+                                <line class="cls-637642e7c3a86d32eae6f18f-1" x1="6.27" y1="10.07" x2="8.18" y2="10.07">
+                                </line>
+                            </svg>
+                            
+                            Comments
+                            
+                        </button>
+                    </div>
+                    <div class="option-horizontal-divider-line"></div>
+                    <div class="options-close">
+                        <button id="closeButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-6374f8d9b67f094e4896c61e-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <circle class="cls-6374f8d9b67f094e4896c61e-1" cx="12" cy="12" r="10.5"></circle>
+                                <line class="cls-6374f8d9b67f094e4896c61e-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77">
+                                </line>
+                                <line class="cls-6374f8d9b67f094e4896c61e-1" x1="7.23" y1="7.23" x2="16.77" y2="16.77">
+                                </line>
+                            </svg>
+                            
+                            Close
+                            
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="post-content">
+                <div class="post-info-card">
+                    <h1>
+                        <span class="category-svg">
+                            
+                            
+                            
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24"><defs><style>.cls-6374f8d9b67f094e4896c676-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c676-1" d="M7.23,20.59l-4.78,1,1-4.78L17.89,2.29A2.69,2.69,0,0,1,19.8,1.5h0a2.7,2.7,0,0,1,2.7,2.7h0a2.69,2.69,0,0,1-.79,1.91Z"></path><line class="cls-6374f8d9b67f094e4896c676-1" x1="0.55" y1="22.5" x2="23.45" y2="22.5"></line><line class="cls-6374f8d9b67f094e4896c676-1" x1="19.64" y1="8.18" x2="15.82" y2="4.36"></line></svg>
+
+
+                            
+                        </span>My first bot - Tic Tac Toe - Part I
+                    </h1>
+                    <div class="post-tags">
+                        
+                        
+                        
+                        <span class="tag">#old-post</span>
+                        
+                        
+                    </div>
+                    <div class="date">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="16"
+                            height="16" color="#fff">
+                            <defs>
+                                <style>
+                                    .cls-6375f1aeb67f094e4896c9ea-1,
+                                    .cls-6375f1aeb67f094e4896c9ea-2 {
+                                        fill: none;
+                                        stroke: currentColor;
+                                        stroke-miterlimit: 10;
+                                    }
+
+                                    .cls-6375f1aeb67f094e4896c9ea-1 {
+                                        stroke-linecap: square;
+                                    }
+                                </style>
+                            </defs>
+                            <g id="calendar">
+                                <rect class="cls-6375f1aeb67f094e4896c9ea-1" x="1.5" y="2.43" width="21" height="4.77"
+                                    transform="translate(24 9.64) rotate(180)"></rect>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="17.73" y1="0.52" x2="17.73" y2="4.34">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="6.27" y1="0.52" x2="6.27" y2="4.34">
+                                </line>
+                                <polygon class="cls-6375f1aeb67f094e4896c9ea-1"
+                                    points="22.5 11.98 22.5 7.21 1.5 7.21 1.5 22.48 22.5 22.48 22.5 15.79 22.5 11.98">
+                                </polygon>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="11.02" x2="11.05" y2="11.02">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="11.02" x2="14.86"
+                                    y2="11.02"></line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="16.77" y1="11.02" x2="18.68"
+                                    y2="11.02"></line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="14.84" x2="11.05" y2="14.84">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="5.32" y1="14.84" x2="7.23" y2="14.84">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="14.84" x2="14.86"
+                                    y2="14.84"></line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="16.77" y1="14.84" x2="18.68"
+                                    y2="14.84"></line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="18.66" x2="11.05" y2="18.66">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="5.32" y1="18.66" x2="7.23" y2="18.66">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="18.66" x2="14.86"
+                                    y2="18.66"></line>
+                            </g>
+                        </svg>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <span class="date-span">May 16th 2024</span>
+
+                        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                            stroke-width="1.5" width="16" height="16" color="#fff">
+                            <defs>
+                                <style>
+                                    .cls-6374f8d9b67f094e4896c623-1 {
+                                        fill: none;
+                                        stroke: currentColor;
+                                        stroke-miterlimit: 10;
+                                    }
+                                </style>
+                            </defs>
+                            <circle class="cls-6374f8d9b67f094e4896c623-1" cx="12" cy="12" r="10.5"></circle>
+                            <circle class="cls-6374f8d9b67f094e4896c623-1" cx="12" cy="12" r="0.95"></circle>
+                            <polyline class="cls-6374f8d9b67f094e4896c623-1" points="12 4.36 12 12 16.77 16.77">
+                            </polyline>
+                        </svg>
+                        
+                        <span class="reading-time">
+                            9
+                            
+                            Min.
+                            
+                        </span>
+                        
+                    </div>
+                    <div class="post-description">
+                        Tic Tac Toe with GUI in Java with Swing
+                    </div>
+                    <div class="author">
+                        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                            stroke-width="1.5" width="14" height="14" color="#fff">
+                            <defs>
+                                <style>
+                                    .cls-6374f8d9b67f094e4896c670-1 {
+                                        fill: none;
+                                        stroke: currentColor;
+                                        stroke-miterlimit: 10;
+                                    }
+                                </style>
+                            </defs>
+                            <circle class="cls-6374f8d9b67f094e4896c670-1" cx="12" cy="7.25" r="5.73"></circle>
+                            <path class="cls-6374f8d9b67f094e4896c670-1"
+                                d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05">
+                            </path>
+                        </svg>
+                        
+                        Written by:
+                        
+                        Yuk
+                    </div>
+                </div>
+                <div class="horizontal-divider-line"></div>
+                <div class="post-article">
+                    <article>
+                        
+                        
+                        
+                        
+                        <h1 id="my-first-bot---tic-tac-toe-in-java-with-swing---part-i">My first bot! - Tic Tac Toe in Java with Swing - Part I</h1>
+
+<p>If you are interested in the source code or trying out the program, you can check it out on my GitHub: <a href="https://github.com/yuk068/TicTacToe" title="Yukano's GitHub - Tic Tac Toe">yuk068 - TicTacToeGame</a></p>
+
+<h2 id="i-my-calling">I, My calling</h2>
+
+<p>So lately, I think I’ve discovered what my favorite activity in terms of coding is, and that is making bots. While at first, I was only making or recreating simple games like 2048, Chess, Snake,… And while those are fun, I soon realized that creating bots that can solve those games, play with you or even play against themselves? Just think about how a bot for a particular game can be create gets me going. For 2048 or Snake, the bot will be a solver type, and it will have to analyze the board, and base its moves on both logical thinking and probability calculation. And for more complex games that requires logical thinking like Chess or Tic Tac Toe, the bot is a player type, it will have to have the ability to see in to the future, and calculate the best move from all the possible outcomes with very little luck involved.</p>
+
+<h2 id="ii-tic-tac-toe-in-java">II, Tic Tac Toe in Java</h2>
+
+<h3 id="1-the-motivation">1, The motivation</h3>
+
+<p>So basically I put a pin on my chess project and started making Tic Tac Toe in Java instead. Tic Tac Toe, a 3x3 game while players take turn marking their symbol (either O or X) on the board until one player win by making 3 of their symbols lined up in a row or the game ends in a draw where no player won and there are no available moves left. All in all, It was a much simpler game than Chess, and because I already planed to make a bot, I decided to start first with a Tic Tac Toe bot. Even though it’s kinda simple and not that complicated, it’d be my first step, to make my first bot.</p>
+
+<h3 id="2-core-implementation">2, Core implementation</h3>
+
+<p>So this time around, I’ve already familiar with the “archetype” of these games already (grid based games). This was probably my third time making something like this, first it was 2048, then it was Chess, and now Tic Tac Toe, they’re all grid based! So while I’m had prior experience, this time I decided to also take performance and optimization into consideration. I won’t go too in depth into how my prior games was “un-optimized” and also Java and Swing isn’t really the best tools to make games in. But that’s what I’m familiar with and there were not really a demand for performance, these are basically just learning experiences and I love them for that. But basically, my prior games made heavy use of OOP (Object Oriented Programming) and while it’s great for abstraction and making things easier to implement, Objects are infamous for hogging up loads of memory. So this time, instead of structuring my Tic Tac Toe with classes like Symbol, Square, Board, Move, Game… I basically implemented the core logic and functionality of the Tic Tac Toe game in one class - TicTacToeGame.</p>
+
+<p>I mean I suppose that only when you’re comfortable with it enough can you really stray from abstraction to make games like these. But looking back at my zipbombs of games I still think they’re pretty garbage… So anyway, my take on Tic Tac Toe, uses an integer matrix as it’s board. where 0 represents an empty square, -1 is player O and 1 is player X:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div></div><pre class="highlight"><code><span class="kd">public</span> <span class="kt">boolean</span> <span class="n">turn</span><span class="o">;</span>
+<span class="kd">private</span> <span class="kt">int</span><span class="o">[][]</span> <span class="n">board</span><span class="o">;</span>
+<span class="kd">public</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">width</span><span class="o">;</span>
+<span class="kd">public</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">height</span><span class="o">;</span>
+<span class="kd">public</span> <span class="kd">final</span> <span class="nc">Random</span> <span class="n">random</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Random</span><span class="o">();</span>
+<span class="kd">public</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">toWinInARow</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="no">EMPTY</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="no">PLAYER_X</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="no">PLAYER_O</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="no">DRAW</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="no">GAME_ONGOING</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span><span class="o">;</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="no">OUTSIDE_BOARD</span> <span class="o">=</span> <span class="o">-</span><span class="mi">3</span><span class="o">;</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="no">PLAYER_X_WON</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">MAX_VALUE</span><span class="o">;</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="no">PLAYER_O_WON</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">MIN_VALUE</span><span class="o">;</span>
+</code></pre><span class="language-label">Java</span><button class="copy-button"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<div class="media-description">Fields for my implementation of Tic Tac Toe</div>
+
+<p>Note that the width, height and toWinInARow fields are only placeholders, in the case of Tic Tac Toe, they’re always set to 3. They are only here because I do plan to expand the game, and the bot to be able to adapt to Caro game (basically a larger board that usually requires more symbol in a row to win), but that’s the story for another time.</p>
+
+<p>So as you can see, board is just an int[][], and everything is also represented by integers in the from of constants. Boolean turn here is used to keep track of what symbol will be place on the next move. Everytime a move is made, turn negate itself and the behavior of the game change accordingly:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div></div><pre class="highlight"><code><span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">makeMove</span><span class="o">(</span><span class="kt">int</span> <span class="n">posX</span><span class="o">,</span> <span class="kt">int</span> <span class="n">posY</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">withinBoard</span><span class="o">(</span><span class="n">posX</span><span class="o">,</span> <span class="n">posY</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">getSquare</span><span class="o">(</span><span class="n">posX</span><span class="o">,</span> <span class="n">posY</span><span class="o">)</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">setSquare</span><span class="o">(</span><span class="n">posX</span><span class="o">,</span> <span class="n">posY</span><span class="o">,</span> <span class="o">!</span><span class="n">turn</span> <span class="o">?</span> <span class="o">-</span><span class="mi">1</span> <span class="o">:</span> <span class="mi">1</span><span class="o">);</span>
+        <span class="n">turn</span> <span class="o">=</span> <span class="o">!</span><span class="n">turn</span><span class="o">;</span>
+        <span class="no">SFX</span><span class="o">.</span><span class="na">playSound</span><span class="o">(</span><span class="s">"/asset/beep.wav"</span><span class="o">,</span> <span class="mi">5</span><span class="o">);</span> <span class="c1">// Playing audio with volume level 5</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre><span class="language-label">Java</span><button class="copy-button"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<p>Moreover, there are also methods like checkWin(), which just return the constants PLAYER_X_WON, PLAYER_O_WON, DRAW or GAME_ONGOING depending on the state of the game. And another method called isGameOver(), which returns whether checkWin() returns a value different other than GAME_ONGOING or not. And that’s basically all we need for a functional Tic Tac Toe game. I also added the printBoard() method at the early stage of the project to be able to play the game in the terminal by inputting the coordinates and have the board printed to the standard output, this is an example of how that works:</p>
+
+<p><img loading="lazy" src="/assets/images/tictactoe/tictactoe-terminal-gamepaly.webp" alt="TicTacToe Gameplay" /></p>
+
+<div class="media-description">Remember that O is just -1 and X is 1, while an empty square is 0</div>
+
+<p>And that is Tic Tac Toe game in Java! Neatly packed into a single class, which I believe will help to keep memory usage low, especially helpful for lower end devices and a major performance increase from my older implementation with heavy use of Objects for similar grid based games.</p>
+
+<h3 id="3-gui">3, GUI</h3>
+
+<p>Of course at this stage, I can’t just stop now. I’m already pretty familiar with Swing at this point already. And who wants to play Tic Tac Toe by typing out coordinates? And so another class called TicTacToeGameGUI was created. It essentially just keep an instance of TicTacToeGame, convert the matrix to a suitable graphical display, and provide mouse control for clicking on squares to make a move.</p>
+
+<p>One of my mistake was how I used pretty high resolution pngs for the sprite of X and O. In my Chess Game project, that was a suitable approach because chess pieces are very complex. But here, I could have just use a graphical library to help me draw out X and O on the spot. I will keep that in mind and implement it in my extended - Caro Game, which will have a much more significant effect.</p>
+
+<p>But basically, TicTacToeGameGUI uses Swing to be able to convert my text display to the standard output to a visually pleasing JFrame, with mouse control for the best gameplay experience.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div></div><pre class="highlight"><code><span class="c1">// Initializing a game</span>
+<span class="n">game</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">TicTacToeGame</span><span class="o">();</span>
+<span class="n">bot</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">TicTacToeBot</span><span class="o">(</span><span class="n">game</span><span class="o">,</span> <span class="mi">5</span><span class="o">);</span> <span class="c1">// More on this in part 2</span>
+<span class="n">panel</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">JPanel</span><span class="o">();</span>
+<span class="n">panel</span><span class="o">.</span><span class="na">setLayout</span><span class="o">(</span><span class="k">new</span> <span class="nc">GridLayout</span><span class="o">(</span><span class="n">game</span><span class="o">.</span><span class="na">height</span><span class="o">,</span> <span class="n">game</span><span class="o">.</span><span class="na">width</span><span class="o">));</span>
+
+<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">game</span><span class="o">.</span><span class="na">height</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">game</span><span class="o">.</span><span class="na">width</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+        <span class="nc">JPanel</span> <span class="n">square</span> <span class="o">=</span> <span class="n">getSquare</span><span class="o">();</span>
+        <span class="n">panel</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">square</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre><span class="language-label">Java</span><button class="copy-button"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+<div class="media-description">"game" is an instance of TicTacToeGame</div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div><div class="line-number">19</div><div class="line-number">20</div><div class="line-number">21</div><div class="line-number">22</div><div class="line-number">23</div><div class="line-number">24</div><div class="line-number">25</div><div class="line-number">26</div><div class="line-number">27</div><div class="line-number">28</div><div class="line-number">29</div><div class="line-number">30</div><div class="line-number">31</div><div class="line-number">32</div><div class="line-number">33</div></div><pre class="highlight"><code><span class="c1">// Concrete getSquare() method</span>
+<span class="kd">private</span> <span class="nc">JPanel</span> <span class="nf">getSquare</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nc">JPanel</span> <span class="n">square</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">JPanel</span><span class="o">();</span>
+    <span class="n">square</span><span class="o">.</span><span class="na">setBorder</span><span class="o">(</span><span class="nc">BorderFactory</span><span class="o">.</span><span class="na">createLineBorder</span><span class="o">(</span><span class="nc">Color</span><span class="o">.</span><span class="na">GRAY</span><span class="o">));</span>
+    <span class="n">square</span><span class="o">.</span><span class="na">addMouseListener</span><span class="o">(</span><span class="k">new</span> <span class="nc">MouseAdapter</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// Adding mouse control to each child JPanels</span>
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">mouseReleased</span><span class="o">(</span><span class="nc">MouseEvent</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(!</span><span class="n">game</span><span class="o">.</span><span class="na">gameIsOver</span><span class="o">())</span> <span class="o">{</span>
+                <span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="n">panel</span><span class="o">.</span><span class="na">getComponentZOrder</span><span class="o">(</span><span class="n">square</span><span class="o">);</span>
+                <span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="n">index</span> <span class="o">/</span> <span class="n">game</span><span class="o">.</span><span class="na">width</span><span class="o">;</span>
+                <span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="n">index</span> <span class="o">%</span> <span class="n">game</span><span class="o">.</span><span class="na">width</span><span class="o">;</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">game</span><span class="o">.</span><span class="na">withinBoard</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">))</span> <span class="o">{</span>
+                    <span class="kt">boolean</span> <span class="n">moveSuccess</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="na">makeMove</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">);</span>
+                    <span class="c1">// More on this in part 2</span>
+                    <span class="k">if</span> <span class="o">(</span><span class="n">moveSuccess</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="n">update</span><span class="o">();</span>
+                        <span class="k">if</span> <span class="o">(!</span><span class="n">game</span><span class="o">.</span><span class="na">gameIsOver</span><span class="o">())</span> <span class="o">{</span>
+                            <span class="nc">Timer</span> <span class="n">timer</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Timer</span><span class="o">(</span><span class="mi">200</span><span class="o">,</span> <span class="n">event</span> <span class="o">-&gt;</span> <span class="o">{</span>
+                                <span class="n">bot</span><span class="o">.</span><span class="na">makeMove</span><span class="o">();</span>
+                                <span class="n">update</span><span class="o">();</span>
+                                <span class="nc">TicTacToeBot</span><span class="o">.</span><span class="na">reach</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+                            <span class="o">});</span>
+                            <span class="n">timer</span><span class="o">.</span><span class="na">setRepeats</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>
+                            <span class="n">timer</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+                        <span class="o">}</span>
+                    <span class="o">}</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">});</span>
+    <span class="k">return</span> <span class="n">square</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre><span class="language-label">Java</span><button class="copy-button"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+<div class="media-description">Creating actual squares, and adding mouse control to each of them</div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div><div class="line-number">19</div><div class="line-number">20</div><div class="line-number">21</div><div class="line-number">22</div><div class="line-number">23</div><div class="line-number">24</div><div class="line-number">25</div><div class="line-number">26</div><div class="line-number">27</div><div class="line-number">28</div><div class="line-number">29</div><div class="line-number">30</div><div class="line-number">31</div><div class="line-number">32</div><div class="line-number">33</div><div class="line-number">34</div><div class="line-number">35</div><div class="line-number">36</div><div class="line-number">37</div><div class="line-number">38</div><div class="line-number">39</div><div class="line-number">40</div><div class="line-number">41</div><div class="line-number">42</div><div class="line-number">43</div><div class="line-number">44</div><div class="line-number">45</div><div class="line-number">46</div></div><pre class="highlight"><code><span class="c1">// Update method</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">update</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">game</span><span class="o">.</span><span class="na">height</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">game</span><span class="o">.</span><span class="na">width</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="nc">JPanel</span> <span class="n">square</span> <span class="o">=</span> <span class="o">(</span><span class="nc">JPanel</span><span class="o">)</span> <span class="n">panel</span><span class="o">.</span><span class="na">getComponent</span><span class="o">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">game</span><span class="o">.</span><span class="na">width</span> <span class="o">+</span> <span class="n">j</span><span class="o">);</span>
+            <span class="kt">int</span> <span class="n">value</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="na">getSquare</span><span class="o">(</span><span class="n">i</span><span class="o">,</span> <span class="n">j</span><span class="o">);</span>
+            <span class="nc">JLabel</span> <span class="n">label</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">JLabel</span><span class="o">();</span>
+            <span class="n">square</span><span class="o">.</span><span class="na">removeAll</span><span class="o">();</span>
+            <span class="n">square</span><span class="o">.</span><span class="na">setLayout</span><span class="o">(</span><span class="k">new</span> <span class="nc">BorderLayout</span><span class="o">());</span>
+            <span class="n">square</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">label</span><span class="o">,</span> <span class="nc">BorderLayout</span><span class="o">.</span><span class="na">CENTER</span><span class="o">);</span>
+            <span class="c1">// I should have use simple graphical library to draw sprites here</span>
+            <span class="k">try</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">value</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">label</span><span class="o">.</span><span class="na">setIcon</span><span class="o">(</span><span class="n">getImageIcon</span><span class="o">(</span><span class="s">"asset/Artboard 2.png"</span><span class="o">,</span> <span class="n">calculateSizeImage</span><span class="o">(),</span> <span class="n">calculateSizeImage</span><span class="o">()));</span>
+                <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">value</span> <span class="o">==</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">label</span><span class="o">.</span><span class="na">setIcon</span><span class="o">(</span><span class="n">getImageIcon</span><span class="o">(</span><span class="s">"asset/Artboard 1.png"</span><span class="o">,</span> <span class="n">calculateSizeImage</span><span class="o">(),</span> <span class="n">calculateSizeImage</span><span class="o">()));</span>
+                <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                    <span class="n">label</span><span class="o">.</span><span class="na">setIcon</span><span class="o">(</span><span class="kc">null</span><span class="o">);</span>
+                <span class="o">}</span>
+            <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="n">square</span><span class="o">.</span><span class="na">revalidate</span><span class="o">();</span>
+            <span class="n">square</span><span class="o">.</span><span class="na">repaint</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="c1">// Check for game over operation, new game operation is implemented elsewhere</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">game</span><span class="o">.</span><span class="na">gameIsOver</span><span class="o">())</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="nc">String</span> <span class="n">msg</span> <span class="o">=</span> <span class="s">", '1-9' to test different bot depths"</span><span class="o">;</span>
+            <span class="k">switch</span> <span class="o">(</span><span class="n">game</span><span class="o">.</span><span class="na">checkWinTicTacToe</span><span class="o">())</span> <span class="o">{</span>
+                <span class="k">case</span> <span class="o">-</span><span class="mi">1</span><span class="o">:</span>
+                    <span class="nc">JOptionPane</span><span class="o">.</span><span class="na">showMessageDialog</span><span class="o">(</span><span class="kc">null</span><span class="o">,</span> <span class="s">"O won!"</span> <span class="o">+</span> <span class="n">msg</span><span class="o">,</span> <span class="s">"Game Over"</span><span class="o">,</span> <span class="nc">JOptionPane</span><span class="o">.</span><span class="na">INFORMATION_MESSAGE</span><span class="o">,</span> <span class="n">getImageIcon</span><span class="o">(</span><span class="s">"asset/nihahaha.png"</span><span class="o">,</span> <span class="mi">100</span><span class="o">,</span> <span class="mi">100</span><span class="o">));</span>
+                    <span class="k">break</span><span class="o">;</span>
+                <span class="k">case</span> <span class="mi">1</span><span class="o">:</span>
+                    <span class="nc">JOptionPane</span><span class="o">.</span><span class="na">showMessageDialog</span><span class="o">(</span><span class="kc">null</span><span class="o">,</span> <span class="s">"X won!"</span> <span class="o">+</span> <span class="n">msg</span><span class="o">,</span> <span class="s">"Game Over"</span><span class="o">,</span> <span class="nc">JOptionPane</span><span class="o">.</span><span class="na">INFORMATION_MESSAGE</span><span class="o">,</span> <span class="n">getImageIcon</span><span class="o">(</span><span class="s">"asset/nihahaha.png"</span><span class="o">,</span> <span class="mi">100</span><span class="o">,</span> <span class="mi">100</span><span class="o">));</span>
+                    <span class="k">break</span><span class="o">;</span>
+                <span class="k">case</span> <span class="mi">0</span><span class="o">:</span>
+                    <span class="nc">JOptionPane</span><span class="o">.</span><span class="na">showMessageDialog</span><span class="o">(</span><span class="kc">null</span><span class="o">,</span> <span class="s">"Draw!"</span> <span class="o">+</span> <span class="n">msg</span><span class="o">,</span> <span class="s">"Game Over"</span><span class="o">,</span> <span class="nc">JOptionPane</span><span class="o">.</span><span class="na">INFORMATION_MESSAGE</span><span class="o">,</span> <span class="n">getImageIcon</span><span class="o">(</span><span class="s">"asset/nihahaha.png"</span><span class="o">,</span> <span class="mi">100</span><span class="o">,</span> <span class="mi">100</span><span class="o">));</span>
+                    <span class="k">break</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Exception while loading image"</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre><span class="language-label">Java</span><button class="copy-button"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+<div class="media-description">Update method to render everything and also check for game over operation</div>
+
+<p>As you can see, there are several noteworthy points:</p>
+
+<ol>
+  <li>TicTacToeGame is kept as an instance to allow for seamless new game operations.</li>
+  <li>Update() simply keep track of the internal implementation of the board, which is an int[][]. And display the correct sprite or keep it empty.</li>
+  <li>Each one of the squares is attached a MouseAdapter, to allow for precise call to the makeMove(int x, int y) method.</li>
+  <li>Update() also keep track of whether the game is over or not through game.isGameOver(), if its true, everything will be suspended until a new game is created.</li>
+  <li>Starting a new game is seamless and convenient simply by attaching a new TicTacToeGame to the game field and updating the frame. Which can be extracted to a separate method and envoked as needed.</li>
+</ol>
+
+<p>You might also recognize how I kept the GUI implementation flexible, this is for if I ever want to expand to Caro Game (which I will) then everything will still work perfectly as intended and I will not have to make drastic changes to the GUI class.</p>
+
+<p><img loading="lazy" src="/assets/thumbnail/my-first-bot-tic-tac-toe-part-i.webp" alt="TicTacToe Gameplay" /></p>
+
+<div class="media-description">Final product of "Tic Tac Toe"</div>
+
+<h2 id="epilogue">Epilogue</h2>
+
+<p>And thats about it! A Tic Tac Toe game made in Java with Swing, this is only the part I of this post where I cover the process of making and implementing the game itself. The second part of this post will be released shortly where I cover the process of making the Tic Tac Toe bot. Thank you so much for reading and stay tuned for part II!</p>
+
+
+                    </article>
+                </div>
+                <div class="end-horizontal-divider-line"></div>
+                
+
+                <script>
+                    (function () {
+                        const isLight = document.documentElement.classList.contains('light-mode');
+                        const lang = document.documentElement.lang || 'en';
+                        const s = document.createElement('script');
+                        s.src = 'https://giscus.app/client.js';
+                        s.setAttribute('data-repo', 'yuk068/yuk-blog-comments');
+                        s.setAttribute('data-repo-id', 'R_kgDONs1FhQ');
+                        s.setAttribute('data-category', 'Announcements');
+                        s.setAttribute('data-category-id', 'DIC_kwDONs1Fhc4CmLRI');
+                        s.setAttribute('data-mapping', 'title');
+                        s.setAttribute('data-strict', '0');
+                        s.setAttribute('data-reactions-enabled', '1');
+                        s.setAttribute('data-emit-metadata', '0');
+                        s.setAttribute('data-input-position', 'bottom');
+                        s.setAttribute('data-theme', isLight ? 'light_protanopia' : 'dark_protanopia');
+                        s.setAttribute('data-lang', lang === 'vi' ? 'vi' : 'en');
+                        s.setAttribute('crossorigin', 'anonymous');
+                        s.async = true;
+                        document.currentScript.parentElement.appendChild(s);
+                    })();
+                </script>
+
+                
+                <div class="final-horizontal-divider-line"></div>
+            </div>
+        </main>
+
+
+
+        <div class="footer-container">
+    <div class="relative-footer">
+        <footer>
+            <div class="footer-info">
+                <!-- <a href="https://www.linkedin.com/in/duy-pham-duc-226293350/" target="_blank">
+                    <i class="fab fa-linkedin"></i>
+                    <div class="footer-info-label">
+                        <p>Duy Pham Duc</p>
+                    </div>
+                </a> -->
+                <a href="https://www.youtube.com/@yuk.yukano" target="_blank">
+                    <i class="fab fa-youtube"></i>
+                    <div class="footer-info-label">
+                        <p>@yuk.yukano</p>
+                    </div>
+                </a>
+                <a href="https://github.com/duy-phamduc68" target="_blank">
+                    <i class="fab fa-github"></i>
+                    <div class="footer-info-label">
+                        <p>duy-phamduc68</p>
+                    </div>
+                </a>
+                <a href="https://github.com/yuk068" target="_blank">
+                    <i class="fab fa-github"></i>
+                    <div class="footer-info-label">
+                        <p>yuk068</p>
+                    </div>
+                </a>
+                <a href="https://x.com/Yukano_50" target="_blank">
+                    <i class="fab fa-twitter"></i>
+                    <div class="footer-info-label">
+                        <p>@Yukano_50</p>
+                    </div>
+                </a>
+                <a href="https://www.tiktok.com/@yuk.yukano" target="_blank" style="display: none">
+                    <i class="fab fa-tiktok"></i>
+                    <div class="footer-info-label">
+                        <p>@yuk.yukano</p>
+                    </div>
+                </a>
+                <a href="https://www.facebook.com/yuk.pham.2025" target="_blank">
+                    <i class="fab fa-facebook"></i>
+                    <div class="footer-info-label">
+                        <p>Duy Pham Duc</p>
+                    </div>
+                </a>
+            </div>
+            <div class="copyright-text">
+                <p>&copy; 2026 Yukano</p>
+            </div>
+        </footer>
+    </div>
+</div>
+    </div>
+    <div id="svg-repo" style="display: none;">
+        <div id="svg-up-arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff">
+                    <defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs>
+                    <line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line>
+                    <polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline>
+                    <line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line>
+                    <polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline>
+                    <line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line>
+                </svg></div>
+        <div id="svg-down-arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff">
+                    <defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs>
+                    <line class="cls-1" x1="6.25" y1="17.73" x2="6.25" y2="0.48"></line>
+                    <polyline class="cls-1" points="1.46 12.94 6.25 17.73 11.04 12.94"></polyline>
+                    <line class="cls-1" x1="17.75" y1="17.73" x2="17.75" y2="0.48"></line>
+                    <polyline class="cls-1" points="12.96 12.94 17.75 17.73 22.54 12.94"></polyline>
+                    <line class="cls-1" x1="0.5" y1="22.52" x2="23.5" y2="22.52"></line>
+                </svg></div>
+        <div id="svg-check"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c627-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><circle class="cls-6374f8d9b67f094e4896c627-1" cx="12" cy="12" r="10.5"></circle><polyline class="cls-6374f8d9b67f094e4896c627-1" points="6.27 12 10.09 15.82 17.73 8.18"></polyline></svg></div>
+        <div id="svg-document"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></div>
+    </div>
+    <div id="notify-overlay" style="display: none;">
+    <div id="notify-container">
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="40" height="40" fill="none" stroke="var(--neon-aqua-accent, #6bd9fa)" stroke-miterlimit="10"><circle cx="12" cy="12" r="10.5"/><polyline points="12 6.5 12 12 16 14.5"/></svg>
+        </div>
+        <p class="notify-title">Coming Soon!</p>
+        <div id="notify-divider"></div>
+        <span class="notify-desc">This is not available yet...</span>
+        <span class="notify-desc">Check back later!</span>
+        <button id="notify-close-btn" onclick="dismissNotify()">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="16" height="16" fill="none" stroke="currentColor" stroke-miterlimit="10"><circle cx="12" cy="12" r="10.5"/><line x1="8.18" y1="8.18" x2="15.82" y2="15.82"/><line x1="15.82" y1="8.18" x2="8.18" y2="15.82"/></svg> Dismiss
+        </button>
+    </div>
+</div>
+    <script src="/assets/js/pages-js/post-script.js"></script>
+    <div class="scroll-button-container">
+        <button id="scrollButton" onclick="scrollToTop()">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="50" height="50"
+                fill="none" stroke="currentColor" stroke-miterlimit="10" aria-label="⇡">
+                <circle cx="12" cy="12" r="10.5"></circle>
+                <line x1="12" y1="10.09" x2="12" y2="18.68"></line>
+                <polyline points="7.23 10.09 12 5.32 16.77 10.09"></polyline>
+                <polyline points="7.23 14.86 12 10.09 16.77 14.86"></polyline>
+            </svg>
+        </button>
+    </div>
+</body>
+
+</html>

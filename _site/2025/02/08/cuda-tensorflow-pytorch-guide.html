@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="linkage" content="true">
+    <title>TensorFlow & PyTorch with CUDA: Anaconda & Jupyter Lab Setup</title>
+    <meta name="description" content="How to install and configure TensorFlow and PyTorch with CUDA support for Nvidia GPU acceleration on Windows 10 using Anaconda and Jupyter Lab">
+
+    <!-- SEO & Social Meta -->
+    
+    
+    
+    
+    
+    
+    
+    <meta name="author" content="Yuk">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="http://localhost:4000/2025/02/08/cuda-tensorflow-pytorch-guide">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="TensorFlow &amp; PyTorch with CUDA: Anaconda &amp; Jupyter Lab Setup">
+    <meta property="og:description" content="How to install and configure TensorFlow and PyTorch with CUDA support for Nvidia GPU acceleration on Windows 10 using Anaconda and Jupyter Lab">
+    <meta property="og:url" content="http://localhost:4000/2025/02/08/cuda-tensorflow-pytorch-guide">
+    <meta property="og:image" content="http://localhost:4000/assets/thumbnail/cudatfpytorch.webp">
+    <meta property="og:site_name" content="Yuk's Blog">
+    <meta property="og:locale" content="en_US">
+    <meta property="article:published_time" content="2025-02-08T00:00:00+07:00">
+    <meta property="article:author" content="Yuk">
+    <meta property="article:tag" content="resources"><meta property="article:tag" content="guide">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@Yukano_50">
+    <meta name="twitter:creator" content="@Yukano_50">
+    <meta name="twitter:title" content="TensorFlow &amp; PyTorch with CUDA: Anaconda &amp; Jupyter Lab Setup">
+    <meta name="twitter:description" content="How to install and configure TensorFlow and PyTorch with CUDA support for Nvidia GPU acceleration on Windows 10 using Anaconda and Jupyter Lab">
+    <meta name="twitter:image" content="http://localhost:4000/assets/thumbnail/cudatfpytorch.webp">
+
+    <link rel="stylesheet" href="/assets/css/pages-css/post-styles.css">
+
+    <!-- NOTE: KaTeX is the preferred engine going forward. MathJax is kept as the legacy
+         fallback (default) for older posts. For any future conflicts, prioritize KaTeX. -->
+    
+    
+    <!-- Default to MathJax -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+
+    
+    
+
+    
+    
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
+
+    <script>if (localStorage.getItem('theme') === 'light') document.documentElement.classList.add('light-mode');</script>
+
+    <link rel="stylesheet" href="https://unpkg.com/photoswipe@5/dist/photoswipe.css">
+
+    <script type="module">
+        import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5/dist/photoswipe-lightbox.esm.js';
+
+        const lightbox = new PhotoSwipeLightbox({
+            gallery: '.post-article',
+            children: 'img',
+            pswpModule: () => import('https://unpkg.com/photoswipe@5/dist/photoswipe.esm.js')
+        });
+
+        // Tell PhotoSwipe how to get image data from <img loading="lazy">
+        lightbox.addFilter('itemData', (itemData, index) => {
+            const img = document.querySelectorAll('.post-article img')[index];
+
+            return {
+                src: img.src,
+                width: img.naturalWidth || img.width,
+                height: img.naturalHeight || img.height
+            };
+        });
+
+        lightbox.init();
+    </script>
+</head>
+
+<body>
+    <!-- <div id="page-loader">
+        <div class="loader-logo-container">
+            <div class="loader-logo">
+                <div class="loader-u-shape loader-left-side"></div>
+                <div class="loader-u-shape loader-bottom"></div>
+                <div class="loader-u-shape loader-right-side"></div>
+            </div>
+            <div class="loader-left-arrow-top"></div>
+            <div class="loader-right-arrow-top"></div>
+            <div class="loader-right-arrow-bottom"></div>
+        </div>
+    </div> -->
+    <div id="reading-progress-bar"></div>
+    <div class="main-container">
+        <header id="post-header">
+            <div class="header-logo-container">
+                <button class="logo-button" onclick="handleLogoClick()">
+                    <div class="logo-container">
+                        <div class="logo">
+                            <div class="u-shape left-side"></div>
+                            <div class="u-shape bottom"></div>
+                            <div class="u-shape right-side"></div>
+                        </div>
+                        <div class="left-arrow-top"></div>
+                        <div class="right-arrow-top"></div>
+                        <div class="right-arrow-bottom"></div>
+                    </div>
+                </button>
+            </div>
+            <div class="home-header-title-mobile">
+                <h1 id="home-header-title">Yukano</h1>
+            </div>
+            <div class="nav-container">
+                <nav class="nav-bar">
+                    <ul>
+                        <a href="#" onclick="goBack()">
+                            <li>
+                                
+                                Back
+                                
+                            </li>
+                        </a>
+                        <div class="nav-bar-divider"></div>
+                        <a href="/">
+                            <li>
+                                
+                                Home
+                                
+                            </li>
+                        </a>
+                        <div class="nav-bar-divider" id="nav-disable-mobile"></div>
+                        <a href="/archive" id="nav-disable-mobile">
+                            <li id="nav-disable-mobile">
+                                
+                                Archive
+                                
+                            </li>
+                        </a>
+                        <div class="nav-bar-divider" id="nav-disable-mobile"></div>
+                        <a href="/projects" id="nav-disable-mobile">
+                            <li id="nav-disable-mobile">
+                                
+                                Projects
+                                
+                            </li>
+                        </a>
+                        <!-- <div class="nav-bar-divider" id="nav-disable-mobile"></div>
+                        <a href="#" onclick="notifyComingSoon()" id="nav-disable-mobile">
+                            <li id="nav-disable-mobile">
+                                
+                                Explore
+                                
+                            </li>
+                        </a> -->
+                    </ul>
+                </nav>
+            </div>
+            <div class="header-extra-container">
+                <button class="extra-button">
+                    <div class="extra-container">
+                        <div class="extra">
+                            <div class="extra-shape top"></div>
+                            <div class="extra-shape middle"></div>
+                            <div class="extra-shape bottom"></div>
+                        </div>
+                    </div>
+                </button>
+            </div>
+        </header>
+        <main>
+            <div id="overlay" class="overlay">
+                <div class="options-container">
+                    <p>
+                        
+                        Navigation
+                        
+                    </p>
+                    <div class="options-navigation">
+                        <button id="toBackButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-63ce7424ea57ea6c8380059e-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <path class="cls-63ce7424ea57ea6c8380059e-1"
+                                    d="M2.41,16.78H14.85A7.65,7.65,0,0,0,22.5,9.13h0a7.65,7.65,0,0,0-7.65-7.65H.5">
+                                </path>
+                                <polyline class="cls-63ce7424ea57ea6c8380059e-1"
+                                    points="8.15 22.52 2.41 16.78 8.15 11.04">
+                                </polyline>
+                            </svg>
+                            
+                            Back
+                            
+                        </button>
+                        <button id="toArchiveButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-6374f8d9b67f094e4896c633-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <polygon class="cls-6374f8d9b67f094e4896c633-1"
+                                    points="19.64 9.14 4.36 9.14 4.36 1.5 10.09 1.5 12 3.41 19.64 3.41 19.64 9.14">
+                                </polygon>
+                                <polygon class="cls-6374f8d9b67f094e4896c633-1"
+                                    points="1.5 9.14 22.5 9.14 20.59 22.5 3.41 22.5 1.5 9.14"></polygon>
+                            </svg>
+                            
+                            Archive
+                            
+                        </button>
+                        <button id="toProjectsButton"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                stroke-width="1.5" width="20" height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-637b8d40f95e86b59c57a2bd-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <g id="roll_brush" data-name="roll brush">
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="5.24" y1="11.08" x2="18.66"
+                                        y2="11.08">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="5.24" y1="18.76" x2="18.66"
+                                        y2="18.76">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="5.24" y1="14.92" x2="18.66"
+                                        y2="14.92">
+                                    </line>
+                                    <rect class="cls-637b8d40f95e86b59c57a2bd-1" x="1.4" y="1.49" width="21.1"
+                                        height="21.1"></rect>
+                                    <polygon class="cls-637b8d40f95e86b59c57a2bd-1"
+                                        points="22.5 7.25 16.23 7.25 14.31 7.25 1.4 7.25 1.4 1.49 22.5 1.49 22.5 7.25">
+                                    </polygon>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="4.28" y1="4.37" x2="6.2" y2="4.37">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="8.11" y1="4.37" x2="10.03"
+                                        y2="4.37">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="11.95" y1="4.37" x2="13.87"
+                                        y2="4.37">
+                                    </line>
+                                </g>
+                            </svg>
+                            
+                            Projects
+                            
+                        </button>
+                        <!-- <button id="toExploreButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-63ce7424ea57ea6c8380055b-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <polyline class="cls-63ce7424ea57ea6c8380055b-1" points="22 13 22 22 2 22 2 2 11 2">
+                                </polyline>
+                                <polyline class="cls-63ce7424ea57ea6c8380055b-1" points="14 2 22 2 22 10"></polyline>
+                                <line class="cls-63ce7424ea57ea6c8380055b-1" x1="22" y1="2" x2="10" y2="14"></line>
+                            </svg>
+                            
+                            Explore
+                            
+                        </button> -->
+                        <button id="toAboutButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-6374f8d9b67f094e4896c670-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <circle class="cls-6374f8d9b67f094e4896c670-1" cx="12" cy="7.25" r="5.73"></circle>
+                                <path class="cls-6374f8d9b67f094e4896c670-1"
+                                    d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05">
+                                </path>
+                            </svg>
+                            
+                            About
+                            
+                        </button>
+                        <button id="toHomeButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-6374f8d9b67f094e4896c637-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <polyline class="cls-6374f8d9b67f094e4896c637-1" points="1 12 12 2.83 23 12"></polyline>
+                                <polyline class="cls-6374f8d9b67f094e4896c637-1"
+                                    points="19.33 9.25 19.33 21.17 14.75 21.17 14.75 13.83 9.25 13.83 9.25 21.17 4.67 21.17 4.67 9.25">
+                                </polyline>
+                            </svg>
+                            
+                            Home
+                            
+                        </button>
+                    </div>
+                    <div class="option-horizontal-divider-line"></div>
+                    <p>
+                        
+                        Options
+                        
+                    </p>
+                    <div class="options-configuration">
+                        <button id="toTopButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-63ce7424ea57ea6c83800547-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <circle class="cls-63ce7424ea57ea6c83800547-1" cx="12" cy="12" r="10.5"></circle>
+                                <line class="cls-63ce7424ea57ea6c83800547-1" x1="12" y1="10.09" x2="12" y2="18.68">
+                                </line>
+                                <polyline class="cls-63ce7424ea57ea6c83800547-1"
+                                    points="7.23 10.09 12 5.32 16.77 10.09">
+                                </polyline>
+                                <polyline class="cls-63ce7424ea57ea6c83800547-1"
+                                    points="7.23 14.86 12 10.09 16.77 14.86">
+                                </polyline>
+                            </svg>
+                            
+                            To top
+                            
+                        </button>
+                        <button id="collapseExpandAllButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-63ce7424ea57ea6c8380059a-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <line class="cls-63ce7424ea57ea6c8380059a-1" x1="6" y1="2" x2="6" y2="23"></line>
+                                <polyline class="cls-63ce7424ea57ea6c8380059a-1" points="11 7 6 2 1 7"></polyline>
+                                <line class="cls-63ce7424ea57ea6c8380059a-1" x1="18" y1="22" x2="18" y2="1"></line>
+                                <polyline class="cls-63ce7424ea57ea6c8380059a-1" points="13 17 18 22 23 17"></polyline>
+                            </svg>
+                            
+                            Expand / Collapse all
+                            
+                        </button>
+                        <button id="themeButton"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                stroke-width="1.5" width="20" height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-637b8d40f95e86b59c57a2e7-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <g id="roll_brush" data-name="roll brush">
+                                    <circle class="cls-637b8d40f95e86b59c57a2e7-1" cx="11.99" cy="12.01" r="6.71">
+                                    </circle>
+                                    <path class="cls-637b8d40f95e86b59c57a2e7-1" d="M12,8.65a3.36,3.36,0,0,1,0,6.72Z">
+                                    </path>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="11.99" y1="0.5" x2="11.99"
+                                        y2="2.42">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="11.99" y1="21.6" x2="11.99"
+                                        y2="23.52">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="0.48" y1="12.01" x2="2.4"
+                                        y2="12.01">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="21.58" y1="12.01" x2="23.5"
+                                        y2="12.01">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="20.13" y1="3.87" x2="18.77"
+                                        y2="5.23">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="5.21" y1="18.79" x2="3.85"
+                                        y2="20.15">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="3.85" y1="3.87" x2="5.21"
+                                        y2="5.23">
+                                    </line>
+                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="18.77" y1="18.79" x2="20.13"
+                                        y2="20.15"></line>
+                                </g>
+                            </svg>
+                            
+                            Theme
+                            
+                        </button>
+                        <button id="commentsButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-637642e7c3a86d32eae6f18f-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <path class="cls-637642e7c3a86d32eae6f18f-1"
+                                    d="M1.5,5.3v9.54a3.82,3.82,0,0,0,3.82,3.82H7.23v2.86L13,18.66h5.73a3.82,3.82,0,0,0,3.82-3.82V5.3a3.82,3.82,0,0,0-3.82-3.82H5.32A3.82,3.82,0,0,0,1.5,5.3Z">
+                                </path>
+                                <line class="cls-637642e7c3a86d32eae6f18f-1" x1="15.82" y1="10.07" x2="17.73"
+                                    y2="10.07">
+                                </line>
+                                <line class="cls-637642e7c3a86d32eae6f18f-1" x1="11.05" y1="10.07" x2="12.95"
+                                    y2="10.07">
+                                </line>
+                                <line class="cls-637642e7c3a86d32eae6f18f-1" x1="6.27" y1="10.07" x2="8.18" y2="10.07">
+                                </line>
+                            </svg>
+                            
+                            Comments
+                            
+                        </button>
+                    </div>
+                    <div class="option-horizontal-divider-line"></div>
+                    <div class="options-close">
+                        <button id="closeButton"><svg id="Layer_1" data-name="Layer 1"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
+                                height="20" color="#fff">
+                                <defs>
+                                    <style>
+                                        .cls-6374f8d9b67f094e4896c61e-1 {
+                                            fill: none;
+                                            stroke: currentColor;
+                                            stroke-miterlimit: 10;
+                                        }
+                                    </style>
+                                </defs>
+                                <circle class="cls-6374f8d9b67f094e4896c61e-1" cx="12" cy="12" r="10.5"></circle>
+                                <line class="cls-6374f8d9b67f094e4896c61e-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77">
+                                </line>
+                                <line class="cls-6374f8d9b67f094e4896c61e-1" x1="7.23" y1="7.23" x2="16.77" y2="16.77">
+                                </line>
+                            </svg>
+                            
+                            Close
+                            
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="post-content">
+                <div class="post-info-card">
+                    <h1>
+                        <span class="category-svg">
+                            
+                            
+                            
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24"><defs><style>.cls-6374f8d9b67f094e4896c676-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c676-1" d="M7.23,20.59l-4.78,1,1-4.78L17.89,2.29A2.69,2.69,0,0,1,19.8,1.5h0a2.7,2.7,0,0,1,2.7,2.7h0a2.69,2.69,0,0,1-.79,1.91Z"></path><line class="cls-6374f8d9b67f094e4896c676-1" x1="0.55" y1="22.5" x2="23.45" y2="22.5"></line><line class="cls-6374f8d9b67f094e4896c676-1" x1="19.64" y1="8.18" x2="15.82" y2="4.36"></line></svg>
+
+
+                            
+                        </span>TensorFlow & PyTorch with CUDA: Anaconda & Jupyter Lab Setup
+                    </h1>
+                    <div class="post-tags">
+                        
+                        
+                        
+                        <span class="tag">#resources</span>
+                        
+                        
+                        
+                        
+                        <span class="tag">#guide</span>
+                        
+                        
+                    </div>
+                    <div class="date">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="16"
+                            height="16" color="#fff">
+                            <defs>
+                                <style>
+                                    .cls-6375f1aeb67f094e4896c9ea-1,
+                                    .cls-6375f1aeb67f094e4896c9ea-2 {
+                                        fill: none;
+                                        stroke: currentColor;
+                                        stroke-miterlimit: 10;
+                                    }
+
+                                    .cls-6375f1aeb67f094e4896c9ea-1 {
+                                        stroke-linecap: square;
+                                    }
+                                </style>
+                            </defs>
+                            <g id="calendar">
+                                <rect class="cls-6375f1aeb67f094e4896c9ea-1" x="1.5" y="2.43" width="21" height="4.77"
+                                    transform="translate(24 9.64) rotate(180)"></rect>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="17.73" y1="0.52" x2="17.73" y2="4.34">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="6.27" y1="0.52" x2="6.27" y2="4.34">
+                                </line>
+                                <polygon class="cls-6375f1aeb67f094e4896c9ea-1"
+                                    points="22.5 11.98 22.5 7.21 1.5 7.21 1.5 22.48 22.5 22.48 22.5 15.79 22.5 11.98">
+                                </polygon>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="11.02" x2="11.05" y2="11.02">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="11.02" x2="14.86"
+                                    y2="11.02"></line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="16.77" y1="11.02" x2="18.68"
+                                    y2="11.02"></line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="14.84" x2="11.05" y2="14.84">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="5.32" y1="14.84" x2="7.23" y2="14.84">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="14.84" x2="14.86"
+                                    y2="14.84"></line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="16.77" y1="14.84" x2="18.68"
+                                    y2="14.84"></line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="18.66" x2="11.05" y2="18.66">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="5.32" y1="18.66" x2="7.23" y2="18.66">
+                                </line>
+                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="18.66" x2="14.86"
+                                    y2="18.66"></line>
+                            </g>
+                        </svg>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <span class="date-span">Feb. 8th 2025</span>
+
+                        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                            stroke-width="1.5" width="16" height="16" color="#fff">
+                            <defs>
+                                <style>
+                                    .cls-6374f8d9b67f094e4896c623-1 {
+                                        fill: none;
+                                        stroke: currentColor;
+                                        stroke-miterlimit: 10;
+                                    }
+                                </style>
+                            </defs>
+                            <circle class="cls-6374f8d9b67f094e4896c623-1" cx="12" cy="12" r="10.5"></circle>
+                            <circle class="cls-6374f8d9b67f094e4896c623-1" cx="12" cy="12" r="0.95"></circle>
+                            <polyline class="cls-6374f8d9b67f094e4896c623-1" points="12 4.36 12 12 16.77 16.77">
+                            </polyline>
+                        </svg>
+                        
+                        <span class="reading-time">
+                            7
+                            
+                            Min.
+                            
+                        </span>
+                        
+                    </div>
+                    <div class="post-description">
+                        How to install and configure TensorFlow and PyTorch with CUDA support for Nvidia GPU acceleration on Windows 10 using Anaconda and Jupyter Lab
+                    </div>
+                    <div class="author">
+                        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                            stroke-width="1.5" width="14" height="14" color="#fff">
+                            <defs>
+                                <style>
+                                    .cls-6374f8d9b67f094e4896c670-1 {
+                                        fill: none;
+                                        stroke: currentColor;
+                                        stroke-miterlimit: 10;
+                                    }
+                                </style>
+                            </defs>
+                            <circle class="cls-6374f8d9b67f094e4896c670-1" cx="12" cy="7.25" r="5.73"></circle>
+                            <path class="cls-6374f8d9b67f094e4896c670-1"
+                                d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05">
+                            </path>
+                        </svg>
+                        
+                        Written by:
+                        
+                        Yuk
+                    </div>
+                </div>
+                <div class="horizontal-divider-line"></div>
+                <div class="post-article">
+                    <article>
+                        
+                        
+                        
+                        
+                        <h3 id="table-of-content">Table of content<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#table-of-content')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+
+<blockquote><div class="content">
+  <div id="table-of-contents"><ul><li class="h3"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#table-of-content')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#table-of-content" style="color:#434e64;">Table of content</a></div></li>
+<li class="h2"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#overview')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#overview">Overview</a></div></li>
+<li class="h2"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#anaconda')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#anaconda">Anaconda</a></div></li>
+<li class="h2"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#create-tensorflow-environment')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#create-tensorflow-environment">Create Tensorflow environment</a></div></li>
+<li class="h2"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#create-pytorch-environment')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#create-pytorch-environment">Create PyTorch environment</a></div></li>
+<li class="h2"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#global-python-installations-and-jupyter-lab')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#global-python-installations-and-jupyter-lab">Global Python Installations and Jupyter Lab</a></div></li>
+<li class="h3"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#final-considerations')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#final-considerations">Final Considerations</a></div></li></ul></div>
+</div><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<h2 id="overview">Overview<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#overview')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
+
+<p>This quickie provides a step-by-step walkthrough of setting up TensorFlow and PyTorch with CUDA support for Nvidia GPUs on Windows 10, using Anaconda and Jupyter Lab.  We’ll create separate conda environments for TensorFlow and PyTorch, ensuring isolated workspaces for each project. This allows you to manage dependencies effectively and avoid conflicts.  Furthermore, we’ll configure Jupyter Lab to recognize these environments as selectable kernels, enabling you to seamlessly switch between TensorFlow and PyTorch projects within the Jupyter Lab interface while leveraging GPU acceleration for your deep learning tasks.</p>
+
+<p><img loading="lazy" src="/assets/thumbnail/cudatfpytorch.webp" alt="tensorflow cuda pytorch" /></p>
+
+<p><strong>Notice:</strong> This post assumes a fresh system with no prior installation of related programs and tools. If you have already installed some or all of these (CUDA, drivers, Anaconda, Python, etc.), it is strongly recommended to cleanly remove them before proceeding with this guide.  A fresh install minimizes potential conflicts and ensures a smooth setup process.</p>
+
+<h2 id="anaconda">Anaconda<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#anaconda')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
+
+<p>Anaconda is a popular open-source distribution of Python and R, designed to simplify package management and deployment for scientific computing, data science, and machine learning projects. It includes the Conda package manager and a collection of over 300 pre-installed packages, along with Anaconda Navigator, a graphical user interface for managing environments and packages. You may also look into Miniconda if you don’t need the pre-installed packages for a more lightweight installation.</p>
+
+<h5 id="download-the-installer">Download the Installer:</h5>
+
+<p>Go to <a href="https://www.anaconda.com/download/success" target="_blank">anaconda.com</a> and download the latest Windows installer.</p>
+
+<h5 id="run-the-installer">Run the Installer:</h5>
+
+<ul>
+  <li>Locate the downloaded <code class="language-plaintext highlighter-rouge">.exe</code> file and double-click to run it.</li>
+  <li>Follow the on-screen instructions:
+    <ul>
+      <li>Click “Next” on the welcome screen.</li>
+      <li>Read and accept the license agreement.</li>
+      <li>Choose whether to install for “Just Me” or “All Users”. (“Just Me” is recommended)</li>
+      <li>Select the installation location.</li>
+      <li>On the “Advanced Installation Options” screen, it’s recommended to check the box labeled “Add Anaconda to my PATH environment variable” to enable using Anaconda from the standard Command Prompt.</li>
+      <li>Click “Install” to begin the installation process.</li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="launch-anaconda-prompt">Launch Anaconda Prompt</h5>
+
+<ul>
+  <li>After installation, open the Start Menu and search for “Anaconda Prompt.”</li>
+  <li>Click to open it; this specialized command prompt is configured to use Anaconda and Conda commands.</li>
+</ul>
+
+<h5 id="optional-add-to-context-menu">Optional: Add to Context Menu</h5>
+
+<p>For ease of access in File Explorer, I recommend adding Anaconda to the context menu—this way you can always access the CLI interface anywhere:</p>
+
+<p><img loading="lazy" src="/assets/images/post/resources/cuda/contextmenu.webp" alt="context menu" /></p>
+
+<ul>
+  <li>Run Registry Editor (regedit.exe).</li>
+  <li>Go to <code class="language-plaintext highlighter-rouge">HKEY_CLASSES_ROOT &gt; Directory &gt; Background &gt; shell</code>.</li>
+  <li>Add a key named <code class="language-plaintext highlighter-rouge">AnacondaPrompt</code> and set its value to <code class="language-plaintext highlighter-rouge">Anaconda Prompt Here</code>.</li>
+  <li>Add a key under this key called <code class="language-plaintext highlighter-rouge">command</code>, and set its value to <code class="language-plaintext highlighter-rouge">cmd.exe /K C:\Users\user\Anaconda3\Scripts\activate.bat</code> change the location to wherever your Anaconda installation is located.</li>
+</ul>
+
+<p><em>(Credit: <a href="https://stackoverflow.com/questions/46662881/adding-open-anaconda-prompt-here-to-context-menu-windows" target="_blank">Stack Overflow</a>)</em></p>
+
+<h2 id="create-tensorflow-environment">Create Tensorflow environment<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#create-tensorflow-environment')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
+
+<p>Below is a step‐by‐step guide to build an isolated Conda environment that is fully compatible for TensorFlow with GPU support, integrated into JupyterLab as a selectable kernel. Before you begin, make sure that your system meets the following prerequisites:</p>
+
+<ul>
+  <li>An NVIDIA GPU with up-to-date drivers installed.</li>
+  <li>The appropriate CUDA and cuDNN support for your desired TensorFlow version (you can check the official TensorFlow GPU guide for version compatibility).</li>
+</ul>
+
+<p>In this example, we’ll use Python 3.8 with TensorFlow 2.4.1, CUDA Toolkit 11.0, and cuDNN 8.0—versions that have been known to work together reliably.</p>
+
+<h5 id="step-1-create-a-new-conda-environment">Step 1. Create a New Conda Environment</h5>
+
+<p>Open the Anaconda Prompt, ensure that you are in the base environment, this mean your CLI should look something like this: <code class="language-plaintext highlighter-rouge">(base) C:\Users\PC&gt;_</code>.</p>
+
+<p>Create a fresh environment (here named “tf_gpu_env”) using Python 3.8:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div></div><pre class="highlight"><code>conda create <span class="nt">-n</span> tf_gpu_env <span class="nv">python</span><span class="o">=</span>3.8
+</code></pre><span class="language-label">Shell</span><button class="copy-button"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<h5 id="step-2-activate-the-environment">Step 2. Activate the Environment</h5>
+
+<p>Activate your new environment:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div></div><pre class="highlight"><code>conda activate tf_gpu_env
+</code></pre><span class="language-label">Shell</span><button class="copy-button"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<p>The process should look something like this:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div></div><pre class="highlight"><code><span class="o">(</span>base<span class="o">)</span> C:<span class="se">\U</span>sers<span class="se">\P</span>C&gt;conda activate tf_gpu_env
+<span class="o">(</span>tf_gpu_env<span class="o">)</span> C:<span class="se">\U</span>sers<span class="se">\P</span>C&gt;_
+</code></pre><span class="language-label">Shell</span><button class="copy-button"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<h5 id="step-3-install-cuda-toolkit-and-cudnn">Step 3. Install CUDA Toolkit and cuDNN</h5>
+
+<p>Install the <code class="language-plaintext highlighter-rouge">CUDA Toolkit</code> and <code class="language-plaintext highlighter-rouge">cuDNN</code> libraries from <code class="language-plaintext highlighter-rouge">conda-forge</code>. (These packages bundle the runtime libraries that TensorFlow needs. Note that your system must still have the proper NVIDIA drivers installed.)</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div></div><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-c</span> conda-forge <span class="nv">cudatoolkit</span><span class="o">=</span>11.0 <span class="nv">cudnn</span><span class="o">=</span>8.0
+</code></pre><span class="language-label">Shell</span><button class="copy-button"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<h5 id="step-4-install-tensorflow-with-gpu-support">Step 4. Install TensorFlow with GPU Support</h5>
+
+<p>Install TensorFlow using <code class="language-plaintext highlighter-rouge">pip</code>.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div></div><pre class="highlight"><code>pip <span class="nb">install </span>tensorflow-gpu<span class="o">==</span>2.4.1
+</code></pre><span class="language-label">Shell</span><button class="copy-button"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<h5 id="step-5-install-jupyterlab-and-ipykernel">Step 5. Install JupyterLab and ipykernel</h5>
+
+<p>Next, install JupyterLab in the environment so that you keep all dependencies isolated. Then install <code class="language-plaintext highlighter-rouge">ipykernel</code> via <code class="language-plaintext highlighter-rouge">pip</code> (this avoids potential downgrades of TensorFlow that sometimes occur when using Conda’s <code class="language-plaintext highlighter-rouge">ipykernel</code> package).</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div></div><pre class="highlight"><code>conda <span class="nb">install </span>jupyterlab
+pip <span class="nb">install </span>ipykernel
+</code></pre><span class="language-label">Shell</span><button class="copy-button"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<h5 id="step-6-register-the-environments-kernel-with-jupyterlab">Step 6. Register the Environment’s Kernel with JupyterLab</h5>
+
+<p>Register your new environment as a Jupyter kernel. This makes it selectable when you open a notebook in JupyterLab.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div></div><pre class="highlight"><code>python <span class="nt">-m</span> ipykernel <span class="nb">install</span> <span class="nt">--user</span> <span class="nt">--name</span> tf_gpu_env <span class="nt">--display-name</span> <span class="s2">"TensorFlow GPU"</span>
+</code></pre><span class="language-label">Shell</span><button class="copy-button"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<h5 id="step-7-launch-jupyterlab-and-test-gpu-availability">Step 7. Launch JupyterLab and Test GPU Availability</h5>
+
+<p>Start JupyterLab from within your activated environment:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div></div><pre class="highlight"><code>jupyter lab
+</code></pre><span class="language-label">Shell</span><button class="copy-button"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<p>Create a new notebook selecting the “TensorFlow GPU” kernel. Then, run the following code to verify that TensorFlow detects your GPU:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div></div><pre class="highlight"><code><span class="kn">import</span> <span class="n">tensorflow</span> <span class="k">as</span> <span class="n">tf</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">GPUs available:</span><span class="sh">"</span><span class="p">,</span> <span class="n">tf</span><span class="p">.</span><span class="n">config</span><span class="p">.</span><span class="nf">list_physical_devices</span><span class="p">(</span><span class="sh">'</span><span class="s">GPU</span><span class="sh">'</span><span class="p">))</span>
+</code></pre><span class="language-label">Python</span><button class="copy-button"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<p>A quick script to test out tensor operation:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div><div class="line-number">19</div><div class="line-number">20</div></div><pre class="highlight"><code><span class="kn">import</span> <span class="n">tensorflow</span> <span class="k">as</span> <span class="n">tf</span>
+<span class="kn">import</span> <span class="n">time</span>
+
+<span class="c1"># Log the device being used
+</span><span class="n">physical_devices</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">config</span><span class="p">.</span><span class="nf">list_physical_devices</span><span class="p">(</span><span class="sh">'</span><span class="s">GPU</span><span class="sh">'</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Available GPU devices:</span><span class="sh">"</span><span class="p">,</span> <span class="n">physical_devices</span><span class="p">)</span>
+
+<span class="c1"># Create a large tensor operation
+</span><span class="n">A</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">normal</span><span class="p">([</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">1000</span><span class="p">])</span>
+<span class="n">B</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">normal</span><span class="p">([</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">1000</span><span class="p">])</span>
+
+<span class="c1"># Warm-up run to ensure accurate benchmarking
+</span><span class="n">_</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="nf">matmul</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
+
+<span class="c1"># Time the matrix multiplication operation
+</span><span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="nf">time</span><span class="p">()</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="nf">matmul</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
+<span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="nf">time</span><span class="p">()</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Operation completed in </span><span class="si">{</span><span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span><span class="si">:</span><span class="p">.</span><span class="mi">6</span><span class="n">f</span><span class="si">}</span><span class="s"> seconds</span><span class="sh">"</span><span class="p">)</span>
+</code></pre><span class="language-label">Python</span><button class="copy-button"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<h2 id="create-pytorch-environment">Create PyTorch environment<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#create-pytorch-environment')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
+
+<p>You can also create a relatively similar environment with PyTorch:</p>
+
+<h5 id="step-1-create-a-new-conda-environment-1">Step 1. Create a New Conda Environment</h5>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div></div><pre class="highlight"><code>conda create <span class="nt">-n</span> pt_gpu_env <span class="nv">python</span><span class="o">=</span>3.8
+</code></pre><span class="language-label">Shell</span><button class="copy-button"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<h5 id="step-2-activate-the-environment-1">Step 2. Activate the Environment</h5>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div></div><pre class="highlight"><code>conda activate pt_gpu_env
+</code></pre><span class="language-label">Shell</span><button class="copy-button"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<h5 id="step-3-install-pytorch-with-gpu-support">Step 3. Install PyTorch with GPU Support</h5>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div></div><pre class="highlight"><code>conda <span class="nb">install </span>pytorch torchvision torchaudio pytorch-cuda<span class="o">=</span>11.8 <span class="nt">-c</span> pytorch <span class="nt">-c</span> nvidia
+</code></pre><span class="language-label">Shell</span><button class="copy-button"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<h5 id="step-4-install-jupyterlab-and-ipykernel">Step 4. Install JupyterLab and ipykernel</h5>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div></div><pre class="highlight"><code>conda <span class="nb">install </span>jupyterlab
+pip <span class="nb">install </span>ipykernel
+</code></pre><span class="language-label">Shell</span><button class="copy-button"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<h5 id="step-5-register-the-environments-kernel-with-jupyterlab">Step 5. Register the Environment’s Kernel with JupyterLab</h5>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div></div><pre class="highlight"><code>python <span class="nt">-m</span> ipykernel <span class="nb">install</span> <span class="nt">--user</span> <span class="nt">--name</span> pt_gpu_env <span class="nt">--display-name</span> <span class="s2">"PyTorch GPU"</span>
+</code></pre><span class="language-label">Shell</span><button class="copy-button"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<h5 id="step-6-launch-jupyterlab-and-test-gpu-availability">Step 6. Launch JupyterLab and Test GPU Availability</h5>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div></div><pre class="highlight"><code>jupyter lab
+</code></pre><span class="language-label">Shell</span><button class="copy-button"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div></div><pre class="highlight"><code><span class="kn">import</span> <span class="n">torch</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Is CUDA available?</span><span class="sh">"</span><span class="p">,</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">is_available</span><span class="p">())</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Number of GPUs:</span><span class="sh">"</span><span class="p">,</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">device_count</span><span class="p">())</span>
+
+<span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">is_available</span><span class="p">():</span>
+    <span class="n">current_device</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">current_device</span><span class="p">()</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Current GPU device index:</span><span class="sh">"</span><span class="p">,</span> <span class="n">current_device</span><span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">GPU name:</span><span class="sh">"</span><span class="p">,</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">get_device_name</span><span class="p">(</span><span class="n">current_device</span><span class="p">))</span>
+</code></pre><span class="language-label">Python</span><button class="copy-button"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div></div><pre class="highlight"><code><span class="kn">import</span> <span class="n">torch</span>
+<span class="kn">import</span> <span class="n">time</span>
+
+<span class="c1"># Create two random tensors
+</span><span class="n">A</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">randn</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="mi">10000</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="sh">'</span><span class="s">cuda</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">B</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">randn</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="mi">10000</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="sh">'</span><span class="s">cuda</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="c1"># Warm-up to avoid initialization overhead
+</span><span class="n">_</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">matmul</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
+
+<span class="c1"># Benchmark the matrix multiplication
+</span><span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="nf">time</span><span class="p">()</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">matmul</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
+<span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="nf">time</span><span class="p">()</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Matrix multiplication completed in </span><span class="si">{</span><span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span><span class="si">:</span><span class="p">.</span><span class="mi">4</span><span class="n">f</span><span class="si">}</span><span class="s"> seconds</span><span class="sh">"</span><span class="p">)</span>
+</code></pre><span class="language-label">Python</span><button class="copy-button"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<h2 id="global-python-installations-and-jupyter-lab">Global Python Installations and Jupyter Lab<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#global-python-installations-and-jupyter-lab')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
+
+<p>I know some people have a globally installed Python setup for various utilities, and that’s completely fine. However, it’s crucial to <strong>never mix packages from your global Python environment with your isolated Conda environments</strong>. This can lead to dependency conflicts, version mismatches, and unexpected behavior in your deep learning workflows.</p>
+
+<p>One valid approach is to install Jupyter Lab globally instead of within each environment. This way, you only need to add each Conda environment as a kernel instead of maintaining separate Jupyter Lab installations across multiple environments. To do this:</p>
+
+<ul>
+  <li>Install Jupyter Lab in your global Python or base Conda environment:</li>
+</ul>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div></div><pre class="highlight"><code>conda <span class="nb">install</span> <span class="nt">-n</span> base jupyterlab
+</code></pre><span class="language-label">Shell</span><button class="copy-button"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<ul>
+  <li>Ensure each environment is registered as a kernel:</li>
+</ul>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div></div><pre class="highlight"><code>python <span class="nt">-m</span> ipykernel <span class="nb">install</span> <span class="nt">--user</span> <span class="nt">--name</span> your_env_name <span class="nt">--display-name</span> <span class="s2">"Your Env Display Name"</span>
+</code></pre><span class="language-label">Shell</span><button class="copy-button"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<ul>
+  <li>Launch Jupyter Lab globally and switch between environments via the kernel selector.</li>
+</ul>
+
+<p><strong>Notice:</strong> If you open a terminal inside the globally installed Jupyter Lab, it behaves like a standard <strong>Command Prompt (cmd)</strong> or system shell, not the Anaconda Prompt. This means that commands like <code class="language-plaintext highlighter-rouge">conda install</code> or <code class="language-plaintext highlighter-rouge">pip install</code> will <strong>NOT</strong> execute within your active Conda environment by default. If you need to install a package, it’s better to run <code class="language-plaintext highlighter-rouge">!pip install package</code> or <code class="language-plaintext highlighter-rouge">!conda install package -y</code> directly inside a Jupyter notebook cell to ensure it installs in the correct environment.</p>
+
+<h3 id="final-considerations">Final Considerations<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#final-considerations')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+
+<p><strong>Extreme caution</strong> is necessary when adding new packages to <strong>CUDA-enabled Conda environments</strong> (<code class="language-plaintext highlighter-rouge">tf_gpu_env</code> and <code class="language-plaintext highlighter-rouge">torch_gpu_env</code>). Here’s why and how to handle it safely:</p>
+
+<h5 id="why-you-need-to-be-careful">Why You Need to Be Careful</h5>
+
+<ul>
+  <li>Version Compatibility:
+    <ul>
+      <li>TensorFlow and PyTorch have strict dependencies on CUDA, cuDNN, and specific package versions (like <code class="language-plaintext highlighter-rouge">numpy</code>, <code class="language-plaintext highlighter-rouge">scipy</code>, etc.).</li>
+      <li>A mismatched update could break GPU acceleration or even make the environment unusable.</li>
+    </ul>
+  </li>
+  <li>Conda vs. Pip Issues:
+    <ul>
+      <li>Mixing <code class="language-plaintext highlighter-rouge">pip</code> and <code class="language-plaintext highlighter-rouge">conda</code> installs can cause dependency conflicts.</li>
+      <li>Conda manages binary compatibility, while Pip doesn’t always resolve dependencies correctly.</li>
+    </ul>
+  </li>
+  <li>CUDA Toolkit Issues:
+    <ul>
+      <li>TensorFlow and PyTorch come with specific CUDA versions baked in (<code class="language-plaintext highlighter-rouge">pip</code> installs prebuilt wheels with the right CUDA).</li>
+      <li>Installing a different CUDA version separately might break GPU support.</li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="best-practices-for-installing-new-packages">Best Practices for Installing New Packages</h5>
+
+<ul>
+  <li>Always Check Compatibility First.</li>
+  <li>Prefer Conda Over Pip.</li>
+  <li>Use the Correct Environment.</li>
+  <li>Test GPU After Installation.</li>
+  <li>Keep a Backup Before Major Changes.</li>
+</ul>
+
+<h5 id="what-not-to-do">What NOT to Do</h5>
+
+<ul>
+  <li>Don’t update packages blindly (e.g., <code class="language-plaintext highlighter-rouge">conda update --all</code>).</li>
+  <li>Don’t install CUDA separately unless necessary.</li>
+  <li>Don’t mix TensorFlow and PyTorch in the same environment (they have different CUDA dependencies).</li>
+</ul>
+
+                    </article>
+                </div>
+                <div class="end-horizontal-divider-line"></div>
+                
+
+                <script>
+                    (function () {
+                        const isLight = document.documentElement.classList.contains('light-mode');
+                        const lang = document.documentElement.lang || 'en';
+                        const s = document.createElement('script');
+                        s.src = 'https://giscus.app/client.js';
+                        s.setAttribute('data-repo', 'yuk068/yuk-blog-comments');
+                        s.setAttribute('data-repo-id', 'R_kgDONs1FhQ');
+                        s.setAttribute('data-category', 'Announcements');
+                        s.setAttribute('data-category-id', 'DIC_kwDONs1Fhc4CmLRI');
+                        s.setAttribute('data-mapping', 'title');
+                        s.setAttribute('data-strict', '0');
+                        s.setAttribute('data-reactions-enabled', '1');
+                        s.setAttribute('data-emit-metadata', '0');
+                        s.setAttribute('data-input-position', 'bottom');
+                        s.setAttribute('data-theme', isLight ? 'light_protanopia' : 'dark_protanopia');
+                        s.setAttribute('data-lang', lang === 'vi' ? 'vi' : 'en');
+                        s.setAttribute('crossorigin', 'anonymous');
+                        s.async = true;
+                        document.currentScript.parentElement.appendChild(s);
+                    })();
+                </script>
+
+                
+                <div class="final-horizontal-divider-line"></div>
+            </div>
+        </main>
+
+
+
+        <div class="footer-container">
+    <div class="relative-footer">
+        <footer>
+            <div class="footer-info">
+                <!-- <a href="https://www.linkedin.com/in/duy-pham-duc-226293350/" target="_blank">
+                    <i class="fab fa-linkedin"></i>
+                    <div class="footer-info-label">
+                        <p>Duy Pham Duc</p>
+                    </div>
+                </a> -->
+                <a href="https://www.youtube.com/@yuk.yukano" target="_blank">
+                    <i class="fab fa-youtube"></i>
+                    <div class="footer-info-label">
+                        <p>@yuk.yukano</p>
+                    </div>
+                </a>
+                <a href="https://github.com/duy-phamduc68" target="_blank">
+                    <i class="fab fa-github"></i>
+                    <div class="footer-info-label">
+                        <p>duy-phamduc68</p>
+                    </div>
+                </a>
+                <a href="https://github.com/yuk068" target="_blank">
+                    <i class="fab fa-github"></i>
+                    <div class="footer-info-label">
+                        <p>yuk068</p>
+                    </div>
+                </a>
+                <a href="https://x.com/Yukano_50" target="_blank">
+                    <i class="fab fa-twitter"></i>
+                    <div class="footer-info-label">
+                        <p>@Yukano_50</p>
+                    </div>
+                </a>
+                <a href="https://www.tiktok.com/@yuk.yukano" target="_blank" style="display: none">
+                    <i class="fab fa-tiktok"></i>
+                    <div class="footer-info-label">
+                        <p>@yuk.yukano</p>
+                    </div>
+                </a>
+                <a href="https://www.facebook.com/yuk.pham.2025" target="_blank">
+                    <i class="fab fa-facebook"></i>
+                    <div class="footer-info-label">
+                        <p>Duy Pham Duc</p>
+                    </div>
+                </a>
+            </div>
+            <div class="copyright-text">
+                <p>&copy; 2026 Yukano</p>
+            </div>
+        </footer>
+    </div>
+</div>
+    </div>
+    <div id="svg-repo" style="display: none;">
+        <div id="svg-up-arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff">
+                    <defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs>
+                    <line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line>
+                    <polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline>
+                    <line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line>
+                    <polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline>
+                    <line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line>
+                </svg></div>
+        <div id="svg-down-arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff">
+                    <defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs>
+                    <line class="cls-1" x1="6.25" y1="17.73" x2="6.25" y2="0.48"></line>
+                    <polyline class="cls-1" points="1.46 12.94 6.25 17.73 11.04 12.94"></polyline>
+                    <line class="cls-1" x1="17.75" y1="17.73" x2="17.75" y2="0.48"></line>
+                    <polyline class="cls-1" points="12.96 12.94 17.75 17.73 22.54 12.94"></polyline>
+                    <line class="cls-1" x1="0.5" y1="22.52" x2="23.5" y2="22.52"></line>
+                </svg></div>
+        <div id="svg-check"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c627-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><circle class="cls-6374f8d9b67f094e4896c627-1" cx="12" cy="12" r="10.5"></circle><polyline class="cls-6374f8d9b67f094e4896c627-1" points="6.27 12 10.09 15.82 17.73 8.18"></polyline></svg></div>
+        <div id="svg-document"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></div>
+    </div>
+    <div id="notify-overlay" style="display: none;">
+    <div id="notify-container">
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="40" height="40" fill="none" stroke="var(--neon-aqua-accent, #6bd9fa)" stroke-miterlimit="10"><circle cx="12" cy="12" r="10.5"/><polyline points="12 6.5 12 12 16 14.5"/></svg>
+        </div>
+        <p class="notify-title">Coming Soon!</p>
+        <div id="notify-divider"></div>
+        <span class="notify-desc">This is not available yet...</span>
+        <span class="notify-desc">Check back later!</span>
+        <button id="notify-close-btn" onclick="dismissNotify()">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="16" height="16" fill="none" stroke="currentColor" stroke-miterlimit="10"><circle cx="12" cy="12" r="10.5"/><line x1="8.18" y1="8.18" x2="15.82" y2="15.82"/><line x1="15.82" y1="8.18" x2="8.18" y2="15.82"/></svg> Dismiss
+        </button>
+    </div>
+</div>
+    <script src="/assets/js/pages-js/post-script.js"></script>
+    <div class="scroll-button-container">
+        <button id="scrollButton" onclick="scrollToTop()">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="50" height="50"
+                fill="none" stroke="currentColor" stroke-miterlimit="10" aria-label="⇡">
+                <circle cx="12" cy="12" r="10.5"></circle>
+                <line x1="12" y1="10.09" x2="12" y2="18.68"></line>
+                <polyline points="7.23 10.09 12 5.32 16.77 10.09"></polyline>
+                <polyline points="7.23 14.86 12 10.09 16.77 14.86"></polyline>
+            </svg>
+        </button>
+    </div>
+</body>
+
+</html>
