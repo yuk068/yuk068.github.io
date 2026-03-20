@@ -49,31 +49,26 @@
 
     <link rel="stylesheet" href="/assets/css/pages-css/post-styles.css">
 
-    <!-- NOTE: KaTeX is the preferred engine going forward. MathJax is kept as the legacy
-         fallback (default) for older posts. For any future conflicts, prioritize KaTeX. -->
-    
-    
-    <!-- KaTeX Stylesheet -->
+    <!-- Always use KaTeX for math rendering -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 
-    <!-- KaTeX Scripts -->
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"></script>
 
-    <!-- KaTeX Auto-render Initialization -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            renderMathInElement(document.body, {
-                delimiters: [
-                    { left: "$$", right: "$$", display: true },
-                    { left: "$", right: "$", display: false },
-                    { left: "\\(", right: "\\)", display: false },
-                    { left: "\\[", right: "\\]", display: true }
-                ]
-            });
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: "$$", right: "$$", display: true },
+                        { left: "$", right: "$", display: false },
+                        { left: "\\(", right: "\\)", display: false },
+                        { left: "\\[", right: "\\]", display: true }
+                    ]
+                });
+            }
         });
     </script>
-    
 
     
     
@@ -1076,14 +1071,16 @@ Z(\Omega) = \{ \phi(x_i, y_j) \}_{i=1,\ldots,m ; j=1,\ldots, n}</annotation></se
 
 <h5 id="3blue1brown---binomial-distributions--probabilities-of-probabilities-part-1">3Blue1Brown - Binomial distributions | Probabilities of probabilities, part 1</h5>
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/8idr1WZ1A7Q" frameborder="0" allowfullscreen=""></iframe>
+<iframe style="width:100%;aspect-ratio:16/9;" src="https://www.youtube.com/embed/8idr1WZ1A7Q" frameborder="0" allowfullscreen=""></iframe>
 
 <h3 id="bài-7-phân-bố-poisson-tr-66">Bài 7: Phân bố Poisson (tr. 66)<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#bài-7-phân-bố-poisson-tr-66')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
 
 <h5 id="the-organic-chemistry-tutor---introduction-to-poisson-distribution---probability--statistics">The Organic Chemistry Tutor - Introduction to Poisson Distribution - Probability &amp; Statistics</h5>
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/m0o-585xwW0" frameborder="0" allowfullscreen=""></iframe>
+<iframe style="width:100%;aspect-ratio:16/9;" src="https://www.youtube.com/embed/m0o-585xwW0" frameborder="0" allowfullscreen=""></iframe>
 
+                        
+                        
                     </article>
                 </div>
                 <div class="end-horizontal-divider-line"></div>
@@ -1210,6 +1207,19 @@ Z(\Omega) = \{ \phi(x_i, y_j) \}_{i=1,\ldots,m ; j=1,\ldots, n}</annotation></se
     </div>
 </div>
     <script src="/assets/js/pages-js/post-script.js"></script>
+    <script>
+        (function() {
+            'use strict';
+            window.addEventListener('load', () => {
+                const target = document.querySelector('div.post-content');
+                if (target) {
+                    target.style.outline = 'none';
+                    target.setAttribute('tabindex', '-1');
+                    target.focus();
+                }
+            });
+        })();
+    </script>
     <div class="scroll-button-container">
         <button id="scrollButton" onclick="scrollToTop()">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="50" height="50"

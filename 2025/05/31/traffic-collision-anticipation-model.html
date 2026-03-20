@@ -32,7 +32,7 @@
     <meta property="og:title" content="Traffic Collision Anticipation with Continuous Sliding Window Risk Prediction">
     <meta property="og:description" content="Complementary post for Project - Program: Computer Vision MAT3562E">
     <meta property="og:url" content="https://yuk068.github.io//2025/05/31/traffic-collision-anticipation-model">
-    <meta property="og:image" content="https://yuk068.github.io//assets/thumbnail/effnetb0farnetcn.webp">
+    <meta property="og:image" content="https://yuk068.github.io//assets/thumbnail/2025/q2-2025/effnetb0farnetcn.webp">
     <meta property="og:site_name" content="Yuk's Blog">
     <meta property="og:locale" content="en_US">
     <meta property="article:published_time" content="2025-05-31T00:00:00+07:00">
@@ -45,35 +45,30 @@
     <meta name="twitter:creator" content="@Yukano_50">
     <meta name="twitter:title" content="Traffic Collision Anticipation with Continuous Sliding Window Risk Prediction">
     <meta name="twitter:description" content="Complementary post for Project - Program: Computer Vision MAT3562E">
-    <meta name="twitter:image" content="https://yuk068.github.io//assets/thumbnail/effnetb0farnetcn.webp">
+    <meta name="twitter:image" content="https://yuk068.github.io//assets/thumbnail/2025/q2-2025/effnetb0farnetcn.webp">
 
     <link rel="stylesheet" href="/assets/css/pages-css/post-styles.css">
 
-    <!-- NOTE: KaTeX is the preferred engine going forward. MathJax is kept as the legacy
-         fallback (default) for older posts. For any future conflicts, prioritize KaTeX. -->
-    
-    
-    <!-- KaTeX Stylesheet -->
+    <!-- Always use KaTeX for math rendering -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 
-    <!-- KaTeX Scripts -->
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"></script>
 
-    <!-- KaTeX Auto-render Initialization -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            renderMathInElement(document.body, {
-                delimiters: [
-                    { left: "$$", right: "$$", display: true },
-                    { left: "$", right: "$", display: false },
-                    { left: "\\(", right: "\\)", display: false },
-                    { left: "\\[", right: "\\]", display: true }
-                ]
-            });
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: "$$", right: "$$", display: true },
+                        { left: "$", right: "$", display: false },
+                        { left: "\\(", right: "\\)", display: false },
+                        { left: "\\[", right: "\\]", display: true }
+                    ]
+                });
+            }
         });
     </script>
-    
 
     
     
@@ -730,17 +725,17 @@
   <li><strong>M2 (Method 2)</strong>: Global semantic approach, instead of focusing on subjects like M1, we take in everything, or less elegantly, just chuck it into the usual pretrained CNN lol. So yeah thats basically the gist of this approach, much more straightforward and conventional, definitely in the realm of “blackbox”, but worth trying nevertheless.</li>
 </ul>
 
-<p><img loading="lazy" src="/assets/images/projects/cvcourseproj/m1.webp" alt="m1viz" /></p>
+<p><img loading="lazy" src="/assets/images/2025/q2-2025/projects/cvcourseproj/m1.webp" alt="m1viz" /></p>
 
 <div class="media-description">Visualizing method 1</div>
 
-<p><img loading="lazy" src="/assets/images/projects/cvcourseproj/m2.webp" alt="m2viz" /></p>
+<p><img loading="lazy" src="/assets/images/2025/q2-2025/projects/cvcourseproj/m2.webp" alt="m2viz" /></p>
 
 <div class="media-description">Visualizing method 2</div>
 
 <p>Long story short, exploring the M2 approach, I eventually crafted the model below:</p>
 
-<p><img loading="lazy" src="/assets/images/projects/cvcourseproj/m2model.webp" alt="m2model" /></p>
+<p><img loading="lazy" src="/assets/images/2025/q2-2025/projects/cvcourseproj/m2model.webp" alt="m2model" /></p>
 
 <div class="media-description">Full pipeline of the proposed "M2 Model"</div>
 
@@ -963,7 +958,7 @@ I_2(\mathbf{x}) \approx \mathbf{x} A_2 \mathbf{x}^\top + b_2^\top \mathbf{x} + c
 
 <p>Repeat this until some arbitrary $ L_k $ layer, if the factor was instead some arbitrary $ z $ where the size of the two frames are now $ W/z^k \times H/z^k \times 1 $.</p>
 
-<p><img loading="lazy" src="/assets/images/projects/cvcourseproj/pyramid.webp" alt="pyramid" /></p>
+<p><img loading="lazy" src="/assets/images/2025/q2-2025/projects/cvcourseproj/pyramid.webp" alt="pyramid" /></p>
 
 <div class="media-description">Visualization of "the pyramid"</div>
 
@@ -1013,7 +1008,7 @@ I_2(\mathbf{x}) \approx \mathbf{x} A_2 \mathbf{x}^\top + b_2^\top \mathbf{x} + c
 
 <p>At this point the deadline was closing in so I just trained and it was actually kinda fine, definitely not up to my standard for a task so high-stake, but presentable for the finals at least.</p>
 
-<p><img loading="lazy" src="/assets/thumbnail/effnetb0farnetcn.webp" alt="livepredprogram" /></p>
+<p><img loading="lazy" src="/assets/thumbnail/2025/q2-2025/effnetb0farnetcn.webp" alt="livepredprogram" /></p>
 
 <div class="media-description">Live prediction program using the M2 Model</div>
 
@@ -1031,6 +1026,8 @@ I_2(\mathbf{x}) \approx \mathbf{x} A_2 \mathbf{x}^\top + b_2^\top \mathbf{x} + c
 
 <p>Thanks for reading through this, Ive just been trying to finish these up in like less than a day, so its sloppy I know, but, i do feel good that I still did it, until next time.</p>
 
+                        
+                        
                     </article>
                 </div>
                 <div class="end-horizontal-divider-line"></div>
@@ -1157,6 +1154,19 @@ I_2(\mathbf{x}) \approx \mathbf{x} A_2 \mathbf{x}^\top + b_2^\top \mathbf{x} + c
     </div>
 </div>
     <script src="/assets/js/pages-js/post-script.js"></script>
+    <script>
+        (function() {
+            'use strict';
+            window.addEventListener('load', () => {
+                const target = document.querySelector('div.post-content');
+                if (target) {
+                    target.style.outline = 'none';
+                    target.setAttribute('tabindex', '-1');
+                    target.focus();
+                }
+            });
+        })();
+    </script>
     <div class="scroll-button-container">
         <button id="scrollButton" onclick="scrollToTop()">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="50" height="50"

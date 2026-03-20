@@ -49,13 +49,26 @@
 
     <link rel="stylesheet" href="/assets/css/pages-css/post-styles.css">
 
-    <!-- NOTE: KaTeX is the preferred engine going forward. MathJax is kept as the legacy
-         fallback (default) for older posts. For any future conflicts, prioritize KaTeX. -->
-    
-    
-    <!-- Default to MathJax -->
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    
+    <!-- Always use KaTeX for math rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: "$$", right: "$$", display: true },
+                        { left: "$", right: "$", display: false },
+                        { left: "\\(", right: "\\)", display: false },
+                        { left: "\\[", right: "\\]", display: true }
+                    ]
+                });
+            }
+        });
+    </script>
 
     
     
@@ -738,7 +751,7 @@
 
 <p>So those are all the core ingredients that minimax takes into account, then it iterate through every single move, or in Tic Tac Toe’s case, every empty square and make the hypothetical appropriate move, you can see how with a high enough depth, it will traverse the <em>“Game tree”</em> to retrieve the outcome of every conceivable branches, it then take those results, compare each other and return the absolute best score for the player thats trying to maximize or minimize the evaluation. Further more, because how this logic is looking the best move for 1 player, thanks to recursive, it also assumes that the opponent will also play the best move, which will result it in returning the most sensible and logically accurate move possible with the right depth.</p>
 
-<p><img loading="lazy" src="/assets/thumbnail/my-first-bot-tic-tac-toe-part-ii.webp" alt="TicTacToe Evaluation" /></p>
+<p><img loading="lazy" src="/assets/thumbnail/2024/q3-2024/my-first-bot-tic-tac-toe-part-i.webp" alt="TicTacToe Evaluation" /></p>
 
 <div class="media-description">An example of how demanding this algorithm can get</div>
 
@@ -799,6 +812,8 @@
 <p>So all in all… Making a bot is hella hard. This particular bot is the more basic and traditional approach. Nowadays there are stuff like machine learning, AI,… that are more inclined to these type of systems. Nevertheless, this is still my first ever functional bot, when it finally worked I was so damn happy, I jumped out of my chair and my heart was racing. I don’t think I will stop making more bots for more games like these, I just live for it right now. For this particular Tic Tac Toe game… I do plan to expand it to Caro Game or Gomoku, which is just a larger Tic Tac Toe board with some additional rules that make them less casual than Tic Tac Toe. At that point, making a bot for those kind of games is going to be much more challenging… I accept the challenge.</p>
 
 
+                        
+                        
                     </article>
                 </div>
                 <div class="end-horizontal-divider-line"></div>
@@ -925,6 +940,19 @@
     </div>
 </div>
     <script src="/assets/js/pages-js/post-script.js"></script>
+    <script>
+        (function() {
+            'use strict';
+            window.addEventListener('load', () => {
+                const target = document.querySelector('div.post-content');
+                if (target) {
+                    target.style.outline = 'none';
+                    target.setAttribute('tabindex', '-1');
+                    target.focus();
+                }
+            });
+        })();
+    </script>
     <div class="scroll-button-container">
         <button id="scrollButton" onclick="scrollToTop()">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="50" height="50"

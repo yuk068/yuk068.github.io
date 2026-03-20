@@ -49,13 +49,26 @@
 
     <link rel="stylesheet" href="/assets/css/pages-css/post-styles.css">
 
-    <!-- NOTE: KaTeX is the preferred engine going forward. MathJax is kept as the legacy
-         fallback (default) for older posts. For any future conflicts, prioritize KaTeX. -->
-    
-    
-    <!-- Default to MathJax -->
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    
+    <!-- Always use KaTeX for math rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: "$$", right: "$$", display: true },
+                        { left: "$", right: "$", display: false },
+                        { left: "\\(", right: "\\)", display: false },
+                        { left: "\\[", right: "\\]", display: true }
+                    ]
+                });
+            }
+        });
+    </script>
 
     
     
@@ -694,7 +707,7 @@
 
 <p>Moreover, there are also methods like checkWin(), which just return the constants PLAYER_X_WON, PLAYER_O_WON, DRAW or GAME_ONGOING depending on the state of the game. And another method called isGameOver(), which returns whether checkWin() returns a value different other than GAME_ONGOING or not. And that’s basically all we need for a functional Tic Tac Toe game. I also added the printBoard() method at the early stage of the project to be able to play the game in the terminal by inputting the coordinates and have the board printed to the standard output, this is an example of how that works:</p>
 
-<p><img loading="lazy" src="/assets/images/tictactoe/tictactoe-terminal-gamepaly.webp" alt="TicTacToe Gameplay" /></p>
+<p><img loading="lazy" src="/assets/images/2024/q2-2024/tictactoe/tictactoe-terminal-gamepaly.webp" alt="TicTacToe Gameplay" /></p>
 
 <div class="media-description">Remember that O is just -1 and X is 1, while an empty square is 0</div>
 
@@ -820,7 +833,7 @@
 
 <p>You might also recognize how I kept the GUI implementation flexible, this is for if I ever want to expand to Caro Game (which I will) then everything will still work perfectly as intended and I will not have to make drastic changes to the GUI class.</p>
 
-<p><img loading="lazy" src="/assets/thumbnail/my-first-bot-tic-tac-toe-part-i.webp" alt="TicTacToe Gameplay" /></p>
+<p><img loading="lazy" src="/assets/thumbnail/2024/q3-2024/my-first-bot-tic-tac-toe-part-i.webp" alt="TicTacToe Gameplay" /></p>
 
 <div class="media-description">Final product of "Tic Tac Toe"</div>
 
@@ -829,6 +842,8 @@
 <p>And thats about it! A Tic Tac Toe game made in Java with Swing, this is only the part I of this post where I cover the process of making and implementing the game itself. The second part of this post will be released shortly where I cover the process of making the Tic Tac Toe bot. Thank you so much for reading and stay tuned for part II!</p>
 
 
+                        
+                        
                     </article>
                 </div>
                 <div class="end-horizontal-divider-line"></div>
@@ -955,6 +970,19 @@
     </div>
 </div>
     <script src="/assets/js/pages-js/post-script.js"></script>
+    <script>
+        (function() {
+            'use strict';
+            window.addEventListener('load', () => {
+                const target = document.querySelector('div.post-content');
+                if (target) {
+                    target.style.outline = 'none';
+                    target.setAttribute('tabindex', '-1');
+                    target.focus();
+                }
+            });
+        })();
+    </script>
     <div class="scroll-button-container">
         <button id="scrollButton" onclick="scrollToTop()">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="50" height="50"

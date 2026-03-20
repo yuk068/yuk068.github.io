@@ -32,7 +32,7 @@
     <meta property="og:title" content="CNN Technical Breakdown: EfficientNetB0">
     <meta property="og:description" content="Technical details of EfficientNetB0 in EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks (Tan &amp; Le., 2019)">
     <meta property="og:url" content="https://yuk068.github.io//2025/05/25/efficientnet-overview">
-    <meta property="og:image" content="https://yuk068.github.io//assets/thumbnail/efficientnetcomparison.webp">
+    <meta property="og:image" content="https://yuk068.github.io//assets/thumbnail/2025/q2-2025/efficientnetcomparison.webp">
     <meta property="og:site_name" content="Yuk's Blog">
     <meta property="og:locale" content="en_US">
     <meta property="article:published_time" content="2025-05-25T00:00:00+07:00">
@@ -45,35 +45,30 @@
     <meta name="twitter:creator" content="@Yukano_50">
     <meta name="twitter:title" content="CNN Technical Breakdown: EfficientNetB0">
     <meta name="twitter:description" content="Technical details of EfficientNetB0 in EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks (Tan &amp; Le., 2019)">
-    <meta name="twitter:image" content="https://yuk068.github.io//assets/thumbnail/efficientnetcomparison.webp">
+    <meta name="twitter:image" content="https://yuk068.github.io//assets/thumbnail/2025/q2-2025/efficientnetcomparison.webp">
 
     <link rel="stylesheet" href="/assets/css/pages-css/post-styles.css">
 
-    <!-- NOTE: KaTeX is the preferred engine going forward. MathJax is kept as the legacy
-         fallback (default) for older posts. For any future conflicts, prioritize KaTeX. -->
-    
-    
-    <!-- KaTeX Stylesheet -->
+    <!-- Always use KaTeX for math rendering -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 
-    <!-- KaTeX Scripts -->
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"></script>
 
-    <!-- KaTeX Auto-render Initialization -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            renderMathInElement(document.body, {
-                delimiters: [
-                    { left: "$$", right: "$$", display: true },
-                    { left: "$", right: "$", display: false },
-                    { left: "\\(", right: "\\)", display: false },
-                    { left: "\\[", right: "\\]", display: true }
-                ]
-            });
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: "$$", right: "$$", display: true },
+                        { left: "$", right: "$", display: false },
+                        { left: "\\(", right: "\\)", display: false },
+                        { left: "\\[", right: "\\]", display: true }
+                    ]
+                });
+            }
         });
     </script>
-    
 
     
     
@@ -682,7 +677,7 @@
 
 <p><strong>EfficientNet</strong> is a family of Convolutional Neural Network (CNN) that were introduced in <a href="https://arxiv.org/abs/1905.11946" target="_blank">EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks - Tan &amp; Le 2019</a>. Their paper focus on their <strong>novel scaling method</strong>, which scales all 3 conventional dimension of a CNN: depth, width, and resolution. With this scaling method, their already powerful baseline <strong>EfficientNetB0</strong> that <strong>achieves ~75% top-1 accuracy on ImageNet</strong> with less than 5M parameters, scaled to <strong>EfficientNetB7</strong> which achieved <strong>state-of-the-art performance</strong> (SOTA) on multiple public datasets.</p>
 
-<p><img loading="lazy" src="/assets/thumbnail/efficientnetcomparison.webp" alt="efficientnetcomparison" /></p>
+<p><img loading="lazy" src="/assets/thumbnail/2025/q2-2025/efficientnetcomparison.webp" alt="efficientnetcomparison" /></p>
 
 <div class="media-description">Comparison of EfficientNet to prominent CNNs (Tan &amp; Le., 2019)</div>
 
@@ -2906,6 +2901,8 @@
 <span class="p">)</span>
 </code></pre><span class="language-label">Python</span><button class="copy-button"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
 
+                        
+                        
                     </article>
                 </div>
                 <div class="end-horizontal-divider-line"></div>
@@ -3032,6 +3029,19 @@
     </div>
 </div>
     <script src="/assets/js/pages-js/post-script.js"></script>
+    <script>
+        (function() {
+            'use strict';
+            window.addEventListener('load', () => {
+                const target = document.querySelector('div.post-content');
+                if (target) {
+                    target.style.outline = 'none';
+                    target.setAttribute('tabindex', '-1');
+                    target.focus();
+                }
+            });
+        })();
+    </script>
     <div class="scroll-button-container">
         <button id="scrollButton" onclick="scrollToTop()">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="50" height="50"

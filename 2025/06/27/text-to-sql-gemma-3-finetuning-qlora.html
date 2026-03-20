@@ -32,7 +32,7 @@
     <meta property="og:title" content="Text-to-SQL SLM: Finetuning Gemma 3 with QLoRA">
     <meta property="og:description" content="Complementary post for Project - Program: Text-to-SQL SLM (Small Language Model)">
     <meta property="og:url" content="https://yuk068.github.io//2025/06/27/text-to-sql-gemma-3-finetuning-qlora">
-    <meta property="og:image" content="https://yuk068.github.io//assets/thumbnail/texttosqlgemma.webp">
+    <meta property="og:image" content="https://yuk068.github.io//assets/thumbnail/2025/q2-2025/texttosqlgemma.webp">
     <meta property="og:site_name" content="Yuk's Blog">
     <meta property="og:locale" content="en_US">
     <meta property="article:published_time" content="2025-06-27T00:00:00+07:00">
@@ -45,17 +45,30 @@
     <meta name="twitter:creator" content="@Yukano_50">
     <meta name="twitter:title" content="Text-to-SQL SLM: Finetuning Gemma 3 with QLoRA">
     <meta name="twitter:description" content="Complementary post for Project - Program: Text-to-SQL SLM (Small Language Model)">
-    <meta name="twitter:image" content="https://yuk068.github.io//assets/thumbnail/texttosqlgemma.webp">
+    <meta name="twitter:image" content="https://yuk068.github.io//assets/thumbnail/2025/q2-2025/texttosqlgemma.webp">
 
     <link rel="stylesheet" href="/assets/css/pages-css/post-styles.css">
 
-    <!-- NOTE: KaTeX is the preferred engine going forward. MathJax is kept as the legacy
-         fallback (default) for older posts. For any future conflicts, prioritize KaTeX. -->
-    
-    
-    <!-- Default to MathJax -->
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    
+    <!-- Always use KaTeX for math rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: "$$", right: "$$", display: true },
+                        { left: "$", right: "$", display: false },
+                        { left: "\\(", right: "\\)", display: false },
+                        { left: "\\[", right: "\\]", display: true }
+                    ]
+                });
+            }
+        });
+    </script>
 
     
     
@@ -844,7 +857,7 @@
 
 <p>Gemma 3 is a recent State-of-the-art (SOTA) open-source family of models from Google. You can checkout this model from a plethora of sources already. I picked this model mostly because I expect to be working with them more in the future, they are quite decent.</p>
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/FagNt06rSBk" frameborder="0" allowfullscreen=""></iframe>
+<iframe style="width:100%;aspect-ratio:16/9;" src="https://www.youtube.com/embed/FagNt06rSBk" frameborder="0" allowfullscreen=""></iframe>
 
 <p>In this project, I chose the 1 billion parameter <a href="https://huggingface.co/google/gemma-3-1b-it" target="_blank">google/gemma-3-1b-it</a>, there was already plenty of resources on finetuining this particular model.</p>
 
@@ -860,9 +873,9 @@
 
 <p>Also, I highly recommend these videos for QLoRA:</p>
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/XpoKB3usmKc" frameborder="0" allowfullscreen=""></iframe>
+<iframe style="width:100%;aspect-ratio:16/9;" src="https://www.youtube.com/embed/XpoKB3usmKc" frameborder="0" allowfullscreen=""></iframe>
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/t1caDsMzWBk" frameborder="0" allowfullscreen=""></iframe>
+<iframe style="width:100%;aspect-ratio:16/9;" src="https://www.youtube.com/embed/t1caDsMzWBk" frameborder="0" allowfullscreen=""></iframe>
 
 <p>So, lets go over a few primers:</p>
 
@@ -1046,7 +1059,7 @@
 
 <p>Easy place to deploy LLM and AI/ML projects? Hugging Face Spaces. Its a git-based interface so it should be familiar to all partitioners, furthermore they provide generous free hosting, hardware, and accessible UI. Perfect for this kind of project.</p>
 
-<p><img loading="lazy" src="/assets/thumbnail/texttosqlgemma.webp" alt="huggingfacesqltext" /></p>
+<p><img loading="lazy" src="/assets/thumbnail/2025/q2-2025/texttosqlgemma.webp" alt="huggingfacesqltext" /></p>
 
 <div class="media-description">Deployment on a Hugging Face Space</div>
 
@@ -1060,6 +1073,8 @@
 
 <p>But, I had some fun I suppose, one more step towards grasping all thing LLMs, I’m looking forward to try some RLHF (Reinforcement Learning from Human Feedback), so until then, thanks for reading.</p>
 
+                        
+                        
                     </article>
                 </div>
                 <div class="end-horizontal-divider-line"></div>
@@ -1186,6 +1201,19 @@
     </div>
 </div>
     <script src="/assets/js/pages-js/post-script.js"></script>
+    <script>
+        (function() {
+            'use strict';
+            window.addEventListener('load', () => {
+                const target = document.querySelector('div.post-content');
+                if (target) {
+                    target.style.outline = 'none';
+                    target.setAttribute('tabindex', '-1');
+                    target.focus();
+                }
+            });
+        })();
+    </script>
     <div class="scroll-button-container">
         <button id="scrollButton" onclick="scrollToTop()">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="50" height="50"

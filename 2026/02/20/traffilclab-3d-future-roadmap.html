@@ -32,12 +32,12 @@
     <meta property="og:title" content="TrafficLab3D: Digital-twin with just Mp4 and Google Maps">
     <meta property="og:description" content="Complementary post for Project - Program: TrafficLab3D">
     <meta property="og:url" content="https://yuk068.github.io//2026/02/20/traffilclab-3d-future-roadmap">
-    <meta property="og:image" content="https://yuk068.github.io//assets/thumbnail/traflab3d-demo-thumb.webp">
+    <meta property="og:image" content="https://yuk068.github.io//assets/thumbnail/2026/q1-2026/traflab3d-demo-thumb.webp">
     <meta property="og:site_name" content="Yuk's Blog">
     <meta property="og:locale" content="en_US">
     <meta property="article:published_time" content="2026-02-20T00:00:00+07:00">
     <meta property="article:author" content="Yuk">
-    <meta property="article:tag" content="new"><meta property="article:tag" content="project"><meta property="article:tag" content="computer vision"><meta property="article:tag" content="traffic analysis"><meta property="article:tag" content="faq">
+    <meta property="article:tag" content="project"><meta property="article:tag" content="computer vision"><meta property="article:tag" content="traffic analysis"><meta property="article:tag" content="faq">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
@@ -45,17 +45,30 @@
     <meta name="twitter:creator" content="@Yukano_50">
     <meta name="twitter:title" content="TrafficLab3D: Digital-twin with just Mp4 and Google Maps">
     <meta name="twitter:description" content="Complementary post for Project - Program: TrafficLab3D">
-    <meta name="twitter:image" content="https://yuk068.github.io//assets/thumbnail/traflab3d-demo-thumb.webp">
+    <meta name="twitter:image" content="https://yuk068.github.io//assets/thumbnail/2026/q1-2026/traflab3d-demo-thumb.webp">
 
     <link rel="stylesheet" href="/assets/css/pages-css/post-styles.css">
 
-    <!-- NOTE: KaTeX is the preferred engine going forward. MathJax is kept as the legacy
-         fallback (default) for older posts. For any future conflicts, prioritize KaTeX. -->
-    
-    
-    <!-- Default to MathJax -->
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    
+    <!-- Always use KaTeX for math rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: "$$", right: "$$", display: true },
+                        { left: "$", right: "$", display: false },
+                        { left: "\\(", right: "\\)", display: false },
+                        { left: "\\[", right: "\\]", display: true }
+                    ]
+                });
+            }
+        });
+    </script>
 
     
     
@@ -518,11 +531,6 @@
                         
                         
                         
-                        <span class="tag new-tag">NEW</span>
-                        
-                        
-                        
-                        
                         <span class="tag">#project</span>
                         
                         
@@ -618,7 +626,7 @@
                         </svg>
                         
                         <span class="reading-time">
-                            12
+                            13
                             
                             Min.
                             
@@ -877,8 +885,12 @@
 
 <h2 id="epilogue">Epilogue<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#epilogue')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
 
+<p>Basically, if I had to sum it up, the actual biggest weakness of TL3D right now is that it doesn’t concern uncertainty, that can be projection mismatch, detector and tracker noise, and so on, in order to achieve a high fidelity, physically accurate digital twin, we have to be able to work under uncertainty.</p>
+
 <p>Anyway, thats about it. Thanks for checking out my project, consider giving it a star on Github if it was interesting to you <a href="duy-phamduc68/trafficlab-3d" target="_blank">duy-phamduc68/trafficlab-3d</a>. Tell me what you think in the comments. Until next time :).</p>
 
+                        
+                        
                     </article>
                 </div>
                 <div class="end-horizontal-divider-line"></div>
@@ -1005,6 +1017,19 @@
     </div>
 </div>
     <script src="/assets/js/pages-js/post-script.js"></script>
+    <script>
+        (function() {
+            'use strict';
+            window.addEventListener('load', () => {
+                const target = document.querySelector('div.post-content');
+                if (target) {
+                    target.style.outline = 'none';
+                    target.setAttribute('tabindex', '-1');
+                    target.focus();
+                }
+            });
+        })();
+    </script>
     <div class="scroll-button-container">
         <button id="scrollButton" onclick="scrollToTop()">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="50" height="50"

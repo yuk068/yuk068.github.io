@@ -401,30 +401,27 @@ document.addEventListener('DOMContentLoaded', () => {
             const hasCategory = lowerCaseActiveCategories.size === 0 ||
                 Array.from(lowerCaseActiveCategories).some(category => postCategories.includes(category));
 
-            // Function to remove accents from Vietnamese characters
-            function removeAccents(str) {
-                const map = {
-                    'Ã ': 'a', 'Ã¡': 'a', 'áº£': 'a', 'Ã£': 'a', 'áº¡': 'a', 'Äƒ': 'a', 'áº±': 'a', 'áº¯': 'a', 'áº³': 'a', 'áºµ': 'a', 'áº·': 'a',
-                    'Ã¢': 'a', 'áº§': 'a', 'áº¥': 'a', 'áº©': 'a', 'áº«': 'a', 'áº­': 'a', 'Ã¨': 'e', 'Ã©': 'e', 'áº»': 'e', 'áº½': 'e', 'áº¹': 'e',
-                    'Ãª': 'e', 'á»': 'e', 'áº¿': 'e', 'á»ƒ': 'e', 'á»…': 'e', 'á»‡': 'e', 'Ã¬': 'i', 'Ã­': 'i', 'á»‰': 'i', 'Ä©': 'i', 'á»‹': 'i',
-                    'Ã²': 'o', 'Ã³': 'o', 'á»': 'o', 'Ãµ': 'o', 'á»': 'o', 'Ã´': 'o', 'á»“': 'o', 'á»‘': 'o', 'á»•': 'o', 'á»—': 'o', 'á»™': 'o',
-                    'Æ¡': 'o', 'á»': 'o', 'á»›': 'o', 'á»Ÿ': 'o', 'á»¡': 'o', 'á»£': 'o', 'Ã¹': 'u', 'Ãº': 'u', 'á»§': 'u', 'Å©': 'u', 'á»¥': 'u',
-                    'Æ°': 'u', 'á»«': 'u', 'á»©': 'u', 'á»­': 'u', 'á»¯': 'u', 'á»±': 'u', 'á»³': 'y', 'Ã½': 'y', 'á»·': 'y', 'á»¹': 'y', 'á»µ': 'y',
-                    'Ä‘': 'd', 'áº ': 'A', 'áº¢': 'A', 'áº®': 'A', 'áº°': 'A', 'áº´': 'A', 'áº¢': 'A', 'Ã': 'A', 'ÃŠ': 'E', 'Ã”': 'O', 'Æ ': 'O',
-                    'Æ¯': 'U', 'Ä': 'D'
-                };
-                return str.replace(/[\u00C0-\u1EF9]/g, match => map[match] || match).toLowerCase();
+            function normalizeSearchText(str) {
+                return str
+                    .normalize('NFD')
+                    .replace(/[\u0300-\u036f]/g, '')
+                    .replace(/đ/g, 'd')
+                    .replace(/Đ/g, 'D')
+                    .toLowerCase()
+                    .trim();
             }
 
-            const normalizedSearchText = removeAccents(searchText.toLowerCase());
-            const normalizedPostTitle = removeAccents(postTitle.toLowerCase());
-            const normalizedPostExcerpt = removeAccents(postExcerpt.toLowerCase());
-            const normalizedPostTags = postTags.map(tag => removeAccents(tag.toLowerCase()));
+            const normalizedSearchText = normalizeSearchText(searchText);
+            const searchTerms = normalizedSearchText.split(/\s+/).filter(Boolean);
 
-            const matchesSearch = normalizedSearchText === '' ||
-                normalizedPostTitle.includes(normalizedSearchText) ||
-                normalizedPostExcerpt.includes(normalizedSearchText) ||
-                normalizedPostTags.some(tag => tag.includes(normalizedSearchText));
+            const searchableContent = [
+                normalizeSearchText(postTitle),
+                normalizeSearchText(postExcerpt),
+                ...postTags.map(tag => normalizeSearchText(tag))
+            ].join(' ');
+
+            const matchesSearch = searchTerms.length === 0 ||
+                searchTerms.every(term => searchableContent.includes(term));
 
 
             return hasAllTags && hasCategory && matchesSearch;

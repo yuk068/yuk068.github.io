@@ -32,7 +32,7 @@
     <meta property="og:title" content="Nexar Dashcam Crash Prediction Challenge - Overview and Baseline Notebook">
     <meta property="og:description" content="Overview of the Nexar Dashcam Crash Prediction Challenge on Kaggle. Brief review of the baseline notebook">
     <meta property="og:url" content="https://yuk068.github.io//2025/05/14/nexar-dashcam-collision-competition-overview">
-    <meta property="og:image" content="https://yuk068.github.io//assets/thumbnail/nexarbaseline.webp">
+    <meta property="og:image" content="https://yuk068.github.io//assets/thumbnail/2025/q2-2025/nexarbaseline.webp">
     <meta property="og:site_name" content="Yuk's Blog">
     <meta property="og:locale" content="en_US">
     <meta property="article:published_time" content="2025-05-14T00:00:00+07:00">
@@ -45,35 +45,30 @@
     <meta name="twitter:creator" content="@Yukano_50">
     <meta name="twitter:title" content="Nexar Dashcam Crash Prediction Challenge - Overview and Baseline Notebook">
     <meta name="twitter:description" content="Overview of the Nexar Dashcam Crash Prediction Challenge on Kaggle. Brief review of the baseline notebook">
-    <meta name="twitter:image" content="https://yuk068.github.io//assets/thumbnail/nexarbaseline.webp">
+    <meta name="twitter:image" content="https://yuk068.github.io//assets/thumbnail/2025/q2-2025/nexarbaseline.webp">
 
     <link rel="stylesheet" href="/assets/css/pages-css/post-styles.css">
 
-    <!-- NOTE: KaTeX is the preferred engine going forward. MathJax is kept as the legacy
-         fallback (default) for older posts. For any future conflicts, prioritize KaTeX. -->
-    
-    
-    <!-- KaTeX Stylesheet -->
+    <!-- Always use KaTeX for math rendering -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 
-    <!-- KaTeX Scripts -->
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"></script>
 
-    <!-- KaTeX Auto-render Initialization -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            renderMathInElement(document.body, {
-                delimiters: [
-                    { left: "$$", right: "$$", display: true },
-                    { left: "$", right: "$", display: false },
-                    { left: "\\(", right: "\\)", display: false },
-                    { left: "\\[", right: "\\]", display: true }
-                ]
-            });
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: "$$", right: "$$", display: true },
+                        { left: "$", right: "$", display: false },
+                        { left: "\\(", right: "\\)", display: false },
+                        { left: "\\[", right: "\\]", display: true }
+                    ]
+                });
+            }
         });
     </script>
-    
 
     
     
@@ -1030,6 +1025,8 @@
 
 <p>The notebook provides a solid baseline as inspiration to solve the <strong>TTC estimation</strong> task (time-to-collision estimation), opening up many ways to improve upon.</p>
 
+                        
+                        
                     </article>
                 </div>
                 <div class="end-horizontal-divider-line"></div>
@@ -1156,6 +1153,19 @@
     </div>
 </div>
     <script src="/assets/js/pages-js/post-script.js"></script>
+    <script>
+        (function() {
+            'use strict';
+            window.addEventListener('load', () => {
+                const target = document.querySelector('div.post-content');
+                if (target) {
+                    target.style.outline = 'none';
+                    target.setAttribute('tabindex', '-1');
+                    target.focus();
+                }
+            });
+        })();
+    </script>
     <div class="scroll-button-container">
         <button id="scrollButton" onclick="scrollToTop()">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="50" height="50"

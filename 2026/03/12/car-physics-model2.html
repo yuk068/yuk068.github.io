@@ -32,7 +32,7 @@
     <meta property="og:title" content="Car Physics - Model 2: Load Transfer Without Traction Limits">
     <meta property="og:description" content="Implementing and Comprehending Marco Monster’s Car Physics model - Part 2">
     <meta property="og:url" content="https://yuk068.github.io//2026/03/12/car-physics-model2">
-    <meta property="og:image" content="https://yuk068.github.io//assets/thumbnail/car-physics-model2-thumbnail.webp">
+    <meta property="og:image" content="https://yuk068.github.io//assets/thumbnail/2026/q1-2026/car-physics-model2-thumbnail.webp">
     <meta property="og:site_name" content="Yuk's Blog">
     <meta property="og:locale" content="en_US">
     <meta property="article:published_time" content="2026-03-12T00:00:00+07:00">
@@ -45,35 +45,30 @@
     <meta name="twitter:creator" content="@Yukano_50">
     <meta name="twitter:title" content="Car Physics - Model 2: Load Transfer Without Traction Limits">
     <meta name="twitter:description" content="Implementing and Comprehending Marco Monster’s Car Physics model - Part 2">
-    <meta name="twitter:image" content="https://yuk068.github.io//assets/thumbnail/car-physics-model2-thumbnail.webp">
+    <meta name="twitter:image" content="https://yuk068.github.io//assets/thumbnail/2026/q1-2026/car-physics-model2-thumbnail.webp">
 
     <link rel="stylesheet" href="/assets/css/pages-css/post-styles.css">
 
-    <!-- NOTE: KaTeX is the preferred engine going forward. MathJax is kept as the legacy
-         fallback (default) for older posts. For any future conflicts, prioritize KaTeX. -->
-    
-    
-    <!-- KaTeX Stylesheet -->
+    <!-- Always use KaTeX for math rendering -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 
-    <!-- KaTeX Scripts -->
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"></script>
 
-    <!-- KaTeX Auto-render Initialization -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            renderMathInElement(document.body, {
-                delimiters: [
-                    { left: "$$", right: "$$", display: true },
-                    { left: "$", right: "$", display: false },
-                    { left: "\\(", right: "\\)", display: false },
-                    { left: "\\[", right: "\\]", display: true }
-                ]
-            });
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: "$$", right: "$$", display: true },
+                        { left: "$", right: "$", display: false },
+                        { left: "\\(", right: "\\)", display: false },
+                        { left: "\\[", right: "\\]", display: true }
+                    ]
+                });
+            }
         });
     </script>
-    
 
     
     
@@ -767,11 +762,11 @@
 
 <p>Basically, if model 1 says that the car is a single point-mass, demonstrated in simulator 1 by ticking “True Form” here:</p>
 
-<p><img loading="lazy" src="/assets/images/q1-2026/car-physics/model2/pointmass.webp" alt="pointmass simulator 1" /></p>
+<p><img loading="lazy" src="/assets/images/2026/q1-2026/car-physics/model2/pointmass.webp" alt="pointmass simulator 1" /></p>
 
 <p>Then in model 2, the point mass is now assumed to sit inside a rigid body with two axles, allowing us to compute how the weight shifts between the front and rear wheels.</p>
 
-<p><img loading="lazy" src="/assets/images/q1-2026/car-physics/model2/rigidbody.webp" alt="rigidbody example" /></p>
+<p><img loading="lazy" src="/assets/images/2026/q1-2026/car-physics/model2/rigidbody.webp" alt="rigidbody example" /></p>
 
 <p>However, these weight shifts WON’T affect motion yet until model 3, which is why our master ODE will remain the same:</p>
 
@@ -847,7 +842,7 @@ c = distance from CG → rear axle
 <div class="language-markdown highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div></div><pre class="highlight"><code>h = CG height above ground
 </code></pre><span class="language-label">Markdown</span><button class="copy-button"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
 
-<p><img loading="lazy" src="/assets/images/q1-2026/car-physics/model2/macromonster_model2.webp" alt="macro monster model 2" /></p>
+<p><img loading="lazy" src="/assets/images/2026/q1-2026/car-physics/model2/macromonster_model2.webp" alt="macro monster model 2" /></p>
 
 <div class="media-description"><a href="https://www.asawicki.info/Mirror/Car%20Physics%20for%20Games/Car%20Physics%20for%20Games.html" target="_blank" rel="noopener noreferrer">Macro Monster, 2003</a></div>
 
@@ -1528,11 +1523,11 @@ We simply compute additional values after acceleration is known.</p>
 
 <p>Simulator 2 with Load Transfer, new sprite, sky at dusk:</p>
 
-<p><img loading="lazy" src="/assets/images/q1-2026/car-physics/model2/simulator2sprite.webp" alt="sim2" /></p>
+<p><img loading="lazy" src="/assets/images/2026/q1-2026/car-physics/model2/simulator2sprite.webp" alt="sim2" /></p>
 
 <p>True form:</p>
 
-<p><img loading="lazy" src="/assets/images/q1-2026/car-physics/model2/simulator2trueform.webp" alt="sim2 true form" /></p>
+<p><img loading="lazy" src="/assets/images/2026/q1-2026/car-physics/model2/simulator2trueform.webp" alt="sim2 true form" /></p>
 
 <hr />
 
@@ -1572,6 +1567,8 @@ We simply compute additional values after acceleration is known.</p>
 
 <p>And that is where things start to behave like a real car. With that being said, within the <strong>Main Github repo: <a href="https://github.com/duy-phamduc68/Car-Physics" target="_blank">duy-phamduc68/Car-Physics</a></strong>, the entry for simulator 2 will be very similar to simulator 1, so I don’t plan to give it much highlights, the real deal will be in <strong><a href="/2026/03/15/car-physics-model3">Model 3: Engine Torque + Gearing without Slip (1D)</a></strong>, so stay tuned for that :).</p>
 
+                        
+                        
                     </article>
                 </div>
                 <div class="end-horizontal-divider-line"></div>
@@ -1698,6 +1695,19 @@ We simply compute additional values after acceleration is known.</p>
     </div>
 </div>
     <script src="/assets/js/pages-js/post-script.js"></script>
+    <script>
+        (function() {
+            'use strict';
+            window.addEventListener('load', () => {
+                const target = document.querySelector('div.post-content');
+                if (target) {
+                    target.style.outline = 'none';
+                    target.setAttribute('tabindex', '-1');
+                    target.focus();
+                }
+            });
+        })();
+    </script>
     <div class="scroll-button-container">
         <button id="scrollButton" onclick="scrollToTop()">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="50" height="50"

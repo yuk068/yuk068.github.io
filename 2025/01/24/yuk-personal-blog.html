@@ -32,7 +32,7 @@
     <meta property="og:title" content="Yuk&#39;s Blog: 2024-2025 Retrospective">
     <meta property="og:description" content="Complementary post for Project - Website: Yuk&#39;s Personal Blog">
     <meta property="og:url" content="https://yuk068.github.io//2025/01/24/yuk-personal-blog">
-    <meta property="og:image" content="https://yuk068.github.io//assets/thumbnail/yukblog.webp">
+    <meta property="og:image" content="https://yuk068.github.io//assets/thumbnail/2025/q1-2025/yukblog.webp">
     <meta property="og:site_name" content="Yuk's Blog">
     <meta property="og:locale" content="en_US">
     <meta property="article:published_time" content="2025-01-24T00:00:00+07:00">
@@ -45,17 +45,30 @@
     <meta name="twitter:creator" content="@Yukano_50">
     <meta name="twitter:title" content="Yuk&#39;s Blog: 2024-2025 Retrospective">
     <meta name="twitter:description" content="Complementary post for Project - Website: Yuk&#39;s Personal Blog">
-    <meta name="twitter:image" content="https://yuk068.github.io//assets/thumbnail/yukblog.webp">
+    <meta name="twitter:image" content="https://yuk068.github.io//assets/thumbnail/2025/q1-2025/yukblog.webp">
 
     <link rel="stylesheet" href="/assets/css/pages-css/post-styles.css">
 
-    <!-- NOTE: KaTeX is the preferred engine going forward. MathJax is kept as the legacy
-         fallback (default) for older posts. For any future conflicts, prioritize KaTeX. -->
-    
-    
-    <!-- Default to MathJax -->
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    
+    <!-- Always use KaTeX for math rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: "$$", right: "$$", display: true },
+                        { left: "$", right: "$", display: false },
+                        { left: "\\(", right: "\\)", display: false },
+                        { left: "\\[", right: "\\]", display: true }
+                    ]
+                });
+            }
+        });
+    </script>
 
     
     
@@ -718,7 +731,7 @@
 
 <p>Back then I had no experience in any of the stuff I mentioned above in <strong><a href="#21-techstack">2.1. Techstack</a></strong>, so the overall design of the blog was quite primitive, It primarily follow this one column pattern for every page and post, which works fine for posts but was pretty lazy for the other pages, though it being able to adapt to all the different platforms was pretty nice. Overall stuff you see below was pretty much the same as the first version with very little difference:</p>
 
-<p><img loading="lazy" src="\assets\images\projects\new-blog\oldblogpics-old.jpg" alt="pics of old blog" /></p>
+<p><img loading="lazy" src="\assets\images\2025\q1-2025\projects\new-blog\oldblogpics-old.webp" alt="pics of old blog" /></p>
 
 <div class="media-description">Some pics of Yuk's old blog (Up to down and left to right: Home page, Footer, About page, Example post, Archive page, Contact page)</div>
 
@@ -728,7 +741,7 @@
 
 <p>The <strong>Home Page</strong> is the blog’s landing page, with featured posts, socials and navigation to other pages. The 3 nav buttons Archive About and Contact remain unchanged since the original version, mainly because it fits on mobile nicely too. There is also a button that directed to an update log for the blog. Note how I do use a lot of emojis as button labels and so on as these were simple and easy way to include some concise infographic though it does mess with the aesthetic and can sometime be inconsistent with multiple platforms in mind.</p>
 
-<p><img loading="lazy" src="\assets\images\projects\new-blog\updatebutton-old.jpg" alt="update log button" /></p>
+<p><img loading="lazy" src="\assets\images\2025\q1-2025\projects\new-blog\updatebutton-old.webp" alt="update log button" /></p>
 
 <div class="media-description">Blog's update log button</div>
 
@@ -740,7 +753,7 @@
 
 <p>Later there were 2 new buttons, 1 that randomized emojis for absolutely no reason and 1 that hide the thumbnails of post in archive.</p>
 
-<p><img loading="lazy" src="\assets\images\projects\new-blog\archivebuttons-old.jpg" alt="gambling and toggle thumbnail button" /></p>
+<p><img loading="lazy" src="\assets\images\2025\q1-2025\projects\new-blog\archivebuttons-old.webp" alt="gambling and toggle thumbnail button" /></p>
 
 <div class="media-description">Gambling button and toggle thumbnail button</div>
 
@@ -752,7 +765,7 @@
 
 <p>Originally each of the post had a thumbnail tied to it, this was mostly for trying to make the content more engaging especially in the early days when there was not a lot of post. Tags and reading time was added much later.</p>
 
-<p><img loading="lazy" src="\assets\images\projects\new-blog\thumbnail-old.jpg" alt="post card display" /></p>
+<p><img loading="lazy" src="\assets\images\2025\q1-2025\projects\new-blog\thumbnail-old.webp" alt="post card display" /></p>
 
 <div class="media-description">Post card display with thumbnail</div>
 
@@ -760,7 +773,7 @@
 
 <p>You can navigate to the <strong>Home Page</strong> or the <strong>Archive Page</strong>. Here display the title of the post, release date and reading time, if its a thread (basically still a post), the text underneath the title would show <em>“Last updated: (date)”</em> instead.</p>
 
-<p><img loading="lazy" src="\assets\images\projects\new-blog\postheader-old.jpg" alt="old header" /></p>
+<p><img loading="lazy" src="\assets\images\2025\q1-2025\projects\new-blog\postheader-old.webp" alt="old header" /></p>
 
 <div class="media-description">Post's header and navigation</div>
 
@@ -768,7 +781,7 @@
 
 <p>I primarily used blockquotes for displaying <strong>MathJax</strong> math blocks (though they can contain normal content too), this helped a lot with writing technical content and was my first time writing Latex, nowadays I can say that I’m quite familiar with writing math Latex, which is a huge plus because it also helped with my academic stuff too. At first they were just static blocks that display math and can be scrolled horizontally if overflow occurs, later I made them collapsible just to be consistent.</p>
 
-<p><img loading="lazy" src="\assets\images\projects\new-blog\mathblock-old.jpg" alt="blockquote" /></p>
+<p><img loading="lazy" src="\assets\images\2025\q1-2025\projects\new-blog\mathblock-old.webp" alt="blockquote" /></p>
 
 <div class="media-description">Blockquotes (Primarily used for math)</div>
 
@@ -776,7 +789,7 @@
 
 <p>This was what led to the design of the blockquotes in the first place, I built this blog with code in mind first so I had a lot more time tinkering with this stuff. The highlighter used is called <strong>Rouge Highlighter</strong> (to make code colorful). Originally they were also just static block, later I made the collapsible, added a copy button and line numbers.</p>
 
-<p><img loading="lazy" src="\assets\images\projects\new-blog\codeblock-old.jpg" alt="codeblock" /></p>
+<p><img loading="lazy" src="\assets\images\2025\q1-2025\projects\new-blog\codeblock-old.webp" alt="codeblock" /></p>
 
 <div class="media-description">Codeblocks (I can change highlight colors)</div>
 
@@ -784,7 +797,7 @@
 
 <p>Overtime I added a few new features to enhance user experience, first is a button to collapse / expand all codeblocks and blockquotes, later is a light mode which is quite janky given the static nature of the website.</p>
 
-<p><img loading="lazy" src="\assets\images\projects\new-blog\postbuttons-old.jpg" alt="post buttons" /></p>
+<p><img loading="lazy" src="\assets\images\2025\q1-2025\projects\new-blog\postbuttons-old.webp" alt="post buttons" /></p>
 
 <div class="media-description">Theme button and Expand / Collapse all button</div>
 
@@ -818,7 +831,7 @@
 
 <p>Because the techstack remains the same, I want to go deeper into the workflow of this new blog with a diagram:</p>
 
-<p><img loading="lazy" src="\assets\images\projects\new-blog\diagramnewblog.jpg" alt="diagram" /></p>
+<p><img loading="lazy" src="\assets\images\2025\q1-2025\projects\new-blog\diagramnewblog.webp" alt="diagram" /></p>
 
 <div class="media-description">The workflow of this site at a high level</div>
 
@@ -882,6 +895,8 @@
 
 <p>Welp, now that the blog is pretty much finished, I can finally relax for a brief while, and spend time with my family. Once the new semester starts, I will always have a fresh environment that represent me to work and share my progress, sounds nice.</p>
 
+                        
+                        
                     </article>
                 </div>
                 <div class="end-horizontal-divider-line"></div>
@@ -1008,6 +1023,19 @@
     </div>
 </div>
     <script src="/assets/js/pages-js/post-script.js"></script>
+    <script>
+        (function() {
+            'use strict';
+            window.addEventListener('load', () => {
+                const target = document.querySelector('div.post-content');
+                if (target) {
+                    target.style.outline = 'none';
+                    target.setAttribute('tabindex', '-1');
+                    target.focus();
+                }
+            });
+        })();
+    </script>
     <div class="scroll-button-container">
         <button id="scrollButton" onclick="scrollToTop()">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="50" height="50"
