@@ -998,20 +998,30 @@ a {
     position: fixed;
     bottom: 30px;
     right: 40px;
-    transform: translateX(100px);
-    width: 50px;
-    height: 50px;
+    transform: translateX(150px);
+    width: 40px;
+    height: 40px;
     cursor: pointer;
     transition: transform 0.3s ease-in-out;
     max-width: 100%;
     max-height: 100%;
     overflow: hidden;
     z-index: 9999;
-    color: var(--link-color);
+    padding: 7px;
+    border: var(--border-width) solid var(--header-footer-shadeLight);
+    background-color: var(--header-bg-color);
+    border-radius: 50%;
+    transition: all 0.3s ease;
 }
 
 #scrollButton.slide-in {
     transform: translateX(0);
+}
+
+#scrollButton svg {
+    width: 40px;
+    height: 40px;
+    color: var(--link-color);
 }
 
 h1,
@@ -1189,10 +1199,6 @@ h6 {
         height: auto;
     }
 
-    #scrollButton {
-        display: block;
-    }
-
     .archive-search-bar-mobile {
         display: flex;
         position: relative;
@@ -1259,7 +1265,15 @@ h6 {
     }
 
     #scrollButton {
-        display: none;
+        width: 30px;
+        height: 30px;
+        bottom: 25px;
+        right: 30px;
+    }
+
+    #scrollButton svg {
+        width: 30px;
+        height: 30px;
     }
 
     .archive-search-bar-mobile {
@@ -1459,6 +1473,10 @@ h6 {
 @media (hover: hover) {
     #notify-close-btn:hover {
         border-color: var(--neon-aqua-accent, #6bd9fa);
+    }
+
+    #scrollButton:hover {
+        border-color: var(--neon-aqua-accent);
     }
 }
 /* -------------------------------------------------------------------------- */

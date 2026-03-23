@@ -578,6 +578,7 @@ blockquote .language-label {
     left: 15px;
     font-size: 22px;
     color: var(--button-text-color);
+    user-select: none;
 }
 
 blockquote .collapse-button {
@@ -792,7 +793,6 @@ h1 .category-svg svg {
     max-width: 100%;
     widows: 2;
     orphans: 2;
-    text-indent: 0.6em;
 }
 
 .post-content h1 {
@@ -1200,6 +1200,7 @@ blockquote ol {
     left: 15px;
     font-size: 22px;
     color: var(--button-text-color);
+    user-select: none;
 }
 
 table {
@@ -1443,20 +1444,30 @@ h4 .copy-toc svg {
     position: fixed;
     bottom: 30px;
     right: 40px;
-    transform: translateX(100px);
-    width: 50px;
-    height: 50px;
+    transform: translateX(150px);
+    width: 40px;
+    height: 40px;
     cursor: pointer;
     transition: transform 0.3s ease-in-out;
     max-width: 100%;
     max-height: 100%;
     overflow: hidden;
     z-index: 9999;
-    color: var(--link-color);
+    padding: 7px;
+    border: var(--border-width) solid var(--header-footer-shadeLight);
+    background-color: var(--header-bg-color);
+    border-radius: 50%;
+    transition: all 0.3s ease;
 }
 
 #scrollButton.slide-in {
     transform: translateX(0);
+}
+
+#scrollButton svg {
+    width: 40px;
+    height: 40px;
+    color: var(--link-color);
 }
 
 #reading-progress-bar {
@@ -1600,6 +1611,7 @@ header#post-header.transformed {
 }
 
 .options-navigation button,
+.options-navigation a,
 .options-configuration button {
     width: 100%;
     height: 100%;
@@ -1609,7 +1621,8 @@ header#post-header.transformed {
     box-sizing: border-box;
 }
 
-.options-container button {
+.options-container button,
+.options-container a {
     all: unset;
     display: flex;
     align-items: center;
@@ -1669,22 +1682,6 @@ h6 {
     text-decoration: underline;
 }
 
-.mermaid {
-    margin: 30px 0 20px 0;
-    display: flex;
-    justify-items: center;
-    justify-content: center;
-}
-
-.mermaid p {
-    text-align: center;
-    text-indent: 0 !important;
-}
-
-.mermaid svg {
-    justify-self: center;
-    width: 100% !important;
-}
 
 .katex {
     font-size: 20px !important;
@@ -1783,7 +1780,8 @@ li[role="doc-endnote"] p {
         opacity: 1;
     }
 
-    .options-container button:hover {
+    .options-container button:hover,
+    .options-container a:hover {
         border-color: var(--neon-aqua-accent);
     }
 
@@ -1897,8 +1895,15 @@ li[role="doc-endnote"] p {
     }
 
     #scrollButton {
-        all: unset;
-        display: none;
+        width: 30px;
+        height: 30px;
+        bottom: 25px;
+        right: 30px;
+    }
+
+    #scrollButton svg {
+        width: 30px;
+        height: 30px;
     }
 
     .footer-info {
@@ -2427,6 +2432,10 @@ body.light-mode .post-info-card {
 @media (hover: hover) {
     #notify-close-btn:hover {
         border-color: var(--neon-aqua-accent, #6bd9fa);
+    }
+
+    #scrollButton:hover {
+        border-color: var(--neon-aqua-accent);
     }
 }
 /* ─────────────────────────────────────────────────────────── */

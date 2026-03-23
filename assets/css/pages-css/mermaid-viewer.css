@@ -1,0 +1,314 @@
+.mermaid {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+/* pre-render shell for raw Mermaid blocks before JS wraps them */
+.post-article article .mermaid:not(.mermaid-in-viewer) {
+    position: relative;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 15px 0;
+    padding: 52px 12px 12px 12px;
+    min-height: 180px;
+    overflow: hidden;
+    background-color: var(--header-bg-color);
+    border: var(--border-width) solid var(--header-footer-shadeLight);
+    border-radius: 10px;
+    box-shadow: var(--box-shadow-part-1), var(--box-shadow-part-2);
+    color: transparent;
+    text-shadow: none;
+    white-space: pre-wrap;
+}
+
+.post-article article .mermaid:not(.mermaid-in-viewer)::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.04) 50%, rgba(255,255,255,0.02) 100%);
+    background-size: 200% 100%;
+    animation: mermaid-skeleton-shimmer 1.2s linear infinite;
+    z-index: 1;
+}
+
+.mermaid p {
+    text-align: center;
+    text-indent: 0 !important;
+}
+
+.mermaid-viewer {
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: var(--header-bg-color);
+    border: var(--border-width) solid var(--header-footer-shadeLight);
+    border-radius: 10px;
+    box-shadow: var(--box-shadow-part-1), var(--box-shadow-part-2);
+    overflow: hidden;
+    margin: 15px 0;
+}
+
+.mermaid-viewer-toolbar {
+    position: absolute;
+    top: 18px;
+    right: 15px;
+    z-index: 3;
+    display: flex;
+    gap: 9px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.mermaid-action-button {
+    color: var(--neon-aqua-accent);
+    background-color: var(--header-footer-shadeDark);
+    border: var(--border-width) solid var(--header-footer-shadeLight);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 24px;
+    padding: 0;
+    box-sizing: border-box;
+    transition: background-color 0.2s ease;
+}
+
+.mermaid-action-button svg {
+    color: var(--description-color);
+}
+
+.mermaid-label {
+    position: absolute;
+    font-family: monospace;
+    top: 18px;
+    left: 15px;
+    font-size: 22px;
+    color: var(--button-text-color);
+    z-index: 3;
+}
+
+/* label and toolbar morph/fade transitions */
+.mermaid-viewer .mermaid-label,
+.mermaid-viewer .mermaid-viewer-toolbar {
+    transition: opacity 220ms ease, transform 260ms cubic-bezier(.2,.9,.2,1);
+    will-change: opacity, transform;
+}
+
+.mermaid-viewer:not(.interaction-locked) .mermaid-viewer-stage {
+    position: relative;
+    width: 100%;
+    min-height: 180px;
+    overflow: hidden;
+    padding: 52px 12px 12px 12px;
+    box-sizing: border-box;
+    touch-action: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+/* When interactions are locked, allow the browser to handle vertical
+   scrolling so users can gesture-scroll past the diagram on mobile. */
+.mermaid-viewer.interaction-locked .mermaid-viewer-stage {
+    padding: 52px 12px 12px 12px;
+    touch-action: pan-y;
+}
+
+/* morph transition helpers: animate stage height and wrapper visuals */
+.mermaid-viewer.morphing {
+    transition: border-radius 300ms ease, box-shadow 300ms ease;
+}
+
+.mermaid-viewer.morphing .mermaid-viewer-stage {
+    transition: height 320ms cubic-bezier(.2,.9,.2,1), padding 260ms ease;
+}
+
+.mermaid-viewer-stage .mermaid {
+    width: 100% !important;
+    height: auto !important;
+    margin: 0 !important;
+    display: flex !important;
+    justify-content: center !important;
+}
+
+/* Propagate aspect-ratio from the .mermaid element to layout correctly
+   before the SVG is injected. Once the viewer takes over, the JS controls
+   the explicit height so aspect-ratio on the element is still respected. */
+.mermaid-viewer-stage .mermaid[style*="aspect-ratio"] {
+    width: 100% !important;
+}
+
+.mermaid-viewer-stage .mermaid svg {
+    width: 100% !important;
+    height: 100% !important;
+    max-height: none !important;
+    max-width: 100% !important;
+    display: block !important;
+    align-self: center;
+    min-width: 0;
+}
+
+/* Mermaid hard-codes max-width:200px on foreignObject divs via inline style,
+   which clips labels wider than 200px at normal font sizes.
+   Override it so the foreignObject width (set by Mermaid's layout) governs. */
+.mermaid-viewer-stage .mermaid foreignObject div,
+.post-article article .mermaid foreignObject div {
+    max-width: none !important;
+}
+
+/* Mermaid's foreignObject has overflow:hidden by default, which clips text
+   by 1-3px due to subpixel rounding (browser rounds scrollWidth to integer
+   while Mermaid sets fractional foreignObject width from its measurement).
+   overflow:visible lets the text breathe past that boundary harmlessly. */
+.mermaid-viewer-stage .mermaid foreignObject,
+.post-article article .mermaid foreignObject {
+    overflow: visible !important;
+}
+
+/* skeleton / fade-in for mermaid rendering */
+.mermaid-skeleton {
+    position: absolute;
+    inset: 0 0 0 0;
+    background: linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.04) 50%, rgba(255,255,255,0.02) 100%);
+    background-size: 200% 100%;
+    animation: mermaid-skeleton-shimmer 1.2s linear infinite;
+    z-index: 2;
+}
+
+/* when morphing, fade the skeleton out slightly while container animates */
+.mermaid-viewer.morphing .mermaid-skeleton {
+    transition: opacity 220ms ease;
+    opacity: 0.9;
+}
+
+.mermaid-viewer.loading .mermaid-viewer-stage .mermaid,
+.mermaid-viewer.loading .mermaid-viewer-stage .mermaid svg {
+    opacity: 0 !important;
+    transform: scale(0.995) !important;
+    transition: none !important;
+}
+
+/* hide label and toolbar while loading to allow smooth fade-in */
+.mermaid-viewer.loading .mermaid-label,
+.mermaid-viewer.loading .mermaid-viewer-toolbar {
+    opacity: 0 !important;
+    transform: translateY(-6px) scale(0.98) !important;
+    pointer-events: none !important;
+}
+
+.mermaid-viewer.ready .mermaid-viewer-stage .mermaid,
+.mermaid-viewer.ready .mermaid-viewer-stage .mermaid svg {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: opacity 220ms ease, transform 220ms ease !important;
+}
+
+/* show label and toolbar when ready */
+.mermaid-viewer.ready .mermaid-label,
+.mermaid-viewer.ready .mermaid-viewer-toolbar {
+    opacity: 1 !important;
+    transform: none !important;
+    pointer-events: auto !important;
+}
+
+@keyframes mermaid-skeleton-shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+/* view-source/code-panel removed */
+
+body.mermaid-site-fullscreen-open {
+    overflow: hidden;
+}
+
+body.mermaid-site-fullscreen-open #reading-progress-bar {
+    display: none !important;
+}
+
+.mermaid-viewer.site-fullscreen {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 12000;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    /* account for device safe-area (notch/statusbar) */
+    padding-top: env(safe-area-inset-top, 0);
+}
+
+.mermaid-viewer.site-fullscreen .mermaid-viewer-stage {
+    flex: 1;
+    min-height: 0;
+    padding: calc(56px + env(safe-area-inset-top, 0)) 16px 16px 16px;
+}
+
+.mermaid-viewer.site-fullscreen .mermaid-viewer-stage .mermaid {
+    height: 100% !important;
+    aspect-ratio: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+.mermaid-viewer.site-fullscreen .mermaid-viewer-stage .mermaid svg {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+}
+
+.mermaid-viewer.site-fullscreen .mermaid-viewer-toolbar {
+    top: calc(16px + env(safe-area-inset-top, 0));
+    right: 16px;
+}
+
+.mermaid-viewer.site-fullscreen .mermaid-label {
+    top: calc(16px + env(safe-area-inset-top, 0));
+    left: 16px;
+}
+
+@media (max-width: 760px) {
+    .mermaid-viewer-stage {
+        min-height: 160px;
+    }
+
+    .mermaid-viewer-toolbar {
+        top: 18px;
+        right: 15px;
+    }
+
+    .mermaid-label {
+        top: 18px;
+        left: 15px;
+    }
+
+    /* mobile-specific adjustments for site-fullscreen to avoid overlapping the top bar/notch */
+    .mermaid-viewer.site-fullscreen .mermaid-viewer-stage {
+        padding: calc(10px + env(safe-area-inset-top, 0)) 12px 12px 12px;
+    }
+
+    .mermaid-viewer.site-fullscreen .mermaid-viewer-toolbar {
+        top: calc(18px + env(safe-area-inset-top, 0));
+        right: 12px;
+    }
+
+    .mermaid-viewer.site-fullscreen .mermaid-label {
+        top: calc(18px + env(safe-area-inset-top, 0));
+        left: 12px;
+    }
+}
+
+@media (hover: hover) {
+    .mermaid-action-button:hover {
+        cursor: pointer;
+        background-color: var(--bg-color);
+    }
+}

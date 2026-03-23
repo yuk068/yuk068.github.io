@@ -48,6 +48,9 @@
     <meta name="twitter:image" content="https://yuk068.github.io//assets/thumbnail/default.webp">
 
     <link rel="stylesheet" href="/assets/css/pages-css/post-styles.css">
+    
+    <link rel="stylesheet" href="/assets/css/pages-css/mermaid-viewer.css">
+    
 
     <!-- Always use KaTeX for math rendering -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
@@ -71,27 +74,9 @@
     </script>
 
     
-    <script type="text/javascript" src="https://unpkg.com/mermaid@11.4.1/dist/mermaid.min.js"></script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Store original diagram source before Mermaid transforms the elements
-            document.querySelectorAll('.mermaid').forEach(function (el) {
-                el.setAttribute('data-mermaid-source', el.textContent.trim());
-            });
-
-            const isDark = !document.documentElement.classList.contains('light-mode');
-            mermaid.initialize({
-                startOnLoad: true,
-                theme: isDark ? 'dark' : 'default',
-                themeVariables: isDark ? {
-                    'primaryColor': '#1e1e1e',
-                    'edgeLabelBackground': '#444444',
-                    'tertiaryColor': '#555555',
-                } : {}
-            });
-        });
-    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.12.0/mermaid.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.6.1/dist/svg-pan-zoom.min.js"></script>
+    <script defer src="/assets/js/pages-js/mermaid-viewer.js"></script>
     
 
     
@@ -133,18 +118,6 @@
 </head>
 
 <body>
-    <!-- <div id="page-loader">
-        <div class="loader-logo-container">
-            <div class="loader-logo">
-                <div class="loader-u-shape loader-left-side"></div>
-                <div class="loader-u-shape loader-bottom"></div>
-                <div class="loader-u-shape loader-right-side"></div>
-            </div>
-            <div class="loader-left-arrow-top"></div>
-            <div class="loader-right-arrow-top"></div>
-            <div class="loader-right-arrow-bottom"></div>
-        </div>
-    </div> -->
     <div id="reading-progress-bar"></div>
     <div class="main-container">
         <header id="post-header">
@@ -231,7 +204,7 @@
                         
                     </p>
                     <div class="options-navigation">
-                        <button id="toBackButton"><svg id="Layer_1" data-name="Layer 1"
+                        <a id="toBackButton" href="/"><svg id="Layer_1" data-name="Layer 1"
                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
                                 height="20" color="#fff">
                                 <defs>
@@ -253,8 +226,8 @@
                             
                             Back
                             
-                        </button>
-                        <button id="toArchiveButton"><svg id="Layer_1" data-name="Layer 1"
+                        </a>
+                        <a id="toArchiveButton" href="/archive"><svg id="Layer_1" data-name="Layer 1"
                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
                                 height="20" color="#fff">
                                 <defs>
@@ -275,8 +248,8 @@
                             
                             Archive
                             
-                        </button>
-                        <button id="toProjectsButton"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                        </a>
+                        <a id="toProjectsButton" href="/projects"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                 stroke-width="1.5" width="20" height="20" color="#fff">
                                 <defs>
                                     <style>
@@ -315,7 +288,7 @@
                             
                             Projects
                             
-                        </button>
+                        </a>
                         <!-- <button id="toExploreButton"><svg id="Layer_1" data-name="Layer 1"
                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
                                 height="20" color="#fff">
@@ -337,7 +310,7 @@
                             Explore
                             
                         </button> -->
-                        <button id="toAboutButton"><svg id="Layer_1" data-name="Layer 1"
+                        <a id="toAboutButton" href="/about-yuk-en"><svg id="Layer_1" data-name="Layer 1"
                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
                                 height="20" color="#fff">
                                 <defs>
@@ -357,8 +330,8 @@
                             
                             About
                             
-                        </button>
-                        <button id="toHomeButton"><svg id="Layer_1" data-name="Layer 1"
+                        </a>
+                        <a id="toHomeButton" href="/"><svg id="Layer_1" data-name="Layer 1"
                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
                                 height="20" color="#fff">
                                 <defs>
@@ -378,7 +351,7 @@
                             
                             Home
                             
-                        </button>
+                        </a>
                     </div>
                     <div class="option-horizontal-divider-line"></div>
                     <p>
@@ -692,26 +665,26 @@
 
 <hr />
 
-<h3 id="table-of-content">Table of Content<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#table-of-content')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+<h3 id="table-of-content">Table of Content<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#table-of-content')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
 
 <blockquote><div class="content">
-  <div id="table-of-contents"><ul><li class="h3"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#table-of-content')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#table-of-content" style="color:#434e64;">Table of Content</a></div></li>
-<li class="h3"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#abstract')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#abstract">Abstract</a></div></li>
-<li class="h2"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#1-introduction')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#1-introduction">1. Introduction</a></div></li>
-<li class="h2"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#2-related-work')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#2-related-work">2. Related Work</a></div></li>
-<li class="h2"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#3-a-framework-for-kg-enhanced-llm-reasoning')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#3-a-framework-for-kg-enhanced-llm-reasoning">3. A Framework for KG-Enhanced LLM Reasoning</a></div></li>
-<li class="h2"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#4-conclusion-and-future-work')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#4-conclusion-and-future-work">4. Conclusion and Future Work</a></div></li>
-<li class="h3"><div class="toc-entry"><button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#limitations-and-ethical-considerations')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#limitations-and-ethical-considerations">Limitations and Ethical Considerations</a></div></li></ul></div>
-</div><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+  <div id="table-of-contents"><ul><li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#table-of-content')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#table-of-content" style="color:#434e64;">Table of Content</a></div></li>
+<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#abstract')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#abstract">Abstract</a></div></li>
+<li class="h2"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#1-introduction')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#1-introduction">1. Introduction</a></div></li>
+<li class="h2"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#2-related-work')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#2-related-work">2. Related Work</a></div></li>
+<li class="h2"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#3-a-framework-for-kg-enhanced-llm-reasoning')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#3-a-framework-for-kg-enhanced-llm-reasoning">3. A Framework for KG-Enhanced LLM Reasoning</a></div></li>
+<li class="h2"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#4-conclusion-and-future-work')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#4-conclusion-and-future-work">4. Conclusion and Future Work</a></div></li>
+<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#limitations-and-ethical-considerations')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#limitations-and-ethical-considerations">Limitations and Ethical Considerations</a></div></li></ul></div>
+</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
 
 <hr />
 
-<h3 id="abstract">Abstract<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#abstract')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+<h3 id="abstract">Abstract<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#abstract')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
 
 <blockquote><div class="content">
 
   <p>“Large Language Models (LLMs) excel at generating fluent text but struggle with context sensitivity, logical reasoning, and personalization without extensive fine-tuning. This paper presents a logical modulator: an adaptable communication layer between Knowledge Graphs (KGs) and LLMs as a way to address these limitations. Unlike direct KG-LLM integrations, our modulator is domain-agnostic and incorporates logical dependencies and commonsense reasoning to achieve contextual personalization. By enhancing KG interaction, this method will produce linguistically coherent and logically sound outputs, increasing interpretability and reliability in generative AI.”</p>
-</div><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
 
 <hr />
 
@@ -739,7 +712,7 @@
 
 <p>Direct integration means <strong>feeding KG data directly</strong> into an LLM, which can be <strong>rigid and inefficient</strong>. A modulator, instead, acts as an intermediary, selectively incorporating logical dependencies and commonsense reasoning, leading to more <strong>adaptable, personalized, and logically consistent responses</strong>.</p>
 
-<h2 id="1-introduction">1. Introduction<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#1-introduction')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
+<h2 id="1-introduction">1. Introduction<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#1-introduction')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
 
 <p>The paper highlights the need for LLMs to be <strong>more explainable and context-aware</strong>, especially in <strong>critical domains</strong> like healthcare. Instead of just using KGs as external data sources, it proposes a <strong>bidirectional mediator</strong> that dynamically exchanges information between LLMs and KGs. This ensures responses are both accurate and fluent, improving trust and transparency.</p>
 
@@ -753,11 +726,11 @@
 
 <p>This approach is different from direct KG-LLM integration, where the KG typically provides static facts without iterative refinement.</p>
 
-<h2 id="2-related-work">2. Related Work<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#2-related-work')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
+<h2 id="2-related-work">2. Related Work<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#2-related-work')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
 
 <p>Existing LLMs rely on <strong>statistical patterns</strong> rather than <strong>true reasoning</strong>, making them <strong>error-prone</strong> in critical fields like medicine and law. <strong>RAG</strong> improves factual accuracy by <strong>retrieving external knowledge</strong>, but it mainly relies on <strong>surface-level matching</strong>. <strong>Graph-based approaches</strong> like GraphRAG integrate <strong>structured knowledge</strong> but <strong>lose logical dependencies when converting KGs into embeddings</strong>. Some methods embed KG data into LLM prompts to enhance reasoning, but they <strong>struggle to retain full relational structures</strong>, limiting multi-step reasoning and contextual consistency. This reinforces <strong>the need for a bidirectional mediator</strong> that preserves logical dependencies while ensuring fluent, explainable responses.</p>
 
-<h2 id="3-a-framework-for-kg-enhanced-llm-reasoning">3. A Framework for KG-Enhanced LLM Reasoning<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#3-a-framework-for-kg-enhanced-llm-reasoning')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
+<h2 id="3-a-framework-for-kg-enhanced-llm-reasoning">3. A Framework for KG-Enhanced LLM Reasoning<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#3-a-framework-for-kg-enhanced-llm-reasoning')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
 
 <p>The authors propose a <strong>domain-independent end-to-end framework</strong> that enhances reasoning and personalization in LLMs using an <strong>independent mediator</strong>. This mediator <strong>acts as the retrieval mechanism</strong> in RAG but improves on it by structuring the reasoning process more effectively.</p>
 
@@ -770,7 +743,7 @@
 
 <p>This approach <strong>optimizes structured knowledge use</strong>, making LLM outputs more logical, contextual, and explainable.</p>
 
-<div class="mermaid">
+<div class="mermaid" style="aspect-ratio:1/1">
 graph TD;
     A["**Input Layer:** <br /> Generic prompt that <br /> requires reasoning"] --&gt; B["**Reasoning Layer:** <br /> Mediator module managing KG <br /> queries, dependencies, and <br /> rule applications"];
     
@@ -807,13 +780,13 @@ graph TD;
   <p><strong>Symbolic AI</strong> refers to an approach in artificial intelligence that represents knowledge using <strong>explicit symbols, rules, and logic</strong> rather than learned statistical patterns. It relies on <strong>symbol manipulation</strong>, such as if-then rules, ontologies, and logical reasoning, to process and infer knowledge.</p>
 
   <p>In contrast to neural networks, which extract patterns from data, <strong>symbolic AI systems operate on structured knowledge</strong> (e.g., Knowledge Graphs, rule-based systems) and provide <strong>transparent, traceable reasoning</strong>, making them useful for <strong>explainability and logic-based decision-making</strong>.</p>
-</div><button class="collapse-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
 
-<h2 id="4-conclusion-and-future-work">4. Conclusion and Future Work<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#4-conclusion-and-future-work')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
+<h2 id="4-conclusion-and-future-work">4. Conclusion and Future Work<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#4-conclusion-and-future-work')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
 
 <p>The paper proposes a <strong>decompositional reasoning layer</strong> that enhances LLM reasoning by <strong>structuring interactions with Knowledge Graphs (KGs)</strong>. This approach ensures responses are both <strong>contextually grounded and fluent</strong>, making it particularly useful in fields like <strong>career development, healthcare, and legal advising</strong>. Future work will explore how the <strong>mediator can dynamically update KGs</strong>, allowing knowledge to evolve without manual intervention.</p>
 
-<h3 id="limitations-and-ethical-considerations">Limitations and Ethical Considerations<button class="copy-toc" onclick="copyToClipboard(event,location.origin+location.pathname+'#limitations-and-ethical-considerations')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+<h3 id="limitations-and-ethical-considerations">Limitations and Ethical Considerations<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#limitations-and-ethical-considerations')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
 
 <ul>
   <li><strong>Latency</strong> – Complex KG queries and multi-step reasoning can slow response times.</li>
@@ -918,7 +891,7 @@ graph TD;
 </div>
     </div>
     <div id="svg-repo" style="display: none;">
-        <div id="svg-up-arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff">
+        <div id="svg-up-arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff">
                     <defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs>
                     <line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line>
                     <polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline>
@@ -926,7 +899,7 @@ graph TD;
                     <polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline>
                     <line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line>
                 </svg></div>
-        <div id="svg-down-arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff">
+        <div id="svg-down-arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff">
                     <defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs>
                     <line class="cls-1" x1="6.25" y1="17.73" x2="6.25" y2="0.48"></line>
                     <polyline class="cls-1" points="1.46 12.94 6.25 17.73 11.04 12.94"></polyline>
@@ -934,8 +907,14 @@ graph TD;
                     <polyline class="cls-1" points="12.96 12.94 17.75 17.73 22.54 12.94"></polyline>
                     <line class="cls-1" x1="0.5" y1="22.52" x2="23.5" y2="22.52"></line>
                 </svg></div>
-        <div id="svg-check"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c627-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><circle class="cls-6374f8d9b67f094e4896c627-1" cx="12" cy="12" r="10.5"></circle><polyline class="cls-6374f8d9b67f094e4896c627-1" points="6.27 12 10.09 15.82 17.73 8.18"></polyline></svg></div>
-        <div id="svg-document"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.1" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></div>
+        <div id="svg-check"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c627-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><circle class="cls-6374f8d9b67f094e4896c627-1" cx="12" cy="12" r="10.5"></circle><polyline class="cls-6374f8d9b67f094e4896c627-1" points="6.27 12 10.09 15.82 17.73 8.18"></polyline></svg></div>
+        <div id="svg-document"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></div>
+        <div id="svg-reset"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14"><defs><style>.cls-63ce7424ea57ea6c838005b4-1,.cls-63ce7424ea57ea6c838005b4-2,.cls-3{fill:none;stroke:currentColor;}.cls-63ce7424ea57ea6c838005b4-1{stroke-miterlimit:10;}.cls-63ce7424ea57ea6c838005b4-2,.cls-3{stroke-linecap:round;stroke-linejoin:round;}.cls-3{stroke-dasharray:0 4.13;}</style></defs><path class="cls-63ce7424ea57ea6c838005b4-1" d="M12,1.5A10.52,10.52,0,1,1,3.39,18.07"></path><line class="cls-63ce7424ea57ea6c838005b4-2" x1="1.48" y1="12.02" x2="1.48" y2="12.02"></line><path class="cls-3" d="M2.28,8A10.51,10.51,0,0,1,10,1.7"></path><line class="cls-63ce7424ea57ea6c838005b4-2" x1="12" y1="1.5" x2="12" y2="1.5"></line><polyline class="cls-63ce7424ea57ea6c838005b4-1" points="3.39 23.5 3.39 17.76 9.13 17.76"></polyline></svg></div>
+        <div id="svg-fullscreen"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14"><defs><style>.cls-637b8a2bf95e86b59c57a23a-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-637b8a2bf95e86b59c57a23a-1" d="M18.84,12A7.52,7.52,0,0,1,12,15.91,7.52,7.52,0,0,1,5.16,12,7.52,7.52,0,0,1,12,8.09,7.52,7.52,0,0,1,18.84,12Z"></path><circle class="cls-637b8a2bf95e86b59c57a23a-1" cx="12" cy="12" r="0.98"></circle><polyline class="cls-637b8a2bf95e86b59c57a23a-1" points="1.25 7.12 1.25 1.25 7.12 1.25"></polyline><polyline class="cls-637b8a2bf95e86b59c57a23a-1" points="22.75 16.89 22.75 22.75 16.89 22.75"></polyline><polyline class="cls-637b8a2bf95e86b59c57a23a-1" points="7.12 22.75 1.25 22.75 1.25 16.89"></polyline><polyline class="cls-637b8a2bf95e86b59c57a23a-1" points="16.89 1.25 22.75 1.25 22.75 7.12"></polyline><line class="cls-637b8a2bf95e86b59c57a23a-1" x1="1.25" y1="1.25" x2="7.11" y2="7.11"></line><line class="cls-637b8a2bf95e86b59c57a23a-1" x1="1.25" y1="22.75" x2="7.11" y2="16.89"></line><line class="cls-637b8a2bf95e86b59c57a23a-1" x1="16.89" y1="7.11" x2="21.77" y2="2.23"></line><line class="cls-637b8a2bf95e86b59c57a23a-1" x1="22.75" y1="22.75" x2="16.89" y2="16.89"></line></svg></div>
+            <div id="svg-lock">
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14"><defs><style>.cls-6374f8d9b67f094e4896c64a-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><rect class="cls-6374f8d9b67f094e4896c64a-1" x="5.32" y="10.09" width="13.36" height="12.41"></rect><path class="cls-6374f8d9b67f094e4896c64a-1" d="M12,1.5h0a4.77,4.77,0,0,1,4.77,4.77v3.82a0,0,0,0,1,0,0H7.23a0,0,0,0,1,0,0V6.27A4.77,4.77,0,0,1,12,1.5Z"></path><circle class="cls-6374f8d9b67f094e4896c64a-1" cx="12" cy="14.86" r="0.95"></circle><line class="cls-6374f8d9b67f094e4896c64a-1" x1="12" y1="19.64" x2="12" y2="15.82"></line></svg></div>
+            <div id="svg-unlock"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14"><defs><style>.cls-6374f8d9b67f094e4896c66e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><rect class="cls-6374f8d9b67f094e4896c66e-1" x="5.32" y="10.09" width="13.36" height="12.41"></rect><path class="cls-6374f8d9b67f094e4896c66e-1" d="M16.77,10.09H7.23V6.27A4.77,4.77,0,0,1,12,1.5h0a4.77,4.77,0,0,1,4.77,4.77"></path><circle class="cls-6374f8d9b67f094e4896c66e-1" cx="12" cy="14.86" r="0.95"></circle><line class="cls-6374f8d9b67f094e4896c66e-1" x1="12" y1="19.64" x2="12" y2="15.82"></line></svg></div>
+        <div id="svg-back"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14"><defs><style>.cls-6374f543b67f094e4896c5c8-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><circle class="cls-6374f543b67f094e4896c5c8-1" cx="12" cy="12" r="10.5"></circle><path class="cls-6374f543b67f094e4896c5c8-1" d="M7.23,7.23h7.63a3.82,3.82,0,0,1,3.82,3.82h0a3.82,3.82,0,0,1-3.82,3.81H7.23"></path><polyline class="cls-6374f543b67f094e4896c5c8-1" points="11.04 18.68 7.23 14.86 11.04 11.04"></polyline></svg></div>
     </div>
     <div id="notify-overlay" style="display: none;">
     <div id="notify-container">

@@ -6,8 +6,8 @@ const prevButton = document.querySelector('.prev-button');
 const nextButton = document.querySelector('.next-button');
 let currentSlide = 0;
 const slideCount = slides.length;
-let intervalTime = 5000;
-let slideDelay = 2500;
+let intervalTime = 7000;
+let slideDelay = 4000;
 let interval;
 
 // Drag variables
@@ -336,12 +336,14 @@ const toAboutButton = document.getElementById('toAboutButton');
 const closeButton = document.getElementById('closeButton');
 
 // Add event listeners for functionality (placeholders for now)
-toArchiveButton.addEventListener('click', () => {
+toArchiveButton.addEventListener('click', (e) => {
+    e.preventDefault();
     closeOptions();
     window.location.href = "/archive";
 });
 
-toProjectsButton.addEventListener('click', () => {
+toProjectsButton.addEventListener('click', (e) => {
+    e.preventDefault();
     closeOptions();
     window.location.href = "/projects";
 });
@@ -351,7 +353,8 @@ themeButton.addEventListener('click', () => {
     closeOptions();
 });
 
-toAboutButton.addEventListener('click', () => {
+toAboutButton.addEventListener('click', (e) => {
+    e.preventDefault();
     closeOptions();
     window.location.href = "/about-yuk-en";
 });

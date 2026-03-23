@@ -188,28 +188,8 @@ function toggleTheme() {
     }
 
     // Update Mermaid theme if the library is loaded
-    if (typeof mermaid !== 'undefined') {
-        const isDark = !isLight;
-        mermaid.initialize({
-            startOnLoad: false,
-            theme: isDark ? 'dark' : 'default',
-            themeVariables: isDark ? {
-                'primaryColor': '#1e1e1e',
-                'edgeLabelBackground': '#444444',
-                'tertiaryColor': '#555555',
-            } : {}
-        });
-
-        // Restore original source and re-render each diagram
-        document.querySelectorAll('.mermaid').forEach(function (el) {
-            const source = el.getAttribute('data-mermaid-source');
-            if (source) {
-                el.removeAttribute('data-processed');
-                el.textContent = source;
-            }
-        });
-
-        mermaid.run({ querySelector: '.mermaid' });
+    if (typeof window.reinitializeMermaidViewer === 'function') {
+        window.reinitializeMermaidViewer(!isLight);
     }
 }
 
@@ -326,27 +306,32 @@ const toProjectsButton = document.getElementById('toProjectsButton');
 const toAboutButton = document.getElementById('toAboutButton');
 
 // Add event listeners for functionality (placeholders for now)
-toBackButton.addEventListener('click', () => {
+toBackButton.addEventListener('click', (e) => {
+    e.preventDefault();
     closeOptions();
     goBack();
 });
 
-toHomeButton.addEventListener('click', () => {
+toHomeButton.addEventListener('click', (e) => {
+    e.preventDefault();
     closeOptions();
     window.location.href = "/";
 });
 
-toArchiveButton.addEventListener('click', () => {
+toArchiveButton.addEventListener('click', (e) => {
+    e.preventDefault();
     closeOptions();
     window.location.href = "/archive";
 });
 
-toProjectsButton.addEventListener('click', () => {
+toProjectsButton.addEventListener('click', (e) => {
+    e.preventDefault();
     closeOptions();
     window.location.href = "/projects";
 });
 
-toAboutButton.addEventListener('click', () => {
+toAboutButton.addEventListener('click', (e) => {
+    e.preventDefault();
     closeOptions();
     const currentLang = document.documentElement.lang;
 
