@@ -324,12 +324,20 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const updateEmptyState = () => {
+        const paginationTip = document.querySelector('.pagination-nav-tips');
+
         if (visiblePosts.length === 0) {
             paginationNav.style.display = 'none';
             nothingHere.classList.add('active');
+            if (paginationTip) {
+                paginationTip.style.display = 'none';
+            }
         } else {
             paginationNav.style.display = 'flex';
             nothingHere.classList.remove('active');
+            if (paginationTip) {
+                paginationTip.style.display = 'block';
+            }
         }
     };
 
@@ -477,6 +485,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Add pagination-nav back to the container
         postsContainer.appendChild(paginationNav);
+
+        // Keep the pagination tip directly under the nav
+        const paginationTip = postsContainer.querySelector('.pagination-nav-tips');
+        if (paginationTip) {
+            postsContainer.appendChild(paginationTip);
+        }
 
         // Update empty state
         updateEmptyState();
@@ -671,13 +685,27 @@ document.addEventListener("DOMContentLoaded", function () {
     updateSearchBar();
     window.addEventListener("resize", updateSearchBar);
 
-    // Keyboard event for focusing search bar
+    // Keyboard event for focusing search bar and pagination shortcuts
     document.addEventListener("keydown", function (event) {
-        if (event.key === "/" && document.activeElement.tagName !== "INPUT" && document.activeElement.tagName !== "TEXTAREA") {
+        const isTextInput = ["INPUT", "TEXTAREA"].includes(document.activeElement.tagName);
+
+        if (event.key === "/" && !isTextInput) {
             event.preventDefault();
             searchBar.focus();
         } else if (event.key === "Escape" && document.activeElement === searchBar) {
             searchBar.blur();
+        } else if (event.key === "PageUp" && !isTextInput) {
+            const prevButton = document.querySelector('.pagination-prev');
+            if (prevButton && !prevButton.disabled) {
+                event.preventDefault();
+                prevButton.click();
+            }
+        } else if (event.key === "PageDown" && !isTextInput) {
+            const nextButton = document.querySelector('.pagination-next');
+            if (nextButton && !nextButton.disabled) {
+                event.preventDefault();
+                nextButton.click();
+            }
         }
     });
 });
