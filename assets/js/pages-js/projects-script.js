@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Your JavaScript functions here
     document.body.style.display = "block";  // Show the page after JS execution
+    initSiteBackgroundEffect();
 
     // Scroll to anchored project card if hash is present
     const hash = window.location.hash;
@@ -20,6 +21,37 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 });
+
+function initSiteBackgroundEffect() {
+    const hasFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!hasFinePointer || prefersReducedMotion) return;
+
+    const root = document.documentElement;
+    let rafId = 0;
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+
+    function flushMousePosition() {
+        root.style.setProperty('--site-bg-mouse-x', `${mouseX}px`);
+        root.style.setProperty('--site-bg-mouse-y', `${mouseY}px`);
+        rafId = 0;
+    }
+
+    window.addEventListener('mousemove', (event) => {
+        mouseX = event.clientX;
+        mouseY = event.clientY;
+        root.style.setProperty('--site-bg-glow-opacity', '1');
+
+        if (!rafId) {
+            rafId = window.requestAnimationFrame(flushMousePosition);
+        }
+    }, { passive: true });
+
+    window.addEventListener('mouseleave', () => {
+        root.style.setProperty('--site-bg-glow-opacity', '0');
+    });
+}
 
 function onScroll() {
     // Header elements

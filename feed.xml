@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://yuk068.github.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://yuk068.github.io//" rel="alternate" type="text/html" /><updated>2026-03-28T23:11:52+07:00</updated><id>https://yuk068.github.io//feed.xml</id><title type="html">Yuk’s Blog</title><subtitle></subtitle><entry><title type="html">Car Physics - Model 6: Low-Speed Kinematic Turning</title><link href="https://yuk068.github.io//2026/03/26/car-physics-model6" rel="alternate" type="text/html" title="Car Physics - Model 6: Low-Speed Kinematic Turning" /><published>2026-03-26T00:00:00+07:00</published><updated>2026-03-26T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/03/26/car-physics-model6</id><content type="html" xml:base="https://yuk068.github.io//2026/03/26/car-physics-model6"><![CDATA[<h3 id="table-of-content">Table of Content</h3>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://yuk068.github.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://yuk068.github.io//" rel="alternate" type="text/html" /><updated>2026-03-29T20:35:41+07:00</updated><id>https://yuk068.github.io//feed.xml</id><title type="html">Yuk’s Blog</title><subtitle></subtitle><entry><title type="html">Car Physics - Model 7: High-Speed Lateral Tire Model</title><link href="https://yuk068.github.io//2026/03/28/car-physics-model7" rel="alternate" type="text/html" title="Car Physics - Model 7: High-Speed Lateral Tire Model" /><published>2026-03-28T00:00:00+07:00</published><updated>2026-03-28T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/03/28/car-physics-model7</id><content type="html" xml:base="https://yuk068.github.io//2026/03/28/car-physics-model7"><![CDATA[<h3 id="table-of-content">Table of Content</h3>
 
 <blockquote><div class="content">
   <div id="table-of-contents"></div>
@@ -51,7 +51,71 @@
         <li>Curves (low speed)</li>
       </ul>
     </li>
-    <li><strong><a href="#" onclick="notifyComingSoon(); return false;">Model 7: High-Speed Lateral Tire Model (2D)</a></strong>
+    <li><strong><a href="/2026/03/28/car-physics-model7">Model 7: High-Speed Lateral Tire Model (2D)</a></strong>
+      <ul>
+        <li>High Speed Turning</li>
+      </ul>
+    </li>
+    <li><strong><a href="#" onclick="notifyComingSoon(); return false;">Model 8: Full Coupled Tire Model (2D)</a></strong></li>
+  </ul>
+</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<hr />
+
+<h2 id="model-7-recap">Model 7 Recap</h2>]]></content><author><name></name></author><category term="technical" /><category term="vehicle dynamics" /><category term="simulation" /><category term="kinematic modeling" /><category term="interactive plot" /><category term="unfinished" /><summary type="html"><![CDATA[Implementing and Comprehending Marco Monster’s Car Physics model - Phase 2: Planar Vehicle Dynamics Model - Part 7]]></summary></entry><entry><title type="html">Car Physics - Model 6: Low-Speed Kinematic Turning</title><link href="https://yuk068.github.io//2026/03/26/car-physics-model6" rel="alternate" type="text/html" title="Car Physics - Model 6: Low-Speed Kinematic Turning" /><published>2026-03-26T00:00:00+07:00</published><updated>2026-03-26T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/03/26/car-physics-model6</id><content type="html" xml:base="https://yuk068.github.io//2026/03/26/car-physics-model6"><![CDATA[<h3 id="table-of-content">Table of Content</h3>
+
+<blockquote><div class="content">
+  <div id="table-of-contents"></div>
+</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<ul>
+  <li><strong>Main reference: <a href="https://www.asawicki.info/Mirror/Car%20Physics%20for%20Games/Car%20Physics%20for%20Games.html" target="_blank">Marco Monster’s Car Physics</a></strong></li>
+  <li><strong>Github repo for Longitudinal Simulators: <a href="https://github.com/duy-phamduc68/Longitudinal-Car-Physics" target="_blank">duy-phamduc68/Longitudinal-Car-Physics</a></strong></li>
+  <li><strong>Github repo for Simulator 6: <a href="https://github.com/duy-phamduc68/Planar-Kinematic-Car-Model" target="_blank">duy-phamduc68/Planar-Kinematic-Car-Model</a></strong></li>
+</ul>
+
+<hr />
+
+<h3 id="roadmap">Roadmap</h3>
+
+<blockquote><div class="content">
+  <ul>
+    <li><strong><a href="/2026/03/03/car-physics-model1">Model 1: Longitudinal Point Mass (1D)</a></strong>
+      <ul>
+        <li>Straight Line Physics</li>
+        <li>Magic Constants</li>
+        <li>Braking</li>
+      </ul>
+    </li>
+    <li><strong><a href="/2026/03/12/car-physics-model2">Model 2: Load Transfer Without Traction Limits (1D)</a></strong>
+      <ul>
+        <li>Weight Transfer</li>
+      </ul>
+    </li>
+    <li><strong><a href="/2026/03/15/car-physics-model3">Model 3: Engine Torque + Gearing without Slip (1D)</a></strong>
+      <ul>
+        <li>Engine Force</li>
+        <li>Gear Ratios</li>
+        <li>Drive Wheel Acceleration (simplified)</li>
+      </ul>
+    </li>
+    <li><strong><a href="/2026/03/21/car-physics-model4">Model 4: Wheel Rotational Dynamics (1D)</a></strong>
+      <ul>
+        <li>Drive Wheel Acceleration (full)</li>
+        <li>Torque on the Drive Wheel &amp; The Chicken and The Egg</li>
+      </ul>
+    </li>
+    <li><strong><a href="/2026/03/23/car-physics-model5">Model 5: Slip Ratio + Traction Curve (1D)</a></strong>
+      <ul>
+        <li>Slip Ratio &amp; Traction Force</li>
+      </ul>
+    </li>
+    <li><strong><a href="/2026/03/26/car-physics-model6">Model 6: Low-Speed Kinematic Turning (2D)</a></strong>
+      <ul>
+        <li>Curves (low speed)</li>
+      </ul>
+    </li>
+    <li><strong><a href="/2026/03/28/car-physics-model7">Model 7: High-Speed Lateral Tire Model (2D)</a></strong>
       <ul>
         <li>High Speed Turning</li>
       </ul>
@@ -238,6 +302,49 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
+<div style="margin: 1rem 0; display: flex; flex-direction: column; gap: 1rem;">
+  <div>
+    <label>Steering Angle δ (deg): <span id="deltaValue">10</span></label><br />
+    <input type="range" id="deltaSlider" min="-90" max="90" step="1" value="10" style="width:100%;" />
+  </div>
+  <div>
+    <label>Wheelbase L (m): <span id="lValue">2.8</span></label><br />
+    <input type="range" id="lSlider" min="1" max="12" step="0.1" value="2.8" style="width:100%;" />
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const slider = document.getElementById('deltaSlider');
+    const label = document.getElementById('deltaValue');
+
+    const lSlider = document.getElementById('lSlider');
+    const lLabel = document.getElementById('lValue');
+
+    slider.oninput = (e) => {
+        const val = +e.target.value;
+
+        window.simState.delta_deg = val;
+        label.textContent = val;
+
+        // update both plots
+        window.updateSteerPlot();
+        window.updatePathPlot();
+    };
+
+    lSlider.oninput = (e) => {
+        const val = +e.target.value;
+
+        window.simState.L = val;
+        lLabel.textContent = val.toFixed(1);
+
+        // update both plots
+        window.updateSteerPlot();
+        window.updatePathPlot();
+    };
+});
+</script>
+
 <div id="pathPlot2" style="width:100%; aspect-ratio: 5/4;"></div>
 
 <script>
@@ -301,49 +408,6 @@ document.addEventListener('DOMContentLoaded', function() {
     window.updatePathPlot = updatePathPlot;
 
     updatePathPlot();
-});
-</script>
-
-<div style="margin: 1rem 0; display: flex; flex-direction: column; gap: 1rem;">
-  <div>
-    <label>Steering Angle δ (deg): <span id="deltaValue">10</span></label><br />
-    <input type="range" id="deltaSlider" min="-90" max="90" step="1" value="10" style="width:100%;" />
-  </div>
-  <div>
-    <label>Wheelbase L (m): <span id="lValue">2.8</span></label><br />
-    <input type="range" id="lSlider" min="1" max="12" step="0.1" value="2.8" style="width:100%;" />
-  </div>
-</div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const slider = document.getElementById('deltaSlider');
-    const label = document.getElementById('deltaValue');
-
-    const lSlider = document.getElementById('lSlider');
-    const lLabel = document.getElementById('lValue');
-
-    slider.oninput = (e) => {
-        const val = +e.target.value;
-
-        window.simState.delta_deg = val;
-        label.textContent = val;
-
-        // update both plots
-        window.updateSteerPlot();
-        window.updatePathPlot();
-    };
-
-    lSlider.oninput = (e) => {
-        const val = +e.target.value;
-
-        window.simState.L = val;
-        lLabel.textContent = val.toFixed(1);
-
-        // update both plots
-        window.updateSteerPlot();
-        window.updatePathPlot();
-    };
 });
 </script>
 
@@ -723,7 +787,7 @@ y \leftarrow y + v_y \cdot dt</annotation></semantics></math></span><span class=
         <li>Curves (low speed)</li>
       </ul>
     </li>
-    <li><strong><a href="#" onclick="notifyComingSoon(); return false;">Model 7: High-Speed Lateral Tire Model (2D)</a></strong>
+    <li><strong><a href="/2026/03/28/car-physics-model7">Model 7: High-Speed Lateral Tire Model (2D)</a></strong>
       <ul>
         <li>High Speed Turning</li>
       </ul>
@@ -1101,7 +1165,7 @@ y \leftarrow y + v_y \cdot dt</annotation></semantics></math></span><span class=
         <li>Curves (low speed)</li>
       </ul>
     </li>
-    <li><strong><a href="#" onclick="notifyComingSoon(); return false;">Model 7: High-Speed Lateral Tire Model (2D)</a></strong>
+    <li><strong><a href="/2026/03/28/car-physics-model7">Model 7: High-Speed Lateral Tire Model (2D)</a></strong>
       <ul>
         <li>High Speed Turning</li>
       </ul>
@@ -1835,7 +1899,7 @@ torque -&gt; angular accel -&gt; ω -&gt; rpm -&gt; torque
         <li>Curves (low speed)</li>
       </ul>
     </li>
-    <li><strong><a href="#" onclick="notifyComingSoon(); return false;">Model 7: High-Speed Lateral Tire Model (2D)</a></strong>
+    <li><strong><a href="/2026/03/28/car-physics-model7">Model 7: High-Speed Lateral Tire Model (2D)</a></strong>
       <ul>
         <li>High Speed Turning</li>
       </ul>
@@ -3437,7 +3501,7 @@ Only the engine model is replaced.</p>
         <li>Curves (low speed)</li>
       </ul>
     </li>
-    <li><strong><a href="#" onclick="notifyComingSoon(); return false;">Model 7: High-Speed Lateral Tire Model (2D)</a></strong>
+    <li><strong><a href="/2026/03/28/car-physics-model7">Model 7: High-Speed Lateral Tire Model (2D)</a></strong>
       <ul>
         <li>High Speed Turning</li>
       </ul>
@@ -4926,7 +4990,7 @@ document.addEventListener('DOMContentLoaded', function () {
         <li>Curves (low speed)</li>
       </ul>
     </li>
-    <li><strong><a href="#" onclick="notifyComingSoon(); return false;">Model 7: High-Speed Lateral Tire Model (2D)</a></strong>
+    <li><strong><a href="/2026/03/28/car-physics-model7">Model 7: High-Speed Lateral Tire Model (2D)</a></strong>
       <ul>
         <li>High Speed Turning</li>
       </ul>
@@ -6622,203 +6686,4 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <p><img src="/assets/images/2026/q1-2026/yukart/shinjuku2.webp" alt="shinjuku2" /></p>
 
-<p>So that’s a side of my that I’ve never really shared here before. After adding some new features to my blog recently, I plan to become more active and have a more “real” writing output on here, one of the place that I still have control over. Hope you enjoyed this, until next time.</p>]]></content><author><name></name></author><category term="post" /><category term="yuk lore" /><category term="graphics design" /><summary type="html"><![CDATA[Just found some of my old drawings, which might explain my capability for graphic designs]]></summary></entry><entry><title type="html">TrafficLab3D: Digital-twin with just Mp4 and Google Maps</title><link href="https://yuk068.github.io//2026/02/20/traffilclab-3d-future-roadmap" rel="alternate" type="text/html" title="TrafficLab3D: Digital-twin with just Mp4 and Google Maps" /><published>2026-02-20T00:00:00+07:00</published><updated>2026-02-20T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/02/20/traffilclab-3d-future-roadmap</id><content type="html" xml:base="https://yuk068.github.io//2026/02/20/traffilclab-3d-future-roadmap"><![CDATA[<h3 id="table-of-content">Table of Content</h3>
-
-<blockquote><div class="content">
-  <div id="table-of-contents"></div>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
-
-<ul>
-  <li><strong>Github Repo at <a href="https://github.com/duy-phamduc68/TrafficLab-3D" target="_blank">duy-phamduc68/trafficlab-3d</a></strong></li>
-  <li><strong>Youtube Demo at <a href="https://www.youtube.com/watch?v=AYUXXnzenvk" target="_blank">TrafficLab 3D v1.0 Demo</a></strong></li>
-  <li><strong>Youtube Guide at <a href="https://www.youtube.com/watch?v=PeL2v1YEdYA" target="_blank">TrafficLab 3D Guide</a></strong></li>
-  <li><strong>Check out full academic report at <a href="https://drive.google.com/file/d/1CmP-sYHWvxN3JxYA_rR2S4tW9YdQcVjg/view?usp=sharing" target="_blank">Google Drive</a></strong></li>
-</ul>
-
-<h2 id="prologue">Prologue</h2>
-
-<p>This is it, this was the project that helped me figured out my “niche” in the field of AI recently. Lately, I’ve been very interested in digital twin, autonomous vehicle, which in turn translate to robotics (might be a long shot, AVs is a type of robot). Now, about TrafficLab 3D (TL3D), as you can see above I’ve already attached my academic report for the project, so if you really want to dive deep and learn about the technical side of TL3D, I’d suggest you checking it out. With that being said, in this post, I’m not going to talk much about TL3D itself, rather, the context surrounding it, what it meant for me then, and going forward, ie. TL3D’s future roadmap. Notably, I’m going to detail TL3D’s current weaknesses, which directly relates to my next project that I’m doing my best to work on.</p>
-
-<p><strong>Update:</strong> The above prologue was written a few days ago, now, I wanted to try something new with my posts, that is, im going to present more of an FAQ/interview style writing, I believe that this is way better than dwelling on trying to get the most polished, formatted article ever for a given post. At least for this one which I have procrastinated for a while already. I believe reading this will be way more interesting and engaging, but it is an experiment, so perhaps let me know what you think in the comments, all suggestions are welcomed.</p>
-
-<hr />
-
-<h3 id="q1-before-trafficlab3d-what-was-bothering-you-about-the-way-people-approach-traffic--av--cv-problems">Q1. Before TrafficLab3D, what was bothering you about the way people approach traffic / AV / CV problems?</h3>
-
-<p>I initially approached this problem with the literal worst case scenario for this kind of task - hanoi traffic (where i currently live), then i should make some comparison to the studies i cited, the fact that i start with Hanoi (and eventually kinda fail to completely solve it) affect this project greatly.</p>
-
-<ul>
-  <li>First, most papers relied on near-perfect projection between cctv view and satellite view, either through very trivial matching (clear markings) or already known camera model, Hanoi have neither of those, not to mention, my data source was 720p, but actually its bit rate is terrible (something i realized quite late), tought me that not just the resolution but also bit-rate and motion blur matters greatly for detectio and tracking.</li>
-  <li>Secondly, these papers often showcase demo in very standard homogenous traffic, my main reference even have the detector classify subclass like sedan, hatchback, pickup truck, etc… while in Hanoi, yeah good luck with that, 2 wheels, 3 wheels, 4 wheels, sizes… i had to rethink how detection could work in a scenario like this (this is worth mentioning, i had a bit of tinkering with crowd counting models, more on that later).</li>
-  <li>Finally, the sheer amount of traffic compared to western context, especially motorbikes. Many of these aspects mean i didn’t allow myself to just clone a research repo and like reimplement it or something, I wanted a pipeline that was truly tailored for my use case context (Hanoi)</li>
-</ul>
-
-<hr />
-
-<h3 id="q2-why-mp4--google-maps-specifically">Q2. Why MP4 + Google Maps specifically?</h3>
-
-<p>I didn’t just want to do what was “proven” to work, like those fancy demo ran on currated datasets and established testing site, perfect camera and all, i believe that,</p>
-
-<ul>
-  <li>one, solve my own problem that i believe they couldn’t solve,</li>
-  <li>two, if i can solve “worst case”, it implies solving everything else, kind of a mindset that i might have unintentially inherited from my goat in AI, Demis Hassabis, “solve intellegence, then solve everything else”</li>
-</ul>
-
-<hr />
-
-<h3 id="q3-is-tl3d-a-tool-a-demo-system-or-a-statement">Q3. Is TL3D a tool, a demo system, or a statement?</h3>
-
-<p>I think it doesnt quite fit cleanly into any categories on that list, its kinda little a bit everything. But yeah because of that, id say its more of a statement, its like, my entry into this niche i think, one that i can do in my current circumstances (limited resources, no access to higher quality data, etc…) even if western context data was more accessible, even if they have proper evaluation than my so called academic report that doesnt even particularly measure anything, i still did it</p>
-
-<hr />
-
-<h3 id="q4-what-does-digital-twin-mean-in-your-definition">Q4. What does “digital twin” mean in your definition?</h3>
-
-<p>Yeah, i agree that this term is becoming more of a stun, but, at least in my definition, i think that its not just visualization, but an interactive, tractable, modifiable simulation,</p>
-
-<p>for example, for my TL3D, i believe that until I myself can call it a digital twin, at the very least, its road users have to be accurate, account for uncertainty, and perhaps, instead of just a state, a full derived agent, this allow for hypothesis testing, scenario generation, high fidelity simulation.</p>
-
-<p>in this regard, i admit that using the term “digital twin” in this project was a bit overblown hehe… but, this is exactly where im heading beyond TL3D</p>
-
-<hr />
-
-<h3 id="q5-where-does-tl3d-cheat">Q5. Where does TL3D “cheat”?</h3>
-
-<p>yeah this question sounds like its about weaknesses, so ill list them out for now, along with possible solution direction:</p>
-
-<ul>
-  <li>manual calibration -&gt; semi-supervised calibration,</li>
-  <li>flat ground -&gt; not sure yet, i have to solve flat before i can move to non planar env,</li>
-  <li>ignoring uncertainty -&gt; yes, this will probably need heuristic combined with probabilistic observation, i plan to approach it not by listing every single uncertainty there are (eg. a sedan behind a truck…), but yes one of the main weakness that i <code class="language-plaintext highlighter-rouge">have</code> to solve for my next “vision” of TL3D.</li>
-</ul>
-
-<p>its biggest cheat is probably: its not exactly “3D”, it has 3D bounding box yes, but those are very artificial… basically, if you already have tracked 2D box and the projection, then you already have 3D box, so I didn’t really innovate on top of some existing monocular 3D detection pipeline (cite some papers),</p>
-
-<p>but then again, remember that i started with Hanoi, for such a non-formal and under-explored context, I approached this assuming that I just gotta trust my gut on what will and wont work, rather than expecting some paper to just come in and solve my problem (i read them thoroughly and decided that it wasn’t worth diving deep into in many ways, basically, you have to understand that sometimes, these papers are only for… well, the paper,</p>
-
-<p>for me? I want to take this idea to city scale, and I have to put some thoughts into what would scale and what wont, one of which i rejected, is monolithic “image in, 3D box out” like those used in AVs, at least, one that i wont explore yet)</p>
-
-<hr />
-
-<h3 id="q6-what-breaks-first-if-you-scale-this">Q6. What breaks first if you scale this?</h3>
-
-<p>truth is, I need a data source like that first before I can really answer this question,</p>
-
-<p>but ill tell you this, I’m not really a fan of cameras everywhere, not really a technical opinion but a sociological one, if i had to say it for now, my “personally acceptable context”, is 2 camera per complex intersection, maybe 4 if its a massive jumble crossing like those in tokyo.</p>
-
-<hr />
-
-<h3 id="q7-what-part-of-the-system-feels-the-most-fake-to-you-right-now">Q7. What part of the system feels the most ‘fake’ to you right now?</h3>
-
-<p>yeah, speed are non-sensical lol… its also a weakness in TL3D, pretty much vanilla detector and tracker,</p>
-
-<p>I do believe that for a very specific context like what im aiming at, complex traffic intersection with mixed traffic, we have a lot of things we can “leverage”, just think about it, if it was a city wide system, a car can’t just disappear in the middle of the road, nor can it just “pop in”, this does touch one of my current philosophy about the project though, if it helps, heres an interaction on my youtube demo:</p>
-
-<blockquote><div class="content">
-
-  <p><code class="language-plaintext highlighter-rouge">@Luxtini</code></p>
-
-  <p><em>1 month ago</em></p>
-
-  <p>Good project, I will try to try it but with pedestrian view videos. Do you plan to implement a counting function per line in the street corners?</p>
-
-  <p><code class="language-plaintext highlighter-rouge">@yuk.yukano</code></p>
-
-  <p><em>1 month ago (edited)</em></p>
-
-  <p>It’s definitely something that can be done, though I might not be too interested in downstream heuristic-based tasks like counting just yet, it can obviously be leveraged for that. My priority with TrafficLab right now is to improve its monocular accuracy, if you notice the detections degrade as objects are further away from the camera, and sometimes box orientation can be nonsensical, I’m trying to resolve those first. I believe that only when detection are robust should we move to further processing. Thank you for checking out my project!</p>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
-
-<hr />
-
-<h3 id="q8-what-comes-first-accurate-world-modeling-or-accurate-agent-behavior">Q8. What comes first: accurate world modeling or accurate agent behavior?</h3>
-
-<p>Haha yeah it kinda relates, which is why I do think that, before I can do my final vision of this, Id need a bunch of sub projects as well, one of which is a revised version of TL3D, where it generates a “common trajectory map” instead of immediately jumping to digital twin</p>
-
-<hr />
-
-<h3 id="q9-where-does-tl3d-sit-in-that-loop">Q9. Where does TL3D sit in that loop?</h3>
-
-<p>Its world first right now i believe, its still very much a visualization layer than anything else</p>
-
-<hr />
-
-<h3 id="q10-what-did-this-project-change-about-how-you-see-ai">Q10. What did this project change about how you see AI?</h3>
-
-<p>A bunch of stuff honestly,</p>
-
-<ul>
-  <li>one, I’m not really that interested in LLMs and such anymore, I will still apply them when fit (eg. maybe for my final vision, there could be a natural language interface, “give me traffic volume of intersection 18, give me all near grid lock locations today, etc…”) but yeah, for now, working on those LLM stuff, im just not in a position for those yet (both in competition and compute limitation).</li>
-  <li>second, i realized that some research repo are abhorrent lol, my tinkering with crowd counting models was really painful… made me realized that, theres a reason why people do more “structured, predictable” work, but then, making these research actually useful for others, sometimes is not their priority.</li>
-  <li>third, yes, “digitizing the world” is quite the new buzzword in my head, physically constrained AI maybe.</li>
-</ul>
-
-<hr />
-
-<h3 id="q11-why-this-niche-specifically">Q11. Why this niche specifically?</h3>
-
-<p>Well many things, but, for the first time, I feel like im not throwing shits against the wall anymore, I genuinely felt enjoyable throughout this project,</p>
-
-<p>and perhaps more importantly, my github repo, as of posting this sits around 165 stars and 20 forks, this is the most amount of support ive ever received for a github repo (i dont even get stars usually), and yeah, after diving into this so deep and genuinely enjoy it, i dont want to miss it, i want to dig deeper, and that final vision of mine? its not “i have to get to it first”, or “i have to stay ahead of the curve”, its simply, my potential “magnum opus” if you will</p>
-
-<hr />
-
-<h3 id="q12-if-you-could-remove-one-manual-step-in-tl3d-what-would-it-be">Q12. If you could remove ONE manual step in TL3D, what would it be?</h3>
-
-<p>definitely calibration lol, think about city scale, there could be thousands to ten of thousands camera, other stuff, its a more direct generalization research direction, but for calibration, considering its kinda pointless if we already have the camera model, if i can automate or make it semi-supervised as soon and as effortless as possible (meaning i also dont want to spend too much time coming up with the solution it self), the better, at least until i have access to such resources, which are usually government-locked.</p>
-
-<hr />
-
-<h3 id="q13-what-would-the-version-that-actually-matters-look-like">Q13. What would the “version that actually matters” look like?</h3>
-
-<p>yeah, i think you can imagine that vision already from everything ive said so far, basically TL3D but city-scale, 3D lol, a good parallel might be <a href="https://demo.f4map.com/}" target="_blank">https://demo.f4map.com/</a>, just zoom into a popular city and you should see 3D buildings with (fake) 3D cars moving around the streets.</p>
-
-<hr />
-
-<h3 id="q14-what-are-you-trying-to-prove-next">Q14. What are you trying to prove next?</h3>
-
-<p>I think… I want to breathe a bit of a new perspective into this field, not the kind of coding agents into RL and simulation environment by hand anymore, and not by hallucinating pixels with something like video models/world models</p>
-
-<hr />
-
-<h3 id="q15-why-does-starting-from-hanoi-invalidate-existing-assumptions">Q15. Why does starting from Hanoi invalidate existing assumptions?</h3>
-
-<p>Yeah, looing at Hanoi traffic data for so long, not even having driven in hanoi or everywhere for that matter myself, i still realized that traffic is not just a geometric or flow engineering problem, sometimes its a sociological one, for Hanoi, rules are there, but they often have to be broken to prevent the city from coming to a halt, such behaviors are dangerous of course, but its kinda of a culture already, such behavior can be consider, as in Vietnamese “khôn lỏi”, but I believe its implicitly learned survival, I actually don’t know how this affect my technical side of things, just something i thought about</p>
-
-<hr />
-
-<h3 id="q16-re-evaluating-the-worst-case-solves-everything-idea">Q16. Re-evaluating the “worst-case solves everything” idea</h3>
-
-<p>simply, I wanted to show something thats “me”, how, taking the unconventional path, can take you to unexpected places. So instead of forking a “end-to-end” pipeline and call it a day, i learned about all these things, a near 100 page report, and an entire application GUI, etc…</p>
-
-<hr />
-
-<h3 id="q17-why-reject-monolithic-pipelines">Q17. Why reject monolithic pipelines?</h3>
-
-<p>yeah pretty much, but also, adaptability as well, so far, vanilla 2D detection models seems to be beest for that (YOLO, DETR,…), i imagine it wouldn’t be easy for such a monocular 3D model to just “pick up” say threewheelers or maybe in the future, even weird looking self-driving shuttle and delivering bots, my assumption of course, you can comment if they can do that and cite a study, but for now, this is “my thinking”, i can’t do everything, and i actually already believe that my final vision, hell TL3D itself, should have been a group effort, but, for my current environment, i only have myself, and i hope that, my final vision at least can connect me to the people that matters</p>
-
-<hr />
-
-<h3 id="q18-what-breaks-conceptually-at-city-scale">Q18. What breaks conceptually at city scale?</h3>
-
-<p>I actually didnt give that much thought yet, just mentioning it for anchor, i dont have that data yet already, but yeah, if im able to perfect TL3D, ie, this idea but for 1 intersection, then city scale version would present a very different problem set and application set i believe</p>
-
-<hr />
-
-<h3 id="q19-on-not-really-3d-and-shifting-standards">Q19. On “not really 3D” and shifting standards</h3>
-
-<p>I think i kinda already answered this, but basically, my standard grew, this is quite personal, i often have this habit of constantly invalidating myself, prime example when i achieve my unexpected 8.0 ielts, i felt suprised and relief for like 5 seconds, but then immediately lost the joy, and just kinda feel numb, its probably not healthy, but, i hope i can make it a healthy thing one day, without rejecting myself</p>
-
-<hr />
-
-<h3 id="q20-expanding-the-common-trajectory-map-idea">Q20. Expanding the “common trajectory map” idea</h3>
-
-<p>Im thinking it should be like common, vectorized paths so that agents can default to if their detection start to get noisy, havent figure it out all, this is just on the roadmap so</p>
-
-<hr />
-
-<h2 id="epilogue">Epilogue</h2>
-
-<p>Basically, if I had to sum it up, the actual biggest weakness of TL3D right now is that it doesn’t concern uncertainty, that can be projection mismatch, detector and tracker noise, and so on, in order to achieve a high fidelity, physically accurate digital twin, we have to be able to work under uncertainty.</p>
-
-<p>Anyway, thats about it. Thanks for checking out my project, consider giving it a star on Github if it was interesting to you <a href="https://github.com/duy-phamduc68/TrafficLab-3D" target="_blank">duy-phamduc68/trafficlab-3d</a>. Tell me what you think in the comments. Until next time :).</p>]]></content><author><name></name></author><category term="showcase" /><category term="project" /><category term="computer vision" /><category term="traffic analysis" /><category term="faq" /><summary type="html"><![CDATA[Complementary post for Project - Program: TrafficLab3D]]></summary></entry></feed>
+<p>So that’s a side of my that I’ve never really shared here before. After adding some new features to my blog recently, I plan to become more active and have a more “real” writing output on here, one of the place that I still have control over. Hope you enjoyed this, until next time.</p>]]></content><author><name></name></author><category term="post" /><category term="yuk lore" /><category term="graphics design" /><summary type="html"><![CDATA[Just found some of my old drawings, which might explain my capability for graphic designs]]></summary></entry></feed>

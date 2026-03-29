@@ -79,6 +79,14 @@
     --light-text-shadow-part-1: 0 0 0 transparent;
     --light-text-shadow-part-2: 0 0 0 transparent;
 
+    --site-bg-dot-color: rgba(206, 224, 255, 0.13);
+    --site-bg-dot-gap: 14px;
+    --site-bg-glow-dot-color: rgba(218, 240, 255, 0.28);
+    --site-bg-glow-size: 100px;
+    --site-bg-mouse-x: 50vw;
+    --site-bg-mouse-y: 50vh;
+    --site-bg-glow-opacity: 0;
+
     --border-width: 1px;
 }
 
@@ -122,6 +130,8 @@ body.light-mode {
     --box-shadow-part-2: var(--light-box-shadow-part-2);
     --text-shadow-part-1: var(--light-text-shadow-part-1);
     --text-shadow-part-2: var(--light-text-shadow-part-2);
+    --site-bg-dot-color: rgba(46, 80, 175, 0.13);
+    --site-bg-glow-dot-color: rgba(54, 96, 210, 0.62);
     --border-width: 2px;
 }
 
@@ -143,8 +153,53 @@ body {
     display: none;
 }
 
+.site-bg-effects {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.site-bg-dot-grid,
+.site-bg-glow {
+    position: absolute;
+    inset: 0;
+}
+
+.site-bg-dot-grid {
+    background-image: radial-gradient(circle, var(--site-bg-dot-color) 0.8px, transparent 1px);
+    background-size: var(--site-bg-dot-gap) var(--site-bg-dot-gap);
+    background-position: top left;
+    opacity: 0.35;
+}
+
+.site-bg-glow {
+    display: none;
+}
+
+@media (hover: hover) {
+    .site-bg-glow {
+        display: block;
+        background-image: radial-gradient(circle, var(--site-bg-glow-dot-color) 1px, transparent 1.2px);
+        background-size: var(--site-bg-dot-gap) var(--site-bg-dot-gap);
+        background-position: top left;
+        -webkit-mask-image: radial-gradient(var(--site-bg-glow-size) circle at var(--site-bg-mouse-x) var(--site-bg-mouse-y),
+                rgba(0, 0, 0, 1) 0,
+                rgba(0, 0, 0, 0.82) 30%,
+                rgba(0, 0, 0, 0.22) 56%,
+                transparent 76%);
+        mask-image: radial-gradient(var(--site-bg-glow-size) circle at var(--site-bg-mouse-x) var(--site-bg-mouse-y),
+                rgba(0, 0, 0, 1) 0,
+                rgba(0, 0, 0, 0.82) 30%,
+                rgba(0, 0, 0, 0.22) 56%,
+                transparent 76%);
+        opacity: var(--site-bg-glow-opacity);
+        transition: opacity 0.22s ease;
+    }
+}
+
 body::-webkit-scrollbar {
-    width: 10px;
+    width: 8px;
     height: 10px;
     background: var(--header-footer-shadeLight);
     z-index: 9999;
@@ -178,6 +233,8 @@ a {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    position: relative;
+    z-index: 1;
 }
 
 .archive-header-container header {
@@ -735,6 +792,7 @@ a {
     border: var(--border-width) solid var(--header-footer-shadeLight);
     background-color: var(--header-bg-color);
     border-radius: 20px;
+    overflow: hidden;
     box-shadow: var(--box-shadow-part-1), var(--box-shadow-part-2);
     transition: border 0.4s ease;
 }
@@ -782,6 +840,46 @@ a {
     width: 100%;
     text-decoration: none;
     padding: 0px 0px 20px 0px;
+}
+
+.post-card-with-thumbnail .post {
+    display: flex;
+    align-items: stretch;
+    padding: 0;
+}
+
+.post-card-with-thumbnail .post-card-info {
+    flex: 2;
+    min-width: 0;
+    border-right: var(--border-width) solid var(--header-footer-shadeLight);
+    padding: 0 0 20px 0;
+    transition: border-color 0.4s ease;
+}
+
+.post-card-with-thumbnail .post-card-thumbnail {
+    flex: 1;
+    min-width: 0;
+    position: relative;
+    overflow: hidden;
+    border-radius: 0;
+    background-color: var(--header-bg-color);
+    transition: border-color 0.4s ease;
+}
+
+.post-card-with-thumbnail .post-card-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.35s ease;
+}
+
+@media (min-width: 791px) {
+    .post-card-with-thumbnail .post-card-thumbnail img {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
 }
 
 .posts h3 {
@@ -900,7 +998,7 @@ a {
 
 .archive-inside-container {
     display: grid;
-    grid-template-columns: 1fr 2.5fr 1fr;
+    grid-template-columns: 1fr 3fr 1fr;
     gap: 10px;
     width: 100%;
     height: 100%;
@@ -1127,6 +1225,18 @@ h6 {
         border-color: var(--neon-aqua-accent);
     }
 
+    .post-card-with-thumbnail:hover .post-card-info {
+        border-right-color: var(--neon-aqua-accent);
+    }
+
+    .post-card-with-thumbnail:hover .post-card-thumbnail {
+        border-bottom-color: var(--neon-aqua-accent);
+    }
+
+    .post-card-with-thumbnail:hover .post-card-thumbnail img {
+        transform: scale(1.04);
+    }
+
     .pagination-nav button:not(:disabled):hover {
         border-color: var(--neon-aqua-accent);
     }
@@ -1158,7 +1268,7 @@ h6 {
     }
 
     .archive-outside-container {
-        padding: 0px 10vw 100px 10vw;
+        padding: 0px 6vw 100px 6vw;
         margin-top: 110px;
     }
 
@@ -1243,6 +1353,17 @@ h6 {
         display: none;
     }
 
+}
+
+@media (max-width: 1200px) and (min-width: 791px) {
+    .post-card-with-thumbnail .post-card-info {
+        flex: 0 0 55%;
+    }
+
+    .post-card-with-thumbnail .post-card-thumbnail {
+        flex: 0 0 45%;
+        min-width: 0;
+    }
 }
 
 /* Small devices (landscape phones or small tablets, 768px and below) */
@@ -1335,13 +1456,30 @@ h6 {
         font-size: 36px;
     }
 
-    .post-card img {
+    .post-card h2 img {
         width: 20px;
         height: 20px;
     }
 
+    .post-card-with-thumbnail .post {
+        flex-direction: column-reverse;
+    }
+
+    .post-card-with-thumbnail .post-card-info {
+        border-right: none;
+        padding-bottom: 10px;
+    }
+
+    .post-card-with-thumbnail .post-card-thumbnail {
+        width: 100%;
+        min-width: 0;
+        height: 220px;
+        border-radius: 0;
+        border-bottom: var(--border-width) solid var(--header-footer-shadeLight);
+    }
+
     .post-card h2 {
-        margin: 20px 25px 0px 20px;
+        margin: 15px 25px 0px 20px;
         font-size: 22px;
     }
 
@@ -1368,7 +1506,7 @@ h6 {
         font-size: 14px !important;
     }
 
-    .post-card a {
+    .post-card:not(.post-card-with-thumbnail) a.post {
         padding-bottom: 10px !important;
     }
 

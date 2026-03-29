@@ -82,6 +82,19 @@
     --light-text-shadow-part-1: 0 0 0 transparent;
     --light-text-shadow-part-2: 0 0 0 transparent;
 
+    --home-bg-dot-color: rgba(206, 224, 255, 0.13);
+    --home-bg-dot-gap: 14px;
+    --home-bg-glow-dot-color: rgba(218, 240, 255, 0.28);
+    --home-bg-glow-core: rgba(137, 228, 255, 0.16);
+    --home-bg-glow-mid: rgba(137, 228, 255, 0.08);
+    --home-bg-glow-edge: rgba(137, 228, 255, 0.02);
+    --home-bg-glow-size: 100px;
+    --home-bg-mouse-x: 50vw;
+    --home-bg-mouse-y: 50vh;
+    --home-bg-glow-opacity: 0;
+    --swiper-border-progress: 0;
+    --swiper-hover-mix: 0;
+
     --border-width: 1px;
 }
 
@@ -125,6 +138,11 @@ body.light-mode {
     --box-shadow-part-2: var(--light-box-shadow-part-2);
     --text-shadow-part-1: var(--light-text-shadow-part-1);
     --text-shadow-part-2: var(--light-text-shadow-part-2);
+    --home-bg-dot-color: rgba(46, 80, 175, 0.13);
+    --home-bg-glow-dot-color: rgba(54, 96, 210, 0.62);
+    --home-bg-glow-core: rgba(46, 80, 175, 0.14);
+    --home-bg-glow-mid: rgba(46, 80, 175, 0.08);
+    --home-bg-glow-edge: rgba(46, 80, 175, 0.03);
     --border-width: 2px;
 }
 
@@ -146,8 +164,53 @@ body {
     overflow-x: hidden;
 }
 
+.home-bg-effects {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.home-bg-dot-grid,
+.home-bg-glow {
+    position: absolute;
+    inset: 0;
+}
+
+.home-bg-dot-grid {
+    background-image: radial-gradient(circle, var(--home-bg-dot-color) 0.8px, transparent 1px);
+    background-size: var(--home-bg-dot-gap) var(--home-bg-dot-gap);
+    background-position: top left;
+    opacity: 0.35;
+}
+
+.home-bg-glow {
+    display: none;
+}
+
+@media (hover: hover) {
+    .home-bg-glow {
+        display: block;
+        background-image: radial-gradient(circle, var(--home-bg-glow-dot-color) 1px, transparent 1.2px);
+        background-size: var(--home-bg-dot-gap) var(--home-bg-dot-gap);
+        background-position: top left;
+        -webkit-mask-image: radial-gradient(var(--home-bg-glow-size) circle at var(--home-bg-mouse-x) var(--home-bg-mouse-y),
+                rgba(0, 0, 0, 1) 0,
+                rgba(0, 0, 0, 0.82) 30%,
+                rgba(0, 0, 0, 0.22) 56%,
+                transparent 76%);
+        mask-image: radial-gradient(var(--home-bg-glow-size) circle at var(--home-bg-mouse-x) var(--home-bg-mouse-y),
+                rgba(0, 0, 0, 1) 0,
+                rgba(0, 0, 0, 0.82) 30%,
+                rgba(0, 0, 0, 0.22) 56%,
+                transparent 76%);
+        opacity: var(--home-bg-glow-opacity);
+        transition: opacity 0.22s ease;
+    }
+}
+
 body::-webkit-scrollbar {
-    width: 10px;
+    width: 8px;
     height: 10px;
     background: var(--header-footer-shadeLight);
     z-index: 9999;
@@ -199,6 +262,8 @@ a {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    position: relative;
+    z-index: 1;
 }
 
 .outside-home-main-container {
@@ -209,7 +274,7 @@ a {
 
 .inside-main-container {
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 3fr 1fr;
     gap: 10px;
     width: 100%;
     height: 100%;
@@ -303,6 +368,7 @@ a {
 
 .intro-title h2 {
     text-align: center;
+    font-size: 1.25em !important;
 }
 
 .intro-title svg {
@@ -656,8 +722,16 @@ a {
     margin-bottom: 15px;
     box-shadow: var(--box-shadow-part-1), var(--box-shadow-part-2);
     color: var(--language-plaintext);
-    background-color: var(--header-bg-color);
-    border: var(--border-width) solid var(--header-footer-shadeLight);
+    background:
+        linear-gradient(var(--header-bg-color), var(--header-bg-color)) padding-box,
+        conic-gradient(from -90deg,
+            var(--neon-aqua-accent) calc(var(--swiper-border-progress) * 1turn),
+            color-mix(
+                in srgb,
+                var(--header-footer-shadeLight) calc((1 - var(--swiper-hover-mix)) * 100%),
+                var(--neon-aqua-accent) calc(var(--swiper-hover-mix) * 100%)
+            ) 0) border-box;
+    border: var(--border-width) solid transparent;
     transition: border 0.4s ease;
 }
 
@@ -1065,6 +1139,7 @@ a {
     border: var(--border-width) solid var(--header-footer-shadeLight);
     background-color: var(--header-bg-color);
     border-radius: 20px;
+    overflow: hidden;
     box-shadow: var(--box-shadow-part-1), var(--box-shadow-part-2);
     transition: border 0.4s ease;
 }
@@ -1090,6 +1165,46 @@ a {
     width: 100%;
     text-decoration: none;
     padding: 0px 0px 20px 0px;
+}
+
+.post-card-with-thumbnail .post {
+    display: flex;
+    align-items: stretch;
+    padding: 0;
+}
+
+.post-card-with-thumbnail .post-card-info {
+    flex: 2;
+    min-width: 0;
+    border-right: var(--border-width) solid var(--header-footer-shadeLight);
+    padding: 0 0 20px 0;
+    transition: border-color 0.4s ease;
+}
+
+.post-card-with-thumbnail .post-card-thumbnail {
+    flex: 1;
+    min-width: 0;
+    position: relative;
+    overflow: hidden;
+    border-radius: 0;
+    background-color: var(--header-bg-color);
+    transition: border-color 0.4s ease;
+}
+
+.post-card-with-thumbnail .post-card-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.35s ease;
+}
+
+@media (min-width: 791px) {
+    .post-card-with-thumbnail .post-card-thumbnail img {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
 }
 
 .post-excerpt {
@@ -1454,6 +1569,18 @@ h6 {
         border-color: var(--neon-aqua-accent);
     }
 
+    .post-card-with-thumbnail:hover .post-card-info {
+        border-right-color: var(--neon-aqua-accent);
+    }
+
+    .post-card-with-thumbnail:hover .post-card-thumbnail {
+        border-bottom-color: var(--neon-aqua-accent);
+    }
+
+    .post-card-with-thumbnail:hover .post-card-thumbnail img {
+        transform: scale(1.04);
+    }
+
 
     .explore-project-card:hover {
         border-color: var(--neon-aqua-accent);
@@ -1528,7 +1655,7 @@ h6 {
     }
 
     .swiper-container:hover {
-        border-color: var(--neon-aqua-accent);
+        border-color: transparent;
     }
 
     .swiper-slide:hover img,
@@ -1546,8 +1673,16 @@ h6 {
 
     .outside-home-main-container {
         flex: 1;
-        padding: 0px 6vw 100px 6vw;
+        padding: 0px 3vw 100px 3vw;
         margin-top: 100px;
+    }
+
+    .inside-main-container {
+        grid-template-columns: 4fr 1fr;
+    }
+
+    .short-intro-container {
+        padding: 1.2em;
     }
 
 }
@@ -1556,8 +1691,40 @@ h6 {
 
     .outside-home-main-container {
         flex: 1;
-        padding: 0px 3vw 100px 3vw;
+        padding: 0px 2vw 100px 2vw;
         margin-top: 100px;
+    }
+
+    .inside-main-container {
+        grid-template-columns: 4fr 1fr;
+    }
+
+}
+
+@media (max-width: 1200px) and (min-width: 791px) {
+    .post-card-with-thumbnail .post-card-info {
+        flex: 0 0 55%;
+    }
+
+    .post-card-with-thumbnail .post-card-thumbnail {
+        flex: 0 0 45%;
+        min-width: 0;
+    }
+
+    .post-card-with-thumbnail .post-card-info h2 {
+        font-size: 24px;
+    }
+
+    .post-card h2 {
+        font-size: 24px;
+    }
+
+    .post-excerpt {
+        font-size: 16px !important;
+    }
+
+    .short-intro-container {
+        padding: 1.1em;
     }
 
 }
@@ -1870,19 +2037,36 @@ h6 {
         margin: 20px 25px 0px 20px;
     }
 
-    .post-card img {
+    .post-card h2 img {
         width: 20px;
         height: 20px;
     }
 
     .post-card h2 {
-        margin: 20px 25px 0px 20px;
+        margin: 15px 25px 0px 20px;
         font-size: 22px;
     }
 
     .post-description {
         margin: 0px 25px 5px 20px;
         font-size: 16px;
+    }
+
+    .post-card-with-thumbnail .post {
+        flex-direction: column-reverse;
+    }
+
+    .post-card-with-thumbnail .post-card-info {
+        border-right: none;
+        padding-bottom: 10px;
+    }
+
+    .post-card-with-thumbnail .post-card-thumbnail {
+        width: 100%;
+        min-width: 0;
+        height: 220px;
+        border-radius: 0;
+        border-bottom: var(--border-width) solid var(--header-footer-shadeLight);
     }
 
     .post-tags {
@@ -1911,7 +2095,7 @@ h6 {
         font-size: 38px;
     }
 
-    .post-card a {
+    .post-card:not(.post-card-with-thumbnail) a.post {
         padding-bottom: 10px !important;
     }
 

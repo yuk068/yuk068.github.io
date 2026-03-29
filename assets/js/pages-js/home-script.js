@@ -6,9 +6,45 @@ const prevButton = document.querySelector('.prev-button');
 const nextButton = document.querySelector('.next-button');
 let currentSlide = 0;
 const slideCount = slides.length;
-let intervalTime = 7000;
-let slideDelay = 4000;
-let interval;
+const slideIntervalMs = 13500;
+let autoplayTimeoutId = 0;
+let progressRafId = 0;
+let hoverTransitionRafId = 0;
+const desktopSwiperTimerEnabled =
+    window.matchMedia('(min-width: 791px)').matches &&
+    window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+let isSwiperHovered = false;
+function initHomeBackgroundEffect() {
+    const hasFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!hasFinePointer || prefersReducedMotion) return;
+
+    const root = document.documentElement;
+    let rafId = 0;
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+
+    function flushMousePosition() {
+        root.style.setProperty('--home-bg-mouse-x', `${mouseX}px`);
+        root.style.setProperty('--home-bg-mouse-y', `${mouseY}px`);
+        rafId = 0;
+    }
+
+    window.addEventListener('mousemove', (event) => {
+        mouseX = event.clientX;
+        mouseY = event.clientY;
+        root.style.setProperty('--home-bg-glow-opacity', '1');
+
+        if (!rafId) {
+            rafId = window.requestAnimationFrame(flushMousePosition);
+        }
+    }, { passive: true });
+
+    window.addEventListener('mouseleave', () => {
+        root.style.setProperty('--home-bg-glow-opacity', '0');
+    });
+}
 
 // Drag variables
 let isDragging = false;
@@ -23,22 +59,122 @@ function goToSlide(index) {
     dots[currentSlide].classList.add('active');
 }
 
+function setSwiperBorderProgress(progress) {
+    if (!desktopSwiperTimerEnabled) return;
+    swiperContainer.style.setProperty('--swiper-border-progress', String(Math.min(Math.max(progress, 0), 1)));
+}
+
+function setSwiperHoverMix(mix) {
+    if (!desktopSwiperTimerEnabled) return;
+    swiperContainer.style.setProperty('--swiper-hover-mix', String(Math.min(Math.max(mix, 0), 1)));
+}
+
+function readSwiperVar(name, fallback = 0) {
+    const value = parseFloat(getComputedStyle(swiperContainer).getPropertyValue(name));
+    return Number.isFinite(value) ? value : fallback;
+}
+
+function stopSwiperHoverTransition() {
+    if (hoverTransitionRafId) {
+        cancelAnimationFrame(hoverTransitionRafId);
+        hoverTransitionRafId = 0;
+    }
+}
+
+function animateSwiperBorderState(targetProgress, targetHoverMix, durationMs, onComplete) {
+    if (!desktopSwiperTimerEnabled) {
+        if (onComplete) onComplete();
+        return;
+    }
+
+    stopSwiperHoverTransition();
+
+    const startProgress = readSwiperVar('--swiper-border-progress', 0);
+    const startHoverMix = readSwiperVar('--swiper-hover-mix', 0);
+    const startedAt = performance.now();
+
+    function tick(now) {
+        const elapsed = now - startedAt;
+        const t = durationMs <= 0 ? 1 : Math.min(elapsed / durationMs, 1);
+        const eased = 1 - Math.pow(1 - t, 3);
+
+        setSwiperBorderProgress(startProgress + (targetProgress - startProgress) * eased);
+        setSwiperHoverMix(startHoverMix + (targetHoverMix - startHoverMix) * eased);
+
+        if (t < 1) {
+            hoverTransitionRafId = requestAnimationFrame(tick);
+            return;
+        }
+
+        hoverTransitionRafId = 0;
+        if (onComplete) onComplete();
+    }
+
+    hoverTransitionRafId = requestAnimationFrame(tick);
+}
+
+function stopSwiperProgressLoop() {
+    if (progressRafId) {
+        cancelAnimationFrame(progressRafId);
+        progressRafId = 0;
+    }
+}
+
+function startSwiperProgressLoop(durationMs) {
+    if (!desktopSwiperTimerEnabled) return;
+
+    stopSwiperProgressLoop();
+    setSwiperBorderProgress(0);
+    const startedAt = performance.now();
+
+    function tick(now) {
+        const progress = durationMs <= 0 ? 1 : (now - startedAt) / durationMs;
+        setSwiperBorderProgress(progress);
+        if (progress < 1) {
+            progressRafId = requestAnimationFrame(tick);
+        } else {
+            progressRafId = 0;
+        }
+    }
+
+    progressRafId = requestAnimationFrame(tick);
+}
+
+function clearSwiperAutoplay() {
+    if (autoplayTimeoutId) {
+        clearTimeout(autoplayTimeoutId);
+        autoplayTimeoutId = 0;
+    }
+    stopSwiperProgressLoop();
+}
+
+function scheduleSwiperAutoplay(delayMs = slideIntervalMs) {
+    clearSwiperAutoplay();
+    startSwiperProgressLoop(delayMs);
+    autoplayTimeoutId = window.setTimeout(() => {
+        autoAdvanceSlide();
+    }, delayMs);
+}
+
 function nextSlide() {
     currentSlide = (currentSlide + 1) % slideCount;
     goToSlide(currentSlide);
-    resetInterval();
+    scheduleSwiperAutoplay(slideIntervalMs);
+}
+
+function autoAdvanceSlide() {
+    if (isSwiperHovered) return;
+    nextSlide();
 }
 
 function prevSlide() {
     currentSlide = (currentSlide - 1 + slideCount) % slideCount;
     goToSlide(currentSlide);
-    resetInterval();
+    scheduleSwiperAutoplay(slideIntervalMs);
 }
 
-function resetInterval() {
-    clearInterval(interval);
-    intervalTime = Math.min(intervalTime + slideDelay, intervalTime );
-    interval = setInterval(nextSlide, intervalTime);
+function resetSwiperAutoplay() {
+    scheduleSwiperAutoplay(slideIntervalMs);
 }
 
 function dragStart(e) {
@@ -49,7 +185,7 @@ function dragStart(e) {
     startTranslateX = parseFloat(swiperWrapper.style.transform.replace('translateX(', '').replace('%)', '')) || 0;
 
     // Stop auto-sliding during drag
-    clearInterval(interval);
+    clearSwiperAutoplay();
 }
 
 function dragMove(e) {
@@ -83,7 +219,7 @@ function dragEnd(e) {
 
     // Skip navigation logic if no dragging occurred
     if (!hasDragged) {
-        resetInterval();
+        resetSwiperAutoplay();
         return;
     }
 
@@ -101,7 +237,7 @@ function dragEnd(e) {
     }
 
     // Restart auto-sliding
-    resetInterval();
+    resetSwiperAutoplay();
 }
 
 // Event listeners for drag interaction
@@ -119,19 +255,40 @@ swiperWrapper.addEventListener('touchend', dragEnd);
 dots.forEach((dot, index) => {
     dot.addEventListener('click', () => {
         goToSlide(index);
-        resetInterval();
+        resetSwiperAutoplay();
     });
 });
 
 nextButton.addEventListener('click', nextSlide);
 prevButton.addEventListener('click', prevSlide);
 
+if (desktopSwiperTimerEnabled) {
+    setSwiperHoverMix(0);
+
+    swiperContainer.addEventListener('mouseenter', () => {
+        isSwiperHovered = true;
+        clearSwiperAutoplay();
+        animateSwiperBorderState(1, 1, 260);
+    });
+
+    swiperContainer.addEventListener('mouseleave', () => {
+        isSwiperHovered = false;
+        animateSwiperBorderState(0, 0, 260, () => {
+            if (isSwiperHovered) return;
+            setSwiperBorderProgress(0);
+            setSwiperHoverMix(0);
+            resetSwiperAutoplay();
+        });
+    });
+}
+
 // // Pause the slide interval on hover
 // swiperContainer.addEventListener('mouseover', () => clearInterval(interval));
 // swiperContainer.addEventListener('mouseout', () => resetInterval());
 
 // Start the initial interval
-interval = setInterval(nextSlide, intervalTime);
+scheduleSwiperAutoplay(slideIntervalMs);
+initHomeBackgroundEffect();
 
 // Function to handle header transformation based on scroll position
 function onScroll() {
