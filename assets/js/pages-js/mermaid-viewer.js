@@ -318,6 +318,7 @@
             }, { passive: false });
 
             let previousPinchDistance = null;
+            let previousPinchCenter = null;
             let isPinching = false;
 
             stage.addEventListener('touchstart', function (event) {
@@ -325,9 +326,22 @@
                     event.preventDefault();
                     event.stopPropagation();
 
-                    const dx = event.touches[0].clientX - event.touches[1].clientX;
-                    const dy = event.touches[0].clientY - event.touches[1].clientY;
-                    previousPinchDistance = Math.hypot(dx, dy);
+                    // Temporarily disable the library's native panning to prevent conflicts
+                    if (wrapper._panZoomInstance && typeof wrapper._panZoomInstance.disablePan === 'function') {
+                        wrapper._panZoomInstance.disablePan();
+                    }
+
+                    const rect = stage.getBoundingClientRect();
+                    const x1 = event.touches[0].clientX;
+                    const y1 = event.touches[0].clientY;
+                    const x2 = event.touches[1].clientX;
+                    const y2 = event.touches[1].clientY;
+
+                    previousPinchDistance = Math.hypot(x1 - x2, y1 - y2);
+                    previousPinchCenter = {
+                        x: ((x1 + x2) / 2) - rect.left,
+                        y: ((y1 + y2) / 2) - rect.top
+                    };
                     isPinching = true;
                 }
             }, { passive: false });
@@ -337,46 +351,76 @@
                     return;
                 }
 
-                // if interactions are locked, do not intercept pinch gestures
                 if (wrapper.classList && wrapper.classList.contains('interaction-locked')) {
                     return;
                 }
 
-                const dx = event.touches[0].clientX - event.touches[1].clientX;
-                const dy = event.touches[0].clientY - event.touches[1].clientY;
-                const distance = Math.hypot(dx, dy);
-
-                if (!previousPinchDistance || previousPinchDistance <= 0) {
-                    previousPinchDistance = distance;
-                    return;
-                }
-
-                const delta = Math.abs(distance - previousPinchDistance);
-                if (delta < 1) {
-                    // ignore tiny finger trembles to prevent jitter
-                    return;
-                }
-
-                let zoomFactor = distance / previousPinchDistance;
-                // Clamp to make the zoom stable and smooth
-                zoomFactor = Math.max(0.92, Math.min(1.08, zoomFactor));
+                event.preventDefault();
 
                 const rect = stage.getBoundingClientRect();
-                const point = {
-                    x: ((event.touches[0].clientX + event.touches[1].clientX) / 2) - rect.left,
-                    y: ((event.touches[0].clientY + event.touches[1].clientY) / 2) - rect.top
+                const x1 = event.touches[0].clientX;
+                const y1 = event.touches[0].clientY;
+                const x2 = event.touches[1].clientX;
+                const y2 = event.touches[1].clientY;
+
+                const distance = Math.hypot(x1 - x2, y1 - y2);
+                const currentCenter = {
+                    x: ((x1 + x2) / 2) - rect.left,
+                    y: ((y1 + y2) / 2) - rect.top
                 };
 
-                if (typeof wrapper._panZoomInstance.zoomAtPointBy === 'function') {
-                    wrapper._panZoomInstance.zoomAtPointBy(zoomFactor, point);
+                if (!previousPinchDistance || !previousPinchCenter) {
+                    previousPinchDistance = distance;
+                    previousPinchCenter = currentCenter;
+                    return;
                 }
 
-                previousPinchDistance = distance;
-                event.preventDefault();
+                // 1. Apply Pan (compensates for fingers moving across the screen)
+                const panX = currentCenter.x - previousPinchCenter.x;
+                const panY = currentCenter.y - previousPinchCenter.y;
+
+                if (Math.abs(panX) > 0 || Math.abs(panY) > 0) {
+                    if (typeof wrapper._panZoomInstance.panBy === 'function') {
+                        wrapper._panZoomInstance.panBy({ x: panX, y: panY });
+                    }
+                    previousPinchCenter = currentCenter;
+                }
+
+                // 2. Apply Zoom (scales based on the distance between fingers)
+                const delta = Math.abs(distance - previousPinchDistance);
+                if (delta >= 1) { // 1px threshold prevents micro-trembles
+                    let zoomFactor = distance / previousPinchDistance;
+                    zoomFactor = Math.max(0.92, Math.min(1.08, zoomFactor));
+
+                    if (typeof wrapper._panZoomInstance.zoomAtPointBy === 'function') {
+                        wrapper._panZoomInstance.zoomAtPointBy(zoomFactor, currentCenter);
+                    }
+                    previousPinchDistance = distance;
+                }
             }, { passive: false });
 
-            stage.addEventListener('touchend', function () {
+            stage.addEventListener('touchend', function (event) {
+                if (event.touches.length < 2) {
+                    // Re-enable native panning when the pinch is over
+                    if (wrapper._panZoomInstance && !wrapper.classList.contains('interaction-locked')) {
+                        if (typeof wrapper._panZoomInstance.enablePan === 'function') {
+                            wrapper._panZoomInstance.enablePan();
+                        }
+                    }
+                }
                 previousPinchDistance = null;
+                previousPinchCenter = null;
+                isPinching = false;
+            }, { passive: true });
+
+            stage.addEventListener('touchcancel', function (event) {
+                if (wrapper._panZoomInstance && !wrapper.classList.contains('interaction-locked')) {
+                    if (typeof wrapper._panZoomInstance.enablePan === 'function') {
+                        wrapper._panZoomInstance.enablePan();
+                    }
+                }
+                previousPinchDistance = null;
+                previousPinchCenter = null;
                 isPinching = false;
             }, { passive: true });
 
