@@ -318,17 +318,22 @@
             }, { passive: false });
 
             let previousPinchDistance = null;
+            let isPinching = false;
 
             stage.addEventListener('touchstart', function (event) {
                 if (event.touches.length === 2) {
+                    event.preventDefault();
+                    event.stopPropagation();
+
                     const dx = event.touches[0].clientX - event.touches[1].clientX;
                     const dy = event.touches[0].clientY - event.touches[1].clientY;
                     previousPinchDistance = Math.hypot(dx, dy);
+                    isPinching = true;
                 }
-            }, { passive: true });
+            }, { passive: false });
 
             stage.addEventListener('touchmove', function (event) {
-                if (!wrapper._panZoomInstance || event.touches.length !== 2) {
+                if (!wrapper._panZoomInstance || event.touches.length !== 2 || !isPinching) {
                     return;
                 }
 
@@ -346,8 +351,15 @@
                     return;
                 }
 
-                const rawFactor = distance / previousPinchDistance;
-                const boostedFactor = 1 + ((rawFactor - 1) * 1.7);
+                const delta = Math.abs(distance - previousPinchDistance);
+                if (delta < 1) {
+                    // ignore tiny finger trembles to prevent jitter
+                    return;
+                }
+
+                let zoomFactor = distance / previousPinchDistance;
+                // Clamp to make the zoom stable and smooth
+                zoomFactor = Math.max(0.92, Math.min(1.08, zoomFactor));
 
                 const rect = stage.getBoundingClientRect();
                 const point = {
@@ -356,7 +368,7 @@
                 };
 
                 if (typeof wrapper._panZoomInstance.zoomAtPointBy === 'function') {
-                    wrapper._panZoomInstance.zoomAtPointBy(boostedFactor, point);
+                    wrapper._panZoomInstance.zoomAtPointBy(zoomFactor, point);
                 }
 
                 previousPinchDistance = distance;
@@ -365,6 +377,7 @@
 
             stage.addEventListener('touchend', function () {
                 previousPinchDistance = null;
+                isPinching = false;
             }, { passive: true });
 
             stage.setAttribute('data-fast-zoom-ready', 'true');
