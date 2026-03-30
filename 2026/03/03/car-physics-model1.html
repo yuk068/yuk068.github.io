@@ -100,24 +100,29 @@
 
     <script type="module">
         import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5/dist/photoswipe-lightbox.esm.js';
-
+    
         const lightbox = new PhotoSwipeLightbox({
             gallery: '.post-article',
             children: 'img',
-            pswpModule: () => import('https://unpkg.com/photoswipe@5/dist/photoswipe.esm.js')
+            pswpModule: () => import('https://unpkg.com/photoswipe@5/dist/photoswipe.esm.js'),
+            
+            // --- Desktop Enhancements ---
+            wheelToZoom: true,          // Zoom with mouse wheel
+            imageClickAction: 'zoom',   // Click image to zoom instead of closing
+            secondaryZoomLevel: 2,      // Zoom in deeper on click
+            maxZoomLevel: 4,            // Allow even deeper manual zoom
+            // ----------------------------
         });
-
-        // Tell PhotoSwipe how to get image data from <img loading="lazy">
+    
         lightbox.addFilter('itemData', (itemData, index) => {
             const img = document.querySelectorAll('.post-article img')[index];
-
             return {
                 src: img.src,
                 width: img.naturalWidth || img.width,
                 height: img.naturalHeight || img.height
             };
         });
-
+    
         lightbox.init();
     </script>
 </head>
@@ -715,6 +720,7 @@
   <li><strong>Main reference: <a href="https://www.asawicki.info/Mirror/Car%20Physics%20for%20Games/Car%20Physics%20for%20Games.html" target="_blank">Marco Monster’s Car Physics</a></strong></li>
   <li><strong>Github repo for Longitudinal Simulators: <a href="https://github.com/duy-phamduc68/Longitudinal-Car-Physics" target="_blank">duy-phamduc68/Longitudinal-Car-Physics</a></strong></li>
   <li><strong>Github repo for Simulator 6: <a href="https://github.com/duy-phamduc68/Planar-Kinematic-Car-Model" target="_blank">duy-phamduc68/Planar-Kinematic-Car-Model</a></strong></li>
+  <li><strong>Github repo for Planar Dynamic Simulator(s): <a href="https://github.com/duy-phamduc68/Planar-Dynamic-Car-Model" target="_blank">duy-phamduc68/Planar-Dynamic-Car-Model</a></strong></li>
 </ul>
 
 <hr />

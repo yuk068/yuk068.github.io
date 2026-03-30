@@ -90,24 +90,29 @@
 
     <script type="module">
         import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5/dist/photoswipe-lightbox.esm.js';
-
+    
         const lightbox = new PhotoSwipeLightbox({
             gallery: '.post-article',
             children: 'img',
-            pswpModule: () => import('https://unpkg.com/photoswipe@5/dist/photoswipe.esm.js')
+            pswpModule: () => import('https://unpkg.com/photoswipe@5/dist/photoswipe.esm.js'),
+            
+            // --- Desktop Enhancements ---
+            wheelToZoom: true,          // Zoom with mouse wheel
+            imageClickAction: 'zoom',   // Click image to zoom instead of closing
+            secondaryZoomLevel: 2,      // Zoom in deeper on click
+            maxZoomLevel: 4,            // Allow even deeper manual zoom
+            // ----------------------------
         });
-
-        // Tell PhotoSwipe how to get image data from <img loading="lazy">
+    
         lightbox.addFilter('itemData', (itemData, index) => {
             const img = document.querySelectorAll('.post-article img')[index];
-
             return {
                 src: img.src,
                 width: img.naturalWidth || img.width,
                 height: img.naturalHeight || img.height
             };
         });
-
+    
         lightbox.init();
     </script>
 </head>
@@ -669,8 +674,75 @@
 <ul>
   <li>Added a cool background hover effect inspired by the Google Stitch Website: <a href="https://stitch.withgoogle.com/" target="_blank">https://stitch.withgoogle.com/</a></li>
   <li>Added a timer to the home page’s carousel.</li>
-  <li>Added thumbnails to post cards in home page and archive page.</li>
+  <li>
+    <p>Added thumbnails to post cards in home page and archive page.</p>
+  </li>
+  <li><strong>New callout style examples (note/warning/tip/info)</strong></li>
 </ul>
+
+<div class="callout callout-note">
+  <div class="callout-body">
+    <span class="callout-icon" aria-hidden="true">
+      
+          <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24"><defs><style>.cls-637b83faf95e86b59c57a0ed-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><rect class="cls-637b83faf95e86b59c57a0ed-1" x="3.39" y="2.41" width="17.22" height="20.09"></rect><line class="cls-637b83faf95e86b59c57a0ed-1" x1="7.22" y1="0.5" x2="7.22" y2="4.33"></line><line class="cls-637b83faf95e86b59c57a0ed-1" x1="12" y1="0.5" x2="12" y2="4.33"></line><line class="cls-637b83faf95e86b59c57a0ed-1" x1="16.78" y1="0.5" x2="16.78" y2="4.33"></line><line class="cls-637b83faf95e86b59c57a0ed-1" x1="6.26" y1="11.02" x2="17.74" y2="11.02"></line><line class="cls-637b83faf95e86b59c57a0ed-1" x1="6.26" y1="7.2" x2="17.74" y2="7.2"></line><line class="cls-637b83faf95e86b59c57a0ed-1" x1="6.26" y1="14.85" x2="17.74" y2="14.85"></line><line class="cls-637b83faf95e86b59c57a0ed-1" x1="6.26" y1="18.67" x2="12" y2="18.67"></line></svg>
+      
+    </span>
+    
+
+    
+      Here is a gentle note callout. This follows the same rounded card style as blockquotes and code highlights.
+
+    
+  </div>
+</div>
+
+<div class="callout callout-tip">
+  <div class="callout-body">
+    <span class="callout-icon" aria-hidden="true">
+      
+          <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24"><defs><style>.cls-637647fac3a86d32eae6f1e3-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f1e3-1" x1="12" y1="9.14" x2="12" y2="15.82"></line><polyline class="cls-637647fac3a86d32eae6f1e3-1" points="15.82 2.46 15.82 2.46 20.59 2.46 20.59 22.5 3.41 22.5 3.41 2.46 8.18 2.46 8.18 2.46"></polyline><path class="cls-637647fac3a86d32eae6f1e3-1" d="M15.82,1.5V3.41a1.92,1.92,0,0,1-1.91,1.91H10.09A1.92,1.92,0,0,1,8.18,3.41V1.5Z"></path><line class="cls-637647fac3a86d32eae6f1e3-1" x1="11.05" y1="17.73" x2="12.95" y2="17.73"></line></svg>
+        
+    </span>
+    
+
+    
+      For any quick tip or pro advice, use the tip callout.
+
+    
+  </div>
+</div>
+
+<div class="callout callout-warning">
+  <div class="callout-body">
+    <span class="callout-icon" aria-hidden="true">
+      
+          <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24"><defs><style>.cls-63763c42c3a86d32eae6f11d-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-63763c42c3a86d32eae6f11d-1" d="M12.13,3.41h-.26a1.48,1.48,0,0,0-1.26.7L1.73,18.32a1.48,1.48,0,0,0-.23.79h0A1.48,1.48,0,0,0,3,20.59H21a1.48,1.48,0,0,0,1.48-1.48h0a1.48,1.48,0,0,0-.23-.79L13.39,4.11A1.48,1.48,0,0,0,12.13,3.41Z"></path><line class="cls-63763c42c3a86d32eae6f11d-1" x1="12" y1="8.18" x2="12" y2="13.91"></line><line class="cls-63763c42c3a86d32eae6f11d-1" x1="12" y1="15.82" x2="12" y2="17.73"></line></svg>
+        
+    </span>
+    
+
+    
+      Use caution when directly modifying physics constants; it may destabilize the simulated model.
+
+    
+  </div>
+</div>
+
+<div class="callout callout-important">
+  <div class="callout-body">
+    <span class="callout-icon" aria-hidden="true">
+      
+          <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24"><defs><style>.cls-637647fac3a86d32eae6f1e3-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f1e3-1" x1="12" y1="9.14" x2="12" y2="15.82"></line><polyline class="cls-637647fac3a86d32eae6f1e3-1" points="15.82 2.46 15.82 2.46 20.59 2.46 20.59 22.5 3.41 22.5 3.41 2.46 8.18 2.46 8.18 2.46"></polyline><path class="cls-637647fac3a86d32eae6f1e3-1" d="M15.82,1.5V3.41a1.92,1.92,0,0,1-1.91,1.91H10.09A1.92,1.92,0,0,1,8.18,3.41V1.5Z"></path><line class="cls-637647fac3a86d32eae6f1e3-1" x1="11.05" y1="17.73" x2="12.95" y2="17.73"></line></svg>
+        
+    </span>
+    
+
+    
+      Critical update: prefer using important for high-priority alerts so icons and colors match desired states.
+
+    
+  </div>
+</div>
 
 <h3 id="minor-230-mar-21st-2026">Minor 2.3.0 (Mar. 21st 2026)<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#minor-230-mar-21st-2026')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
 

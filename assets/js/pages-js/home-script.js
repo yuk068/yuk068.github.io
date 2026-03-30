@@ -1,3 +1,21 @@
+const myStrings = [
+    "Digital Twin",
+    "Artificial Intelligence",
+    "Simulation",
+    "Autonomous Vehicle",
+    "Machine Learning",
+    "Deep Learning",
+    "Mathematics",
+    "Local LLM",
+    "Data Visualization"
+];
+
+// Home header desktop title configuration
+const initialWaitMs = 10500;      // Time sitting on original text (no caret)
+const pauseAfterTypingMs = 2500; // Time sitting on a list item
+const typingSpeedMs = 70;
+const deletingSpeedMs = 35;
+
 const swiperContainer = document.querySelector('.swiper-container');
 const swiperWrapper = document.querySelector('.swiper-wrapper');
 const slides = document.querySelectorAll('.swiper-slide');
@@ -7,11 +25,15 @@ const nextButton = document.querySelector('.next-button');
 let currentSlide = 0;
 const slideCount = slides.length;
 const slideIntervalMs = 13500;
+const minResumeAutoplayWindowMs = 3000;
 let autoplayTimeoutId = 0;
 let progressRafId = 0;
 let hoverTransitionRafId = 0;
-const desktopSwiperTimerEnabled =
-    window.matchMedia('(min-width: 791px)').matches &&
+let autoplayDeadlineMs = 0;
+let pausedAutoplayRemainingMs = slideIntervalMs;
+let pausedAutoplayProgress = 0;
+let slideResumeGraceApplied = false;
+const hoverCapableSwiperTimerEnabled =
     window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
 let isSwiperHovered = false;
@@ -60,12 +82,12 @@ function goToSlide(index) {
 }
 
 function setSwiperBorderProgress(progress) {
-    if (!desktopSwiperTimerEnabled) return;
+    if (!hoverCapableSwiperTimerEnabled) return;
     swiperContainer.style.setProperty('--swiper-border-progress', String(Math.min(Math.max(progress, 0), 1)));
 }
 
 function setSwiperHoverMix(mix) {
-    if (!desktopSwiperTimerEnabled) return;
+    if (!hoverCapableSwiperTimerEnabled) return;
     swiperContainer.style.setProperty('--swiper-hover-mix', String(Math.min(Math.max(mix, 0), 1)));
 }
 
@@ -82,7 +104,7 @@ function stopSwiperHoverTransition() {
 }
 
 function animateSwiperBorderState(targetProgress, targetHoverMix, durationMs, onComplete) {
-    if (!desktopSwiperTimerEnabled) {
+    if (!hoverCapableSwiperTimerEnabled) {
         if (onComplete) onComplete();
         return;
     }
@@ -120,15 +142,17 @@ function stopSwiperProgressLoop() {
     }
 }
 
-function startSwiperProgressLoop(durationMs) {
-    if (!desktopSwiperTimerEnabled) return;
+function startSwiperProgressLoop(durationMs, initialProgress = 0) {
+    if (!hoverCapableSwiperTimerEnabled) return;
 
     stopSwiperProgressLoop();
-    setSwiperBorderProgress(0);
+    const safeInitialProgress = Math.min(Math.max(initialProgress, 0), 1);
+    setSwiperBorderProgress(safeInitialProgress);
     const startedAt = performance.now();
 
     function tick(now) {
-        const progress = durationMs <= 0 ? 1 : (now - startedAt) / durationMs;
+        const t = durationMs <= 0 ? 1 : (now - startedAt) / durationMs;
+        const progress = safeInitialProgress + (1 - safeInitialProgress) * t;
         setSwiperBorderProgress(progress);
         if (progress < 1) {
             progressRafId = requestAnimationFrame(tick);
@@ -145,13 +169,34 @@ function clearSwiperAutoplay() {
         clearTimeout(autoplayTimeoutId);
         autoplayTimeoutId = 0;
     }
+    autoplayDeadlineMs = 0;
     stopSwiperProgressLoop();
 }
 
-function scheduleSwiperAutoplay(delayMs = slideIntervalMs) {
+function getSwiperAutoplayRemainingMs() {
+    if (!autoplayTimeoutId || !autoplayDeadlineMs) return slideIntervalMs;
+    return Math.max(autoplayDeadlineMs - performance.now(), 0);
+}
+
+function scheduleSwiperAutoplay(delayMs = slideIntervalMs, initialProgress = 0, preserveSlideGrace = false) {
+    if (!preserveSlideGrace) {
+        slideResumeGraceApplied = false;
+    }
+
     clearSwiperAutoplay();
-    startSwiperProgressLoop(delayMs);
+
+    // FIX 2: If the swiper is currently being hovered (e.g., user clicked a dot or arrow),
+    // update the paused variables but do not start the actual countdown loop.
+    if (isSwiperHovered) {
+        pausedAutoplayRemainingMs = delayMs;
+        pausedAutoplayProgress = initialProgress;
+        return;
+    }
+
+    autoplayDeadlineMs = performance.now() + delayMs;
+    startSwiperProgressLoop(delayMs, initialProgress);
     autoplayTimeoutId = window.setTimeout(() => {
+        autoplayDeadlineMs = 0;
         autoAdvanceSlide();
     }, delayMs);
 }
@@ -262,22 +307,36 @@ dots.forEach((dot, index) => {
 nextButton.addEventListener('click', nextSlide);
 prevButton.addEventListener('click', prevSlide);
 
-if (desktopSwiperTimerEnabled) {
+if (hoverCapableSwiperTimerEnabled) {
     setSwiperHoverMix(0);
 
     swiperContainer.addEventListener('mouseenter', () => {
         isSwiperHovered = true;
+        
+        // FIX 1: Only capture the remaining time and progress if the timer is ACTUALLY running.
+        // If we enter during a recent mouseleave animation, we retain our accurate paused values.
+        if (autoplayTimeoutId) {
+            pausedAutoplayRemainingMs = getSwiperAutoplayRemainingMs();
+            pausedAutoplayProgress = readSwiperVar('--swiper-border-progress', 0);
+        }
+        
         clearSwiperAutoplay();
         animateSwiperBorderState(1, 1, 260);
     });
 
     swiperContainer.addEventListener('mouseleave', () => {
         isSwiperHovered = false;
-        animateSwiperBorderState(0, 0, 260, () => {
+        let resumedDelayMs = pausedAutoplayRemainingMs;
+        if (!slideResumeGraceApplied && resumedDelayMs < minResumeAutoplayWindowMs) {
+            resumedDelayMs = minResumeAutoplayWindowMs;
+            slideResumeGraceApplied = true;
+        }
+
+        const resumedProgress = Math.min(Math.max(pausedAutoplayProgress, 0), 1);
+
+        animateSwiperBorderState(resumedProgress, 0, 260, () => {
             if (isSwiperHovered) return;
-            setSwiperBorderProgress(0);
-            setSwiperHoverMix(0);
-            resetSwiperAutoplay();
+            scheduleSwiperAutoplay(resumedDelayMs, resumedProgress, true);
         });
     });
 }
@@ -403,6 +462,93 @@ function updateButtonVisibility() {
         rightButton.classList.remove('hidden');
     }
 }
+
+async function initTypingEffect(stringList) {
+    const elements = document.querySelectorAll('.home-header-title-desktop h1');
+    if (elements.length === 0) return;
+
+    const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+    // Helper to update all target h1 elements at once
+    const updateText = (text) => {
+        elements.forEach(el => el.textContent = text);
+    };
+
+    // Helper to toggle caret class
+    const setCaret = (isActive) => {
+        elements.forEach(el => {
+            if (isActive) el.classList.add('typing-active');
+            else el.classList.remove('typing-active');
+        });
+    };
+
+    async function runCycle() {
+        // Capture the original text from the HTML
+        const originalText = elements[0].textContent;
+
+        // Track items not shown in the current pass
+        let remainingTexts = [...stringList];
+
+        while (true) {
+            // Refill when all entries have been shown
+            if (remainingTexts.length === 0) {
+                remainingTexts = [...stringList];
+            }
+
+            // 1. WAIT: 2 seconds with the original text visible and NO caret
+            setCaret(false);
+            await sleep(initialWaitMs);
+
+            // 2. INITIALIZE: Show caret and delete original text
+            setCaret(true);
+            for (let i = originalText.length; i >= 0; i--) {
+                updateText(originalText.substring(0, i));
+                await sleep(deletingSpeedMs);
+            }
+            await sleep(300);
+
+            // 3. LIST LOOP: Type and delete up to 3 unique random strings per cycle
+            const batchSize = Math.min(3, remainingTexts.length);
+            const batch = [];
+            for (let i = 0; i < batchSize; i++) {
+                const randomIndex = Math.floor(Math.random() * remainingTexts.length);
+                batch.push(remainingTexts.splice(randomIndex, 1)[0]);
+            }
+
+            for (const text of batch) {
+                // Type it out
+                for (let i = 0; i <= text.length; i++) {
+                    updateText(text.substring(0, i));
+                    await sleep(typingSpeedMs);
+                }
+
+                // Pause to let them read the list item
+                await sleep(pauseAfterTypingMs);
+
+                // Delete it
+                for (let i = text.length; i >= 0; i--) {
+                    updateText(text.substring(0, i));
+                    await sleep(deletingSpeedMs);
+                }
+                await sleep(300);
+            }
+
+            // 4. RETURN: Type the original text back out
+            for (let i = 0; i <= originalText.length; i++) {
+                updateText(originalText.substring(0, i));
+                await sleep(typingSpeedMs);
+            }
+
+            // The loop now restarts, hitting the top where Caret is removed and it waits 2s
+        }
+    }
+
+    runCycle();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    initTypingEffect(myStrings);
+});
 
 // Attach scroll event listener to update visibility dynamically
 document.addEventListener('DOMContentLoaded', () => {

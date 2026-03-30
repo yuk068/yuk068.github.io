@@ -1,7 +1,7 @@
 :root {
     --bg-color: #05070a;
     --bg-secondary-color: #10141b;
-    --neon-aqua-accent: #89e4ff;
+    --neon-aqua-accent: #9be8ff;
     --header-bg-color: #1b2130;
     --header-footer-shadeLight: #343c4d;
     --header-footer-shadeDark: #262d3d;
@@ -82,9 +82,9 @@
     --light-text-shadow-part-1: 0 0 0 transparent;
     --light-text-shadow-part-2: 0 0 0 transparent;
 
-    --home-bg-dot-color: rgba(206, 224, 255, 0.13);
+    --home-bg-dot-color: rgba(206, 224, 255, 0.24);
     --home-bg-dot-gap: 14px;
-    --home-bg-glow-dot-color: rgba(218, 240, 255, 0.28);
+    --home-bg-glow-dot-color: rgba(218, 240, 255, 0.32);
     --home-bg-glow-core: rgba(137, 228, 255, 0.16);
     --home-bg-glow-mid: rgba(137, 228, 255, 0.08);
     --home-bg-glow-edge: rgba(137, 228, 255, 0.02);
@@ -554,6 +554,24 @@ a {
     font-size: 2em;
     font-weight: bold;
     transition: all 0.2s ease;
+}
+
+/* Base state: No caret */
+.home-header-title-desktop h1 {
+    display: inline-block;
+}
+
+/* Caret only appears when typing/deleting is active */
+.home-header-title-desktop h1.typing-active::after {
+    content: '|';
+    margin-left: 4px;
+    color: currentColor;
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
 }
 
 .header-logo-container {
