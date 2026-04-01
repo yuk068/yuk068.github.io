@@ -774,6 +774,10 @@ const extraButton = document.querySelector('.extra-button');
 const overlay = document.getElementById('overlay');
 const optionsContainer = document.querySelector('.options-container');
 
+if (overlay && overlay.parentElement !== document.body) {
+    document.body.appendChild(overlay);
+}
+
 // Function to show the options container with the overlay
 function showOptions() {
     overlay.style.display = 'flex'; // Show the overlay
