@@ -117,6 +117,15 @@
         wrapper.classList.toggle('site-fullscreen', isFullscreen);
         document.body.classList.toggle('mermaid-site-fullscreen-open', isFullscreen);
 
+        // disable page scroll while in site fullscreen mode
+        if (isFullscreen) {
+            document.body.style.overflow = 'hidden';
+            document.documentElement.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'visible';
+            document.documentElement.style.overflow = 'visible';
+        }
+
         const fullscreenButton = wrapper.querySelector('.js-mermaid-fullscreen');
         if (fullscreenButton) {
             fullscreenButton.innerHTML = isFullscreen ? wrapper._fullscreenExitIcon : wrapper._fullscreenEnterIcon;

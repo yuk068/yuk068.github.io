@@ -10,8 +10,14 @@ const myStrings = [
     "Data Visualization"
 ];
 
+if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+}
+window.scrollTo(0, 0);
+
 // Home header desktop title configuration
 const initialWaitMs = 10500;      // Time sitting on original text (no caret)
+const postOriginalCaretWaitMs = 2000; // Time caret stays on retyped original text before it disappears
 const pauseAfterTypingMs = 2500; // Time sitting on a list item
 const typingSpeedMs = 70;
 const deletingSpeedMs = 35;
@@ -44,8 +50,12 @@ function initHomeBackgroundEffect() {
 
     const root = document.documentElement;
     let rafId = 0;
+
     let mouseX = window.innerWidth / 2;
     let mouseY = window.innerHeight / 2;
+
+    let lastClientX = mouseX;
+    let lastClientY = mouseY;
 
     function flushMousePosition() {
         root.style.setProperty('--home-bg-mouse-x', `${mouseX}px`);
@@ -53,20 +63,187 @@ function initHomeBackgroundEffect() {
         rafId = 0;
     }
 
-    window.addEventListener('mousemove', (event) => {
-        mouseX = event.clientX;
-        mouseY = event.clientY;
-        root.style.setProperty('--home-bg-glow-opacity', '1');
+    function updatePosition() {
+        mouseX = lastClientX + window.scrollX;
+        mouseY = lastClientY + window.scrollY;
 
         if (!rafId) {
             rafId = window.requestAnimationFrame(flushMousePosition);
         }
-    }, { passive: true });
+    }
 
-    window.addEventListener('mouseleave', () => {
+    function handleMove(event) {
+        lastClientX = event.clientX;
+        lastClientY = event.clientY;
+
+        root.style.setProperty('--home-bg-glow-opacity', '1');
+        updatePosition();
+    }
+
+    function handleScroll() {
+        updatePosition();
+    }
+
+    function handleLeave() {
         root.style.setProperty('--home-bg-glow-opacity', '0');
+    }
+
+    window.addEventListener('mousemove', handleMove, { passive: true });
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    document.addEventListener('mouseleave', handleLeave);
+
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            handleLeave();
+        }
     });
 }
+
+function initDotRippleEffect(presetName = 'subtle', timeToFirstMs = null) {
+    const RIPPLE_PRESETS = {
+        subtle: {
+            alpha:        0.55,
+            radius:       { min: 80,  max: 160 },
+            ringWidth:    { min: 20,  max: 45  },
+            duration:     { min: 1800, max: 2600 },
+            interval:     { min: 900, max: 1100 },
+            sideWidth:    0.28,
+            centerChance: 0.15,
+        },
+        mild: {
+            alpha:        0.75,
+            radius:       { min: 100, max: 210 },
+            ringWidth:    { min: 30,  max: 60  },
+            duration:     { min: 1600, max: 2200 },
+            interval:     { min: 700, max: 900 },
+            sideWidth:    0.25,
+            centerChance: 0.12,
+        },
+        justright: {
+            alpha:        0.8,
+            radius:       { min: 130, max: 250 },
+            ringWidth:    { min: 50,  max: 100  },
+            duration:     { min: 1200, max: 1800 },
+            interval:     { min: 275, max: 425 },
+            sideWidth:    0.21,
+            centerChance: 0.12,
+        },
+        aggressive: {
+            alpha:        1.2,
+            radius:       { min: 160, max: 300 },
+            ringWidth:    { min: 50,  max: 90  },
+            duration:     { min: 1200, max: 1800 },
+            interval:     { min: 300, max: 500 },
+            sideWidth:    0.22,
+            centerChance: 0.08,
+        },
+    };
+
+    const p = RIPPLE_PRESETS[presetName];
+    if (!p) { console.error('[ripple] unknown preset:', presetName, '| valid:', Object.keys(RIPPLE_PRESETS)); return; }
+
+    const container = document.querySelector('.home-bg-effects');
+    if (!container) { console.error('[ripple] .home-bg-effects not found'); return; }
+
+    const rand = (range) => typeof range === 'number'
+        ? range
+        : range.min + Math.random() * (range.max - range.min);
+
+    function getSpawnX() {
+        if (Math.random() < p.centerChance) {
+            return window.scrollX + window.innerWidth * (0.3 + Math.random() * 0.4);
+        }
+        const sideWidthPx = window.innerWidth * p.sideWidth;
+        const onLeft = Math.random() < 0.5;
+        return window.scrollX + (onLeft
+            ? Math.random() * sideWidthPx
+            : window.innerWidth - Math.random() * sideWidthPx);
+    }
+
+    function spawnRipple(pageX, pageY) {
+        const dotColor = getComputedStyle(document.documentElement)
+            .getPropertyValue('--home-bg-glow-dot-color').trim();
+        const dotGap = getComputedStyle(document.documentElement)
+            .getPropertyValue('--home-bg-dot-gap').trim() || '28px';
+
+        const peakAlpha = p.alpha;
+        const maxRadius = rand(p.radius);
+        const ringWidth = rand(p.ringWidth);
+        const duration  = rand(p.duration);
+
+        const el = document.createElement('div');
+        el.style.cssText = `
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            background-image: radial-gradient(circle, ${dotColor} 0.8px, transparent 1px);
+            background-size: ${dotGap} ${dotGap};
+            background-position: top left;
+            mask-repeat: no-repeat;
+            -webkit-mask-repeat: no-repeat;
+        `;
+        container.appendChild(el);
+
+        const start = performance.now();
+
+        function frame(now) {
+            const t = Math.min((now - start) / duration, 1);
+            const r = (1 - Math.pow(1 - t, 2)) * maxRadius;
+            const alpha = peakAlpha * Math.sin(t * Math.PI);
+            const innerEdge = Math.max(0, r - ringWidth * 0.5);
+
+            const mask = `radial-gradient(circle at ${pageX}px ${pageY}px, transparent ${innerEdge}px, rgba(0,0,0,${alpha}) ${r}px, transparent ${r + ringWidth}px)`;
+            el.style.maskImage = mask;
+            el.style.webkitMaskImage = mask;
+
+            if (t < 1) requestAnimationFrame(frame);
+            else el.remove();
+        }
+
+        requestAnimationFrame(frame);
+    }
+
+    let scheduled = false;
+    let nextDelayMs = Number.isFinite(Number(timeToFirstMs)) && timeToFirstMs >= 0
+        ? Number(timeToFirstMs)
+        : null;
+
+    function scheduleNext() {
+        if (scheduled) return;
+        scheduled = true;
+
+        const delay = nextDelayMs !== null ? nextDelayMs : rand(p.interval);
+        nextDelayMs = null;
+
+        setTimeout(() => {
+            scheduled = false;
+            const x = getSpawnX();
+            const y = window.scrollY + window.innerHeight * (0.05 + Math.random() * 0.9);
+            spawnRipple(x, y);
+            scheduleNext();
+        }, delay);
+    }
+
+    scheduleNext();
+
+    document.addEventListener('click', (e) => {
+        if (e.target.closest('a, button, input, textarea, select')) return;
+        spawnRipple(
+            e.clientX + window.scrollX,
+            e.clientY + window.scrollY
+        );
+    });
+
+    document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) scheduleNext();
+    });
+}
+
+initDotRippleEffect('justright', 5500);
+
 
 // Drag variables
 let isDragging = false;
@@ -379,7 +556,7 @@ function onScroll() {
 }
 
 // Add the scroll event listener
-document.body.addEventListener('scroll', onScroll);
+window.addEventListener('scroll', onScroll, { passive: true });
 
 // Function to scroll to the top when the button is clicked
 function scrollToTop() {
@@ -539,7 +716,10 @@ async function initTypingEffect(stringList) {
                 await sleep(typingSpeedMs);
             }
 
-            // The loop now restarts, hitting the top where Caret is removed and it waits 2s
+            // Hold caret on the original text for a while before the cycle reset.
+            await sleep(postOriginalCaretWaitMs);
+
+            // The loop now restarts, hitting the top where caret is removed and it waits initialWaitMs
         }
     }
 

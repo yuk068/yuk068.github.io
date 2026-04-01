@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://yuk068.github.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://yuk068.github.io//" rel="alternate" type="text/html" /><updated>2026-03-31T07:55:42+07:00</updated><id>https://yuk068.github.io//feed.xml</id><title type="html">Yuk’s Blog</title><subtitle></subtitle><entry><title type="html">Car Physics - Model 7: High-Speed Lateral Tire Model</title><link href="https://yuk068.github.io//2026/03/28/car-physics-model7" rel="alternate" type="text/html" title="Car Physics - Model 7: High-Speed Lateral Tire Model" /><published>2026-03-28T00:00:00+07:00</published><updated>2026-03-28T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/03/28/car-physics-model7</id><content type="html" xml:base="https://yuk068.github.io//2026/03/28/car-physics-model7"><![CDATA[<h3 id="table-of-content">Table of Content</h3>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://yuk068.github.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://yuk068.github.io//" rel="alternate" type="text/html" /><updated>2026-04-01T08:11:37+07:00</updated><id>https://yuk068.github.io//feed.xml</id><title type="html">Yuk’s Blog</title><subtitle></subtitle><entry><title type="html">Car Physics - Model 7: High-Speed Lateral Tire Model</title><link href="https://yuk068.github.io//2026/03/28/car-physics-model7" rel="alternate" type="text/html" title="Car Physics - Model 7: High-Speed Lateral Tire Model" /><published>2026-03-28T00:00:00+07:00</published><updated>2026-03-28T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/03/28/car-physics-model7</id><content type="html" xml:base="https://yuk068.github.io//2026/03/28/car-physics-model7"><![CDATA[<h3 id="table-of-content">Table of Content</h3>
 
 <blockquote><div class="content">
   <div id="table-of-contents"></div>
@@ -63,7 +63,31 @@
 
 <hr />
 
-<h2 id="model-7-recap">Model 7 Recap</h2>]]></content><author><name></name></author><category term="technical" /><category term="vehicle dynamics" /><category term="simulation" /><category term="kinematic modeling" /><category term="interactive plot" /><category term="unfinished" /><summary type="html"><![CDATA[Implementing and Comprehending Marco Monster’s Car Physics model - Phase 2: Planar Vehicle Dynamics Model - Part 7]]></summary></entry><entry><title type="html">Car Physics - Model 6: Low-Speed Kinematic Turning</title><link href="https://yuk068.github.io//2026/03/26/car-physics-model6" rel="alternate" type="text/html" title="Car Physics - Model 6: Low-Speed Kinematic Turning" /><published>2026-03-26T00:00:00+07:00</published><updated>2026-03-26T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/03/26/car-physics-model6</id><content type="html" xml:base="https://yuk068.github.io//2026/03/26/car-physics-model6"><![CDATA[<h3 id="table-of-content">Table of Content</h3>
+<h2 id="1-model-7-recap">1. Model 7 Recap</h2>
+
+<h3 id="11-model-6-breaks-at-high-speed">1.1. Model 6 Breaks at High-speed</h3>
+
+<p>In Model 6, we successfully moved the car from a 1D line to a 2D plane. We added heading $\theta$, integrated yaw rate $r$, and rotated the velocity vector into world space. For low-speed maneuvers: parking lots, gentle curves, etc… it feels great.</p>
+
+<p>But when you start to ramp up in speed, say &gt; ~120km/h, you can really feel the disparity. Unlike the low-speed scenario, it just doesn’t feel right, its hard to put this into words but like, at high-speed, you kinda don’t feel like you are in control of the car even though there’s a literal perfectly predicted path traced out.</p>
+
+<p>That’s the limitation. <strong>Model 6 is kinematic, not dynamic</strong>. It assumes infinite lateral grip. In Marco Monster words:</p>
+
+<blockquote><div class="content">
+  <p><em>“At low speeds, the wheels pretty much roll in the direction they’re pointed at… At higher speeds, it becomes noticeable that the wheels can be heading in one direction while their movement is still in another direction.”</em></p>
+</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<p>For our transition from model 6 to model 7, I’d just change one word in the above excerpt:</p>
+
+<blockquote><div class="content">
+  <p><em>At higher speeds, it becomes noticeable that the wheels <strong>should</strong> be heading in one direction while their movement is still in another direction.</em></p>
+</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<p>Model 7 fixes this by introducing <strong>lateral tire forces</strong>. The car now has yaw inertia ($I_z$), so it takes time to rotate. The tires develop slip angles ($\alpha$), so they generate cornering forces instead of magically following geometry. The velocity vector can now diverge from the heading, giving us sideslip, drift, and the beginning of realistic handling.</p>
+
+<hr />
+
+<h3 id="12-about-model-6s-predicted-path">1.2. About Model 6’s Predicted Path</h3>]]></content><author><name></name></author><category term="technical" /><category term="vehicle dynamics" /><category term="simulation" /><category term="kinematic modeling" /><category term="interactive plot" /><category term="unfinished" /><summary type="html"><![CDATA[Implementing and Comprehending Marco Monster’s Car Physics model - Phase 2: Planar Vehicle Dynamics Model - Part 7]]></summary></entry><entry><title type="html">Car Physics - Model 6: Low-Speed Kinematic Turning</title><link href="https://yuk068.github.io//2026/03/26/car-physics-model6" rel="alternate" type="text/html" title="Car Physics - Model 6: Low-Speed Kinematic Turning" /><published>2026-03-26T00:00:00+07:00</published><updated>2026-03-26T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/03/26/car-physics-model6</id><content type="html" xml:base="https://yuk068.github.io//2026/03/26/car-physics-model6"><![CDATA[<h3 id="table-of-content">Table of Content</h3>
 
 <blockquote><div class="content">
   <div id="table-of-contents"></div>
@@ -130,7 +154,7 @@
 
 <h2 id="model-6-recap">Model 6 Recap</h2>
 
-<p>Model 6 adds 2D kinematic turning: steering now curves the car’s path via geometric constraints, while all the longitudinal physics from Models 1–5 continue to govern speed and traction. It introduces a new state: $\theta$ (heading).</p>
+<p>Model 6 adds 2D kinematic turning: steering now curves the car’s path via geometric constraints, while all the longitudinal physics from Models 1-5 continue to govern speed and traction. It introduces a new state: $\theta$ (heading).</p>
 
 <p>In Model 1, we learned that for a realistic driving experience, we don’t translate <code class="language-plaintext highlighter-rouge">throttle -&gt; speed</code> directly. Rather, it’s an interplay between velocity, acceleration, resistance… and most importantly, how fast we can go at any point depends on the scenario rather than only our input. It’s not like we floor the gas and immediately zoom to top speed.</p>
 
@@ -459,7 +483,7 @@ document.addEventListener('DOMContentLoaded', function() {
   <li>Small $\delta$ -&gt; large $R$ (gentle highway curve). Large $\delta$ -&gt; small $R$ (parking lot turn).</li>
 </ul>
 
-<p>In Model 1–5, the car lived on a 1D line. Position was a scalar, and “turning” didn’t exist. Now we’re on a 2D plane, and steering input doesn’t snap the car to a new direction, it sets the <strong>curvature</strong> of the path the car will follow.</p>
+<p>In Model 1-5, the car lived on a 1D line. Position was a scalar, and “turning” didn’t exist. Now we’re on a 2D plane, and steering input doesn’t snap the car to a new direction, it sets the <strong>curvature</strong> of the path the car will follow.</p>
 
 <p>The turn radius R tells us the <em>shape</em> of the path, but not how <em>fast</em> we’re turning along it. That’s the next piece: converting radius into <strong>yaw rate</strong>, which then integrates into <strong>heading</strong>. But before we get there, make sure you’re comfortable with this geometric foundation. The rest of Model 6 is just chaining relationships from this starting point.</p>
 
@@ -534,7 +558,7 @@ x \leftarrow x + v \cdot dt</annotation></semantics></math></span><span class="k
 
 <p>This is the “parking lot” assumption Marco Monster mentions. At low speeds, wheels roll where they point. We’ll break this assumption in Model 7.</p>
 
-<p>To move the car in world space, we take the longitudinal speed $v_{long}$ (computed from all our Model 1–5 physics: engine, drag, slip ratio, etc.) and rotate it by the heading angle $\theta$:</p>
+<p>To move the car in world space, we take the longitudinal speed $v_{long}$ (computed from all our Model 1-5 physics: engine, drag, slip ratio, etc.) and rotate it by the heading angle $\theta$:</p>
 
 <blockquote><div class="content">
 
@@ -736,7 +760,7 @@ y \leftarrow y + v_y \cdot dt</annotation></semantics></math></span><span class=
   <li><strong>Github repo for Simulator 6: <a href="https://github.com/duy-phamduc68/Planar-Kinematic-Car-Model" target="_blank">duy-phamduc68/Planar-Kinematic-Car-Model</a></strong></li>
 </ul>
 
-<p>Model 7 and 8 will also have their own repo, but I’m really considering to bundle them to a single repo (a single model) for closure, because looking ahead a bit, model 8 just seem more like a clean-up / conclude everything model, so it might be a good idea to just make both into a single model, though I will still have 2 dedicated post for each.</p>]]></content><author><name></name></author><category term="technical" /><category term="new" /><category term="vehicle dynamics" /><category term="simulation" /><category term="kinematic modeling" /><category term="interactive plot" /><summary type="html"><![CDATA[Implementing and Comprehending Marco Monster’s Car Physics model - Phase 2: Planar Vehicle Dynamics Model - Part 6]]></summary></entry><entry><title type="html">Car Physics - Model 5: Slip Ratio + Traction Curve</title><link href="https://yuk068.github.io//2026/03/23/car-physics-model5" rel="alternate" type="text/html" title="Car Physics - Model 5: Slip Ratio + Traction Curve" /><published>2026-03-23T00:00:00+07:00</published><updated>2026-03-23T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/03/23/car-physics-model5</id><content type="html" xml:base="https://yuk068.github.io//2026/03/23/car-physics-model5"><![CDATA[<h3 id="table-of-content">Table of Content</h3>
+<p>Model 7 and 8 will also have their own repo, but I’m really considering to bundle them to a single repo (a single model) for closure, because looking ahead a bit, model 8 just seem more like a clean-up / conclude everything model, so it might be a good idea to just make both into a single model, though I will still have 2 dedicated post for each.</p>]]></content><author><name></name></author><category term="technical" /><category term="vehicle dynamics" /><category term="simulation" /><category term="kinematic modeling" /><category term="interactive plot" /><summary type="html"><![CDATA[Implementing and Comprehending Marco Monster’s Car Physics model - Phase 2: Planar Vehicle Dynamics Model - Part 6]]></summary></entry><entry><title type="html">Car Physics - Model 5: Slip Ratio + Traction Curve</title><link href="https://yuk068.github.io//2026/03/23/car-physics-model5" rel="alternate" type="text/html" title="Car Physics - Model 5: Slip Ratio + Traction Curve" /><published>2026-03-23T00:00:00+07:00</published><updated>2026-03-23T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/03/23/car-physics-model5</id><content type="html" xml:base="https://yuk068.github.io//2026/03/23/car-physics-model5"><![CDATA[<h3 id="table-of-content">Table of Content</h3>
 
 <blockquote><div class="content">
   <div id="table-of-contents"></div>
@@ -6516,7 +6540,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <h3 id="opening-ceremony">Opening Ceremony</h3>
 
-<p><img src="/assets/thumbnail/openingibaraki2025.webp" alt="openingibaraki2025" /></p>
+<p><img src="/assets/thumbnail/2026/q1-2026/openingibaraki2025.webp" alt="openingibaraki2025" /></p>
 
 <p>The show was quite a success, everyone had a great time interacting, performing, and just good vibes all around. To be honest I was quite nervous because it was quite a bit more people than I expected. Let’s meet our fiends from Ibaraki this time around:</p>
 

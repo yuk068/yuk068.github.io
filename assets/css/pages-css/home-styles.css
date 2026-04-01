@@ -148,25 +148,29 @@ body.light-mode {
 
 html,
 body {
-    height: 100%;
+    min-height: 100%;
     margin: 0;
     padding: 0;
     font-family: 'Nunito', sans-serif;
     color: var(--neon-aqua-accent);
     overflow-x: hidden;
-    overflow-y: auto;
     background-color: var(--bg-secondary-color);
     background-size: cover;
     scroll-behavior: smooth;
 }
 
 body {
-    overflow-x: hidden;
+    overflow: visible;
+    position: relative;
 }
 
 .home-bg-effects {
-    position: fixed;
-    inset: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
     pointer-events: none;
     z-index: 0;
 }
@@ -174,7 +178,10 @@ body {
 .home-bg-dot-grid,
 .home-bg-glow {
     position: absolute;
-    inset: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
 .home-bg-dot-grid {
@@ -194,16 +201,25 @@ body {
         background-image: radial-gradient(circle, var(--home-bg-glow-dot-color) 1px, transparent 1.2px);
         background-size: var(--home-bg-dot-gap) var(--home-bg-dot-gap);
         background-position: top left;
-        -webkit-mask-image: radial-gradient(var(--home-bg-glow-size) circle at var(--home-bg-mouse-x) var(--home-bg-mouse-y),
-                rgba(0, 0, 0, 1) 0,
-                rgba(0, 0, 0, 0.82) 30%,
-                rgba(0, 0, 0, 0.22) 56%,
-                transparent 76%);
-        mask-image: radial-gradient(var(--home-bg-glow-size) circle at var(--home-bg-mouse-x) var(--home-bg-mouse-y),
-                rgba(0, 0, 0, 1) 0,
-                rgba(0, 0, 0, 0.82) 30%,
-                rgba(0, 0, 0, 0.22) 56%,
-                transparent 76%);
+
+        position: absolute;
+
+        -webkit-mask-image: radial-gradient(
+            var(--home-bg-glow-size) circle at var(--home-bg-mouse-x) var(--home-bg-mouse-y),
+            rgba(0, 0, 0, 1) 0,
+            rgba(0, 0, 0, 0.82) 30%,
+            rgba(0, 0, 0, 0.22) 56%,
+            transparent 76%
+        );
+
+        mask-image: radial-gradient(
+            var(--home-bg-glow-size) circle at var(--home-bg-mouse-x) var(--home-bg-mouse-y),
+            rgba(0, 0, 0, 1) 0,
+            rgba(0, 0, 0, 0.82) 30%,
+            rgba(0, 0, 0, 0.22) 56%,
+            transparent 76%
+        );
+
         opacity: var(--home-bg-glow-opacity);
         transition: opacity 0.22s ease;
     }
@@ -212,19 +228,18 @@ body {
 body::-webkit-scrollbar {
     width: 8px;
     height: 10px;
-    background: var(--header-footer-shadeLight);
+    background: var(--blockquote-bg-color);
     z-index: 9999;
 }
 
 body::-webkit-scrollbar-track {
-    margin-top: 90px;
-    background: var(--header-footer-shadeLight);
+    background: var(--blockquote-bg-color);
     border-radius: 4px;
     z-index: 9999;
 }
 
 body::-webkit-scrollbar-thumb {
-    background: var(--header-bg-color);
+    background: var(--blockquote-scroll-track);
     border-radius: 4px;
     border: 2px solid transparent;
     background-clip: padding-box;
@@ -311,7 +326,7 @@ a {
     width: 100%;
     aspect-ratio: 1;
     overflow: hidden;
-    border-radius: 10px;
+    border-radius: 10px !important;
 }
 
 .short-intro-image-container img {
@@ -319,7 +334,6 @@ a {
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform 0.4s ease;
 }
 
 .short-intro-name {
@@ -443,7 +457,7 @@ a {
     background-color: var(--header-bg-color);
     background-size: 100px 50px;
     border-bottom: var(--border-width) solid var(--header-footer-shadeLight);
-    z-index: 5000;
+    z-index: 9999;
     transition: all 0.3s ease;
 }
 
@@ -455,7 +469,7 @@ a {
     font-size: 20px;
     align-self: center;
     transition: all 0.2s ease;
-    z-index: 9999;
+    z-index: 10000;
 }
 
 .nav-bar-divider {
@@ -1223,6 +1237,7 @@ a {
         top: 0;
         left: 0;
     }
+
 }
 
 .post-excerpt {
@@ -1750,6 +1765,10 @@ h6 {
 /* Medium devices (portrait desktops or tablets, 992px and below) */
 @media (max-width: 900px) {
 
+    .short-intro-image-container {
+       border-radius: 12px !important;
+    }
+
     .inside-main-container {
         display: grid;
         grid-template-columns: 1fr;
@@ -1787,6 +1806,11 @@ h6 {
 
 /* Small devices (landscape phones or small tablets, 768px and below) */
 @media (max-width: 790px) {
+
+    body {
+        overflow-x: hidden;
+    }
+
     .header-extra-container {
         display: flex;
     }
@@ -1886,7 +1910,6 @@ h6 {
     }
 
     .swiper-container {
-        aspect-ratio: auto;
         margin: 0 0 15px 0;
         box-shadow: var(--box-shadow-part-1);
         color: var(--language-plaintext);
@@ -2043,7 +2066,7 @@ h6 {
     }
 
     .project-card-image-container {
-        height: 230px;
+        aspect-ratio: 16 / 9;
         border-radius: 20px 20px 0 0;
     }
 
@@ -2082,7 +2105,8 @@ h6 {
     .post-card-with-thumbnail .post-card-thumbnail {
         width: 100%;
         min-width: 0;
-        height: 220px;
+        height: unset;
+        aspect-ratio: 16 / 9;
         border-radius: 0;
         border-bottom: var(--border-width) solid var(--header-footer-shadeLight);
     }
@@ -2234,5 +2258,32 @@ h6 {
     #notify-close-btn:hover {
         border-color: var(--neon-aqua-accent, #6bd9fa);
     }
+}
+/* -------------------------------------------------------------------------- */
+
+/* -- LQIP Chirpy Fade Effect ----------------------------------------------- */
+.lqip-wrapper {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    background-color: var(--header-footer-shadeLight); 
+    border-radius: inherit; 
+}
+
+/* Make the selector highly specific (img.blur-load) */
+img.blur-load {
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    /* We MUST include both opacity AND transform here with !important 
+       so the fade works, and your hover zooms don't break! */
+    transition: opacity 0.6s ease-in-out, transform 0.4s ease !important;
+}
+
+img.blur-load.loaded {
+    opacity: 1;
 }
 /* -------------------------------------------------------------------------- */

@@ -88,33 +88,58 @@
 
     <link rel="stylesheet" href="https://unpkg.com/photoswipe@5/dist/photoswipe.css">
 
-    <script type="module">
-        import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5/dist/photoswipe-lightbox.esm.js';
-    
-        const lightbox = new PhotoSwipeLightbox({
-            gallery: '.post-article',
-            children: 'img',
-            pswpModule: () => import('https://unpkg.com/photoswipe@5/dist/photoswipe.esm.js'),
-            
-            // --- Desktop Enhancements ---
-            wheelToZoom: true,          // Zoom with mouse wheel
-            imageClickAction: 'zoom',   // Click image to zoom instead of closing
-            secondaryZoomLevel: 2,      // Zoom in deeper on click
-            maxZoomLevel: 4,            // Allow even deeper manual zoom
-            // ----------------------------
-        });
-    
-        lightbox.addFilter('itemData', (itemData, index) => {
-            const img = document.querySelectorAll('.post-article img')[index];
-            return {
-                src: img.src,
-                width: img.naturalWidth || img.width,
-                height: img.naturalHeight || img.height
-            };
-        });
-    
-        lightbox.init();
-    </script>
+<script type="module">
+import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5/dist/photoswipe-lightbox.esm.js';
+
+const lightbox = new PhotoSwipeLightbox({
+    gallery: '.post-article',
+    children: 'img',
+    pswpModule: () => import('https://unpkg.com/photoswipe@5/dist/photoswipe.esm.js'),
+
+    // --- Animation Settings ---
+    showHideAnimationType: 'fade',
+
+    // --- Zoom Enhancements ---
+    wheelToZoom: true,
+    imageClickAction: 'zoom',
+    secondaryZoomLevel: 2,
+    maxZoomLevel: 4,
+
+    // --- Loading Behavior ---
+    preload: [1, 5],
+});
+
+
+// --- SAFER DATA SOURCE ---
+lightbox.addFilter('itemData', (itemData) => {
+    const img = itemData.element;
+
+    return {
+        src: img.src,
+        msrc: img.src,
+        width: img.naturalWidth || img.width || 1200,
+        height: img.naturalHeight || img.height || 800,
+        element: img
+    };
+});
+
+
+// --- FIX DIMENSIONS AFTER LOAD ---
+lightbox.on('contentLoadImage', (e) => {
+    const { content } = e;
+
+    content.element.decode().then(() => {
+        content.width = content.element.naturalWidth;
+        content.height = content.element.naturalHeight;
+
+        if (lightbox.pswp) {
+            lightbox.pswp.refreshSize(true);
+        }
+    }).catch(() => {});
+});
+
+lightbox.init();
+</script>
 </head>
 
 <body>
@@ -176,14 +201,6 @@
                                 
                             </li>
                         </a>
-                        <!-- <div class="nav-bar-divider" id="nav-disable-mobile"></div>
-                        <a href="#" onclick="notifyComingSoon()" id="nav-disable-mobile">
-                            <li id="nav-disable-mobile">
-                                
-                                Explore
-                                
-                            </li>
-                        </a> -->
                     </ul>
                 </nav>
             </div>
@@ -208,150 +225,71 @@
                         
                     </p>
                     <div class="options-navigation">
-                        <a id="toBackButton" href="/"><svg id="Layer_1" data-name="Layer 1"
-                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
-                                height="20" color="#fff">
-                                <defs>
-                                    <style>
-                                        .cls-63ce7424ea57ea6c8380059e-1 {
-                                            fill: none;
-                                            stroke: currentColor;
-                                            stroke-miterlimit: 10;
-                                        }
-                                    </style>
-                                </defs>
-                                <path class="cls-63ce7424ea57ea6c8380059e-1"
-                                    d="M2.41,16.78H14.85A7.65,7.65,0,0,0,22.5,9.13h0a7.65,7.65,0,0,0-7.65-7.65H.5">
-                                </path>
-                                <polyline class="cls-63ce7424ea57ea6c8380059e-1"
-                                    points="8.15 22.52 2.41 16.78 8.15 11.04">
-                                </polyline>
-                            </svg>
+                        <a id="toBackButton" href="/"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14"><defs><style>.cls-6374f543b67f094e4896c5c8-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><circle class="cls-6374f543b67f094e4896c5c8-1" cx="12" cy="12" r="10.5"></circle><path class="cls-6374f543b67f094e4896c5c8-1" d="M7.23,7.23h7.63a3.82,3.82,0,0,1,3.82,3.82h0a3.82,3.82,0,0,1-3.82,3.81H7.23"></path><polyline class="cls-6374f543b67f094e4896c5c8-1" points="11.04 18.68 7.23 14.86 11.04 11.04"></polyline></svg>
                             
                             Back
                             
                         </a>
-                        <a id="toArchiveButton" href="/archive"><svg id="Layer_1" data-name="Layer 1"
-                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
-                                height="20" color="#fff">
-                                <defs>
-                                    <style>
-                                        .cls-6374f8d9b67f094e4896c633-1 {
-                                            fill: none;
-                                            stroke: currentColor;
-                                            stroke-miterlimit: 10;
-                                        }
-                                    </style>
-                                </defs>
-                                <polygon class="cls-6374f8d9b67f094e4896c633-1"
-                                    points="19.64 9.14 4.36 9.14 4.36 1.5 10.09 1.5 12 3.41 19.64 3.41 19.64 9.14">
-                                </polygon>
-                                <polygon class="cls-6374f8d9b67f094e4896c633-1"
-                                    points="1.5 9.14 22.5 9.14 20.59 22.5 3.41 22.5 1.5 9.14"></polygon>
-                            </svg>
+                        <a id="toArchiveButton" href="/archive"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff">
+    <defs>
+        <style>
+            .cls-archive-1 {
+                fill: none;
+                stroke: currentColor;
+                stroke-miterlimit: 10;
+            }
+        </style>
+    </defs>
+    <polygon class="cls-archive-1" points="19.64 9.14 4.36 9.14 4.36 1.5 10.09 1.5 12 3.41 19.64 3.41 19.64 9.14"></polygon>
+    <polygon class="cls-archive-1" points="1.5 9.14 22.5 9.14 20.59 22.5 3.41 22.5 1.5 9.14"></polygon>
+</svg>
                             
                             Archive
                             
                         </a>
-                        <a id="toProjectsButton" href="/projects"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                stroke-width="1.5" width="20" height="20" color="#fff">
-                                <defs>
-                                    <style>
-                                        .cls-637b8d40f95e86b59c57a2bd-1 {
-                                            fill: none;
-                                            stroke: currentColor;
-                                            stroke-miterlimit: 10;
-                                        }
-                                    </style>
-                                </defs>
-                                <g id="roll_brush" data-name="roll brush">
-                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="5.24" y1="11.08" x2="18.66"
-                                        y2="11.08">
-                                    </line>
-                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="5.24" y1="18.76" x2="18.66"
-                                        y2="18.76">
-                                    </line>
-                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="5.24" y1="14.92" x2="18.66"
-                                        y2="14.92">
-                                    </line>
-                                    <rect class="cls-637b8d40f95e86b59c57a2bd-1" x="1.4" y="1.49" width="21.1"
-                                        height="21.1"></rect>
-                                    <polygon class="cls-637b8d40f95e86b59c57a2bd-1"
-                                        points="22.5 7.25 16.23 7.25 14.31 7.25 1.4 7.25 1.4 1.49 22.5 1.49 22.5 7.25">
-                                    </polygon>
-                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="4.28" y1="4.37" x2="6.2" y2="4.37">
-                                    </line>
-                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="8.11" y1="4.37" x2="10.03"
-                                        y2="4.37">
-                                    </line>
-                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="11.95" y1="4.37" x2="13.87"
-                                        y2="4.37">
-                                    </line>
-                                </g>
-                            </svg>
+                        <a id="toProjectsButton" href="/projects"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff">
+    <defs>
+        <style>
+            .cls-projects-1 {
+                fill: none;
+                stroke: currentColor;
+                stroke-miterlimit: 10;
+            }
+        </style>
+    </defs>
+    <g id="roll_brush" data-name="roll brush">
+        <line class="cls-projects-1" x1="5.24" y1="11.08" x2="18.66" y2="11.08"></line>
+        <line class="cls-projects-1" x1="5.24" y1="18.76" x2="18.66" y2="18.76"></line>
+        <line class="cls-projects-1" x1="5.24" y1="14.92" x2="18.66" y2="14.92"></line>
+        <rect class="cls-projects-1" x="1.4" y="1.49" width="21.1" height="21.1"></rect>
+        <polygon class="cls-projects-1" points="22.5 7.25 16.23 7.25 14.31 7.25 1.4 7.25 1.4 1.49 22.5 1.49 22.5 7.25"></polygon>
+        <line class="cls-projects-1" x1="4.28" y1="4.37" x2="6.2" y2="4.37"></line>
+        <line class="cls-projects-1" x1="8.11" y1="4.37" x2="10.03" y2="4.37"></line>
+        <line class="cls-projects-1" x1="11.95" y1="4.37" x2="13.87" y2="4.37"></line>
+    </g>
+</svg>
                             
                             Projects
                             
                         </a>
-                        <!-- <button id="toExploreButton"><svg id="Layer_1" data-name="Layer 1"
-                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
-                                height="20" color="#fff">
-                                <defs>
-                                    <style>
-                                        .cls-63ce7424ea57ea6c8380055b-1 {
-                                            fill: none;
-                                            stroke: currentColor;
-                                            stroke-miterlimit: 10;
-                                        }
-                                    </style>
-                                </defs>
-                                <polyline class="cls-63ce7424ea57ea6c8380055b-1" points="22 13 22 22 2 22 2 2 11 2">
-                                </polyline>
-                                <polyline class="cls-63ce7424ea57ea6c8380055b-1" points="14 2 22 2 22 10"></polyline>
-                                <line class="cls-63ce7424ea57ea6c8380055b-1" x1="22" y1="2" x2="10" y2="14"></line>
-                            </svg>
-                            
-                            Explore
-                            
-                        </button> -->
-                        <a id="toAboutButton" href="/about-yuk-en"><svg id="Layer_1" data-name="Layer 1"
-                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
-                                height="20" color="#fff">
-                                <defs>
-                                    <style>
-                                        .cls-6374f8d9b67f094e4896c670-1 {
-                                            fill: none;
-                                            stroke: currentColor;
-                                            stroke-miterlimit: 10;
-                                        }
-                                    </style>
-                                </defs>
-                                <circle class="cls-6374f8d9b67f094e4896c670-1" cx="12" cy="7.25" r="5.73"></circle>
-                                <path class="cls-6374f8d9b67f094e4896c670-1"
-                                    d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05">
-                                </path>
-                            </svg>
+                        <a id="toAboutButton" href="/about-yuk-en"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff">
+    <defs>
+        <style>
+            .cls-about-1 {
+                fill: none;
+                stroke: currentColor;
+                stroke-miterlimit: 10;
+            }
+        </style>
+    </defs>
+    <circle class="cls-about-1" cx="12" cy="7.25" r="5.73"></circle>
+    <path class="cls-about-1" d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05"></path>
+</svg>
                             
                             About
                             
                         </a>
-                        <a id="toHomeButton" href="/"><svg id="Layer_1" data-name="Layer 1"
-                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
-                                height="20" color="#fff">
-                                <defs>
-                                    <style>
-                                        .cls-6374f8d9b67f094e4896c637-1 {
-                                            fill: none;
-                                            stroke: currentColor;
-                                            stroke-miterlimit: 10;
-                                        }
-                                    </style>
-                                </defs>
-                                <polyline class="cls-6374f8d9b67f094e4896c637-1" points="1 12 12 2.83 23 12"></polyline>
-                                <polyline class="cls-6374f8d9b67f094e4896c637-1"
-                                    points="19.33 9.25 19.33 21.17 14.75 21.17 14.75 13.83 9.25 13.83 9.25 21.17 4.67 21.17 4.67 9.25">
-                                </polyline>
-                            </svg>
+                        <a id="toHomeButton" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="currentColor" aria-hidden="true"><defs><style>.s{fill:none;stroke:currentColor;stroke-miterlimit:10}</style></defs><polyline class="s" points="1 12 12 2.83 23 12"></polyline><polyline class="s" points="19.33 9.25 19.33 21.17 14.75 21.17 14.75 13.83 9.25 13.83 9.25 21.17 4.67 21.17 4.67 9.25"></polyline></svg>
                             
                             Home
                             
@@ -364,122 +302,58 @@
                         
                     </p>
                     <div class="options-configuration">
-                        <button id="toTopButton"><svg id="Layer_1" data-name="Layer 1"
-                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
-                                height="20" color="#fff">
-                                <defs>
-                                    <style>
-                                        .cls-63ce7424ea57ea6c83800547-1 {
-                                            fill: none;
-                                            stroke: currentColor;
-                                            stroke-miterlimit: 10;
-                                        }
-                                    </style>
-                                </defs>
-                                <circle class="cls-63ce7424ea57ea6c83800547-1" cx="12" cy="12" r="10.5"></circle>
-                                <line class="cls-63ce7424ea57ea6c83800547-1" x1="12" y1="10.09" x2="12" y2="18.68">
-                                </line>
-                                <polyline class="cls-63ce7424ea57ea6c83800547-1"
-                                    points="7.23 10.09 12 5.32 16.77 10.09">
-                                </polyline>
-                                <polyline class="cls-63ce7424ea57ea6c83800547-1"
-                                    points="7.23 14.86 12 10.09 16.77 14.86">
-                                </polyline>
-                            </svg>
+                        <button id="toTopButton"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="50" height="50" color="#fff">
+    <defs>
+        <style>
+            .cls-scroll-top-1 {
+                fill: none;
+                stroke: currentColor;
+                stroke-miterlimit: 10;
+            }
+        </style>
+    </defs>
+    <circle class="cls-scroll-top-1" cx="12" cy="12" r="10.5"></circle>
+    <line class="cls-scroll-top-1" x1="12" y1="10.09" x2="12" y2="18.68"></line>
+    <polyline class="cls-scroll-top-1" points="7.23 10.09 12 5.32 16.77 10.09"></polyline>
+    <polyline class="cls-scroll-top-1" points="7.23 14.86 12 10.09 16.77 14.86"></polyline>
+</svg>
                             
                             To top
                             
                         </button>
-                        <button id="collapseExpandAllButton"><svg id="Layer_1" data-name="Layer 1"
-                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
-                                height="20" color="#fff">
-                                <defs>
-                                    <style>
-                                        .cls-63ce7424ea57ea6c8380059a-1 {
-                                            fill: none;
-                                            stroke: currentColor;
-                                            stroke-miterlimit: 10;
-                                        }
-                                    </style>
-                                </defs>
-                                <line class="cls-63ce7424ea57ea6c8380059a-1" x1="6" y1="2" x2="6" y2="23"></line>
-                                <polyline class="cls-63ce7424ea57ea6c8380059a-1" points="11 7 6 2 1 7"></polyline>
-                                <line class="cls-63ce7424ea57ea6c8380059a-1" x1="18" y1="22" x2="18" y2="1"></line>
-                                <polyline class="cls-63ce7424ea57ea6c8380059a-1" points="13 17 18 22 23 17"></polyline>
-                            </svg>
+                        <button id="collapseExpandAllButton"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="currentColor" aria-hidden="true"><defs><style>.s{fill:none;stroke:currentColor;stroke-miterlimit:10}</style></defs><line class="s" x1="6" y1="2" x2="6" y2="23"></line><polyline class="s" points="11 7 6 2 1 7"></polyline><line class="s" x1="18" y1="22" x2="18" y2="1"></line><polyline class="s" points="13 17 18 22 23 17"></polyline></svg>
                             
                             Expand / Collapse all
                             
                         </button>
-                        <button id="themeButton"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                stroke-width="1.5" width="20" height="20" color="#fff">
-                                <defs>
-                                    <style>
-                                        .cls-637b8d40f95e86b59c57a2e7-1 {
-                                            fill: none;
-                                            stroke: currentColor;
-                                            stroke-miterlimit: 10;
-                                        }
-                                    </style>
-                                </defs>
-                                <g id="roll_brush" data-name="roll brush">
-                                    <circle class="cls-637b8d40f95e86b59c57a2e7-1" cx="11.99" cy="12.01" r="6.71">
-                                    </circle>
-                                    <path class="cls-637b8d40f95e86b59c57a2e7-1" d="M12,8.65a3.36,3.36,0,0,1,0,6.72Z">
-                                    </path>
-                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="11.99" y1="0.5" x2="11.99"
-                                        y2="2.42">
-                                    </line>
-                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="11.99" y1="21.6" x2="11.99"
-                                        y2="23.52">
-                                    </line>
-                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="0.48" y1="12.01" x2="2.4"
-                                        y2="12.01">
-                                    </line>
-                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="21.58" y1="12.01" x2="23.5"
-                                        y2="12.01">
-                                    </line>
-                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="20.13" y1="3.87" x2="18.77"
-                                        y2="5.23">
-                                    </line>
-                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="5.21" y1="18.79" x2="3.85"
-                                        y2="20.15">
-                                    </line>
-                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="3.85" y1="3.87" x2="5.21"
-                                        y2="5.23">
-                                    </line>
-                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="18.77" y1="18.79" x2="20.13"
-                                        y2="20.15"></line>
-                                </g>
-                            </svg>
+                        <button id="themeButton"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff">
+    <defs>
+        <style>
+            .cls-theme-1 {
+                fill: none;
+                stroke: currentColor;
+                stroke-miterlimit: 10;
+            }
+        </style>
+    </defs>
+    <g>
+        <circle class="cls-theme-1" cx="11.99" cy="12.01" r="6.71"></circle>
+        <path class="cls-theme-1" d="M12,8.65a3.36,3.36,0,0,1,0,6.72Z"></path>
+        <line class="cls-theme-1" x1="11.99" y1="0.5" x2="11.99" y2="2.42"></line>
+        <line class="cls-theme-1" x1="11.99" y1="21.6" x2="11.99" y2="23.52"></line>
+        <line class="cls-theme-1" x1="0.48" y1="12.01" x2="2.4" y2="12.01"></line>
+        <line class="cls-theme-1" x1="21.58" y1="12.01" x2="23.5" y2="12.01"></line>
+        <line class="cls-theme-1" x1="20.13" y1="3.87" x2="18.77" y2="5.23"></line>
+        <line class="cls-theme-1" x1="5.21" y1="18.79" x2="3.85" y2="20.15"></line>
+        <line class="cls-theme-1" x1="3.85" y1="3.87" x2="5.21" y2="5.23"></line>
+        <line class="cls-theme-1" x1="18.77" y1="18.79" x2="20.13" y2="20.15"></line>
+    </g>
+</svg>
                             
                             Theme
                             
                         </button>
-                        <button id="commentsButton"><svg id="Layer_1" data-name="Layer 1"
-                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
-                                height="20" color="#fff">
-                                <defs>
-                                    <style>
-                                        .cls-637642e7c3a86d32eae6f18f-1 {
-                                            fill: none;
-                                            stroke: currentColor;
-                                            stroke-miterlimit: 10;
-                                        }
-                                    </style>
-                                </defs>
-                                <path class="cls-637642e7c3a86d32eae6f18f-1"
-                                    d="M1.5,5.3v9.54a3.82,3.82,0,0,0,3.82,3.82H7.23v2.86L13,18.66h5.73a3.82,3.82,0,0,0,3.82-3.82V5.3a3.82,3.82,0,0,0-3.82-3.82H5.32A3.82,3.82,0,0,0,1.5,5.3Z">
-                                </path>
-                                <line class="cls-637642e7c3a86d32eae6f18f-1" x1="15.82" y1="10.07" x2="17.73"
-                                    y2="10.07">
-                                </line>
-                                <line class="cls-637642e7c3a86d32eae6f18f-1" x1="11.05" y1="10.07" x2="12.95"
-                                    y2="10.07">
-                                </line>
-                                <line class="cls-637642e7c3a86d32eae6f18f-1" x1="6.27" y1="10.07" x2="8.18" y2="10.07">
-                                </line>
-                            </svg>
+                        <button id="commentsButton"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="currentColor" aria-hidden="true"><defs><style>.s{fill:none;stroke:currentColor;stroke-miterlimit:10}</style></defs><path class="s" d="M1.5,5.3v9.54a3.82,3.82,0,0,0,3.82,3.82H7.23v2.86L13,18.66h5.73a3.82,3.82,0,0,0,3.82-3.82V5.3a3.82,3.82,0,0,0-3.82-3.82H5.32A3.82,3.82,0,0,0,1.5,5.3Z"></path><line class="s" x1="15.82" y1="10.07" x2="17.73" y2="10.07"></line><line class="s" x1="11.05" y1="10.07" x2="12.95" y2="10.07"></line><line class="s" x1="6.27" y1="10.07" x2="8.18" y2="10.07"></line></svg>
                             
                             Comments
                             
@@ -487,24 +361,20 @@
                     </div>
                     <div class="option-horizontal-divider-line"></div>
                     <div class="options-close">
-                        <button id="closeButton"><svg id="Layer_1" data-name="Layer 1"
-                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
-                                height="20" color="#fff">
-                                <defs>
-                                    <style>
-                                        .cls-6374f8d9b67f094e4896c61e-1 {
-                                            fill: none;
-                                            stroke: currentColor;
-                                            stroke-miterlimit: 10;
-                                        }
-                                    </style>
-                                </defs>
-                                <circle class="cls-6374f8d9b67f094e4896c61e-1" cx="12" cy="12" r="10.5"></circle>
-                                <line class="cls-6374f8d9b67f094e4896c61e-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77">
-                                </line>
-                                <line class="cls-6374f8d9b67f094e4896c61e-1" x1="7.23" y1="7.23" x2="16.77" y2="16.77">
-                                </line>
-                            </svg>
+                        <button id="closeButton"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff">
+    <defs>
+        <style>
+            .cls-close-1 {
+                fill: none;
+                stroke: currentColor;
+                stroke-miterlimit: 10;
+            }
+        </style>
+    </defs>
+    <circle class="cls-close-1" cx="12" cy="12" r="10.5"></circle>
+    <line class="cls-close-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line>
+    <line class="cls-close-1" x1="7.23" y1="7.23" x2="16.77" y2="16.77"></line>
+</svg>
                             
                             Close
                             
@@ -538,55 +408,36 @@
                         
                         
                     </div>
-                    <div class="date">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="16"
-                            height="16" color="#fff">
-                            <defs>
-                                <style>
-                                    .cls-6375f1aeb67f094e4896c9ea-1,
-                                    .cls-6375f1aeb67f094e4896c9ea-2 {
-                                        fill: none;
-                                        stroke: currentColor;
-                                        stroke-miterlimit: 10;
-                                    }
-
-                                    .cls-6375f1aeb67f094e4896c9ea-1 {
-                                        stroke-linecap: square;
-                                    }
-                                </style>
-                            </defs>
-                            <g id="calendar">
-                                <rect class="cls-6375f1aeb67f094e4896c9ea-1" x="1.5" y="2.43" width="21" height="4.77"
-                                    transform="translate(24 9.64) rotate(180)"></rect>
-                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="17.73" y1="0.52" x2="17.73" y2="4.34">
-                                </line>
-                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="6.27" y1="0.52" x2="6.27" y2="4.34">
-                                </line>
-                                <polygon class="cls-6375f1aeb67f094e4896c9ea-1"
-                                    points="22.5 11.98 22.5 7.21 1.5 7.21 1.5 22.48 22.5 22.48 22.5 15.79 22.5 11.98">
-                                </polygon>
-                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="11.02" x2="11.05" y2="11.02">
-                                </line>
-                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="11.02" x2="14.86"
-                                    y2="11.02"></line>
-                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="16.77" y1="11.02" x2="18.68"
-                                    y2="11.02"></line>
-                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="14.84" x2="11.05" y2="14.84">
-                                </line>
-                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="5.32" y1="14.84" x2="7.23" y2="14.84">
-                                </line>
-                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="14.84" x2="14.86"
-                                    y2="14.84"></line>
-                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="16.77" y1="14.84" x2="18.68"
-                                    y2="14.84"></line>
-                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="18.66" x2="11.05" y2="18.66">
-                                </line>
-                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="5.32" y1="18.66" x2="7.23" y2="18.66">
-                                </line>
-                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="18.66" x2="14.86"
-                                    y2="18.66"></line>
-                            </g>
-                        </svg>
+                        <div class="date"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.4" width="14" height="14" color="#686868">
+    <defs>
+        <style>
+            .cls-calendar-1, .cls-calendar-2 {
+                fill: none;
+                stroke: currentColor;
+                stroke-miterlimit: 10;
+            }
+            .cls-calendar-1 {
+                stroke-linecap: square;
+            }
+        </style>
+    </defs>
+    <g id="calendar">
+        <rect class="cls-calendar-1" x="1.5" y="2.43" width="21" height="4.77" transform="translate(24 9.64) rotate(180)"></rect>
+        <line class="cls-calendar-2" x1="17.73" y1="0.52" x2="17.73" y2="4.34"></line>
+        <line class="cls-calendar-2" x1="6.27" y1="0.52" x2="6.27" y2="4.34"></line>
+        <polygon class="cls-calendar-1" points="22.5 11.98 22.5 7.21 1.5 7.21 1.5 22.48 22.5 22.48 22.5 15.79 22.5 11.98"></polygon>
+        <line class="cls-calendar-2" x1="9.14" y1="11.02" x2="11.05" y2="11.02"></line>
+        <line class="cls-calendar-2" x1="12.95" y1="11.02" x2="14.86" y2="11.02"></line>
+        <line class="cls-calendar-2" x1="16.77" y1="11.02" x2="18.68" y2="11.02"></line>
+        <line class="cls-calendar-2" x1="9.14" y1="14.84" x2="11.05" y2="14.84"></line>
+        <line class="cls-calendar-2" x1="5.32" y1="14.84" x2="7.23" y2="14.84"></line>
+        <line class="cls-calendar-2" x1="12.95" y1="14.84" x2="14.86" y2="14.84"></line>
+        <line class="cls-calendar-2" x1="16.77" y1="14.84" x2="18.68" y2="14.84"></line>
+        <line class="cls-calendar-2" x1="9.14" y1="18.66" x2="11.05" y2="18.66"></line>
+        <line class="cls-calendar-2" x1="5.32" y1="18.66" x2="7.23" y2="18.66"></line>
+        <line class="cls-calendar-2" x1="12.95" y1="18.66" x2="14.86" y2="18.66"></line>
+    </g>
+</svg>
                         
                         
                         
@@ -596,22 +447,10 @@
                         
                         <span class="date-span">Nov. 1st 2024</span>
 
-                        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                            stroke-width="1.5" width="16" height="16" color="#fff">
-                            <defs>
-                                <style>
-                                    .cls-6374f8d9b67f094e4896c623-1 {
-                                        fill: none;
-                                        stroke: currentColor;
-                                        stroke-miterlimit: 10;
-                                    }
-                                </style>
-                            </defs>
-                            <circle class="cls-6374f8d9b67f094e4896c623-1" cx="12" cy="12" r="10.5"></circle>
-                            <circle class="cls-6374f8d9b67f094e4896c623-1" cx="12" cy="12" r="0.95"></circle>
-                            <polyline class="cls-6374f8d9b67f094e4896c623-1" points="12 4.36 12 12 16.77 16.77">
-                            </polyline>
-                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.7" width="16" height="16" fill="none">
+    <circle cx="12" cy="12" r="9.5" stroke="currentColor" stroke-miterlimit="10"></circle>
+    <polyline points="12 6.5 12 12 15.5 13.8" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></polyline>
+</svg>
                         
                         <span class="reading-time">
                             10
@@ -624,23 +463,10 @@
                     <div class="post-description">
                         Yuk's thoughts on the current state of DSA
                     </div>
-                    <div class="author">
-                        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                            stroke-width="1.5" width="14" height="14" color="#fff">
-                            <defs>
-                                <style>
-                                    .cls-6374f8d9b67f094e4896c670-1 {
-                                        fill: none;
-                                        stroke: currentColor;
-                                        stroke-miterlimit: 10;
-                                    }
-                                </style>
-                            </defs>
-                            <circle class="cls-6374f8d9b67f094e4896c670-1" cx="12" cy="7.25" r="5.73"></circle>
-                            <path class="cls-6374f8d9b67f094e4896c670-1"
-                                d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05">
-                            </path>
-                        </svg>
+                    <div class="author"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.7" width="20" height="20" fill="none">
+    <circle cx="12" cy="7.25" r="5.73" stroke="currentColor" stroke-miterlimit="10"></circle>
+    <path d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05" stroke="currentColor" stroke-miterlimit="10"></path>
+</svg>
                         
                         Written by:
                         
@@ -878,13 +704,21 @@
     </script>
     <div class="scroll-button-container">
         <button id="scrollButton" onclick="scrollToTop()">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="50" height="50"
-                fill="none" stroke="currentColor" stroke-miterlimit="10" aria-label="⇡">
-                <circle cx="12" cy="12" r="10.5"></circle>
-                <line x1="12" y1="10.09" x2="12" y2="18.68"></line>
-                <polyline points="7.23 10.09 12 5.32 16.77 10.09"></polyline>
-                <polyline points="7.23 14.86 12 10.09 16.77 14.86"></polyline>
-            </svg>
+            <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="50" height="50" color="#fff">
+    <defs>
+        <style>
+            .cls-scroll-top-1 {
+                fill: none;
+                stroke: currentColor;
+                stroke-miterlimit: 10;
+            }
+        </style>
+    </defs>
+    <circle class="cls-scroll-top-1" cx="12" cy="12" r="10.5"></circle>
+    <line class="cls-scroll-top-1" x1="12" y1="10.09" x2="12" y2="18.68"></line>
+    <polyline class="cls-scroll-top-1" points="7.23 10.09 12 5.32 16.77 10.09"></polyline>
+    <polyline class="cls-scroll-top-1" points="7.23 14.86 12 10.09 16.77 14.86"></polyline>
+</svg>
         </button>
     </div>
 </body>

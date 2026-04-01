@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -37,7 +38,10 @@
     <meta property="og:locale" content="en_US">
     <meta property="article:published_time" content="2026-03-26T00:00:00+07:00">
     <meta property="article:author" content="Yuk">
-    <meta property="article:tag" content="new"><meta property="article:tag" content="vehicle dynamics"><meta property="article:tag" content="simulation"><meta property="article:tag" content="kinematic modeling"><meta property="article:tag" content="interactive plot">
+    <meta property="article:tag" content="vehicle dynamics">
+<meta property="article:tag" content="simulation">
+<meta property="article:tag" content="kinematic modeling">
+<meta property="article:tag" content="interactive plot">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
@@ -91,40 +95,65 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand&amp;display=swap" rel="stylesheet">
 
     <script>if (localStorage.getItem('theme') === 'light') document.documentElement.classList.add('light-mode');</script>
 
     <link rel="stylesheet" href="https://unpkg.com/photoswipe@5/dist/photoswipe.css">
 
-    <script type="module">
-        import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5/dist/photoswipe-lightbox.esm.js';
-    
-        const lightbox = new PhotoSwipeLightbox({
-            gallery: '.post-article',
-            children: 'img',
-            pswpModule: () => import('https://unpkg.com/photoswipe@5/dist/photoswipe.esm.js'),
-            
-            // --- Desktop Enhancements ---
-            wheelToZoom: true,          // Zoom with mouse wheel
-            imageClickAction: 'zoom',   // Click image to zoom instead of closing
-            secondaryZoomLevel: 2,      // Zoom in deeper on click
-            maxZoomLevel: 4,            // Allow even deeper manual zoom
-            // ----------------------------
-        });
-    
-        lightbox.addFilter('itemData', (itemData, index) => {
-            const img = document.querySelectorAll('.post-article img')[index];
-            return {
-                src: img.src,
-                width: img.naturalWidth || img.width,
-                height: img.naturalHeight || img.height
-            };
-        });
-    
-        lightbox.init();
-    </script>
+<script type="module">
+import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5/dist/photoswipe-lightbox.esm.js';
+
+const lightbox = new PhotoSwipeLightbox({
+    gallery: '.post-article',
+    children: 'img',
+    pswpModule: () => import('https://unpkg.com/photoswipe@5/dist/photoswipe.esm.js'),
+
+    // --- Animation Settings ---
+    showHideAnimationType: 'fade',
+
+    // --- Zoom Enhancements ---
+    wheelToZoom: true,
+    imageClickAction: 'zoom',
+    secondaryZoomLevel: 2,
+    maxZoomLevel: 4,
+
+    // --- Loading Behavior ---
+    preload: [1, 5],
+});
+
+
+// --- SAFER DATA SOURCE ---
+lightbox.addFilter('itemData', (itemData) => {
+    const img = itemData.element;
+
+    return {
+        src: img.src,
+        msrc: img.src,
+        width: img.naturalWidth || img.width || 1200,
+        height: img.naturalHeight || img.height || 800,
+        element: img
+    };
+});
+
+
+// --- FIX DIMENSIONS AFTER LOAD ---
+lightbox.on('contentLoadImage', (e) => {
+    const { content } = e;
+
+    content.element.decode().then(() => {
+        content.width = content.element.naturalWidth;
+        content.height = content.element.naturalHeight;
+
+        if (lightbox.pswp) {
+            lightbox.pswp.refreshSize(true);
+        }
+    }).catch(() => {});
+});
+
+lightbox.init();
+</script>
 </head>
 
 <body>
@@ -186,14 +215,6 @@
                                 
                             </li>
                         </a>
-                        <!-- <div class="nav-bar-divider" id="nav-disable-mobile"></div>
-                        <a href="#" onclick="notifyComingSoon()" id="nav-disable-mobile">
-                            <li id="nav-disable-mobile">
-                                
-                                Explore
-                                
-                            </li>
-                        </a> -->
                     </ul>
                 </nav>
             </div>
@@ -218,150 +239,71 @@
                         
                     </p>
                     <div class="options-navigation">
-                        <a id="toBackButton" href="/"><svg id="Layer_1" data-name="Layer 1"
-                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
-                                height="20" color="#fff">
-                                <defs>
-                                    <style>
-                                        .cls-63ce7424ea57ea6c8380059e-1 {
-                                            fill: none;
-                                            stroke: currentColor;
-                                            stroke-miterlimit: 10;
-                                        }
-                                    </style>
-                                </defs>
-                                <path class="cls-63ce7424ea57ea6c8380059e-1"
-                                    d="M2.41,16.78H14.85A7.65,7.65,0,0,0,22.5,9.13h0a7.65,7.65,0,0,0-7.65-7.65H.5">
-                                </path>
-                                <polyline class="cls-63ce7424ea57ea6c8380059e-1"
-                                    points="8.15 22.52 2.41 16.78 8.15 11.04">
-                                </polyline>
-                            </svg>
+                        <a id="toBackButton" href="/"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14"><defs><style>.cls-6374f543b67f094e4896c5c8-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><circle class="cls-6374f543b67f094e4896c5c8-1" cx="12" cy="12" r="10.5"></circle><path class="cls-6374f543b67f094e4896c5c8-1" d="M7.23,7.23h7.63a3.82,3.82,0,0,1,3.82,3.82h0a3.82,3.82,0,0,1-3.82,3.81H7.23"></path><polyline class="cls-6374f543b67f094e4896c5c8-1" points="11.04 18.68 7.23 14.86 11.04 11.04"></polyline></svg>
                             
                             Back
                             
                         </a>
-                        <a id="toArchiveButton" href="/archive"><svg id="Layer_1" data-name="Layer 1"
-                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
-                                height="20" color="#fff">
-                                <defs>
-                                    <style>
-                                        .cls-6374f8d9b67f094e4896c633-1 {
-                                            fill: none;
-                                            stroke: currentColor;
-                                            stroke-miterlimit: 10;
-                                        }
-                                    </style>
-                                </defs>
-                                <polygon class="cls-6374f8d9b67f094e4896c633-1"
-                                    points="19.64 9.14 4.36 9.14 4.36 1.5 10.09 1.5 12 3.41 19.64 3.41 19.64 9.14">
-                                </polygon>
-                                <polygon class="cls-6374f8d9b67f094e4896c633-1"
-                                    points="1.5 9.14 22.5 9.14 20.59 22.5 3.41 22.5 1.5 9.14"></polygon>
-                            </svg>
+                        <a id="toArchiveButton" href="/archive"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff">
+    <defs>
+        <style>
+            .cls-archive-1 {
+                fill: none;
+                stroke: currentColor;
+                stroke-miterlimit: 10;
+            }
+        </style>
+    </defs>
+    <polygon class="cls-archive-1" points="19.64 9.14 4.36 9.14 4.36 1.5 10.09 1.5 12 3.41 19.64 3.41 19.64 9.14"></polygon>
+    <polygon class="cls-archive-1" points="1.5 9.14 22.5 9.14 20.59 22.5 3.41 22.5 1.5 9.14"></polygon>
+</svg>
                             
                             Archive
                             
                         </a>
-                        <a id="toProjectsButton" href="/projects"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                stroke-width="1.5" width="20" height="20" color="#fff">
-                                <defs>
-                                    <style>
-                                        .cls-637b8d40f95e86b59c57a2bd-1 {
-                                            fill: none;
-                                            stroke: currentColor;
-                                            stroke-miterlimit: 10;
-                                        }
-                                    </style>
-                                </defs>
-                                <g id="roll_brush" data-name="roll brush">
-                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="5.24" y1="11.08" x2="18.66"
-                                        y2="11.08">
-                                    </line>
-                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="5.24" y1="18.76" x2="18.66"
-                                        y2="18.76">
-                                    </line>
-                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="5.24" y1="14.92" x2="18.66"
-                                        y2="14.92">
-                                    </line>
-                                    <rect class="cls-637b8d40f95e86b59c57a2bd-1" x="1.4" y="1.49" width="21.1"
-                                        height="21.1"></rect>
-                                    <polygon class="cls-637b8d40f95e86b59c57a2bd-1"
-                                        points="22.5 7.25 16.23 7.25 14.31 7.25 1.4 7.25 1.4 1.49 22.5 1.49 22.5 7.25">
-                                    </polygon>
-                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="4.28" y1="4.37" x2="6.2" y2="4.37">
-                                    </line>
-                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="8.11" y1="4.37" x2="10.03"
-                                        y2="4.37">
-                                    </line>
-                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="11.95" y1="4.37" x2="13.87"
-                                        y2="4.37">
-                                    </line>
-                                </g>
-                            </svg>
+                        <a id="toProjectsButton" href="/projects"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff">
+    <defs>
+        <style>
+            .cls-projects-1 {
+                fill: none;
+                stroke: currentColor;
+                stroke-miterlimit: 10;
+            }
+        </style>
+    </defs>
+    <g id="roll_brush" data-name="roll brush">
+        <line class="cls-projects-1" x1="5.24" y1="11.08" x2="18.66" y2="11.08"></line>
+        <line class="cls-projects-1" x1="5.24" y1="18.76" x2="18.66" y2="18.76"></line>
+        <line class="cls-projects-1" x1="5.24" y1="14.92" x2="18.66" y2="14.92"></line>
+        <rect class="cls-projects-1" x="1.4" y="1.49" width="21.1" height="21.1"></rect>
+        <polygon class="cls-projects-1" points="22.5 7.25 16.23 7.25 14.31 7.25 1.4 7.25 1.4 1.49 22.5 1.49 22.5 7.25"></polygon>
+        <line class="cls-projects-1" x1="4.28" y1="4.37" x2="6.2" y2="4.37"></line>
+        <line class="cls-projects-1" x1="8.11" y1="4.37" x2="10.03" y2="4.37"></line>
+        <line class="cls-projects-1" x1="11.95" y1="4.37" x2="13.87" y2="4.37"></line>
+    </g>
+</svg>
                             
                             Projects
                             
                         </a>
-                        <!-- <button id="toExploreButton"><svg id="Layer_1" data-name="Layer 1"
-                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
-                                height="20" color="#fff">
-                                <defs>
-                                    <style>
-                                        .cls-63ce7424ea57ea6c8380055b-1 {
-                                            fill: none;
-                                            stroke: currentColor;
-                                            stroke-miterlimit: 10;
-                                        }
-                                    </style>
-                                </defs>
-                                <polyline class="cls-63ce7424ea57ea6c8380055b-1" points="22 13 22 22 2 22 2 2 11 2">
-                                </polyline>
-                                <polyline class="cls-63ce7424ea57ea6c8380055b-1" points="14 2 22 2 22 10"></polyline>
-                                <line class="cls-63ce7424ea57ea6c8380055b-1" x1="22" y1="2" x2="10" y2="14"></line>
-                            </svg>
-                            
-                            Explore
-                            
-                        </button> -->
-                        <a id="toAboutButton" href="/about-yuk-en"><svg id="Layer_1" data-name="Layer 1"
-                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
-                                height="20" color="#fff">
-                                <defs>
-                                    <style>
-                                        .cls-6374f8d9b67f094e4896c670-1 {
-                                            fill: none;
-                                            stroke: currentColor;
-                                            stroke-miterlimit: 10;
-                                        }
-                                    </style>
-                                </defs>
-                                <circle class="cls-6374f8d9b67f094e4896c670-1" cx="12" cy="7.25" r="5.73"></circle>
-                                <path class="cls-6374f8d9b67f094e4896c670-1"
-                                    d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05">
-                                </path>
-                            </svg>
+                        <a id="toAboutButton" href="/about-yuk-en"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff">
+    <defs>
+        <style>
+            .cls-about-1 {
+                fill: none;
+                stroke: currentColor;
+                stroke-miterlimit: 10;
+            }
+        </style>
+    </defs>
+    <circle class="cls-about-1" cx="12" cy="7.25" r="5.73"></circle>
+    <path class="cls-about-1" d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05"></path>
+</svg>
                             
                             About
                             
                         </a>
-                        <a id="toHomeButton" href="/"><svg id="Layer_1" data-name="Layer 1"
-                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
-                                height="20" color="#fff">
-                                <defs>
-                                    <style>
-                                        .cls-6374f8d9b67f094e4896c637-1 {
-                                            fill: none;
-                                            stroke: currentColor;
-                                            stroke-miterlimit: 10;
-                                        }
-                                    </style>
-                                </defs>
-                                <polyline class="cls-6374f8d9b67f094e4896c637-1" points="1 12 12 2.83 23 12"></polyline>
-                                <polyline class="cls-6374f8d9b67f094e4896c637-1"
-                                    points="19.33 9.25 19.33 21.17 14.75 21.17 14.75 13.83 9.25 13.83 9.25 21.17 4.67 21.17 4.67 9.25">
-                                </polyline>
-                            </svg>
+                        <a id="toHomeButton" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="currentColor" aria-hidden="true"><defs><style>.s{fill:none;stroke:currentColor;stroke-miterlimit:10}</style></defs><polyline class="s" points="1 12 12 2.83 23 12"></polyline><polyline class="s" points="19.33 9.25 19.33 21.17 14.75 21.17 14.75 13.83 9.25 13.83 9.25 21.17 4.67 21.17 4.67 9.25"></polyline></svg>
                             
                             Home
                             
@@ -374,122 +316,58 @@
                         
                     </p>
                     <div class="options-configuration">
-                        <button id="toTopButton"><svg id="Layer_1" data-name="Layer 1"
-                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
-                                height="20" color="#fff">
-                                <defs>
-                                    <style>
-                                        .cls-63ce7424ea57ea6c83800547-1 {
-                                            fill: none;
-                                            stroke: currentColor;
-                                            stroke-miterlimit: 10;
-                                        }
-                                    </style>
-                                </defs>
-                                <circle class="cls-63ce7424ea57ea6c83800547-1" cx="12" cy="12" r="10.5"></circle>
-                                <line class="cls-63ce7424ea57ea6c83800547-1" x1="12" y1="10.09" x2="12" y2="18.68">
-                                </line>
-                                <polyline class="cls-63ce7424ea57ea6c83800547-1"
-                                    points="7.23 10.09 12 5.32 16.77 10.09">
-                                </polyline>
-                                <polyline class="cls-63ce7424ea57ea6c83800547-1"
-                                    points="7.23 14.86 12 10.09 16.77 14.86">
-                                </polyline>
-                            </svg>
+                        <button id="toTopButton"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="50" height="50" color="#fff">
+    <defs>
+        <style>
+            .cls-scroll-top-1 {
+                fill: none;
+                stroke: currentColor;
+                stroke-miterlimit: 10;
+            }
+        </style>
+    </defs>
+    <circle class="cls-scroll-top-1" cx="12" cy="12" r="10.5"></circle>
+    <line class="cls-scroll-top-1" x1="12" y1="10.09" x2="12" y2="18.68"></line>
+    <polyline class="cls-scroll-top-1" points="7.23 10.09 12 5.32 16.77 10.09"></polyline>
+    <polyline class="cls-scroll-top-1" points="7.23 14.86 12 10.09 16.77 14.86"></polyline>
+</svg>
                             
                             To top
                             
                         </button>
-                        <button id="collapseExpandAllButton"><svg id="Layer_1" data-name="Layer 1"
-                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
-                                height="20" color="#fff">
-                                <defs>
-                                    <style>
-                                        .cls-63ce7424ea57ea6c8380059a-1 {
-                                            fill: none;
-                                            stroke: currentColor;
-                                            stroke-miterlimit: 10;
-                                        }
-                                    </style>
-                                </defs>
-                                <line class="cls-63ce7424ea57ea6c8380059a-1" x1="6" y1="2" x2="6" y2="23"></line>
-                                <polyline class="cls-63ce7424ea57ea6c8380059a-1" points="11 7 6 2 1 7"></polyline>
-                                <line class="cls-63ce7424ea57ea6c8380059a-1" x1="18" y1="22" x2="18" y2="1"></line>
-                                <polyline class="cls-63ce7424ea57ea6c8380059a-1" points="13 17 18 22 23 17"></polyline>
-                            </svg>
+                        <button id="collapseExpandAllButton"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="currentColor" aria-hidden="true"><defs><style>.s{fill:none;stroke:currentColor;stroke-miterlimit:10}</style></defs><line class="s" x1="6" y1="2" x2="6" y2="23"></line><polyline class="s" points="11 7 6 2 1 7"></polyline><line class="s" x1="18" y1="22" x2="18" y2="1"></line><polyline class="s" points="13 17 18 22 23 17"></polyline></svg>
                             
                             Expand / Collapse all
                             
                         </button>
-                        <button id="themeButton"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                stroke-width="1.5" width="20" height="20" color="#fff">
-                                <defs>
-                                    <style>
-                                        .cls-637b8d40f95e86b59c57a2e7-1 {
-                                            fill: none;
-                                            stroke: currentColor;
-                                            stroke-miterlimit: 10;
-                                        }
-                                    </style>
-                                </defs>
-                                <g id="roll_brush" data-name="roll brush">
-                                    <circle class="cls-637b8d40f95e86b59c57a2e7-1" cx="11.99" cy="12.01" r="6.71">
-                                    </circle>
-                                    <path class="cls-637b8d40f95e86b59c57a2e7-1" d="M12,8.65a3.36,3.36,0,0,1,0,6.72Z">
-                                    </path>
-                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="11.99" y1="0.5" x2="11.99"
-                                        y2="2.42">
-                                    </line>
-                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="11.99" y1="21.6" x2="11.99"
-                                        y2="23.52">
-                                    </line>
-                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="0.48" y1="12.01" x2="2.4"
-                                        y2="12.01">
-                                    </line>
-                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="21.58" y1="12.01" x2="23.5"
-                                        y2="12.01">
-                                    </line>
-                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="20.13" y1="3.87" x2="18.77"
-                                        y2="5.23">
-                                    </line>
-                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="5.21" y1="18.79" x2="3.85"
-                                        y2="20.15">
-                                    </line>
-                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="3.85" y1="3.87" x2="5.21"
-                                        y2="5.23">
-                                    </line>
-                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="18.77" y1="18.79" x2="20.13"
-                                        y2="20.15"></line>
-                                </g>
-                            </svg>
+                        <button id="themeButton"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff">
+    <defs>
+        <style>
+            .cls-theme-1 {
+                fill: none;
+                stroke: currentColor;
+                stroke-miterlimit: 10;
+            }
+        </style>
+    </defs>
+    <g>
+        <circle class="cls-theme-1" cx="11.99" cy="12.01" r="6.71"></circle>
+        <path class="cls-theme-1" d="M12,8.65a3.36,3.36,0,0,1,0,6.72Z"></path>
+        <line class="cls-theme-1" x1="11.99" y1="0.5" x2="11.99" y2="2.42"></line>
+        <line class="cls-theme-1" x1="11.99" y1="21.6" x2="11.99" y2="23.52"></line>
+        <line class="cls-theme-1" x1="0.48" y1="12.01" x2="2.4" y2="12.01"></line>
+        <line class="cls-theme-1" x1="21.58" y1="12.01" x2="23.5" y2="12.01"></line>
+        <line class="cls-theme-1" x1="20.13" y1="3.87" x2="18.77" y2="5.23"></line>
+        <line class="cls-theme-1" x1="5.21" y1="18.79" x2="3.85" y2="20.15"></line>
+        <line class="cls-theme-1" x1="3.85" y1="3.87" x2="5.21" y2="5.23"></line>
+        <line class="cls-theme-1" x1="18.77" y1="18.79" x2="20.13" y2="20.15"></line>
+    </g>
+</svg>
                             
                             Theme
                             
                         </button>
-                        <button id="commentsButton"><svg id="Layer_1" data-name="Layer 1"
-                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
-                                height="20" color="#fff">
-                                <defs>
-                                    <style>
-                                        .cls-637642e7c3a86d32eae6f18f-1 {
-                                            fill: none;
-                                            stroke: currentColor;
-                                            stroke-miterlimit: 10;
-                                        }
-                                    </style>
-                                </defs>
-                                <path class="cls-637642e7c3a86d32eae6f18f-1"
-                                    d="M1.5,5.3v9.54a3.82,3.82,0,0,0,3.82,3.82H7.23v2.86L13,18.66h5.73a3.82,3.82,0,0,0,3.82-3.82V5.3a3.82,3.82,0,0,0-3.82-3.82H5.32A3.82,3.82,0,0,0,1.5,5.3Z">
-                                </path>
-                                <line class="cls-637642e7c3a86d32eae6f18f-1" x1="15.82" y1="10.07" x2="17.73"
-                                    y2="10.07">
-                                </line>
-                                <line class="cls-637642e7c3a86d32eae6f18f-1" x1="11.05" y1="10.07" x2="12.95"
-                                    y2="10.07">
-                                </line>
-                                <line class="cls-637642e7c3a86d32eae6f18f-1" x1="6.27" y1="10.07" x2="8.18" y2="10.07">
-                                </line>
-                            </svg>
+                        <button id="commentsButton"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="currentColor" aria-hidden="true"><defs><style>.s{fill:none;stroke:currentColor;stroke-miterlimit:10}</style></defs><path class="s" d="M1.5,5.3v9.54a3.82,3.82,0,0,0,3.82,3.82H7.23v2.86L13,18.66h5.73a3.82,3.82,0,0,0,3.82-3.82V5.3a3.82,3.82,0,0,0-3.82-3.82H5.32A3.82,3.82,0,0,0,1.5,5.3Z"></path><line class="s" x1="15.82" y1="10.07" x2="17.73" y2="10.07"></line><line class="s" x1="11.05" y1="10.07" x2="12.95" y2="10.07"></line><line class="s" x1="6.27" y1="10.07" x2="8.18" y2="10.07"></line></svg>
                             
                             Comments
                             
@@ -497,24 +375,20 @@
                     </div>
                     <div class="option-horizontal-divider-line"></div>
                     <div class="options-close">
-                        <button id="closeButton"><svg id="Layer_1" data-name="Layer 1"
-                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
-                                height="20" color="#fff">
-                                <defs>
-                                    <style>
-                                        .cls-6374f8d9b67f094e4896c61e-1 {
-                                            fill: none;
-                                            stroke: currentColor;
-                                            stroke-miterlimit: 10;
-                                        }
-                                    </style>
-                                </defs>
-                                <circle class="cls-6374f8d9b67f094e4896c61e-1" cx="12" cy="12" r="10.5"></circle>
-                                <line class="cls-6374f8d9b67f094e4896c61e-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77">
-                                </line>
-                                <line class="cls-6374f8d9b67f094e4896c61e-1" x1="7.23" y1="7.23" x2="16.77" y2="16.77">
-                                </line>
-                            </svg>
+                        <button id="closeButton"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff">
+    <defs>
+        <style>
+            .cls-close-1 {
+                fill: none;
+                stroke: currentColor;
+                stroke-miterlimit: 10;
+            }
+        </style>
+    </defs>
+    <circle class="cls-close-1" cx="12" cy="12" r="10.5"></circle>
+    <line class="cls-close-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line>
+    <line class="cls-close-1" x1="7.23" y1="7.23" x2="16.77" y2="16.77"></line>
+</svg>
                             
                             Close
                             
@@ -529,18 +403,13 @@
                             
                             
                             
-<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24"><defs><style>.cls-637b7b44f95e86b59c579f7b-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-637b7b44f95e86b59c579f7b-1" d="M1.5,18.68H8.18A3.82,3.82,0,0,1,12,22.5v0a0,0,0,0,1,0,0H1.5a0,0,0,0,1,0,0V18.68A0,0,0,0,1,1.5,18.68Z"></path><path class="cls-637b7b44f95e86b59c579f7b-1" d="M15.82,18.68H22.5a0,0,0,0,1,0,0V22.5a0,0,0,0,1,0,0H12a0,0,0,0,1,0,0v0A3.82,3.82,0,0,1,15.82,18.68Z"></path><path class="cls-637b7b44f95e86b59c579f7b-1" d="M1.5,6.27H8.18A3.82,3.82,0,0,1,12,10.09V22.5a0,0,0,0,1,0,0H1.5a0,0,0,0,1,0,0V6.27A0,0,0,0,1,1.5,6.27Z"></path><path class="cls-637b7b44f95e86b59c579f7b-1" d="M19.64,6.27H22.5V22.5H12V10.09a3.82,3.82,0,0,1,3.82-3.82"></path><path class="cls-637b7b44f95e86b59c579f7b-1" d="M19.64,13l-1.91,1.91L15.82,13V3.41A1.9,1.9,0,0,1,17.73,1.5h0a1.91,1.91,0,0,1,1.91,1.91Z"></path></svg>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="24" height="24"><defs><style>.cls-637b7b44f95e86b59c579f7b-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-637b7b44f95e86b59c579f7b-1" d="M1.5,18.68H8.18A3.82,3.82,0,0,1,12,22.5v0a0,0,0,0,1,0,0H1.5a0,0,0,0,1,0,0V18.68A0,0,0,0,1,1.5,18.68Z"></path><path class="cls-637b7b44f95e86b59c579f7b-1" d="M15.82,18.68H22.5a0,0,0,0,1,0,0V22.5a0,0,0,0,1,0,0H12a0,0,0,0,1,0,0v0A3.82,3.82,0,0,1,15.82,18.68Z"></path><path class="cls-637b7b44f95e86b59c579f7b-1" d="M1.5,6.27H8.18A3.82,3.82,0,0,1,12,10.09V22.5a0,0,0,0,1,0,0H1.5a0,0,0,0,1,0,0V6.27A0,0,0,0,1,1.5,6.27Z"></path><path class="cls-637b7b44f95e86b59c579f7b-1" d="M19.64,6.27H22.5V22.5H12V10.09a3.82,3.82,0,0,1,3.82-3.82"></path><path class="cls-637b7b44f95e86b59c579f7b-1" d="M19.64,13l-1.91,1.91L15.82,13V3.41A1.9,1.9,0,0,1,17.73,1.5h0a1.91,1.91,0,0,1,1.91,1.91Z"></path></svg>
 
 
                             
                         </span>Car Physics - Model 6: Low-Speed Kinematic Turning
                     </h1>
                     <div class="post-tags">
-                        
-                        
-                        
-                        <span class="tag new-tag">NEW</span>
-                        
                         
                         
                         
@@ -563,55 +432,37 @@
                         
                         
                     </div>
-                    <div class="date">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="16"
-                            height="16" color="#fff">
-                            <defs>
-                                <style>
-                                    .cls-6375f1aeb67f094e4896c9ea-1,
-                                    .cls-6375f1aeb67f094e4896c9ea-2 {
-                                        fill: none;
-                                        stroke: currentColor;
-                                        stroke-miterlimit: 10;
-                                    }
-
-                                    .cls-6375f1aeb67f094e4896c9ea-1 {
-                                        stroke-linecap: square;
-                                    }
-                                </style>
-                            </defs>
-                            <g id="calendar">
-                                <rect class="cls-6375f1aeb67f094e4896c9ea-1" x="1.5" y="2.43" width="21" height="4.77"
-                                    transform="translate(24 9.64) rotate(180)"></rect>
-                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="17.73" y1="0.52" x2="17.73" y2="4.34">
-                                </line>
-                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="6.27" y1="0.52" x2="6.27" y2="4.34">
-                                </line>
-                                <polygon class="cls-6375f1aeb67f094e4896c9ea-1"
-                                    points="22.5 11.98 22.5 7.21 1.5 7.21 1.5 22.48 22.5 22.48 22.5 15.79 22.5 11.98">
-                                </polygon>
-                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="11.02" x2="11.05" y2="11.02">
-                                </line>
-                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="11.02" x2="14.86"
-                                    y2="11.02"></line>
-                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="16.77" y1="11.02" x2="18.68"
-                                    y2="11.02"></line>
-                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="14.84" x2="11.05" y2="14.84">
-                                </line>
-                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="5.32" y1="14.84" x2="7.23" y2="14.84">
-                                </line>
-                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="14.84" x2="14.86"
-                                    y2="14.84"></line>
-                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="16.77" y1="14.84" x2="18.68"
-                                    y2="14.84"></line>
-                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="18.66" x2="11.05" y2="18.66">
-                                </line>
-                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="5.32" y1="18.66" x2="7.23" y2="18.66">
-                                </line>
-                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="18.66" x2="14.86"
-                                    y2="18.66"></line>
-                            </g>
-                        </svg>
+                        <div class="date">
+<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.4" width="14" height="14" color="#686868">
+    <defs>
+        <style>
+            .cls-calendar-1, .cls-calendar-2 {
+                fill: none;
+                stroke: currentColor;
+                stroke-miterlimit: 10;
+            }
+            .cls-calendar-1 {
+                stroke-linecap: square;
+            }
+        </style>
+    </defs>
+    <g id="calendar">
+        <rect class="cls-calendar-1" x="1.5" y="2.43" width="21" height="4.77" transform="translate(24 9.64) rotate(180)"></rect>
+        <line class="cls-calendar-2" x1="17.73" y1="0.52" x2="17.73" y2="4.34"></line>
+        <line class="cls-calendar-2" x1="6.27" y1="0.52" x2="6.27" y2="4.34"></line>
+        <polygon class="cls-calendar-1" points="22.5 11.98 22.5 7.21 1.5 7.21 1.5 22.48 22.5 22.48 22.5 15.79 22.5 11.98"></polygon>
+        <line class="cls-calendar-2" x1="9.14" y1="11.02" x2="11.05" y2="11.02"></line>
+        <line class="cls-calendar-2" x1="12.95" y1="11.02" x2="14.86" y2="11.02"></line>
+        <line class="cls-calendar-2" x1="16.77" y1="11.02" x2="18.68" y2="11.02"></line>
+        <line class="cls-calendar-2" x1="9.14" y1="14.84" x2="11.05" y2="14.84"></line>
+        <line class="cls-calendar-2" x1="5.32" y1="14.84" x2="7.23" y2="14.84"></line>
+        <line class="cls-calendar-2" x1="12.95" y1="14.84" x2="14.86" y2="14.84"></line>
+        <line class="cls-calendar-2" x1="16.77" y1="14.84" x2="18.68" y2="14.84"></line>
+        <line class="cls-calendar-2" x1="9.14" y1="18.66" x2="11.05" y2="18.66"></line>
+        <line class="cls-calendar-2" x1="5.32" y1="18.66" x2="7.23" y2="18.66"></line>
+        <line class="cls-calendar-2" x1="12.95" y1="18.66" x2="14.86" y2="18.66"></line>
+    </g>
+</svg>
                         
                         
                         
@@ -621,22 +472,10 @@
                         
                         <span class="date-span">Mar. 26th 2026</span>
 
-                        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                            stroke-width="1.5" width="16" height="16" color="#fff">
-                            <defs>
-                                <style>
-                                    .cls-6374f8d9b67f094e4896c623-1 {
-                                        fill: none;
-                                        stroke: currentColor;
-                                        stroke-miterlimit: 10;
-                                    }
-                                </style>
-                            </defs>
-                            <circle class="cls-6374f8d9b67f094e4896c623-1" cx="12" cy="12" r="10.5"></circle>
-                            <circle class="cls-6374f8d9b67f094e4896c623-1" cx="12" cy="12" r="0.95"></circle>
-                            <polyline class="cls-6374f8d9b67f094e4896c623-1" points="12 4.36 12 12 16.77 16.77">
-                            </polyline>
-                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.7" width="16" height="16" fill="none">
+    <circle cx="12" cy="12" r="9.5" stroke="currentColor" stroke-miterlimit="10"></circle>
+    <polyline points="12 6.5 12 12 15.5 13.8" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></polyline>
+</svg>
                         
                         <span class="reading-time">
                             17
@@ -650,22 +489,10 @@
                         Implementing and Comprehending Marco Monster’s Car Physics model - Phase 2: Planar Vehicle Dynamics Model - Part 6
                     </div>
                     <div class="author">
-                        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                            stroke-width="1.5" width="14" height="14" color="#fff">
-                            <defs>
-                                <style>
-                                    .cls-6374f8d9b67f094e4896c670-1 {
-                                        fill: none;
-                                        stroke: currentColor;
-                                        stroke-miterlimit: 10;
-                                    }
-                                </style>
-                            </defs>
-                            <circle class="cls-6374f8d9b67f094e4896c670-1" cx="12" cy="7.25" r="5.73"></circle>
-                            <path class="cls-6374f8d9b67f094e4896c670-1"
-                                d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05">
-                            </path>
-                        </svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.7" width="20" height="20" fill="none">
+    <circle cx="12" cy="7.25" r="5.73" stroke="currentColor" stroke-miterlimit="10"></circle>
+    <path d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05" stroke="currentColor" stroke-miterlimit="10"></path>
+</svg>
                         
                         Written by:
                         
@@ -681,7 +508,8 @@
                         
                         <h3 id="table-of-content">Table of Content<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#table-of-content')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
 
-<blockquote><div class="content">
+<blockquote>
+<div class="content">
   <div id="table-of-contents"><ul><li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#table-of-content')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#table-of-content" style="color:#434e64;">Table of Content</a></div></li>
 <li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#roadmap')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#roadmap">Roadmap</a></div></li>
 <li class="h2"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#model-6-recap')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#model-6-recap">Model 6 Recap</a></div></li>
@@ -700,7 +528,9 @@
 <li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#31-the-master-ode-system')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#31-the-master-ode-system">3.1. The Master ODE System</a></div></li>
 <li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#32-core-code-implementation')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#32-core-code-implementation">3.2. Core Code Implementation</a></div></li>
 <li class="h2"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#4-simulator-6---showcase')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#4-simulator-6---showcase">4. Simulator 6 - Showcase</a></div></li></ul></div>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+</div>
+<button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span>
+</blockquote>
 
 <ul>
   <li><strong>Main reference: <a href="https://www.asawicki.info/Mirror/Car%20Physics%20for%20Games/Car%20Physics%20for%20Games.html" target="_blank">Marco Monster’s Car Physics</a></strong></li>
@@ -709,61 +539,71 @@
   <li><strong>Github repo for Planar Dynamic Simulator(s): <a href="https://github.com/duy-phamduc68/Planar-Dynamic-Car-Model" target="_blank">duy-phamduc68/Planar-Dynamic-Car-Model</a></strong></li>
 </ul>
 
-<hr />
+<hr>
 
 <h3 id="roadmap">Roadmap<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#roadmap')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
 
-<blockquote><div class="content">
+<blockquote>
+<div class="content">
   <ul>
-    <li><strong><a href="/2026/03/03/car-physics-model1">Model 1: Longitudinal Point Mass (1D)</a></strong>
+    <li>
+<strong><a href="/2026/03/03/car-physics-model1">Model 1: Longitudinal Point Mass (1D)</a></strong>
       <ul>
         <li>Straight Line Physics</li>
         <li>Magic Constants</li>
         <li>Braking</li>
       </ul>
     </li>
-    <li><strong><a href="/2026/03/12/car-physics-model2">Model 2: Load Transfer Without Traction Limits (1D)</a></strong>
+    <li>
+<strong><a href="/2026/03/12/car-physics-model2">Model 2: Load Transfer Without Traction Limits (1D)</a></strong>
       <ul>
         <li>Weight Transfer</li>
       </ul>
     </li>
-    <li><strong><a href="/2026/03/15/car-physics-model3">Model 3: Engine Torque + Gearing without Slip (1D)</a></strong>
+    <li>
+<strong><a href="/2026/03/15/car-physics-model3">Model 3: Engine Torque + Gearing without Slip (1D)</a></strong>
       <ul>
         <li>Engine Force</li>
         <li>Gear Ratios</li>
         <li>Drive Wheel Acceleration (simplified)</li>
       </ul>
     </li>
-    <li><strong><a href="/2026/03/21/car-physics-model4">Model 4: Wheel Rotational Dynamics (1D)</a></strong>
+    <li>
+<strong><a href="/2026/03/21/car-physics-model4">Model 4: Wheel Rotational Dynamics (1D)</a></strong>
       <ul>
         <li>Drive Wheel Acceleration (full)</li>
         <li>Torque on the Drive Wheel &amp; The Chicken and The Egg</li>
       </ul>
     </li>
-    <li><strong><a href="/2026/03/23/car-physics-model5">Model 5: Slip Ratio + Traction Curve (1D)</a></strong>
+    <li>
+<strong><a href="/2026/03/23/car-physics-model5">Model 5: Slip Ratio + Traction Curve (1D)</a></strong>
       <ul>
         <li>Slip Ratio &amp; Traction Force</li>
       </ul>
     </li>
-    <li><strong><a href="/2026/03/26/car-physics-model6">Model 6: Low-Speed Kinematic Turning (2D)</a></strong>
+    <li>
+<strong><a href="/2026/03/26/car-physics-model6">Model 6: Low-Speed Kinematic Turning (2D)</a></strong>
       <ul>
         <li>Curves (low speed)</li>
       </ul>
     </li>
-    <li><strong><a href="/2026/03/28/car-physics-model7">Model 7: High-Speed Lateral Tire Model (2D)</a></strong>
+    <li>
+<strong><a href="/2026/03/28/car-physics-model7">Model 7: High-Speed Lateral Tire Model (2D)</a></strong>
       <ul>
         <li>High Speed Turning</li>
       </ul>
     </li>
     <li><strong><a href="#" onclick="notifyComingSoon(); return false;">Model 8: Full Coupled Tire Model (2D)</a></strong></li>
   </ul>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+</div>
+<button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span>
+</blockquote>
 
-<hr />
+<hr>
 
 <h2 id="model-6-recap">Model 6 Recap<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#model-6-recap')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
 
-<p>Model 6 adds 2D kinematic turning: steering now curves the car’s path via geometric constraints, while all the longitudinal physics from Models 1–5 continue to govern speed and traction. It introduces a new state: $\theta$ (heading).</p>
+<p>Model 6 adds 2D kinematic turning: steering now curves the car’s path via geometric constraints, while all the longitudinal physics from Models 1-5 continue to govern speed and traction. It introduces a new state: $\theta$ (heading).</p>
 
 <p>In Model 1, we learned that for a realistic driving experience, we don’t translate <code class="language-plaintext highlighter-rouge">throttle -&gt; speed</code> directly. Rather, it’s an interplay between velocity, acceleration, resistance… and most importantly, how fast we can go at any point depends on the scenario rather than only our input. It’s not like we floor the gas and immediately zoom to top speed.</p>
 
@@ -775,13 +615,13 @@
 
 <p>Even though we just finished building Model 5, which was quite complex and built upon everything before it, you can understand that in Model 6, we have to “restart” the lateral complexity as if we are returning to Model 1 levels, just for steering. We aren’t throwing away our longitudinal progress per se; we’re stacking a simple lateral foundation on top of the complex longitudinal engine we’ve already built. Despite having basically built up longitudinal dynamics at 100%, the lateral side is just getting started.</p>
 
-<hr />
+<hr>
 
 <h2 id="1-introduction-to-curves">1. Introduction to Curves<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#1-introduction-to-curves')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
 
 <p>The plot below explicitly visualizes the <strong>Instantaneous Center of Rotation (ICR)</strong>, which is where the lines perpendicular to both wheels intersecting at a single point in the distance. This “pivot point” is what the car is actually rotating around.</p>
 
-<p><img loading="lazy" src="/assets/images/2026/q1-2026/car-physics/model6/steeringangle.webp" alt="steering angle" /></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAABwBACdASpAADUAPt1sr1MxJamoIgmaIBuJaQAADxFCvgDq73EQ09aXwNLXAAD+8KrPPxZAa+SFZ5H8H9Einb4G6FsLSx4lQAA='); aspect-ratio: 312 / 260; "><img src="/assets/images/2026/q1-2026/car-physics/model6/steeringangle.webp" alt="steering angle" loading="lazy" decoding="async" width="312" height="260" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
 
 <div class="media-description"><a href="https://www.asawicki.info/Mirror/Car%20Physics%20for%20Games/Car%20Physics%20for%20Games.html" target="_blank" rel="noopener noreferrer">Macro Monster, 2003</a></div>
 
@@ -939,12 +779,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <div style="margin: 1rem 0; display: flex; flex-direction: column; gap: 1rem;">
   <div>
-    <label>Steering Angle δ (deg): <span id="deltaValue">10</span></label><br />
-    <input type="range" id="deltaSlider" min="-90" max="90" step="1" value="10" style="width:100%;" />
+    <label>Steering Angle δ (deg): <span id="deltaValue">10</span></label><br>
+    <input type="range" id="deltaSlider" min="-90" max="90" step="1" value="10" style="width:100%;">
   </div>
   <div>
-    <label>Wheelbase L (m): <span id="lValue">2.8</span></label><br />
-    <input type="range" id="lSlider" min="1" max="12" step="0.1" value="2.8" style="width:100%;" />
+    <label>Wheelbase L (m): <span id="lValue">2.8</span></label><br>
+    <input type="range" id="lSlider" min="1" max="12" step="0.1" value="2.8" style="width:100%;">
   </div>
 </div>
 
@@ -1046,21 +886,26 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<hr />
+<hr>
 
 <h3 id="11-top-plot-instantaneous-geometry">1.1. Top Plot: Instantaneous Geometry<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#11-top-plot-instantaneous-geometry')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
 
 <p>This is the car at a single moment in time, viewed from above:</p>
 
 <ul>
-  <li><strong>Blue line (Rear Wheel):</strong> The rear axle position. In our bicycle model, this is where the car “pivot point” lives. The rear wheels don’t steer, so they define the car’s reference orientation.</li>
-  <li><strong>Orange dotted line (Wheelbase $L$):</strong> The distance between front and rear axles. This is a fixed property of the car (~2.5-2.8 m for most sports cars).</li>
-  <li><strong>Green line (Front Wheel):</strong> The steered front wheel, rotated by angle $\delta$ (delta) relative to the car body.</li>
-  <li><strong>Purple arc ($\delta$):</strong> The steering angle itself, shown visually.</li>
-  <li><strong>Black circle marker ($R$):</strong> The <strong>instantaneous center of rotation</strong> - the point where lines extended from the rear and front wheels intersect. This is the center of the circle the car is currently tracing.</li>
+  <li>
+<strong>Blue line (Rear Wheel):</strong> The rear axle position. In our bicycle model, this is where the car “pivot point” lives. The rear wheels don’t steer, so they define the car’s reference orientation.</li>
+  <li>
+<strong>Orange dotted line (Wheelbase $L$):</strong> The distance between front and rear axles. This is a fixed property of the car (~2.5-2.8 m for most sports cars).</li>
+  <li>
+<strong>Green line (Front Wheel):</strong> The steered front wheel, rotated by angle $\delta$ (delta) relative to the car body.</li>
+  <li>
+<strong>Purple arc ($\delta$):</strong> The steering angle itself, shown visually.</li>
+  <li>
+<strong>Black circle marker ($R$):</strong> The <strong>instantaneous center of rotation</strong> - the point where lines extended from the rear and front wheels intersect. This is the center of the circle the car is currently tracing.</li>
 </ul>
 
-<hr />
+<hr>
 
 <h3 id="12-bottom-plot-resulting-path">1.2. Bottom Plot: Resulting Path<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#12-bottom-plot-resulting-path')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
 
@@ -1068,20 +913,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <p>Use the sliders to explore:</p>
 <ul>
-  <li><strong>Increase steering angle $\delta$:</strong> The turn radius $R$ shrinks dramatically. At $\delta = 30$°, you’re doing a tight U-turn. At $\delta = 1 \approx 3$°, you’re barely curving.</li>
-  <li><strong>Increase wheelbase $L$:</strong> The turn radius grows. This is why long vehicles (trucks, limos) have wider turning circles, this is purely geometry.</li>
+  <li>
+<strong>Increase steering angle $\delta$:</strong> The turn radius $R$ shrinks dramatically. At $\delta = 30$°, you’re doing a tight U-turn. At $\delta = 1 \approx 3$°, you’re barely curving.</li>
+  <li>
+<strong>Increase wheelbase $L$:</strong> The turn radius grows. This is why long vehicles (trucks, limos) have wider turning circles, this is purely geometry.</li>
 </ul>
 
-<hr />
+<hr>
 
 <h3 id="13-the-key-equation-steering-angle">1.3. The Key Equation: Steering Angle<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#13-the-key-equation-steering-angle')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
 
 <p>The relationship you’re watching in real-time is:</p>
 
-<blockquote><div class="content">
+<blockquote>
+<div class="content">
 
   <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>R</mi><mo>=</mo><mfrac><mi>L</mi><mrow><mi>sin</mi><mo>⁡</mo><mo stretchy="false">(</mo><mi>δ</mi><mo stretchy="false">)</mo></mrow></mfrac></mrow><annotation encoding="application/x-tex">R = \frac{L}{\sin(\delta)}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.2963em;vertical-align:-0.936em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3603em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mop">sin</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.03785em;">δ</span><span class="mclose">)</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">L</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.936em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+</div>
+<button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span>
+</blockquote>
 
 <p>This is pure trigonometry. Look at the top plot: the wheelbase $L$ is the side opposite angle $\delta$ in a right triangle, and $R$ is the hypotenuse. Therefore $sin ( \delta ) = L / R$, which rearranges to the equation above.</p>
 
@@ -1092,33 +942,39 @@ document.addEventListener('DOMContentLoaded', function() {
   <li>Small $\delta$ -&gt; large $R$ (gentle highway curve). Large $\delta$ -&gt; small $R$ (parking lot turn).</li>
 </ul>
 
-<p>In Model 1–5, the car lived on a 1D line. Position was a scalar, and “turning” didn’t exist. Now we’re on a 2D plane, and steering input doesn’t snap the car to a new direction, it sets the <strong>curvature</strong> of the path the car will follow.</p>
+<p>In Model 1-5, the car lived on a 1D line. Position was a scalar, and “turning” didn’t exist. Now we’re on a 2D plane, and steering input doesn’t snap the car to a new direction, it sets the <strong>curvature</strong> of the path the car will follow.</p>
 
 <p>The turn radius R tells us the <em>shape</em> of the path, but not how <em>fast</em> we’re turning along it. That’s the next piece: converting radius into <strong>yaw rate</strong>, which then integrates into <strong>heading</strong>. But before we get there, make sure you’re comfortable with this geometric foundation. The rest of Model 6 is just chaining relationships from this starting point.</p>
 
-<hr />
+<hr>
 
 <h2 id="2-from-geometry-to-motion">2. From Geometry to Motion<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#2-from-geometry-to-motion')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
 
 <p>In the previous section, we derived the turn radius $R$ from steering angle $\delta$. That tells us the <em>shape</em> of the path, but not how <em>fast</em> we’re traveling along it. To actually move the car, we need to convert that geometric curve into rotational motion, then into world-space position.</p>
 
-<hr />
+<hr>
 
 <h3 id="21-yaw-rate">2.1. Yaw Rate<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#21-yaw-rate')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
 
 <p>If you’re driving at speed $v$ around a circle of radius $R$, how quickly does your heading change? This is the <strong>yaw rate</strong> $r$ (also called angular velocity, measured in rad/s):</p>
 
-<blockquote><div class="content">
+<blockquote>
+<div class="content">
 
   <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>r</mi><mo>=</mo><mfrac><mi>v</mi><mi>R</mi></mfrac></mrow><annotation encoding="application/x-tex">r = \frac{v}{R}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.7936em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.1076em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+</div>
+<button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span>
+</blockquote>
 
 <p>Substituting our turn radius equation $R = L / sin(\delta)$:</p>
 
-<blockquote><div class="content">
+<blockquote>
+<div class="content">
 
   <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>r</mi><mo>=</mo><mfrac><mrow><mi>v</mi><mo>⋅</mo><mi>sin</mi><mo>⁡</mo><mo stretchy="false">(</mo><mi>δ</mi><mo stretchy="false">)</mo></mrow><mi>L</mi></mfrac></mrow><annotation encoding="application/x-tex">r = \frac{v \cdot \sin(\delta)}{L}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.113em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.427em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">L</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mop">sin</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.03785em;">δ</span><span class="mclose">)</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+</div>
+<button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span>
+</blockquote>
 
 <p><strong>This is where velocity matters.</strong> At the same steering angle:</p>
 <ul>
@@ -1128,24 +984,30 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <p>This is why high-speed turns feel so much more dramatic, and also why our kinematic model will eventually break down at speed (Model 7 will fix this by adding lateral tire forces).</p>
 
-<hr />
+<hr>
 
 <h3 id="22-heading">2.2. Heading<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#22-heading')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
 
 <p>In Model 1, we integrated acceleration to get velocity, then integrated velocity to get position:</p>
 
-<blockquote><div class="content">
+<blockquote>
+<div class="content">
 
   <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>v</mi><mo>←</mo><mi>v</mi><mo>+</mo><mi>a</mi><mo>⋅</mo><mi>d</mi><mi>t</mi><mspace linebreak="newline"></mspace><mi>x</mi><mo>←</mo><mi>x</mi><mo>+</mo><mi>v</mi><mo>⋅</mo><mi>d</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">v \leftarrow v + a \cdot dt \\
 x \leftarrow x + v \cdot dt</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">←</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.4445em;"></span><span class="mord mathnormal">a</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">d</span><span class="mord mathnormal">t</span></span><span class="mspace newline"></span><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">←</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.4445em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">d</span><span class="mord mathnormal">t</span></span></span></span></span>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+</div>
+<button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span>
+</blockquote>
 
 <p>Now we do the same thing for rotation. <strong>Heading $\theta$ is our new state variable</strong>, we store it and update it each frame by integrating yaw rate:</p>
 
-<blockquote><div class="content">
+<blockquote>
+<div class="content">
 
   <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>θ</mi><mo>←</mo><mi>θ</mi><mo>+</mo><mi>r</mi><mo>⋅</mo><mi>d</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">\theta \leftarrow \theta + r \cdot dt</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">θ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">←</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7778em;vertical-align:-0.0833em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">θ</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.4445em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">d</span><span class="mord mathnormal">t</span></span></span></span></span>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+</div>
+<button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span>
+</blockquote>
 
 <p><strong>Important distinction:</strong></p>
 <ul>
@@ -1155,72 +1017,90 @@ x \leftarrow x + v \cdot dt</annotation></semantics></math></span><span class="k
 
 <p>This mirrors Model 4, where we formally introduced wheel rotation $\omega$ as a state but still used the constraint $v = \omega R$ to keep things solvable. Here, we’re using the kinematic constraint $r = v \cdot sin(\delta)/L$ instead of solving for yaw torque from lateral forces. That comes in Model 7.</p>
 
-<hr />
+<hr>
 
 <h3 id="23-world-space-velocity">2.3. World-Space Velocity<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#23-world-space-velocity')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
 
 <p>In Models 1-5, velocity was a scalar, just speed along a 1D line, now it’s a 2D vector. But here’s the kinematic simplification that defines Model 6:</p>
 
-<blockquote><div class="content">
+<blockquote>
+<div class="content">
   <p><em>The velocity vector always aligns with the car’s heading. No sideslip, no drifting. The car points where it’s going.</em></p>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+</div>
+<button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span>
+</blockquote>
 
 <p>This is the “parking lot” assumption Marco Monster mentions. At low speeds, wheels roll where they point. We’ll break this assumption in Model 7.</p>
 
-<p>To move the car in world space, we take the longitudinal speed $v_{long}$ (computed from all our Model 1–5 physics: engine, drag, slip ratio, etc.) and rotate it by the heading angle $\theta$:</p>
+<p>To move the car in world space, we take the longitudinal speed $v_{long}$ (computed from all our Model 1-5 physics: engine, drag, slip ratio, etc.) and rotate it by the heading angle $\theta$:</p>
 
-<blockquote><div class="content">
+<blockquote>
+<div class="content">
 
   <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>v</mi><mi>x</mi></msub><mo>=</mo><msub><mi>v</mi><mrow><mi>l</mi><mi>o</mi><mi>n</mi><mi>g</mi></mrow></msub><mo>⋅</mo><mi>c</mi><mi>o</mi><mi>s</mi><mo stretchy="false">(</mo><mi>θ</mi><mo stretchy="false">)</mo><mspace linebreak="newline"></mspace><msub><mi>v</mi><mi>y</mi></msub><mo>=</mo><msub><mi>v</mi><mrow><mi>l</mi><mi>o</mi><mi>n</mi><mi>g</mi></mrow></msub><mo>⋅</mo><mi>s</mi><mi>i</mi><mi>n</mi><mo stretchy="false">(</mo><mi>θ</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">v_x = v_{long} \cdot cos(\theta) \\
 v_y = v_{long} \cdot sin(\theta)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">x</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7306em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.01968em;">l</span><span class="mord mathnormal mtight">o</span><span class="mord mathnormal mtight">n</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">g</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">cos</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.02778em;">θ</span><span class="mclose">)</span></span><span class="mspace newline"></span><span class="base"><span class="strut" style="height:0.7167em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7306em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.01968em;">l</span><span class="mord mathnormal mtight">o</span><span class="mord mathnormal mtight">n</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">g</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">s</span><span class="mord mathnormal">in</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.02778em;">θ</span><span class="mclose">)</span></span></span></span></span>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+</div>
+<button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span>
+</blockquote>
 
 <p>This is basic trigonometry: the x-component is $v \cdot cos(\theta)$, the y-component is $v \cdot sin(\theta)$.</p>
 
-<hr />
+<hr>
 
 <h3 id="24-position-update">2.4. Position Update<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#24-position-update')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
 
 <p>Finally, we integrate velocity to get position, just like in Model 1, but now in 2D:</p>
 
-<blockquote><div class="content">
+<blockquote>
+<div class="content">
 
   <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>x</mi><mo>←</mo><mi>x</mi><mo>+</mo><msub><mi>v</mi><mi>x</mi></msub><mo>⋅</mo><mi>d</mi><mi>t</mi><mspace linebreak="newline"></mspace><mi>y</mi><mo>←</mo><mi>y</mi><mo>+</mo><msub><mi>v</mi><mi>y</mi></msub><mo>⋅</mo><mi>d</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">x \leftarrow x + v_x \cdot dt \\
 y \leftarrow y + v_y \cdot dt</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">←</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.5945em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">x</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">d</span><span class="mord mathnormal">t</span></span><span class="mspace newline"></span><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">←</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7778em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7306em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">d</span><span class="mord mathnormal">t</span></span></span></span></span>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+</div>
+<button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span>
+</blockquote>
 
-<hr />
+<hr>
 
 <h3 id="25-the-full-chain">2.5. The Full Chain<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#25-the-full-chain')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
 
 <p>Let’s trace the complete flow from user input to car movement:</p>
 
 <ol>
-  <li><strong>Steering input</strong>: $\delta$ (steering angle, clamped to $\pm \delta_{max}$)</li>
-  <li><strong>Geometry</strong>: $R = L / sin(\delta)$ (turn radius)</li>
-  <li><strong>Longitudinal Velocity</strong>: $v_{long}$ (model 1-5)</li>
-  <li><strong>Kinematics</strong>: $r = v_{long} / R = v_{long} \cdot sin(\delta) / L$ (yaw rate)</li>
-  <li><strong>Integration</strong>: $\theta \leftarrow \theta + r \cdot dt$ (heading update)</li>
-  <li><strong>Rotation</strong>: $v_{world} = \left[ \begin{array}{c} v_{long} \cdot cos (\theta), \ v_{long} \cdot sin (\theta) \end{array} \right]$ (world velocity)</li>
-  <li><strong>Integration</strong>: $p \leftarrow p + v_{world} \cdot dt $ (where $p = \left[ \begin{array}{c} x, \ y\end{array} \right]$ is position)</li>
+  <li>
+<strong>Steering input</strong>: $\delta$ (steering angle, clamped to $\pm \delta_{max}$)</li>
+  <li>
+<strong>Geometry</strong>: $R = L / sin(\delta)$ (turn radius)</li>
+  <li>
+<strong>Longitudinal Velocity</strong>: $v_{long}$ (model 1-5)</li>
+  <li>
+<strong>Kinematics</strong>: $r = v_{long} / R = v_{long} \cdot sin(\delta) / L$ (yaw rate)</li>
+  <li>
+<strong>Integration</strong>: $\theta \leftarrow \theta + r \cdot dt$ (heading update)</li>
+  <li>
+<strong>Rotation</strong>: $v_{world} = \left[ \begin{array}{c} v_{long} \cdot cos (\theta), \ v_{long} \cdot sin (\theta) \end{array} \right]$ (world velocity)</li>
+  <li>
+<strong>Integration</strong>: $p \leftarrow p + v_{world} \cdot dt $ (where $p = \left[ \begin{array}{c} x, \ y\end{array} \right]$ is position)</li>
 </ol>
 
 <p>Steering doesn’t affect speed (in Model 6), but speed affects how fast you turn.</p>
 
-<hr />
+<hr>
 
 <h3 id="26-implementation-note-the-cheat">2.6. Implementation Note: The “Cheat”<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#26-implementation-note-the-cheat')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
 
 <p>Remember how Model 4 used $v = ωR$ as a constraint to avoid solving the full rotational dynamics? We’re doing the same thing here, but for lateral motion:</p>
 
 <ul>
-  <li><strong>Model 4 cheat:</strong> Assume no longitudinal slip to compute wheel RPM from car speed</li>
-  <li><strong>Model 6 cheat:</strong> Assume no lateral slip to compute yaw rate from steering geometry</li>
+  <li>
+<strong>Model 4 cheat:</strong> Assume no longitudinal slip to compute wheel RPM from car speed</li>
+  <li>
+<strong>Model 6 cheat:</strong> Assume no lateral slip to compute yaw rate from steering geometry</li>
 </ul>
 
 <p>Both cheats isolate one aspect of the physics while deferring the full complexity to later models.</p>
 
-<hr />
+<hr>
 
 <h2 id="3-final-takeaways">3. Final Takeaways<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#3-final-takeaways')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
 
@@ -1228,7 +1108,7 @@ y \leftarrow y + v_y \cdot dt</annotation></semantics></math></span><span class=
 
 <p>Because the mathematical relationships are relatively simple (pure trigonometry and kinematics), this reference focuses on the <strong>implementation structure</strong> rather than re-deriving formulas. The key insight is that Model 6 adds a new state variable (heading $\theta$) and uses it to rotate the velocity vector, while all the force calculations stay in the longitudinal domain.</p>
 
-<hr />
+<hr>
 
 <h3 id="31-the-master-ode-system">3.1. The Master ODE System<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#31-the-master-ode-system')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
 
@@ -1238,46 +1118,139 @@ y \leftarrow y + v_y \cdot dt</annotation></semantics></math></span><span class=
   <li><strong>The Translational ODE (Chassis Longitudinal)</strong></li>
 </ul>
 
-<blockquote><div class="content">
+<blockquote>
+<div class="content">
 
   <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mfrac><mrow><mi>d</mi><mi>v</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><mfrac><mn>1</mn><mi>M</mi></mfrac><mrow><mo fence="true">(</mo><msub><mi>F</mi><mrow><mi>t</mi><mi>r</mi><mi>a</mi><mi>c</mi><mi>t</mi><mi>i</mi><mi>o</mi><mi>n</mi></mrow></msub><mo>−</mo><msub><mi>F</mi><mrow><mi>d</mi><mi>r</mi><mi>a</mi><mi>g</mi></mrow></msub><mo>−</mo><msub><mi>F</mi><mrow><mi>r</mi><mi>r</mi></mrow></msub><mo fence="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">\frac{dv}{dt} = \frac{1}{M} \left( F_{traction} - F_{drag} - F_{rr} \right)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:2.0574em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3714em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="mord mathnormal">t</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.0074em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3214em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">M</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">t</span><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span><span class="mord mathnormal mtight">a</span><span class="mord mathnormal mtight">c</span><span class="mord mathnormal mtight">t</span><span class="mord mathnormal mtight">i</span><span class="mord mathnormal mtight">o</span><span class="mord mathnormal mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">d</span><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span><span class="mord mathnormal mtight">a</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">g</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">rr</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;">)</span></span></span></span></span></span>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+</div>
+<button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span>
+</blockquote>
 
 <ul>
   <li><strong>The Rotational ODE (Drive Wheels)</strong></li>
 </ul>
 
-<blockquote><div class="content">
+<blockquote>
+<div class="content">
 
   <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mfrac><mrow><mi>d</mi><mi>ω</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><mfrac><mn>1</mn><msub><mi>I</mi><mi>w</mi></msub></mfrac><mrow><mo fence="true">(</mo><msub><mi>T</mi><mrow><mi>d</mi><mi>r</mi><mi>i</mi><mi>v</mi><mi>e</mi></mrow></msub><mo>−</mo><msub><mi>T</mi><mrow><mi>b</mi><mi>r</mi><mi>a</mi><mi>k</mi><mi>e</mi></mrow></msub><mo>−</mo><msub><mi>T</mi><mrow><mi>t</mi><mi>r</mi><mi>a</mi><mi>c</mi><mi>t</mi><mi>i</mi><mi>o</mi><mi>n</mi></mrow></msub><mo fence="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">\frac{d\omega}{dt} = \frac{1}{I_w} \left( T_{drive} - T_{brake} - T_{traction} \right)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:2.0574em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3714em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="mord mathnormal">t</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="mord mathnormal" style="margin-right:0.03588em;">ω</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.1574em;vertical-align:-0.836em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3214em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0785em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.02691em;">w</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.836em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">d</span><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span><span class="mord mathnormal mtight">i</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">v</span><span class="mord mathnormal mtight">e</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">b</span><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span><span class="mord mathnormal mtight" style="margin-right:0.03148em;">ak</span><span class="mord mathnormal mtight">e</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">t</span><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span><span class="mord mathnormal mtight">a</span><span class="mord mathnormal mtight">c</span><span class="mord mathnormal mtight">t</span><span class="mord mathnormal mtight">i</span><span class="mord mathnormal mtight">o</span><span class="mord mathnormal mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;">)</span></span></span></span></span></span>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+</div>
+<button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span>
+</blockquote>
 
 <ul>
   <li><strong>The Kinematic ODE (Heading)</strong></li>
 </ul>
 
-<blockquote><div class="content">
+<blockquote>
+<div class="content">
 
   <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mfrac><mrow><mi>d</mi><mi>θ</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><mi>r</mi><mo>=</mo><mfrac><mrow><mi>v</mi><mo>⋅</mo><mi>sin</mi><mo>⁡</mo><mo stretchy="false">(</mo><mi>δ</mi><mo stretchy="false">)</mo></mrow><mi>L</mi></mfrac></mrow><annotation encoding="application/x-tex">\frac{d\theta}{dt} = r = \frac{v \cdot \sin(\delta)}{L}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:2.0574em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3714em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="mord mathnormal">t</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="mord mathnormal" style="margin-right:0.02778em;">θ</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.113em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.427em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">L</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mop">sin</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.03785em;">δ</span><span class="mclose">)</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+</div>
+<button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span>
+</blockquote>
 
 <ul>
   <li><strong>The World Space ODEs (Position)</strong></li>
 </ul>
 
-<blockquote><div class="content">
+<blockquote>
+<div class="content">
 
   <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mfrac><mrow><mi>d</mi><mi>x</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><mi>v</mi><mo>⋅</mo><mi>c</mi><mi>o</mi><mi>s</mi><mo stretchy="false">(</mo><mi>θ</mi><mo stretchy="false">)</mo><mspace linebreak="newline" height="1em"></mspace><mfrac><mrow><mi>d</mi><mi>y</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><mi>v</mi><mo>⋅</mo><mi>s</mi><mi>i</mi><mi>n</mi><mo stretchy="false">(</mo><mi>θ</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\frac{dx}{dt} = v \cdot cos(\theta) \\[10pt]
 \frac{dy}{dt} = v \cdot sin(\theta)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:2.0574em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3714em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="mord mathnormal">t</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="mord mathnormal">x</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.4445em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">cos</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.02778em;">θ</span><span class="mclose">)</span></span><span class="mspace newline" style="margin-top:1em;"></span><span class="base"><span class="strut" style="height:2.0574em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3714em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="mord mathnormal">t</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.4445em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">s</span><span class="mord mathnormal">in</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.02778em;">θ</span><span class="mclose">)</span></span></span></span></span>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+</div>
+<button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span>
+</blockquote>
 
-<hr />
+<hr>
 
 <h3 id="32-core-code-implementation">3.2. Core Code Implementation<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#32-core-code-implementation')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
 
 <p>The update loop now solves the longitudinal physics first (to determine speed $v$), then applies the kinematic constraint (to determine yaw rate $r$), and finally integrates position in 2D. To keep the focus on the new turning logic, we collapse Models 1-5 into a single function call.</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div><div class="line-number">19</div><div class="line-number">20</div><div class="line-number">21</div><div class="line-number">22</div><div class="line-number">23</div><div class="line-number">24</div><div class="line-number">25</div><div class="line-number">26</div><div class="line-number">27</div><div class="line-number">28</div><div class="line-number">29</div><div class="line-number">30</div><div class="line-number">31</div><div class="line-number">32</div><div class="line-number">33</div><div class="line-number">34</div><div class="line-number">35</div><div class="line-number">36</div><div class="line-number">37</div><div class="line-number">38</div><div class="line-number">39</div><div class="line-number">40</div><div class="line-number">41</div><div class="line-number">42</div><div class="line-number">43</div><div class="line-number">44</div><div class="line-number">45</div><div class="line-number">46</div><div class="line-number">47</div><div class="line-number">48</div><div class="line-number">49</div><div class="line-number">50</div><div class="line-number">51</div><div class="line-number">52</div><div class="line-number">53</div><div class="line-number">54</div><div class="line-number">55</div><div class="line-number">56</div><div class="line-number">57</div><div class="line-number">58</div><div class="line-number">59</div><div class="line-number">60</div><div class="line-number">61</div><div class="line-number">62</div><div class="line-number">63</div><div class="line-number">64</div><div class="line-number">65</div><div class="line-number">66</div><div class="line-number">67</div><div class="line-number">68</div><div class="line-number">69</div><div class="line-number">70</div><div class="line-number">71</div><div class="line-number">72</div><div class="line-number">73</div><div class="line-number">74</div><div class="line-number">75</div><div class="line-number">76</div><div class="line-number">77</div><div class="line-number">78</div></div><pre class="highlight"><code><span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">throttle</span><span class="p">,</span> <span class="n">brake</span><span class="p">,</span> <span class="n">steering</span><span class="p">):</span>
+<div class="language-python highlighter-rouge"><div class="highlight">
+<div class="line-numbers">
+<div class="line-number">1</div>
+<div class="line-number">2</div>
+<div class="line-number">3</div>
+<div class="line-number">4</div>
+<div class="line-number">5</div>
+<div class="line-number">6</div>
+<div class="line-number">7</div>
+<div class="line-number">8</div>
+<div class="line-number">9</div>
+<div class="line-number">10</div>
+<div class="line-number">11</div>
+<div class="line-number">12</div>
+<div class="line-number">13</div>
+<div class="line-number">14</div>
+<div class="line-number">15</div>
+<div class="line-number">16</div>
+<div class="line-number">17</div>
+<div class="line-number">18</div>
+<div class="line-number">19</div>
+<div class="line-number">20</div>
+<div class="line-number">21</div>
+<div class="line-number">22</div>
+<div class="line-number">23</div>
+<div class="line-number">24</div>
+<div class="line-number">25</div>
+<div class="line-number">26</div>
+<div class="line-number">27</div>
+<div class="line-number">28</div>
+<div class="line-number">29</div>
+<div class="line-number">30</div>
+<div class="line-number">31</div>
+<div class="line-number">32</div>
+<div class="line-number">33</div>
+<div class="line-number">34</div>
+<div class="line-number">35</div>
+<div class="line-number">36</div>
+<div class="line-number">37</div>
+<div class="line-number">38</div>
+<div class="line-number">39</div>
+<div class="line-number">40</div>
+<div class="line-number">41</div>
+<div class="line-number">42</div>
+<div class="line-number">43</div>
+<div class="line-number">44</div>
+<div class="line-number">45</div>
+<div class="line-number">46</div>
+<div class="line-number">47</div>
+<div class="line-number">48</div>
+<div class="line-number">49</div>
+<div class="line-number">50</div>
+<div class="line-number">51</div>
+<div class="line-number">52</div>
+<div class="line-number">53</div>
+<div class="line-number">54</div>
+<div class="line-number">55</div>
+<div class="line-number">56</div>
+<div class="line-number">57</div>
+<div class="line-number">58</div>
+<div class="line-number">59</div>
+<div class="line-number">60</div>
+<div class="line-number">61</div>
+<div class="line-number">62</div>
+<div class="line-number">63</div>
+<div class="line-number">64</div>
+<div class="line-number">65</div>
+<div class="line-number">66</div>
+<div class="line-number">67</div>
+<div class="line-number">68</div>
+<div class="line-number">69</div>
+<div class="line-number">70</div>
+<div class="line-number">71</div>
+<div class="line-number">72</div>
+<div class="line-number">73</div>
+<div class="line-number">74</div>
+<div class="line-number">75</div>
+<div class="line-number">76</div>
+<div class="line-number">77</div>
+<div class="line-number">78</div>
+</div>
+<pre class="highlight"><code><span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">throttle</span><span class="p">,</span> <span class="n">brake</span><span class="p">,</span> <span class="n">steering</span><span class="p">):</span>
     
     <span class="c1"># 1. State from previous frame
 </span>    <span class="n">v_prev</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">v</span>
@@ -1355,13 +1328,15 @@ y \leftarrow y + v_y \cdot dt</annotation></semantics></math></span><span class=
     <span class="n">w_new</span> <span class="o">=</span> <span class="n">w_prev</span> <span class="o">+</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">dt</span>
     
     <span class="k">return</span> <span class="n">v_new</span><span class="p">,</span> <span class="n">w_new</span>
-</code></pre><span class="language-label">Python</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+</code></pre>
+<span class="language-label">Python</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button>
+</div></div>
 
-<hr />
+<hr>
 
 <h2 id="4-simulator-6---showcase">4. Simulator 6 - Showcase<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#4-simulator-6---showcase')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
 
-<p><img loading="lazy" src="/assets/images/2026/q1-2026/car-physics/model6/simulator6.webp" alt="simulator 6" /></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAAAwBACdASpAACYAPt1kqU+opSOiKqgBEBuJaQDUUBZntz4fnqCA+potCAAA/S9ArAJkLYDltFKeu1g7KMGvvLMPpgJ71gIWJajqgAAA'); aspect-ratio: 1282 / 752; "><img src="/assets/images/2026/q1-2026/car-physics/model6/simulator6.webp" alt="simulator 6" loading="lazy" decoding="async" width="1282" height="752" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
 
 <p>While working on Simulator 6, I noticed it was getting quite complex, so I decided to give it a dedicated repo:</p>
 
@@ -1458,14 +1433,14 @@ y \leftarrow y + v_y \cdot dt</annotation></semantics></math></span><span class=
                 </a>
             </div>
             <div class="copyright-text">
-                <p>&copy; 2026 Yukano</p>
+                <p>© 2026 Yukano</p>
             </div>
         </footer>
     </div>
 </div>
     </div>
     <div id="svg-repo" style="display: none;">
-        <div id="svg-up-arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff">
+        <div id="svg-up-arrow"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff">
                     <defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs>
                     <line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line>
                     <polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline>
@@ -1473,7 +1448,7 @@ y \leftarrow y + v_y \cdot dt</annotation></semantics></math></span><span class=
                     <polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline>
                     <line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line>
                 </svg></div>
-        <div id="svg-down-arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff">
+        <div id="svg-down-arrow"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff">
                     <defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs>
                     <line class="cls-1" x1="6.25" y1="17.73" x2="6.25" y2="0.48"></line>
                     <polyline class="cls-1" points="1.46 12.94 6.25 17.73 11.04 12.94"></polyline>
@@ -1481,26 +1456,27 @@ y \leftarrow y + v_y \cdot dt</annotation></semantics></math></span><span class=
                     <polyline class="cls-1" points="12.96 12.94 17.75 17.73 22.54 12.94"></polyline>
                     <line class="cls-1" x1="0.5" y1="22.52" x2="23.5" y2="22.52"></line>
                 </svg></div>
-        <div id="svg-check"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c627-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><circle class="cls-6374f8d9b67f094e4896c627-1" cx="12" cy="12" r="10.5"></circle><polyline class="cls-6374f8d9b67f094e4896c627-1" points="6.27 12 10.09 15.82 17.73 8.18"></polyline></svg></div>
-        <div id="svg-document"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></div>
-        <div id="svg-reset"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14"><defs><style>.cls-63ce7424ea57ea6c838005b4-1,.cls-63ce7424ea57ea6c838005b4-2,.cls-3{fill:none;stroke:currentColor;}.cls-63ce7424ea57ea6c838005b4-1{stroke-miterlimit:10;}.cls-63ce7424ea57ea6c838005b4-2,.cls-3{stroke-linecap:round;stroke-linejoin:round;}.cls-3{stroke-dasharray:0 4.13;}</style></defs><path class="cls-63ce7424ea57ea6c838005b4-1" d="M12,1.5A10.52,10.52,0,1,1,3.39,18.07"></path><line class="cls-63ce7424ea57ea6c838005b4-2" x1="1.48" y1="12.02" x2="1.48" y2="12.02"></line><path class="cls-3" d="M2.28,8A10.51,10.51,0,0,1,10,1.7"></path><line class="cls-63ce7424ea57ea6c838005b4-2" x1="12" y1="1.5" x2="12" y2="1.5"></line><polyline class="cls-63ce7424ea57ea6c838005b4-1" points="3.39 23.5 3.39 17.76 9.13 17.76"></polyline></svg></div>
-        <div id="svg-fullscreen"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14"><defs><style>.cls-637b8a2bf95e86b59c57a23a-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-637b8a2bf95e86b59c57a23a-1" d="M18.84,12A7.52,7.52,0,0,1,12,15.91,7.52,7.52,0,0,1,5.16,12,7.52,7.52,0,0,1,12,8.09,7.52,7.52,0,0,1,18.84,12Z"></path><circle class="cls-637b8a2bf95e86b59c57a23a-1" cx="12" cy="12" r="0.98"></circle><polyline class="cls-637b8a2bf95e86b59c57a23a-1" points="1.25 7.12 1.25 1.25 7.12 1.25"></polyline><polyline class="cls-637b8a2bf95e86b59c57a23a-1" points="22.75 16.89 22.75 22.75 16.89 22.75"></polyline><polyline class="cls-637b8a2bf95e86b59c57a23a-1" points="7.12 22.75 1.25 22.75 1.25 16.89"></polyline><polyline class="cls-637b8a2bf95e86b59c57a23a-1" points="16.89 1.25 22.75 1.25 22.75 7.12"></polyline><line class="cls-637b8a2bf95e86b59c57a23a-1" x1="1.25" y1="1.25" x2="7.11" y2="7.11"></line><line class="cls-637b8a2bf95e86b59c57a23a-1" x1="1.25" y1="22.75" x2="7.11" y2="16.89"></line><line class="cls-637b8a2bf95e86b59c57a23a-1" x1="16.89" y1="7.11" x2="21.77" y2="2.23"></line><line class="cls-637b8a2bf95e86b59c57a23a-1" x1="22.75" y1="22.75" x2="16.89" y2="16.89"></line></svg></div>
+        <div id="svg-check"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c627-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><circle class="cls-6374f8d9b67f094e4896c627-1" cx="12" cy="12" r="10.5"></circle><polyline class="cls-6374f8d9b67f094e4896c627-1" points="6.27 12 10.09 15.82 17.73 8.18"></polyline></svg></div>
+        <div id="svg-document"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></div>
+        <div id="svg-reset"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14"><defs><style>.cls-63ce7424ea57ea6c838005b4-1,.cls-63ce7424ea57ea6c838005b4-2,.cls-3{fill:none;stroke:currentColor;}.cls-63ce7424ea57ea6c838005b4-1{stroke-miterlimit:10;}.cls-63ce7424ea57ea6c838005b4-2,.cls-3{stroke-linecap:round;stroke-linejoin:round;}.cls-3{stroke-dasharray:0 4.13;}</style></defs><path class="cls-63ce7424ea57ea6c838005b4-1" d="M12,1.5A10.52,10.52,0,1,1,3.39,18.07"></path><line class="cls-63ce7424ea57ea6c838005b4-2" x1="1.48" y1="12.02" x2="1.48" y2="12.02"></line><path class="cls-3" d="M2.28,8A10.51,10.51,0,0,1,10,1.7"></path><line class="cls-63ce7424ea57ea6c838005b4-2" x1="12" y1="1.5" x2="12" y2="1.5"></line><polyline class="cls-63ce7424ea57ea6c838005b4-1" points="3.39 23.5 3.39 17.76 9.13 17.76"></polyline></svg></div>
+        <div id="svg-fullscreen"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14"><defs><style>.cls-637b8a2bf95e86b59c57a23a-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-637b8a2bf95e86b59c57a23a-1" d="M18.84,12A7.52,7.52,0,0,1,12,15.91,7.52,7.52,0,0,1,5.16,12,7.52,7.52,0,0,1,12,8.09,7.52,7.52,0,0,1,18.84,12Z"></path><circle class="cls-637b8a2bf95e86b59c57a23a-1" cx="12" cy="12" r="0.98"></circle><polyline class="cls-637b8a2bf95e86b59c57a23a-1" points="1.25 7.12 1.25 1.25 7.12 1.25"></polyline><polyline class="cls-637b8a2bf95e86b59c57a23a-1" points="22.75 16.89 22.75 22.75 16.89 22.75"></polyline><polyline class="cls-637b8a2bf95e86b59c57a23a-1" points="7.12 22.75 1.25 22.75 1.25 16.89"></polyline><polyline class="cls-637b8a2bf95e86b59c57a23a-1" points="16.89 1.25 22.75 1.25 22.75 7.12"></polyline><line class="cls-637b8a2bf95e86b59c57a23a-1" x1="1.25" y1="1.25" x2="7.11" y2="7.11"></line><line class="cls-637b8a2bf95e86b59c57a23a-1" x1="1.25" y1="22.75" x2="7.11" y2="16.89"></line><line class="cls-637b8a2bf95e86b59c57a23a-1" x1="16.89" y1="7.11" x2="21.77" y2="2.23"></line><line class="cls-637b8a2bf95e86b59c57a23a-1" x1="22.75" y1="22.75" x2="16.89" y2="16.89"></line></svg></div>
             <div id="svg-lock">
-<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14"><defs><style>.cls-6374f8d9b67f094e4896c64a-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><rect class="cls-6374f8d9b67f094e4896c64a-1" x="5.32" y="10.09" width="13.36" height="12.41"></rect><path class="cls-6374f8d9b67f094e4896c64a-1" d="M12,1.5h0a4.77,4.77,0,0,1,4.77,4.77v3.82a0,0,0,0,1,0,0H7.23a0,0,0,0,1,0,0V6.27A4.77,4.77,0,0,1,12,1.5Z"></path><circle class="cls-6374f8d9b67f094e4896c64a-1" cx="12" cy="14.86" r="0.95"></circle><line class="cls-6374f8d9b67f094e4896c64a-1" x1="12" y1="19.64" x2="12" y2="15.82"></line></svg></div>
-            <div id="svg-unlock"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14"><defs><style>.cls-6374f8d9b67f094e4896c66e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><rect class="cls-6374f8d9b67f094e4896c66e-1" x="5.32" y="10.09" width="13.36" height="12.41"></rect><path class="cls-6374f8d9b67f094e4896c66e-1" d="M16.77,10.09H7.23V6.27A4.77,4.77,0,0,1,12,1.5h0a4.77,4.77,0,0,1,4.77,4.77"></path><circle class="cls-6374f8d9b67f094e4896c66e-1" cx="12" cy="14.86" r="0.95"></circle><line class="cls-6374f8d9b67f094e4896c66e-1" x1="12" y1="19.64" x2="12" y2="15.82"></line></svg></div>
-        <div id="svg-back"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14"><defs><style>.cls-6374f543b67f094e4896c5c8-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><circle class="cls-6374f543b67f094e4896c5c8-1" cx="12" cy="12" r="10.5"></circle><path class="cls-6374f543b67f094e4896c5c8-1" d="M7.23,7.23h7.63a3.82,3.82,0,0,1,3.82,3.82h0a3.82,3.82,0,0,1-3.82,3.81H7.23"></path><polyline class="cls-6374f543b67f094e4896c5c8-1" points="11.04 18.68 7.23 14.86 11.04 11.04"></polyline></svg></div>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14"><defs><style>.cls-6374f8d9b67f094e4896c64a-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><rect class="cls-6374f8d9b67f094e4896c64a-1" x="5.32" y="10.09" width="13.36" height="12.41"></rect><path class="cls-6374f8d9b67f094e4896c64a-1" d="M12,1.5h0a4.77,4.77,0,0,1,4.77,4.77v3.82a0,0,0,0,1,0,0H7.23a0,0,0,0,1,0,0V6.27A4.77,4.77,0,0,1,12,1.5Z"></path><circle class="cls-6374f8d9b67f094e4896c64a-1" cx="12" cy="14.86" r="0.95"></circle><line class="cls-6374f8d9b67f094e4896c64a-1" x1="12" y1="19.64" x2="12" y2="15.82"></line></svg>
+</div>
+            <div id="svg-unlock"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14"><defs><style>.cls-6374f8d9b67f094e4896c66e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><rect class="cls-6374f8d9b67f094e4896c66e-1" x="5.32" y="10.09" width="13.36" height="12.41"></rect><path class="cls-6374f8d9b67f094e4896c66e-1" d="M16.77,10.09H7.23V6.27A4.77,4.77,0,0,1,12,1.5h0a4.77,4.77,0,0,1,4.77,4.77"></path><circle class="cls-6374f8d9b67f094e4896c66e-1" cx="12" cy="14.86" r="0.95"></circle><line class="cls-6374f8d9b67f094e4896c66e-1" x1="12" y1="19.64" x2="12" y2="15.82"></line></svg></div>
+        <div id="svg-back"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14"><defs><style>.cls-6374f543b67f094e4896c5c8-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><circle class="cls-6374f543b67f094e4896c5c8-1" cx="12" cy="12" r="10.5"></circle><path class="cls-6374f543b67f094e4896c5c8-1" d="M7.23,7.23h7.63a3.82,3.82,0,0,1,3.82,3.82h0a3.82,3.82,0,0,1-3.82,3.81H7.23"></path><polyline class="cls-6374f543b67f094e4896c5c8-1" points="11.04 18.68 7.23 14.86 11.04 11.04"></polyline></svg></div>
     </div>
     <div id="notify-overlay" style="display: none;">
     <div id="notify-container">
         <div>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="40" height="40" fill="none" stroke="var(--neon-aqua-accent, #6bd9fa)" stroke-miterlimit="10"><circle cx="12" cy="12" r="10.5"/><polyline points="12 6.5 12 12 16 14.5"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="40" height="40" fill="none" stroke="var(--neon-aqua-accent, #6bd9fa)" stroke-miterlimit="10"><circle cx="12" cy="12" r="10.5"></circle><polyline points="12 6.5 12 12 16 14.5"></polyline></svg>
         </div>
         <p class="notify-title">Coming Soon!</p>
         <div id="notify-divider"></div>
         <span class="notify-desc">This is not available yet...</span>
         <span class="notify-desc">Check back later!</span>
         <button id="notify-close-btn" onclick="dismissNotify()">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="16" height="16" fill="none" stroke="currentColor" stroke-miterlimit="10"><circle cx="12" cy="12" r="10.5"/><line x1="8.18" y1="8.18" x2="15.82" y2="15.82"/><line x1="15.82" y1="8.18" x2="8.18" y2="15.82"/></svg> Dismiss
+            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="16" height="16" fill="none" stroke="currentColor" stroke-miterlimit="10"><circle cx="12" cy="12" r="10.5"></circle><line x1="8.18" y1="8.18" x2="15.82" y2="15.82"></line><line x1="15.82" y1="8.18" x2="8.18" y2="15.82"></line></svg> Dismiss
         </button>
     </div>
 </div>
@@ -1520,13 +1496,21 @@ y \leftarrow y + v_y \cdot dt</annotation></semantics></math></span><span class=
     </script>
     <div class="scroll-button-container">
         <button id="scrollButton" onclick="scrollToTop()">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="50" height="50"
-                fill="none" stroke="currentColor" stroke-miterlimit="10" aria-label="⇡">
-                <circle cx="12" cy="12" r="10.5"></circle>
-                <line x1="12" y1="10.09" x2="12" y2="18.68"></line>
-                <polyline points="7.23 10.09 12 5.32 16.77 10.09"></polyline>
-                <polyline points="7.23 14.86 12 10.09 16.77 14.86"></polyline>
-            </svg>
+            <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="50" height="50" color="#fff">
+    <defs>
+        <style>
+            .cls-scroll-top-1 {
+                fill: none;
+                stroke: currentColor;
+                stroke-miterlimit: 10;
+            }
+        </style>
+    </defs>
+    <circle class="cls-scroll-top-1" cx="12" cy="12" r="10.5"></circle>
+    <line class="cls-scroll-top-1" x1="12" y1="10.09" x2="12" y2="18.68"></line>
+    <polyline class="cls-scroll-top-1" points="7.23 10.09 12 5.32 16.77 10.09"></polyline>
+    <polyline class="cls-scroll-top-1" points="7.23 14.86 12 10.09 16.77 14.86"></polyline>
+</svg>
         </button>
     </div>
 </body>

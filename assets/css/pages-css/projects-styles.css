@@ -137,25 +137,29 @@ body.light-mode {
 
 html,
 body {
-    height: 100%;
+    min-height: 100%;
     margin: 0;
     padding: 0;
     font-family: 'Nunito', sans-serif;
     color: var(--neon-aqua-accent);
     overflow-x: hidden;
-    overflow-y: auto;
     background-color: var(--bg-secondary-color);
-    background-size: 50px 50px;
+    background-size: cover;
     scroll-behavior: smooth;
 }
 
 body {
-    display: none;
+    overflow-x: hidden;
+    position: relative;
 }
 
 .site-bg-effects {
-    position: fixed;
-    inset: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
     pointer-events: none;
     z-index: 0;
 }
@@ -163,7 +167,10 @@ body {
 .site-bg-dot-grid,
 .site-bg-glow {
     position: absolute;
-    inset: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
 .site-bg-dot-grid {
@@ -183,16 +190,25 @@ body {
         background-image: radial-gradient(circle, var(--site-bg-glow-dot-color) 1px, transparent 1.2px);
         background-size: var(--site-bg-dot-gap) var(--site-bg-dot-gap);
         background-position: top left;
-        -webkit-mask-image: radial-gradient(var(--site-bg-glow-size) circle at var(--site-bg-mouse-x) var(--site-bg-mouse-y),
-                rgba(0, 0, 0, 1) 0,
-                rgba(0, 0, 0, 0.82) 30%,
-                rgba(0, 0, 0, 0.22) 56%,
-                transparent 76%);
-        mask-image: radial-gradient(var(--site-bg-glow-size) circle at var(--site-bg-mouse-x) var(--site-bg-mouse-y),
-                rgba(0, 0, 0, 1) 0,
-                rgba(0, 0, 0, 0.82) 30%,
-                rgba(0, 0, 0, 0.22) 56%,
-                transparent 76%);
+
+        position: absolute;
+
+        -webkit-mask-image: radial-gradient(
+            var(--site-bg-glow-size) circle at var(--site-bg-mouse-x) var(--site-bg-mouse-y),
+            rgba(0, 0, 0, 1) 0,
+            rgba(0, 0, 0, 0.82) 30%,
+            rgba(0, 0, 0, 0.22) 56%,
+            transparent 76%
+        );
+
+        mask-image: radial-gradient(
+            var(--site-bg-glow-size) circle at var(--site-bg-mouse-x) var(--site-bg-mouse-y),
+            rgba(0, 0, 0, 1) 0,
+            rgba(0, 0, 0, 0.82) 30%,
+            rgba(0, 0, 0, 0.22) 56%,
+            transparent 76%
+        );
+
         opacity: var(--site-bg-glow-opacity);
         transition: opacity 0.22s ease;
     }
@@ -201,19 +217,18 @@ body {
 body::-webkit-scrollbar {
     width: 8px;
     height: 10px;
-    background: var(--header-footer-shadeLight);
+    background: var(--blockquote-bg-color);
     z-index: 9999;
 }
 
 body::-webkit-scrollbar-track {
-    margin-top: 90px;
-    background: var(--header-footer-shadeLight);
+    background: var(--blockquote-bg-color);
     border-radius: 4px;
     z-index: 9999;
 }
 
 body::-webkit-scrollbar-thumb {
-    background: var(--header-bg-color);
+    background: var(--blockquote-scroll-track);
     border-radius: 4px;
     border: 2px solid transparent;
     background-clip: padding-box;
@@ -565,7 +580,7 @@ a {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 10px 10px 0 0;
+    border-radius: 10px 10px 0 0 !important;
     justify-self: center;
     transition: border 0.4s ease;
     cursor: pointer;
@@ -580,7 +595,7 @@ a {
     width: auto;
     height: auto;
     display: block;
-    border-radius: 10px 10px 0 0;
+    border-radius: 10px 10px 0 0 !important;
     overflow: hidden;
     position: relative;
     transition: all 0.4s ease;
@@ -981,5 +996,32 @@ h1, h2, h3, h4, h5, h6 {
     #scrollButton:hover {
         border-color: var(--neon-aqua-accent);
     }
+}
+/* -------------------------------------------------------------------------- */
+
+/* -- LQIP Chirpy Fade Effect ----------------------------------------------- */
+.lqip-wrapper {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    background-color: var(--header-footer-shadeLight); 
+    border-radius: inherit; 
+}
+
+/* Make the selector highly specific (img.blur-load) */
+img.blur-load {
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    /* We MUST include both opacity AND transform here with !important 
+       so the fade works, and your hover zooms don't break! */
+    transition: opacity 0.6s ease-in-out, transform 0.4s ease !important;
+}
+
+img.blur-load.loaded {
+    opacity: 1;
 }
 /* -------------------------------------------------------------------------- */

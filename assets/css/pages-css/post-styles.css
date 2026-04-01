@@ -201,24 +201,31 @@ body.light-mode {
     --border-width: 2px;
 }
 
-html {
+html,
+body {
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Nunito', sans-serif;
+    color: var(--neon-aqua-accent);
     overflow-x: hidden;
-    overflow-y: hidden;
+    background-color: var(--bg-secondary-color);
+    background-size: cover;
+    scroll-behavior: smooth;
 }
 
 body {
     overflow-x: hidden;
-    overflow-y: auto;
-    /* display: none; */
-    min-height: 100vh;
-    height: 100%;
     position: relative;
-    scroll-timeline: --post-scroll block;
 }
 
 .site-bg-effects {
-    position: fixed;
-    inset: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
     pointer-events: none;
     z-index: 0;
 }
@@ -226,7 +233,10 @@ body {
 .site-bg-dot-grid,
 .site-bg-glow {
     position: absolute;
-    inset: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
 .site-bg-dot-grid {
@@ -246,49 +256,45 @@ body {
         background-image: radial-gradient(circle, var(--site-bg-glow-dot-color) 1px, transparent 1.2px);
         background-size: var(--site-bg-dot-gap) var(--site-bg-dot-gap);
         background-position: top left;
-        -webkit-mask-image: radial-gradient(var(--site-bg-glow-size) circle at var(--site-bg-mouse-x) var(--site-bg-mouse-y),
-                rgba(0, 0, 0, 1) 0,
-                rgba(0, 0, 0, 0.82) 30%,
-                rgba(0, 0, 0, 0.22) 56%,
-                transparent 76%);
-        mask-image: radial-gradient(var(--site-bg-glow-size) circle at var(--site-bg-mouse-x) var(--site-bg-mouse-y),
-                rgba(0, 0, 0, 1) 0,
-                rgba(0, 0, 0, 0.82) 30%,
-                rgba(0, 0, 0, 0.22) 56%,
-                transparent 76%);
+
+        position: absolute;
+
+        -webkit-mask-image: radial-gradient(
+            var(--site-bg-glow-size) circle at var(--site-bg-mouse-x) var(--site-bg-mouse-y),
+            rgba(0, 0, 0, 1) 0,
+            rgba(0, 0, 0, 0.82) 30%,
+            rgba(0, 0, 0, 0.22) 56%,
+            transparent 76%
+        );
+
+        mask-image: radial-gradient(
+            var(--site-bg-glow-size) circle at var(--site-bg-mouse-x) var(--site-bg-mouse-y),
+            rgba(0, 0, 0, 1) 0,
+            rgba(0, 0, 0, 0.82) 30%,
+            rgba(0, 0, 0, 0.22) 56%,
+            transparent 76%
+        );
+
         opacity: var(--site-bg-glow-opacity);
         transition: opacity 0.22s ease;
     }
 }
 
-html,
-body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    font-family: 'Nunito', sans-serif;
-    color: var(--paragraph-color);
-    background-color: var(--bg-secondary-color);
-    background-size: 50px 50px;
-    scroll-behavior: auto;
-    overscroll-behavior: none;
-}
-
 body::-webkit-scrollbar {
     width: 8px;
     height: 10px;
-    background: var(--header-footer-shadeLight);
+    background: var(--blockquote-bg-color);
     z-index: 9999;
 }
 
 body::-webkit-scrollbar-track {
-    background: var(--header-footer-shadeLight);
+    background: var(--blockquote-bg-color);
     border-radius: 4px;
     z-index: 9999;
 }
 
 body::-webkit-scrollbar-thumb {
-    background: var(--header-bg-color);
+    background: var(--blockquote-scroll-track);
     border-radius: 4px;
     border: 2px solid transparent;
     background-clip: padding-box;
@@ -1142,7 +1148,6 @@ blockquote ol {
     border-radius: 10px;
     overflow: hidden;
     position: relative;
-    transition: all 0.3s ease;
 }
 
 .post-article .js-plotly-plot {
@@ -1710,10 +1715,12 @@ h4 .copy-toc svg {
     background: linear-gradient(to right, var(--neon-aqua-accent), var(--post-h2-color));
     z-index: 1001;
     pointer-events: none;
+
     transform-origin: left center;
     transform: scaleX(0);
+
     animation: reading-progress linear both;
-    animation-timeline: --post-scroll;
+    animation-timeline: scroll();
     animation-range: 0% 100%;
 }
 
@@ -1721,7 +1728,6 @@ h4 .copy-toc svg {
     from {
         transform: scaleX(0);
     }
-
     to {
         transform: scaleX(1);
     }
@@ -1734,7 +1740,7 @@ header#post-header {
     left: 50%;
     transform: translateX(-51%);
     width: 45%;
-    padding: 10px 60px 10px 60px;
+    padding: 10px 52px 10px 68px;
     background: linear-gradient(to right,
         transparent 0%,
         rgba(16, 20, 27, 0.3) 6%,
@@ -1802,6 +1808,8 @@ header#post-header.transformed {
 }
 
 .disable-comments svg {
+    width: 120px;
+    height: 120px;
     color: var(--header-footer-shadeLight);
 }
 
@@ -2716,3 +2724,82 @@ body.light-mode .post-info-card {
     }
 }
 /* ─────────────────────────────────────────────────────────── */
+
+/* -- LQIP Chirpy Fade Effect ----------------------------------------------- */
+.lqip-wrapper {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    background-color: var(--header-footer-shadeLight); 
+    border-radius: inherit; 
+}
+
+/* Make the selector highly specific (img.blur-load) */
+img.blur-load {
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    /* We MUST include both opacity AND transform here with !important 
+       so the fade works, and your hover zooms don't break! */
+    transition: opacity 0.6s ease-in-out, transform 0.4s ease !important;
+}
+
+img.blur-load.loaded {
+    opacity: 1;
+}
+/* -------------------------------------------------------------------------- */
+
+/* -------------------------------------------------------------------------- */
+
+/* -- POST ARTICLE LQIP FIXES (Orientation Aware) -- */
+/* -- THE FINAL ORIENTATION FIX -- */
+.post-article .lqip-wrapper {
+    box-shadow: var(--box-shadow-part-1), var(--box-shadow-part-2);
+    border: var(--border-width) solid var(--header-footer-shadeLight);
+    box-sizing: border-box;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 20px auto;
+    display: block !important;
+    
+    /* 1. Background Logic */
+    background-size: cover;
+    background-position: center;
+    
+    /* 2. Sizing Logic: This is the magic part */
+    max-width: 95%; 
+    width: fit-content;      /* Wrapper only grows as wide as the aspect ratio allows */
+    max-height: 85vh;        /* Never taller than 85% of the screen */
+}
+
+.post-article .lqip-wrapper img {
+    box-shadow: none !important;
+    border: none !important;
+    margin: 0 !important;
+    
+    /* 3. Image Logic */
+    width: auto;             /* Let width be determined by height */
+    height: auto;
+    max-width: 100%;         /* Stay inside wrapper */
+    max-height: 85vh;        /* Match the wrapper's limit */
+    
+    object-fit: contain;     /* Never crop or push the image */
+    display: block;
+    opacity: 0;
+    transition: opacity 0.6s ease-in-out !important;
+}
+
+.post-article .lqip-wrapper img.loaded {
+    opacity: 1;
+}
+
+/* Ensure the wrapper respects your existing mobile scaling */
+@media (max-width: 1470px) {
+    .post-article .lqip-wrapper {
+        max-width: 100%;
+    }
+}
+/* -------------------------------------------------------------------------- */

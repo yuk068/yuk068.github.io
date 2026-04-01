@@ -1,6 +1,9 @@
+if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+}
+window.scrollTo(0, 0);
+
 document.addEventListener('DOMContentLoaded', function () {
-    // Your JavaScript functions here
-    document.body.style.display = "block";  // Show the page after JS execution
     initSiteBackgroundEffect();
 });
 
@@ -11,8 +14,12 @@ function initSiteBackgroundEffect() {
 
     const root = document.documentElement;
     let rafId = 0;
+
     let mouseX = window.innerWidth / 2;
     let mouseY = window.innerHeight / 2;
+
+    let lastClientX = mouseX;
+    let lastClientY = mouseY;
 
     function flushMousePosition() {
         root.style.setProperty('--site-bg-mouse-x', `${mouseX}px`);
@@ -20,21 +27,196 @@ function initSiteBackgroundEffect() {
         rafId = 0;
     }
 
-    window.addEventListener('mousemove', (event) => {
-        mouseX = event.clientX;
-        mouseY = event.clientY;
-        root.style.setProperty('--site-bg-glow-opacity', '1');
+    function updatePosition() {
+        mouseX = lastClientX + window.scrollX;
+        mouseY = lastClientY + window.scrollY;
 
         if (!rafId) {
             rafId = window.requestAnimationFrame(flushMousePosition);
         }
-    }, { passive: true });
+    }
 
-    window.addEventListener('mouseleave', () => {
+    function handleMove(event) {
+        lastClientX = event.clientX;
+        lastClientY = event.clientY;
+
+        root.style.setProperty('--site-bg-glow-opacity', '1');
+        updatePosition();
+    }
+
+    function handleScroll() {
+        updatePosition();
+    }
+
+    function handleLeave() {
         root.style.setProperty('--site-bg-glow-opacity', '0');
+    }
+
+    window.addEventListener('mousemove', handleMove, { passive: true });
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    document.addEventListener('mouseleave', handleLeave);
+
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            handleLeave();
+        }
     });
 }
 
+function initDotRippleEffect(presetName = 'subtle', timeToFirstMs = null, enableIdle = true) {
+    const RIPPLE_PRESETS = {
+        subtle: {
+            alpha:        0.55,
+            radius:       { min: 80,  max: 160 },
+            ringWidth:    { min: 20,  max: 45  },
+            duration:     { min: 1800, max: 2600 },
+            interval:     { min: 900, max: 1100 },
+            sideWidth:    0.28,
+            centerChance: 0.15,
+        },
+        mild: {
+            alpha:        0.75,
+            radius:       { min: 100, max: 210 },
+            ringWidth:    { min: 30,  max: 60  },
+            duration:     { min: 1600, max: 2200 },
+            interval:     { min: 700, max: 900 },
+            sideWidth:    0.25,
+            centerChance: 0.12,
+        },
+        justright: {
+            alpha:        0.8,
+            radius:       { min: 130, max: 250 },
+            ringWidth:    { min: 50,  max: 100  },
+            duration:     { min: 1200, max: 1800 },
+            interval:     { min: 275, max: 425 },
+            sideWidth:    0.21,
+            centerChance: 0.12,
+        },
+        aggressive: {
+            alpha:        1.2,
+            radius:       { min: 160, max: 300 },
+            ringWidth:    { min: 50,  max: 90  },
+            duration:     { min: 1200, max: 1800 },
+            interval:     { min: 300, max: 500 },
+            sideWidth:    0.22,
+            centerChance: 0.08,
+        },
+    };
+
+    const p = RIPPLE_PRESETS[presetName];
+    if (!p) { console.error('[ripple] unknown preset:', presetName, '| valid:', Object.keys(RIPPLE_PRESETS)); return; }
+
+    const container = document.querySelector('.site-bg-effects');
+    if (!container) { console.error('[ripple] .site-bg-effects not found'); return; }
+
+    const rand = (range) => typeof range === 'number'
+        ? range
+        : range.min + Math.random() * (range.max - range.min);
+
+    function getSpawnX() {
+        const rootInfo = { pSideWidth: p.sideWidth, pCenterChance: p.centerChance, innerWidth: window.innerWidth, scrollX: window.scrollX };
+        let x;
+        if (Math.random() < p.centerChance) {
+            x = window.scrollX + window.innerWidth * (0.3 + Math.random() * 0.4);
+            console.log('[archive ripple] getSpawnX center choice', rootInfo, 'x=', x);
+            return x;
+        }
+        const sideWidthPx = window.innerWidth * p.sideWidth;
+        const onLeft = Math.random() < 0.5;
+        x = window.scrollX + (onLeft
+            ? Math.random() * sideWidthPx
+            : window.innerWidth - Math.random() * sideWidthPx);
+        console.log('[archive ripple] getSpawnX edge choice', rootInfo, 'sideWidthPx=', sideWidthPx, 'onLeft=', onLeft, 'x=', x);
+        return x;
+    }
+
+    function spawnRipple(pageX, pageY) {
+        const dotColor = getComputedStyle(document.documentElement)
+            .getPropertyValue('--site-bg-glow-dot-color').trim();
+        const dotGap = getComputedStyle(document.documentElement)
+            .getPropertyValue('--site-bg-dot-gap').trim() || '28px';
+
+        const peakAlpha = p.alpha;
+        const maxRadius = rand(p.radius);
+        const ringWidth = rand(p.ringWidth);
+        const duration  = rand(p.duration);
+
+        const el = document.createElement('div');
+        el.style.cssText = `
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            background-image: radial-gradient(circle, ${dotColor} 0.8px, transparent 1px);
+            background-size: ${dotGap} ${dotGap};
+            background-position: top left;
+            mask-repeat: no-repeat;
+            -webkit-mask-repeat: no-repeat;
+        `;
+        container.appendChild(el);
+
+        const start = performance.now();
+
+        function frame(now) {
+            const t = Math.min((now - start) / duration, 1);
+            const r = (1 - Math.pow(1 - t, 2)) * maxRadius;
+            const alpha = peakAlpha * Math.sin(t * Math.PI);
+            const innerEdge = Math.max(0, r - ringWidth * 0.5);
+
+            const mask = `radial-gradient(circle at ${pageX}px ${pageY}px, transparent ${innerEdge}px, rgba(0,0,0,${alpha}) ${r}px, transparent ${r + ringWidth}px)`;
+            el.style.maskImage = mask;
+            el.style.webkitMaskImage = mask;
+
+            if (t < 1) requestAnimationFrame(frame);
+            else el.remove();
+        }
+
+        requestAnimationFrame(frame);
+    }
+
+    let scheduled = false;
+    let nextDelayMs = Number.isFinite(Number(timeToFirstMs)) && timeToFirstMs >= 0
+        ? Number(timeToFirstMs)
+        : null;
+
+    function scheduleNext() {
+        if (!enableIdle) {
+            return;
+        }
+        if (scheduled) return;
+        scheduled = true;
+
+        const delay = nextDelayMs !== null ? nextDelayMs : rand(p.interval);
+        nextDelayMs = null;
+
+        setTimeout(() => {
+            scheduled = false;
+            const x = getSpawnX();
+            const y = window.scrollY + window.innerHeight * (0.05 + Math.random() * 0.9);
+            spawnRipple(x, y);
+            scheduleNext();
+        }, delay);
+    }
+
+    if (enableIdle) scheduleNext();
+
+
+    document.addEventListener('click', (e) => {
+        if (e.target.closest('a, button, input, textarea, select')) return;
+        spawnRipple(
+            e.clientX + window.scrollX,
+            e.clientY + window.scrollY
+        );
+    });
+
+    document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) scheduleNext();
+    });
+}
+
+initDotRippleEffect('subtle', 500, true);
 
 function handleLogoClick() {
     // Check the scroll position
@@ -81,52 +263,6 @@ function notifyComingSoon() {
     overlay.addEventListener('click', overlayClick);
 }
 
-function formatDate(dateString, language = 'en') {
-    const [day, month, year] = dateString.split('/').map(Number);
-
-    if (language === 'vi') {
-        // For Vietnamese, return in dd/mm/yyyy format
-        return `${day}/${month}/${year}`;
-    }
-
-    // English month names
-    const months = [
-        "Jan.", "Feb.", "Mar.", "Apr.", "May", "June",
-        "July", "Aug.", "Sept.", "Oct.", "Nov.", "Dec."
-    ];
-
-    const monthName = months[month - 1];
-
-    let dayWithSuffix = day;
-    if (day === 1 || day === 21 || day === 31) {
-        dayWithSuffix += "st";
-    } else if (day === 2 || day === 22) {
-        dayWithSuffix += "nd";
-    } else if (day === 3 || day === 23) {
-        dayWithSuffix += "rd";
-    } else {
-        dayWithSuffix += "th";
-    }
-
-    return `${monthName} ${dayWithSuffix} ${year}`;
-}
-
-function formatDates() {
-    const dateElements = document.querySelectorAll(".posts-date, .date-span");
-
-    for (const element of dateElements) {
-        const dateString = element.textContent.trim();
-        const language = document.documentElement.lang || 'en'; // Default to English if no lang attribute
-
-        if (dateString) {
-            const formattedDate = formatDate(dateString, language);
-            element.textContent = formattedDate;
-        }
-    }
-}
-
-document.addEventListener("DOMContentLoaded", formatDates);
-
 function onScroll() {
     const header = document.querySelector('#archive-header');
     const headerTitle = document.querySelector('#archive-header-title');
@@ -163,7 +299,7 @@ function onResize() {
 }
 
 // Add event listeners for scroll and resize
-document.body.addEventListener('scroll', onScroll);
+window.addEventListener('scroll', onScroll, { passive: true });
 window.addEventListener('resize', onResize);
 
 function scrollToTop() {
@@ -182,22 +318,18 @@ function goBack() {
     }
 }
 
+const isSingleColumn = window.matchMedia('(max-width: 1400px)').matches;
+
 function toggleLeftPanel() {
     const sidePanel = document.querySelector('.archive-side-panel-left');
+    const isSingleColumn = window.matchMedia('(max-width: 1400px)').matches;
 
-    if (window.innerWidth <= 1400) {
-        const filterSortContainer = document.getElementById('filterSortContainer');
-        if (filterSortContainer) {
-            const body = document.body;
-            const html = document.documentElement;
-
-            const offsetTop = getOffsetTop(filterSortContainer) - 100;
-
-            console.log("Niggers", offsetTop);
-            console.log("Faggots", window.scrollY);
-
-            body.scrollTop = offsetTop;
-            html.scrollTop = offsetTop;
+    if (isSingleColumn) {
+        const container = document.querySelector('.archive-side-panel-left-container');
+        if (container) {
+            const offsetTop = getOffsetTop(container) - 100;
+            document.body.scrollTop = offsetTop;
+            document.documentElement.scrollTop = offsetTop;
         }
     } else {
         sidePanel.classList.toggle('active');
@@ -205,20 +337,16 @@ function toggleLeftPanel() {
     }
 }
 
-
 function toggleRightPanel() {
     const sidePanel = document.querySelector('.archive-side-panel-right');
+    const isSingleColumn = window.matchMedia('(max-width: 1400px)').matches;
 
-    if (window.innerWidth <= 1400) {
-        const tagsContainer = document.getElementById('tagsContainer');
-        if (tagsContainer) {
-            const body = document.body;
-            const html = document.documentElement;
-
-            const offsetTop = getOffsetTop(tagsContainer) - 100;
-
-            body.scrollTop = offsetTop;
-            html.scrollTop = offsetTop;
+    if (isSingleColumn) {
+        const container = document.querySelector('.archive-side-panel-right-container');
+        if (container) {
+            const offsetTop = getOffsetTop(container) - 100;
+            document.body.scrollTop = offsetTop;
+            document.documentElement.scrollTop = offsetTop;
         }
     } else {
         sidePanel.classList.toggle('active');
@@ -238,9 +366,10 @@ function getOffsetTop(element) {
 function initializePanelState() {
     const leftPanel = document.querySelector('.archive-side-panel-left');
     const rightPanel = document.querySelector('.archive-side-panel-right');
+    const mq = window.matchMedia('(max-width: 1400px)');
 
     function updatePanelState() {
-        if (window.innerWidth <= 1400) {
+        if (mq.matches) {
             leftPanel.classList.remove('active');
             rightPanel.classList.remove('active');
             localStorage.removeItem('leftPanelState');
@@ -263,8 +392,8 @@ function initializePanelState() {
         }
     }
 
-    updatePanelState(); // Initial check on load
-    window.addEventListener('resize', updatePanelState); // Listen for resize events
+    mq.addEventListener('change', updatePanelState);
+    updatePanelState();
 }
 
 document.addEventListener('DOMContentLoaded', initializePanelState);
@@ -275,6 +404,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const tagButtons = document.querySelectorAll('.tag-filter-button');
     const categoryButtons = document.querySelectorAll('.filter-tools-container button');
     const searchBar = document.getElementById('search-bar');
+    const mobileSearchBar = document.getElementById('search-bar-mobile');
     const posts = document.querySelectorAll('.post-card');
     const paginationNav = document.querySelector('.pagination-nav');
     const prevButton = document.querySelector('.pagination-prev');
@@ -482,29 +612,28 @@ document.addEventListener('DOMContentLoaded', () => {
     let isFirstLoad = true;  // Flag to track the first load
 
     const updatePostsDisplay = () => {
-        // Sort the visible posts
         const sortedVisiblePosts = updateSorting(visiblePosts);
-
         const startIndex = (currentPage - 1) * postsPerPage;
         const endIndex = startIndex + postsPerPage;
 
-        // Select posts container and pagination-nav
         const postsContainer = document.querySelector('.posts');
-        const paginationNav = postsContainer.querySelector('.pagination-nav'); // Get the pagination-nav
+        const paginationNav = postsContainer.querySelector('.pagination-nav');
+        const paginationTip = postsContainer.querySelector('.pagination-nav-tips');
 
-        // Hide all posts (excluding pagination-nav)
+        // Hide all posts
         const postElements = postsContainer.querySelectorAll('.post-card');
         postElements.forEach(post => {
             post.style.display = 'none';
             post.classList.remove('pulse');
         });
 
-        // Append posts for the current page in the correct order
+        // Use a DocumentFragment to prevent multiple DOM repaints
+        const fragment = document.createDocumentFragment();
+
         sortedVisiblePosts.slice(startIndex, endIndex).forEach(post => {
             post.style.display = 'block';
-            postsContainer.appendChild(post); // Reorder posts in the DOM
+            fragment.appendChild(post); // Add to the invisible box
 
-            // Add the pulse effect after the first load
             if (!isFirstLoad) {
                 requestAnimationFrame(() => {
                     post.classList.add('pulse');
@@ -512,19 +641,15 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // After the first load, set isFirstLoad to false
+        // Append everything to the actual DOM in ONE single action
+        postsContainer.insertBefore(fragment, paginationNav);
+
         isFirstLoad = false;
-
-        // Add pagination-nav back to the container
+        
+        // Ensure nav elements stay at the bottom
         postsContainer.appendChild(paginationNav);
+        if (paginationTip) postsContainer.appendChild(paginationTip);
 
-        // Keep the pagination tip directly under the nav
-        const paginationTip = postsContainer.querySelector('.pagination-nav-tips');
-        if (paginationTip) {
-            postsContainer.appendChild(paginationTip);
-        }
-
-        // Update empty state
         updateEmptyState();
     };
 
@@ -546,10 +671,23 @@ document.addEventListener('DOMContentLoaded', () => {
         button.addEventListener('click', () => toggleCategory(button));
     });
 
-    searchBar.addEventListener('input', (e) => {
-        searchText = e.target.value.toLowerCase().trim();
-        updatePostsVisibility();
-    });
+    // Debounced Search
+    let searchTimeout;
+    const handleSearchInput = (e) => {
+        const value = e.target.value;
+
+        if (searchBar && e.target !== searchBar) searchBar.value = value;
+        if (mobileSearchBar && e.target !== mobileSearchBar) mobileSearchBar.value = value;
+
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            searchText = value.toLowerCase().trim();
+            updatePostsVisibility();
+        }, 150); // Waits 150ms after they stop typing before calculating
+    };
+
+    if (searchBar) searchBar.addEventListener('input', handleSearchInput);
+    if (mobileSearchBar) mobileSearchBar.addEventListener('input', handleSearchInput);
 
     prevButton.addEventListener('click', () => {
         if (currentPage > 1) {
@@ -692,40 +830,66 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener("DOMContentLoaded", function () {
     const searchBarContainer = document.querySelector(".archive-search-bar");
     const mobileSearchBarContainer = document.querySelector(".archive-search-bar-mobile");
-    const searchBar = document.getElementById("search-bar");
+    const desktopSearchBar = document.getElementById("search-bar");
+    const mobileSearchBar = document.getElementById("search-bar-mobile");
+
+    const activeSearchBar = () => (window.innerWidth <= 1400 ? mobileSearchBar || desktopSearchBar : desktopSearchBar || mobileSearchBar);
+
+    function setPlaceholder() {
+        const text = 'Press " / " to search posts...';
+
+        if (desktopSearchBar) desktopSearchBar.placeholder = text;
+        if (mobileSearchBar) mobileSearchBar.placeholder = text;
+    }
+
+    function syncSearchBarValues(sourceBar) {
+        const value = sourceBar?.value || '';
+        if (desktopSearchBar && desktopSearchBar !== sourceBar) desktopSearchBar.value = value;
+        if (mobileSearchBar && mobileSearchBar !== sourceBar) mobileSearchBar.value = value;
+    }
 
     function updateSearchBar() {
-        if (window.innerWidth <= 1400) {
-            if (searchBarContainer.contains(searchBar)) {
-                mobileSearchBarContainer.appendChild(searchBar);
-            }
-        } else {
-            if (mobileSearchBarContainer.contains(searchBar)) {
-                searchBarContainer.appendChild(searchBar);
-            }
-        }
-
-        // Change placeholder text for smaller screens
-        if (window.innerWidth <= 790) {
-            searchBar.placeholder = "Search posts...";
-        } else {
-            searchBar.placeholder = 'Press " / " to search posts...';
+        setPlaceholder();
+        const sourceBar = activeSearchBar();
+        if (sourceBar) {
+            syncSearchBarValues(sourceBar);
         }
     }
 
-    // Run on page load and window resize
+    const searchInputHandler = (e) => {
+        const text = e.target.value || '';
+        if (desktopSearchBar) desktopSearchBar.value = text;
+        if (mobileSearchBar) mobileSearchBar.value = text;
+
+        const searchEvent = new Event('input', { bubbles: true });
+        if (desktopSearchBar && e.target !== desktopSearchBar) desktopSearchBar.dispatchEvent(searchEvent);
+        if (mobileSearchBar && e.target !== mobileSearchBar) mobileSearchBar.dispatchEvent(searchEvent);
+    };
+
+    if (desktopSearchBar) {
+        desktopSearchBar.addEventListener('input', (e) => {
+            syncSearchBarValues(e.target);
+        });
+    }
+
+    if (mobileSearchBar) {
+        mobileSearchBar.addEventListener('input', (e) => {
+            syncSearchBarValues(e.target);
+        });
+    }
+
     updateSearchBar();
     window.addEventListener("resize", updateSearchBar);
 
-    // Keyboard event for focusing search bar and pagination shortcuts
     document.addEventListener("keydown", function (event) {
         const isTextInput = ["INPUT", "TEXTAREA"].includes(document.activeElement.tagName);
+        const active = activeSearchBar();
 
         if (event.key === "/" && !isTextInput) {
             event.preventDefault();
-            searchBar.focus();
-        } else if (event.key === "Escape" && document.activeElement === searchBar) {
-            searchBar.blur();
+            active?.focus();
+        } else if (event.key === "Escape" && (document.activeElement === desktopSearchBar || document.activeElement === mobileSearchBar)) {
+            document.activeElement.blur();
         } else if (event.key === "PageUp" && !isTextInput) {
             const prevButton = document.querySelector('.pagination-prev');
             if (prevButton && !prevButton.disabled) {

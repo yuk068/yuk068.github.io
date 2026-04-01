@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -37,7 +38,10 @@
     <meta property="og:locale" content="en_US">
     <meta property="article:published_time" content="2025-05-02T00:00:00+07:00">
     <meta property="article:author" content="Yuk">
-    <meta property="article:tag" content="project"><meta property="article:tag" content="llm"><meta property="article:tag" content="knowledge graph"><meta property="article:tag" content="yuk lore">
+    <meta property="article:tag" content="project">
+<meta property="article:tag" content="llm">
+<meta property="article:tag" content="knowledge graph">
+<meta property="article:tag" content="yuk lore">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
@@ -81,40 +85,65 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand&amp;display=swap" rel="stylesheet">
 
     <script>if (localStorage.getItem('theme') === 'light') document.documentElement.classList.add('light-mode');</script>
 
     <link rel="stylesheet" href="https://unpkg.com/photoswipe@5/dist/photoswipe.css">
 
-    <script type="module">
-        import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5/dist/photoswipe-lightbox.esm.js';
-    
-        const lightbox = new PhotoSwipeLightbox({
-            gallery: '.post-article',
-            children: 'img',
-            pswpModule: () => import('https://unpkg.com/photoswipe@5/dist/photoswipe.esm.js'),
-            
-            // --- Desktop Enhancements ---
-            wheelToZoom: true,          // Zoom with mouse wheel
-            imageClickAction: 'zoom',   // Click image to zoom instead of closing
-            secondaryZoomLevel: 2,      // Zoom in deeper on click
-            maxZoomLevel: 4,            // Allow even deeper manual zoom
-            // ----------------------------
-        });
-    
-        lightbox.addFilter('itemData', (itemData, index) => {
-            const img = document.querySelectorAll('.post-article img')[index];
-            return {
-                src: img.src,
-                width: img.naturalWidth || img.width,
-                height: img.naturalHeight || img.height
-            };
-        });
-    
-        lightbox.init();
-    </script>
+<script type="module">
+import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5/dist/photoswipe-lightbox.esm.js';
+
+const lightbox = new PhotoSwipeLightbox({
+    gallery: '.post-article',
+    children: 'img',
+    pswpModule: () => import('https://unpkg.com/photoswipe@5/dist/photoswipe.esm.js'),
+
+    // --- Animation Settings ---
+    showHideAnimationType: 'fade',
+
+    // --- Zoom Enhancements ---
+    wheelToZoom: true,
+    imageClickAction: 'zoom',
+    secondaryZoomLevel: 2,
+    maxZoomLevel: 4,
+
+    // --- Loading Behavior ---
+    preload: [1, 5],
+});
+
+
+// --- SAFER DATA SOURCE ---
+lightbox.addFilter('itemData', (itemData) => {
+    const img = itemData.element;
+
+    return {
+        src: img.src,
+        msrc: img.src,
+        width: img.naturalWidth || img.width || 1200,
+        height: img.naturalHeight || img.height || 800,
+        element: img
+    };
+});
+
+
+// --- FIX DIMENSIONS AFTER LOAD ---
+lightbox.on('contentLoadImage', (e) => {
+    const { content } = e;
+
+    content.element.decode().then(() => {
+        content.width = content.element.naturalWidth;
+        content.height = content.element.naturalHeight;
+
+        if (lightbox.pswp) {
+            lightbox.pswp.refreshSize(true);
+        }
+    }).catch(() => {});
+});
+
+lightbox.init();
+</script>
 </head>
 
 <body>
@@ -176,14 +205,6 @@
                                 
                             </li>
                         </a>
-                        <!-- <div class="nav-bar-divider" id="nav-disable-mobile"></div>
-                        <a href="#" onclick="notifyComingSoon()" id="nav-disable-mobile">
-                            <li id="nav-disable-mobile">
-                                
-                                Explore
-                                
-                            </li>
-                        </a> -->
                     </ul>
                 </nav>
             </div>
@@ -208,150 +229,71 @@
                         
                     </p>
                     <div class="options-navigation">
-                        <a id="toBackButton" href="/"><svg id="Layer_1" data-name="Layer 1"
-                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
-                                height="20" color="#fff">
-                                <defs>
-                                    <style>
-                                        .cls-63ce7424ea57ea6c8380059e-1 {
-                                            fill: none;
-                                            stroke: currentColor;
-                                            stroke-miterlimit: 10;
-                                        }
-                                    </style>
-                                </defs>
-                                <path class="cls-63ce7424ea57ea6c8380059e-1"
-                                    d="M2.41,16.78H14.85A7.65,7.65,0,0,0,22.5,9.13h0a7.65,7.65,0,0,0-7.65-7.65H.5">
-                                </path>
-                                <polyline class="cls-63ce7424ea57ea6c8380059e-1"
-                                    points="8.15 22.52 2.41 16.78 8.15 11.04">
-                                </polyline>
-                            </svg>
+                        <a id="toBackButton" href="/"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14"><defs><style>.cls-6374f543b67f094e4896c5c8-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><circle class="cls-6374f543b67f094e4896c5c8-1" cx="12" cy="12" r="10.5"></circle><path class="cls-6374f543b67f094e4896c5c8-1" d="M7.23,7.23h7.63a3.82,3.82,0,0,1,3.82,3.82h0a3.82,3.82,0,0,1-3.82,3.81H7.23"></path><polyline class="cls-6374f543b67f094e4896c5c8-1" points="11.04 18.68 7.23 14.86 11.04 11.04"></polyline></svg>
                             
                             Back
                             
                         </a>
-                        <a id="toArchiveButton" href="/archive"><svg id="Layer_1" data-name="Layer 1"
-                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
-                                height="20" color="#fff">
-                                <defs>
-                                    <style>
-                                        .cls-6374f8d9b67f094e4896c633-1 {
-                                            fill: none;
-                                            stroke: currentColor;
-                                            stroke-miterlimit: 10;
-                                        }
-                                    </style>
-                                </defs>
-                                <polygon class="cls-6374f8d9b67f094e4896c633-1"
-                                    points="19.64 9.14 4.36 9.14 4.36 1.5 10.09 1.5 12 3.41 19.64 3.41 19.64 9.14">
-                                </polygon>
-                                <polygon class="cls-6374f8d9b67f094e4896c633-1"
-                                    points="1.5 9.14 22.5 9.14 20.59 22.5 3.41 22.5 1.5 9.14"></polygon>
-                            </svg>
+                        <a id="toArchiveButton" href="/archive"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff">
+    <defs>
+        <style>
+            .cls-archive-1 {
+                fill: none;
+                stroke: currentColor;
+                stroke-miterlimit: 10;
+            }
+        </style>
+    </defs>
+    <polygon class="cls-archive-1" points="19.64 9.14 4.36 9.14 4.36 1.5 10.09 1.5 12 3.41 19.64 3.41 19.64 9.14"></polygon>
+    <polygon class="cls-archive-1" points="1.5 9.14 22.5 9.14 20.59 22.5 3.41 22.5 1.5 9.14"></polygon>
+</svg>
                             
                             Archive
                             
                         </a>
-                        <a id="toProjectsButton" href="/projects"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                stroke-width="1.5" width="20" height="20" color="#fff">
-                                <defs>
-                                    <style>
-                                        .cls-637b8d40f95e86b59c57a2bd-1 {
-                                            fill: none;
-                                            stroke: currentColor;
-                                            stroke-miterlimit: 10;
-                                        }
-                                    </style>
-                                </defs>
-                                <g id="roll_brush" data-name="roll brush">
-                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="5.24" y1="11.08" x2="18.66"
-                                        y2="11.08">
-                                    </line>
-                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="5.24" y1="18.76" x2="18.66"
-                                        y2="18.76">
-                                    </line>
-                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="5.24" y1="14.92" x2="18.66"
-                                        y2="14.92">
-                                    </line>
-                                    <rect class="cls-637b8d40f95e86b59c57a2bd-1" x="1.4" y="1.49" width="21.1"
-                                        height="21.1"></rect>
-                                    <polygon class="cls-637b8d40f95e86b59c57a2bd-1"
-                                        points="22.5 7.25 16.23 7.25 14.31 7.25 1.4 7.25 1.4 1.49 22.5 1.49 22.5 7.25">
-                                    </polygon>
-                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="4.28" y1="4.37" x2="6.2" y2="4.37">
-                                    </line>
-                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="8.11" y1="4.37" x2="10.03"
-                                        y2="4.37">
-                                    </line>
-                                    <line class="cls-637b8d40f95e86b59c57a2bd-1" x1="11.95" y1="4.37" x2="13.87"
-                                        y2="4.37">
-                                    </line>
-                                </g>
-                            </svg>
+                        <a id="toProjectsButton" href="/projects"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff">
+    <defs>
+        <style>
+            .cls-projects-1 {
+                fill: none;
+                stroke: currentColor;
+                stroke-miterlimit: 10;
+            }
+        </style>
+    </defs>
+    <g id="roll_brush" data-name="roll brush">
+        <line class="cls-projects-1" x1="5.24" y1="11.08" x2="18.66" y2="11.08"></line>
+        <line class="cls-projects-1" x1="5.24" y1="18.76" x2="18.66" y2="18.76"></line>
+        <line class="cls-projects-1" x1="5.24" y1="14.92" x2="18.66" y2="14.92"></line>
+        <rect class="cls-projects-1" x="1.4" y="1.49" width="21.1" height="21.1"></rect>
+        <polygon class="cls-projects-1" points="22.5 7.25 16.23 7.25 14.31 7.25 1.4 7.25 1.4 1.49 22.5 1.49 22.5 7.25"></polygon>
+        <line class="cls-projects-1" x1="4.28" y1="4.37" x2="6.2" y2="4.37"></line>
+        <line class="cls-projects-1" x1="8.11" y1="4.37" x2="10.03" y2="4.37"></line>
+        <line class="cls-projects-1" x1="11.95" y1="4.37" x2="13.87" y2="4.37"></line>
+    </g>
+</svg>
                             
                             Projects
                             
                         </a>
-                        <!-- <button id="toExploreButton"><svg id="Layer_1" data-name="Layer 1"
-                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
-                                height="20" color="#fff">
-                                <defs>
-                                    <style>
-                                        .cls-63ce7424ea57ea6c8380055b-1 {
-                                            fill: none;
-                                            stroke: currentColor;
-                                            stroke-miterlimit: 10;
-                                        }
-                                    </style>
-                                </defs>
-                                <polyline class="cls-63ce7424ea57ea6c8380055b-1" points="22 13 22 22 2 22 2 2 11 2">
-                                </polyline>
-                                <polyline class="cls-63ce7424ea57ea6c8380055b-1" points="14 2 22 2 22 10"></polyline>
-                                <line class="cls-63ce7424ea57ea6c8380055b-1" x1="22" y1="2" x2="10" y2="14"></line>
-                            </svg>
-                            
-                            Explore
-                            
-                        </button> -->
-                        <a id="toAboutButton" href="/about-yuk-en"><svg id="Layer_1" data-name="Layer 1"
-                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
-                                height="20" color="#fff">
-                                <defs>
-                                    <style>
-                                        .cls-6374f8d9b67f094e4896c670-1 {
-                                            fill: none;
-                                            stroke: currentColor;
-                                            stroke-miterlimit: 10;
-                                        }
-                                    </style>
-                                </defs>
-                                <circle class="cls-6374f8d9b67f094e4896c670-1" cx="12" cy="7.25" r="5.73"></circle>
-                                <path class="cls-6374f8d9b67f094e4896c670-1"
-                                    d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05">
-                                </path>
-                            </svg>
+                        <a id="toAboutButton" href="/about-yuk-en"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff">
+    <defs>
+        <style>
+            .cls-about-1 {
+                fill: none;
+                stroke: currentColor;
+                stroke-miterlimit: 10;
+            }
+        </style>
+    </defs>
+    <circle class="cls-about-1" cx="12" cy="7.25" r="5.73"></circle>
+    <path class="cls-about-1" d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05"></path>
+</svg>
                             
                             About
                             
                         </a>
-                        <a id="toHomeButton" href="/"><svg id="Layer_1" data-name="Layer 1"
-                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
-                                height="20" color="#fff">
-                                <defs>
-                                    <style>
-                                        .cls-6374f8d9b67f094e4896c637-1 {
-                                            fill: none;
-                                            stroke: currentColor;
-                                            stroke-miterlimit: 10;
-                                        }
-                                    </style>
-                                </defs>
-                                <polyline class="cls-6374f8d9b67f094e4896c637-1" points="1 12 12 2.83 23 12"></polyline>
-                                <polyline class="cls-6374f8d9b67f094e4896c637-1"
-                                    points="19.33 9.25 19.33 21.17 14.75 21.17 14.75 13.83 9.25 13.83 9.25 21.17 4.67 21.17 4.67 9.25">
-                                </polyline>
-                            </svg>
+                        <a id="toHomeButton" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="currentColor" aria-hidden="true"><defs><style>.s{fill:none;stroke:currentColor;stroke-miterlimit:10}</style></defs><polyline class="s" points="1 12 12 2.83 23 12"></polyline><polyline class="s" points="19.33 9.25 19.33 21.17 14.75 21.17 14.75 13.83 9.25 13.83 9.25 21.17 4.67 21.17 4.67 9.25"></polyline></svg>
                             
                             Home
                             
@@ -364,122 +306,58 @@
                         
                     </p>
                     <div class="options-configuration">
-                        <button id="toTopButton"><svg id="Layer_1" data-name="Layer 1"
-                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
-                                height="20" color="#fff">
-                                <defs>
-                                    <style>
-                                        .cls-63ce7424ea57ea6c83800547-1 {
-                                            fill: none;
-                                            stroke: currentColor;
-                                            stroke-miterlimit: 10;
-                                        }
-                                    </style>
-                                </defs>
-                                <circle class="cls-63ce7424ea57ea6c83800547-1" cx="12" cy="12" r="10.5"></circle>
-                                <line class="cls-63ce7424ea57ea6c83800547-1" x1="12" y1="10.09" x2="12" y2="18.68">
-                                </line>
-                                <polyline class="cls-63ce7424ea57ea6c83800547-1"
-                                    points="7.23 10.09 12 5.32 16.77 10.09">
-                                </polyline>
-                                <polyline class="cls-63ce7424ea57ea6c83800547-1"
-                                    points="7.23 14.86 12 10.09 16.77 14.86">
-                                </polyline>
-                            </svg>
+                        <button id="toTopButton"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="50" height="50" color="#fff">
+    <defs>
+        <style>
+            .cls-scroll-top-1 {
+                fill: none;
+                stroke: currentColor;
+                stroke-miterlimit: 10;
+            }
+        </style>
+    </defs>
+    <circle class="cls-scroll-top-1" cx="12" cy="12" r="10.5"></circle>
+    <line class="cls-scroll-top-1" x1="12" y1="10.09" x2="12" y2="18.68"></line>
+    <polyline class="cls-scroll-top-1" points="7.23 10.09 12 5.32 16.77 10.09"></polyline>
+    <polyline class="cls-scroll-top-1" points="7.23 14.86 12 10.09 16.77 14.86"></polyline>
+</svg>
                             
                             To top
                             
                         </button>
-                        <button id="collapseExpandAllButton"><svg id="Layer_1" data-name="Layer 1"
-                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
-                                height="20" color="#fff">
-                                <defs>
-                                    <style>
-                                        .cls-63ce7424ea57ea6c8380059a-1 {
-                                            fill: none;
-                                            stroke: currentColor;
-                                            stroke-miterlimit: 10;
-                                        }
-                                    </style>
-                                </defs>
-                                <line class="cls-63ce7424ea57ea6c8380059a-1" x1="6" y1="2" x2="6" y2="23"></line>
-                                <polyline class="cls-63ce7424ea57ea6c8380059a-1" points="11 7 6 2 1 7"></polyline>
-                                <line class="cls-63ce7424ea57ea6c8380059a-1" x1="18" y1="22" x2="18" y2="1"></line>
-                                <polyline class="cls-63ce7424ea57ea6c8380059a-1" points="13 17 18 22 23 17"></polyline>
-                            </svg>
+                        <button id="collapseExpandAllButton"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="currentColor" aria-hidden="true"><defs><style>.s{fill:none;stroke:currentColor;stroke-miterlimit:10}</style></defs><line class="s" x1="6" y1="2" x2="6" y2="23"></line><polyline class="s" points="11 7 6 2 1 7"></polyline><line class="s" x1="18" y1="22" x2="18" y2="1"></line><polyline class="s" points="13 17 18 22 23 17"></polyline></svg>
                             
                             Expand / Collapse all
                             
                         </button>
-                        <button id="themeButton"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                stroke-width="1.5" width="20" height="20" color="#fff">
-                                <defs>
-                                    <style>
-                                        .cls-637b8d40f95e86b59c57a2e7-1 {
-                                            fill: none;
-                                            stroke: currentColor;
-                                            stroke-miterlimit: 10;
-                                        }
-                                    </style>
-                                </defs>
-                                <g id="roll_brush" data-name="roll brush">
-                                    <circle class="cls-637b8d40f95e86b59c57a2e7-1" cx="11.99" cy="12.01" r="6.71">
-                                    </circle>
-                                    <path class="cls-637b8d40f95e86b59c57a2e7-1" d="M12,8.65a3.36,3.36,0,0,1,0,6.72Z">
-                                    </path>
-                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="11.99" y1="0.5" x2="11.99"
-                                        y2="2.42">
-                                    </line>
-                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="11.99" y1="21.6" x2="11.99"
-                                        y2="23.52">
-                                    </line>
-                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="0.48" y1="12.01" x2="2.4"
-                                        y2="12.01">
-                                    </line>
-                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="21.58" y1="12.01" x2="23.5"
-                                        y2="12.01">
-                                    </line>
-                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="20.13" y1="3.87" x2="18.77"
-                                        y2="5.23">
-                                    </line>
-                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="5.21" y1="18.79" x2="3.85"
-                                        y2="20.15">
-                                    </line>
-                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="3.85" y1="3.87" x2="5.21"
-                                        y2="5.23">
-                                    </line>
-                                    <line class="cls-637b8d40f95e86b59c57a2e7-1" x1="18.77" y1="18.79" x2="20.13"
-                                        y2="20.15"></line>
-                                </g>
-                            </svg>
+                        <button id="themeButton"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff">
+    <defs>
+        <style>
+            .cls-theme-1 {
+                fill: none;
+                stroke: currentColor;
+                stroke-miterlimit: 10;
+            }
+        </style>
+    </defs>
+    <g>
+        <circle class="cls-theme-1" cx="11.99" cy="12.01" r="6.71"></circle>
+        <path class="cls-theme-1" d="M12,8.65a3.36,3.36,0,0,1,0,6.72Z"></path>
+        <line class="cls-theme-1" x1="11.99" y1="0.5" x2="11.99" y2="2.42"></line>
+        <line class="cls-theme-1" x1="11.99" y1="21.6" x2="11.99" y2="23.52"></line>
+        <line class="cls-theme-1" x1="0.48" y1="12.01" x2="2.4" y2="12.01"></line>
+        <line class="cls-theme-1" x1="21.58" y1="12.01" x2="23.5" y2="12.01"></line>
+        <line class="cls-theme-1" x1="20.13" y1="3.87" x2="18.77" y2="5.23"></line>
+        <line class="cls-theme-1" x1="5.21" y1="18.79" x2="3.85" y2="20.15"></line>
+        <line class="cls-theme-1" x1="3.85" y1="3.87" x2="5.21" y2="5.23"></line>
+        <line class="cls-theme-1" x1="18.77" y1="18.79" x2="20.13" y2="20.15"></line>
+    </g>
+</svg>
                             
                             Theme
                             
                         </button>
-                        <button id="commentsButton"><svg id="Layer_1" data-name="Layer 1"
-                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
-                                height="20" color="#fff">
-                                <defs>
-                                    <style>
-                                        .cls-637642e7c3a86d32eae6f18f-1 {
-                                            fill: none;
-                                            stroke: currentColor;
-                                            stroke-miterlimit: 10;
-                                        }
-                                    </style>
-                                </defs>
-                                <path class="cls-637642e7c3a86d32eae6f18f-1"
-                                    d="M1.5,5.3v9.54a3.82,3.82,0,0,0,3.82,3.82H7.23v2.86L13,18.66h5.73a3.82,3.82,0,0,0,3.82-3.82V5.3a3.82,3.82,0,0,0-3.82-3.82H5.32A3.82,3.82,0,0,0,1.5,5.3Z">
-                                </path>
-                                <line class="cls-637642e7c3a86d32eae6f18f-1" x1="15.82" y1="10.07" x2="17.73"
-                                    y2="10.07">
-                                </line>
-                                <line class="cls-637642e7c3a86d32eae6f18f-1" x1="11.05" y1="10.07" x2="12.95"
-                                    y2="10.07">
-                                </line>
-                                <line class="cls-637642e7c3a86d32eae6f18f-1" x1="6.27" y1="10.07" x2="8.18" y2="10.07">
-                                </line>
-                            </svg>
+                        <button id="commentsButton"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="currentColor" aria-hidden="true"><defs><style>.s{fill:none;stroke:currentColor;stroke-miterlimit:10}</style></defs><path class="s" d="M1.5,5.3v9.54a3.82,3.82,0,0,0,3.82,3.82H7.23v2.86L13,18.66h5.73a3.82,3.82,0,0,0,3.82-3.82V5.3a3.82,3.82,0,0,0-3.82-3.82H5.32A3.82,3.82,0,0,0,1.5,5.3Z"></path><line class="s" x1="15.82" y1="10.07" x2="17.73" y2="10.07"></line><line class="s" x1="11.05" y1="10.07" x2="12.95" y2="10.07"></line><line class="s" x1="6.27" y1="10.07" x2="8.18" y2="10.07"></line></svg>
                             
                             Comments
                             
@@ -487,24 +365,20 @@
                     </div>
                     <div class="option-horizontal-divider-line"></div>
                     <div class="options-close">
-                        <button id="closeButton"><svg id="Layer_1" data-name="Layer 1"
-                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20"
-                                height="20" color="#fff">
-                                <defs>
-                                    <style>
-                                        .cls-6374f8d9b67f094e4896c61e-1 {
-                                            fill: none;
-                                            stroke: currentColor;
-                                            stroke-miterlimit: 10;
-                                        }
-                                    </style>
-                                </defs>
-                                <circle class="cls-6374f8d9b67f094e4896c61e-1" cx="12" cy="12" r="10.5"></circle>
-                                <line class="cls-6374f8d9b67f094e4896c61e-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77">
-                                </line>
-                                <line class="cls-6374f8d9b67f094e4896c61e-1" x1="7.23" y1="7.23" x2="16.77" y2="16.77">
-                                </line>
-                            </svg>
+                        <button id="closeButton"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff">
+    <defs>
+        <style>
+            .cls-close-1 {
+                fill: none;
+                stroke: currentColor;
+                stroke-miterlimit: 10;
+            }
+        </style>
+    </defs>
+    <circle class="cls-close-1" cx="12" cy="12" r="10.5"></circle>
+    <line class="cls-close-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line>
+    <line class="cls-close-1" x1="7.23" y1="7.23" x2="16.77" y2="16.77"></line>
+</svg>
                             
                             Close
                             
@@ -519,7 +393,7 @@
                             
                             
                             
-<svg xmlns="http://www.w3.org/2000/svg" stroke-width="1.5" viewBox="0 0 17.405 23.021" width="24" height="24"><g id="star-lightbulb" transform="translate(-3.19 -0.434)"><path id="Path_40" data-name="Path 40" d="M12,7.23l.75,1.57,1.69.25-1.22,1.22L13.51,12,12,11.19,10.49,12l.29-1.73L9.56,9.05l1.69-.25Z" fill="none" stroke="currentColor" stroke-miterlimit="10"></path><path id="Path_41" data-name="Path 41" d="M19.64,9.14A7.64,7.64,0,1,0,6.92,14.83a3.81,3.81,0,0,1,1.26,2.83v2.93a1.91,1.91,0,0,0,1.91,1.91h3.82a1.91,1.91,0,0,0,1.91-1.91V17.66a3.76,3.76,0,0,1,1.25-2.82,7.62,7.62,0,0,0,2.57-5.7Z" fill="none" stroke="currentColor" stroke-miterlimit="10"></path><line id="Line_20" data-name="Line 20" x2="7.64" transform="translate(8.18 17.73)" fill="none" stroke="currentColor" stroke-miterlimit="10"></line></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" stroke-width="1.5" viewbox="0 0 17.405 23.021" width="24" height="24"><g id="star-lightbulb" transform="translate(-3.19 -0.434)"><path id="Path_40" data-name="Path 40" d="M12,7.23l.75,1.57,1.69.25-1.22,1.22L13.51,12,12,11.19,10.49,12l.29-1.73L9.56,9.05l1.69-.25Z" fill="none" stroke="currentColor" stroke-miterlimit="10"></path><path id="Path_41" data-name="Path 41" d="M19.64,9.14A7.64,7.64,0,1,0,6.92,14.83a3.81,3.81,0,0,1,1.26,2.83v2.93a1.91,1.91,0,0,0,1.91,1.91h3.82a1.91,1.91,0,0,0,1.91-1.91V17.66a3.76,3.76,0,0,1,1.25-2.82,7.62,7.62,0,0,0,2.57-5.7Z" fill="none" stroke="currentColor" stroke-miterlimit="10"></path><line id="Line_20" data-name="Line 20" x2="7.64" transform="translate(8.18 17.73)" fill="none" stroke="currentColor" stroke-miterlimit="10"></line></g></svg>
 
 
                             
@@ -548,55 +422,37 @@
                         
                         
                     </div>
-                    <div class="date">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="16"
-                            height="16" color="#fff">
-                            <defs>
-                                <style>
-                                    .cls-6375f1aeb67f094e4896c9ea-1,
-                                    .cls-6375f1aeb67f094e4896c9ea-2 {
-                                        fill: none;
-                                        stroke: currentColor;
-                                        stroke-miterlimit: 10;
-                                    }
-
-                                    .cls-6375f1aeb67f094e4896c9ea-1 {
-                                        stroke-linecap: square;
-                                    }
-                                </style>
-                            </defs>
-                            <g id="calendar">
-                                <rect class="cls-6375f1aeb67f094e4896c9ea-1" x="1.5" y="2.43" width="21" height="4.77"
-                                    transform="translate(24 9.64) rotate(180)"></rect>
-                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="17.73" y1="0.52" x2="17.73" y2="4.34">
-                                </line>
-                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="6.27" y1="0.52" x2="6.27" y2="4.34">
-                                </line>
-                                <polygon class="cls-6375f1aeb67f094e4896c9ea-1"
-                                    points="22.5 11.98 22.5 7.21 1.5 7.21 1.5 22.48 22.5 22.48 22.5 15.79 22.5 11.98">
-                                </polygon>
-                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="11.02" x2="11.05" y2="11.02">
-                                </line>
-                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="11.02" x2="14.86"
-                                    y2="11.02"></line>
-                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="16.77" y1="11.02" x2="18.68"
-                                    y2="11.02"></line>
-                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="14.84" x2="11.05" y2="14.84">
-                                </line>
-                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="5.32" y1="14.84" x2="7.23" y2="14.84">
-                                </line>
-                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="14.84" x2="14.86"
-                                    y2="14.84"></line>
-                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="16.77" y1="14.84" x2="18.68"
-                                    y2="14.84"></line>
-                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="9.14" y1="18.66" x2="11.05" y2="18.66">
-                                </line>
-                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="5.32" y1="18.66" x2="7.23" y2="18.66">
-                                </line>
-                                <line class="cls-6375f1aeb67f094e4896c9ea-2" x1="12.95" y1="18.66" x2="14.86"
-                                    y2="18.66"></line>
-                            </g>
-                        </svg>
+                        <div class="date">
+<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.4" width="14" height="14" color="#686868">
+    <defs>
+        <style>
+            .cls-calendar-1, .cls-calendar-2 {
+                fill: none;
+                stroke: currentColor;
+                stroke-miterlimit: 10;
+            }
+            .cls-calendar-1 {
+                stroke-linecap: square;
+            }
+        </style>
+    </defs>
+    <g id="calendar">
+        <rect class="cls-calendar-1" x="1.5" y="2.43" width="21" height="4.77" transform="translate(24 9.64) rotate(180)"></rect>
+        <line class="cls-calendar-2" x1="17.73" y1="0.52" x2="17.73" y2="4.34"></line>
+        <line class="cls-calendar-2" x1="6.27" y1="0.52" x2="6.27" y2="4.34"></line>
+        <polygon class="cls-calendar-1" points="22.5 11.98 22.5 7.21 1.5 7.21 1.5 22.48 22.5 22.48 22.5 15.79 22.5 11.98"></polygon>
+        <line class="cls-calendar-2" x1="9.14" y1="11.02" x2="11.05" y2="11.02"></line>
+        <line class="cls-calendar-2" x1="12.95" y1="11.02" x2="14.86" y2="11.02"></line>
+        <line class="cls-calendar-2" x1="16.77" y1="11.02" x2="18.68" y2="11.02"></line>
+        <line class="cls-calendar-2" x1="9.14" y1="14.84" x2="11.05" y2="14.84"></line>
+        <line class="cls-calendar-2" x1="5.32" y1="14.84" x2="7.23" y2="14.84"></line>
+        <line class="cls-calendar-2" x1="12.95" y1="14.84" x2="14.86" y2="14.84"></line>
+        <line class="cls-calendar-2" x1="16.77" y1="14.84" x2="18.68" y2="14.84"></line>
+        <line class="cls-calendar-2" x1="9.14" y1="18.66" x2="11.05" y2="18.66"></line>
+        <line class="cls-calendar-2" x1="5.32" y1="18.66" x2="7.23" y2="18.66"></line>
+        <line class="cls-calendar-2" x1="12.95" y1="18.66" x2="14.86" y2="18.66"></line>
+    </g>
+</svg>
                         
                         
                         
@@ -606,22 +462,10 @@
                         
                         <span class="date-span">May 2nd 2025</span>
 
-                        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                            stroke-width="1.5" width="16" height="16" color="#fff">
-                            <defs>
-                                <style>
-                                    .cls-6374f8d9b67f094e4896c623-1 {
-                                        fill: none;
-                                        stroke: currentColor;
-                                        stroke-miterlimit: 10;
-                                    }
-                                </style>
-                            </defs>
-                            <circle class="cls-6374f8d9b67f094e4896c623-1" cx="12" cy="12" r="10.5"></circle>
-                            <circle class="cls-6374f8d9b67f094e4896c623-1" cx="12" cy="12" r="0.95"></circle>
-                            <polyline class="cls-6374f8d9b67f094e4896c623-1" points="12 4.36 12 12 16.77 16.77">
-                            </polyline>
-                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.7" width="16" height="16" fill="none">
+    <circle cx="12" cy="12" r="9.5" stroke="currentColor" stroke-miterlimit="10"></circle>
+    <polyline points="12 6.5 12 12 15.5 13.8" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></polyline>
+</svg>
                         
                         <span class="reading-time">
                             20
@@ -635,22 +479,10 @@
                         Complementary post for Project - Paper: Research Methodology MAT1204
                     </div>
                     <div class="author">
-                        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                            stroke-width="1.5" width="14" height="14" color="#fff">
-                            <defs>
-                                <style>
-                                    .cls-6374f8d9b67f094e4896c670-1 {
-                                        fill: none;
-                                        stroke: currentColor;
-                                        stroke-miterlimit: 10;
-                                    }
-                                </style>
-                            </defs>
-                            <circle class="cls-6374f8d9b67f094e4896c670-1" cx="12" cy="7.25" r="5.73"></circle>
-                            <path class="cls-6374f8d9b67f094e4896c670-1"
-                                d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05">
-                            </path>
-                        </svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.7" width="20" height="20" fill="none">
+    <circle cx="12" cy="7.25" r="5.73" stroke="currentColor" stroke-miterlimit="10"></circle>
+    <path d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05" stroke="currentColor" stroke-miterlimit="10"></path>
+</svg>
                         
                         Written by:
                         
@@ -667,13 +499,19 @@
                         <h5 id="access-links">Access Links</h5>
 
 <ul>
-  <li><strong>👨‍💻 Code:</strong> <a href="https://github.com/yuk068/hybridgrag-chatbot" target="_blank">yuk068/hybridgrag-chatbot</a></li>
-  <li><strong>📃 Report + Poster + Slides:</strong> <a href="https://drive.google.com/drive/u/2/folders/1NesxhxeLrajZs2LheJk5d9U08vNgD1ve" target="_blank">Drive - LLMKG_Project</a></li>
-  <li><strong>🎥 Live Presentation:</strong> <a href="https://www.youtube.com/watch?v=VX3TV9T4vTA&amp;t=5s" target="_blank">Youtube - Yuk</a></li>
+  <li>
+<strong>👨‍💻 Code:</strong> <a href="https://github.com/yuk068/hybridgrag-chatbot" target="_blank">yuk068/hybridgrag-chatbot</a>
+</li>
+  <li>
+<strong>📃 Report + Poster + Slides:</strong> <a href="https://drive.google.com/drive/u/2/folders/1NesxhxeLrajZs2LheJk5d9U08vNgD1ve" target="_blank">Drive - LLMKG_Project</a>
+</li>
+  <li>
+<strong>🎥 Live Presentation:</strong> <a href="https://www.youtube.com/watch?v=VX3TV9T4vTA&amp;t=5s" target="_blank">Youtube - Yuk</a>
+</li>
   <li>⌛ The project spanned from around the start of April, 2025 till the middle of May, 2025.</li>
 </ul>
 
-<hr />
+<hr>
 
 <h3 id="prologue">Prologue<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#prologue')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
 
@@ -681,11 +519,12 @@
 
 <p>Not only was the depth and breath of the insights gained substantial, I also had the chance to gauge my own capability considering I worked on this end-to-end all on my own. Nevertheless, this project also involved a lot of disillusionment and negativity that-quite frankly-made me don’t really know how to feel about it at the end, which is what I’m going to try to articulate in this post. Spoiler alert it involves a not so pleasant experience with my “supervisor” and basically made me lost any hope I had left in terms of growth opportunity within my own university, shucks 😐.</p>
 
-<hr />
+<hr>
 
 <h3 id="table-of-content">Table of Content<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#table-of-content')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
 
-<blockquote><div class="content">
+<blockquote>
+<div class="content">
   <div id="table-of-contents"><ul><li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#prologue')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#prologue">Prologue</a></div></li>
 <li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#table-of-content')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#table-of-content" style="color:#434e64;">Table of Content</a></div></li>
 <li class="h2"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#project-overview')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#project-overview">Project Overview</a></div></li>
@@ -699,9 +538,11 @@
 <li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#conclusion')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#conclusion">Conclusion</a></div></li>
 <li class="h2"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#yuk-lore')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#yuk-lore">Yuk Lore</a></div></li>
 <li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#epilogue')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#epilogue">Epilogue</a></div></li></ul></div>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+</div>
+<button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span>
+</blockquote>
 
-<hr />
+<hr>
 
 <h2 id="project-overview">Project Overview<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#project-overview')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
 
@@ -709,9 +550,12 @@
 
 <h3 id="abstract">Abstract<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#abstract')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
 
-<blockquote><div class="content">
+<blockquote>
+<div class="content">
   <p>Large Language Models (LLMs) powering chatbots often struggle with factual accuracy, especially for specific or recent information, leading to hallucinations. Retrieval-Augmented Generation (RAG) addresses this, but standard methods retrieving unstructured text chunks can be insufficient for complex queries. This work presents a system for enhancing chatbot reliability through automatic Knowledge Graph (KG) construction using LLMs. We detail an offline process where LLMs extract entities and relations from documents to populate a KG (stored in Neo4J), linking structured knowledge back to source text. In the online phase, user queries trigger a hybrid retrieval mechanism, combining targeted graph traversal with semantic document chunk searching. This enriched context is then fed to an LLM-based chatbot for answer generation. Evaluations using Qwen 2.5 models demonstrate that this hybrid approach outperforms baseline models and RAG variants using only graphs or only chunks, leading to more accurate and grounded responses. However, building the KG pipeline autonomously proved empirically challenging, requiring substantial manual tuning and safeguards due to the brittleness of current LLM-based extraction methods.</p>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+</div>
+<button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span>
+</blockquote>
 
 <div class="media-description">Excerpt from the paper. (Pham., 2025)? lol</div>
 
@@ -719,51 +563,104 @@
 
 <p><strong>Hallucinations</strong> in LLMs, is basically when a language model provide an answer that is jarringly incorrect or inappropriate compared to the given query-often very confidently so. In order to make LLMs more reliable in actual applications, one of the prominent recent innovation is <strong>RAG (Retrieval Augmented Generation)</strong>. Defogging all the fluff, RAG is basically: giving the LLM more context to work with, for example, when you are asking ChatGPT something, say:</p>
 
-<div class="language-markdown highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div></div><pre class="highlight"><code>User's Prompt: <span class="ge">*"What is the relationship between John and Jane."*</span>
-</code></pre><span class="language-label">Markdown</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+<div class="language-markdown highlighter-rouge"><div class="highlight">
+<div class="line-numbers"><div class="line-number">1</div></div>
+<pre class="highlight"><code>User's Prompt: <span class="ge">*"What is the relationship between John and Jane."*</span>
+</code></pre>
+<span class="language-label">Markdown</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button>
+</div></div>
 
 <p>Obviously no LLM is gonna know who John and Jane is in this prompt, larger and smarter models would most likely point this out and ask you to give it more context, but smaller language models or <strong>SLMs (Small Language Model)</strong> (~1B-7B), especially heavily <strong>quantized</strong> ones, it might confidently return an answer like this:</p>
 
-<div class="language-markdown highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div></div><pre class="highlight"><code>Model's Answer: <span class="ge">*"John and Jane are siblings that has lived together since 2009."*</span>
-</code></pre><span class="language-label">Markdown</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+<div class="language-markdown highlighter-rouge"><div class="highlight">
+<div class="line-numbers"><div class="line-number">1</div></div>
+<pre class="highlight"><code>Model's Answer: <span class="ge">*"John and Jane are siblings that has lived together since 2009."*</span>
+</code></pre>
+<span class="language-label">Markdown</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button>
+</div></div>
 
 <p>But know, with RAG, the interaction might look something like this:</p>
 
-<div class="language-markdown highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div></div><pre class="highlight"><code>You are an internal company assistant. Answer questions based only on the provided context. If the information is not available, say you don't know.
+<div class="language-markdown highlighter-rouge"><div class="highlight">
+<div class="line-numbers">
+<div class="line-number">1</div>
+<div class="line-number">2</div>
+<div class="line-number">3</div>
+<div class="line-number">4</div>
+<div class="line-number">5</div>
+<div class="line-number">6</div>
+<div class="line-number">7</div>
+</div>
+<pre class="highlight"><code>You are an internal company assistant. Answer questions based only on the provided context. If the information is not available, say you don't know.
 
 Retrieved Context:
 
 ...In the 2023 Q4 product strategy review, John Smith from Marketing collaborated closely with Jane Doe, the lead Product Designer, to align the go-to-market messaging with the new design system. Their joint initiative led to a 15% boost in feature adoption within the first month of release. John praised Jane's attention to user feedback, while Jane appreciated John's clear articulation of marketing goals..."
 
 User's Prompt: <span class="ge">*"What is the relationship between John and Jane?"*</span>
-</code></pre><span class="language-label">Markdown</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+</code></pre>
+<span class="language-label">Markdown</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button>
+</div></div>
 
-<div class="language-markdown highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div></div><pre class="highlight"><code>Model's Answer: <span class="ge">*"John and Jane have a professional relationship; they collaborated during the 2023 Q4 product strategy review, where John represented Marketing and Jane was the lead Product Designer."*</span>
-</code></pre><span class="language-label">Markdown</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+<div class="language-markdown highlighter-rouge"><div class="highlight">
+<div class="line-numbers"><div class="line-number">1</div></div>
+<pre class="highlight"><code>Model's Answer: <span class="ge">*"John and Jane have a professional relationship; they collaborated during the 2023 Q4 product strategy review, where John represented Marketing and Jane was the lead Product Designer."*</span>
+</code></pre>
+<span class="language-label">Markdown</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button>
+</div></div>
 
 <p>This is what is usually called <strong>Naive RAG</strong>, where the retrieved context is <strong>unstructured</strong>, and is dependant on an <strong>embedding model</strong>. Text Embedding Models, in tandem with LLMs, are neural networks that takes in a text, and produces a fixed size vector representation, if you are familiar with TF-IDF or BOW, its quite similar. Vectors produced by embedding models are semantically rich as compared to the keyword-based approach of TF-IDF and BOW, resolving some of their limitations, especially when performing similarity search, because of the way these embedding models are trained, it allows us to directly search semantically similar text from the user’s prompt.</p>
 
-<p><img loading="lazy" src="/assets/images/2025/q2-2025/May2025/LLMKGproject/chatbot.webp" alt="cbot" /></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRmIAAABXRUJQVlA4IFYAAAAQBACdASpAACQAPt1mrVEopSQipXgKaRAbiWcAznQH+lZxbqc4fMxYAAD+7iy1vpov54gd2XWGdqZ/aTAdfv1cp5ObBKb7Bah4aGpqzQ9yY9SkegAAAA=='); aspect-ratio: 874 / 488; "><img src="/assets/images/2025/q2-2025/May2025/LLMKGproject/chatbot.webp" alt="cbot" loading="lazy" decoding="async" width="874" height="488" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
 
 <div class="media-description">Hallucinations and RAG with chatbot applications. (Pham., 2025)</div>
 
 <p>However, Naive RAG’s simplicity can also leads to its failure sometimes, especially when the retrieved text is semantically similar, but irrelevant, for example:</p>
 
-<div class="language-markdown highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div></div><pre class="highlight"><code>You are an internal company assistant. Answer questions based only on the provided context. If the information is not available, say you don't know.
+<div class="language-markdown highlighter-rouge"><div class="highlight">
+<div class="line-numbers">
+<div class="line-number">1</div>
+<div class="line-number">2</div>
+<div class="line-number">3</div>
+<div class="line-number">4</div>
+<div class="line-number">5</div>
+<div class="line-number">6</div>
+<div class="line-number">7</div>
+</div>
+<pre class="highlight"><code>You are an internal company assistant. Answer questions based only on the provided context. If the information is not available, say you don't know.
 
 Retrieved Context:
 
 ...In the 2021 team offsite event, John Smith gave a talk about cross-functional collaboration. The talk was well-received by the audience. Jane Doe, who joined the company two months later, hosted a panel on inclusive design in early 2022. Both events were part of the company’s continuous learning initiative...
 
 User's Prompt: <span class="ge">*"What is the relationship between John and Jane?"*</span>
-</code></pre><span class="language-label">Markdown</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+</code></pre>
+<span class="language-label">Markdown</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button>
+</div></div>
 
-<div class="language-markdown highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div></div><pre class="highlight"><code>Model's Answer: <span class="ge">*"John and Jane both participated in the 2021 team offsite event, where they discussed collaboration and design."*</span>
-</code></pre><span class="language-label">Markdown</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+<div class="language-markdown highlighter-rouge"><div class="highlight">
+<div class="line-numbers"><div class="line-number">1</div></div>
+<pre class="highlight"><code>Model's Answer: <span class="ge">*"John and Jane both participated in the 2021 team offsite event, where they discussed collaboration and design."*</span>
+</code></pre>
+<span class="language-label">Markdown</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button>
+</div></div>
 
 <p>The issue here usually traces back to the fact that Naive RAG works with <strong>unstructured text</strong>. Thus, a blooming approach to address cases like these is to use <strong>structured text</strong>, most commonly with structured data like tables, and the focus of the paper: <strong>Knowledge Graphs</strong>. Compared to the unstructured text retrieval of Naive RAG, a retrieval with structured knowledge using a knowledge graph might look something like this:</p>
 
-<div class="language-markdown highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div></div><pre class="highlight"><code>You are an internal company assistant. Answer questions based only on the provided context. If the information is not available, say you don't know.
+<div class="language-markdown highlighter-rouge"><div class="highlight">
+<div class="line-numbers">
+<div class="line-number">1</div>
+<div class="line-number">2</div>
+<div class="line-number">3</div>
+<div class="line-number">4</div>
+<div class="line-number">5</div>
+<div class="line-number">6</div>
+<div class="line-number">7</div>
+<div class="line-number">8</div>
+<div class="line-number">9</div>
+<div class="line-number">10</div>
+</div>
+<pre class="highlight"><code>You are an internal company assistant. Answer questions based only on the provided context. If the information is not available, say you don't know.
 
 Retrieved Context:
 
@@ -773,14 +670,20 @@ Retrieved Context:
 [Department: Product Design] ← [BELONGS_TO] ← [Jane Doe]
 
 User's Prompt: <span class="ge">*"What is the relationship between John and Jane?"*</span>
-</code></pre><span class="language-label">Markdown</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+</code></pre>
+<span class="language-label">Markdown</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button>
+</div></div>
 
-<div class="language-markdown highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div></div><pre class="highlight"><code>Model's Answer: <span class="ge">*"John and Jane collaborated on the Q4 Strategy Review project; John is from Marketing and Jane is from Product Design."*</span>
-</code></pre><span class="language-label">Markdown</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+<div class="language-markdown highlighter-rouge"><div class="highlight">
+<div class="line-numbers"><div class="line-number">1</div></div>
+<pre class="highlight"><code>Model's Answer: <span class="ge">*"John and Jane collaborated on the Q4 Strategy Review project; John is from Marketing and Jane is from Product Design."*</span>
+</code></pre>
+<span class="language-label">Markdown</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button>
+</div></div>
 
 <p>This is the most basic idea of the paper, we are trying to achieve something similar to the workflow above, and maybe even, combine both approaches: RAG + KG, for a hybrid retrieval pipeline.</p>
 
-<p><img loading="lazy" src="/assets/images/2025/q2-2025/May2025/LLMKGproject/kb.webp" alt="kb" /></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAACwAwCdASpAACgAPt1usFO3JiQkIqgC4BuJaQDUjAd7uZ9Jvci+AAD+8DSJzRpgcMW+uPIVlwtEdCHkqu+Tw99DdKKRheCqRf4AAA=='); aspect-ratio: 1031 / 645; "><img src="/assets/images/2025/q2-2025/May2025/LLMKGproject/kb.webp" alt="kb" loading="lazy" decoding="async" width="1031" height="645" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
 
 <div class="media-description">Knowledge Bases and their characteristics. (Pham., 2025)</div>
 
@@ -800,13 +703,16 @@ User's Prompt: <span class="ge">*"What is the relationship between John and Jane
 
 <p>The Hybrid Retrieval pipeline combines structured and unstructured retrieval to support accurate, verifiable QA. The system is built using <strong>LangChain</strong> for orchestration, <strong>Neo4j</strong> as the graph backend, and <strong>LM Studio</strong> to easily test multiple models and to serve LLM endpoints. Models and embeddings are accessed via <strong>HuggingFace</strong>.</p>
 
-<p><img loading="lazy" src="/assets/images/2025/q2-2025/May2025/LLMKGproject/pipeline.webp" alt="hyrbidpipeline" /></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAACwAwCdASpAACQAPt1usFOopiSioqgBEBuJZwDLaAgfgw/Z7N/ioAD+7ukcJuJ4snk8A5Whho6r/0nLCdDgm+yG3JAgKFcFleJAAAAA'); aspect-ratio: 1123 / 629; "><img src="/assets/images/2025/q2-2025/May2025/LLMKGproject/pipeline.webp" alt="hyrbidpipeline" loading="lazy" decoding="async" width="1123" height="629" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
 
 <p><strong>Figure 3 (Pham., 2025)</strong> Full pipeline for Hybrid Knowledge Graph RAG. (Offline Phase) Raw documents undergo <strong>Chunking &amp; Cleaning</strong>, followed by <strong>LLM-driven Entity &amp; Relation Extraction</strong>. A <strong>Knowledge Graph</strong> is constructed, linking entities, their relationships, and mapping entities back to their source <strong>Document Nodes</strong> via ‘[MENTIONS]’ relations. This graph is stored in a <strong>Neo4J Database</strong>. (Online Phase) A user <strong>Query</strong> triggers <strong>Entity Extraction and Similarity Search</strong> against the <strong>Knowledge Graph</strong>. Relevant context (graph structure and and associated document text) is <strong>Retrieved</strong> and fed to the <strong>LLM</strong> for final <strong>Answer Generation</strong>.</p>
 
-<blockquote><div class="content">
+<blockquote>
+<div class="content">
   <p><a href="https://neo4j.com/" target="_blank">Neo4J</a>: a high-performance, open-source graph database designed to store and query data as nodes, relationships, and properties. Unlike traditional relational databases, Neo4j uses the property graph model, enabling fast and intuitive traversal of relationships, which is particularly useful for applications like recommendation systems, fraud detection, and knowledge graphs.</p>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+</div>
+<button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span>
+</blockquote>
 
 <h4 id="operations">Operations<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#operations')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h4>
 
@@ -834,13 +740,13 @@ document via [MENTIONS] edges.</li>
 
 <p>To evaluate the pipeline, I used the <strong>MultiHop-RAG benchmark</strong> (<a href="https://arxiv.org/abs/2401.15391" target="_blank">Tang &amp; Yang., 2024</a>)—a dataset designed to test multi-hop reasoning in Retrieval-Augmented Generation systems. From the benchmark’s 609 news articles, we performed word-level chunking into 180-word segments with 30-word overlaps to prepare the data for processing. Knowledge graph construction was powered by <strong>Qwen 2.5 7B (Q4 quantized)</strong> and embedding model used is <strong>Nomic Embed Text v1.5 (Q8 quantized)</strong>. The offline phase took approximately <strong>14 hours</strong>, resulting in a graph with over <strong>50,000 nodes</strong> and <strong>120,000 edges</strong>, capturing both entity relationships and source document links.</p>
 
-<p><img loading="lazy" src="/assets/images/2025/q2-2025/May2025/LLMKGproject/kg.webp" alt="kg" /></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRkgAAABXRUJQVlA4IDwAAABQAwCdASpAABcAPt1sqVKopaOipApJEBuJaQAAH7K1ee8oAAD+8NFVZWMKZc/IWNY9dHwkKTbvPrAAAAA='); aspect-ratio: 1898 / 688; "><img src="/assets/images/2025/q2-2025/May2025/LLMKGproject/kg.webp" alt="kg" loading="lazy" decoding="async" width="1898" height="688" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
 
 <p><strong>Figure 4 (Pham., 2025) Neo4j Visualization of the Knowledge Graph Constructed from the MultiHop-RAG Corpus.</strong> This figure displays a segment of the knowledge graph generated during the Offline Phase (Figure 3) from the MultiHop-RAG benchmark dataset and stored in Neo4j.</p>
 
 <h3 id="evaluation">Evaluation<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#evaluation')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
 
-<p><img loading="lazy" src="/assets/images/2025/q2-2025/May2025/LLMKGproject/evals.webp" alt="eval" /></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRmIAAABXRUJQVlA4IFYAAACwAwCdASpAABUAPt1mqU8/qqQjKBgMA/AbiWUA0QgL9sS2aj3mGAD+8Ewn2lCPGsrWQG9OfspCU2w1cXWhxJrJGoMe1sYdeYfgW0rJ+0FI09IwYLgAAA=='); aspect-ratio: 1845 / 591; "><img src="/assets/images/2025/q2-2025/May2025/LLMKGproject/evals.webp" alt="eval" loading="lazy" decoding="async" width="1845" height="591" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
 
 <p><strong>Figure 5 (Pham., 2025) Accuracy Evaluation on the MultiHop-RAG QA Subset (10%).</strong> This chart compares the performance of Qwen 2.5 models (3B, 7B, 14B) at Q4 quantization when evaluated on 10% of the MultiHop-RAG question-answering dataset, using different context strategies: No Context (baseline), Only Graph, Only Chunks, and Hybrid. The results demonstrate that providing context boosts accuracy. The Hybrid method consistently achieves the highest scores across all model sizes, with larger models (14B) generally performing best and benefiting most from the Hybrid strategy.</p>
 
@@ -848,7 +754,7 @@ document via [MENTIONS] edges.</li>
 
 <p>Combining structured reasoning with source-grounded evidence shows strong potential for improving LLM accuracy on complex, multi-hop queries. Results demonstrate clear gains over simpler retrieval strategies, especially when larger models are used with hybrid context. However, this comes with trade-offs, high compute demands, long processing times, and heavy reliance on LLMs for graph construction make the approach costly and hard to scale. Future work should focus on stronger safeguards, more robust and modular pipelines, and minimizing reliance on LLMs-especially smaller or quantized ones-for critical tasks. Shifting key operations to deterministic or lightweight components could improve both efficiency and reliability.</p>
 
-<hr />
+<hr>
 
 <h2 id="yuk-lore">Yuk Lore<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#yuk-lore')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
 
@@ -893,7 +799,7 @@ document via [MENTIONS] edges.</li>
 
 <p>Again, all I want to express here, is that, when I see something that i believe was unpleasent, or that it could have been better, then i dont want to turn a blind eye to it.</p>
 
-<hr />
+<hr>
 
 <h3 id="epilogue">Epilogue<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#epilogue')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
 
@@ -986,14 +892,14 @@ document via [MENTIONS] edges.</li>
                 </a>
             </div>
             <div class="copyright-text">
-                <p>&copy; 2026 Yukano</p>
+                <p>© 2026 Yukano</p>
             </div>
         </footer>
     </div>
 </div>
     </div>
     <div id="svg-repo" style="display: none;">
-        <div id="svg-up-arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff">
+        <div id="svg-up-arrow"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff">
                     <defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs>
                     <line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line>
                     <polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline>
@@ -1001,7 +907,7 @@ document via [MENTIONS] edges.</li>
                     <polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline>
                     <line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line>
                 </svg></div>
-        <div id="svg-down-arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff">
+        <div id="svg-down-arrow"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff">
                     <defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs>
                     <line class="cls-1" x1="6.25" y1="17.73" x2="6.25" y2="0.48"></line>
                     <polyline class="cls-1" points="1.46 12.94 6.25 17.73 11.04 12.94"></polyline>
@@ -1009,26 +915,27 @@ document via [MENTIONS] edges.</li>
                     <polyline class="cls-1" points="12.96 12.94 17.75 17.73 22.54 12.94"></polyline>
                     <line class="cls-1" x1="0.5" y1="22.52" x2="23.5" y2="22.52"></line>
                 </svg></div>
-        <div id="svg-check"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c627-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><circle class="cls-6374f8d9b67f094e4896c627-1" cx="12" cy="12" r="10.5"></circle><polyline class="cls-6374f8d9b67f094e4896c627-1" points="6.27 12 10.09 15.82 17.73 8.18"></polyline></svg></div>
-        <div id="svg-document"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></div>
-        <div id="svg-reset"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14"><defs><style>.cls-63ce7424ea57ea6c838005b4-1,.cls-63ce7424ea57ea6c838005b4-2,.cls-3{fill:none;stroke:currentColor;}.cls-63ce7424ea57ea6c838005b4-1{stroke-miterlimit:10;}.cls-63ce7424ea57ea6c838005b4-2,.cls-3{stroke-linecap:round;stroke-linejoin:round;}.cls-3{stroke-dasharray:0 4.13;}</style></defs><path class="cls-63ce7424ea57ea6c838005b4-1" d="M12,1.5A10.52,10.52,0,1,1,3.39,18.07"></path><line class="cls-63ce7424ea57ea6c838005b4-2" x1="1.48" y1="12.02" x2="1.48" y2="12.02"></line><path class="cls-3" d="M2.28,8A10.51,10.51,0,0,1,10,1.7"></path><line class="cls-63ce7424ea57ea6c838005b4-2" x1="12" y1="1.5" x2="12" y2="1.5"></line><polyline class="cls-63ce7424ea57ea6c838005b4-1" points="3.39 23.5 3.39 17.76 9.13 17.76"></polyline></svg></div>
-        <div id="svg-fullscreen"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14"><defs><style>.cls-637b8a2bf95e86b59c57a23a-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-637b8a2bf95e86b59c57a23a-1" d="M18.84,12A7.52,7.52,0,0,1,12,15.91,7.52,7.52,0,0,1,5.16,12,7.52,7.52,0,0,1,12,8.09,7.52,7.52,0,0,1,18.84,12Z"></path><circle class="cls-637b8a2bf95e86b59c57a23a-1" cx="12" cy="12" r="0.98"></circle><polyline class="cls-637b8a2bf95e86b59c57a23a-1" points="1.25 7.12 1.25 1.25 7.12 1.25"></polyline><polyline class="cls-637b8a2bf95e86b59c57a23a-1" points="22.75 16.89 22.75 22.75 16.89 22.75"></polyline><polyline class="cls-637b8a2bf95e86b59c57a23a-1" points="7.12 22.75 1.25 22.75 1.25 16.89"></polyline><polyline class="cls-637b8a2bf95e86b59c57a23a-1" points="16.89 1.25 22.75 1.25 22.75 7.12"></polyline><line class="cls-637b8a2bf95e86b59c57a23a-1" x1="1.25" y1="1.25" x2="7.11" y2="7.11"></line><line class="cls-637b8a2bf95e86b59c57a23a-1" x1="1.25" y1="22.75" x2="7.11" y2="16.89"></line><line class="cls-637b8a2bf95e86b59c57a23a-1" x1="16.89" y1="7.11" x2="21.77" y2="2.23"></line><line class="cls-637b8a2bf95e86b59c57a23a-1" x1="22.75" y1="22.75" x2="16.89" y2="16.89"></line></svg></div>
+        <div id="svg-check"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c627-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><circle class="cls-6374f8d9b67f094e4896c627-1" cx="12" cy="12" r="10.5"></circle><polyline class="cls-6374f8d9b67f094e4896c627-1" points="6.27 12 10.09 15.82 17.73 8.18"></polyline></svg></div>
+        <div id="svg-document"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></div>
+        <div id="svg-reset"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14"><defs><style>.cls-63ce7424ea57ea6c838005b4-1,.cls-63ce7424ea57ea6c838005b4-2,.cls-3{fill:none;stroke:currentColor;}.cls-63ce7424ea57ea6c838005b4-1{stroke-miterlimit:10;}.cls-63ce7424ea57ea6c838005b4-2,.cls-3{stroke-linecap:round;stroke-linejoin:round;}.cls-3{stroke-dasharray:0 4.13;}</style></defs><path class="cls-63ce7424ea57ea6c838005b4-1" d="M12,1.5A10.52,10.52,0,1,1,3.39,18.07"></path><line class="cls-63ce7424ea57ea6c838005b4-2" x1="1.48" y1="12.02" x2="1.48" y2="12.02"></line><path class="cls-3" d="M2.28,8A10.51,10.51,0,0,1,10,1.7"></path><line class="cls-63ce7424ea57ea6c838005b4-2" x1="12" y1="1.5" x2="12" y2="1.5"></line><polyline class="cls-63ce7424ea57ea6c838005b4-1" points="3.39 23.5 3.39 17.76 9.13 17.76"></polyline></svg></div>
+        <div id="svg-fullscreen"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14"><defs><style>.cls-637b8a2bf95e86b59c57a23a-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-637b8a2bf95e86b59c57a23a-1" d="M18.84,12A7.52,7.52,0,0,1,12,15.91,7.52,7.52,0,0,1,5.16,12,7.52,7.52,0,0,1,12,8.09,7.52,7.52,0,0,1,18.84,12Z"></path><circle class="cls-637b8a2bf95e86b59c57a23a-1" cx="12" cy="12" r="0.98"></circle><polyline class="cls-637b8a2bf95e86b59c57a23a-1" points="1.25 7.12 1.25 1.25 7.12 1.25"></polyline><polyline class="cls-637b8a2bf95e86b59c57a23a-1" points="22.75 16.89 22.75 22.75 16.89 22.75"></polyline><polyline class="cls-637b8a2bf95e86b59c57a23a-1" points="7.12 22.75 1.25 22.75 1.25 16.89"></polyline><polyline class="cls-637b8a2bf95e86b59c57a23a-1" points="16.89 1.25 22.75 1.25 22.75 7.12"></polyline><line class="cls-637b8a2bf95e86b59c57a23a-1" x1="1.25" y1="1.25" x2="7.11" y2="7.11"></line><line class="cls-637b8a2bf95e86b59c57a23a-1" x1="1.25" y1="22.75" x2="7.11" y2="16.89"></line><line class="cls-637b8a2bf95e86b59c57a23a-1" x1="16.89" y1="7.11" x2="21.77" y2="2.23"></line><line class="cls-637b8a2bf95e86b59c57a23a-1" x1="22.75" y1="22.75" x2="16.89" y2="16.89"></line></svg></div>
             <div id="svg-lock">
-<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14"><defs><style>.cls-6374f8d9b67f094e4896c64a-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><rect class="cls-6374f8d9b67f094e4896c64a-1" x="5.32" y="10.09" width="13.36" height="12.41"></rect><path class="cls-6374f8d9b67f094e4896c64a-1" d="M12,1.5h0a4.77,4.77,0,0,1,4.77,4.77v3.82a0,0,0,0,1,0,0H7.23a0,0,0,0,1,0,0V6.27A4.77,4.77,0,0,1,12,1.5Z"></path><circle class="cls-6374f8d9b67f094e4896c64a-1" cx="12" cy="14.86" r="0.95"></circle><line class="cls-6374f8d9b67f094e4896c64a-1" x1="12" y1="19.64" x2="12" y2="15.82"></line></svg></div>
-            <div id="svg-unlock"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14"><defs><style>.cls-6374f8d9b67f094e4896c66e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><rect class="cls-6374f8d9b67f094e4896c66e-1" x="5.32" y="10.09" width="13.36" height="12.41"></rect><path class="cls-6374f8d9b67f094e4896c66e-1" d="M16.77,10.09H7.23V6.27A4.77,4.77,0,0,1,12,1.5h0a4.77,4.77,0,0,1,4.77,4.77"></path><circle class="cls-6374f8d9b67f094e4896c66e-1" cx="12" cy="14.86" r="0.95"></circle><line class="cls-6374f8d9b67f094e4896c66e-1" x1="12" y1="19.64" x2="12" y2="15.82"></line></svg></div>
-        <div id="svg-back"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14"><defs><style>.cls-6374f543b67f094e4896c5c8-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><circle class="cls-6374f543b67f094e4896c5c8-1" cx="12" cy="12" r="10.5"></circle><path class="cls-6374f543b67f094e4896c5c8-1" d="M7.23,7.23h7.63a3.82,3.82,0,0,1,3.82,3.82h0a3.82,3.82,0,0,1-3.82,3.81H7.23"></path><polyline class="cls-6374f543b67f094e4896c5c8-1" points="11.04 18.68 7.23 14.86 11.04 11.04"></polyline></svg></div>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14"><defs><style>.cls-6374f8d9b67f094e4896c64a-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><rect class="cls-6374f8d9b67f094e4896c64a-1" x="5.32" y="10.09" width="13.36" height="12.41"></rect><path class="cls-6374f8d9b67f094e4896c64a-1" d="M12,1.5h0a4.77,4.77,0,0,1,4.77,4.77v3.82a0,0,0,0,1,0,0H7.23a0,0,0,0,1,0,0V6.27A4.77,4.77,0,0,1,12,1.5Z"></path><circle class="cls-6374f8d9b67f094e4896c64a-1" cx="12" cy="14.86" r="0.95"></circle><line class="cls-6374f8d9b67f094e4896c64a-1" x1="12" y1="19.64" x2="12" y2="15.82"></line></svg>
+</div>
+            <div id="svg-unlock"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14"><defs><style>.cls-6374f8d9b67f094e4896c66e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><rect class="cls-6374f8d9b67f094e4896c66e-1" x="5.32" y="10.09" width="13.36" height="12.41"></rect><path class="cls-6374f8d9b67f094e4896c66e-1" d="M16.77,10.09H7.23V6.27A4.77,4.77,0,0,1,12,1.5h0a4.77,4.77,0,0,1,4.77,4.77"></path><circle class="cls-6374f8d9b67f094e4896c66e-1" cx="12" cy="14.86" r="0.95"></circle><line class="cls-6374f8d9b67f094e4896c66e-1" x1="12" y1="19.64" x2="12" y2="15.82"></line></svg></div>
+        <div id="svg-back"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14"><defs><style>.cls-6374f543b67f094e4896c5c8-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><circle class="cls-6374f543b67f094e4896c5c8-1" cx="12" cy="12" r="10.5"></circle><path class="cls-6374f543b67f094e4896c5c8-1" d="M7.23,7.23h7.63a3.82,3.82,0,0,1,3.82,3.82h0a3.82,3.82,0,0,1-3.82,3.81H7.23"></path><polyline class="cls-6374f543b67f094e4896c5c8-1" points="11.04 18.68 7.23 14.86 11.04 11.04"></polyline></svg></div>
     </div>
     <div id="notify-overlay" style="display: none;">
     <div id="notify-container">
         <div>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="40" height="40" fill="none" stroke="var(--neon-aqua-accent, #6bd9fa)" stroke-miterlimit="10"><circle cx="12" cy="12" r="10.5"/><polyline points="12 6.5 12 12 16 14.5"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="40" height="40" fill="none" stroke="var(--neon-aqua-accent, #6bd9fa)" stroke-miterlimit="10"><circle cx="12" cy="12" r="10.5"></circle><polyline points="12 6.5 12 12 16 14.5"></polyline></svg>
         </div>
         <p class="notify-title">Coming Soon!</p>
         <div id="notify-divider"></div>
         <span class="notify-desc">This is not available yet...</span>
         <span class="notify-desc">Check back later!</span>
         <button id="notify-close-btn" onclick="dismissNotify()">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="16" height="16" fill="none" stroke="currentColor" stroke-miterlimit="10"><circle cx="12" cy="12" r="10.5"/><line x1="8.18" y1="8.18" x2="15.82" y2="15.82"/><line x1="15.82" y1="8.18" x2="8.18" y2="15.82"/></svg> Dismiss
+            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="16" height="16" fill="none" stroke="currentColor" stroke-miterlimit="10"><circle cx="12" cy="12" r="10.5"></circle><line x1="8.18" y1="8.18" x2="15.82" y2="15.82"></line><line x1="15.82" y1="8.18" x2="8.18" y2="15.82"></line></svg> Dismiss
         </button>
     </div>
 </div>
@@ -1048,13 +955,21 @@ document via [MENTIONS] edges.</li>
     </script>
     <div class="scroll-button-container">
         <button id="scrollButton" onclick="scrollToTop()">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="50" height="50"
-                fill="none" stroke="currentColor" stroke-miterlimit="10" aria-label="⇡">
-                <circle cx="12" cy="12" r="10.5"></circle>
-                <line x1="12" y1="10.09" x2="12" y2="18.68"></line>
-                <polyline points="7.23 10.09 12 5.32 16.77 10.09"></polyline>
-                <polyline points="7.23 14.86 12 10.09 16.77 14.86"></polyline>
-            </svg>
+            <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="50" height="50" color="#fff">
+    <defs>
+        <style>
+            .cls-scroll-top-1 {
+                fill: none;
+                stroke: currentColor;
+                stroke-miterlimit: 10;
+            }
+        </style>
+    </defs>
+    <circle class="cls-scroll-top-1" cx="12" cy="12" r="10.5"></circle>
+    <line class="cls-scroll-top-1" x1="12" y1="10.09" x2="12" y2="18.68"></line>
+    <polyline class="cls-scroll-top-1" points="7.23 10.09 12 5.32 16.77 10.09"></polyline>
+    <polyline class="cls-scroll-top-1" points="7.23 14.86 12 10.09 16.77 14.86"></polyline>
+</svg>
         </button>
     </div>
 </body>
