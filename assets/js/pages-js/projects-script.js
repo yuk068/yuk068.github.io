@@ -2,6 +2,7 @@ if ('scrollRestoration' in history) {
     history.scrollRestoration = 'manual';
 }
 window.scrollTo(0, 0);
+const disableDotBackgroundEffects = !window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
 document.addEventListener('DOMContentLoaded', function() {
     initSiteBackgroundEffect();
@@ -15,17 +16,41 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(function() {
                 const header = document.querySelector('#projects-header');
                 const headerHeight = header ? header.offsetHeight : 100;
-                const offset = target.getBoundingClientRect().top + document.body.scrollTop - headerHeight - 20;
-                document.body.scrollTo({ top: offset, behavior: 'smooth' });
+                const offsetTop = target.getBoundingClientRect().top + window.scrollY - headerHeight - 12;
+                window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+
+                // Glow effect for card border + image
+                const clearGlow = () => {
+                    target.style.borderColor = '';
+                    const cardImage = target.querySelector('.project-card-image-container');
+                    if (cardImage) cardImage.style.borderColor = '';
+                    const projectImg = target.querySelector('.project-card-image-container img');
+                    if (projectImg) projectImg.style.boxShadow = '';
+                };
+
                 target.style.transition = 'border-color 0.4s ease';
                 target.style.borderColor = 'var(--neon-aqua-accent)';
-                setTimeout(() => { target.style.borderColor = ''; }, 2000);
+
+                const cardImage = target.querySelector('.project-card-image-container');
+                if (cardImage) {
+                    cardImage.style.transition = 'border-color 0.4s ease';
+                    cardImage.style.borderColor = 'var(--neon-aqua-accent)';
+                }
+
+                const projectImg = target.querySelector('.project-card-image-container img');
+                if (projectImg) {
+                    projectImg.style.transition = 'box-shadow 0.4s ease';
+                    projectImg.style.boxShadow = '0 0 0 3px rgba(155, 232, 255, 0.75)';
+                }
+
+                setTimeout(clearGlow, 2000);
             }, 100);
         }
     }
 });
 
 function initSiteBackgroundEffect() {
+    if (disableDotBackgroundEffects) return;
     const hasFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (!hasFinePointer || prefersReducedMotion) return;
@@ -154,6 +179,7 @@ function notifyComingSoon() {
 }
 
 function initDotRippleEffect(presetName = 'subtle', timeToFirstMs = null) {
+    const disableIdleDotRipple = disableDotBackgroundEffects;
     const RIPPLE_PRESETS = {
         subtle: {
             alpha:        0.55,
@@ -280,7 +306,7 @@ function initDotRippleEffect(presetName = 'subtle', timeToFirstMs = null) {
         }, delay);
     }
 
-    scheduleNext();
+    if (!disableIdleDotRipple) scheduleNext();
 
     document.addEventListener('click', (e) => {
         if (e.target.closest('a, button, input, textarea, select')) return;
@@ -291,7 +317,7 @@ function initDotRippleEffect(presetName = 'subtle', timeToFirstMs = null) {
     });
 
     document.addEventListener('visibilitychange', () => {
-        if (!document.hidden) scheduleNext();
+        if (!document.hidden && !disableIdleDotRipple) scheduleNext();
     });
 }
 

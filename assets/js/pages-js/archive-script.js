@@ -2,12 +2,14 @@ if ('scrollRestoration' in history) {
     history.scrollRestoration = 'manual';
 }
 window.scrollTo(0, 0);
+const disableDotBackgroundEffects = !window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
 document.addEventListener('DOMContentLoaded', function () {
     initSiteBackgroundEffect();
 });
 
 function initSiteBackgroundEffect() {
+    if (disableDotBackgroundEffects) return;
     const hasFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (!hasFinePointer || prefersReducedMotion) return;
@@ -65,6 +67,7 @@ function initSiteBackgroundEffect() {
 }
 
 function initDotRippleEffect(presetName = 'subtle', timeToFirstMs = null, enableIdle = true) {
+    const disableIdleDotRipple = disableDotBackgroundEffects;
     const RIPPLE_PRESETS = {
         subtle: {
             alpha:        0.55,
@@ -119,7 +122,6 @@ function initDotRippleEffect(presetName = 'subtle', timeToFirstMs = null, enable
         let x;
         if (Math.random() < p.centerChance) {
             x = window.scrollX + window.innerWidth * (0.3 + Math.random() * 0.4);
-            console.log('[archive ripple] getSpawnX center choice', rootInfo, 'x=', x);
             return x;
         }
         const sideWidthPx = window.innerWidth * p.sideWidth;
@@ -127,7 +129,6 @@ function initDotRippleEffect(presetName = 'subtle', timeToFirstMs = null, enable
         x = window.scrollX + (onLeft
             ? Math.random() * sideWidthPx
             : window.innerWidth - Math.random() * sideWidthPx);
-        console.log('[archive ripple] getSpawnX edge choice', rootInfo, 'sideWidthPx=', sideWidthPx, 'onLeft=', onLeft, 'x=', x);
         return x;
     }
 
@@ -182,7 +183,7 @@ function initDotRippleEffect(presetName = 'subtle', timeToFirstMs = null, enable
         : null;
 
     function scheduleNext() {
-        if (!enableIdle) {
+        if (!enableIdle || disableIdleDotRipple) {
             return;
         }
         if (scheduled) return;
@@ -200,7 +201,7 @@ function initDotRippleEffect(presetName = 'subtle', timeToFirstMs = null, enable
         }, delay);
     }
 
-    if (enableIdle) scheduleNext();
+    if (enableIdle && !disableIdleDotRipple) scheduleNext();
 
 
     document.addEventListener('click', (e) => {
@@ -212,7 +213,7 @@ function initDotRippleEffect(presetName = 'subtle', timeToFirstMs = null, enable
     });
 
     document.addEventListener('visibilitychange', () => {
-        if (!document.hidden) scheduleNext();
+        if (!document.hidden && enableIdle && !disableIdleDotRipple) scheduleNext();
     });
 }
 
@@ -641,14 +642,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Append everything to the actual DOM in ONE single action
-        postsContainer.insertBefore(fragment, paginationNav);
+        // Insert posts after the top pagination nav and before the tips block.
+        postsContainer.insertBefore(fragment, paginationTip || null);
 
         isFirstLoad = false;
-        
-        // Ensure nav elements stay at the bottom
-        postsContainer.appendChild(paginationNav);
-        if (paginationTip) postsContainer.appendChild(paginationTip);
 
         updateEmptyState();
     };
@@ -718,24 +715,20 @@ document.addEventListener('DOMContentLoaded', () => {
             return new Date(`${year}-${month}-${day}`);
         };
 
-        // console.log("Current sort state:", sortState); // Log the sort state
 
         if (sortState.releaseDate === 'default' && sortState.readingTime === 'default') {
-            // console.log("Sorting by order (default)");
             posts.sort((a, b) => {
                 const orderA = parseInt(a.querySelector('.post').dataset.order || '0', 10);
                 const orderB = parseInt(b.querySelector('.post').dataset.order || '0', 10);
                 return orderB - orderA;
             });
         } else if (sortState.releaseDate !== 'default') {
-            // console.log(`Sorting by release date: ${sortState.releaseDate}`);
             posts.sort((a, b) => {
                 const dateA = convertToDate(a.querySelector('.post').dataset.date);
                 const dateB = convertToDate(b.querySelector('.post').dataset.date);
                 return sortState.releaseDate === 'newest' ? dateB - dateA : dateA - dateB;
             });
         } else if (sortState.readingTime !== 'default') {
-            // console.log(`Sorting by reading time: ${sortState.readingTime}`);
             posts.sort((a, b) => {
                 const readingTimeA = parseInt(a.querySelector('.post').dataset.readingTime, 10);
                 const readingTimeB = parseInt(b.querySelector('.post').dataset.readingTime, 10);

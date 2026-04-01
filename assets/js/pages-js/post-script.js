@@ -2,8 +2,10 @@ if ('scrollRestoration' in history) {
     history.scrollRestoration = 'manual';
 }
 window.scrollTo(0, 0);
+const disableDotBackgroundEffects = !window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
 function initSiteBackgroundEffect() {
+    if (disableDotBackgroundEffects) return;
     const hasFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (!hasFinePointer || prefersReducedMotion) return;
@@ -61,6 +63,7 @@ function initSiteBackgroundEffect() {
 }
 
 function initDotRippleEffect(presetName = 'subtle', timeToFirstMs = null, enableIdle = true) {
+    const disableIdleDotRipple = disableDotBackgroundEffects;
     const RIPPLE_PRESETS = {
         subtle: {
             alpha:        0.55,
@@ -172,7 +175,7 @@ function initDotRippleEffect(presetName = 'subtle', timeToFirstMs = null, enable
         : null;
 
     function scheduleNext() {
-        if (!enableIdle) return;
+        if (!enableIdle || disableIdleDotRipple) return;
         if (scheduled) return;
         scheduled = true;
         const delay = nextDelayMs !== null ? nextDelayMs : rand(p.interval);
@@ -187,7 +190,7 @@ function initDotRippleEffect(presetName = 'subtle', timeToFirstMs = null, enable
         }, delay);
     }
 
-    if (enableIdle) scheduleNext();
+    if (enableIdle && !disableIdleDotRipple) scheduleNext();
 
     document.addEventListener('click', (e) => {
         if (e.target.closest('a, button, input, textarea, select')) return;
@@ -198,7 +201,7 @@ function initDotRippleEffect(presetName = 'subtle', timeToFirstMs = null, enable
     });
 
     document.addEventListener('visibilitychange', () => {
-        if (!document.hidden && enableIdle) scheduleNext();
+        if (!document.hidden && enableIdle && !disableIdleDotRipple) scheduleNext();
     });
 }
 

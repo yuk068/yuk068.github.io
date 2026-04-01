@@ -2,12 +2,14 @@ if ('scrollRestoration' in history) {
     history.scrollRestoration = 'manual';
 }
 window.scrollTo(0, 0);
+const disableDotBackgroundEffects = !window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
 document.addEventListener('DOMContentLoaded', function() {
     initSiteBackgroundEffect();
 });
 
 function initSiteBackgroundEffect() {
+    if (disableDotBackgroundEffects) return;
     const hasFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (!hasFinePointer || prefersReducedMotion) return;
@@ -65,6 +67,7 @@ function initSiteBackgroundEffect() {
 }
 
 function initDotRippleEffect(presetName = 'subtle', timeToFirstMs = null) {
+    const disableIdleDotRipple = disableDotBackgroundEffects;
     const RIPPLE_PRESETS = {
         subtle: {
             alpha:        0.55,
@@ -191,7 +194,7 @@ function initDotRippleEffect(presetName = 'subtle', timeToFirstMs = null) {
         }, delay);
     }
 
-    scheduleNext();
+    if (!disableIdleDotRipple) scheduleNext();
 
     document.addEventListener('click', (e) => {
         if (e.target.closest('a, button, input, textarea, select')) return;
@@ -202,7 +205,7 @@ function initDotRippleEffect(presetName = 'subtle', timeToFirstMs = null) {
     });
 
     document.addEventListener('visibilitychange', () => {
-        if (!document.hidden) scheduleNext();
+        if (!document.hidden && !disableIdleDotRipple) scheduleNext();
     });
 }
 

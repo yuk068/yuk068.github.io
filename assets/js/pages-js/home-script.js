@@ -14,6 +14,7 @@ if ('scrollRestoration' in history) {
     history.scrollRestoration = 'manual';
 }
 window.scrollTo(0, 0);
+const disableDotBackgroundEffects = !window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
 // Home header desktop title configuration
 const initialWaitMs = 10500;      // Time sitting on original text (no caret)
@@ -44,6 +45,7 @@ const hoverCapableSwiperTimerEnabled =
 
 let isSwiperHovered = false;
 function initHomeBackgroundEffect() {
+    if (disableDotBackgroundEffects) return;
     const hasFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (!hasFinePointer || prefersReducedMotion) return;
@@ -101,6 +103,7 @@ function initHomeBackgroundEffect() {
 }
 
 function initDotRippleEffect(presetName = 'subtle', timeToFirstMs = null) {
+    const disableIdleDotRipple = disableDotBackgroundEffects;
     const RIPPLE_PRESETS = {
         subtle: {
             alpha:        0.55,
@@ -227,7 +230,7 @@ function initDotRippleEffect(presetName = 'subtle', timeToFirstMs = null) {
         }, delay);
     }
 
-    scheduleNext();
+    if (!disableIdleDotRipple) scheduleNext();
 
     document.addEventListener('click', (e) => {
         if (e.target.closest('a, button, input, textarea, select')) return;
@@ -238,7 +241,7 @@ function initDotRippleEffect(presetName = 'subtle', timeToFirstMs = null) {
     });
 
     document.addEventListener('visibilitychange', () => {
-        if (!document.hidden) scheduleNext();
+        if (!document.hidden && !disableIdleDotRipple) scheduleNext();
     });
 }
 
@@ -606,15 +609,19 @@ function toggleTheme() {
 function scrollProjects(direction) {
     const projectSection = document.querySelector('.project-section');
     
-    // Dynamically adjust scroll amount based on screen width
     const screenWidth = window.innerWidth;
-    const scrollAmount = screenWidth > 1090 ? 750 : 400; // Larger scroll on wide screens, smaller on small screens
+    const scrollAmount = screenWidth > 1090 ? 750 : 400;
 
+    // Horizontal scroll
     if (direction === 'left') {
         projectSection.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
     } else if (direction === 'right') {
         projectSection.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     }
+
+    // Add vertical offset so section isn't flush to top
+    const offsetTop = projectSection.getBoundingClientRect().top + window.scrollY - 100; // 100px space from top
+    window.scrollTo({ top: offsetTop, behavior: 'smooth' });
 }
 
 
