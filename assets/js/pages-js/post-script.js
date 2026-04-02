@@ -2,10 +2,99 @@ if ('scrollRestoration' in history) {
     history.scrollRestoration = 'manual';
 }
 window.scrollTo(0, 0);
-const disableDotBackgroundEffects = !window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+const isHoverCapable = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+const disableDotBackgroundEffects = false;
+
+let currentBgPerformanceMode = 'High';
+let siteBgEffectInitialized = false;
+let dotRippleInitialized = false;
+let dotRippleTimeoutId = null;
+let siteBgHandlers = { move: null, scroll: null, leave: null, visibility: null };
+let dotRippleHandlers = { click: null, visibility: null };
+
+function isBgMode(...modes) {
+    return modes.includes(currentBgPerformanceMode);
+}
+
+function stopDotRippleEffect() {
+    dotRippleInitialized = false;
+    if (dotRippleTimeoutId) {
+        clearTimeout(dotRippleTimeoutId);
+        dotRippleTimeoutId = null;
+    }
+    if (dotRippleHandlers.click) {
+        document.removeEventListener('click', dotRippleHandlers.click);
+        dotRippleHandlers.click = null;
+    }
+    if (dotRippleHandlers.visibility) {
+        document.removeEventListener('visibilitychange', dotRippleHandlers.visibility);
+        dotRippleHandlers.visibility = null;
+    }
+}
+
+function stopSiteBackgroundEffect() {
+    if (!siteBgEffectInitialized) return;
+
+    const siteBgEffects = document.querySelector('.site-bg-effects');
+    const siteBgGlow = document.querySelector('.site-bg-glow');
+    if (siteBgEffects) siteBgEffects.style.display = 'none';
+    if (siteBgGlow) siteBgGlow.style.opacity = '0';
+
+    if (siteBgHandlers.move) {
+        window.removeEventListener('mousemove', siteBgHandlers.move, { passive: true });
+        siteBgHandlers.move = null;
+    }
+    if (siteBgHandlers.scroll) {
+        window.removeEventListener('scroll', siteBgHandlers.scroll, { passive: true });
+        siteBgHandlers.scroll = null;
+    }
+    if (siteBgHandlers.leave) {
+        document.removeEventListener('mouseleave', siteBgHandlers.leave);
+        siteBgHandlers.leave = null;
+    }
+    if (siteBgHandlers.visibility) {
+        document.removeEventListener('visibilitychange', siteBgHandlers.visibility);
+        siteBgHandlers.visibility = null;
+    }
+    siteBgEffectInitialized = false;
+}
+
+function applyBgPerformanceMode(mode) {
+    currentBgPerformanceMode = mode;
+    const renderMode = isHoverCapable ? mode : 'None';
+
+    const siteBgEffects = document.querySelector('.site-bg-effects');
+    const siteBgGlow = document.querySelector('.site-bg-glow');
+
+    if (renderMode === 'None') {
+        stopDotRippleEffect();
+        stopSiteBackgroundEffect();
+        if (siteBgEffects) siteBgEffects.style.display = 'none';
+        if (siteBgGlow) siteBgGlow.style.opacity = '0';
+        return;
+    }
+
+    if (mode === 'Low') {
+        stopDotRippleEffect();
+        stopSiteBackgroundEffect();
+        if (siteBgEffects) siteBgEffects.style.display = 'block';
+        if (siteBgGlow) siteBgGlow.style.opacity = '0';
+        return;
+    }
+
+    // Post behavior: Mid and High are identical (hover + click only, no idle ripple).
+    if (siteBgEffects) siteBgEffects.style.display = 'block';
+    if (siteBgGlow) siteBgGlow.style.opacity = '1';
+    initSiteBackgroundEffect();
+    initDotRippleEffect('justright', 500, false);
+}
 
 function initSiteBackgroundEffect() {
+    if (siteBgEffectInitialized) return;
+    if (!isBgMode('Mid', 'High')) return;
+
     if (disableDotBackgroundEffects) return;
+    siteBgEffectInitialized = true;
     const hasFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (!hasFinePointer || prefersReducedMotion) return;
@@ -50,20 +139,29 @@ function initSiteBackgroundEffect() {
         root.style.setProperty('--site-bg-glow-opacity', '0');
     }
 
-    window.addEventListener('mousemove', handleMove, { passive: true });
-    window.addEventListener('scroll', handleScroll, { passive: true });
-
-    document.addEventListener('mouseleave', handleLeave);
-
-    document.addEventListener('visibilitychange', () => {
+    function handleVisibility() {
         if (document.hidden) {
             handleLeave();
         }
-    });
+    }
+
+    siteBgHandlers.move = handleMove;
+    siteBgHandlers.scroll = handleScroll;
+    siteBgHandlers.leave = handleLeave;
+    siteBgHandlers.visibility = handleVisibility;
+
+    window.addEventListener('mousemove', siteBgHandlers.move, { passive: true });
+    window.addEventListener('scroll', siteBgHandlers.scroll, { passive: true });
+    document.addEventListener('mouseleave', siteBgHandlers.leave);
+    document.addEventListener('visibilitychange', siteBgHandlers.visibility);
 }
 
 function initDotRippleEffect(presetName = 'subtle', timeToFirstMs = null, enableIdle = true) {
-    const disableIdleDotRipple = disableDotBackgroundEffects;
+    if (!isBgMode('Mid', 'High')) return;
+
+    stopDotRippleEffect();
+    dotRippleInitialized = true;
+    const disableIdleDotRipple = disableDotBackgroundEffects || !enableIdle;
     const RIPPLE_PRESETS = {
         subtle: {
             alpha:        0.55,
@@ -181,8 +279,9 @@ function initDotRippleEffect(presetName = 'subtle', timeToFirstMs = null, enable
         const delay = nextDelayMs !== null ? nextDelayMs : rand(p.interval);
         nextDelayMs = null;
 
-        setTimeout(() => {
+        dotRippleTimeoutId = setTimeout(() => {
             scheduled = false;
+            dotRippleTimeoutId = null;
             const x = getSpawnX();
             const y = window.scrollY + window.innerHeight * (0.05 + Math.random() * 0.9);
             spawnRipple(x, y);
@@ -190,26 +289,28 @@ function initDotRippleEffect(presetName = 'subtle', timeToFirstMs = null, enable
         }, delay);
     }
 
-    if (enableIdle && !disableIdleDotRipple) scheduleNext();
+    if (!disableIdleDotRipple) {
+        scheduleNext();
+        const x = getSpawnX();
+        const y = window.scrollY + window.innerHeight * (0.05 + Math.random() * 0.9);
+        spawnRipple(x, y);
+    }
 
-    document.addEventListener('click', (e) => {
+    dotRippleHandlers.click = (e) => {
+        if (!isBgMode('Mid', 'High')) return;
         if (e.target.closest('a, button, input, textarea, select')) return;
         spawnRipple(
             e.clientX + window.scrollX,
             e.clientY + window.scrollY
         );
-    });
+    };
+    document.addEventListener('click', dotRippleHandlers.click);
 
-    document.addEventListener('visibilitychange', () => {
-        if (!document.hidden && enableIdle && !disableIdleDotRipple) scheduleNext();
-    });
+    dotRippleHandlers.visibility = () => {
+        if (!document.hidden && !disableIdleDotRipple) scheduleNext();
+    };
+    document.addEventListener('visibilitychange', dotRippleHandlers.visibility);
 }
-
-document.addEventListener('DOMContentLoaded', initSiteBackgroundEffect);
-
-document.addEventListener('DOMContentLoaded', function () {
-    initDotRippleEffect('justright', 500, false);
-});
 
 function scrollToTop() {
     document.body.scrollTop = 0; // For Safari
@@ -252,22 +353,83 @@ document.addEventListener('DOMContentLoaded', function () {
     const checkSVG = document.getElementById('svg-check').innerHTML;
     const documentSVG = document.getElementById('svg-document').innerHTML;
 
+    const BG_PERFORMANCE_KEY = 'BGPerformancePreference';
+    const BG_LEVELS = ['None', 'Low', 'Mid', 'High'];
+    const BG_LABELS = {
+        en: ['BG Detail: None', 'BG Detail: Low', 'BG Detail: Mid', 'BG Detail: High'],
+        vi: ['BG: Không', 'BG: Thấp', 'BG: Vừa', 'BG: Cao']
+    };
+
+    let bgPerformanceCooldown = false;
+
+    const bgPerformanceLabel = document.getElementById('bgPerformanceLabel');
+    const bgPerformanceBody = document.getElementById('collapseExpandAllButton');
+
+    function getSavedBgPerformance() {
+        const value = localStorage.getItem(BG_PERFORMANCE_KEY);
+        if (value && BG_LEVELS.includes(value)) {
+            return value;
+        }
+
+        if (!isHoverCapable) {
+            return 'Low';
+        }
+
+        const hasHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+        return hasHover ? 'High' : 'Low';
+    }
+
+    function setBgPerformance(value) {
+        if (!BG_LEVELS.includes(value)) return;
+        const current = localStorage.getItem(BG_PERFORMANCE_KEY);
+        if (current === value) return;
+        localStorage.setItem(BG_PERFORMANCE_KEY, value);
+    }
+
+    function updateBgLabel(value) {
+        if (!bgPerformanceLabel) return;
+        const lang = document.documentElement.lang === 'vi' ? 'vi' : 'en';
+        const index = BG_LEVELS.indexOf(value);
+        const text = index >= 0 ? BG_LABELS[lang][index] : BG_LABELS[lang][0];
+        bgPerformanceLabel.textContent = text;
+    }
+
+    function initBgPerformance() {
+        const saved = getSavedBgPerformance();
+        setBgPerformance(saved);
+        updateBgLabel(saved);
+        applyBgPerformanceMode(saved);
+    }
+
+    function cycleBgPerformance() {
+        if (bgPerformanceCooldown) return;
+        bgPerformanceCooldown = true;
+        setTimeout(() => { bgPerformanceCooldown = false; }, 400);
+
+        const current = getSavedBgPerformance();
+        const nextValue = BG_LEVELS[(BG_LEVELS.indexOf(current) + 1) % BG_LEVELS.length];
+
+        if (bgPerformanceBody) {
+            bgPerformanceBody.classList.add('fade');
+        }
+
+        setTimeout(() => {
+            setBgPerformance(nextValue);
+            updateBgLabel(nextValue);
+            applyBgPerformanceMode(nextValue);
+            if (bgPerformanceBody) {
+                bgPerformanceBody.classList.remove('fade');
+            }
+        }, 220);
+    }
+
+    initBgPerformance();
+
     function setupCollapseExpandAllButton() {
         const collapseExpandAllButton = document.getElementById('collapseExpandAllButton');
         if (collapseExpandAllButton) {
-            let allCollapsed = false;
-
             collapseExpandAllButton.addEventListener('click', function () {
-                allCollapsed = !allCollapsed;
-
-                [...highlights, ...blockquotes].forEach((element) => {
-                    element.classList.toggle('collapsed', allCollapsed);
-
-                    const collapseButton = element.querySelector('.collapse-button');
-                    if (collapseButton) {
-                        collapseButton.innerHTML = allCollapsed ? downArrowSVG : upArrowSVG;
-                    }
-                });
+                cycleBgPerformance();
             });
         }
     }

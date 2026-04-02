@@ -90,6 +90,109 @@
     --border-width: 1px;
 }
 
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 99999;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+    transition: background-color 0.5s ease;
+}
+
+.overlay.show {
+    display: flex;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.config-container {
+    padding: 20px;
+    border: var(--border-width) solid var(--header-footer-shadeLight);
+    background-color: var(--header-bg-color);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 320px;
+    box-shadow: var(--box-shadow-part-1), var(--box-shadow-part-2);
+    opacity: 0;
+    transform: translateY(-100%);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    box-sizing: border-box;
+}
+
+.config-container.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.config-navigation {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+}
+
+.config-horizontal-divider-line,
+.option-horizontal-divider-line {
+    width: 100%;
+    height: 3px;
+    border-radius: 5px;
+    background-color: var(--header-footer-shadeLight);
+    margin: 0;
+    flex-shrink: 0;
+}
+
+.config-container p {
+    margin: 0 0 0 10px;
+    font-size: 20px;
+    color: var(--neon-aqua-accent);
+}
+
+.config-container button svg,
+.config-container button img {
+    margin-right: 8px;
+}
+
+.config-container svg {
+    all: unset;
+    width: 20px;
+    height: 20px;
+    margin: 0 5px 0 5px;
+}
+
+.config-container button,
+.config-navigation button {
+    all: unset;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--paragraph-color);
+    border: var(--border-width) solid var(--header-footer-shadeLight);
+    background-color: var(--header-bg-color);
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: var(--box-shadow-part-1);
+    transition: border 0.4s ease;
+}
+
+#bgPerformanceBody {
+    display: flex;
+    align-items: center;
+    transition: opacity 0.2s ease;
+    opacity: 1;
+}
+
+#bgPerformanceBody.fade {
+    opacity: 0;
+}
+
 html.light-mode,
 body.light-mode {
     --bg-color: var(--light-bg-color);
@@ -185,6 +288,12 @@ body {
 }
 
 @media (hover: hover) {
+
+    .config-container button:hover,
+    .config-navigation button:hover {
+        border-color: var(--neon-aqua-accent);
+    }
+
     .site-bg-glow {
         display: block;
         background-image: radial-gradient(circle, var(--site-bg-glow-dot-color) 1px, transparent 1.2px);
@@ -423,7 +532,8 @@ a {
     color: var(--link-color) !important;
 }
 
-#theme-toggle-desktop {
+#theme-toggle-desktop,
+#config-toggle-desktop {
     display: flex;
     align-items: center;
     padding: 0 10px;
@@ -431,7 +541,8 @@ a {
     transition: opacity 0.2s ease;
 }
 
-#theme-toggle-desktop svg {
+#theme-toggle-desktop svg,
+#config-toggle-desktop svg {
     width: 1.2em;
     height: 1.2em;
     display: block;
@@ -681,7 +792,7 @@ a {
     justify-content: space-between;
     align-items: center;
     text-align: center;
-    padding: 15px;
+    padding: 10px 15px 15px 15px;
     background-color: var(--header-bg-color);
     background-size: 100px 50px;
     border-top: var(--border-width) solid var(--header-footer-shadeLight);
@@ -833,6 +944,10 @@ h6 {
 }
 
 @media (hover: hover) {
+
+    #config-toggle-desktop:hover {
+        opacity: 1;
+    }
 
     #theme-toggle-desktop:hover {
         opacity: 1;

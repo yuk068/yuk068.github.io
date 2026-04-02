@@ -1779,7 +1779,6 @@ html:not(.light-mode) header#post-header {
 
 header#post-header.transformed {
     height: 31px;
-    padding: 10px 50px 12px 50px;
 }
 
 .giscus {
@@ -1900,7 +1899,20 @@ header#post-header.transformed {
     text-align: center;
     box-shadow: var(--box-shadow-part-1);
     box-sizing: border-box;
-    transition: border 0.3s ease, transform 0.2s ease;
+    transition: border 0.3s ease, transform 0.2s ease, opacity 0.2s ease;
+}
+
+#collapseExpandAllButton {
+    opacity: 1;
+}
+
+#collapseExpandAllButton > * {
+    transition: opacity 0.2s ease;
+    opacity: 1;
+}
+
+#collapseExpandAllButton.fade > * {
+    opacity: 0;
 }
 
 .options-container svg {
@@ -2487,7 +2499,6 @@ body.light-mode header#post-header {
 html.light-mode header#post-header.transformed,
 body.light-mode header#post-header.transformed {
     height: 32px;
-    padding: 10px 70px 10px 70px;
 }
 
 html.light-mode header#post-header::after,

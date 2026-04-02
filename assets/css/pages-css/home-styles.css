@@ -82,16 +82,16 @@
     --light-text-shadow-part-1: 0 0 0 transparent;
     --light-text-shadow-part-2: 0 0 0 transparent;
 
-    --home-bg-dot-color: rgba(206, 224, 255, 0.17);
-    --home-bg-dot-gap: 14px;
-    --home-bg-glow-dot-color: rgba(218, 240, 255, 0.32);
-    --home-bg-glow-core: rgba(137, 228, 255, 0.16);
-    --home-bg-glow-mid: rgba(137, 228, 255, 0.08);
-    --home-bg-glow-edge: rgba(137, 228, 255, 0.02);
-    --home-bg-glow-size: 100px;
-    --home-bg-mouse-x: 50vw;
-    --home-bg-mouse-y: 50vh;
-    --home-bg-glow-opacity: 0;
+    --site-bg-dot-color: rgba(206, 224, 255, 0.17);
+    --site-bg-dot-gap: 14px;
+    --site-bg-glow-dot-color: rgba(218, 240, 255, 0.32);
+    --site-bg-glow-core: rgba(137, 228, 255, 0.16);
+    --site-bg-glow-mid: rgba(137, 228, 255, 0.08);
+    --site-bg-glow-edge: rgba(137, 228, 255, 0.02);
+    --site-bg-glow-size: 100px;
+    --site-bg-mouse-x: 50vw;
+    --site-bg-mouse-y: 50vh;
+    --site-bg-glow-opacity: 0;
     --swiper-border-progress: 0;
     --swiper-hover-mix: 0;
 
@@ -138,11 +138,11 @@ body.light-mode {
     --box-shadow-part-2: var(--light-box-shadow-part-2);
     --text-shadow-part-1: var(--light-text-shadow-part-1);
     --text-shadow-part-2: var(--light-text-shadow-part-2);
-    --home-bg-dot-color: rgba(46, 80, 175, 0.13);
-    --home-bg-glow-dot-color: rgba(54, 96, 210, 0.62);
-    --home-bg-glow-core: rgba(46, 80, 175, 0.14);
-    --home-bg-glow-mid: rgba(46, 80, 175, 0.08);
-    --home-bg-glow-edge: rgba(46, 80, 175, 0.03);
+    --site-bg-dot-color: rgba(46, 80, 175, 0.13);
+    --site-bg-glow-dot-color: rgba(54, 96, 210, 0.62);
+    --site-bg-glow-core: rgba(46, 80, 175, 0.14);
+    --site-bg-glow-mid: rgba(46, 80, 175, 0.08);
+    --site-bg-glow-edge: rgba(46, 80, 175, 0.03);
     --border-width: 2px;
 }
 
@@ -164,7 +164,7 @@ body {
     position: relative;
 }
 
-.home-bg-effects {
+.site-bg-effects {
     position: absolute;
     top: 0;
     left: 0;
@@ -175,8 +175,8 @@ body {
     z-index: 0;
 }
 
-.home-bg-dot-grid,
-.home-bg-glow {
+.site-bg-dot-grid,
+.site-bg-glow {
     position: absolute;
     top: 0;
     left: 0;
@@ -184,28 +184,28 @@ body {
     height: 100%;
 }
 
-.home-bg-dot-grid {
-    background-image: radial-gradient(circle, var(--home-bg-dot-color) 0.8px, transparent 1px);
-    background-size: var(--home-bg-dot-gap) var(--home-bg-dot-gap);
+.site-bg-dot-grid {
+    background-image: radial-gradient(circle, var(--site-bg-dot-color) 0.8px, transparent 1px);
+    background-size: var(--site-bg-dot-gap) var(--site-bg-dot-gap);
     background-position: top left;
     opacity: 0.35;
 }
 
-.home-bg-glow {
+.site-bg-glow {
     display: none;
 }
 
 @media (hover: hover) {
-    .home-bg-glow {
+    .site-bg-glow {
         display: block;
-        background-image: radial-gradient(circle, var(--home-bg-glow-dot-color) 1px, transparent 1.2px);
-        background-size: var(--home-bg-dot-gap) var(--home-bg-dot-gap);
+        background-image: radial-gradient(circle, var(--site-bg-glow-dot-color) 1px, transparent 1.2px);
+        background-size: var(--site-bg-dot-gap) var(--site-bg-dot-gap);
         background-position: top left;
 
         position: absolute;
 
         -webkit-mask-image: radial-gradient(
-            var(--home-bg-glow-size) circle at var(--home-bg-mouse-x) var(--home-bg-mouse-y),
+            var(--site-bg-glow-size) circle at var(--site-bg-mouse-x) var(--site-bg-mouse-y),
             rgba(0, 0, 0, 1) 0,
             rgba(0, 0, 0, 0.82) 30%,
             rgba(0, 0, 0, 0.22) 56%,
@@ -213,14 +213,14 @@ body {
         );
 
         mask-image: radial-gradient(
-            var(--home-bg-glow-size) circle at var(--home-bg-mouse-x) var(--home-bg-mouse-y),
+            var(--site-bg-glow-size) circle at var(--site-bg-mouse-x) var(--site-bg-mouse-y),
             rgba(0, 0, 0, 1) 0,
             rgba(0, 0, 0, 0.82) 30%,
             rgba(0, 0, 0, 0.22) 56%,
             transparent 76%
         );
 
-        opacity: var(--home-bg-glow-opacity);
+        opacity: var(--site-bg-glow-opacity);
         transition: opacity 0.22s ease;
     }
 }
@@ -537,7 +537,8 @@ a {
     transition: color 0.2s ease;
 }
 
-#theme-toggle-desktop {
+/* Desktop header gear button opens the options overlay menu (placeholder behavior) */
+#config-toggle-desktop {
     display: flex;
     align-items: center;
     padding: 0 10px;
@@ -545,7 +546,11 @@ a {
     transition: opacity 0.2s ease;
 }
 
-#theme-toggle-desktop svg {
+#config-toggle-desktop:hover {
+    opacity: 1;
+}
+
+#config-toggle-desktop svg {
     width: 1.2em;
     height: 1.2em;
     display: block;
@@ -577,7 +582,7 @@ a {
 
 /* Caret only appears when typing/deleting is active */
 .home-header-title-desktop h1.typing-active::after {
-    content: '|';
+    content: '_';
     margin-left: 4px;
     color: currentColor;
     animation: blink 1s step-end infinite;
@@ -696,7 +701,7 @@ a {
     justify-content: space-between;
     align-items: center;
     text-align: center;
-    padding: 15px;
+    padding: 10px 15px 15px 15px;
     background-color: var(--header-bg-color);
     background-size: 100px 50px;
     border-top: var(--border-width) solid var(--header-footer-shadeLight);
@@ -1491,6 +1496,95 @@ a {
     box-sizing: border-box;
 }
 
+.config-container {
+    padding: 20px;
+    border: var(--border-width) solid var(--header-footer-shadeLight);
+    background-color: var(--header-bg-color);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    justify-items: center;
+    width: 320px;
+    height: auto;
+    box-shadow: var(--box-shadow-part-1), var(--box-shadow-part-2);
+    opacity: 0;
+    transform: translateY(-100%);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    box-sizing: border-box;
+}
+
+.config-navigation {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 10px;
+    box-sizing: border-box;
+}
+
+.config-horizontal-divider-line,
+.option-horizontal-divider-line {
+    width: 100%;
+    height: 3px;
+    border-radius: 5px;
+    background-color: var(--header-footer-shadeLight);
+    margin: 0;
+    flex-shrink: 0;
+}
+
+.config-container.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.config-container button,
+.config-navigation a {
+    all: unset;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--paragraph-color);
+    border: var(--border-width) solid var(--header-footer-shadeLight);
+    background-color: var(--header-bg-color);
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: var(--box-shadow-part-1);
+    transition: border 0.4s ease, transform 0.2s ease;
+}
+
+.config-container button svg, .config-container button img {
+    margin-right: 8px;
+}
+
+#bgPerformanceBody {
+    display: flex;
+    align-items: center;
+    transition: opacity 0.2s ease;
+    opacity: 1;
+}
+
+#bgPerformanceBody.fade {
+    opacity: 0;
+}
+
+#bgPerformanceLabel {
+    opacity: 1;
+}
+
+.config-container p {
+    margin: 0 0 0 10px;
+    font-size: 20px;
+    color: var(--neon-aqua-accent);
+}
+
+.config-container svg {
+    all: unset;
+    width: 20px;
+    height: 20px;
+    margin: 0 5px 0 5px;
+}
+
 .options-navigation {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
@@ -1530,7 +1624,7 @@ a {
     all: unset;
     width: 20px;
     height: 20px;
-    margin: 0 10px 0 5px;
+    margin: 0 5px 0 5px;
 }
 
 .options-container p {
@@ -1563,16 +1657,23 @@ h6 {
 
 @media (hover: hover) {
 
+    .config-container button:hover,
+    .config-navigation a:hover {
+        border-color: var(--neon-aqua-accent);
+    }
+
     #scrollButton:hover {
         border-color: var(--neon-aqua-accent);
     }
 
-    #theme-toggle-desktop:hover {
+    #config-toggle-desktop:hover {
         opacity: 1;
     }
 
     .options-container button:hover,
-    .options-container a:hover {
+    .options-container a:hover,
+    .config-container button:hover,
+    .config-navigation a:hover {
         border-color: var(--neon-aqua-accent);
     }
 

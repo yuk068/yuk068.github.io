@@ -14,7 +14,84 @@ if ('scrollRestoration' in history) {
     history.scrollRestoration = 'manual';
 }
 window.scrollTo(0, 0);
-const disableDotBackgroundEffects = !window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+const disableDotBackgroundEffects = false;  // always controlled by BG mode option
+
+let currentBgPerformanceMode = 'High';
+let siteBgEffectInitialized = false;
+let dotRippleInitialized = false;
+let dotRippleTimeoutId = null;
+let dotRippleScheduled = false;
+let siteBgHandlers = {
+    move: null,
+    scroll: null,
+    leave: null,
+    visibility: null,
+};
+let dotRippleHandlers = {
+    click: null,
+    visibility: null,
+};
+
+function bgModeValue(mode) {
+    const map = { None: 0, Low: 1, Mid: 2, High: 3 };
+    return map[mode] ?? 0;
+}
+
+function isBgMode(...modes) {
+    return modes.includes(currentBgPerformanceMode);
+}
+
+function stopDotRippleEffect() {
+    dotRippleInitialized = false;
+    dotRippleScheduled = false;
+    if (dotRippleTimeoutId) {
+        clearTimeout(dotRippleTimeoutId);
+        dotRippleTimeoutId = null;
+    }
+
+    if (dotRippleHandlers.click) {
+        document.removeEventListener('click', dotRippleHandlers.click);
+        dotRippleHandlers.click = null;
+    }
+
+    if (dotRippleHandlers.visibility) {
+        document.removeEventListener('visibilitychange', dotRippleHandlers.visibility);
+        dotRippleHandlers.visibility = null;
+    }
+}
+
+function stopSiteBackgroundEffect() {
+    if (!siteBgEffectInitialized) return;
+
+    const siteBgEffects = document.querySelector('.site-bg-effects');
+    const siteBgGlow = document.querySelector('.site-bg-glow');
+    if (siteBgEffects) {
+        siteBgEffects.style.display = 'none';
+    }
+    if (siteBgGlow) {
+        siteBgGlow.style.opacity = '0';
+    }
+
+    if (siteBgHandlers.move) {
+        window.removeEventListener('mousemove', siteBgHandlers.move, { passive: true });
+        siteBgHandlers.move = null;
+    }
+    if (siteBgHandlers.scroll) {
+        window.removeEventListener('scroll', siteBgHandlers.scroll, { passive: true });
+        siteBgHandlers.scroll = null;
+    }
+    if (siteBgHandlers.leave) {
+        document.removeEventListener('mouseleave', siteBgHandlers.leave);
+        siteBgHandlers.leave = null;
+    }
+    if (siteBgHandlers.visibility) {
+        document.removeEventListener('visibilitychange', siteBgHandlers.visibility);
+        siteBgHandlers.visibility = null;
+    }
+
+    siteBgEffectInitialized = false;
+}
+
 
 // Home header desktop title configuration
 const initialWaitMs = 10500;      // Time sitting on original text (no caret)
@@ -44,8 +121,15 @@ const hoverCapableSwiperTimerEnabled =
     window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
 let isSwiperHovered = false;
-function initHomeBackgroundEffect() {
+function initSiteBackgroundEffect() {
+    if (siteBgEffectInitialized) return;
+
+    const active = isBgMode('Mid', 'High');
+    if (!active) return;
+
     if (disableDotBackgroundEffects) return;
+
+    siteBgEffectInitialized = true;
     const hasFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (!hasFinePointer || prefersReducedMotion) return;
@@ -60,8 +144,8 @@ function initHomeBackgroundEffect() {
     let lastClientY = mouseY;
 
     function flushMousePosition() {
-        root.style.setProperty('--home-bg-mouse-x', `${mouseX}px`);
-        root.style.setProperty('--home-bg-mouse-y', `${mouseY}px`);
+        root.style.setProperty('--site-bg-mouse-x', `${mouseX}px`);
+        root.style.setProperty('--site-bg-mouse-y', `${mouseY}px`);
         rafId = 0;
     }
 
@@ -75,35 +159,48 @@ function initHomeBackgroundEffect() {
     }
 
     function handleMove(event) {
+        if (!isBgMode('Mid', 'High')) return;
+
         lastClientX = event.clientX;
         lastClientY = event.clientY;
 
-        root.style.setProperty('--home-bg-glow-opacity', '1');
+        root.style.setProperty('--site-bg-glow-opacity', '1');
         updatePosition();
     }
 
     function handleScroll() {
+        if (!isBgMode('Mid', 'High')) return;
         updatePosition();
     }
 
     function handleLeave() {
-        root.style.setProperty('--home-bg-glow-opacity', '0');
+        if (!isBgMode('Mid', 'High')) return;
+        root.style.setProperty('--site-bg-glow-opacity', '0');
     }
 
-    window.addEventListener('mousemove', handleMove, { passive: true });
-    window.addEventListener('scroll', handleScroll, { passive: true });
-
-    document.addEventListener('mouseleave', handleLeave);
-
-    document.addEventListener('visibilitychange', () => {
+    siteBgHandlers.move = handleMove;
+    siteBgHandlers.scroll = handleScroll;
+    siteBgHandlers.leave = handleLeave;
+    siteBgHandlers.visibility = () => {
         if (document.hidden) {
             handleLeave();
         }
-    });
+    };
+
+    window.addEventListener('mousemove', siteBgHandlers.move, { passive: true });
+    window.addEventListener('scroll', siteBgHandlers.scroll, { passive: true });
+    document.addEventListener('mouseleave', siteBgHandlers.leave);
+    document.addEventListener('visibilitychange', siteBgHandlers.visibility);
 }
 
-function initDotRippleEffect(presetName = 'subtle', timeToFirstMs = null) {
-    const disableIdleDotRipple = disableDotBackgroundEffects;
+function initDotRippleEffect(presetName = 'subtle', timeToFirstMs = null, enableIdle = true) {
+    if (!isBgMode('Mid', 'High')) {
+        return;
+    }
+
+    stopDotRippleEffect();
+    dotRippleInitialized = true;
+    const disableIdleDotRipple = disableDotBackgroundEffects || !enableIdle;
     const RIPPLE_PRESETS = {
         subtle: {
             alpha:        0.55,
@@ -146,8 +243,8 @@ function initDotRippleEffect(presetName = 'subtle', timeToFirstMs = null) {
     const p = RIPPLE_PRESETS[presetName];
     if (!p) { console.error('[ripple] unknown preset:', presetName, '| valid:', Object.keys(RIPPLE_PRESETS)); return; }
 
-    const container = document.querySelector('.home-bg-effects');
-    if (!container) { console.error('[ripple] .home-bg-effects not found'); return; }
+    const container = document.querySelector('.site-bg-effects');
+    if (!container) { console.error('[ripple] .site-bg-effects not found'); return; }
 
     const rand = (range) => typeof range === 'number'
         ? range
@@ -166,9 +263,9 @@ function initDotRippleEffect(presetName = 'subtle', timeToFirstMs = null) {
 
     function spawnRipple(pageX, pageY) {
         const dotColor = getComputedStyle(document.documentElement)
-            .getPropertyValue('--home-bg-glow-dot-color').trim();
+            .getPropertyValue('--site-bg-glow-dot-color').trim();
         const dotGap = getComputedStyle(document.documentElement)
-            .getPropertyValue('--home-bg-dot-gap').trim() || '28px';
+            .getPropertyValue('--site-bg-dot-gap').trim() || '28px';
 
         const peakAlpha = p.alpha;
         const maxRadius = rand(p.radius);
@@ -215,14 +312,15 @@ function initDotRippleEffect(presetName = 'subtle', timeToFirstMs = null) {
         : null;
 
     function scheduleNext() {
-        if (scheduled) return;
+        if (scheduled || !isBgMode('High')) return;
         scheduled = true;
 
         const delay = nextDelayMs !== null ? nextDelayMs : rand(p.interval);
         nextDelayMs = null;
 
-        setTimeout(() => {
+        dotRippleTimeoutId = setTimeout(() => {
             scheduled = false;
+            dotRippleTimeoutId = null;
             const x = getSpawnX();
             const y = window.scrollY + window.innerHeight * (0.05 + Math.random() * 0.9);
             spawnRipple(x, y);
@@ -230,23 +328,31 @@ function initDotRippleEffect(presetName = 'subtle', timeToFirstMs = null) {
         }, delay);
     }
 
-    if (!disableIdleDotRipple) scheduleNext();
+    if (!disableIdleDotRipple) {
+        scheduleNext();
+        // ensure user sees immediate activity when switching to High
+        const x = getSpawnX();
+        const y = window.scrollY + window.innerHeight * (0.05 + Math.random() * 0.9);
+        spawnRipple(x, y);
+    }
 
-    document.addEventListener('click', (e) => {
+    dotRippleHandlers.click = (e) => {
+        if (!isBgMode('Mid', 'High')) return;
         if (e.target.closest('a, button, input, textarea, select')) return;
         spawnRipple(
             e.clientX + window.scrollX,
             e.clientY + window.scrollY
         );
-    });
+    };
 
-    document.addEventListener('visibilitychange', () => {
+    document.addEventListener('click', dotRippleHandlers.click);
+
+    dotRippleHandlers.visibility = () => {
         if (!document.hidden && !disableIdleDotRipple) scheduleNext();
-    });
+    };
+
+    document.addEventListener('visibilitychange', dotRippleHandlers.visibility);
 }
-
-initDotRippleEffect('justright', 5500);
-
 
 // Drag variables
 let isDragging = false;
@@ -527,7 +633,7 @@ if (hoverCapableSwiperTimerEnabled) {
 
 // Start the initial interval
 scheduleSwiperAutoplay(slideIntervalMs);
-initHomeBackgroundEffect();
+initSiteBackgroundEffect();
 
 // Function to handle header transformation based on scroll position
 function onScroll() {
@@ -778,38 +884,116 @@ if (overlay && overlay.parentElement !== document.body) {
     document.body.appendChild(overlay);
 }
 
+const configOverlay = document.getElementById('config-overlay');
+const configContainer = document.querySelector('.config-container');
+
+if (configOverlay && configOverlay.parentElement !== document.body) {
+    document.body.appendChild(configOverlay);
+}
+
 // Function to show the options container with the overlay
 function showOptions() {
+    if (!overlay || !optionsContainer) {
+        console.warn('showOptions: required elements not found');
+        return;
+    }
+
+    // Update expanded state for accessible activation sources (desktop button)
+    const desktopToggle = document.getElementById('config-toggle-desktop');
+    if (desktopToggle) {
+        desktopToggle.setAttribute('aria-expanded', 'true');
+    }
+
     overlay.style.display = 'flex'; // Show the overlay
-    // Gradually apply the blur effect
     let blurAmount = 0;
     overlay.style.transition = 'backdrop-filter 0.5s ease';
     const interval = setInterval(() => {
         blurAmount += 1;
         overlay.style.backdropFilter = `blur(${blurAmount}px)`;
         if (blurAmount >= 5) {
-            clearInterval(interval); // Stop once the blur reaches 5px
+            clearInterval(interval);
         }
     }, 50);
 
     setTimeout(() => {
-        optionsContainer.classList.add('show'); // Add the 'show' class to animate the options container
-    }, 10); // Short delay to trigger the transition
+        optionsContainer.classList.add('show');
+    }, 10);
 }
 
 // Function to close the options container
 function closeOptions() {
-    optionsContainer.classList.remove('show'); // Remove the 'show' class to trigger the slide-up
+    if (!overlay || !optionsContainer) {
+        console.warn('closeOptions: required elements not found');
+        return;
+    }
+
+    const desktopToggle = document.getElementById('config-toggle-desktop');
+    if (desktopToggle) {
+        desktopToggle.setAttribute('aria-expanded', 'false');
+    }
+
+    optionsContainer.classList.remove('show');
     let blurAmount = 5;
     const interval = setInterval(() => {
         blurAmount -= 1;
         overlay.style.backdropFilter = `blur(${blurAmount}px)`;
         if (blurAmount <= 0) {
-            clearInterval(interval); // Stop once the blur reaches 0
-            overlay.style.display = 'none'; // Hide the overlay after the animation
+            clearInterval(interval);
+            overlay.style.display = 'none';
         }
-    }, 50); // Reduce the blur gradually
+    }, 50);
+}
 
+// Function to show the configuration container with its overlay
+function showConfiguration() {
+    if (!configOverlay || !configContainer) {
+        console.warn('showConfiguration: required elements not found');
+        return;
+    }
+
+    const desktopToggle = document.getElementById('config-toggle-desktop');
+    if (desktopToggle) {
+        desktopToggle.setAttribute('aria-expanded', 'true');
+    }
+
+    configOverlay.style.display = 'flex';
+    let blurAmount = 0;
+    configOverlay.style.transition = 'backdrop-filter 0.5s ease';
+    const interval = setInterval(() => {
+        blurAmount += 1;
+        configOverlay.style.backdropFilter = `blur(${blurAmount}px)`;
+        if (blurAmount >= 5) {
+            clearInterval(interval);
+        }
+    }, 50);
+
+    setTimeout(() => {
+        configContainer.classList.add('show');
+    }, 10);
+}
+
+// Function to close the configuration container
+function closeConfiguration() {
+    if (!configOverlay || !configContainer) {
+        console.warn('closeConfiguration: required elements not found');
+        return;
+    }
+
+    const desktopToggle = document.getElementById('config-toggle-desktop');
+    if (desktopToggle) {
+        desktopToggle.setAttribute('aria-expanded', 'false');
+    }
+
+    configContainer.classList.remove('show');
+    let blurAmount = 5;
+    const interval = setInterval(() => {
+        blurAmount -= 1;
+        configOverlay.style.backdropFilter = `blur(${blurAmount}px)`;
+        if (blurAmount <= 0) {
+            clearInterval(interval);
+            configOverlay.style.display = 'none';
+        }
+    }, 50);
 }
 
 // Show options when the extra button is clicked
@@ -822,12 +1006,119 @@ overlay.addEventListener('click', (e) => {
     }
 });
 
+// Close the configuration when clicking its overlay area
+if (configOverlay) {
+    configOverlay.addEventListener('click', (e) => {
+        if (e.target === configOverlay) {
+            closeConfiguration();
+        }
+    });
+}
+
 // Hook up the buttons by their IDs
 const toArchiveButton = document.getElementById('toArchiveButton');
 const toProjectsButton = document.getElementById('toProjectsButton');
 const themeButton = document.getElementById('themeButton');
 const toAboutButton = document.getElementById('toAboutButton');
 const closeButton = document.getElementById('closeButton');
+const themeToggleButton = document.getElementById('configPlaceholder1');
+const bgPerformanceCycleButton = document.getElementById('configPlaceholder2');
+const bgPerformanceBody = document.getElementById('bgPerformanceBody');
+const bgPerformanceLabel = document.getElementById('bgPerformanceLabel');
+
+const BG_PERFORMANCE_KEY = 'BGPerformancePreference';
+const BG_LEVELS = ['None', 'Low', 'Mid', 'High'];
+let bgPerformanceCooldown = false;
+
+function getSavedBgPerformance() {
+    const value = localStorage.getItem(BG_PERFORMANCE_KEY);
+    if (value && BG_LEVELS.includes(value)) {
+        return value;
+    }
+
+    const hasHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    return hasHover ? 'High' : 'Low';
+}
+
+function setBgPerformance(value) {
+    if (!BG_LEVELS.includes(value)) return;
+    const current = localStorage.getItem(BG_PERFORMANCE_KEY);
+    if (current === value) return;
+    localStorage.setItem(BG_PERFORMANCE_KEY, value);
+}
+
+function updateBgLabel(value) {
+    if (!bgPerformanceLabel) return;
+    bgPerformanceLabel.textContent = `BG Detail: ${value}`;
+}
+
+function applyBgPerformanceMode(mode) {
+    currentBgPerformanceMode = mode;
+    const siteBgEffects = document.querySelector('.site-bg-effects');
+    const siteBgGlow = document.querySelector('.site-bg-glow');
+
+    if (mode === 'None') {
+        stopDotRippleEffect();
+        stopSiteBackgroundEffect();
+        if (siteBgEffects) siteBgEffects.style.display = 'none';
+        if (siteBgGlow) siteBgGlow.style.opacity = '0';
+        return;
+    }
+
+    if (mode === 'Low') {
+        stopDotRippleEffect();
+        stopSiteBackgroundEffect();
+        if (siteBgEffects) siteBgEffects.style.display = 'block';
+        if (siteBgGlow) siteBgGlow.style.opacity = '0';
+        return;
+    }
+
+    if (siteBgEffects) siteBgEffects.style.display = 'block';
+
+    if (mode === 'Mid' || mode === 'High') {
+        if (siteBgGlow) siteBgGlow.style.opacity = '1';
+        initSiteBackgroundEffect();
+        initDotRippleEffect('justright', 500, mode === 'High');
+        return;
+    }
+}
+
+function initBgPerformance() {
+    const saved = getSavedBgPerformance();
+    updateBgLabel(saved);
+    applyBgPerformanceMode(saved);
+}
+
+function cycleBgPerformance() {
+    const current = getSavedBgPerformance();
+    const nextIndex = (BG_LEVELS.indexOf(current) + 1) % BG_LEVELS.length;
+    const nextValue = BG_LEVELS[nextIndex];
+
+    if (bgPerformanceCooldown) {
+        return;
+    }
+
+    bgPerformanceCooldown = true;
+    setTimeout(() => {
+        bgPerformanceCooldown = false;
+    }, 300);
+
+    if (!bgPerformanceBody) {
+        setBgPerformance(nextValue);
+        updateBgLabel(nextValue);
+        applyBgPerformanceMode(nextValue);
+        return;
+    }
+
+    // Fade out/in in one block (including icon + text)
+    bgPerformanceBody.classList.add('fade');
+    setTimeout(() => {
+        setBgPerformance(nextValue);
+        updateBgLabel(nextValue);
+        applyBgPerformanceMode(nextValue);
+        bgPerformanceBody.classList.remove('fade');
+    }, 220);
+}
 
 // Add event listeners for functionality (placeholders for now)
 toArchiveButton.addEventListener('click', (e) => {
@@ -843,9 +1134,23 @@ toProjectsButton.addEventListener('click', (e) => {
 });
 
 themeButton.addEventListener('click', () => {
-    toggleTheme();
     closeOptions();
+    showConfiguration();
 });
+
+if (themeToggleButton) {
+    themeToggleButton.addEventListener('click', () => {
+        toggleTheme();
+        closeConfiguration();
+    });
+}
+
+if (bgPerformanceCycleButton) {
+    bgPerformanceCycleButton.addEventListener('click', () => {
+        cycleBgPerformance();
+        applyBgPerformanceMode(getSavedBgPerformance());
+    });
+}
 
 toAboutButton.addEventListener('click', (e) => {
     e.preventDefault();
@@ -856,3 +1161,13 @@ toAboutButton.addEventListener('click', (e) => {
 closeButton.addEventListener('click', () => {
     closeOptions();
 });
+
+const configCloseButton = document.getElementById('configCloseButton');
+if (configCloseButton) {
+    configCloseButton.addEventListener('click', () => {
+        closeConfiguration();
+    });
+}
+
+// Initialize BG performance label and value from storage when script loads
+initBgPerformance();
