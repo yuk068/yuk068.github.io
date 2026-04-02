@@ -1037,7 +1037,7 @@ function getSavedBgPerformance() {
     }
 
     const hasHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-    return hasHover ? 'High' : 'Low';
+    return hasHover ? 'Mid' : 'Low';
 }
 
 function setBgPerformance(value) {
