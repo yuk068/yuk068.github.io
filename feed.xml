@@ -1,420 +1,596 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://yuk068.github.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://yuk068.github.io//" rel="alternate" type="text/html" /><updated>2026-04-06T07:05:23+07:00</updated><id>https://yuk068.github.io//feed.xml</id><title type="html">Yuk’s Blog</title><subtitle></subtitle><entry><title type="html">Car Physics - Model 7: High-Speed Lateral Tire Model</title><link href="https://yuk068.github.io//2026/03/28/car-physics-model7" rel="alternate" type="text/html" title="Car Physics - Model 7: High-Speed Lateral Tire Model" /><published>2026-03-28T00:00:00+07:00</published><updated>2026-03-28T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/03/28/car-physics-model7</id><content type="html" xml:base="https://yuk068.github.io//2026/03/28/car-physics-model7"><![CDATA[<h3 id="table-of-content">Table of Content</h3>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://yuk068.github.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://yuk068.github.io//" rel="alternate" type="text/html" /><updated>2026-04-07T01:13:10+07:00</updated><id>https://yuk068.github.io//feed.xml</id><title type="html">Yuk’s Blog</title><subtitle></subtitle><entry><title type="html">Test Plotly 3D</title><link href="https://yuk068.github.io//2026/04/07/test-plotly-3d" rel="alternate" type="text/html" title="Test Plotly 3D" /><published>2026-04-07T00:00:00+07:00</published><updated>2026-04-07T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/04/07/test-plotly-3d</id><content type="html" xml:base="https://yuk068.github.io//2026/04/07/test-plotly-3d"><![CDATA[<h3 id="plotly"><a href="https://plotly.com/" target="_blank">Plotly</a></h3>
 
-<blockquote><div class="content">
-  <div id="table-of-contents"></div>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+<p>This page is a simple test for a few common 3D visualization patterns: point clouds, trajectories, surfaces, and mesh-based shapes.</p>
 
-<ul>
-  <li><strong>Main reference: <a href="https://www.asawicki.info/Mirror/Car%20Physics%20for%20Games/Car%20Physics%20for%20Games.html" target="_blank">Marco Monster’s Car Physics</a></strong></li>
-  <li><strong>Github repo for Longitudinal Simulators: <a href="https://github.com/duy-phamduc68/Longitudinal-Car-Physics" target="_blank">duy-phamduc68/Longitudinal-Car-Physics</a></strong></li>
-  <li><strong>Github repo for Simulator 6: <a href="https://github.com/duy-phamduc68/Planar-Kinematic-Car-Model" target="_blank">duy-phamduc68/Planar-Kinematic-Car-Model</a></strong></li>
-  <li><strong>Github repo for Planar Dynamic Simulator(s): <a href="https://github.com/duy-phamduc68/Planar-Dynamic-Car-Model" target="_blank">duy-phamduc68/Planar-Dynamic-Car-Model</a></strong></li>
-</ul>
+<p>Note: 3D Plotly is gonna load way slower.</p>
 
 <hr />
 
-<h3 id="roadmap">Roadmap</h3>
+<h2 id="1-3d-scatter-plot">1. 3D scatter plot</h2>
 
-<blockquote><div class="content">
-  <ul>
-    <li><strong><a href="/2026/03/03/car-physics-model1">Model 1: Longitudinal Point Mass (1D)</a></strong>
-      <ul>
-        <li>Straight Line Physics</li>
-        <li>Magic Constants</li>
-        <li>Braking</li>
-      </ul>
-    </li>
-    <li><strong><a href="/2026/03/12/car-physics-model2">Model 2: Load Transfer Without Traction Limits (1D)</a></strong>
-      <ul>
-        <li>Weight Transfer</li>
-      </ul>
-    </li>
-    <li><strong><a href="/2026/03/15/car-physics-model3">Model 3: Engine Torque + Gearing without Slip (1D)</a></strong>
-      <ul>
-        <li>Engine Force</li>
-        <li>Gear Ratios</li>
-        <li>Drive Wheel Acceleration (simplified)</li>
-      </ul>
-    </li>
-    <li><strong><a href="/2026/03/21/car-physics-model4">Model 4: Wheel Rotational Dynamics (1D)</a></strong>
-      <ul>
-        <li>Drive Wheel Acceleration (full)</li>
-        <li>Torque on the Drive Wheel &amp; The Chicken and The Egg</li>
-      </ul>
-    </li>
-    <li><strong><a href="/2026/03/23/car-physics-model5">Model 5: Slip Ratio + Traction Curve (1D)</a></strong>
-      <ul>
-        <li>Slip Ratio &amp; Traction Force</li>
-      </ul>
-    </li>
-    <li><strong><a href="/2026/03/26/car-physics-model6">Model 6: Low-Speed Kinematic Turning (2D)</a></strong>
-      <ul>
-        <li>Curves (low speed)</li>
-      </ul>
-    </li>
-    <li><strong><a href="/2026/03/28/car-physics-model7">Model 7: High-Speed Lateral Tire Model (2D)</a></strong>
-      <ul>
-        <li>High Speed Turning</li>
-      </ul>
-    </li>
-    <li><strong><a href="#" onclick="notifyComingSoon(); return false;">Model 8: Full Coupled Tire Model (2D)</a></strong></li>
-  </ul>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+<p>A common use case for 3D scatter plots is visualizing point clouds, sensor output, clusters, or sampled positions in space.</p>
 
-<hr />
-
-<h2 id="1-model-7-recap">1. Model 7 Recap</h2>
-
-<h3 id="11-model-6-breaks-at-high-speed">1.1. Model 6 Breaks at High-speed</h3>
-
-<p>In Model 6, we successfully moved the car from a 1D line to a 2D plane. We added heading $\theta$, derived yaw rate $r$ from geometry, and rotated the velocity vector into world space. For low-speed maneuvers, parking lots, gentle curves, it feels great.</p>
-
-<p>But when you start to ramp up in speed, say &gt; ~120 km/h, you can really feel the disparity. Unlike the low-speed scenario, it just doesn’t feel right. It’s hard to put into words, but at high-speed, you kinda don’t feel like you are in control of the car, even though there’s a literal perfectly predicted path traced out.</p>
-
-<p>That’s the limitation. <strong>Model 6 is kinematic, not dynamic.</strong> It assumes infinite lateral grip. In Marco Monster’s words:</p>
-
-<blockquote><div class="content">
-  <p><em>“At low speeds, the wheels pretty much roll in the direction they’re pointed at… At higher speeds, it becomes noticeable that the wheels can be heading in one direction while their movement is still in another direction.”</em></p>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
-
-<p>For our transition from Model 6 to Model 7, I’d just change one word in the above excerpt:</p>
-
-<blockquote><div class="content">
-  <p><em>At higher speeds, it becomes noticeable that the wheels <strong>should</strong> be heading in one direction while their movement is still in another direction.</em></p>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
-
-<p>Model 7 fixes this by introducing <strong>lateral tire forces</strong>. The car now has yaw inertia ($I_z$), so it takes time to rotate. The tires develop slip angles ($\alpha$), so they generate cornering forces instead of magically following geometry. The velocity vector can now diverge from the heading, giving us sideslip, drift, and the beginning of realistic handling.</p>
-
-<hr />
-
-<h3 id="12-the-longitudinallateral-mirror">1.2. The Longitudinal/Lateral Mirror</h3>
-
-<p>If you’ve been following the series, you might notice a pattern emerging. Model 7 isn’t a completely new topic, it’s the <strong>lateral mirror</strong> of what we already built in Models 3–5.</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Longitudinal (Forward)</th>
-      <th>Lateral (Sideways)</th>
-      <th>Core Idea</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>Model 3</strong>: $v = \omega \cdot R$ (suction-cup wheels)</td>
-      <td><strong>Model 6</strong>: $\beta = 0$, $\alpha = 0$ (velocity = heading)</td>
-      <td>Assume perfect grip; geometry dictates motion</td>
-    </tr>
-    <tr>
-      <td><strong>Model 4</strong>: Promote $\omega$ to state; add rotational ODE</td>
-      <td><strong>Model 7</strong>: Promote $r$ to state; add yaw ODE</td>
-      <td>Formalize the state variable, but keep a simplifying constraint</td>
-    </tr>
-    <tr>
-      <td><strong>Model 5</strong>: Remove constraint; add slip ratio $\sigma$ + traction curve</td>
-      <td><strong>Model 8</strong>: Remove force separation; add combined slip + friction ellipse</td>
-      <td>Replace the “hack” with physical coupling via slip</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>For longitudinal dynamics, slip is caused by the mismatch between the wheel speed and vehicle speed, for lateral dynamics, slip is caused by the mismatch between the wheel’s direction of travel and their actual   steering angle.</p>
-
-<p><strong>Model 7 is to lateral dynamics what Model 4 was to longitudinal dynamics</strong>: it formalizes the key concepts and writes the governing ODEs, but relies on simplifying assumptions to keep the system solvable.</p>
-
-<ul>
-  <li>In Model 4, we used the no-slip constraint $v = \omega \cdot R$ to close the torque $\leftrightarrow$ RPM loop.</li>
-  <li>In Model 7, we use the linear tire model $F_{lat} = C_\alpha \cdot \alpha$ and treat longitudinal/lateral forces as independent.</li>
-</ul>
-
-<p>Model 5 removed the longitudinal constraint by introducing slip ratio; Model 8 will remove the lateral simplifications by introducing combined slip and non-linear tire curves.</p>
-
-<hr />
-
-<h3 id="13-about-model-6s-predicted-path">1.3. About Model 6’s Predicted Path</h3>
-
-<p>Remember in Simulator 6, we got a trajectory line that pretty accurately represented the geometric nature of Model 6: $R = L / \sin(\delta)$.</p>
-
-<p>However, in Simulator 7 (and most likely all simulators onward from this point), we won’t have this feature anymore. Why? Because the <strong>path is no longer determined by steering geometry alone</strong>. It emerges from the balance of forces:</p>
-
-<ul>
-  <li>Lateral tire grip vs. centrifugal force</li>
-  <li>Yaw inertia vs. steering torque</li>
-  <li>Speed vs. slip angle</li>
-</ul>
-
-<p>We can’t calculate the future path analytically anymore because the car’s movement becomes reliant on <strong>dynamics</strong> instead of <strong>kinematics</strong>. You could technically forward-simulate the ODEs for N steps to draw a sort of ghost prediction, but you can imagine how expensive that could get, and how inaccurate it would be if the car starts sliding.</p>
-
-<hr />
-
-<h3 id="14-whats-new-in-model-7">1.4. What’s New in Model 7</h3>
-
-<p>To bridge the gap between “parking lot geometry” and “high-speed dynamics”, we introduce:</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Concept</th>
-      <th>Symbol</th>
-      <th>Why it matters</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>Sideslip angle</strong></td>
-      <td>$\beta$</td>
-      <td>Angle between car heading and actual velocity; the car can now “crab” sideways</td>
-    </tr>
-    <tr>
-      <td><strong>Slip angles</strong></td>
-      <td>$\alpha_f$, $\alpha_r$</td>
-      <td>Angle between tire orientation and travel direction; this is what generates lateral force</td>
-    </tr>
-    <tr>
-      <td><strong>Yaw inertia</strong></td>
-      <td>$I_z$</td>
-      <td>Yaw rate $r$ is now integrated from torque ($\dot{r} = \tau_z / I_z$), not computed kinematically</td>
-    </tr>
-    <tr>
-      <td><strong>Linear tire model</strong></td>
-      <td>$F_{lat} = C_\alpha \cdot \alpha$</td>
-      <td>Converts slip angle to lateral force; the lateral equivalent of Model 5’s traction curve</td>
-    </tr>
-  </tbody>
-</table>
-
-<p><strong>Key distinction</strong>: In Model 6, yaw rate $r$ was <em>derived</em> from geometry. In Model 7, yaw rate $r$ is a <em>true integrated state</em>. This is the single biggest code change.</p>
-
-<hr />
-
-<h3 id="15-model-7-implications">1.5. Model 7 Implications</h3>
-
-<p>Technically, the Marco Monster reference ends at Model 7. Their implementation and philosophy explicitly aim for longitudinal and lateral dynamics to be <strong>separate</strong>, meaning you can accelerate at 100% throttle while cornering at 100% lateral grip, and the tire won’t complain.</p>
-
-<p>Thus, Model 7 is basically our final model that directly references MM. You might be wondering: why do we have 8 models on our roadmap then?</p>
-
-<p>Well, I included Model 8 for a more elegant conclusion to this journey. Just a sneak peek: Model 8 will introduce <strong>coupled slip</strong>, the tires have their own limit regardless of longitudinal or lateral dynamics, and they must share that limit. That’s the core philosophy of Model 8 (and perhaps a better solver, Euler is “standard” but can be very sensitive to timestep size)</p>
-
-<p>This is also why I decided to bundle Model 7 and Model 8 into 1 simulator. For gentle driving, their behavior is nearly identical. But at the limit, hard braking while turning, or powering out of a corner, Model 8 enforces the friction budget, causing realistic grip loss that Model 7 cannot simulate. I’ll just allow a simple toggle to switch between the 2 models, but yeah, expect the simulator showcase for Model 7 and 8 to not be as clean as our previous posts.</p>
-
-<hr />
-
-<h2 id="2-formalizing-slip-in-2d">2. Formalizing Slip in 2D</h2>
-
-<script>
-window.simStatePlanar = {
-    v: 30,
-    delta_deg: 15,
-    beta_deg: -10,
-    omega: 0.8,
-    b: 1.2,
-    c: 1.4,
-    Ca: 8   // reduced since now using radians
-};
-</script>
-
-<div id="planarGeomPlot" style="width:100%; aspect-ratio: 5/3;"></div>
-
-<div style="margin: 1rem 0; display: flex; flex-direction: column; gap: 1rem;">
-  <div>
-    <label>Steering Angle (δ): <span id="deltaPlanarVal">15</span>°</label><br />
-    <input type="range" id="deltaPlanarSlider" min="-30" max="30" step="1" value="15" style="width: 100%;" />
-  </div>
-  <div>
-    <label>Sideslip Angle (β): <span id="betaPlanarVal">-10</span>°</label><br />
-    <input type="range" id="betaPlanarSlider" min="-30" max="30" step="1" value="-10" style="width: 100%;" />
-  </div>
-  <div>
-    <label>Yaw Rate (ω): <span id="omegaPlanarVal">0.80</span> rad/s</label><br />
-    <input type="range" id="omegaPlanarSlider" min="-2" max="2" step="0.1" value="0.8" style="width: 100%;" />
-  </div>
-  <div>
-    <label>Speed (v): <span id="vPlanarVal">30</span> m/s</label><br />
-    <input type="range" id="vPlanarSlider" min="5" max="50" step="1" value="30" style="width: 100%;" />
-  </div>
-</div>
+<div id="plotly3dScatter" style="width:100%;aspect-ratio:4/3;"></div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-
-function updatePlanarPlot() {
-    const s = window.simStatePlanar;
-
-    const delta = s.delta_deg * Math.PI / 180;
-    const beta  = s.beta_deg * Math.PI / 180;
-    const omega = s.omega;
-    const v     = s.v;
-    const b     = s.b;
-    const c     = s.c;
-    const Ca    = s.Ca;
-
-    const vScale = 0.05;
-    const fScale = 0.2;
-    const wLen = 0.4;
-
-    // Velocities
-    const vx = v * Math.cos(beta);
-    const vy = v * Math.sin(beta);
-
-    const vfx = vx;
-    const vfy = vy + omega * b;
-
-    const vrx = vx;
-    const vry = vy - omega * c;
-
-    // Slip angles
-    const theta_vf = Math.atan2(vfy, vfx);
-    const theta_vr = Math.atan2(vry, vrx);
-
-    const alpha_f = theta_vf - delta;
-    const alpha_r = theta_vr;
-
-    // Forces (physically consistent)
-    const Ff = -Ca * alpha_f;
-    const Fr = -Ca * alpha_r;
-
-    const Ffx = Ff * Math.cos(delta + Math.PI/2);
-    const Ffy = Ff * Math.sin(delta + Math.PI/2);
-
-    const Frx = 0;
-    const Fry = Fr;
-
-    function vec(x0,y0,dx,dy,name,color,width=3,dash='solid'){
-        return {
-            x:[x0,x0+dx],
-            y:[y0,y0+dy],
-            type:'scatter',
-            mode:'lines',
-            name,
-            line:{color,width,dash},
-            hoverinfo:'skip'
-        };
-    }
-
-    // --- SLIP ARC ---
-    function arc(cx, cy, r, a0, a1, name){
-        const pts = 30;
-        const xs=[], ys=[];
-        for(let i=0;i<=pts;i++){
-            const t = a0 + (a1-a0)*i/pts;
-            xs.push(cx + r*Math.cos(t));
-            ys.push(cy + r*Math.sin(t));
-        }
-        return {
-            x: xs,
-            y: ys,
-            type: 'scatter',
-            mode: 'lines',
-            name,
-            line: { width: 3, dash: 'dot' },
-            hoverinfo: 'skip'
-        };
-    }
-
-    const traces = [
-
-        // chassis
-        {
-            x: [-c, b], y: [0,0],
-            type:'scatter', mode:'lines',
-            name:'Chassis',
-            line:{color:'#64748b',width:6},
-            hoverinfo:'skip'
-        },
-
-        // CG
-        {
-            x:[0], y:[0],
-            type:'scatter', mode:'markers',
-            name:'CG',
-            marker:{size:10,color:'#111827'},
-            hoverinfo:'skip'
-        },
-
-        // wheels
-        {
-            x:[-c-wLen,-c+wLen], y:[0,0],
-            type:'scatter', mode:'lines',
-            name:'Rear wheel',
-            line:{color:'#0f172a',width:12}
-        },
-        {
-            x:[b-wLen*Math.cos(delta), b+wLen*Math.cos(delta)],
-            y:[-wLen*Math.sin(delta), wLen*Math.sin(delta)],
-            type:'scatter', mode:'lines',
-            name:'Front wheel',
-            line:{color:'#0f172a',width:12}
-        },
-
-        // headings
-        vec(b,0,2*Math.cos(delta),2*Math.sin(delta),'Front heading','#94a3b8',2,'dot'),
-        vec(-c,0,2,0,'Rear heading','#94a3b8',2,'dot'),
-
-        // velocities (PRIMARY)
-        vec(0,0,vx*vScale,vy*vScale,'Vehicle motion (v, β)','#2563eb',5),
-        vec(b,0,vfx*vScale,vfy*vScale,'Velocity (front)','#2E86AB',3),
-        vec(-c,0,vrx*vScale,vry*vScale,'Velocity (rear)','#2E86AB',3),
-
-        // SLIP ANGLES (NEW FOCUS)
-        arc(b,0,0.8, delta, theta_vf, `α_front = ${(alpha_f*180/Math.PI).toFixed(1)}°`),
-        arc(-c,0,0.8, 0, theta_vr, `α_rear = ${(alpha_r*180/Math.PI).toFixed(1)}°`),
-
-        // FORCES (de-emphasized)
-        vec(b,0,Ffx*fScale,Ffy*fScale,'Front lateral force','#A23B72',2),
-        vec(-c,0,Frx*fScale,Fry*fScale,'Rear lateral force','#E76F51',2)
-    ];
-
-    const layout = {
-        autosize:true,
-        plot_bgcolor:'#ffffff',
-        paper_bgcolor:'#ffffff',
-        showlegend:true,
-        legend:{
-            x:1.02,
-            y:1,
-            xanchor:'left',
-            yanchor:'top',
-            bgcolor:'rgba(255,255,255,0.9)'
-        },
-        xaxis:{
-            title:'Longitudinal (m)',
-            range:[-3,3],
-            scaleanchor:'y',
-            zeroline:true,
-            gridcolor:'#e5e7eb'
-        },
-        yaxis:{
-            title:'Lateral (m)',
-            range:[-2.5,2.5],
-            zeroline:true,
-            gridcolor:'#e5e7eb'
-        },
-        margin:{t:40,b:70,l:80,r:180}
+    const clusterA = {
+        x: [0.8, 1.1, 1.3, 0.9, 1.4, 1.0, 1.2, 0.7],
+        y: [0.9, 1.2, 0.7, 1.4, 1.1, 0.8, 1.3, 1.0],
+        z: [0.8, 1.0, 1.2, 0.9, 1.4, 1.1, 0.7, 1.3]
     };
 
-    Plotly.react('planarGeomPlot', traces, layout, {responsive:true});
-}
+    const clusterB = {
+        x: [-1.2, -0.9, -1.4, -1.1, -0.8, -1.3, -1.0, -1.5],
+        y: [1.4, 1.1, 1.6, 1.0, 1.3, 1.5, 0.9, 1.2],
+        z: [0.2, 0.5, 0.1, 0.6, 0.3, 0.8, 0.4, 0.7]
+    };
 
-window.updatePlanarPlot = updatePlanarPlot;
-updatePlanarPlot();
+    const clusterC = {
+        x: [1.8, 2.1, 1.6, 2.3, 1.9, 2.2, 1.7, 2.0],
+        y: [-1.4, -1.1, -1.6, -1.0, -1.3, -1.5, -0.9, -1.2],
+        z: [1.3, 1.0, 1.5, 1.1, 1.6, 0.9, 1.4, 1.2]
+    };
 
-// sliders
-[
- ['deltaPlanarSlider','deltaPlanarVal','delta_deg',false],
- ['betaPlanarSlider','betaPlanarVal','beta_deg',false],
- ['omegaPlanarSlider','omegaPlanarVal','omega',true],
- ['vPlanarSlider','vPlanarVal','v',false]
-].forEach(([sId,vId,prop,isFloat])=>{
-    document.getElementById(sId).addEventListener('input',e=>{
-        const val = parseFloat(e.target.value);
-        window.simStatePlanar[prop]=val;
-        document.getElementById(vId).textContent = isFloat ? val.toFixed(2) : val;
-        updatePlanarPlot();
-    });
+    Plotly.newPlot(
+        'plotly3dScatter',
+        [
+            {
+                x: clusterA.x,
+                y: clusterA.y,
+                z: clusterA.z,
+                type: 'scatter3d',
+                mode: 'markers',
+                name: 'Cluster A',
+                marker: { size: 5 }
+            },
+            {
+                x: clusterB.x,
+                y: clusterB.y,
+                z: clusterB.z,
+                type: 'scatter3d',
+                mode: 'markers',
+                name: 'Cluster B',
+                marker: { size: 5 }
+            },
+            {
+                x: clusterC.x,
+                y: clusterC.y,
+                z: clusterC.z,
+                type: 'scatter3d',
+                mode: 'markers',
+                name: 'Cluster C',
+                marker: { size: 5 }
+            }
+        ],
+        {
+            title: '3D Scatter: Point Clusters',
+            autosize: true,
+            scene: {
+                xaxis: { title: 'X' },
+                yaxis: { title: 'Y' },
+                zaxis: { title: 'Z' },
+                aspectmode: 'cube'
+            },
+            legend: { orientation: 'h' }
+        },
+        {
+            responsive: true
+        }
+    );
 });
+</script>
 
+<div class="language-html highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div><div class="line-number">19</div><div class="line-number">20</div><div class="line-number">21</div><div class="line-number">22</div><div class="line-number">23</div><div class="line-number">24</div><div class="line-number">25</div><div class="line-number">26</div><div class="line-number">27</div><div class="line-number">28</div><div class="line-number">29</div><div class="line-number">30</div><div class="line-number">31</div><div class="line-number">32</div><div class="line-number">33</div><div class="line-number">34</div><div class="line-number">35</div><div class="line-number">36</div><div class="line-number">37</div><div class="line-number">38</div><div class="line-number">39</div><div class="line-number">40</div><div class="line-number">41</div><div class="line-number">42</div><div class="line-number">43</div><div class="line-number">44</div><div class="line-number">45</div><div class="line-number">46</div><div class="line-number">47</div><div class="line-number">48</div><div class="line-number">49</div><div class="line-number">50</div><div class="line-number">51</div><div class="line-number">52</div><div class="line-number">53</div><div class="line-number">54</div><div class="line-number">55</div><div class="line-number">56</div><div class="line-number">57</div><div class="line-number">58</div><div class="line-number">59</div><div class="line-number">60</div><div class="line-number">61</div><div class="line-number">62</div><div class="line-number">63</div><div class="line-number">64</div><div class="line-number">65</div><div class="line-number">66</div><div class="line-number">67</div><div class="line-number">68</div><div class="line-number">69</div><div class="line-number">70</div></div><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"plotly3dScatter"</span> <span class="na">style=</span><span class="s">"width:100%;aspect-ratio:4/3;"</span><span class="nt">&gt;&lt;/div&gt;</span>
+
+<span class="nt">&lt;script&gt;</span>
+<span class="nb">document</span><span class="p">.</span><span class="nf">addEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">DOMContentLoaded</span><span class="dl">'</span><span class="p">,</span> <span class="nf">function </span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">clusterA</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="na">x</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">],</span>
+        <span class="na">y</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
+        <span class="na">z</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">]</span>
+    <span class="p">};</span>
+
+    <span class="kd">const</span> <span class="nx">clusterB</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="na">x</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mf">1.2</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.4</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.1</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.8</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.3</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.5</span><span class="p">],</span>
+        <span class="na">y</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.4</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="mf">1.6</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">],</span>
+        <span class="na">z</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">]</span>
+    <span class="p">};</span>
+
+    <span class="kd">const</span> <span class="nx">clusterC</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="na">x</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.8</span><span class="p">,</span> <span class="mf">2.1</span><span class="p">,</span> <span class="mf">1.6</span><span class="p">,</span> <span class="mf">2.3</span><span class="p">,</span> <span class="mf">1.9</span><span class="p">,</span> <span class="mf">2.2</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">],</span>
+        <span class="na">y</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mf">1.4</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.1</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.6</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.3</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.2</span><span class="p">],</span>
+        <span class="na">z</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.3</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="mf">1.6</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">]</span>
+    <span class="p">};</span>
+
+    <span class="nx">Plotly</span><span class="p">.</span><span class="nf">newPlot</span><span class="p">(</span>
+        <span class="dl">'</span><span class="s1">plotly3dScatter</span><span class="dl">'</span><span class="p">,</span>
+        <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="na">x</span><span class="p">:</span> <span class="nx">clusterA</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span>
+                <span class="na">y</span><span class="p">:</span> <span class="nx">clusterA</span><span class="p">.</span><span class="nx">y</span><span class="p">,</span>
+                <span class="na">z</span><span class="p">:</span> <span class="nx">clusterA</span><span class="p">.</span><span class="nx">z</span><span class="p">,</span>
+                <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">scatter3d</span><span class="dl">'</span><span class="p">,</span>
+                <span class="na">mode</span><span class="p">:</span> <span class="dl">'</span><span class="s1">markers</span><span class="dl">'</span><span class="p">,</span>
+                <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Cluster A</span><span class="dl">'</span><span class="p">,</span>
+                <span class="na">marker</span><span class="p">:</span> <span class="p">{</span> <span class="na">size</span><span class="p">:</span> <span class="mi">5</span> <span class="p">}</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="na">x</span><span class="p">:</span> <span class="nx">clusterB</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span>
+                <span class="na">y</span><span class="p">:</span> <span class="nx">clusterB</span><span class="p">.</span><span class="nx">y</span><span class="p">,</span>
+                <span class="na">z</span><span class="p">:</span> <span class="nx">clusterB</span><span class="p">.</span><span class="nx">z</span><span class="p">,</span>
+                <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">scatter3d</span><span class="dl">'</span><span class="p">,</span>
+                <span class="na">mode</span><span class="p">:</span> <span class="dl">'</span><span class="s1">markers</span><span class="dl">'</span><span class="p">,</span>
+                <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Cluster B</span><span class="dl">'</span><span class="p">,</span>
+                <span class="na">marker</span><span class="p">:</span> <span class="p">{</span> <span class="na">size</span><span class="p">:</span> <span class="mi">5</span> <span class="p">}</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="na">x</span><span class="p">:</span> <span class="nx">clusterC</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span>
+                <span class="na">y</span><span class="p">:</span> <span class="nx">clusterC</span><span class="p">.</span><span class="nx">y</span><span class="p">,</span>
+                <span class="na">z</span><span class="p">:</span> <span class="nx">clusterC</span><span class="p">.</span><span class="nx">z</span><span class="p">,</span>
+                <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">scatter3d</span><span class="dl">'</span><span class="p">,</span>
+                <span class="na">mode</span><span class="p">:</span> <span class="dl">'</span><span class="s1">markers</span><span class="dl">'</span><span class="p">,</span>
+                <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Cluster C</span><span class="dl">'</span><span class="p">,</span>
+                <span class="na">marker</span><span class="p">:</span> <span class="p">{</span> <span class="na">size</span><span class="p">:</span> <span class="mi">5</span> <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">],</span>
+        <span class="p">{</span>
+            <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">3D Scatter: Point Clusters</span><span class="dl">'</span><span class="p">,</span>
+            <span class="na">autosize</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="na">scene</span><span class="p">:</span> <span class="p">{</span>
+                <span class="na">xaxis</span><span class="p">:</span> <span class="p">{</span> <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">X</span><span class="dl">'</span> <span class="p">},</span>
+                <span class="na">yaxis</span><span class="p">:</span> <span class="p">{</span> <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Y</span><span class="dl">'</span> <span class="p">},</span>
+                <span class="na">zaxis</span><span class="p">:</span> <span class="p">{</span> <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Z</span><span class="dl">'</span> <span class="p">},</span>
+                <span class="na">aspectmode</span><span class="p">:</span> <span class="dl">'</span><span class="s1">cube</span><span class="dl">'</span>
+            <span class="p">},</span>
+            <span class="na">legend</span><span class="p">:</span> <span class="p">{</span> <span class="na">orientation</span><span class="p">:</span> <span class="dl">'</span><span class="s1">h</span><span class="dl">'</span> <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="na">responsive</span><span class="p">:</span> <span class="kc">true</span>
+        <span class="p">}</span>
+    <span class="p">);</span>
+<span class="p">});</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre><span class="language-label">Html</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<hr />
+
+<h2 id="2-3d-trajectory--path-plot">2. 3D trajectory / path plot</h2>
+
+<p>A 3D line plot is useful for trajectories, robot paths, drone flight logs, or any motion through space over time.</p>
+
+<div id="plotly3dTrajectory" style="width:100%;aspect-ratio:4/3;"></div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const t = [];
+    for (let i = 0; i <= 240; i++) {
+        t.push(i * 0.08);
+    }
+
+    const x = t.map(v => Math.cos(v));
+    const y = t.map(v => Math.sin(v));
+    const z = t.map(v => v / 4);
+
+    Plotly.newPlot(
+        'plotly3dTrajectory',
+        [
+            {
+                x: x,
+                y: y,
+                z: z,
+                type: 'scatter3d',
+                mode: 'lines',
+                name: 'Trajectory',
+                line: { width: 6 }
+            },
+            {
+                x: [x[0]],
+                y: [y[0]],
+                z: [z[0]],
+                type: 'scatter3d',
+                mode: 'markers',
+                name: 'Start',
+                marker: { size: 6 }
+            },
+            {
+                x: [x[x.length - 1]],
+                y: [y[y.length - 1]],
+                z: [z[z.length - 1]],
+                type: 'scatter3d',
+                mode: 'markers',
+                name: 'End',
+                marker: { size: 6 }
+            }
+        ],
+        {
+            title: '3D Trajectory Example',
+            autosize: true,
+            scene: {
+                xaxis: { title: 'X' },
+                yaxis: { title: 'Y' },
+                zaxis: { title: 'Z' },
+                aspectmode: 'data'
+            },
+            legend: { orientation: 'h' }
+        },
+        {
+            responsive: true
+        }
+    );
 });
-</script>]]></content><author><name></name></author><category term="technical" /><category term="new" /><category term="vehicle dynamics" /><category term="simulation" /><category term="dynamics modeling" /><category term="interactive plot" /><category term="unfinished" /><summary type="html"><![CDATA[Implementing and Comprehending Marco Monster’s Car Physics model - Phase 2: Planar Vehicle Dynamics Model - Part 7]]></summary></entry><entry><title type="html">Car Physics - Model 6: Low-Speed Kinematic Turning</title><link href="https://yuk068.github.io//2026/03/26/car-physics-model6" rel="alternate" type="text/html" title="Car Physics - Model 6: Low-Speed Kinematic Turning" /><published>2026-03-26T00:00:00+07:00</published><updated>2026-03-26T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/03/26/car-physics-model6</id><content type="html" xml:base="https://yuk068.github.io//2026/03/26/car-physics-model6"><![CDATA[<h3 id="table-of-content">Table of Content</h3>
+</script>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div><div class="line-number">19</div><div class="line-number">20</div><div class="line-number">21</div><div class="line-number">22</div><div class="line-number">23</div><div class="line-number">24</div><div class="line-number">25</div><div class="line-number">26</div><div class="line-number">27</div><div class="line-number">28</div><div class="line-number">29</div><div class="line-number">30</div><div class="line-number">31</div><div class="line-number">32</div><div class="line-number">33</div><div class="line-number">34</div><div class="line-number">35</div><div class="line-number">36</div><div class="line-number">37</div><div class="line-number">38</div><div class="line-number">39</div><div class="line-number">40</div><div class="line-number">41</div><div class="line-number">42</div><div class="line-number">43</div><div class="line-number">44</div><div class="line-number">45</div><div class="line-number">46</div><div class="line-number">47</div><div class="line-number">48</div><div class="line-number">49</div><div class="line-number">50</div><div class="line-number">51</div><div class="line-number">52</div><div class="line-number">53</div><div class="line-number">54</div><div class="line-number">55</div><div class="line-number">56</div><div class="line-number">57</div><div class="line-number">58</div><div class="line-number">59</div><div class="line-number">60</div><div class="line-number">61</div></div><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"plotly3dTrajectory"</span> <span class="na">style=</span><span class="s">"width:100%;aspect-ratio:4/3;"</span><span class="nt">&gt;&lt;/div&gt;</span>
+
+<span class="nt">&lt;script&gt;</span>
+<span class="nb">document</span><span class="p">.</span><span class="nf">addEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">DOMContentLoaded</span><span class="dl">'</span><span class="p">,</span> <span class="nf">function </span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">t</span> <span class="o">=</span> <span class="p">[];</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;=</span> <span class="mi">240</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">t</span><span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="nx">i</span> <span class="o">*</span> <span class="mf">0.08</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kd">const</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">t</span><span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="nx">v</span> <span class="o">=&gt;</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">cos</span><span class="p">(</span><span class="nx">v</span><span class="p">));</span>
+    <span class="kd">const</span> <span class="nx">y</span> <span class="o">=</span> <span class="nx">t</span><span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="nx">v</span> <span class="o">=&gt;</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">sin</span><span class="p">(</span><span class="nx">v</span><span class="p">));</span>
+    <span class="kd">const</span> <span class="nx">z</span> <span class="o">=</span> <span class="nx">t</span><span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="nx">v</span> <span class="o">=&gt;</span> <span class="nx">v</span> <span class="o">/</span> <span class="mi">4</span><span class="p">);</span>
+
+    <span class="nx">Plotly</span><span class="p">.</span><span class="nf">newPlot</span><span class="p">(</span>
+        <span class="dl">'</span><span class="s1">plotly3dTrajectory</span><span class="dl">'</span><span class="p">,</span>
+        <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="na">x</span><span class="p">:</span> <span class="nx">x</span><span class="p">,</span>
+                <span class="na">y</span><span class="p">:</span> <span class="nx">y</span><span class="p">,</span>
+                <span class="na">z</span><span class="p">:</span> <span class="nx">z</span><span class="p">,</span>
+                <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">scatter3d</span><span class="dl">'</span><span class="p">,</span>
+                <span class="na">mode</span><span class="p">:</span> <span class="dl">'</span><span class="s1">lines</span><span class="dl">'</span><span class="p">,</span>
+                <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Trajectory</span><span class="dl">'</span><span class="p">,</span>
+                <span class="na">line</span><span class="p">:</span> <span class="p">{</span> <span class="na">width</span><span class="p">:</span> <span class="mi">6</span> <span class="p">}</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="na">x</span><span class="p">:</span> <span class="p">[</span><span class="nx">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span>
+                <span class="na">y</span><span class="p">:</span> <span class="p">[</span><span class="nx">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span>
+                <span class="na">z</span><span class="p">:</span> <span class="p">[</span><span class="nx">z</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span>
+                <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">scatter3d</span><span class="dl">'</span><span class="p">,</span>
+                <span class="na">mode</span><span class="p">:</span> <span class="dl">'</span><span class="s1">markers</span><span class="dl">'</span><span class="p">,</span>
+                <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Start</span><span class="dl">'</span><span class="p">,</span>
+                <span class="na">marker</span><span class="p">:</span> <span class="p">{</span> <span class="na">size</span><span class="p">:</span> <span class="mi">6</span> <span class="p">}</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="na">x</span><span class="p">:</span> <span class="p">[</span><span class="nx">x</span><span class="p">[</span><span class="nx">x</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]],</span>
+                <span class="na">y</span><span class="p">:</span> <span class="p">[</span><span class="nx">y</span><span class="p">[</span><span class="nx">y</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]],</span>
+                <span class="na">z</span><span class="p">:</span> <span class="p">[</span><span class="nx">z</span><span class="p">[</span><span class="nx">z</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]],</span>
+                <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">scatter3d</span><span class="dl">'</span><span class="p">,</span>
+                <span class="na">mode</span><span class="p">:</span> <span class="dl">'</span><span class="s1">markers</span><span class="dl">'</span><span class="p">,</span>
+                <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">End</span><span class="dl">'</span><span class="p">,</span>
+                <span class="na">marker</span><span class="p">:</span> <span class="p">{</span> <span class="na">size</span><span class="p">:</span> <span class="mi">6</span> <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">],</span>
+        <span class="p">{</span>
+            <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">3D Trajectory Example</span><span class="dl">'</span><span class="p">,</span>
+            <span class="na">autosize</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="na">scene</span><span class="p">:</span> <span class="p">{</span>
+                <span class="na">xaxis</span><span class="p">:</span> <span class="p">{</span> <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">X</span><span class="dl">'</span> <span class="p">},</span>
+                <span class="na">yaxis</span><span class="p">:</span> <span class="p">{</span> <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Y</span><span class="dl">'</span> <span class="p">},</span>
+                <span class="na">zaxis</span><span class="p">:</span> <span class="p">{</span> <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Z</span><span class="dl">'</span> <span class="p">},</span>
+                <span class="na">aspectmode</span><span class="p">:</span> <span class="dl">'</span><span class="s1">data</span><span class="dl">'</span>
+            <span class="p">},</span>
+            <span class="na">legend</span><span class="p">:</span> <span class="p">{</span> <span class="na">orientation</span><span class="p">:</span> <span class="dl">'</span><span class="s1">h</span><span class="dl">'</span> <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="na">responsive</span><span class="p">:</span> <span class="kc">true</span>
+        <span class="p">}</span>
+    <span class="p">);</span>
+<span class="p">});</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre><span class="language-label">Html</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<hr />
+
+<h2 id="3-3d-surface-plot">3. 3D surface plot</h2>
+
+<p>3D surface plots are common for mathematical functions, terrain-like data, simulation outputs, and response surfaces.</p>
+
+<div id="plotly3dSurface" style="width:100%;aspect-ratio:4/3;"></div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const x = [];
+    const y = [];
+    const z = [];
+
+    const n = 50;
+    const min = -4;
+    const max = 4;
+
+    for (let i = 0; i < n; i++) {
+        x.push(min + (max - min) * i / (n - 1));
+        y.push(min + (max - min) * i / (n - 1));
+    }
+
+    for (let i = 0; i < y.length; i++) {
+        const row = [];
+        for (let j = 0; j < x.length; j++) {
+            const xv = x[j];
+            const yv = y[i];
+            const r = Math.sqrt(xv * xv + yv * yv) + 1e-6;
+            row.push(Math.sin(r) / r);
+        }
+        z.push(row);
+    }
+
+    Plotly.newPlot(
+        'plotly3dSurface',
+        [
+            {
+                x: x,
+                y: y,
+                z: z,
+                type: 'surface',
+                name: 'Surface'
+            }
+        ],
+        {
+            title: '3D Surface Example',
+            autosize: true,
+            scene: {
+                xaxis: { title: 'X' },
+                yaxis: { title: 'Y' },
+                zaxis: { title: 'Z' },
+                aspectmode: 'cube'
+            }
+        },
+        {
+            responsive: true
+        }
+    );
+});
+</script>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div><div class="line-number">19</div><div class="line-number">20</div><div class="line-number">21</div><div class="line-number">22</div><div class="line-number">23</div><div class="line-number">24</div><div class="line-number">25</div><div class="line-number">26</div><div class="line-number">27</div><div class="line-number">28</div><div class="line-number">29</div><div class="line-number">30</div><div class="line-number">31</div><div class="line-number">32</div><div class="line-number">33</div><div class="line-number">34</div><div class="line-number">35</div><div class="line-number">36</div><div class="line-number">37</div><div class="line-number">38</div><div class="line-number">39</div><div class="line-number">40</div><div class="line-number">41</div><div class="line-number">42</div><div class="line-number">43</div><div class="line-number">44</div><div class="line-number">45</div><div class="line-number">46</div><div class="line-number">47</div><div class="line-number">48</div><div class="line-number">49</div><div class="line-number">50</div><div class="line-number">51</div><div class="line-number">52</div><div class="line-number">53</div><div class="line-number">54</div><div class="line-number">55</div></div><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"plotly3dSurface"</span> <span class="na">style=</span><span class="s">"width:100%;aspect-ratio:4/3;"</span><span class="nt">&gt;&lt;/div&gt;</span>
+
+<span class="nt">&lt;script&gt;</span>
+<span class="nb">document</span><span class="p">.</span><span class="nf">addEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">DOMContentLoaded</span><span class="dl">'</span><span class="p">,</span> <span class="nf">function </span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">x</span> <span class="o">=</span> <span class="p">[];</span>
+    <span class="kd">const</span> <span class="nx">y</span> <span class="o">=</span> <span class="p">[];</span>
+    <span class="kd">const</span> <span class="nx">z</span> <span class="o">=</span> <span class="p">[];</span>
+
+    <span class="kd">const</span> <span class="nx">n</span> <span class="o">=</span> <span class="mi">50</span><span class="p">;</span>
+    <span class="kd">const</span> <span class="nx">min</span> <span class="o">=</span> <span class="o">-</span><span class="mi">4</span><span class="p">;</span>
+    <span class="kd">const</span> <span class="nx">max</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">n</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">x</span><span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="nx">min</span> <span class="o">+</span> <span class="p">(</span><span class="nx">max</span> <span class="o">-</span> <span class="nx">min</span><span class="p">)</span> <span class="o">*</span> <span class="nx">i</span> <span class="o">/</span> <span class="p">(</span><span class="nx">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">));</span>
+        <span class="nx">y</span><span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="nx">min</span> <span class="o">+</span> <span class="p">(</span><span class="nx">max</span> <span class="o">-</span> <span class="nx">min</span><span class="p">)</span> <span class="o">*</span> <span class="nx">i</span> <span class="o">/</span> <span class="p">(</span><span class="nx">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">));</span>
+    <span class="p">}</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">y</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">const</span> <span class="nx">row</span> <span class="o">=</span> <span class="p">[];</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">j</span> <span class="o">&lt;</span> <span class="nx">x</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">const</span> <span class="nx">xv</span> <span class="o">=</span> <span class="nx">x</span><span class="p">[</span><span class="nx">j</span><span class="p">];</span>
+            <span class="kd">const</span> <span class="nx">yv</span> <span class="o">=</span> <span class="nx">y</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+            <span class="kd">const</span> <span class="nx">r</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">sqrt</span><span class="p">(</span><span class="nx">xv</span> <span class="o">*</span> <span class="nx">xv</span> <span class="o">+</span> <span class="nx">yv</span> <span class="o">*</span> <span class="nx">yv</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="nx">e</span><span class="o">-</span><span class="mi">6</span><span class="p">;</span>
+            <span class="nx">row</span><span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nf">sin</span><span class="p">(</span><span class="nx">r</span><span class="p">)</span> <span class="o">/</span> <span class="nx">r</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="nx">z</span><span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="nx">row</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="nx">Plotly</span><span class="p">.</span><span class="nf">newPlot</span><span class="p">(</span>
+        <span class="dl">'</span><span class="s1">plotly3dSurface</span><span class="dl">'</span><span class="p">,</span>
+        <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="na">x</span><span class="p">:</span> <span class="nx">x</span><span class="p">,</span>
+                <span class="na">y</span><span class="p">:</span> <span class="nx">y</span><span class="p">,</span>
+                <span class="na">z</span><span class="p">:</span> <span class="nx">z</span><span class="p">,</span>
+                <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">surface</span><span class="dl">'</span><span class="p">,</span>
+                <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Surface</span><span class="dl">'</span>
+            <span class="p">}</span>
+        <span class="p">],</span>
+        <span class="p">{</span>
+            <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">3D Surface Example</span><span class="dl">'</span><span class="p">,</span>
+            <span class="na">autosize</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="na">scene</span><span class="p">:</span> <span class="p">{</span>
+                <span class="na">xaxis</span><span class="p">:</span> <span class="p">{</span> <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">X</span><span class="dl">'</span> <span class="p">},</span>
+                <span class="na">yaxis</span><span class="p">:</span> <span class="p">{</span> <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Y</span><span class="dl">'</span> <span class="p">},</span>
+                <span class="na">zaxis</span><span class="p">:</span> <span class="p">{</span> <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Z</span><span class="dl">'</span> <span class="p">},</span>
+                <span class="na">aspectmode</span><span class="p">:</span> <span class="dl">'</span><span class="s1">cube</span><span class="dl">'</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="na">responsive</span><span class="p">:</span> <span class="kc">true</span>
+        <span class="p">}</span>
+    <span class="p">);</span>
+<span class="p">});</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre><span class="language-label">Html</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<hr />
+
+<h2 id="4-3d-mesh-plot">4. 3D mesh plot</h2>
+
+<p>Mesh plots are useful for object shapes, reconstructed surfaces, geometry visualization, or low-poly models.</p>
+
+<div id="plotly3dMesh" style="width:100%;aspect-ratio:4/3;"></div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const x = [0, 1, 1, 0, 0, 1, 1, 0];
+    const y = [0, 0, 1, 1, 0, 0, 1, 1];
+    const z = [0, 0, 0, 0, 1, 1, 1, 1];
+
+    Plotly.newPlot(
+        'plotly3dMesh',
+        [
+            {
+                x: x,
+                y: y,
+                z: z,
+                i: [0, 0, 0, 1, 2, 4, 4, 5, 6, 7, 0, 1],
+                j: [1, 2, 4, 3, 3, 5, 6, 6, 7, 4, 5, 6],
+                k: [2, 4, 1, 2, 0, 6, 5, 7, 4, 0, 1, 2],
+                type: 'mesh3d',
+                opacity: 0.55,
+                name: 'Cube Mesh'
+            }
+        ],
+        {
+            title: '3D Mesh Example',
+            autosize: true,
+            scene: {
+                xaxis: { title: 'X' },
+                yaxis: { title: 'Y' },
+                zaxis: { title: 'Z' },
+                aspectmode: 'data'
+            }
+        },
+        {
+            responsive: true
+        }
+    );
+});
+</script>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div><div class="line-number">19</div><div class="line-number">20</div><div class="line-number">21</div><div class="line-number">22</div><div class="line-number">23</div><div class="line-number">24</div><div class="line-number">25</div><div class="line-number">26</div><div class="line-number">27</div><div class="line-number">28</div><div class="line-number">29</div><div class="line-number">30</div><div class="line-number">31</div><div class="line-number">32</div><div class="line-number">33</div><div class="line-number">34</div><div class="line-number">35</div><div class="line-number">36</div><div class="line-number">37</div><div class="line-number">38</div><div class="line-number">39</div></div><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"plotly3dMesh"</span> <span class="na">style=</span><span class="s">"width:100%;aspect-ratio:4/3;"</span><span class="nt">&gt;&lt;/div&gt;</span>
+
+<span class="nt">&lt;script&gt;</span>
+<span class="nb">document</span><span class="p">.</span><span class="nf">addEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">DOMContentLoaded</span><span class="dl">'</span><span class="p">,</span> <span class="nf">function </span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">];</span>
+    <span class="kd">const</span> <span class="nx">y</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">];</span>
+    <span class="kd">const</span> <span class="nx">z</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">];</span>
+
+    <span class="nx">Plotly</span><span class="p">.</span><span class="nf">newPlot</span><span class="p">(</span>
+        <span class="dl">'</span><span class="s1">plotly3dMesh</span><span class="dl">'</span><span class="p">,</span>
+        <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="na">x</span><span class="p">:</span> <span class="nx">x</span><span class="p">,</span>
+                <span class="na">y</span><span class="p">:</span> <span class="nx">y</span><span class="p">,</span>
+                <span class="na">z</span><span class="p">:</span> <span class="nx">z</span><span class="p">,</span>
+                <span class="na">i</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+                <span class="na">j</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span>
+                <span class="na">k</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+                <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">mesh3d</span><span class="dl">'</span><span class="p">,</span>
+                <span class="na">opacity</span><span class="p">:</span> <span class="mf">0.55</span><span class="p">,</span>
+                <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Cube Mesh</span><span class="dl">'</span>
+            <span class="p">}</span>
+        <span class="p">],</span>
+        <span class="p">{</span>
+            <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">3D Mesh Example</span><span class="dl">'</span><span class="p">,</span>
+            <span class="na">autosize</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="na">scene</span><span class="p">:</span> <span class="p">{</span>
+                <span class="na">xaxis</span><span class="p">:</span> <span class="p">{</span> <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">X</span><span class="dl">'</span> <span class="p">},</span>
+                <span class="na">yaxis</span><span class="p">:</span> <span class="p">{</span> <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Y</span><span class="dl">'</span> <span class="p">},</span>
+                <span class="na">zaxis</span><span class="p">:</span> <span class="p">{</span> <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Z</span><span class="dl">'</span> <span class="p">},</span>
+                <span class="na">aspectmode</span><span class="p">:</span> <span class="dl">'</span><span class="s1">data</span><span class="dl">'</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="na">responsive</span><span class="p">:</span> <span class="kc">true</span>
+        <span class="p">}</span>
+    <span class="p">);</span>
+<span class="p">});</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre><span class="language-label">Html</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>]]></content><author><name></name></author><category term="code" /><category term="resources" /><category term="plotly" /><category term="3d" /><summary type="html"><![CDATA[A sample post for testing common Plotly 3D visualization patterns]]></summary></entry><entry><title type="html">Should I Publish This Blog’s Code? (Genuinely Unsure)</title><link href="https://yuk068.github.io//2026/04/06/publish-yuk-blog-code-or-nah" rel="alternate" type="text/html" title="Should I Publish This Blog’s Code? (Genuinely Unsure)" /><published>2026-04-06T00:00:00+07:00</published><updated>2026-04-06T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/04/06/publish-yuk-blog-code-or-nah</id><content type="html" xml:base="https://yuk068.github.io//2026/04/06/publish-yuk-blog-code-or-nah"><![CDATA[<h2 id="tldr">TL;DR</h2>
+
+<p>My blog is a static Jekyll site with a bunch of integrations (Plotly, KaTeX, Mermaid, Photoswipe, Giscus, Umami). It’s evolved over two years and I think it’s genuinely useful for technical writers. The code is messy. Should I publish it? I don’t know. This post is me thinking out loud.</p>
+
+<hr />
+
+<h2 id="the-setup">The Setup</h2>
+
+<p>I built this blog incrementally. No grand vision at the start, just a Jekyll site that I kept tweaking as I needed new features. (this post share quite a bit of the journey <a href="/2025/01/24/yuk-personal-blog" target="_blank">Yuk’s Blog: 2024-2025 Retrospective</a>) Two years later, it works. The markdown renders. The interactive plots work. The comments work. The analytics work. All free, all via CDN or light dependencies.</p>
+
+<p>If I were to describe it to someone: <strong>a straightforward static blog setup for people who write technical content and want control over their tooling</strong>. Not WordPress plugin territory. Not “just use Medium.” Something in between.</p>
+
+<p>The thing is: I’ve never published the code. It lives in my GitHub, private repo. And I keep thinking about whether I should or nah.</p>
+
+<hr />
+
+<h2 id="why-i-want-to">Why I Want To</h2>
+
+<p><strong>1. It’s genuinely useful</strong></p>
+
+<p>Technical writers, simulation hobbyists, people building their own corners of the internet, they’d probably find this valuable. Not many people have put together a deliberately minimal Jekyll setup with Plotly, KaTeX, <em>and</em> Mermaid <em>and</em> Photoswipe working smoothly. Most blog templates are either bloated or sterile. This one isn’t.</p>
+
+<p><strong>2. The evolution is honest</strong></p>
+
+<p>I didn’t design this from first principles. It evolved. And that’s actually the point. The way I code, the patterns, the pragmatism, the “good enough,” the two-year journey of refactoring and pivoting, all of that lives in this codebase.</p>
+
+<p>Someone else building a blog doesn’t need a pristine product vision. They need to see how a real person actually <em>built</em> something over time. Messy code is honest code.</p>
+
+<p><strong>3. I want input from people smarter than me</strong></p>
+
+<p>This is the real one. I’m not expecting this to “blow up.” I’m hoping that someone, somewhere, sees it and thinks <em>“oh, I can improve that”</em> or <em>“I use this too, here’s a better way.”</em> The code is “usable” now, but there are definitely rough edges (really rough tbh, i got a dedicated <code class="language-plaintext highlighter-rouge">.css</code> and <code class="language-plaintext highlighter-rouge">.js</code> file for each page lmao). A community fork might actually make it better.</p>
+
+<p><strong>4. The blog’s already public anyway</strong></p>
+
+<p>The site exists. You can see it. You can see what it does. Publishing the code just makes the kitchen visible. That’s a lower-stakes decision than I keep telling myself it is.</p>
+
+<hr />
+
+<h2 id="why-im-hesitating">Why I’m Hesitating</h2>
+
+<p><strong>Fear #1: Nobody cares</strong></p>
+
+<p>Most open-source projects get zero attention. I release this, it sits on GitHub, no one forks it, no one contributes, and then… I’m exactly where I started, except now I’ve got a public repo labeled “slop” on my profile.</p>
+
+<p>But here’s the thing: my blog is <em>already</em> up. I’m not launching a product. I’m opening the kitchen. Worst case, the kitchen stays closed and I move on.</p>
+
+<p><strong>Fear #2: Credit anxiety</strong></p>
+
+<p>This is the one I’m less comfortable admitting: I <em>do</em> care if people know I made this. Even though I say I don’t care about maintaining it, even though I claim I just want the community to help… I also want my name on it. I want to be remembered for two years of work.</p>
+
+<p><strong>Fear #3: The mess is overwhelming</strong></p>
+
+<p>Removing hardcoded stuff takes time. Documentation takes time. I’d have to think about which features to highlight vs. deprecate. And right now, honestly, I don’t want to. The blog works for me. Polishing it for public consumption feels like a full-time job.</p>
+
+<hr />
+
+<h2 id="what-i-actually-want">What I Actually Want</h2>
+
+<p>If I’m being honest: I want to publish it <em>as-is</em>, messy and all. Write a good README that says “here’s what this is, here’s how it works, here’s what I’d do differently now.” Add one or two example posts so people can see the structure. Maybe a <code class="language-plaintext highlighter-rouge">.gitignore</code> for sensitive personal stuff.</p>
+
+<p>Then… let it go. Stop maintaining it. Hope someone picks it up and makes it better.</p>
+
+<p>The part that scares me isn’t the publishing. It’s the lack of control afterward. And I need to sit with whether I can actually be okay with that.</p>
+
+<hr />
+
+<h2 id="what-im-asking">What I’m Asking</h2>
+
+<p>Not looking for permission. Not looking for a yes/no. I’m genuinely asking:</p>
+
+<ul>
+  <li>If you’re a technical writer or someone who cares about their blogging setup, would you find this useful?</li>
+  <li>Does the “messy two-year evolution” angle interest you, or does it just look unprofessional?</li>
+  <li>If I publish it unpolished, would you fork it? Or would you skip it because it doesn’t feel “production-ready”?</li>
+  <li>Am I overthinking this?</li>
+</ul>
+
+<p>I have a comment section below. Hit me with your honest take.</p>
+
+<hr />
+
+<h2 id="the-actual-plan-maybe">The Actual Plan (Maybe)</h2>
+
+<p>My friend said something simple: <em>“just public it.”</em></p>
+
+<p>And maybe that’s the answer. Not because it’s perfect. Not because I’m confident it’ll help people. But because:</p>
+
+<ol>
+  <li>It won’t hurt to publish it.</li>
+  <li>The honest, messy version is more useful than the polished-but-never-released version.</li>
+  <li>If someone wants to improve it, they will.</li>
+  <li>If no one cares, I move on and keep building.</li>
+</ol>
+
+<p>So maybe next week I do that. Remove the hardcoded stuff, write a README, push it public.</p>
+
+<p>Or maybe I don’t.</p>
+
+<p>Either way, writing this helped clarify what I actually want: not validation, not a decision, but <strong>the possibility</strong> that something I built with genuine care might be useful to someone else.</p>
+
+<p>That’s enough.</p>
+
+<p>If you made it this far: what’s your take? Comment below, I’m genuinely curious.</p>]]></content><author><name></name></author><category term="blogging" /><category term="update log" /><category term="blogging" /><category term="open source" /><category term="yuk lore" /><summary type="html"><![CDATA[A meta-reflection on two years of iterative blog development, messy code, and the tension between sharing something useful and the fear of indifference]]></summary></entry><entry><title type="html">Car Physics - Model 6: Low-Speed Kinematic Turning</title><link href="https://yuk068.github.io//2026/03/26/car-physics-model6" rel="alternate" type="text/html" title="Car Physics - Model 6: Low-Speed Kinematic Turning" /><published>2026-03-26T00:00:00+07:00</published><updated>2026-03-26T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/03/26/car-physics-model6</id><content type="html" xml:base="https://yuk068.github.io//2026/03/26/car-physics-model6"><![CDATA[<h3 id="table-of-content">Table of Content</h3>
 
 <blockquote><div class="content">
   <div id="table-of-contents"></div>
@@ -468,7 +644,8 @@ updatePlanarPlot();
         <li>Curves (low speed)</li>
       </ul>
     </li>
-    <li><strong><a href="/2026/03/28/car-physics-model7">Model 7: High-Speed Lateral Tire Model (2D)</a></strong>
+    <li><strong><a href="#" onclick="notifyComingSoon(); return false;">Model 7: High-Speed Lateral Tire Model (2D)</a></strong>
+<!-- > - **[Model 7: High-Speed Lateral Tire Model (2D)]({ post_url 2026/q1-2026/technical/car-physics/model7/2026-03-28-car-physics-model7 })** -->
       <ul>
         <li>High Speed Turning</li>
       </ul>
@@ -514,7 +691,7 @@ window.simState = {
 };
 </script>
 
-<div id="steerGeomPlot" style="width:100%; aspect-ratio: 4/3;"></div>
+<div id="steerGeomPlot" style="width:100%; aspect-ratio: 16/9;"></div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -698,7 +875,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<div id="pathPlot2" style="width:100%; aspect-ratio: 5/4;"></div>
+<div id="pathPlot2" style="width:100%; aspect-ratio: 16/9;"></div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -1141,11 +1318,13 @@ y \leftarrow y + v_y \cdot dt</annotation></semantics></math></span><span class=
         <li>Curves (low speed)</li>
       </ul>
     </li>
-    <li><strong><a href="/2026/03/28/car-physics-model7">Model 7: High-Speed Lateral Tire Model (2D)</a></strong>
-      <ul>
-        <li>High Speed Turning</li>
-      </ul>
-    </li>
+  </ul>
+
+  <!-- > - **[Model 7: High-Speed Lateral Tire Model (2D)]({ post_url 2026/q1-2026/technical/car-physics/model7/2026-03-28-car-physics-model7 })** -->
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div><div class="line-number">19</div><div class="line-number">20</div><div class="line-number">21</div><div class="line-number">22</div><div class="line-number">23</div><div class="line-number">24</div><div class="line-number">25</div><div class="line-number">26</div><div class="line-number">27</div><div class="line-number">28</div><div class="line-number">29</div><div class="line-number">30</div><div class="line-number">31</div><div class="line-number">32</div><div class="line-number">33</div><div class="line-number">34</div><div class="line-number">35</div><div class="line-number">36</div><div class="line-number">37</div><div class="line-number">38</div><div class="line-number">39</div><div class="line-number">40</div><div class="line-number">41</div><div class="line-number">42</div><div class="line-number">43</div><div class="line-number">44</div><div class="line-number">45</div><div class="line-number">46</div></div><pre class="highlight"><code>- High Speed Turning
+</code></pre></div>  </div>
+
+  <ul>
     <li><strong><a href="#" onclick="notifyComingSoon(); return false;">Model 8: Full Coupled Tire Model (2D)</a></strong></li>
   </ul>
 </div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
@@ -1187,8 +1366,8 @@ y \leftarrow y + v_y \cdot dt</annotation></semantics></math></span><span class=
 
 <p>If the car is at a complete standstill ($v = 0$), this equation divides by zero and explodes. In our code, we will have to introduce a small safety clamp, for example, replacing $|v|$ with:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div></div><pre class="highlight"><code><span class="nf">max</span><span class="p">(</span><span class="nf">abs</span><span class="p">(</span><span class="n">v</span><span class="p">),</span> <span class="mf">0.1</span><span class="p">)</span>
-</code></pre><span class="language-label">Python</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">max</span><span class="p">(</span><span class="nf">abs</span><span class="p">(</span><span class="n">v</span><span class="p">),</span> <span class="mf">0.1</span><span class="p">)</span>
+</code></pre><span class="language-label">Plaintext</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
 
 <p>to prevent the physics engine from crashing when accelerating from a stop.</p>
 
@@ -1520,11 +1699,13 @@ y \leftarrow y + v_y \cdot dt</annotation></semantics></math></span><span class=
         <li>Curves (low speed)</li>
       </ul>
     </li>
-    <li><strong><a href="/2026/03/28/car-physics-model7">Model 7: High-Speed Lateral Tire Model (2D)</a></strong>
-      <ul>
-        <li>High Speed Turning</li>
-      </ul>
-    </li>
+  </ul>
+
+  <!-- > - **[Model 7: High-Speed Lateral Tire Model (2D)]({ post_url 2026/q1-2026/technical/car-physics/model7/2026-03-28-car-physics-model7 })** -->
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div><div class="line-number">19</div><div class="line-number">20</div><div class="line-number">21</div><div class="line-number">22</div><div class="line-number">23</div><div class="line-number">24</div><div class="line-number">25</div><div class="line-number">26</div><div class="line-number">27</div><div class="line-number">28</div><div class="line-number">29</div><div class="line-number">30</div><div class="line-number">31</div><div class="line-number">32</div><div class="line-number">33</div><div class="line-number">34</div><div class="line-number">35</div><div class="line-number">36</div><div class="line-number">37</div><div class="line-number">38</div><div class="line-number">39</div><div class="line-number">40</div><div class="line-number">41</div><div class="line-number">42</div><div class="line-number">43</div><div class="line-number">44</div><div class="line-number">45</div><div class="line-number">46</div><div class="line-number">47</div><div class="line-number">48</div><div class="line-number">49</div><div class="line-number">50</div><div class="line-number">51</div><div class="line-number">52</div><div class="line-number">53</div><div class="line-number">54</div><div class="line-number">55</div><div class="line-number">56</div><div class="line-number">57</div><div class="line-number">58</div><div class="line-number">59</div><div class="line-number">60</div><div class="line-number">61</div><div class="line-number">62</div><div class="line-number">63</div><div class="line-number">64</div><div class="line-number">65</div><div class="line-number">66</div><div class="line-number">67</div><div class="line-number">68</div><div class="line-number">69</div><div class="line-number">70</div><div class="line-number">71</div><div class="line-number">72</div><div class="line-number">73</div><div class="line-number">74</div><div class="line-number">75</div><div class="line-number">76</div><div class="line-number">77</div><div class="line-number">78</div><div class="line-number">79</div><div class="line-number">80</div><div class="line-number">81</div><div class="line-number">82</div><div class="line-number">83</div><div class="line-number">84</div><div class="line-number">85</div><div class="line-number">86</div><div class="line-number">87</div><div class="line-number">88</div><div class="line-number">89</div><div class="line-number">90</div><div class="line-number">91</div><div class="line-number">92</div><div class="line-number">93</div><div class="line-number">94</div><div class="line-number">95</div><div class="line-number">96</div><div class="line-number">97</div><div class="line-number">98</div><div class="line-number">99</div><div class="line-number">100</div><div class="line-number">101</div><div class="line-number">102</div><div class="line-number">103</div><div class="line-number">104</div><div class="line-number">105</div><div class="line-number">106</div><div class="line-number">107</div><div class="line-number">108</div><div class="line-number">109</div><div class="line-number">110</div><div class="line-number">111</div><div class="line-number">112</div><div class="line-number">113</div><div class="line-number">114</div><div class="line-number">115</div><div class="line-number">116</div><div class="line-number">117</div><div class="line-number">118</div><div class="line-number">119</div><div class="line-number">120</div><div class="line-number">121</div><div class="line-number">122</div><div class="line-number">123</div><div class="line-number">124</div><div class="line-number">125</div><div class="line-number">126</div><div class="line-number">127</div><div class="line-number">128</div><div class="line-number">129</div><div class="line-number">130</div><div class="line-number">131</div><div class="line-number">132</div><div class="line-number">133</div><div class="line-number">134</div><div class="line-number">135</div><div class="line-number">136</div><div class="line-number">137</div><div class="line-number">138</div><div class="line-number">139</div><div class="line-number">140</div><div class="line-number">141</div><div class="line-number">142</div><div class="line-number">143</div><div class="line-number">144</div><div class="line-number">145</div><div class="line-number">146</div><div class="line-number">147</div><div class="line-number">148</div><div class="line-number">149</div><div class="line-number">150</div><div class="line-number">151</div><div class="line-number">152</div><div class="line-number">153</div><div class="line-number">154</div><div class="line-number">155</div><div class="line-number">156</div><div class="line-number">157</div><div class="line-number">158</div><div class="line-number">159</div><div class="line-number">160</div><div class="line-number">161</div><div class="line-number">162</div><div class="line-number">163</div><div class="line-number">164</div><div class="line-number">165</div><div class="line-number">166</div><div class="line-number">167</div><div class="line-number">168</div><div class="line-number">169</div><div class="line-number">170</div><div class="line-number">171</div><div class="line-number">172</div><div class="line-number">173</div><div class="line-number">174</div><div class="line-number">175</div><div class="line-number">176</div><div class="line-number">177</div><div class="line-number">178</div></div><pre class="highlight"><code>- High Speed Turning
+</code></pre></div>  </div>
+
+  <ul>
     <li><strong><a href="#" onclick="notifyComingSoon(); return false;">Model 8: Full Coupled Tire Model (2D)</a></strong></li>
   </ul>
 </div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
@@ -1698,8 +1879,8 @@ NOTE3 --- OMEGA
 
 <p>For model 3, engine is now causal and realistic, but the wheels are still fake (check post on model 3 about the glued wheels), and the drivetrain is basically a function like:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div></div><pre class="highlight"><code><span class="n">F_drive</span> <span class="o">=</span> <span class="nf">f</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">gear</span><span class="p">,</span> <span class="n">throttle</span><span class="p">)</span>
-</code></pre><span class="language-label">Python</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">F_drive</span> <span class="o">=</span> <span class="nf">f</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">gear</span><span class="p">,</span> <span class="n">throttle</span><span class="p">)</span>
+</code></pre><span class="language-label">Plaintext</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
 
 <p>And different from model 2, model 3 doesn’t necessarily spawn anything from thin air, but:</p>
 
@@ -2255,11 +2436,13 @@ torque -&gt; angular accel -&gt; ω -&gt; rpm -&gt; torque
         <li>Curves (low speed)</li>
       </ul>
     </li>
-    <li><strong><a href="/2026/03/28/car-physics-model7">Model 7: High-Speed Lateral Tire Model (2D)</a></strong>
-      <ul>
-        <li>High Speed Turning</li>
-      </ul>
-    </li>
+  </ul>
+
+  <!-- > - **[Model 7: High-Speed Lateral Tire Model (2D)]({ post_url 2026/q1-2026/technical/car-physics/model7/2026-03-28-car-physics-model7 })** -->
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div><div class="line-number">19</div><div class="line-number">20</div><div class="line-number">21</div><div class="line-number">22</div><div class="line-number">23</div><div class="line-number">24</div><div class="line-number">25</div><div class="line-number">26</div><div class="line-number">27</div><div class="line-number">28</div><div class="line-number">29</div><div class="line-number">30</div><div class="line-number">31</div><div class="line-number">32</div><div class="line-number">33</div><div class="line-number">34</div><div class="line-number">35</div><div class="line-number">36</div><div class="line-number">37</div><div class="line-number">38</div><div class="line-number">39</div><div class="line-number">40</div><div class="line-number">41</div><div class="line-number">42</div><div class="line-number">43</div><div class="line-number">44</div><div class="line-number">45</div><div class="line-number">46</div><div class="line-number">47</div><div class="line-number">48</div><div class="line-number">49</div><div class="line-number">50</div><div class="line-number">51</div><div class="line-number">52</div><div class="line-number">53</div><div class="line-number">54</div><div class="line-number">55</div><div class="line-number">56</div><div class="line-number">57</div><div class="line-number">58</div><div class="line-number">59</div><div class="line-number">60</div><div class="line-number">61</div><div class="line-number">62</div><div class="line-number">63</div><div class="line-number">64</div><div class="line-number">65</div><div class="line-number">66</div><div class="line-number">67</div><div class="line-number">68</div><div class="line-number">69</div><div class="line-number">70</div><div class="line-number">71</div><div class="line-number">72</div><div class="line-number">73</div><div class="line-number">74</div><div class="line-number">75</div><div class="line-number">76</div><div class="line-number">77</div><div class="line-number">78</div><div class="line-number">79</div><div class="line-number">80</div><div class="line-number">81</div><div class="line-number">82</div><div class="line-number">83</div><div class="line-number">84</div><div class="line-number">85</div><div class="line-number">86</div><div class="line-number">87</div><div class="line-number">88</div><div class="line-number">89</div><div class="line-number">90</div><div class="line-number">91</div><div class="line-number">92</div><div class="line-number">93</div><div class="line-number">94</div><div class="line-number">95</div><div class="line-number">96</div><div class="line-number">97</div><div class="line-number">98</div><div class="line-number">99</div><div class="line-number">100</div><div class="line-number">101</div><div class="line-number">102</div><div class="line-number">103</div><div class="line-number">104</div><div class="line-number">105</div><div class="line-number">106</div><div class="line-number">107</div><div class="line-number">108</div><div class="line-number">109</div><div class="line-number">110</div><div class="line-number">111</div><div class="line-number">112</div><div class="line-number">113</div><div class="line-number">114</div><div class="line-number">115</div><div class="line-number">116</div><div class="line-number">117</div><div class="line-number">118</div><div class="line-number">119</div><div class="line-number">120</div><div class="line-number">121</div><div class="line-number">122</div><div class="line-number">123</div><div class="line-number">124</div><div class="line-number">125</div><div class="line-number">126</div><div class="line-number">127</div><div class="line-number">128</div><div class="line-number">129</div><div class="line-number">130</div><div class="line-number">131</div><div class="line-number">132</div><div class="line-number">133</div><div class="line-number">134</div><div class="line-number">135</div><div class="line-number">136</div><div class="line-number">137</div><div class="line-number">138</div><div class="line-number">139</div><div class="line-number">140</div><div class="line-number">141</div><div class="line-number">142</div><div class="line-number">143</div><div class="line-number">144</div><div class="line-number">145</div><div class="line-number">146</div><div class="line-number">147</div><div class="line-number">148</div><div class="line-number">149</div><div class="line-number">150</div><div class="line-number">151</div><div class="line-number">152</div><div class="line-number">153</div><div class="line-number">154</div><div class="line-number">155</div><div class="line-number">156</div><div class="line-number">157</div><div class="line-number">158</div><div class="line-number">159</div><div class="line-number">160</div><div class="line-number">161</div><div class="line-number">162</div><div class="line-number">163</div><div class="line-number">164</div><div class="line-number">165</div><div class="line-number">166</div><div class="line-number">167</div><div class="line-number">168</div><div class="line-number">169</div><div class="line-number">170</div><div class="line-number">171</div><div class="line-number">172</div><div class="line-number">173</div><div class="line-number">174</div><div class="line-number">175</div><div class="line-number">176</div><div class="line-number">177</div><div class="line-number">178</div><div class="line-number">179</div><div class="line-number">180</div><div class="line-number">181</div><div class="line-number">182</div></div><pre class="highlight"><code>- High Speed Turning
+</code></pre></div>  </div>
+
+  <ul>
     <li><strong><a href="#" onclick="notifyComingSoon(); return false;">Model 8: Full Coupled Tire Model (2D)</a></strong></li>
   </ul>
 </div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
@@ -2411,7 +2594,7 @@ torque -&gt; angular accel -&gt; ω -&gt; rpm -&gt; torque
 
 <p>Having defined that $T_{engineMax} = f(rpm)$, and seeing that the torque curve doesn’t seem to be a function (these curves are determined from engine tests), we can imagine that we will be implementing this torque thing with a look up table, something like this:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div><div class="line-number">19</div><div class="line-number">20</div><div class="line-number">21</div><div class="line-number">22</div><div class="line-number">23</div><div class="line-number">24</div><div class="line-number">25</div><div class="line-number">26</div><div class="line-number">27</div></div><pre class="highlight"><code><span class="c1"># Simplified Torque Lookup Table for an LS1 Engine (RPM, Torque in Nm)
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Simplified Torque Lookup Table for an LS1 Engine (RPM, Torque in Nm)
 # Based on SI unit plot values
 </span><span class="n">TORQUE_CURVE</span> <span class="o">=</span> <span class="p">[</span>
     <span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">390</span><span class="p">),</span>
@@ -2438,7 +2621,7 @@ torque -&gt; angular accel -&gt; ω -&gt; rpm -&gt; torque
 </span>            <span class="n">fraction</span> <span class="o">=</span> <span class="p">(</span><span class="n">rpm</span> <span class="o">-</span> <span class="n">rpm_low</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">rpm_high</span> <span class="o">-</span> <span class="n">rpm_low</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">torque_low</span> <span class="o">+</span> <span class="n">fraction</span> <span class="o">*</span> <span class="p">(</span><span class="n">torque_high</span> <span class="o">-</span> <span class="n">torque_low</span><span class="p">)</span>
     <span class="k">return</span> <span class="mi">0</span>
-</code></pre><span class="language-label">Python</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+</code></pre><span class="language-label">Plaintext</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
 
 <p>And for <code class="language-plaintext highlighter-rouge">rpm</code>, we can calculate it from the car’s current motion:</p>
 
@@ -3858,11 +4041,13 @@ Only the engine model is replaced.</p>
         <li>Curves (low speed)</li>
       </ul>
     </li>
-    <li><strong><a href="/2026/03/28/car-physics-model7">Model 7: High-Speed Lateral Tire Model (2D)</a></strong>
-      <ul>
-        <li>High Speed Turning</li>
-      </ul>
-    </li>
+  </ul>
+
+  <!-- > - **[Model 7: High-Speed Lateral Tire Model (2D)]({ post_url 2026/q1-2026/technical/car-physics/model7/2026-03-28-car-physics-model7 })** -->
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div><div class="line-number">19</div><div class="line-number">20</div><div class="line-number">21</div><div class="line-number">22</div><div class="line-number">23</div><div class="line-number">24</div><div class="line-number">25</div><div class="line-number">26</div><div class="line-number">27</div><div class="line-number">28</div><div class="line-number">29</div><div class="line-number">30</div><div class="line-number">31</div><div class="line-number">32</div><div class="line-number">33</div><div class="line-number">34</div><div class="line-number">35</div><div class="line-number">36</div><div class="line-number">37</div><div class="line-number">38</div><div class="line-number">39</div><div class="line-number">40</div><div class="line-number">41</div><div class="line-number">42</div><div class="line-number">43</div><div class="line-number">44</div><div class="line-number">45</div><div class="line-number">46</div><div class="line-number">47</div><div class="line-number">48</div><div class="line-number">49</div></div><pre class="highlight"><code>- High Speed Turning
+</code></pre></div>  </div>
+
+  <ul>
     <li><strong><a href="#" onclick="notifyComingSoon(); return false;">Model 8: Full Coupled Tire Model (2D)</a></strong></li>
   </ul>
 </div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
@@ -3905,10 +4090,10 @@ Only the engine model is replaced.</p>
 
 <p>We now assume the CG (Center of Gravity) sits somewhere between the axles. Then let:</p>
 
-<div class="language-markdown highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div></div><pre class="highlight"><code>L = wheelbase
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code>L = wheelbase
 b = distance from CG → front axle
 c = distance from CG → rear axle
-</code></pre><span class="language-label">Markdown</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+</code></pre><span class="language-label">Plaintext</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
 
 <p>These should satisfy <code class="language-plaintext highlighter-rouge">b + c = L</code></p>
 
@@ -5348,11 +5533,13 @@ document.addEventListener('DOMContentLoaded', function () {
         <li>Curves (low speed)</li>
       </ul>
     </li>
-    <li><strong><a href="/2026/03/28/car-physics-model7">Model 7: High-Speed Lateral Tire Model (2D)</a></strong>
-      <ul>
-        <li>High Speed Turning</li>
-      </ul>
-    </li>
+  </ul>
+
+  <!-- > - **[Model 7: High-Speed Lateral Tire Model (2D)]({ post_url 2026/q1-2026/technical/car-physics/model7/2026-03-28-car-physics-model7 })** -->
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div><div class="line-number">19</div><div class="line-number">20</div><div class="line-number">21</div><div class="line-number">22</div><div class="line-number">23</div><div class="line-number">24</div><div class="line-number">25</div><div class="line-number">26</div><div class="line-number">27</div><div class="line-number">28</div><div class="line-number">29</div><div class="line-number">30</div><div class="line-number">31</div><div class="line-number">32</div><div class="line-number">33</div><div class="line-number">34</div><div class="line-number">35</div><div class="line-number">36</div><div class="line-number">37</div><div class="line-number">38</div><div class="line-number">39</div><div class="line-number">40</div><div class="line-number">41</div><div class="line-number">42</div><div class="line-number">43</div><div class="line-number">44</div><div class="line-number">45</div><div class="line-number">46</div><div class="line-number">47</div><div class="line-number">48</div><div class="line-number">49</div><div class="line-number">50</div><div class="line-number">51</div><div class="line-number">52</div><div class="line-number">53</div><div class="line-number">54</div><div class="line-number">55</div><div class="line-number">56</div><div class="line-number">57</div><div class="line-number">58</div><div class="line-number">59</div><div class="line-number">60</div><div class="line-number">61</div><div class="line-number">62</div><div class="line-number">63</div><div class="line-number">64</div><div class="line-number">65</div><div class="line-number">66</div><div class="line-number">67</div><div class="line-number">68</div><div class="line-number">69</div><div class="line-number">70</div><div class="line-number">71</div><div class="line-number">72</div><div class="line-number">73</div><div class="line-number">74</div><div class="line-number">75</div><div class="line-number">76</div><div class="line-number">77</div><div class="line-number">78</div><div class="line-number">79</div><div class="line-number">80</div><div class="line-number">81</div><div class="line-number">82</div><div class="line-number">83</div><div class="line-number">84</div><div class="line-number">85</div><div class="line-number">86</div><div class="line-number">87</div><div class="line-number">88</div><div class="line-number">89</div><div class="line-number">90</div><div class="line-number">91</div><div class="line-number">92</div><div class="line-number">93</div><div class="line-number">94</div><div class="line-number">95</div><div class="line-number">96</div><div class="line-number">97</div><div class="line-number">98</div><div class="line-number">99</div><div class="line-number">100</div><div class="line-number">101</div><div class="line-number">102</div><div class="line-number">103</div><div class="line-number">104</div><div class="line-number">105</div><div class="line-number">106</div><div class="line-number">107</div><div class="line-number">108</div><div class="line-number">109</div><div class="line-number">110</div><div class="line-number">111</div><div class="line-number">112</div><div class="line-number">113</div><div class="line-number">114</div><div class="line-number">115</div><div class="line-number">116</div><div class="line-number">117</div><div class="line-number">118</div><div class="line-number">119</div><div class="line-number">120</div><div class="line-number">121</div><div class="line-number">122</div><div class="line-number">123</div><div class="line-number">124</div><div class="line-number">125</div><div class="line-number">126</div><div class="line-number">127</div><div class="line-number">128</div><div class="line-number">129</div><div class="line-number">130</div><div class="line-number">131</div><div class="line-number">132</div><div class="line-number">133</div><div class="line-number">134</div><div class="line-number">135</div><div class="line-number">136</div><div class="line-number">137</div><div class="line-number">138</div><div class="line-number">139</div><div class="line-number">140</div><div class="line-number">141</div><div class="line-number">142</div><div class="line-number">143</div><div class="line-number">144</div><div class="line-number">145</div><div class="line-number">146</div><div class="line-number">147</div><div class="line-number">148</div><div class="line-number">149</div><div class="line-number">150</div><div class="line-number">151</div><div class="line-number">152</div><div class="line-number">153</div><div class="line-number">154</div><div class="line-number">155</div><div class="line-number">156</div><div class="line-number">157</div><div class="line-number">158</div><div class="line-number">159</div><div class="line-number">160</div><div class="line-number">161</div><div class="line-number">162</div><div class="line-number">163</div><div class="line-number">164</div><div class="line-number">165</div><div class="line-number">166</div><div class="line-number">167</div><div class="line-number">168</div><div class="line-number">169</div><div class="line-number">170</div><div class="line-number">171</div><div class="line-number">172</div><div class="line-number">173</div><div class="line-number">174</div><div class="line-number">175</div><div class="line-number">176</div><div class="line-number">177</div><div class="line-number">178</div><div class="line-number">179</div><div class="line-number">180</div><div class="line-number">181</div><div class="line-number">182</div><div class="line-number">183</div><div class="line-number">184</div><div class="line-number">185</div><div class="line-number">186</div><div class="line-number">187</div><div class="line-number">188</div><div class="line-number">189</div><div class="line-number">190</div><div class="line-number">191</div><div class="line-number">192</div><div class="line-number">193</div><div class="line-number">194</div><div class="line-number">195</div><div class="line-number">196</div><div class="line-number">197</div><div class="line-number">198</div><div class="line-number">199</div><div class="line-number">200</div><div class="line-number">201</div><div class="line-number">202</div><div class="line-number">203</div><div class="line-number">204</div><div class="line-number">205</div><div class="line-number">206</div><div class="line-number">207</div><div class="line-number">208</div><div class="line-number">209</div><div class="line-number">210</div><div class="line-number">211</div><div class="line-number">212</div><div class="line-number">213</div><div class="line-number">214</div><div class="line-number">215</div><div class="line-number">216</div><div class="line-number">217</div><div class="line-number">218</div><div class="line-number">219</div><div class="line-number">220</div><div class="line-number">221</div><div class="line-number">222</div><div class="line-number">223</div><div class="line-number">224</div><div class="line-number">225</div><div class="line-number">226</div><div class="line-number">227</div><div class="line-number">228</div><div class="line-number">229</div><div class="line-number">230</div><div class="line-number">231</div><div class="line-number">232</div><div class="line-number">233</div><div class="line-number">234</div><div class="line-number">235</div><div class="line-number">236</div><div class="line-number">237</div><div class="line-number">238</div><div class="line-number">239</div><div class="line-number">240</div><div class="line-number">241</div><div class="line-number">242</div><div class="line-number">243</div><div class="line-number">244</div><div class="line-number">245</div><div class="line-number">246</div><div class="line-number">247</div><div class="line-number">248</div><div class="line-number">249</div><div class="line-number">250</div><div class="line-number">251</div><div class="line-number">252</div><div class="line-number">253</div><div class="line-number">254</div><div class="line-number">255</div><div class="line-number">256</div><div class="line-number">257</div><div class="line-number">258</div><div class="line-number">259</div><div class="line-number">260</div><div class="line-number">261</div><div class="line-number">262</div><div class="line-number">263</div><div class="line-number">264</div><div class="line-number">265</div><div class="line-number">266</div><div class="line-number">267</div><div class="line-number">268</div><div class="line-number">269</div><div class="line-number">270</div><div class="line-number">271</div><div class="line-number">272</div><div class="line-number">273</div><div class="line-number">274</div><div class="line-number">275</div><div class="line-number">276</div><div class="line-number">277</div><div class="line-number">278</div><div class="line-number">279</div><div class="line-number">280</div><div class="line-number">281</div><div class="line-number">282</div><div class="line-number">283</div><div class="line-number">284</div><div class="line-number">285</div><div class="line-number">286</div><div class="line-number">287</div><div class="line-number">288</div></div><pre class="highlight"><code>- High Speed Turning
+</code></pre></div>  </div>
+
+  <ul>
     <li><strong><a href="#" onclick="notifyComingSoon(); return false;">Model 8: Full Coupled Tire Model (2D)</a></strong></li>
   </ul>
 </div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
@@ -5632,12 +5819,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
 <p>Note: these are just dummy stats, not from any real car:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div></div><pre class="highlight"><code><span class="n">M</span> <span class="o">=</span> <span class="mi">1500</span>            <span class="c1"># kg
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">M</span> <span class="o">=</span> <span class="mi">1500</span>            <span class="c1"># kg
 </span><span class="n">F_ENGINE_MAX</span> <span class="o">=</span> <span class="mi">3000</span> <span class="c1"># N
 </span><span class="n">C_RR</span> <span class="o">=</span> <span class="mf">13.0</span>         <span class="c1"># kg/s
 </span><span class="n">C_DRAG</span> <span class="o">=</span> <span class="mf">0.43</span>       <span class="c1"># kg/m
 </span><span class="n">C_BRAKING</span> <span class="o">=</span> <span class="mi">12000</span>   <span class="c1"># N
-</span></code></pre><span class="language-label">Python</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+</span></code></pre><span class="language-label">Plaintext</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
 
 <p><strong>Key insight: Reading equilibrium</strong></p>
 
@@ -6847,121 +7034,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <p>If it helps, <strong>model 1 behaves more like a rocket or a boat</strong> than an actual car. Whats more, the car in the simulator is a lie, this model act as if its a single point, with mass, acted upon by forces, in a 1D environment, hence, <strong>“Longitudinal Point Mass”</strong>.</p>
 
-<p>If you spot any mistake or have any suggestions, please let me know! See you in <strong><a href="/2026/03/12/car-physics-model2">Model 2: Load Transfer Without Traction Limits (1D)</a></strong> :).</p>]]></content><author><name></name></author><category term="technical" /><category term="vehicle dynamics" /><category term="differential equations" /><category term="simulation" /><category term="mathematical modeling" /><category term="interactive plot" /><category term="python" /><summary type="html"><![CDATA[Implementing and Comprehending Marco Monster’s Car Physics model - Phase 1: Longitudinal Powertrain Vehicle Model - Part 1]]></summary></entry><entry><title type="html">HUS - Ibaraki Exchange Event - My experience</title><link href="https://yuk068.github.io//2026/02/26/hang-out-with-ibaraki-friends" rel="alternate" type="text/html" title="HUS - Ibaraki Exchange Event - My experience" /><published>2026-02-26T00:00:00+07:00</published><updated>2026-02-26T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/02/26/hang-out-with-ibaraki-friends</id><content type="html" xml:base="https://yuk068.github.io//2026/02/26/hang-out-with-ibaraki-friends"><![CDATA[<h3 id="prologue">Prologue</h3>
-
-<p>Its been awhile since i last post. But, I suppose I’m back, I have plans, and I intend to follow them through. Amongst those intentions include rebooting my blog, so beside from finally adding a light mode, in this post, I’d like to share my wonderful experience with friends from <strong>Ibaraki University</strong> in an exchange event with HUS - VNU that I helped host around September 2025. So as you can see, it was quite awhile since then, but I still cherish those memories vividly.</p>
-
-<p>I actually used to do something like this already in 2024, which is why I was called again, but for the 2025 event, I had a much bigger role and was present much more than before. Exchange event with Ibaraki University is also my first time working with <strong>HUS’s Office of Cooperation and Development</strong>, I’m really grateful for their guidance and opportunities that they have helped connecting me to.</p>
-
-<p><img src="/assets/images/2026/q1-2026/yukibaraki2025/yukibaraki2024.webp" alt="yukibaraki2024" /></p>
-
-<div class="media-description">Me (top left) during 2024 Ibaraki - HUS Exchange Event</div>
-
-<p>Back then, I was mostly just an MC for the opening/onboarding show and the closing ceremony, I still had a lot of fun hosting the games and performances, and the friends from Ibaraki was very good-spirited.</p>
-
-<p>I have to admit, unfortunately I haven’t been able to contact these friends since then. Kanta, Yusuke, Jo, Takeshi, Shoki, Soma, I still remember you guys hehe, if you guys are reading this, I’d love to reconnect again!</p>
-
-<h2 id="the-hus---ibaraki-exchange-event-2025">The HUS - Ibaraki Exchange Event 2025</h2>
-
-<p>Imma just call it HIEE for short 🥴. This time around, with experience from 2024, I was involved with the event much more. The experience was definitely unforgettable, at least to me it was. I was still the main MC lol, but this time around I was much more of a “host” throughout the entire event.</p>
-
-<h3 id="opening-ceremony">Opening Ceremony</h3>
-
-<p><img src="/assets/thumbnail/2026/q1-2026/openingibaraki2025.webp" alt="openingibaraki2025" /></p>
-
-<p>The show was quite a success, everyone had a great time interacting, performing, and just good vibes all around. To be honest I was quite nervous because it was quite a bit more people than I expected. Let’s meet our fiends from Ibaraki this time around:</p>
-
-<p><img src="/assets/images/2026/q1-2026/yukibaraki2025/harutaopening.webp" alt="harutaopening" /></p>
-
-<p>Haruta. People say he has great taste in fashion (especially during less formal hangouts), I think so too :).</p>
-
-<p><img src="/assets/images/2026/q1-2026/yukibaraki2025/shuopening.webp" alt="shuopening" /></p>
-
-<p>Shu. He’s a bit quiet, but is very gentle and brings a positive vibe.</p>
-
-<p><img src="/assets/images/2026/q1-2026/yukibaraki2025/hatsuneopening.webp" alt="hatsuneopening" /></p>
-
-<p>Hatsune. To me she was very strong and confident, multi-talented too :D.</p>
-
-<p><img src="/assets/images/2026/q1-2026/yukibaraki2025/hinakoopening.webp" alt="hinakoopening" /></p>
-
-<p>Hinako. She was very bright and funny, and she likes AOT with me too 🏃‍♂️.</p>
-
-<p><img src="/assets/images/2026/q1-2026/yukibaraki2025/annaopening.webp" alt="annaopening" /></p>
-
-<p>Last but not least, Anna (in the middle), she was also very gentle and elegant 🥴.</p>
-
-<hr />
-
-<p><strong>Performances and Minigames</strong></p>
-
-<p><img src="/assets/images/2026/q1-2026/yukibaraki2025/openingperformance.webp" alt="openingperformance" /></p>
-
-<p><img src="/assets/images/2026/q1-2026/yukibaraki2025/openinggames.webp" alt="openinggames" /></p>
-
-<p><img src="/assets/images/2026/q1-2026/yukibaraki2025/openinggames2.webp" alt="openinggames2" /></p>
-
-<p><img src="/assets/images/2026/q1-2026/yukibaraki2025/openinggames3.webp" alt="openinggames3" /></p>
-
-<p>I said that during the opening ceremony I was quite nervous, well, here are those “unexpected” folks:</p>
-
-<p><img src="/assets/images/2026/q1-2026/yukibaraki2025/unexpectedfriends.webp" alt="unexpectedfriends" /></p>
-
-<p>From left to right: Me, Alex (French-Vietnamese), Noah and Lukas (they are close friends, I forgor their nationality sorry yall 😭, just somewhere in EU 😅), and Christina (German). This is after the opening ceremony when I showed them where to get lunch within the HUS campus, unexpected but a very welcomed one, they definitely helped enhance the show immensely. After the event, I even went pool with them hehe (first time for all of us i think lol):</p>
-
-<p><img src="/assets/images/2026/q1-2026/yukibaraki2025/pool.webp" alt="pool" /></p>
-
-<h3 id="meals">Meals</h3>
-
-<p>This is the moment when I realized I can’t really showcase my experience linearly lol, while I was more present, I wasn’t <em>always</em> there lol, and for the fact that I don’t remember this experience linearly, and just that I don’t have all the photos 🥴.</p>
-
-<p>Nevertheless, we had a lot of great meals together:</p>
-
-<p><img src="/assets/images/2026/q1-2026/yukibaraki2025/yakiniku.webp" alt="yakiniku" /></p>
-
-<p>Yakiniku 🤔.</p>
-
-<p><img src="/assets/images/2026/q1-2026/yukibaraki2025/bunchaobama.webp" alt="bunchaobama" /></p>
-
-<p>Bun Cha Obama 😛.</p>
-
-<p><img src="/assets/images/2026/q1-2026/yukibaraki2025/goatmeat.webp" alt="goatmeat" /></p>
-
-<p>Local goat meat 😵 (In Trang An - Ninh Binh, more on that later…)</p>
-
-<p><img src="/assets/images/2026/q1-2026/yukibaraki2025/banhmychao.webp" alt="banhmychao" /></p>
-
-<p>Banh my chao 🤑 (Their favorite ircc 👀).</p>
-
-<h3 id="trang-an---ninh-binh-trip">Trang An - Ninh Binh trip</h3>
-
-<p>I kinda work out some tomfoolery to be here lol 💀. But yeah, I was feeling like I need some fresh air, so I expressed my desire, HUS students weren’t actually supposed to be on this trip, but I was there 8). We took a boat trip on the river, it was really comforting getting away from the city, and the natural scenery was amazing too.</p>
-
-<p><img src="/assets/images/2026/q1-2026/yukibaraki2025/trangan1.webp" alt="trangan1" /></p>
-
-<p><img src="/assets/images/2026/q1-2026/yukibaraki2025/trangan2.webp" alt="trangan2" /></p>
-
-<p>(Hinako and Anna was on a different boat don’t worry 🥴)</p>
-
-<h3 id="photobooth">Photobooth</h3>
-
-<p>We took 2 photobooth sessions during our time together:</p>
-
-<p><img src="/assets/images/2026/q1-2026/yukibaraki2025/fuckasssandals.webp" alt="fuckasssandals" /></p>
-
-<p>Would have been tuff without the fuckass sandals, it was still summer hot 😭. This one is better 🥴:</p>
-
-<p><img src="/assets/images/2026/q1-2026/yukibaraki2025/phocoptb.webp" alt="phocoptb" /></p>
-
-<p><img src="/assets/images/2026/q1-2026/yukibaraki2025/royalptb.webp" alt="royalptb" /></p>
-
-<h3 id="side-quests">Side quests</h3>
-
-<p>Aside from all the formal lectures and cultural exchange sessions, we hangout with eachother on our own, there is not much pics beside videos though so i probably wont be able to show them here, but we went to a theme park-like playground in Vincom Royal City, had a Karaoke night, and more :).</p>
-
-<h2 id="epilogue">Epilogue</h2>
-
-<p>Im just gonna go out and say it, this was one of the best time in my life, I never thought I would ever had this kind of fun, with all the people, friends, that I can feel comfortable around. Im not gonna lie, I was going through some stuff in life then, and still is now, but during the time we spent together, I’ve had so much fun and relaxed so much, it helped me a lot through that time, now, I think I’ll be fine. Shu, Haruta, Anna, Hinako, Hatsune, thank you guys for spending time with me then, I truly appreciate it. I hope one day, I can meet you guys again :).</p>]]></content><author><name></name></author><category term="post" /><category term="yuk irl" /><category term="yuk lore" /><category term="japan" /><summary type="html"><![CDATA[My time with friends from Ibaraki University - Japan]]></summary></entry><entry><title type="html">Yuk Drawing Phase and Recent Graphics Design Works</title><link href="https://yuk068.github.io//2026/02/26/yuk-drawing-phase-and-graphics-design" rel="alternate" type="text/html" title="Yuk Drawing Phase and Recent Graphics Design Works" /><published>2026-02-26T00:00:00+07:00</published><updated>2026-02-26T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/02/26/yuk-drawing-phase-and-graphics-design</id><content type="html" xml:base="https://yuk068.github.io//2026/02/26/yuk-drawing-phase-and-graphics-design"><![CDATA[<h2 id="lore-intro">Lore Intro</h2>
+<p>If you spot any mistake or have any suggestions, please let me know! See you in <strong><a href="/2026/03/12/car-physics-model2">Model 2: Load Transfer Without Traction Limits (1D)</a></strong> :).</p>]]></content><author><name></name></author><category term="technical" /><category term="vehicle dynamics" /><category term="differential equations" /><category term="simulation" /><category term="mathematical modeling" /><category term="interactive plot" /><category term="python" /><summary type="html"><![CDATA[Implementing and Comprehending Marco Monster’s Car Physics model - Phase 1: Longitudinal Powertrain Vehicle Model - Part 1]]></summary></entry><entry><title type="html">Yuk Drawing Phase and Recent Graphics Design Works</title><link href="https://yuk068.github.io//2026/02/26/yuk-drawing-phase-and-graphics-design" rel="alternate" type="text/html" title="Yuk Drawing Phase and Recent Graphics Design Works" /><published>2026-02-26T00:00:00+07:00</published><updated>2026-02-26T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/02/26/yuk-drawing-phase-and-graphics-design</id><content type="html" xml:base="https://yuk068.github.io//2026/02/26/yuk-drawing-phase-and-graphics-design"><![CDATA[<h2 id="lore-intro">Lore Intro</h2>
 
 <p>So recently I went home for Lunar New Year, and I found some of my old “drawings” lol, just thought I’d share them here. “Drawings” in quotations because, I guess some of these is closer to what artists call “trace”, yeah most of these is me looking at a reference and basically copying them, but there is some stuff I draw on my own, and I still think they tell a story or something at least. Back then, I used the alias “Zax” or “Zaclord” (son 😭), these probably dates way back to 2016, 10 frickin years lol.</p>
 

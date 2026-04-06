@@ -83,11 +83,16 @@
     --light-text-shadow-part-2: 0 0 0 transparent;
 
     --site-bg-dot-color: rgba(206, 224, 255, 0.17);
+    --light-site-bg-dot-color: rgba(46, 80, 175, 0.24);
     --site-bg-dot-gap: 14px;
     --site-bg-glow-dot-color: rgba(218, 240, 255, 0.32);
+    --light-site-bg-glow-dot-color: rgba(54, 96, 210, 0.62);
     --site-bg-glow-core: rgba(137, 228, 255, 0.16);
     --site-bg-glow-mid: rgba(137, 228, 255, 0.08);
     --site-bg-glow-edge: rgba(137, 228, 255, 0.02);
+    --light-site-bg-glow-core: rgba(46, 80, 175, 0.14);
+    --light-site-bg-glow-mid: rgba(46, 80, 175, 0.08);
+    --light-site-bg-glow-edge: rgba(46, 80, 175, 0.03);
     --site-bg-glow-size: 100px;
     --site-bg-mouse-x: 50vw;
     --site-bg-mouse-y: 50vh;
@@ -138,11 +143,11 @@ body.light-mode {
     --box-shadow-part-2: var(--light-box-shadow-part-2);
     --text-shadow-part-1: var(--light-text-shadow-part-1);
     --text-shadow-part-2: var(--light-text-shadow-part-2);
-    --site-bg-dot-color: rgba(46, 80, 175, 0.13);
-    --site-bg-glow-dot-color: rgba(54, 96, 210, 0.62);
-    --site-bg-glow-core: rgba(46, 80, 175, 0.14);
-    --site-bg-glow-mid: rgba(46, 80, 175, 0.08);
-    --site-bg-glow-edge: rgba(46, 80, 175, 0.03);
+    --site-bg-dot-color: var(--light-site-bg-dot-color);
+    --site-bg-glow-dot-color: var(--light-site-bg-glow-dot-color);
+    --site-bg-glow-core: var(--light-site-bg-glow-core);
+    --site-bg-glow-mid: var(--light-site-bg-glow-mid);
+    --site-bg-glow-edge: var(--light-site-bg-glow-edge);
     --border-width: 2px;
 }
 
@@ -779,12 +784,14 @@ a {
 
 .swiper-slide {
     flex: 0 0 100%;
+    border-radius: inherit;
     overflow: hidden;
     min-width: 100%;
     position: relative;
 }
 
 .swiper-slide img {
+    display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -807,6 +814,13 @@ a {
     width: 24px;
     height: 24px;
     transform: none !important;
+}
+
+.slide-title svg {
+    width: 24px;
+    height: 24px;
+    stroke-width: 1.8;
+    color: #fff;
 }
 
 .slide-title {
@@ -2028,6 +2042,11 @@ h6 {
     }
 
     .slide-title img {
+        width: 22px;
+        height: 22px;
+    }
+
+    .slide-title svg {
         width: 22px;
         height: 22px;
     }

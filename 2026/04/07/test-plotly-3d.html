@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="linkage" content="false">
+    <title>Test Plotly 3D</title>
+    <meta name="description" content="A sample post for testing common Plotly 3D visualization patterns">
+
+    <!-- SEO & Social Meta -->
+    
+    
+    
+    
+    
+    
+    
+    <meta name="author" content="Yuk">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://yuk068.github.io//2026/04/07/test-plotly-3d">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Test Plotly 3D">
+    <meta property="og:description" content="A sample post for testing common Plotly 3D visualization patterns">
+    <meta property="og:url" content="https://yuk068.github.io//2026/04/07/test-plotly-3d">
+    <meta property="og:image" content="https://yuk068.github.io//assets/thumbnail/default.webp">
+    <meta property="og:site_name" content="Yuk's Blog">
+    <meta property="og:locale" content="en_US">
+    <meta property="article:published_time" content="2026-04-07T00:00:00+07:00">
+    <meta property="article:author" content="Yuk">
+    <meta property="article:tag" content="resources"><meta property="article:tag" content="plotly"><meta property="article:tag" content="3d">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@Yukano_50">
+    <meta name="twitter:creator" content="@Yukano_50">
+    <meta name="twitter:title" content="Test Plotly 3D">
+    <meta name="twitter:description" content="A sample post for testing common Plotly 3D visualization patterns">
+    <meta name="twitter:image" content="https://yuk068.github.io//assets/thumbnail/default.webp">
+
+    <link rel="stylesheet" href="/assets/css/pages-css/post-styles.css">
+    
+
+    <!-- Always use KaTeX for math rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: "$$", right: "$$", display: true },
+                        { left: "$", right: "$", display: false },
+                        { left: "\\(", right: "\\)", display: false },
+                        { left: "\\[", right: "\\]", display: true }
+                    ]
+                });
+            }
+        });
+    </script>
+
+    
+    
+
+    
+    <script src="https://cdn.plot.ly/plotly-3.3.1.min.js" charset="utf-8"></script>
+    <script>
+        window.addEventListener('load', function () {
+            setTimeout(function () {
+                document.querySelectorAll('.js-plotly-plot').forEach(function (el) {
+                    Plotly.Plots.resize(el);
+                });
+            }, 250);
+        });
+    </script>
+    
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
+
+    <script>if (localStorage.getItem('theme') === 'light') document.documentElement.classList.add('light-mode');</script>
+
+    <link rel="stylesheet" href="https://unpkg.com/photoswipe@5/dist/photoswipe.css">
+
+<script type="module">
+import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5/dist/photoswipe-lightbox.esm.js';
+
+const lightbox = new PhotoSwipeLightbox({
+    gallery: '.post-article',
+    children: 'img',
+    pswpModule: () => import('https://unpkg.com/photoswipe@5/dist/photoswipe.esm.js'),
+
+    // --- Animation Settings ---
+    showHideAnimationType: 'fade',
+
+    // --- Zoom Enhancements ---
+    wheelToZoom: true,
+    imageClickAction: 'zoom',
+    secondaryZoomLevel: 2,
+    maxZoomLevel: 4,
+
+    // --- Loading Behavior ---
+    preload: [1, 5],
+});
+
+
+// --- SAFER DATA SOURCE ---
+lightbox.addFilter('itemData', (itemData) => {
+    const img = itemData.element;
+
+    return {
+        src: img.src,
+        msrc: img.src,
+        width: img.naturalWidth || img.width || 1200,
+        height: img.naturalHeight || img.height || 800,
+        element: img
+    };
+});
+
+
+// --- FIX DIMENSIONS AFTER LOAD ---
+lightbox.on('contentLoadImage', (e) => {
+    const { content } = e;
+
+    content.element.decode().then(() => {
+        content.width = content.element.naturalWidth;
+        content.height = content.element.naturalHeight;
+
+        if (lightbox.pswp) {
+            lightbox.pswp.refreshSize(true);
+        }
+    }).catch(() => {});
+});
+
+lightbox.init();
+</script>
+</head>
+
+<body>
+    <div class="site-bg-effects" aria-hidden="true">
+        <div class="site-bg-dot-grid"></div>
+        <div class="site-bg-glow"></div>
+    </div>
+    <div id="reading-progress-bar"></div>
+    <div class="main-container">
+        <header id="post-header">
+            <div class="header-logo-container">
+                <button class="logo-button" onclick="handleLogoClick()">
+                    <div class="logo-container">
+                        <div class="logo">
+                            <div class="u-shape left-side"></div>
+                            <div class="u-shape bottom"></div>
+                            <div class="u-shape right-side"></div>
+                        </div>
+                        <div class="left-arrow-top"></div>
+                        <div class="right-arrow-top"></div>
+                        <div class="right-arrow-bottom"></div>
+                    </div>
+                </button>
+            </div>
+            <div class="home-header-title-mobile">
+                <h1 id="home-header-title">Yukano</h1>
+            </div>
+            <div class="nav-container">
+                <nav class="nav-bar">
+                    <ul>
+                        <a href="#" onclick="goBack()">
+                            <li>
+                                
+                                Back
+                                
+                            </li>
+                        </a>
+                        <div class="nav-bar-divider"></div>
+                        <a href="/">
+                            <li>
+                                
+                                Home
+                                
+                            </li>
+                        </a>
+                        <div class="nav-bar-divider" id="nav-disable-mobile"></div>
+                        <a href="/archive" id="nav-disable-mobile">
+                            <li id="nav-disable-mobile">
+                                
+                                Archive
+                                
+                            </li>
+                        </a>
+                        <div class="nav-bar-divider" id="nav-disable-mobile"></div>
+                        <a href="/projects" id="nav-disable-mobile">
+                            <li id="nav-disable-mobile">
+                                
+                                Projects
+                                
+                            </li>
+                        </a>
+                    </ul>
+                </nav>
+            </div>
+            <div class="header-extra-container">
+                <button class="extra-button">
+                    <div class="extra-container">
+                        <div class="extra">
+                            <div class="extra-shape top"></div>
+                            <div class="extra-shape middle"></div>
+                            <div class="extra-shape bottom"></div>
+                        </div>
+                    </div>
+                </button>
+            </div>
+        </header>
+        <main>
+            <div id="overlay" class="overlay">
+                <div class="options-container">
+                    <p>
+                        
+                        Navigation
+                        
+                    </p>
+                    <div class="options-navigation">
+                        <a id="toBackButton" href="/"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14"><defs><style>.cls-6374f543b67f094e4896c5c8-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><circle class="cls-6374f543b67f094e4896c5c8-1" cx="12" cy="12" r="10.5"></circle><path class="cls-6374f543b67f094e4896c5c8-1" d="M7.23,7.23h7.63a3.82,3.82,0,0,1,3.82,3.82h0a3.82,3.82,0,0,1-3.82,3.81H7.23"></path><polyline class="cls-6374f543b67f094e4896c5c8-1" points="11.04 18.68 7.23 14.86 11.04 11.04"></polyline></svg>
+                            
+                            Back
+                            
+                        </a>
+                        <a id="toArchiveButton" href="/archive"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff">
+    <defs>
+        <style>
+            .cls-archive-1 {
+                fill: none;
+                stroke: currentColor;
+                stroke-miterlimit: 10;
+            }
+        </style>
+    </defs>
+    <polygon class="cls-archive-1" points="19.64 9.14 4.36 9.14 4.36 1.5 10.09 1.5 12 3.41 19.64 3.41 19.64 9.14"></polygon>
+    <polygon class="cls-archive-1" points="1.5 9.14 22.5 9.14 20.59 22.5 3.41 22.5 1.5 9.14"></polygon>
+</svg>
+                            
+                            Archive
+                            
+                        </a>
+                        <a id="toProjectsButton" href="/projects"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff">
+    <defs>
+        <style>
+            .cls-projects-1 {
+                fill: none;
+                stroke: currentColor;
+                stroke-miterlimit: 10;
+            }
+        </style>
+    </defs>
+    <g id="roll_brush" data-name="roll brush">
+        <line class="cls-projects-1" x1="5.24" y1="11.08" x2="18.66" y2="11.08"></line>
+        <line class="cls-projects-1" x1="5.24" y1="18.76" x2="18.66" y2="18.76"></line>
+        <line class="cls-projects-1" x1="5.24" y1="14.92" x2="18.66" y2="14.92"></line>
+        <rect class="cls-projects-1" x="1.4" y="1.49" width="21.1" height="21.1"></rect>
+        <polygon class="cls-projects-1" points="22.5 7.25 16.23 7.25 14.31 7.25 1.4 7.25 1.4 1.49 22.5 1.49 22.5 7.25"></polygon>
+        <line class="cls-projects-1" x1="4.28" y1="4.37" x2="6.2" y2="4.37"></line>
+        <line class="cls-projects-1" x1="8.11" y1="4.37" x2="10.03" y2="4.37"></line>
+        <line class="cls-projects-1" x1="11.95" y1="4.37" x2="13.87" y2="4.37"></line>
+    </g>
+</svg>
+                            
+                            Projects
+                            
+                        </a>
+                        <a id="toAboutButton" href="/about-yuk-en"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff">
+    <defs>
+        <style>
+            .cls-about-1 {
+                fill: none;
+                stroke: currentColor;
+                stroke-miterlimit: 10;
+            }
+        </style>
+    </defs>
+    <circle class="cls-about-1" cx="12" cy="7.25" r="5.73"></circle>
+    <path class="cls-about-1" d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05"></path>
+</svg>
+                            
+                            About
+                            
+                        </a>
+                        <a id="toHomeButton" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="currentColor" aria-hidden="true"><defs><style>.s{fill:none;stroke:currentColor;stroke-miterlimit:10}</style></defs><polyline class="s" points="1 12 12 2.83 23 12"></polyline><polyline class="s" points="19.33 9.25 19.33 21.17 14.75 21.17 14.75 13.83 9.25 13.83 9.25 21.17 4.67 21.17 4.67 9.25"></polyline></svg>
+                            
+                            Home
+                            
+                        </a>
+                    </div>
+                    <div class="option-horizontal-divider-line"></div>
+                    <p>
+                        
+                        Options
+                        
+                    </p>
+                    <div class="options-configuration">
+                        <button id="toTopButton"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="50" height="50" color="#fff">
+    <defs>
+        <style>
+            .cls-scroll-top-1 {
+                fill: none;
+                stroke: currentColor;
+                stroke-miterlimit: 10;
+            }
+        </style>
+    </defs>
+    <circle class="cls-scroll-top-1" cx="12" cy="12" r="10.5"></circle>
+    <line class="cls-scroll-top-1" x1="12" y1="10.09" x2="12" y2="18.68"></line>
+    <polyline class="cls-scroll-top-1" points="7.23 10.09 12 5.32 16.77 10.09"></polyline>
+    <polyline class="cls-scroll-top-1" points="7.23 14.86 12 10.09 16.77 14.86"></polyline>
+</svg>
+                            
+                            To top
+                            
+                        </button>
+                        <button id="collapseExpandAllButton" class="bg-performance-btn">
+                            <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24"><defs><style>.cls-637a50fc15c575900940065c-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><rect class="cls-637a50fc15c575900940065c-1" x="3.38" y="3.38" width="17.25" height="17.25" rx="2.18"></rect><rect class="cls-637a50fc15c575900940065c-1" x="7.21" y="7.21" width="9.58" height="9.58" rx="1.92"></rect><line class="cls-637a50fc15c575900940065c-1" x1="7.21" y1="0.5" x2="7.21" y2="2.42"></line><line class="cls-637a50fc15c575900940065c-1" x1="12" y1="0.5" x2="12" y2="2.42"></line><line class="cls-637a50fc15c575900940065c-1" x1="16.79" y1="0.5" x2="16.79" y2="2.42"></line><line class="cls-637a50fc15c575900940065c-1" x1="7.21" y1="21.58" x2="7.21" y2="23.5"></line><line class="cls-637a50fc15c575900940065c-1" x1="12" y1="21.58" x2="12" y2="23.5"></line><line class="cls-637a50fc15c575900940065c-1" x1="16.79" y1="21.58" x2="16.79" y2="23.5"></line><line class="cls-637a50fc15c575900940065c-1" x1="0.5" y1="16.79" x2="2.42" y2="16.79"></line><line class="cls-637a50fc15c575900940065c-1" x1="0.5" y1="12" x2="2.42" y2="12"></line><line class="cls-637a50fc15c575900940065c-1" x1="0.5" y1="7.21" x2="2.42" y2="7.21"></line><line class="cls-637a50fc15c575900940065c-1" x1="21.58" y1="16.79" x2="23.5" y2="16.79"></line><line class="cls-637a50fc15c575900940065c-1" x1="21.58" y1="12" x2="23.5" y2="12"></line><line class="cls-637a50fc15c575900940065c-1" x1="21.58" y1="7.21" x2="23.5" y2="7.21"></line></svg>
+                            <span id="bgPerformanceLabel">
+                                BG Detail: None
+                            </span>
+                        </button>
+                        <button id="themeButton"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff">
+    <defs>
+        <style>
+            .cls-theme-1 {
+                fill: none;
+                stroke: currentColor;
+                stroke-miterlimit: 10;
+            }
+        </style>
+    </defs>
+    <g>
+        <circle class="cls-theme-1" cx="11.99" cy="12.01" r="6.71"></circle>
+        <path class="cls-theme-1" d="M12,8.65a3.36,3.36,0,0,1,0,6.72Z"></path>
+        <line class="cls-theme-1" x1="11.99" y1="0.5" x2="11.99" y2="2.42"></line>
+        <line class="cls-theme-1" x1="11.99" y1="21.6" x2="11.99" y2="23.52"></line>
+        <line class="cls-theme-1" x1="0.48" y1="12.01" x2="2.4" y2="12.01"></line>
+        <line class="cls-theme-1" x1="21.58" y1="12.01" x2="23.5" y2="12.01"></line>
+        <line class="cls-theme-1" x1="20.13" y1="3.87" x2="18.77" y2="5.23"></line>
+        <line class="cls-theme-1" x1="5.21" y1="18.79" x2="3.85" y2="20.15"></line>
+        <line class="cls-theme-1" x1="3.85" y1="3.87" x2="5.21" y2="5.23"></line>
+        <line class="cls-theme-1" x1="18.77" y1="18.79" x2="20.13" y2="20.15"></line>
+    </g>
+</svg>
+                            
+                            Theme
+                            
+                        </button>
+                        <button id="commentsButton"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="currentColor" aria-hidden="true"><defs><style>.s{fill:none;stroke:currentColor;stroke-miterlimit:10}</style></defs><path class="s" d="M1.5,5.3v9.54a3.82,3.82,0,0,0,3.82,3.82H7.23v2.86L13,18.66h5.73a3.82,3.82,0,0,0,3.82-3.82V5.3a3.82,3.82,0,0,0-3.82-3.82H5.32A3.82,3.82,0,0,0,1.5,5.3Z"></path><line class="s" x1="15.82" y1="10.07" x2="17.73" y2="10.07"></line><line class="s" x1="11.05" y1="10.07" x2="12.95" y2="10.07"></line><line class="s" x1="6.27" y1="10.07" x2="8.18" y2="10.07"></line></svg>
+                            
+                            Comments
+                            
+                        </button>
+                    </div>
+                    <div class="option-horizontal-divider-line"></div>
+                    <div class="options-close">
+                        <button id="closeButton"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff">
+    <defs>
+        <style>
+            .cls-close-1 {
+                fill: none;
+                stroke: currentColor;
+                stroke-miterlimit: 10;
+            }
+        </style>
+    </defs>
+    <circle class="cls-close-1" cx="12" cy="12" r="10.5"></circle>
+    <line class="cls-close-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line>
+    <line class="cls-close-1" x1="7.23" y1="7.23" x2="16.77" y2="16.77"></line>
+</svg>
+                            
+                            Close
+                            
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="post-content">
+                <div class="post-info-card">
+                    <h1>
+                        <span class="category-svg">
+                            
+                            
+                            
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24"><defs><style>.cls-637647fac3a86d32eae6f200-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><polyline class="cls-637647fac3a86d32eae6f200-1" points="9.14 15.82 6.27 12.96 9.14 10.09"></polyline><polyline class="cls-637647fac3a86d32eae6f200-1" points="14.86 15.82 17.73 12.96 14.86 10.09"></polyline><line class="cls-637647fac3a86d32eae6f200-1" x1="12.95" y1="10.09" x2="11.05" y2="15.82"></line><polygon class="cls-637647fac3a86d32eae6f200-1" points="20.59 6.27 20.59 22.5 3.41 22.5 3.41 1.5 15.82 1.5 20.59 6.27"></polygon><polygon class="cls-637647fac3a86d32eae6f200-1" points="20.59 6.27 20.59 7.23 14.86 7.23 14.86 1.5 15.82 1.5 20.59 6.27"></polygon></svg>
+
+
+                            
+                        </span>Test Plotly 3D
+                    </h1>
+                    <div class="post-tags">
+                        
+                        
+                        
+                        <span class="tag">#resources</span>
+                        
+                        
+                        
+                        
+                        <span class="tag">#plotly</span>
+                        
+                        
+                        
+                        
+                        <span class="tag">#3d</span>
+                        
+                        
+                    </div>
+                        <div class="date"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.4" width="14" height="14" color="#686868">
+    <defs>
+        <style>
+            .cls-calendar-1, .cls-calendar-2 {
+                fill: none;
+                stroke: currentColor;
+                stroke-miterlimit: 10;
+            }
+            .cls-calendar-1 {
+                stroke-linecap: square;
+            }
+        </style>
+    </defs>
+    <g id="calendar">
+        <rect class="cls-calendar-1" x="1.5" y="2.43" width="21" height="4.77" transform="translate(24 9.64) rotate(180)"></rect>
+        <line class="cls-calendar-2" x1="17.73" y1="0.52" x2="17.73" y2="4.34"></line>
+        <line class="cls-calendar-2" x1="6.27" y1="0.52" x2="6.27" y2="4.34"></line>
+        <polygon class="cls-calendar-1" points="22.5 11.98 22.5 7.21 1.5 7.21 1.5 22.48 22.5 22.48 22.5 15.79 22.5 11.98"></polygon>
+        <line class="cls-calendar-2" x1="9.14" y1="11.02" x2="11.05" y2="11.02"></line>
+        <line class="cls-calendar-2" x1="12.95" y1="11.02" x2="14.86" y2="11.02"></line>
+        <line class="cls-calendar-2" x1="16.77" y1="11.02" x2="18.68" y2="11.02"></line>
+        <line class="cls-calendar-2" x1="9.14" y1="14.84" x2="11.05" y2="14.84"></line>
+        <line class="cls-calendar-2" x1="5.32" y1="14.84" x2="7.23" y2="14.84"></line>
+        <line class="cls-calendar-2" x1="12.95" y1="14.84" x2="14.86" y2="14.84"></line>
+        <line class="cls-calendar-2" x1="16.77" y1="14.84" x2="18.68" y2="14.84"></line>
+        <line class="cls-calendar-2" x1="9.14" y1="18.66" x2="11.05" y2="18.66"></line>
+        <line class="cls-calendar-2" x1="5.32" y1="18.66" x2="7.23" y2="18.66"></line>
+        <line class="cls-calendar-2" x1="12.95" y1="18.66" x2="14.86" y2="18.66"></line>
+    </g>
+</svg>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <span class="date-span">Apr. 7th 2026</span>
+
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.7" width="16" height="16" fill="none">
+    <circle cx="12" cy="12" r="9.5" stroke="currentColor" stroke-miterlimit="10"></circle>
+    <polyline points="12 6.5 12 12 15.5 13.8" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></polyline>
+</svg>
+                        
+                        <span class="reading-time">
+                            7
+                            
+                            Min.
+                            
+                        </span>
+                        
+                    </div>
+                    <div class="post-description">
+                        A sample post for testing common Plotly 3D visualization patterns
+                    </div>
+                    <div class="author"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.7" width="20" height="20" fill="none">
+    <circle cx="12" cy="7.25" r="5.73" stroke="currentColor" stroke-miterlimit="10"></circle>
+    <path d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05" stroke="currentColor" stroke-miterlimit="10"></path>
+</svg>
+                        
+                        Written by:
+                        
+                        Yuk
+                    </div>
+                </div>
+                <div class="horizontal-divider-line"></div>
+                <div class="post-article">
+                    <article>
+                        
+                        
+                        
+                        
+                        <h3 id="plotly"><a href="https://plotly.com/" target="_blank">Plotly</a></h3>
+
+<p>This page is a simple test for a few common 3D visualization patterns: point clouds, trajectories, surfaces, and mesh-based shapes.</p>
+
+<p>Note: 3D Plotly is gonna load way slower.</p>
+
+<hr />
+
+<h2 id="1-3d-scatter-plot">1. 3D scatter plot</h2>
+
+<p>A common use case for 3D scatter plots is visualizing point clouds, sensor output, clusters, or sampled positions in space.</p>
+
+<div id="plotly3dScatter" style="width:100%;aspect-ratio:4/3;"></div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const clusterA = {
+        x: [0.8, 1.1, 1.3, 0.9, 1.4, 1.0, 1.2, 0.7],
+        y: [0.9, 1.2, 0.7, 1.4, 1.1, 0.8, 1.3, 1.0],
+        z: [0.8, 1.0, 1.2, 0.9, 1.4, 1.1, 0.7, 1.3]
+    };
+
+    const clusterB = {
+        x: [-1.2, -0.9, -1.4, -1.1, -0.8, -1.3, -1.0, -1.5],
+        y: [1.4, 1.1, 1.6, 1.0, 1.3, 1.5, 0.9, 1.2],
+        z: [0.2, 0.5, 0.1, 0.6, 0.3, 0.8, 0.4, 0.7]
+    };
+
+    const clusterC = {
+        x: [1.8, 2.1, 1.6, 2.3, 1.9, 2.2, 1.7, 2.0],
+        y: [-1.4, -1.1, -1.6, -1.0, -1.3, -1.5, -0.9, -1.2],
+        z: [1.3, 1.0, 1.5, 1.1, 1.6, 0.9, 1.4, 1.2]
+    };
+
+    Plotly.newPlot(
+        'plotly3dScatter',
+        [
+            {
+                x: clusterA.x,
+                y: clusterA.y,
+                z: clusterA.z,
+                type: 'scatter3d',
+                mode: 'markers',
+                name: 'Cluster A',
+                marker: { size: 5 }
+            },
+            {
+                x: clusterB.x,
+                y: clusterB.y,
+                z: clusterB.z,
+                type: 'scatter3d',
+                mode: 'markers',
+                name: 'Cluster B',
+                marker: { size: 5 }
+            },
+            {
+                x: clusterC.x,
+                y: clusterC.y,
+                z: clusterC.z,
+                type: 'scatter3d',
+                mode: 'markers',
+                name: 'Cluster C',
+                marker: { size: 5 }
+            }
+        ],
+        {
+            title: '3D Scatter: Point Clusters',
+            autosize: true,
+            scene: {
+                xaxis: { title: 'X' },
+                yaxis: { title: 'Y' },
+                zaxis: { title: 'Z' },
+                aspectmode: 'cube'
+            },
+            legend: { orientation: 'h' }
+        },
+        {
+            responsive: true
+        }
+    );
+});
+</script>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div><div class="line-number">19</div><div class="line-number">20</div><div class="line-number">21</div><div class="line-number">22</div><div class="line-number">23</div><div class="line-number">24</div><div class="line-number">25</div><div class="line-number">26</div><div class="line-number">27</div><div class="line-number">28</div><div class="line-number">29</div><div class="line-number">30</div><div class="line-number">31</div><div class="line-number">32</div><div class="line-number">33</div><div class="line-number">34</div><div class="line-number">35</div><div class="line-number">36</div><div class="line-number">37</div><div class="line-number">38</div><div class="line-number">39</div><div class="line-number">40</div><div class="line-number">41</div><div class="line-number">42</div><div class="line-number">43</div><div class="line-number">44</div><div class="line-number">45</div><div class="line-number">46</div><div class="line-number">47</div><div class="line-number">48</div><div class="line-number">49</div><div class="line-number">50</div><div class="line-number">51</div><div class="line-number">52</div><div class="line-number">53</div><div class="line-number">54</div><div class="line-number">55</div><div class="line-number">56</div><div class="line-number">57</div><div class="line-number">58</div><div class="line-number">59</div><div class="line-number">60</div><div class="line-number">61</div><div class="line-number">62</div><div class="line-number">63</div><div class="line-number">64</div><div class="line-number">65</div><div class="line-number">66</div><div class="line-number">67</div><div class="line-number">68</div><div class="line-number">69</div><div class="line-number">70</div></div><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"plotly3dScatter"</span> <span class="na">style=</span><span class="s">"width:100%;aspect-ratio:4/3;"</span><span class="nt">&gt;&lt;/div&gt;</span>
+
+<span class="nt">&lt;script&gt;</span>
+<span class="nb">document</span><span class="p">.</span><span class="nf">addEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">DOMContentLoaded</span><span class="dl">'</span><span class="p">,</span> <span class="nf">function </span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">clusterA</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="na">x</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">],</span>
+        <span class="na">y</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
+        <span class="na">z</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">]</span>
+    <span class="p">};</span>
+
+    <span class="kd">const</span> <span class="nx">clusterB</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="na">x</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mf">1.2</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.4</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.1</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.8</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.3</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.5</span><span class="p">],</span>
+        <span class="na">y</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.4</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="mf">1.6</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">],</span>
+        <span class="na">z</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">]</span>
+    <span class="p">};</span>
+
+    <span class="kd">const</span> <span class="nx">clusterC</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="na">x</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.8</span><span class="p">,</span> <span class="mf">2.1</span><span class="p">,</span> <span class="mf">1.6</span><span class="p">,</span> <span class="mf">2.3</span><span class="p">,</span> <span class="mf">1.9</span><span class="p">,</span> <span class="mf">2.2</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">],</span>
+        <span class="na">y</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mf">1.4</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.1</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.6</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.3</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.2</span><span class="p">],</span>
+        <span class="na">z</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.3</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="mf">1.6</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">]</span>
+    <span class="p">};</span>
+
+    <span class="nx">Plotly</span><span class="p">.</span><span class="nf">newPlot</span><span class="p">(</span>
+        <span class="dl">'</span><span class="s1">plotly3dScatter</span><span class="dl">'</span><span class="p">,</span>
+        <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="na">x</span><span class="p">:</span> <span class="nx">clusterA</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span>
+                <span class="na">y</span><span class="p">:</span> <span class="nx">clusterA</span><span class="p">.</span><span class="nx">y</span><span class="p">,</span>
+                <span class="na">z</span><span class="p">:</span> <span class="nx">clusterA</span><span class="p">.</span><span class="nx">z</span><span class="p">,</span>
+                <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">scatter3d</span><span class="dl">'</span><span class="p">,</span>
+                <span class="na">mode</span><span class="p">:</span> <span class="dl">'</span><span class="s1">markers</span><span class="dl">'</span><span class="p">,</span>
+                <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Cluster A</span><span class="dl">'</span><span class="p">,</span>
+                <span class="na">marker</span><span class="p">:</span> <span class="p">{</span> <span class="na">size</span><span class="p">:</span> <span class="mi">5</span> <span class="p">}</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="na">x</span><span class="p">:</span> <span class="nx">clusterB</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span>
+                <span class="na">y</span><span class="p">:</span> <span class="nx">clusterB</span><span class="p">.</span><span class="nx">y</span><span class="p">,</span>
+                <span class="na">z</span><span class="p">:</span> <span class="nx">clusterB</span><span class="p">.</span><span class="nx">z</span><span class="p">,</span>
+                <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">scatter3d</span><span class="dl">'</span><span class="p">,</span>
+                <span class="na">mode</span><span class="p">:</span> <span class="dl">'</span><span class="s1">markers</span><span class="dl">'</span><span class="p">,</span>
+                <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Cluster B</span><span class="dl">'</span><span class="p">,</span>
+                <span class="na">marker</span><span class="p">:</span> <span class="p">{</span> <span class="na">size</span><span class="p">:</span> <span class="mi">5</span> <span class="p">}</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="na">x</span><span class="p">:</span> <span class="nx">clusterC</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span>
+                <span class="na">y</span><span class="p">:</span> <span class="nx">clusterC</span><span class="p">.</span><span class="nx">y</span><span class="p">,</span>
+                <span class="na">z</span><span class="p">:</span> <span class="nx">clusterC</span><span class="p">.</span><span class="nx">z</span><span class="p">,</span>
+                <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">scatter3d</span><span class="dl">'</span><span class="p">,</span>
+                <span class="na">mode</span><span class="p">:</span> <span class="dl">'</span><span class="s1">markers</span><span class="dl">'</span><span class="p">,</span>
+                <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Cluster C</span><span class="dl">'</span><span class="p">,</span>
+                <span class="na">marker</span><span class="p">:</span> <span class="p">{</span> <span class="na">size</span><span class="p">:</span> <span class="mi">5</span> <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">],</span>
+        <span class="p">{</span>
+            <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">3D Scatter: Point Clusters</span><span class="dl">'</span><span class="p">,</span>
+            <span class="na">autosize</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="na">scene</span><span class="p">:</span> <span class="p">{</span>
+                <span class="na">xaxis</span><span class="p">:</span> <span class="p">{</span> <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">X</span><span class="dl">'</span> <span class="p">},</span>
+                <span class="na">yaxis</span><span class="p">:</span> <span class="p">{</span> <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Y</span><span class="dl">'</span> <span class="p">},</span>
+                <span class="na">zaxis</span><span class="p">:</span> <span class="p">{</span> <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Z</span><span class="dl">'</span> <span class="p">},</span>
+                <span class="na">aspectmode</span><span class="p">:</span> <span class="dl">'</span><span class="s1">cube</span><span class="dl">'</span>
+            <span class="p">},</span>
+            <span class="na">legend</span><span class="p">:</span> <span class="p">{</span> <span class="na">orientation</span><span class="p">:</span> <span class="dl">'</span><span class="s1">h</span><span class="dl">'</span> <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="na">responsive</span><span class="p">:</span> <span class="kc">true</span>
+        <span class="p">}</span>
+    <span class="p">);</span>
+<span class="p">});</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre><span class="language-label">Html</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<hr />
+
+<h2 id="2-3d-trajectory--path-plot">2. 3D trajectory / path plot</h2>
+
+<p>A 3D line plot is useful for trajectories, robot paths, drone flight logs, or any motion through space over time.</p>
+
+<div id="plotly3dTrajectory" style="width:100%;aspect-ratio:4/3;"></div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const t = [];
+    for (let i = 0; i <= 240; i++) {
+        t.push(i * 0.08);
+    }
+
+    const x = t.map(v => Math.cos(v));
+    const y = t.map(v => Math.sin(v));
+    const z = t.map(v => v / 4);
+
+    Plotly.newPlot(
+        'plotly3dTrajectory',
+        [
+            {
+                x: x,
+                y: y,
+                z: z,
+                type: 'scatter3d',
+                mode: 'lines',
+                name: 'Trajectory',
+                line: { width: 6 }
+            },
+            {
+                x: [x[0]],
+                y: [y[0]],
+                z: [z[0]],
+                type: 'scatter3d',
+                mode: 'markers',
+                name: 'Start',
+                marker: { size: 6 }
+            },
+            {
+                x: [x[x.length - 1]],
+                y: [y[y.length - 1]],
+                z: [z[z.length - 1]],
+                type: 'scatter3d',
+                mode: 'markers',
+                name: 'End',
+                marker: { size: 6 }
+            }
+        ],
+        {
+            title: '3D Trajectory Example',
+            autosize: true,
+            scene: {
+                xaxis: { title: 'X' },
+                yaxis: { title: 'Y' },
+                zaxis: { title: 'Z' },
+                aspectmode: 'data'
+            },
+            legend: { orientation: 'h' }
+        },
+        {
+            responsive: true
+        }
+    );
+});
+</script>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div><div class="line-number">19</div><div class="line-number">20</div><div class="line-number">21</div><div class="line-number">22</div><div class="line-number">23</div><div class="line-number">24</div><div class="line-number">25</div><div class="line-number">26</div><div class="line-number">27</div><div class="line-number">28</div><div class="line-number">29</div><div class="line-number">30</div><div class="line-number">31</div><div class="line-number">32</div><div class="line-number">33</div><div class="line-number">34</div><div class="line-number">35</div><div class="line-number">36</div><div class="line-number">37</div><div class="line-number">38</div><div class="line-number">39</div><div class="line-number">40</div><div class="line-number">41</div><div class="line-number">42</div><div class="line-number">43</div><div class="line-number">44</div><div class="line-number">45</div><div class="line-number">46</div><div class="line-number">47</div><div class="line-number">48</div><div class="line-number">49</div><div class="line-number">50</div><div class="line-number">51</div><div class="line-number">52</div><div class="line-number">53</div><div class="line-number">54</div><div class="line-number">55</div><div class="line-number">56</div><div class="line-number">57</div><div class="line-number">58</div><div class="line-number">59</div><div class="line-number">60</div><div class="line-number">61</div></div><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"plotly3dTrajectory"</span> <span class="na">style=</span><span class="s">"width:100%;aspect-ratio:4/3;"</span><span class="nt">&gt;&lt;/div&gt;</span>
+
+<span class="nt">&lt;script&gt;</span>
+<span class="nb">document</span><span class="p">.</span><span class="nf">addEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">DOMContentLoaded</span><span class="dl">'</span><span class="p">,</span> <span class="nf">function </span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">t</span> <span class="o">=</span> <span class="p">[];</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;=</span> <span class="mi">240</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">t</span><span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="nx">i</span> <span class="o">*</span> <span class="mf">0.08</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kd">const</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">t</span><span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="nx">v</span> <span class="o">=&gt;</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">cos</span><span class="p">(</span><span class="nx">v</span><span class="p">));</span>
+    <span class="kd">const</span> <span class="nx">y</span> <span class="o">=</span> <span class="nx">t</span><span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="nx">v</span> <span class="o">=&gt;</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">sin</span><span class="p">(</span><span class="nx">v</span><span class="p">));</span>
+    <span class="kd">const</span> <span class="nx">z</span> <span class="o">=</span> <span class="nx">t</span><span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="nx">v</span> <span class="o">=&gt;</span> <span class="nx">v</span> <span class="o">/</span> <span class="mi">4</span><span class="p">);</span>
+
+    <span class="nx">Plotly</span><span class="p">.</span><span class="nf">newPlot</span><span class="p">(</span>
+        <span class="dl">'</span><span class="s1">plotly3dTrajectory</span><span class="dl">'</span><span class="p">,</span>
+        <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="na">x</span><span class="p">:</span> <span class="nx">x</span><span class="p">,</span>
+                <span class="na">y</span><span class="p">:</span> <span class="nx">y</span><span class="p">,</span>
+                <span class="na">z</span><span class="p">:</span> <span class="nx">z</span><span class="p">,</span>
+                <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">scatter3d</span><span class="dl">'</span><span class="p">,</span>
+                <span class="na">mode</span><span class="p">:</span> <span class="dl">'</span><span class="s1">lines</span><span class="dl">'</span><span class="p">,</span>
+                <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Trajectory</span><span class="dl">'</span><span class="p">,</span>
+                <span class="na">line</span><span class="p">:</span> <span class="p">{</span> <span class="na">width</span><span class="p">:</span> <span class="mi">6</span> <span class="p">}</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="na">x</span><span class="p">:</span> <span class="p">[</span><span class="nx">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span>
+                <span class="na">y</span><span class="p">:</span> <span class="p">[</span><span class="nx">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span>
+                <span class="na">z</span><span class="p">:</span> <span class="p">[</span><span class="nx">z</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span>
+                <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">scatter3d</span><span class="dl">'</span><span class="p">,</span>
+                <span class="na">mode</span><span class="p">:</span> <span class="dl">'</span><span class="s1">markers</span><span class="dl">'</span><span class="p">,</span>
+                <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Start</span><span class="dl">'</span><span class="p">,</span>
+                <span class="na">marker</span><span class="p">:</span> <span class="p">{</span> <span class="na">size</span><span class="p">:</span> <span class="mi">6</span> <span class="p">}</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="na">x</span><span class="p">:</span> <span class="p">[</span><span class="nx">x</span><span class="p">[</span><span class="nx">x</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]],</span>
+                <span class="na">y</span><span class="p">:</span> <span class="p">[</span><span class="nx">y</span><span class="p">[</span><span class="nx">y</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]],</span>
+                <span class="na">z</span><span class="p">:</span> <span class="p">[</span><span class="nx">z</span><span class="p">[</span><span class="nx">z</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]],</span>
+                <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">scatter3d</span><span class="dl">'</span><span class="p">,</span>
+                <span class="na">mode</span><span class="p">:</span> <span class="dl">'</span><span class="s1">markers</span><span class="dl">'</span><span class="p">,</span>
+                <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">End</span><span class="dl">'</span><span class="p">,</span>
+                <span class="na">marker</span><span class="p">:</span> <span class="p">{</span> <span class="na">size</span><span class="p">:</span> <span class="mi">6</span> <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">],</span>
+        <span class="p">{</span>
+            <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">3D Trajectory Example</span><span class="dl">'</span><span class="p">,</span>
+            <span class="na">autosize</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="na">scene</span><span class="p">:</span> <span class="p">{</span>
+                <span class="na">xaxis</span><span class="p">:</span> <span class="p">{</span> <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">X</span><span class="dl">'</span> <span class="p">},</span>
+                <span class="na">yaxis</span><span class="p">:</span> <span class="p">{</span> <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Y</span><span class="dl">'</span> <span class="p">},</span>
+                <span class="na">zaxis</span><span class="p">:</span> <span class="p">{</span> <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Z</span><span class="dl">'</span> <span class="p">},</span>
+                <span class="na">aspectmode</span><span class="p">:</span> <span class="dl">'</span><span class="s1">data</span><span class="dl">'</span>
+            <span class="p">},</span>
+            <span class="na">legend</span><span class="p">:</span> <span class="p">{</span> <span class="na">orientation</span><span class="p">:</span> <span class="dl">'</span><span class="s1">h</span><span class="dl">'</span> <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="na">responsive</span><span class="p">:</span> <span class="kc">true</span>
+        <span class="p">}</span>
+    <span class="p">);</span>
+<span class="p">});</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre><span class="language-label">Html</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<hr />
+
+<h2 id="3-3d-surface-plot">3. 3D surface plot</h2>
+
+<p>3D surface plots are common for mathematical functions, terrain-like data, simulation outputs, and response surfaces.</p>
+
+<div id="plotly3dSurface" style="width:100%;aspect-ratio:4/3;"></div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const x = [];
+    const y = [];
+    const z = [];
+
+    const n = 50;
+    const min = -4;
+    const max = 4;
+
+    for (let i = 0; i < n; i++) {
+        x.push(min + (max - min) * i / (n - 1));
+        y.push(min + (max - min) * i / (n - 1));
+    }
+
+    for (let i = 0; i < y.length; i++) {
+        const row = [];
+        for (let j = 0; j < x.length; j++) {
+            const xv = x[j];
+            const yv = y[i];
+            const r = Math.sqrt(xv * xv + yv * yv) + 1e-6;
+            row.push(Math.sin(r) / r);
+        }
+        z.push(row);
+    }
+
+    Plotly.newPlot(
+        'plotly3dSurface',
+        [
+            {
+                x: x,
+                y: y,
+                z: z,
+                type: 'surface',
+                name: 'Surface'
+            }
+        ],
+        {
+            title: '3D Surface Example',
+            autosize: true,
+            scene: {
+                xaxis: { title: 'X' },
+                yaxis: { title: 'Y' },
+                zaxis: { title: 'Z' },
+                aspectmode: 'cube'
+            }
+        },
+        {
+            responsive: true
+        }
+    );
+});
+</script>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div><div class="line-number">19</div><div class="line-number">20</div><div class="line-number">21</div><div class="line-number">22</div><div class="line-number">23</div><div class="line-number">24</div><div class="line-number">25</div><div class="line-number">26</div><div class="line-number">27</div><div class="line-number">28</div><div class="line-number">29</div><div class="line-number">30</div><div class="line-number">31</div><div class="line-number">32</div><div class="line-number">33</div><div class="line-number">34</div><div class="line-number">35</div><div class="line-number">36</div><div class="line-number">37</div><div class="line-number">38</div><div class="line-number">39</div><div class="line-number">40</div><div class="line-number">41</div><div class="line-number">42</div><div class="line-number">43</div><div class="line-number">44</div><div class="line-number">45</div><div class="line-number">46</div><div class="line-number">47</div><div class="line-number">48</div><div class="line-number">49</div><div class="line-number">50</div><div class="line-number">51</div><div class="line-number">52</div><div class="line-number">53</div><div class="line-number">54</div><div class="line-number">55</div></div><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"plotly3dSurface"</span> <span class="na">style=</span><span class="s">"width:100%;aspect-ratio:4/3;"</span><span class="nt">&gt;&lt;/div&gt;</span>
+
+<span class="nt">&lt;script&gt;</span>
+<span class="nb">document</span><span class="p">.</span><span class="nf">addEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">DOMContentLoaded</span><span class="dl">'</span><span class="p">,</span> <span class="nf">function </span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">x</span> <span class="o">=</span> <span class="p">[];</span>
+    <span class="kd">const</span> <span class="nx">y</span> <span class="o">=</span> <span class="p">[];</span>
+    <span class="kd">const</span> <span class="nx">z</span> <span class="o">=</span> <span class="p">[];</span>
+
+    <span class="kd">const</span> <span class="nx">n</span> <span class="o">=</span> <span class="mi">50</span><span class="p">;</span>
+    <span class="kd">const</span> <span class="nx">min</span> <span class="o">=</span> <span class="o">-</span><span class="mi">4</span><span class="p">;</span>
+    <span class="kd">const</span> <span class="nx">max</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">n</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">x</span><span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="nx">min</span> <span class="o">+</span> <span class="p">(</span><span class="nx">max</span> <span class="o">-</span> <span class="nx">min</span><span class="p">)</span> <span class="o">*</span> <span class="nx">i</span> <span class="o">/</span> <span class="p">(</span><span class="nx">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">));</span>
+        <span class="nx">y</span><span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="nx">min</span> <span class="o">+</span> <span class="p">(</span><span class="nx">max</span> <span class="o">-</span> <span class="nx">min</span><span class="p">)</span> <span class="o">*</span> <span class="nx">i</span> <span class="o">/</span> <span class="p">(</span><span class="nx">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">));</span>
+    <span class="p">}</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">y</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">const</span> <span class="nx">row</span> <span class="o">=</span> <span class="p">[];</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">j</span> <span class="o">&lt;</span> <span class="nx">x</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">const</span> <span class="nx">xv</span> <span class="o">=</span> <span class="nx">x</span><span class="p">[</span><span class="nx">j</span><span class="p">];</span>
+            <span class="kd">const</span> <span class="nx">yv</span> <span class="o">=</span> <span class="nx">y</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+            <span class="kd">const</span> <span class="nx">r</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">sqrt</span><span class="p">(</span><span class="nx">xv</span> <span class="o">*</span> <span class="nx">xv</span> <span class="o">+</span> <span class="nx">yv</span> <span class="o">*</span> <span class="nx">yv</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="nx">e</span><span class="o">-</span><span class="mi">6</span><span class="p">;</span>
+            <span class="nx">row</span><span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nf">sin</span><span class="p">(</span><span class="nx">r</span><span class="p">)</span> <span class="o">/</span> <span class="nx">r</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="nx">z</span><span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="nx">row</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="nx">Plotly</span><span class="p">.</span><span class="nf">newPlot</span><span class="p">(</span>
+        <span class="dl">'</span><span class="s1">plotly3dSurface</span><span class="dl">'</span><span class="p">,</span>
+        <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="na">x</span><span class="p">:</span> <span class="nx">x</span><span class="p">,</span>
+                <span class="na">y</span><span class="p">:</span> <span class="nx">y</span><span class="p">,</span>
+                <span class="na">z</span><span class="p">:</span> <span class="nx">z</span><span class="p">,</span>
+                <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">surface</span><span class="dl">'</span><span class="p">,</span>
+                <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Surface</span><span class="dl">'</span>
+            <span class="p">}</span>
+        <span class="p">],</span>
+        <span class="p">{</span>
+            <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">3D Surface Example</span><span class="dl">'</span><span class="p">,</span>
+            <span class="na">autosize</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="na">scene</span><span class="p">:</span> <span class="p">{</span>
+                <span class="na">xaxis</span><span class="p">:</span> <span class="p">{</span> <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">X</span><span class="dl">'</span> <span class="p">},</span>
+                <span class="na">yaxis</span><span class="p">:</span> <span class="p">{</span> <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Y</span><span class="dl">'</span> <span class="p">},</span>
+                <span class="na">zaxis</span><span class="p">:</span> <span class="p">{</span> <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Z</span><span class="dl">'</span> <span class="p">},</span>
+                <span class="na">aspectmode</span><span class="p">:</span> <span class="dl">'</span><span class="s1">cube</span><span class="dl">'</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="na">responsive</span><span class="p">:</span> <span class="kc">true</span>
+        <span class="p">}</span>
+    <span class="p">);</span>
+<span class="p">});</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre><span class="language-label">Html</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<hr />
+
+<h2 id="4-3d-mesh-plot">4. 3D mesh plot</h2>
+
+<p>Mesh plots are useful for object shapes, reconstructed surfaces, geometry visualization, or low-poly models.</p>
+
+<div id="plotly3dMesh" style="width:100%;aspect-ratio:4/3;"></div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const x = [0, 1, 1, 0, 0, 1, 1, 0];
+    const y = [0, 0, 1, 1, 0, 0, 1, 1];
+    const z = [0, 0, 0, 0, 1, 1, 1, 1];
+
+    Plotly.newPlot(
+        'plotly3dMesh',
+        [
+            {
+                x: x,
+                y: y,
+                z: z,
+                i: [0, 0, 0, 1, 2, 4, 4, 5, 6, 7, 0, 1],
+                j: [1, 2, 4, 3, 3, 5, 6, 6, 7, 4, 5, 6],
+                k: [2, 4, 1, 2, 0, 6, 5, 7, 4, 0, 1, 2],
+                type: 'mesh3d',
+                opacity: 0.55,
+                name: 'Cube Mesh'
+            }
+        ],
+        {
+            title: '3D Mesh Example',
+            autosize: true,
+            scene: {
+                xaxis: { title: 'X' },
+                yaxis: { title: 'Y' },
+                zaxis: { title: 'Z' },
+                aspectmode: 'data'
+            }
+        },
+        {
+            responsive: true
+        }
+    );
+});
+</script>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div><div class="line-number">19</div><div class="line-number">20</div><div class="line-number">21</div><div class="line-number">22</div><div class="line-number">23</div><div class="line-number">24</div><div class="line-number">25</div><div class="line-number">26</div><div class="line-number">27</div><div class="line-number">28</div><div class="line-number">29</div><div class="line-number">30</div><div class="line-number">31</div><div class="line-number">32</div><div class="line-number">33</div><div class="line-number">34</div><div class="line-number">35</div><div class="line-number">36</div><div class="line-number">37</div><div class="line-number">38</div><div class="line-number">39</div></div><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"plotly3dMesh"</span> <span class="na">style=</span><span class="s">"width:100%;aspect-ratio:4/3;"</span><span class="nt">&gt;&lt;/div&gt;</span>
+
+<span class="nt">&lt;script&gt;</span>
+<span class="nb">document</span><span class="p">.</span><span class="nf">addEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">DOMContentLoaded</span><span class="dl">'</span><span class="p">,</span> <span class="nf">function </span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">];</span>
+    <span class="kd">const</span> <span class="nx">y</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">];</span>
+    <span class="kd">const</span> <span class="nx">z</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">];</span>
+
+    <span class="nx">Plotly</span><span class="p">.</span><span class="nf">newPlot</span><span class="p">(</span>
+        <span class="dl">'</span><span class="s1">plotly3dMesh</span><span class="dl">'</span><span class="p">,</span>
+        <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="na">x</span><span class="p">:</span> <span class="nx">x</span><span class="p">,</span>
+                <span class="na">y</span><span class="p">:</span> <span class="nx">y</span><span class="p">,</span>
+                <span class="na">z</span><span class="p">:</span> <span class="nx">z</span><span class="p">,</span>
+                <span class="na">i</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+                <span class="na">j</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span>
+                <span class="na">k</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+                <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">mesh3d</span><span class="dl">'</span><span class="p">,</span>
+                <span class="na">opacity</span><span class="p">:</span> <span class="mf">0.55</span><span class="p">,</span>
+                <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Cube Mesh</span><span class="dl">'</span>
+            <span class="p">}</span>
+        <span class="p">],</span>
+        <span class="p">{</span>
+            <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">3D Mesh Example</span><span class="dl">'</span><span class="p">,</span>
+            <span class="na">autosize</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="na">scene</span><span class="p">:</span> <span class="p">{</span>
+                <span class="na">xaxis</span><span class="p">:</span> <span class="p">{</span> <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">X</span><span class="dl">'</span> <span class="p">},</span>
+                <span class="na">yaxis</span><span class="p">:</span> <span class="p">{</span> <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Y</span><span class="dl">'</span> <span class="p">},</span>
+                <span class="na">zaxis</span><span class="p">:</span> <span class="p">{</span> <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Z</span><span class="dl">'</span> <span class="p">},</span>
+                <span class="na">aspectmode</span><span class="p">:</span> <span class="dl">'</span><span class="s1">data</span><span class="dl">'</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="na">responsive</span><span class="p">:</span> <span class="kc">true</span>
+        <span class="p">}</span>
+    <span class="p">);</span>
+<span class="p">});</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre><span class="language-label">Html</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+                        
+                        
+                    </article>
+                </div>
+                <div class="end-horizontal-divider-line"></div>
+                
+                <div class="disable-comments">
+                    <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24"><defs><style>.cls-637642e7c3a86d32eae6f187-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637642e7c3a86d32eae6f187-1" x1="15.82" y1="6.25" x2="8.18" y2="13.89"></line><line class="cls-637642e7c3a86d32eae6f187-1" x1="8.18" y1="6.25" x2="15.82" y2="13.89"></line><path class="cls-637642e7c3a86d32eae6f187-1" d="M18.68,1.48H5.32A3.82,3.82,0,0,0,1.5,5.3v9.54a3.82,3.82,0,0,0,3.82,3.82H9.14L12,21.52l2.86-2.86h3.82a3.82,3.82,0,0,0,3.82-3.82V5.3A3.82,3.82,0,0,0,18.68,1.48Z"></path></svg>
+                    <h2>
+                        
+                        Comments are disabled for this post
+                        
+                    </h2>
+                </div>
+                
+                <div class="final-horizontal-divider-line"></div>
+            </div>
+        </main>
+
+
+
+<script defer src="https://cloud.umami.is/script.js" data-website-id="03e93cbc-84e5-4ec8-a74a-38012b764bba"></script>
+
+        <div class="footer-container">
+    <div class="relative-footer">
+        <footer>
+            <div class="footer-info">
+                <!-- <a href="https://www.linkedin.com/in/duy-pham-duc-226293350/" target="_blank">
+                    <i class="fab fa-linkedin"></i>
+                    <div class="footer-info-label">
+                        <p>Duy Pham Duc</p>
+                    </div>
+                </a> -->
+                <a href="https://www.youtube.com/@yuk.yukano" target="_blank">
+                    <i class="fab fa-youtube"></i>
+                    <div class="footer-info-label">
+                        <p>@yuk.yukano</p>
+                    </div>
+                </a>
+                <a href="https://github.com/duy-phamduc68" target="_blank">
+                    <i class="fab fa-github"></i>
+                    <div class="footer-info-label">
+                        <p>duy-phamduc68</p>
+                    </div>
+                </a>
+                <a href="https://github.com/yuk068" target="_blank">
+                    <i class="fab fa-github"></i>
+                    <div class="footer-info-label">
+                        <p>yuk068</p>
+                    </div>
+                </a>
+                <a href="https://x.com/Yukano_50" target="_blank">
+                    <i class="fab fa-twitter"></i>
+                    <div class="footer-info-label">
+                        <p>@Yukano_50</p>
+                    </div>
+                </a>
+                <a href="https://www.tiktok.com/@yuk.yukano" target="_blank" style="display: none">
+                    <i class="fab fa-tiktok"></i>
+                    <div class="footer-info-label">
+                        <p>@yuk.yukano</p>
+                    </div>
+                </a>
+                <a href="https://www.facebook.com/yuk.pham.2025" target="_blank">
+                    <i class="fab fa-facebook"></i>
+                    <div class="footer-info-label">
+                        <p>Duy Pham Duc</p>
+                    </div>
+                </a>
+            </div>
+            <div class="copyright-text">
+                <p>&copy; 2026 Yukano</p>
+            </div>
+        </footer>
+    </div>
+</div>
+    </div>
+    <div id="svg-repo" style="display: none;">
+        <div id="svg-up-arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff">
+                    <defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs>
+                    <line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line>
+                    <polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline>
+                    <line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line>
+                    <polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline>
+                    <line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line>
+                </svg></div>
+        <div id="svg-down-arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff">
+                    <defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs>
+                    <line class="cls-1" x1="6.25" y1="17.73" x2="6.25" y2="0.48"></line>
+                    <polyline class="cls-1" points="1.46 12.94 6.25 17.73 11.04 12.94"></polyline>
+                    <line class="cls-1" x1="17.75" y1="17.73" x2="17.75" y2="0.48"></line>
+                    <polyline class="cls-1" points="12.96 12.94 17.75 17.73 22.54 12.94"></polyline>
+                    <line class="cls-1" x1="0.5" y1="22.52" x2="23.5" y2="22.52"></line>
+                </svg></div>
+        <div id="svg-check"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c627-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><circle class="cls-6374f8d9b67f094e4896c627-1" cx="12" cy="12" r="10.5"></circle><polyline class="cls-6374f8d9b67f094e4896c627-1" points="6.27 12 10.09 15.82 17.73 8.18"></polyline></svg></div>
+        <div id="svg-document"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></div>
+        <div id="svg-reset"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14"><defs><style>.cls-63ce7424ea57ea6c838005b4-1,.cls-63ce7424ea57ea6c838005b4-2,.cls-3{fill:none;stroke:currentColor;}.cls-63ce7424ea57ea6c838005b4-1{stroke-miterlimit:10;}.cls-63ce7424ea57ea6c838005b4-2,.cls-3{stroke-linecap:round;stroke-linejoin:round;}.cls-3{stroke-dasharray:0 4.13;}</style></defs><path class="cls-63ce7424ea57ea6c838005b4-1" d="M12,1.5A10.52,10.52,0,1,1,3.39,18.07"></path><line class="cls-63ce7424ea57ea6c838005b4-2" x1="1.48" y1="12.02" x2="1.48" y2="12.02"></line><path class="cls-3" d="M2.28,8A10.51,10.51,0,0,1,10,1.7"></path><line class="cls-63ce7424ea57ea6c838005b4-2" x1="12" y1="1.5" x2="12" y2="1.5"></line><polyline class="cls-63ce7424ea57ea6c838005b4-1" points="3.39 23.5 3.39 17.76 9.13 17.76"></polyline></svg></div>
+        <div id="svg-fullscreen"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14"><defs><style>.cls-637b8a2bf95e86b59c57a23a-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-637b8a2bf95e86b59c57a23a-1" d="M18.84,12A7.52,7.52,0,0,1,12,15.91,7.52,7.52,0,0,1,5.16,12,7.52,7.52,0,0,1,12,8.09,7.52,7.52,0,0,1,18.84,12Z"></path><circle class="cls-637b8a2bf95e86b59c57a23a-1" cx="12" cy="12" r="0.98"></circle><polyline class="cls-637b8a2bf95e86b59c57a23a-1" points="1.25 7.12 1.25 1.25 7.12 1.25"></polyline><polyline class="cls-637b8a2bf95e86b59c57a23a-1" points="22.75 16.89 22.75 22.75 16.89 22.75"></polyline><polyline class="cls-637b8a2bf95e86b59c57a23a-1" points="7.12 22.75 1.25 22.75 1.25 16.89"></polyline><polyline class="cls-637b8a2bf95e86b59c57a23a-1" points="16.89 1.25 22.75 1.25 22.75 7.12"></polyline><line class="cls-637b8a2bf95e86b59c57a23a-1" x1="1.25" y1="1.25" x2="7.11" y2="7.11"></line><line class="cls-637b8a2bf95e86b59c57a23a-1" x1="1.25" y1="22.75" x2="7.11" y2="16.89"></line><line class="cls-637b8a2bf95e86b59c57a23a-1" x1="16.89" y1="7.11" x2="21.77" y2="2.23"></line><line class="cls-637b8a2bf95e86b59c57a23a-1" x1="22.75" y1="22.75" x2="16.89" y2="16.89"></line></svg></div>
+            <div id="svg-lock">
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14"><defs><style>.cls-6374f8d9b67f094e4896c64a-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><rect class="cls-6374f8d9b67f094e4896c64a-1" x="5.32" y="10.09" width="13.36" height="12.41"></rect><path class="cls-6374f8d9b67f094e4896c64a-1" d="M12,1.5h0a4.77,4.77,0,0,1,4.77,4.77v3.82a0,0,0,0,1,0,0H7.23a0,0,0,0,1,0,0V6.27A4.77,4.77,0,0,1,12,1.5Z"></path><circle class="cls-6374f8d9b67f094e4896c64a-1" cx="12" cy="14.86" r="0.95"></circle><line class="cls-6374f8d9b67f094e4896c64a-1" x1="12" y1="19.64" x2="12" y2="15.82"></line></svg></div>
+            <div id="svg-unlock"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14"><defs><style>.cls-6374f8d9b67f094e4896c66e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><rect class="cls-6374f8d9b67f094e4896c66e-1" x="5.32" y="10.09" width="13.36" height="12.41"></rect><path class="cls-6374f8d9b67f094e4896c66e-1" d="M16.77,10.09H7.23V6.27A4.77,4.77,0,0,1,12,1.5h0a4.77,4.77,0,0,1,4.77,4.77"></path><circle class="cls-6374f8d9b67f094e4896c66e-1" cx="12" cy="14.86" r="0.95"></circle><line class="cls-6374f8d9b67f094e4896c66e-1" x1="12" y1="19.64" x2="12" y2="15.82"></line></svg></div>
+        <div id="svg-back"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14"><defs><style>.cls-6374f543b67f094e4896c5c8-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><circle class="cls-6374f543b67f094e4896c5c8-1" cx="12" cy="12" r="10.5"></circle><path class="cls-6374f543b67f094e4896c5c8-1" d="M7.23,7.23h7.63a3.82,3.82,0,0,1,3.82,3.82h0a3.82,3.82,0,0,1-3.82,3.81H7.23"></path><polyline class="cls-6374f543b67f094e4896c5c8-1" points="11.04 18.68 7.23 14.86 11.04 11.04"></polyline></svg></div>
+    </div>
+    <div id="notify-overlay" style="display: none;">
+    <div id="notify-container">
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="40" height="40" fill="none" stroke="var(--neon-aqua-accent, #6bd9fa)" stroke-miterlimit="10"><circle cx="12" cy="12" r="10.5"/><polyline points="12 6.5 12 12 16 14.5"/></svg>
+        </div>
+        <p class="notify-title">Coming Soon!</p>
+        <div id="notify-divider"></div>
+        <span class="notify-desc">This is not available yet...</span>
+        <span class="notify-desc">Check back later!</span>
+        <button id="notify-close-btn" onclick="dismissNotify()">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="16" height="16" fill="none" stroke="currentColor" stroke-miterlimit="10"><circle cx="12" cy="12" r="10.5"/><line x1="8.18" y1="8.18" x2="15.82" y2="15.82"/><line x1="15.82" y1="8.18" x2="8.18" y2="15.82"/></svg> Dismiss
+        </button>
+    </div>
+</div>
+    <script src="/assets/js/pages-js/post-script.js"></script>
+    <script>
+        (function() {
+            'use strict';
+            window.addEventListener('load', () => {
+                const target = document.querySelector('div.post-content');
+                if (target) {
+                    target.style.outline = 'none';
+                    target.setAttribute('tabindex', '-1');
+                    target.focus();
+                }
+            });
+        })();
+    </script>
+    <div class="scroll-button-container">
+        <button id="scrollButton" onclick="scrollToTop()">
+            <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="50" height="50" color="#fff">
+    <defs>
+        <style>
+            .cls-scroll-top-1 {
+                fill: none;
+                stroke: currentColor;
+                stroke-miterlimit: 10;
+            }
+        </style>
+    </defs>
+    <circle class="cls-scroll-top-1" cx="12" cy="12" r="10.5"></circle>
+    <line class="cls-scroll-top-1" x1="12" y1="10.09" x2="12" y2="18.68"></line>
+    <polyline class="cls-scroll-top-1" points="7.23 10.09 12 5.32 16.77 10.09"></polyline>
+    <polyline class="cls-scroll-top-1" points="7.23 14.86 12 10.09 16.77 14.86"></polyline>
+</svg>
+        </button>
+    </div>
+</body>
+
+</html>
