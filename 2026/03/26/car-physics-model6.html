@@ -40,7 +40,7 @@
     <meta property="article:author" content="Yuk">
     <meta property="article:tag" content="vehicle dynamics">
 <meta property="article:tag" content="simulation">
-<meta property="article:tag" content="kinematic modeling">
+<meta property="article:tag" content="kinematics modeling">
 <meta property="article:tag" content="interactive plot">
 
     <!-- Twitter Card -->
@@ -424,7 +424,7 @@ lightbox.init();
                         
                         
                         
-                        <span class="tag">#kinematic-modeling</span>
+                        <span class="tag">#kinematics-modeling</span>
                         
                         
                         
@@ -622,7 +622,7 @@ lightbox.init();
 
 <p>The plot below explicitly visualizes the <strong>Instantaneous Center of Rotation (ICR)</strong>, which is where the lines perpendicular to both wheels intersecting at a single point in the distance. This “pivot point” is what the car is actually rotating around.</p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAABwBACdASpAADUAPt1sr1MxJamoIgmaIBuJaQAADxFCvgDq73EQ09aXwNLXAAD+8KrPPxZAa+SFZ5H8H9Einb4G6FsLSx4lQAA='); aspect-ratio: 312 / 260; "><img src="/assets/images/2026/q1-2026/car-physics/model6/steeringangle.webp" alt="steering angle" loading="lazy" decoding="async" width="312" height="260" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAABwBACdASpAADUAPt1sr1MxJamoIgmaIBuJaQAADxFCvgDq73EQ09aXwNLXAAD+8KrPPxZAa+SFZ5H8H9Einb4G6FsLSx4lQAA='); aspect-ratio: 312 / 260; --img-ratio: 1.2; "><img src="/assets/images/2026/q1-2026/car-physics/model6/steeringangle.webp" alt="steering angle" loading="lazy" decoding="async" width="312" height="260" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
 
 <div class="media-description"><a href="https://www.asawicki.info/Mirror/Car%20Physics%20for%20Games/Car%20Physics%20for%20Games.html" target="_blank" rel="noopener noreferrer">Macro Monster, 2003</a></div>
 
@@ -1013,7 +1013,7 @@ x \leftarrow x + v \cdot dt</annotation></semantics></math></span><span class="k
 <p><strong>Important distinction:</strong></p>
 <ul>
   <li>$\theta$ (heading) <strong>is</strong> a state: we integrate it over time</li>
-  <li>$r$ (yaw rate) <strong>is not</strong> a state: we compute it fresh each frame from current $v$ and $\delta$</li>
+  <li>$r$ (yaw rate) <strong>is not</strong> a state (yet): we compute it fresh each frame from current $v$ and $\delta$</li>
 </ul>
 
 <p>This mirrors Model 4, where we formally introduced wheel rotation $\omega$ as a state but still used the constraint $v = \omega R$ to keep things solvable. Here, we’re using the kinematic constraint $r = v \cdot sin(\delta)/L$ instead of solving for yaw torque from lateral forces. That comes in Model 7.</p>
@@ -1337,7 +1337,7 @@ y \leftarrow y + v_y \cdot dt</annotation></semantics></math></span><span class=
 
 <h2 id="4-simulator-6---showcase">4. Simulator 6 - Showcase<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#4-simulator-6---showcase')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAAAwBACdASpAACYAPt1kqU+opSOiKqgBEBuJaQDUUBZntz4fnqCA+potCAAA/S9ArAJkLYDltFKeu1g7KMGvvLMPpgJ71gIWJajqgAAA'); aspect-ratio: 1282 / 752; "><img src="/assets/images/2026/q1-2026/car-physics/model6/simulator6.webp" alt="simulator 6" loading="lazy" decoding="async" width="1282" height="752" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAAAwBACdASpAACYAPt1kqU+opSOiKqgBEBuJaQDUUBZntz4fnqCA+potCAAA/S9ArAJkLYDltFKeu1g7KMGvvLMPpgJ71gIWJajqgAAA'); aspect-ratio: 1282 / 752; --img-ratio: 1.7048; "><img src="/assets/images/2026/q1-2026/car-physics/model6/simulator6.webp" alt="simulator 6" loading="lazy" decoding="async" width="1282" height="752" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
 
 <p>While working on Simulator 6, I noticed it was getting quite complex, so I decided to give it a dedicated repo:</p>
 

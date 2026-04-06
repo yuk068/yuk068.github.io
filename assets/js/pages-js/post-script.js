@@ -11,6 +11,7 @@ let dotRippleInitialized = false;
 let dotRippleTimeoutId = null;
 let siteBgHandlers = { move: null, scroll: null, leave: null, visibility: null };
 let dotRippleHandlers = { click: null, visibility: null };
+let rippleCooldown = false;
 
 function isBgMode(...modes) {
     return modes.includes(currentBgPerformanceMode);
@@ -18,6 +19,7 @@ function isBgMode(...modes) {
 
 function stopDotRippleEffect() {
     dotRippleInitialized = false;
+    rippleCooldown = false;
     if (dotRippleTimeoutId) {
         clearTimeout(dotRippleTimeoutId);
         dotRippleTimeoutId = null;
@@ -299,10 +301,13 @@ function initDotRippleEffect(presetName = 'subtle', timeToFirstMs = null, enable
     dotRippleHandlers.click = (e) => {
         if (!isBgMode('Mid', 'High')) return;
         if (e.target.closest('a, button, input, textarea, select')) return;
+        if (rippleCooldown) return;
+        rippleCooldown = true;
         spawnRipple(
             e.clientX + window.scrollX,
             e.clientY + window.scrollY
         );
+        setTimeout(() => { rippleCooldown = false; }, 500);
     };
     document.addEventListener('click', dotRippleHandlers.click);
 

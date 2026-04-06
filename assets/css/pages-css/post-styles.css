@@ -283,18 +283,17 @@ body {
 body::-webkit-scrollbar {
     width: 8px;
     height: 10px;
-    background: var(--blockquote-bg-color);
     z-index: 9999;
 }
 
 body::-webkit-scrollbar-track {
-    background: var(--blockquote-bg-color);
+    background: var(--header-bg-color);
     border-radius: 4px;
     z-index: 9999;
 }
 
 body::-webkit-scrollbar-thumb {
-    background: var(--blockquote-scroll-track);
+    background: var(--header-footer-shadeLight);
     border-radius: 4px;
     border: 2px solid transparent;
     background-clip: padding-box;
@@ -629,6 +628,7 @@ hr {
         transparent 92%,
         transparent 100%
     );
+    padding-top: 5px;
     padding-bottom: 15px;
 }
 
@@ -2768,9 +2768,7 @@ img.blur-load.loaded {
 /* -------------------------------------------------------------------------- */
 
 /* -------------------------------------------------------------------------- */
-
-/* -- POST ARTICLE LQIP FIXES (Orientation Aware) -- */
-/* -- THE FINAL ORIENTATION FIX -- */
+/* -- POST ARTICLE LQIP FIXES (Zero Layout Shift) -- */
 .post-article .lqip-wrapper {
     box-shadow: var(--box-shadow-part-1), var(--box-shadow-part-2);
     border: var(--border-width) solid var(--header-footer-shadeLight);
@@ -2780,14 +2778,16 @@ img.blur-load.loaded {
     margin: 20px auto;
     display: block !important;
     
-    /* 1. Background Logic */
     background-size: cover;
     background-position: center;
     
-    /* 2. Sizing Logic: This is the magic part */
-    max-width: 95%; 
-    width: fit-content;      /* Wrapper only grows as wide as the aspect ratio allows */
-    max-height: 85vh;        /* Never taller than 85% of the screen */
+    /* THE MAGIC BOUNDING BOX:
+       This tells the wrapper to fill the container (width: 100%), 
+       but NEVER exceed 95% of the screen, and NEVER grow wider than 
+       what would make its height exceed 85vh! 
+       Since it doesn't wait for the image to load, it stops the popping! */
+    width: 100%;
+    max-width: min(95%, calc(85vh * var(--img-ratio, 1)));
 }
 
 .post-article .lqip-wrapper img {
@@ -2795,13 +2795,13 @@ img.blur-load.loaded {
     border: none !important;
     margin: 0 !important;
     
-    /* 3. Image Logic */
-    width: auto;             /* Let width be determined by height */
-    height: auto;
-    max-width: 100%;         /* Stay inside wrapper */
-    max-height: 85vh;        /* Match the wrapper's limit */
+    /* Make the image exactly fill the pre-calculated wrapper */
+    width: 100%; 
+    height: 100%; 
+    max-width: 100%; 
+    max-height: 100%; 
     
-    object-fit: contain;     /* Never crop or push the image */
+    object-fit: cover; 
     display: block;
     opacity: 0;
     transition: opacity 0.6s ease-in-out !important;
@@ -2811,10 +2811,13 @@ img.blur-load.loaded {
     opacity: 1;
 }
 
-/* Ensure the wrapper respects your existing mobile scaling */
+/* Ensure the wrapper uses 100% width on mobile devices */
 @media (max-width: 1470px) {
     .post-article .lqip-wrapper {
-        max-width: 100%;
+        max-width: min(100%, calc(85vh * var(--img-ratio, 1)));
     }
 }
-/* -------------------------------------------------------------------------- */
+
+label {
+    font-family: 'Nunito', sans-serif;
+}
