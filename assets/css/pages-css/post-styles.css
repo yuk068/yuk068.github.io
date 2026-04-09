@@ -37,28 +37,29 @@
     --search-text-color: #f4f8fc;
     --search-placeholder-color: #bdeefd;
     --table-even-child-color: #262d3d;
+    
+    --callout-bg-color: #1c2333;
+    --callout-border-color: #4a5f86;
+    --callout-text-color: #c9d7ee;
+    --callout-title-bg: rgba(74, 95, 134, 0.16);
+    --callout-title-color: #aebfdd;
+    
+    --callout-note-bg-color: rgba(54, 94, 140, 0.16);
+    --callout-note-border-color: #4a6a9a;
+    --callout-note-text-color: #cddcf3;
+    
+    --callout-tip-bg-color: rgba(70, 120, 95, 0.16);
+    --callout-tip-border-color: #4f8f6d;
+    --callout-tip-text-color: #d3eadc;
+    
+    --callout-warning-bg-color: rgba(150, 110, 70, 0.16);
+    --callout-warning-border-color: #c08a52;
+    --callout-warning-text-color: #ecd3b2;
+    
+    --callout-important-bg-color: rgba(150, 80, 80, 0.16);
+    --callout-important-border-color: #c26d6d;
+    --callout-important-text-color: #f0c7c7;
 
-    --callout-bg-color: #1f2640;
-    --callout-border-color: #5a8cd2;
-    --callout-text-color: #d2e7ff;
-    --callout-title-bg: rgba(89, 139, 238, 0.18);
-    --callout-title-color: #b9d4ff;
-
-    --callout-note-bg-color: rgba(33, 90, 146, 0.22);
-    --callout-note-border-color: #5a8cd2;
-    --callout-note-text-color: #d8ebff;
-
-    --callout-tip-bg-color: rgba(69, 132, 89, 0.24);
-    --callout-tip-border-color: #5ac88f;
-    --callout-tip-text-color: #e5f7e8;
-
-    --callout-warning-bg-color: rgba(192, 122, 58, 0.20);
-    --callout-warning-border-color: #f2ab5e;
-    --callout-warning-text-color: #ffddbe;
-
-    --callout-important-bg-color: rgba(215, 95, 95, 0.20);
-    --callout-important-border-color: #ff9898;
-    --callout-important-text-color: #ffdddd;
     --callout-info-bg-color: var(--callout-important-bg-color);
     --callout-info-border-color: var(--callout-important-border-color);
     --callout-info-text-color: var(--callout-important-text-color);
@@ -1441,6 +1442,11 @@ code.language-plaintext {
     user-select: none;
 }
 
+table code.language-plaintext {
+    font-size: 15px;
+    background-color: var(--header-footer-shadeLight);
+}
+
 table {
     display: block;
     margin-top: 5px;
@@ -2397,6 +2403,10 @@ li[role="doc-endnote"] p {
         font-size: 16px;
     }
 
+    table code.language-plaintext {
+        font-size: 15px;
+        background-color: var(--header-footer-shadeLight);
+    }
 
     .post-article img {
         max-width: 100%;
@@ -2769,8 +2779,7 @@ img.blur-load.loaded {
 }
 /* -------------------------------------------------------------------------- */
 
-/* -------------------------------------------------------------------------- */
-/* -- POST ARTICLE LQIP FIXES (Zero Layout Shift) -- */
+/* -- POST ARTICLE LQIP FIXES (Orientation Aware) -- */
 .post-article .lqip-wrapper {
     box-shadow: var(--box-shadow-part-1), var(--box-shadow-part-2);
     border: var(--border-width) solid var(--header-footer-shadeLight);
@@ -2779,31 +2788,21 @@ img.blur-load.loaded {
     overflow: hidden;
     margin: 20px auto;
     display: block !important;
-    
     background-size: cover;
     background-position: center;
-    
-    /* THE MAGIC BOUNDING BOX:
-       This tells the wrapper to fill the container (width: 100%), 
-       but NEVER exceed 95% of the screen, and NEVER grow wider than 
-       what would make its height exceed 85vh! 
-       Since it doesn't wait for the image to load, it stops the popping! */
-    width: 100%;
-    max-width: min(95%, calc(85vh * var(--img-ratio, 1)));
+
+    /* Width & height caps are now handled by the inline style from the plugin.
+       Do NOT set width: fit-content here — it collapses the wrapper before load. */
+    max-width: 100%;
 }
 
 .post-article .lqip-wrapper img {
     box-shadow: none !important;
     border: none !important;
     margin: 0 !important;
-    
-    /* Make the image exactly fill the pre-calculated wrapper */
-    width: 100%; 
-    height: 100%; 
-    max-width: 100%; 
-    max-height: 100%; 
-    
-    object-fit: cover; 
+    width: 100%;       /* fill the pre-sized wrapper */
+    height: 100%;
+    object-fit: contain;
     display: block;
     opacity: 0;
     transition: opacity 0.6s ease-in-out !important;
@@ -2811,13 +2810,6 @@ img.blur-load.loaded {
 
 .post-article .lqip-wrapper img.loaded {
     opacity: 1;
-}
-
-/* Ensure the wrapper uses 100% width on mobile devices */
-@media (max-width: 1470px) {
-    .post-article .lqip-wrapper {
-        max-width: min(100%, calc(85vh * var(--img-ratio, 1)));
-    }
 }
 
 label {
