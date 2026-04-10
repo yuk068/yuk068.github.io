@@ -2788,29 +2788,47 @@ img.blur-load.loaded {
     overflow: hidden;
     margin: 20px auto;
     display: block !important;
+    align-self: center !important;
     background-size: cover;
     background-position: center;
-
-    /* Width & height caps are now handled by the inline style from the plugin.
-       Do NOT set width: fit-content here — it collapses the wrapper before load. */
+ 
+    /* Width & aspect-ratio are injected as inline styles by lazy_images.rb at
+       build time, so the frame is the exact correct size from the very first
+       paint — no jump. max-width clamps it inside the container as a safeguard. */
     max-width: 100%;
 }
-
+ 
 .post-article .lqip-wrapper img {
     box-shadow: none !important;
     border: none !important;
     margin: 0 !important;
-    width: 100%;       /* fill the pre-sized wrapper */
-    height: 100%;
-    object-fit: contain;
+ 
+    /* The img has width/height attributes set by the plugin (natural px dimensions).
+       We override them here: let the img stretch to fill the wrapper exactly.
+       max-width/max-height: 100% ensure it never overflows the wrapper.
+       width/height: 100% make it fill the wrapper fully so no LQIP background bleeds. */
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
     display: block;
     opacity: 0;
     transition: opacity 0.6s ease-in-out !important;
 }
-
+ 
 .post-article .lqip-wrapper img.loaded {
     opacity: 1;
 }
+ 
+/* Mobile portrait: stretch images to full content width so they don't feel
+   small. The aspect-ratio on the wrapper auto-adjusts the height correctly. */
+@media (max-width: 790px) {
+    .post-article .lqip-wrapper {
+        width: 100% !important;
+    }
+}
+/* -------------------------------------------------------------------------- */
 
 label {
     font-family: 'Nunito', sans-serif;
