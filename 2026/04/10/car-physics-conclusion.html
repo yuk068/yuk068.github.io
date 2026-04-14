@@ -11,9 +11,9 @@
     <meta name="theme-color" content="#ffffff">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="linkage" content="false">
-    <title>日本語の文字とふりがなのテスト</title>
-    <meta name="description" content="私のブログのためのふりがな付き日本語ライティングのサンプルテスト">
+    <meta name="linkage" content="true">
+    <title>Conclusion of the Macro Monster Car Physics Journey</title>
+    <meta name="description" content="Wrapping up the Car Model series, explaining about the final simulator, certain choices and pivots made, and a hell of a raw rant">
 
     <!-- SEO & Social Meta -->
     
@@ -25,26 +25,26 @@
     
     <meta name="author" content="Yuk">
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://yuk068.github.io//2026/02/20/test-japanese-writing">
+    <link rel="canonical" href="https://yuk068.github.io//2026/04/10/car-physics-conclusion">
 
     <!-- Open Graph -->
     <meta property="og:type" content="article">
-    <meta property="og:title" content="日本語の文字とふりがなのテスト">
-    <meta property="og:description" content="私のブログのためのふりがな付き日本語ライティングのサンプルテスト">
-    <meta property="og:url" content="https://yuk068.github.io//2026/02/20/test-japanese-writing">
+    <meta property="og:title" content="Conclusion of the Macro Monster Car Physics Journey">
+    <meta property="og:description" content="Wrapping up the Car Model series, explaining about the final simulator, certain choices and pivots made, and a hell of a raw rant">
+    <meta property="og:url" content="https://yuk068.github.io//2026/04/10/car-physics-conclusion">
     <meta property="og:image" content="https://yuk068.github.io//assets/thumbnail/default.webp">
     <meta property="og:site_name" content="Yuk's Blog">
     <meta property="og:locale" content="en_US">
-    <meta property="article:published_time" content="2026-02-20T00:00:00+07:00">
+    <meta property="article:published_time" content="2026-04-10T00:00:00+07:00">
     <meta property="article:author" content="Yuk">
-    <meta property="article:tag" content="resources">
+    <meta property="article:tag" content="announcement"><meta property="article:tag" content="research journey"><meta property="article:tag" content="yuk lore"><meta property="article:tag" content="rant">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@Yukano_50">
     <meta name="twitter:creator" content="@Yukano_50">
-    <meta name="twitter:title" content="日本語の文字とふりがなのテスト">
-    <meta name="twitter:description" content="私のブログのためのふりがな付き日本語ライティングのサンプルテスト">
+    <meta name="twitter:title" content="Conclusion of the Macro Monster Car Physics Journey">
+    <meta name="twitter:description" content="Wrapping up the Car Model series, explaining about the final simulator, certain choices and pivots made, and a hell of a raw rant">
     <meta name="twitter:image" content="https://yuk068.github.io//assets/thumbnail/default.webp">
 
     <link rel="stylesheet" href="/assets/css/pages-css/post-styles.css">
@@ -75,6 +75,16 @@
     
 
     
+    <script src="https://cdn.plot.ly/plotly-3.3.1.min.js" charset="utf-8"></script>
+    <script>
+        window.addEventListener('load', function () {
+            setTimeout(function () {
+                document.querySelectorAll('.js-plotly-plot').forEach(function (el) {
+                    Plotly.Plots.resize(el);
+                });
+            }, 250);
+        });
+    </script>
     
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -390,17 +400,32 @@ lightbox.init();
                             
                             
                             
-<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24"><defs><style>.cls-6374f8d9b67f094e4896c676-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c676-1" d="M7.23,20.59l-4.78,1,1-4.78L17.89,2.29A2.69,2.69,0,0,1,19.8,1.5h0a2.7,2.7,0,0,1,2.7,2.7h0a2.69,2.69,0,0,1-.79,1.91Z"></path><line class="cls-6374f8d9b67f094e4896c676-1" x1="0.55" y1="22.5" x2="23.45" y2="22.5"></line><line class="cls-6374f8d9b67f094e4896c676-1" x1="19.64" y1="8.18" x2="15.82" y2="4.36"></line></svg>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24"><defs><style>.cls-637b7b44f95e86b59c579f7b-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-637b7b44f95e86b59c579f7b-1" d="M1.5,18.68H8.18A3.82,3.82,0,0,1,12,22.5v0a0,0,0,0,1,0,0H1.5a0,0,0,0,1,0,0V18.68A0,0,0,0,1,1.5,18.68Z"></path><path class="cls-637b7b44f95e86b59c579f7b-1" d="M15.82,18.68H22.5a0,0,0,0,1,0,0V22.5a0,0,0,0,1,0,0H12a0,0,0,0,1,0,0v0A3.82,3.82,0,0,1,15.82,18.68Z"></path><path class="cls-637b7b44f95e86b59c579f7b-1" d="M1.5,6.27H8.18A3.82,3.82,0,0,1,12,10.09V22.5a0,0,0,0,1,0,0H1.5a0,0,0,0,1,0,0V6.27A0,0,0,0,1,1.5,6.27Z"></path><path class="cls-637b7b44f95e86b59c579f7b-1" d="M19.64,6.27H22.5V22.5H12V10.09a3.82,3.82,0,0,1,3.82-3.82"></path><path class="cls-637b7b44f95e86b59c579f7b-1" d="M19.64,13l-1.91,1.91L15.82,13V3.41A1.9,1.9,0,0,1,17.73,1.5h0a1.91,1.91,0,0,1,1.91,1.91Z"></path></svg>
 
 
                             
-                        </span>日本語の文字とふりがなのテスト
+                        </span>Conclusion of the Macro Monster Car Physics Journey
                     </h1>
                     <div class="post-tags">
                         
                         
                         
-                        <span class="tag">#resources</span>
+                        <span class="tag">#announcement</span>
+                        
+                        
+                        
+                        
+                        <span class="tag">#research-journey</span>
+                        
+                        
+                        
+                        
+                        <span class="tag">#yuk-lore</span>
+                        
+                        
+                        
+                        
+                        <span class="tag">#rant</span>
                         
                         
                     </div>
@@ -441,7 +466,7 @@ lightbox.init();
                         
                         
                         
-                        <span class="date-span">Feb. 20th 2026</span>
+                        <span class="date-span">Apr. 10th 2026</span>
 
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.7" width="16" height="16" fill="none">
     <circle cx="12" cy="12" r="9.5" stroke="currentColor" stroke-miterlimit="10"></circle>
@@ -449,7 +474,7 @@ lightbox.init();
 </svg>
                         
                         <span class="reading-time">
-                            1
+                            5
                             
                             Min.
                             
@@ -457,7 +482,7 @@ lightbox.init();
                         
                     </div>
                     <div class="post-description">
-                        私のブログのためのふりがな付き日本語ライティングのサンプルテスト
+                        Wrapping up the Car Model series, explaining about the final simulator, certain choices and pivots made, and a hell of a raw rant
                     </div>
                     <div class="author"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.7" width="20" height="20" fill="none">
     <circle cx="12" cy="7.25" r="5.73" stroke="currentColor" stroke-miterlimit="10"></circle>
@@ -476,114 +501,80 @@ lightbox.init();
                         
                         
                         
-                        <h2 id="新宿多様性が交差する東京の中心地">新宿：多様性が交差する東京の中心地</h2>
-
-<h3 id="shinjuku-the-hub-of-tokyo-where-diversity-intersects">(Shinjuku: The Hub of Tokyo Where Diversity Intersects)</h3>
-
-<p><ruby>新宿<rt>しんじゅく</rt></ruby>は、<ruby>世界<rt>せかい</rt></ruby>で<ruby>最<rt>もっと</rt></ruby>も<ruby>利用客<rt>りようきゃく</rt></ruby>が<ruby>多<rt>おお</rt></ruby>い<ruby>鉄道駅<rt>てつどうえき</rt></ruby>を<ruby>中心<rt>ちゅうしん</rt></ruby>とした、東京を<ruby>代表<rt>だいひょう</rt></ruby>する巨大な<ruby>街<rt>まち</rt></ruby>です。</p>
+                        <p>Okay so in this post, I’m going to give the raw, unfiltered story about the car physics series of mine, expected to cover:</p>
 
 <blockquote><div class="content">
-  <p>Shinjuku is a massive, representative district of Tokyo, centered around the world’s busiest railway station.</p>
+  <div id="table-of-contents"><ul><li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#why-i-decided-to-do-it-in-the-first-place')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#why-i-decided-to-do-it-in-the-first-place">Why I decided to do it in the first place</a></div></li>
+<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#explain-choices-made-in-model-7-very-briefly')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#explain-choices-made-in-model-7-very-briefly">Explain choices made in Model 7 very briefly</a></div></li>
+<li class="h4"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#discouragement-from-model-6-onwards')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#discouragement-from-model-6-onwards">Discouragement from Model 6 onwards</a></div></li>
+<li class="h4"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#choices-made-in-model-7-that-sealed-the-roadmap')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#choices-made-in-model-7-that-sealed-the-roadmap">Choices made in Model 7 that sealed the roadmap</a></div></li>
+<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#the-pivot-that-happened-in-model-7')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#the-pivot-that-happened-in-model-7">The pivot that happened in model 7</a></div></li>
+<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#model-8-going-forward')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#model-8-going-forward">Model 8 going forward</a></div></li></ul></div>
 </div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
 
 <hr />
 
-<h3 id="新宿の主なエリアとその特徴-main-areas-and-their-characteristics">新宿の主なエリアとその特徴 (Main Areas and Their Characteristics)</h3>
+<h3 id="why-i-decided-to-do-it-in-the-first-place">Why I decided to do it in the first place<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#why-i-decided-to-do-it-in-the-first-place')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
 
-<div class="table-wrapper"><table>
-  <thead>
-    <tr>
-      <th>エリア名称</th>
-      <th>特徴</th>
-      <th>雰囲気</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>西新宿</strong></td>
-      <td><ruby>都庁<rt>とちょう</rt></ruby>・高層ビル</td>
-      <td>ビジネス・近代的</td>
-    </tr>
-    <tr>
-      <td><strong>歌舞伎町</strong></td>
-      <td>歓楽街・ネオン</td>
-      <td>エネルギッシュ・夜の街</td>
-    </tr>
-    <tr>
-      <td><strong>新宿御苑</strong></td>
-      <td><ruby>国立庭園<rt>こくりつていえん</rt></ruby></td>
-      <td>静寂・自然</td>
-    </tr>
-  </tbody>
-</table></div>
+<p>Okay so wind back to around end of February - end to Spring break, I decided on this simulation + autonomous vehicle direction very recently. About that time I was looking at various vehicle simulation / vehicle model because I haven’t felt confident enough to touch the heavy stacks like Autoware from Tier IV if I haven’t got familiar with such concepts, you will see this clearly at the beginning of the Model 1 post.</p>
+
+<p>Also this semester, I have both a differential equations course and a design algorithm analysis course (DAA or some shit). And during that time I also happened to discover the Macro Monster reference, so I think to myself, oh what the hell, seems like stars are aligning.</p>
+
+<p>Because I was thinking, this vehicle dynamics stuff definitely have to involve DEs, and then im pretty sure the path planning stuff can involve some DSA stuff too, it felt like the perfect project to take considering my direction.</p>
 
 <hr />
 
-<h3 id="ディープな魅力を味わう-experiencing-the-deep-charm">ディープな魅力を味わう (Experiencing the Deep Charm)</h3>
+<h3 id="explain-choices-made-in-model-7-very-briefly">Explain choices made in Model 7 very briefly<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#explain-choices-made-in-model-7-very-briefly')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
 
-<p>新宿の魅力は、近代的なビルだけではありません。一歩路地に入れば、昭和の時代にタイムスリップしたかのような風景が広がっています。</p>
+<h4 id="discouragement-from-model-6-onwards">Discouragement from Model 6 onwards<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#discouragement-from-model-6-onwards')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h4>
 
-<blockquote><div class="content">
-  <p>The charm of Shinjuku isn’t just in its modern buildings. If you step into the back alleys, scenery unfolds as if you’ve slipped back in time to the Showa era.</p>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+<p>To really get to the heart of this section, I have to confess something, I kinda lost interest in this roadmap starting from the 6th model (kinematic turning with longitudinal dynamics). Honestly that model already feel sufficient for urban driving already, which usually consist of stop-go traffic and low speed turning, because of that, I was already extremely discouraged since the 6th model, and I have written the first report for the DE course with the longitudinal model already (model 1 - 5, and that course require you to write 2 damn report can you believe ts).</p>
 
-<h4 id="1-都会のオアシス新宿御苑">1. 都会のオアシス：新宿御苑</h4>
-
-<p><ruby>新宿御苑<rt>しんじゅくぎょえん</rt></ruby>は、かつて<ruby>皇室<rt>こうしつ</rt></ruby>の<ruby>庭園<rt>ていえん</rt></ruby>として造られました。ここでは、<ruby>四季折々<rt>しきおりおり</rt></ruby>の<ruby>自然<rt>しぜん</rt></ruby>を<ruby>楽<rt>たの</rt></ruby>しむことができます。</p>
-
-<blockquote><div class="content">
-  <p>Shinjuku Gyoen was originally created as an Imperial garden. Here, you can enjoy the nature of each passing season.</p>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
-
-<h4 id="2-伝統と活気思い出横丁">2. 伝統と活気：思い出横丁</h4>
-
-<p><ruby>西口<rt>にしぐち</rt></ruby>のすぐそばにある<ruby>思い出<rt>おもいで</rt></ruby><ruby>横丁<rt>よこちょう</rt></ruby>は、<ruby>焼<rt>や</rt></ruby>き<ruby>鳥<rt>とり</rt></ruby>の<ruby>香<rt>こう</rt></ruby>ばしい<ruby>煙<rt>けむり</rt></ruby>に<ruby>包<rt>つつ</rt></ruby>まれています。</p>
-
-<blockquote><div class="content">
-  <p>Located right by the West Exit, Omoide Yokocho (Memory Lane) is enveloped in the savory smoke of grilling yakitori.</p>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
-
-<h4 id="3-眠らない街歌舞伎町">3. 眠らない街：歌舞伎町</h4>
-
-<p><ruby>歌舞伎町<rt>かぶきちょう</rt></ruby>は「<ruby>不夜城<rt>ふやじょう</rt></ruby>」とも<ruby>呼<rt>よ</rt></ruby>ばれ、<ruby>夜<rt>よる</rt></ruby>になると<ruby>無数<rt>むすう</rt></ruby>のネオンが<ruby>輝<rt>かがや</rt></ruby>き、<ruby>多<rt>おお</rt></ruby>くの人々で<ruby>賑<rt>にぎ</rt></ruby>わいます。</p>
-
-<blockquote><div class="content">
-  <p>Kabukicho is also called the “sleepless castle”; when night falls, countless neons shine and it bustles with many people.</p>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+<p>But yeah after that, any model with higher fidelity felt really heavy to me, not to mention model 7 was really starting to fry my brain (Check model 7 post).</p>
 
 <hr />
 
-<h3 id="旅行者のための実用的な表現-practical-phrases-for-travelers">旅行者のための実用的な表現 (Practical Phrases for Travelers)</h3>
+<h4 id="choices-made-in-model-7-that-sealed-the-roadmap">Choices made in Model 7 that sealed the roadmap<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#choices-made-in-model-7-that-sealed-the-roadmap')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h4>
 
-<p>新宿を歩く際に役立つ日本語のフレーズを紹介します。</p>
+<p>Yeah, my brain was frying from all these new stuff, so I used AI to help me understand it, and eventually, I finished the model, completed simulator 7, and finalized all 3 of my github repos dedicated for this series, however, the AI has also made some suggestion that I failed to foreseen that would make me more convinced to drop this specific series.</p>
 
-<blockquote><div class="content">
-  <p>Here are some Japanese phrases that will be useful when walking around Shinjuku.</p>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+<p>Originally in Model 8, I planned a full coupled tire model with friction circle, but most importantly: upgrade the integrator from Euler to RK4, and this is kinda the deathtrap here.</p>
 
-<ol>
-  <li><strong>「すみにません、<ruby>都庁<rt>とちょう</rt></ruby>へはどう行けばいいですか？」</strong></li>
-</ol>
+<p>In model 7, the AI suggested using a sideslip-based state representation vector, so because of that, instead of deriving Sideslip Beta from a Cartesian system of velocity, Beta got its own ODE.</p>
 
-<blockquote><div class="content">
-  <p>“Excuse me, how can I get to the Tokyo Metropolitan Government Building?”</p>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+<p>This is actually a really fascinating topic that I did not regret how I learned it here, specifically the differentiation between specific coordinates system in robotics, some might be more useful for calculation, while some might be more straightforward for the control module, I will definitely be looking deeper into this.</p>
 
-<ol>
-  <li><strong>「この<ruby>近<rt>ちか</rt></ruby>くに、美味しい<ruby>居酒屋<rt>いざかや</rt></ruby>はありますか？」</strong></li>
-</ol>
+<p>But anyway, thats the problem, I could not for the life of me debugged and refactor the codebase which has evolved from Model 1 to the sideslip based Model 7, to become the system that can naturally be upgraded to Model 8, or at least, I did not have the time nor the motivation to make it happen. the biggest issue lie in this state vector instability when using it with RK4, it seems RK4 prefers Cartesian based states. I’m gonna be real I’m not sure if thats the case or not, but the thing here is, the codebase is messy, I’ve lost interest in this specific roadmap, so if i wanted to work on model 8, it probably wont be from upgrading from simulator 7…</p>
 
-<blockquote><div class="content">
-  <p>“Are there any delicious izakayas (Japanese pubs) near here?”</p>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+<hr />
 
-<ol>
-  <li><strong>「新宿駅の<ruby>迷路<rt>めいろ</rt></ruby>から<ruby>脱出<rt>だっしゅつ</rt></ruby>できません！」</strong></li>
-</ol>
+<h3 id="the-pivot-that-happened-in-model-7">The pivot that happened in model 7<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#the-pivot-that-happened-in-model-7')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
 
-<blockquote><div class="content">
-  <p>“I can’t escape from the maze of Shinjuku Station!”</p>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+<p>So yeah, because of the above, and the fact that, at its current state, im actually quite happy with simulator 7, I think it actually encapsulate the MM reference quite nicely, considering that model 8 wasnt even in the MM reference and was more of my own choice.</p>
+
+<p>I think this hurdles is partly caused by me having to balance this project with all the deadlines of these fuckass courses too, I wanted to go deeper into my work, especially in this model 6-7 transition phase, if i had the time, i believe i could have tried to research it further, but honestly I dont know, in hindsight, in order to avoid this limitation i think i would have had to basically finish both model 7 and 8 at the same time.</p>
+
+<p>But yeah, for the simulator 7, you can see in the repo that I’ve pivoted it to be much more “video game fun”, allowing Asphalt-like drifting and unrealistic physics at high speed, but I think its fun, and like I said, Im happy with it considering I was using frickin “car physics for games” as a reference lol.</p>
+
+<p>Honestly, the Macro Monster reference wasn’t that easy to digest, but I think im happy with what I was able to learn from it.</p>
+
+<hr />
+
+<h3 id="model-8-going-forward">Model 8 going forward<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#model-8-going-forward')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+
+<p>So, I did reworked the roadmap to end this series at model 7, but I actually have not yet intend to abanddon model 8, I’ve actually discovered this new reference:</p>
+
+<p><a href="https://escholarship.org/content/qt3xb8f3d3/qt3xb8f3d3.pdf?t=pdniw2" target="_blank">https://escholarship.org/content/qt3xb8f3d3/qt3xb8f3d3.pdf?t=pdniw2</a></p>
+
+<p>(Might need a VPN to access, I did need one, its a PDF)</p>
+
+<p>Its like a doctoral thesis from UC Berkeley, skimming through it I found very detailed formulation of various vehicle models that resembles what I want for model 8 and are actually used in industries rather than the video game stuff, so I think if i were to really take this series to the end, Id use this.</p>
+
+<p>This roadmap is done. I’m just not continuing Model 8 from this codebase.</p>
+
+<hr />
+
+<p>But yeah anyway, really informal post I know, I kinda got a lot going on right now, I also plan to take the kinematic model i learned from this journey to make a project about automatic parking for that DAA course, but yeah, these courses still suck, this school still sucks, but ill try my best, I love doing these things, I just wish I had more time to go deeper into them.</p>
 
                         
                         

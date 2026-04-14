@@ -1,4 +1,72 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://yuk068.github.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://yuk068.github.io//" rel="alternate" type="text/html" /><updated>2026-04-12T02:25:53+07:00</updated><id>https://yuk068.github.io//feed.xml</id><title type="html">Yuk’s Blog</title><subtitle></subtitle><entry><title type="html">Test Plotly 3D</title><link href="https://yuk068.github.io//2026/04/07/test-plotly-3d" rel="alternate" type="text/html" title="Test Plotly 3D" /><published>2026-04-07T00:00:00+07:00</published><updated>2026-04-07T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/04/07/test-plotly-3d</id><content type="html" xml:base="https://yuk068.github.io//2026/04/07/test-plotly-3d"><![CDATA[<h3 id="plotly"><a href="https://plotly.com/" target="_blank">Plotly</a></h3>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://yuk068.github.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://yuk068.github.io//" rel="alternate" type="text/html" /><updated>2026-04-15T01:20:23+07:00</updated><id>https://yuk068.github.io//feed.xml</id><title type="html">Yuk’s Blog</title><subtitle></subtitle><entry><title type="html">Conclusion of the Macro Monster Car Physics Journey</title><link href="https://yuk068.github.io//2026/04/10/car-physics-conclusion" rel="alternate" type="text/html" title="Conclusion of the Macro Monster Car Physics Journey" /><published>2026-04-10T00:00:00+07:00</published><updated>2026-04-10T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/04/10/car-physics-conclusion</id><content type="html" xml:base="https://yuk068.github.io//2026/04/10/car-physics-conclusion"><![CDATA[<p>Okay so in this post, I’m going to give the raw, unfiltered story about the car physics series of mine, expected to cover:</p>
+
+<blockquote><div class="content">
+  <div id="table-of-contents"></div>
+</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<hr />
+
+<h3 id="why-i-decided-to-do-it-in-the-first-place">Why I decided to do it in the first place</h3>
+
+<p>Okay so wind back to around end of February - end to Spring break, I decided on this simulation + autonomous vehicle direction very recently. About that time I was looking at various vehicle simulation / vehicle model because I haven’t felt confident enough to touch the heavy stacks like Autoware from Tier IV if I haven’t got familiar with such concepts, you will see this clearly at the beginning of the Model 1 post.</p>
+
+<p>Also this semester, I have both a differential equations course and a design algorithm analysis course (DAA or some shit). And during that time I also happened to discover the Macro Monster reference, so I think to myself, oh what the hell, seems like stars are aligning.</p>
+
+<p>Because I was thinking, this vehicle dynamics stuff definitely have to involve DEs, and then im pretty sure the path planning stuff can involve some DSA stuff too, it felt like the perfect project to take considering my direction.</p>
+
+<hr />
+
+<h3 id="explain-choices-made-in-model-7-very-briefly">Explain choices made in Model 7 very briefly</h3>
+
+<h4 id="discouragement-from-model-6-onwards">Discouragement from Model 6 onwards</h4>
+
+<p>To really get to the heart of this section, I have to confess something, I kinda lost interest in this roadmap starting from the 6th model (kinematic turning with longitudinal dynamics). Honestly that model already feel sufficient for urban driving already, which usually consist of stop-go traffic and low speed turning, because of that, I was already extremely discouraged since the 6th model, and I have written the first report for the DE course with the longitudinal model already (model 1 - 5, and that course require you to write 2 damn report can you believe ts).</p>
+
+<p>But yeah after that, any model with higher fidelity felt really heavy to me, not to mention model 7 was really starting to fry my brain (Check model 7 post).</p>
+
+<hr />
+
+<h4 id="choices-made-in-model-7-that-sealed-the-roadmap">Choices made in Model 7 that sealed the roadmap</h4>
+
+<p>Yeah, my brain was frying from all these new stuff, so I used AI to help me understand it, and eventually, I finished the model, completed simulator 7, and finalized all 3 of my github repos dedicated for this series, however, the AI has also made some suggestion that I failed to foreseen that would make me more convinced to drop this specific series.</p>
+
+<p>Originally in Model 8, I planned a full coupled tire model with friction circle, but most importantly: upgrade the integrator from Euler to RK4, and this is kinda the deathtrap here.</p>
+
+<p>In model 7, the AI suggested using a sideslip-based state representation vector, so because of that, instead of deriving Sideslip Beta from a Cartesian system of velocity, Beta got its own ODE.</p>
+
+<p>This is actually a really fascinating topic that I did not regret how I learned it here, specifically the differentiation between specific coordinates system in robotics, some might be more useful for calculation, while some might be more straightforward for the control module, I will definitely be looking deeper into this.</p>
+
+<p>But anyway, thats the problem, I could not for the life of me debugged and refactor the codebase which has evolved from Model 1 to the sideslip based Model 7, to become the system that can naturally be upgraded to Model 8, or at least, I did not have the time nor the motivation to make it happen. the biggest issue lie in this state vector instability when using it with RK4, it seems RK4 prefers Cartesian based states. I’m gonna be real I’m not sure if thats the case or not, but the thing here is, the codebase is messy, I’ve lost interest in this specific roadmap, so if i wanted to work on model 8, it probably wont be from upgrading from simulator 7…</p>
+
+<hr />
+
+<h3 id="the-pivot-that-happened-in-model-7">The pivot that happened in model 7</h3>
+
+<p>So yeah, because of the above, and the fact that, at its current state, im actually quite happy with simulator 7, I think it actually encapsulate the MM reference quite nicely, considering that model 8 wasnt even in the MM reference and was more of my own choice.</p>
+
+<p>I think this hurdles is partly caused by me having to balance this project with all the deadlines of these fuckass courses too, I wanted to go deeper into my work, especially in this model 6-7 transition phase, if i had the time, i believe i could have tried to research it further, but honestly I dont know, in hindsight, in order to avoid this limitation i think i would have had to basically finish both model 7 and 8 at the same time.</p>
+
+<p>But yeah, for the simulator 7, you can see in the repo that I’ve pivoted it to be much more “video game fun”, allowing Asphalt-like drifting and unrealistic physics at high speed, but I think its fun, and like I said, Im happy with it considering I was using frickin “car physics for games” as a reference lol.</p>
+
+<p>Honestly, the Macro Monster reference wasn’t that easy to digest, but I think im happy with what I was able to learn from it.</p>
+
+<hr />
+
+<h3 id="model-8-going-forward">Model 8 going forward</h3>
+
+<p>So, I did reworked the roadmap to end this series at model 7, but I actually have not yet intend to abanddon model 8, I’ve actually discovered this new reference:</p>
+
+<p><a href="https://escholarship.org/content/qt3xb8f3d3/qt3xb8f3d3.pdf?t=pdniw2" target="_blank">https://escholarship.org/content/qt3xb8f3d3/qt3xb8f3d3.pdf?t=pdniw2</a></p>
+
+<p>(Might need a VPN to access, I did need one, its a PDF)</p>
+
+<p>Its like a doctoral thesis from UC Berkeley, skimming through it I found very detailed formulation of various vehicle models that resembles what I want for model 8 and are actually used in industries rather than the video game stuff, so I think if i were to really take this series to the end, Id use this.</p>
+
+<p>This roadmap is done. I’m just not continuing Model 8 from this codebase.</p>
+
+<hr />
+
+<p>But yeah anyway, really informal post I know, I kinda got a lot going on right now, I also plan to take the kinematic model i learned from this journey to make a project about automatic parking for that DAA course, but yeah, these courses still suck, this school still sucks, but ill try my best, I love doing these things, I just wish I had more time to go deeper into them.</p>]]></content><author><name></name></author><category term="technical" /><category term="announcement" /><category term="research journey" /><category term="yuk lore" /><category term="rant" /><summary type="html"><![CDATA[Wrapping up the Car Model series, explaining about the final simulator, certain choices and pivots made, and a hell of a raw rant]]></summary></entry><entry><title type="html">Test Plotly 3D</title><link href="https://yuk068.github.io//2026/04/07/test-plotly-3d" rel="alternate" type="text/html" title="Test Plotly 3D" /><published>2026-04-07T00:00:00+07:00</published><updated>2026-04-07T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/04/07/test-plotly-3d</id><content type="html" xml:base="https://yuk068.github.io//2026/04/07/test-plotly-3d"><![CDATA[<h3 id="plotly"><a href="https://plotly.com/" target="_blank">Plotly</a></h3>
 
 <p>This page is a simple test for a few common 3D visualization patterns: point clouds, trajectories, surfaces, and mesh-based shapes.</p>
 
@@ -1987,21 +2055,15 @@ The rear lateral force $F_{yr}$ acts at distance $c$ behind the CG -&gt; produce
 
 <h2 id="7-simulator-7-showcase">7. Simulator 7 Showcase</h2>
 
-<p><img src="/assets/images/2026/q1-2026/car-physics/model7/simulator7-7-5.webp" alt="simulator 7 and 7 point 5" /></p>
-
-<p>This is actually Model 7 + 7.5 simulator.</p>
+<p><img src="/assets/images/2026/q1-2026/car-physics/model7/simulator7-7-5.webp" alt="simulator 7" /></p>
 
 <hr />
 
 <h2 id="epilogue">Epilogue</h2>
 
-<h3 id="model-75-ive-reworked-the-roadmap">Model 7.5: I’ve Reworked the Roadmap</h3>
+<p>If you have made it this far, i suggest you immediately checkout <strong><a href="/2026/04/10/car-physics-conclusion">Conclusion of the Macro Monster Car Physics Journey</a></strong>. Things will make a lot more sense for Model 7 and is the canonical conclusion to this series.</p>
 
-<p>If you have made it this far, i suggest you immediately checkout <strong><em>Model 7.5: Scrub-based Dampener</em></strong> (Will be updated soon). Things will make a lot more sense for Model 7 and is the canonical conclusion to this series.</p>
-
-<!-- **[Model 7.5: Scrub-based Dampener]({ post_url 2026/q2-2026/technical/car-physics/model7-5/2026-04-10-car-physics-model7-5 })** -->
-
-<p>Whats more, I’ve decided to reworked the roadmap to basically end at Model 7.5, so, we won’t be having Model 8 for this specific series anymore. To put it bluntly, I think for this series, and the Simulator 7 that I’ve built, Model 7.5 seems like a good conclusion considering the Macro Monster source this series rely on. But, I don’t plan to outright quit Model 8 just yet, I’m looking to approach it from a different path, with a different reference, stay-tuned for my quick announcement post about that soon.</p>]]></content><author><name></name></author><category term="technical" /><category term="vehicle dynamics" /><category term="simulation" /><category term="dynamics modeling" /><category term="differential equations" /><category term="interactive plot" /><summary type="html"><![CDATA[Implementing and Comprehending Marco Monster’s Car Physics model - Phase 2: Planar Vehicle Dynamics Model - Part 7]]></summary></entry><entry><title type="html">Car Physics - Model 6: Low-Speed Kinematic Turning</title><link href="https://yuk068.github.io//2026/03/26/car-physics-model6" rel="alternate" type="text/html" title="Car Physics - Model 6: Low-Speed Kinematic Turning" /><published>2026-03-26T00:00:00+07:00</published><updated>2026-03-26T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/03/26/car-physics-model6</id><content type="html" xml:base="https://yuk068.github.io//2026/03/26/car-physics-model6"><![CDATA[<h3 id="table-of-content">Table of Content</h3>
+<p>Whats more, I’ve decided to reworked the roadmap to basically end at Model 7.5, so, we won’t be having Model 8 for this specific series anymore. To put it bluntly, I think for this series, and the Simulator 7 that I’ve built, Model 7 seems like a good conclusion considering the Macro Monster source this series rely on. But, I don’t plan to outright quit Model 8 just yet, I’m looking to approach it from a different path, with a different reference, stay-tuned for my quick announcement post about that soon.</p>]]></content><author><name></name></author><category term="technical" /><category term="vehicle dynamics" /><category term="simulation" /><category term="dynamics modeling" /><category term="differential equations" /><category term="interactive plot" /><summary type="html"><![CDATA[Implementing and Comprehending Marco Monster’s Car Physics model - Phase 2: Planar Vehicle Dynamics Model - Part 7]]></summary></entry><entry><title type="html">Car Physics - Model 6: Low-Speed Kinematic Turning</title><link href="https://yuk068.github.io//2026/03/26/car-physics-model6" rel="alternate" type="text/html" title="Car Physics - Model 6: Low-Speed Kinematic Turning" /><published>2026-03-26T00:00:00+07:00</published><updated>2026-03-26T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/03/26/car-physics-model6</id><content type="html" xml:base="https://yuk068.github.io//2026/03/26/car-physics-model6"><![CDATA[<h3 id="table-of-content">Table of Content</h3>
 
 <blockquote><div class="content">
   <div id="table-of-contents"></div>
@@ -6265,620 +6327,4 @@ We simply compute additional values after acceleration is known.</p>
   <li>Model 3: those axles finally determine how force reaches the ground</li>
 </ul>
 
-<p>And that is where things start to behave like a real car. With that being said, within the <strong>Github repo for Longitudinal Simulators: <a href="https://github.com/duy-phamduc68/Longitudinal-Car-Physics" target="_blank">duy-phamduc68/Longitudinal-Car-Physics</a></strong>, the entry for simulator 2 will be very similar to simulator 1, so I don’t plan to give it much highlights, the real deal will be in <strong><a href="/2026/03/15/car-physics-model3">Model 3: Engine Torque + Gearing without Slip (1D)</a></strong>, so stay tuned for that :).</p>]]></content><author><name></name></author><category term="technical" /><category term="vehicle dynamics" /><category term="simulation" /><category term="interactive plot" /><category term="python" /><summary type="html"><![CDATA[Implementing and Comprehending Marco Monster’s Car Physics model - Phase 1: Longitudinal Powertrain Vehicle Model - Part 2]]></summary></entry><entry><title type="html">Test Plotly</title><link href="https://yuk068.github.io//2026/03/03/test-plotly" rel="alternate" type="text/html" title="Test Plotly" /><published>2026-03-03T00:00:00+07:00</published><updated>2026-03-03T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/03/03/test-plotly</id><content type="html" xml:base="https://yuk068.github.io//2026/03/03/test-plotly"><![CDATA[<h3 id="plotly"><a href="https://plotly.com/" target="_blank">Plotly</a></h3>
-
-<div id="plotlyLine" style="width:100%;aspect-ratio:4/3;"></div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    Plotly.newPlot(
-        'plotlyLine',
-        [
-            {
-                x: [1,2,3,4,5],
-                y: [2,6,3,8,4],
-                type: 'scatter',
-                mode: 'lines'
-            }
-        ],
-        {
-            title: 'Line Chart Example',
-            autosize: true
-        },
-        {
-            responsive: true
-        }
-    );
-});
-</script>
-
-<div class="language-html highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div><div class="line-number">19</div><div class="line-number">20</div><div class="line-number">21</div><div class="line-number">22</div><div class="line-number">23</div><div class="line-number">24</div></div><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"plotlyLine"</span> <span class="na">style=</span><span class="s">"width:100%;aspect-ratio:4/3;"</span><span class="nt">&gt;&lt;/div&gt;</span>
-
-<span class="nt">&lt;script&gt;</span>
-<span class="nb">document</span><span class="p">.</span><span class="nf">addEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">DOMContentLoaded</span><span class="dl">'</span><span class="p">,</span> <span class="nf">function </span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">Plotly</span><span class="p">.</span><span class="nf">newPlot</span><span class="p">(</span>
-        <span class="dl">'</span><span class="s1">plotlyLine</span><span class="dl">'</span><span class="p">,</span>
-        <span class="p">[</span>
-            <span class="p">{</span>
-                <span class="na">x</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">],</span>
-                <span class="na">y</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span>
-                <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">scatter</span><span class="dl">'</span><span class="p">,</span>
-                <span class="na">mode</span><span class="p">:</span> <span class="dl">'</span><span class="s1">lines</span><span class="dl">'</span>
-            <span class="p">}</span>
-        <span class="p">],</span>
-        <span class="p">{</span>
-            <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Line Chart Example</span><span class="dl">'</span><span class="p">,</span>
-            <span class="na">autosize</span><span class="p">:</span> <span class="kc">true</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="na">responsive</span><span class="p">:</span> <span class="kc">true</span>
-        <span class="p">}</span>
-    <span class="p">);</span>
-<span class="p">});</span>
-<span class="nt">&lt;/script&gt;</span>
-</code></pre><span class="language-label">Html</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
-
-<hr />
-
-<div id="plotlyBar" style="width:100%;aspect-ratio:4/3;"></div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    Plotly.newPlot(
-        'plotlyBar',
-        [
-            {
-                x: ['A', 'B', 'C', 'D'],
-                y: [20, 14, 23, 25],
-                type: 'bar'
-            }
-        ],
-        {
-            title: 'Bar Chart Example',
-            autosize: true
-        },
-        {
-            responsive: true
-        }
-    );
-});
-</script>
-
-<div class="language-html highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div><div class="line-number">19</div><div class="line-number">20</div><div class="line-number">21</div><div class="line-number">22</div><div class="line-number">23</div></div><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"plotlyBar"</span> <span class="na">style=</span><span class="s">"width:100%;aspect-ratio:4/3;"</span><span class="nt">&gt;&lt;/div&gt;</span>
-
-<span class="nt">&lt;script&gt;</span>
-<span class="nb">document</span><span class="p">.</span><span class="nf">addEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">DOMContentLoaded</span><span class="dl">'</span><span class="p">,</span> <span class="nf">function </span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">Plotly</span><span class="p">.</span><span class="nf">newPlot</span><span class="p">(</span>
-        <span class="dl">'</span><span class="s1">plotlyBar</span><span class="dl">'</span><span class="p">,</span>
-        <span class="p">[</span>
-            <span class="p">{</span>
-                <span class="na">x</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">A</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">B</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">C</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">D</span><span class="dl">'</span><span class="p">],</span>
-                <span class="na">y</span><span class="p">:</span> <span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">25</span><span class="p">],</span>
-                <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">bar</span><span class="dl">'</span>
-            <span class="p">}</span>
-        <span class="p">],</span>
-        <span class="p">{</span>
-            <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Bar Chart Example</span><span class="dl">'</span><span class="p">,</span>
-            <span class="na">autosize</span><span class="p">:</span> <span class="kc">true</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="na">responsive</span><span class="p">:</span> <span class="kc">true</span>
-        <span class="p">}</span>
-    <span class="p">);</span>
-<span class="p">});</span>
-<span class="nt">&lt;/script&gt;</span>
-</code></pre><span class="language-label">Html</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
-
-<hr />
-
-<div id="plotlyMultiLine" style="width:100%;aspect-ratio:4/3;"></div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    Plotly.newPlot(
-        'plotlyMultiLine',
-        [
-            {
-                x: [1, 2, 3, 4],
-                y: [10, 15, 13, 17],
-                type: 'scatter',
-                mode: 'lines+markers',
-                name: 'Series 1'
-            },
-            {
-                x: [1, 2, 3, 4],
-                y: [16, 5, 11, 9],
-                type: 'scatter',
-                mode: 'lines+markers',
-                name: 'Series 2'
-            }
-        ],
-        {
-            title: 'Multiple Line Series',
-            autosize: true
-        },
-        {
-            responsive: true
-        }
-    );
-});
-</script>
-
-<div class="language-html highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div><div class="line-number">19</div><div class="line-number">20</div><div class="line-number">21</div><div class="line-number">22</div><div class="line-number">23</div><div class="line-number">24</div><div class="line-number">25</div><div class="line-number">26</div><div class="line-number">27</div><div class="line-number">28</div><div class="line-number">29</div><div class="line-number">30</div><div class="line-number">31</div><div class="line-number">32</div></div><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"plotlyMultiLine"</span> <span class="na">style=</span><span class="s">"width:100%;aspect-ratio:4/3;"</span><span class="nt">&gt;&lt;/div&gt;</span>
-
-<span class="nt">&lt;script&gt;</span>
-<span class="nb">document</span><span class="p">.</span><span class="nf">addEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">DOMContentLoaded</span><span class="dl">'</span><span class="p">,</span> <span class="nf">function </span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">Plotly</span><span class="p">.</span><span class="nf">newPlot</span><span class="p">(</span>
-        <span class="dl">'</span><span class="s1">plotlyMultiLine</span><span class="dl">'</span><span class="p">,</span>
-        <span class="p">[</span>
-            <span class="p">{</span>
-                <span class="na">x</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
-                <span class="na">y</span><span class="p">:</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">17</span><span class="p">],</span>
-                <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">scatter</span><span class="dl">'</span><span class="p">,</span>
-                <span class="na">mode</span><span class="p">:</span> <span class="dl">'</span><span class="s1">lines+markers</span><span class="dl">'</span><span class="p">,</span>
-                <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Series 1</span><span class="dl">'</span>
-            <span class="p">},</span>
-            <span class="p">{</span>
-                <span class="na">x</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
-                <span class="na">y</span><span class="p">:</span> <span class="p">[</span><span class="mi">16</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span>
-                <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">scatter</span><span class="dl">'</span><span class="p">,</span>
-                <span class="na">mode</span><span class="p">:</span> <span class="dl">'</span><span class="s1">lines+markers</span><span class="dl">'</span><span class="p">,</span>
-                <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Series 2</span><span class="dl">'</span>
-            <span class="p">}</span>
-        <span class="p">],</span>
-        <span class="p">{</span>
-            <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Multiple Line Series</span><span class="dl">'</span><span class="p">,</span>
-            <span class="na">autosize</span><span class="p">:</span> <span class="kc">true</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="na">responsive</span><span class="p">:</span> <span class="kc">true</span>
-        <span class="p">}</span>
-    <span class="p">);</span>
-<span class="p">});</span>
-<span class="nt">&lt;/script&gt;</span>
-</code></pre><span class="language-label">Html</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
-
-<hr />
-
-<div id="plotlyPie" style="width:100%;aspect-ratio:4/3;"></div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    Plotly.newPlot(
-        'plotlyPie',
-        [
-            {
-                values: [19, 26, 55],
-                labels: ['Residential', 'Commercial', 'Industrial'],
-                type: 'pie'
-            }
-        ],
-        {
-            title: 'Pie Chart Example',
-            autosize: true
-        },
-        {
-            responsive: true
-        }
-    );
-});
-</script>
-
-<div class="language-html highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div><div class="line-number">19</div><div class="line-number">20</div><div class="line-number">21</div><div class="line-number">22</div><div class="line-number">23</div></div><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"plotlyPie"</span> <span class="na">style=</span><span class="s">"width:100%;aspect-ratio:4/3;"</span><span class="nt">&gt;&lt;/div&gt;</span>
-
-<span class="nt">&lt;script&gt;</span>
-<span class="nb">document</span><span class="p">.</span><span class="nf">addEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">DOMContentLoaded</span><span class="dl">'</span><span class="p">,</span> <span class="nf">function </span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">Plotly</span><span class="p">.</span><span class="nf">newPlot</span><span class="p">(</span>
-        <span class="dl">'</span><span class="s1">plotlyPie</span><span class="dl">'</span><span class="p">,</span>
-        <span class="p">[</span>
-            <span class="p">{</span>
-                <span class="na">values</span><span class="p">:</span> <span class="p">[</span><span class="mi">19</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">55</span><span class="p">],</span>
-                <span class="na">labels</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">Residential</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">Commercial</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">Industrial</span><span class="dl">'</span><span class="p">],</span>
-                <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">pie</span><span class="dl">'</span>
-            <span class="p">}</span>
-        <span class="p">],</span>
-        <span class="p">{</span>
-            <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Pie Chart Example</span><span class="dl">'</span><span class="p">,</span>
-            <span class="na">autosize</span><span class="p">:</span> <span class="kc">true</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="na">responsive</span><span class="p">:</span> <span class="kc">true</span>
-        <span class="p">}</span>
-    <span class="p">);</span>
-<span class="p">});</span>
-<span class="nt">&lt;/script&gt;</span>
-</code></pre><span class="language-label">Html</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
-
-<hr />
-
-<div id="plotlyHeatmap" style="width:100%;aspect-ratio:4/3;"></div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    Plotly.newPlot(
-        'plotlyHeatmap',
-        [
-            {
-                z: [
-                    [1, 20, 30],
-                    [20, 1, 60],
-                    [30, 60, 1]
-                ],
-                type: 'heatmap'
-            }
-        ],
-        {
-            title: 'Heatmap Example',
-            autosize: true
-        },
-        {
-            responsive: true
-        }
-    );
-});
-</script>
-
-<div class="language-html highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div><div class="line-number">19</div><div class="line-number">20</div><div class="line-number">21</div><div class="line-number">22</div><div class="line-number">23</div><div class="line-number">24</div><div class="line-number">25</div><div class="line-number">26</div></div><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"plotlyHeatmap"</span> <span class="na">style=</span><span class="s">"width:100%;aspect-ratio:4/3;"</span><span class="nt">&gt;&lt;/div&gt;</span>
-
-<span class="nt">&lt;script&gt;</span>
-<span class="nb">document</span><span class="p">.</span><span class="nf">addEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">DOMContentLoaded</span><span class="dl">'</span><span class="p">,</span> <span class="nf">function </span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">Plotly</span><span class="p">.</span><span class="nf">newPlot</span><span class="p">(</span>
-        <span class="dl">'</span><span class="s1">plotlyHeatmap</span><span class="dl">'</span><span class="p">,</span>
-        <span class="p">[</span>
-            <span class="p">{</span>
-                <span class="na">z</span><span class="p">:</span> <span class="p">[</span>
-                    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">],</span>
-                    <span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">60</span><span class="p">],</span>
-                    <span class="p">[</span><span class="mi">30</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
-                <span class="p">],</span>
-                <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">heatmap</span><span class="dl">'</span>
-            <span class="p">}</span>
-        <span class="p">],</span>
-        <span class="p">{</span>
-            <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Heatmap Example</span><span class="dl">'</span><span class="p">,</span>
-            <span class="na">autosize</span><span class="p">:</span> <span class="kc">true</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="na">responsive</span><span class="p">:</span> <span class="kc">true</span>
-        <span class="p">}</span>
-    <span class="p">);</span>
-<span class="p">});</span>
-<span class="nt">&lt;/script&gt;</span>
-</code></pre><span class="language-label">Html</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
-
-<hr />
-
-<div id="plotlyStyled" style="width:100%;aspect-ratio:4/3;"></div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    Plotly.newPlot(
-        'plotlyStyled',
-        [
-            {
-                x: [5, 10, 15, 20],
-                y: [10, 5, 8, 12],
-                mode: 'markers',
-                type: 'scatter',
-                marker: {
-                    size: [10, 20, 30, 40]
-                }
-            }
-        ],
-        {
-            title: 'Scatter with Variable Marker Size',
-            xaxis: { title: 'X Axis' },
-            yaxis: { title: 'Y Axis' },
-            autosize: true
-        },
-        {
-            responsive: true
-        }
-    );
-});
-</script>
-
-<div class="language-html highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div><div class="line-number">19</div><div class="line-number">20</div><div class="line-number">21</div><div class="line-number">22</div><div class="line-number">23</div><div class="line-number">24</div><div class="line-number">25</div><div class="line-number">26</div><div class="line-number">27</div><div class="line-number">28</div><div class="line-number">29</div></div><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"plotlyStyled"</span> <span class="na">style=</span><span class="s">"width:100%;aspect-ratio:4/3;"</span><span class="nt">&gt;&lt;/div&gt;</span>
-
-<span class="nt">&lt;script&gt;</span>
-<span class="nb">document</span><span class="p">.</span><span class="nf">addEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">DOMContentLoaded</span><span class="dl">'</span><span class="p">,</span> <span class="nf">function </span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">Plotly</span><span class="p">.</span><span class="nf">newPlot</span><span class="p">(</span>
-        <span class="dl">'</span><span class="s1">plotlyStyled</span><span class="dl">'</span><span class="p">,</span>
-        <span class="p">[</span>
-            <span class="p">{</span>
-                <span class="na">x</span><span class="p">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">20</span><span class="p">],</span>
-                <span class="na">y</span><span class="p">:</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">12</span><span class="p">],</span>
-                <span class="na">mode</span><span class="p">:</span> <span class="dl">'</span><span class="s1">markers</span><span class="dl">'</span><span class="p">,</span>
-                <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">scatter</span><span class="dl">'</span><span class="p">,</span>
-                <span class="na">marker</span><span class="p">:</span> <span class="p">{</span>
-                    <span class="na">size</span><span class="p">:</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">]</span>
-                <span class="p">}</span>
-            <span class="p">}</span>
-        <span class="p">],</span>
-        <span class="p">{</span>
-            <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Scatter with Variable Marker Size</span><span class="dl">'</span><span class="p">,</span>
-            <span class="na">xaxis</span><span class="p">:</span> <span class="p">{</span> <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">X Axis</span><span class="dl">'</span> <span class="p">},</span>
-            <span class="na">yaxis</span><span class="p">:</span> <span class="p">{</span> <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Y Axis</span><span class="dl">'</span> <span class="p">},</span>
-            <span class="na">autosize</span><span class="p">:</span> <span class="kc">true</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="na">responsive</span><span class="p">:</span> <span class="kc">true</span>
-        <span class="p">}</span>
-    <span class="p">);</span>
-<span class="p">});</span>
-<span class="nt">&lt;/script&gt;</span>
-</code></pre><span class="language-label">Html</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
-
-<hr />
-
-<div id="plotlyFunctions" style="width:100%;height:500px;"></div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-
-    const xValues = [];
-    const N = 1000;
-    const start = -10;
-    const end = 10;
-
-    for (let i = 0; i <= N; i++) {
-        xValues.push(start + (end - start) * i / N);
-    }
-
-    Plotly.newPlot(
-        'plotlyFunctions',
-        [
-            {
-                x: xValues,
-                y: xValues.map(x => Math.sin(x)),
-                type: 'scatter',
-                mode: 'lines',
-                name: 'sin(x)'
-            },
-            {
-                x: xValues,
-                y: xValues.map(x => Math.cos(x)),
-                type: 'scatter',
-                mode: 'lines',
-                name: 'cos(x)'
-            },
-            {
-                x: xValues,
-                y: xValues.map(x => Math.exp(-0.2 * x) * Math.cos(x)),
-                type: 'scatter',
-                mode: 'lines',
-                name: 'e^(-0.2x) cos(x)'
-            },
-            {
-                x: xValues,
-                y: xValues.map(x => 0.1 * x * x - 2),
-                type: 'scatter',
-                mode: 'lines',
-                name: '0.1x² - 2'
-            }
-        ],
-        {
-            title: 'Multiple Continuous Mathematical Functions',
-            xaxis: { title: 'x' },
-            yaxis: { title: 'f(x)' },
-            showlegend: true,
-            autosize: true
-        },
-        {
-            responsive: true
-        }
-    );
-});
-</script>
-
-<div class="language-html highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div><div class="line-number">19</div><div class="line-number">20</div><div class="line-number">21</div><div class="line-number">22</div><div class="line-number">23</div><div class="line-number">24</div><div class="line-number">25</div><div class="line-number">26</div><div class="line-number">27</div><div class="line-number">28</div><div class="line-number">29</div><div class="line-number">30</div><div class="line-number">31</div><div class="line-number">32</div><div class="line-number">33</div><div class="line-number">34</div><div class="line-number">35</div><div class="line-number">36</div><div class="line-number">37</div><div class="line-number">38</div><div class="line-number">39</div><div class="line-number">40</div><div class="line-number">41</div><div class="line-number">42</div><div class="line-number">43</div><div class="line-number">44</div><div class="line-number">45</div><div class="line-number">46</div><div class="line-number">47</div><div class="line-number">48</div><div class="line-number">49</div><div class="line-number">50</div><div class="line-number">51</div><div class="line-number">52</div><div class="line-number">53</div><div class="line-number">54</div><div class="line-number">55</div><div class="line-number">56</div><div class="line-number">57</div><div class="line-number">58</div><div class="line-number">59</div></div><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"plotlyFunctions"</span> <span class="na">style=</span><span class="s">"width:100%;height:500px;"</span><span class="nt">&gt;&lt;/div&gt;</span>
-
-<span class="nt">&lt;script&gt;</span>
-<span class="nb">document</span><span class="p">.</span><span class="nf">addEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">DOMContentLoaded</span><span class="dl">'</span><span class="p">,</span> <span class="nf">function </span><span class="p">()</span> <span class="p">{</span>
-
-    <span class="kd">const</span> <span class="nx">xValues</span> <span class="o">=</span> <span class="p">[];</span>
-    <span class="kd">const</span> <span class="nx">N</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">;</span>
-    <span class="kd">const</span> <span class="nx">start</span> <span class="o">=</span> <span class="o">-</span><span class="mi">10</span><span class="p">;</span>
-    <span class="kd">const</span> <span class="nx">end</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
-
-    <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;=</span> <span class="nx">N</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">xValues</span><span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="nx">start</span> <span class="o">+</span> <span class="p">(</span><span class="nx">end</span> <span class="o">-</span> <span class="nx">start</span><span class="p">)</span> <span class="o">*</span> <span class="nx">i</span> <span class="o">/</span> <span class="nx">N</span><span class="p">);</span>
-    <span class="p">}</span>
-
-    <span class="nx">Plotly</span><span class="p">.</span><span class="nf">newPlot</span><span class="p">(</span>
-        <span class="dl">'</span><span class="s1">plotlyFunctions</span><span class="dl">'</span><span class="p">,</span>
-        <span class="p">[</span>
-            <span class="p">{</span>
-                <span class="na">x</span><span class="p">:</span> <span class="nx">xValues</span><span class="p">,</span>
-                <span class="na">y</span><span class="p">:</span> <span class="nx">xValues</span><span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="nx">x</span> <span class="o">=&gt;</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">sin</span><span class="p">(</span><span class="nx">x</span><span class="p">)),</span>
-                <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">scatter</span><span class="dl">'</span><span class="p">,</span>
-                <span class="na">mode</span><span class="p">:</span> <span class="dl">'</span><span class="s1">lines</span><span class="dl">'</span><span class="p">,</span>
-                <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">sin(x)</span><span class="dl">'</span>
-            <span class="p">},</span>
-            <span class="p">{</span>
-                <span class="na">x</span><span class="p">:</span> <span class="nx">xValues</span><span class="p">,</span>
-                <span class="na">y</span><span class="p">:</span> <span class="nx">xValues</span><span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="nx">x</span> <span class="o">=&gt;</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">cos</span><span class="p">(</span><span class="nx">x</span><span class="p">)),</span>
-                <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">scatter</span><span class="dl">'</span><span class="p">,</span>
-                <span class="na">mode</span><span class="p">:</span> <span class="dl">'</span><span class="s1">lines</span><span class="dl">'</span><span class="p">,</span>
-                <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">cos(x)</span><span class="dl">'</span>
-            <span class="p">},</span>
-            <span class="p">{</span>
-                <span class="na">x</span><span class="p">:</span> <span class="nx">xValues</span><span class="p">,</span>
-                <span class="na">y</span><span class="p">:</span> <span class="nx">xValues</span><span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="nx">x</span> <span class="o">=&gt;</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.2</span> <span class="o">*</span> <span class="nx">x</span><span class="p">)</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">cos</span><span class="p">(</span><span class="nx">x</span><span class="p">)),</span>
-                <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">scatter</span><span class="dl">'</span><span class="p">,</span>
-                <span class="na">mode</span><span class="p">:</span> <span class="dl">'</span><span class="s1">lines</span><span class="dl">'</span><span class="p">,</span>
-                <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">e^(-0.2x) cos(x)</span><span class="dl">'</span>
-            <span class="p">},</span>
-            <span class="p">{</span>
-                <span class="na">x</span><span class="p">:</span> <span class="nx">xValues</span><span class="p">,</span>
-                <span class="na">y</span><span class="p">:</span> <span class="nx">xValues</span><span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="nx">x</span> <span class="o">=&gt;</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="nx">x</span> <span class="o">*</span> <span class="nx">x</span> <span class="o">-</span> <span class="mi">2</span><span class="p">),</span>
-                <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">scatter</span><span class="dl">'</span><span class="p">,</span>
-                <span class="na">mode</span><span class="p">:</span> <span class="dl">'</span><span class="s1">lines</span><span class="dl">'</span><span class="p">,</span>
-                <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">0.1x² - 2</span><span class="dl">'</span>
-            <span class="p">}</span>
-        <span class="p">],</span>
-        <span class="p">{</span>
-            <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Multiple Continuous Mathematical Functions</span><span class="dl">'</span><span class="p">,</span>
-            <span class="na">xaxis</span><span class="p">:</span> <span class="p">{</span> <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">x</span><span class="dl">'</span> <span class="p">},</span>
-            <span class="na">yaxis</span><span class="p">:</span> <span class="p">{</span> <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">f(x)</span><span class="dl">'</span> <span class="p">},</span>
-            <span class="na">showlegend</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-            <span class="na">autosize</span><span class="p">:</span> <span class="kc">true</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="na">responsive</span><span class="p">:</span> <span class="kc">true</span>
-        <span class="p">}</span>
-    <span class="p">);</span>
-<span class="p">});</span>
-<span class="nt">&lt;/script&gt;</span>
-</code></pre><span class="language-label">Html</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
-
-<hr />
-
-<div id="vehicleForces" style="width:100%;aspect-ratio:4/3;"></div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-
-    const x = [];
-    for (let i = 1; i <= 40; i++) {
-        x.push(i);
-    }
-
-    // Parameters (tweak to match your visual exactly)
-    const engineForce = 80;        // constant engine force
-    const rrSlope = 1.2;           // rolling resistance linear slope
-    const dragCoeff = 0.05;        // quadratic drag coefficient
-
-    const engine = x.map(() => engineForce);
-    const rr = x.map(v => rrSlope * v);
-    const drag = x.map(v => dragCoeff * v * v);
-    const total = x.map((v, i) => rr[i] + drag[i]);
-
-    Plotly.newPlot(
-        'vehicleForces',
-        [
-            {
-                x: x,
-                y: engine,
-                type: 'scatter',
-                mode: 'lines',
-                name: 'engine'
-            },
-            {
-                x: x,
-                y: rr,
-                type: 'scatter',
-                mode: 'lines',
-                name: 'rr'
-            },
-            {
-                x: x,
-                y: drag,
-                type: 'scatter',
-                mode: 'lines',
-                name: 'drag'
-            },
-            {
-                x: x,
-                y: total,
-                type: 'scatter',
-                mode: 'lines',
-                name: 'rr+drag'
-            }
-        ],
-        {
-            plot_bgcolor: '#f7f7f7',
-            xaxis: {
-                range: [1, 40],
-                showgrid: false
-            },
-            yaxis: {
-                showgrid: false
-            },
-            legend: {
-                orientation: 'h',
-                y: -0.2
-            },
-            autosize: true
-        },
-        {
-            responsive: true
-        }
-    );
-});
-</script>
-
-<div class="language-html highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div><div class="line-number">19</div><div class="line-number">20</div><div class="line-number">21</div><div class="line-number">22</div><div class="line-number">23</div><div class="line-number">24</div><div class="line-number">25</div><div class="line-number">26</div><div class="line-number">27</div><div class="line-number">28</div><div class="line-number">29</div><div class="line-number">30</div><div class="line-number">31</div><div class="line-number">32</div><div class="line-number">33</div><div class="line-number">34</div><div class="line-number">35</div><div class="line-number">36</div><div class="line-number">37</div><div class="line-number">38</div><div class="line-number">39</div><div class="line-number">40</div><div class="line-number">41</div><div class="line-number">42</div><div class="line-number">43</div><div class="line-number">44</div><div class="line-number">45</div><div class="line-number">46</div><div class="line-number">47</div><div class="line-number">48</div><div class="line-number">49</div><div class="line-number">50</div><div class="line-number">51</div><div class="line-number">52</div><div class="line-number">53</div><div class="line-number">54</div><div class="line-number">55</div><div class="line-number">56</div><div class="line-number">57</div><div class="line-number">58</div><div class="line-number">59</div><div class="line-number">60</div><div class="line-number">61</div><div class="line-number">62</div><div class="line-number">63</div><div class="line-number">64</div><div class="line-number">65</div><div class="line-number">66</div><div class="line-number">67</div><div class="line-number">68</div><div class="line-number">69</div><div class="line-number">70</div><div class="line-number">71</div><div class="line-number">72</div><div class="line-number">73</div></div><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"vehicleForces"</span> <span class="na">style=</span><span class="s">"width:100%;aspect-ratio:4/3;"</span><span class="nt">&gt;&lt;/div&gt;</span>
-
-<span class="nt">&lt;script&gt;</span>
-<span class="nb">document</span><span class="p">.</span><span class="nf">addEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">DOMContentLoaded</span><span class="dl">'</span><span class="p">,</span> <span class="nf">function </span><span class="p">()</span> <span class="p">{</span>
-
-    <span class="kd">const</span> <span class="nx">x</span> <span class="o">=</span> <span class="p">[];</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;=</span> <span class="mi">40</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">x</span><span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span>
-    <span class="p">}</span>
-
-    <span class="c1">// Parameters (tweak to match your visual exactly)</span>
-    <span class="kd">const</span> <span class="nx">engineForce</span> <span class="o">=</span> <span class="mi">80</span><span class="p">;</span>        <span class="c1">// constant engine force</span>
-    <span class="kd">const</span> <span class="nx">rrSlope</span> <span class="o">=</span> <span class="mf">1.2</span><span class="p">;</span>           <span class="c1">// rolling resistance linear slope</span>
-    <span class="kd">const</span> <span class="nx">dragCoeff</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">;</span>        <span class="c1">// quadratic drag coefficient</span>
-
-    <span class="kd">const</span> <span class="nx">engine</span> <span class="o">=</span> <span class="nx">x</span><span class="p">.</span><span class="nf">map</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="nx">engineForce</span><span class="p">);</span>
-    <span class="kd">const</span> <span class="nx">rr</span> <span class="o">=</span> <span class="nx">x</span><span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="nx">v</span> <span class="o">=&gt;</span> <span class="nx">rrSlope</span> <span class="o">*</span> <span class="nx">v</span><span class="p">);</span>
-    <span class="kd">const</span> <span class="nx">drag</span> <span class="o">=</span> <span class="nx">x</span><span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="nx">v</span> <span class="o">=&gt;</span> <span class="nx">dragCoeff</span> <span class="o">*</span> <span class="nx">v</span> <span class="o">*</span> <span class="nx">v</span><span class="p">);</span>
-    <span class="kd">const</span> <span class="nx">total</span> <span class="o">=</span> <span class="nx">x</span><span class="p">.</span><span class="nf">map</span><span class="p">((</span><span class="nx">v</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">rr</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">+</span> <span class="nx">drag</span><span class="p">[</span><span class="nx">i</span><span class="p">]);</span>
-
-    <span class="nx">Plotly</span><span class="p">.</span><span class="nf">newPlot</span><span class="p">(</span>
-        <span class="dl">'</span><span class="s1">vehicleForces</span><span class="dl">'</span><span class="p">,</span>
-        <span class="p">[</span>
-            <span class="p">{</span>
-                <span class="na">x</span><span class="p">:</span> <span class="nx">x</span><span class="p">,</span>
-                <span class="na">y</span><span class="p">:</span> <span class="nx">engine</span><span class="p">,</span>
-                <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">scatter</span><span class="dl">'</span><span class="p">,</span>
-                <span class="na">mode</span><span class="p">:</span> <span class="dl">'</span><span class="s1">lines</span><span class="dl">'</span><span class="p">,</span>
-                <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">engine</span><span class="dl">'</span>
-            <span class="p">},</span>
-            <span class="p">{</span>
-                <span class="na">x</span><span class="p">:</span> <span class="nx">x</span><span class="p">,</span>
-                <span class="na">y</span><span class="p">:</span> <span class="nx">rr</span><span class="p">,</span>
-                <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">scatter</span><span class="dl">'</span><span class="p">,</span>
-                <span class="na">mode</span><span class="p">:</span> <span class="dl">'</span><span class="s1">lines</span><span class="dl">'</span><span class="p">,</span>
-                <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">rr</span><span class="dl">'</span>
-            <span class="p">},</span>
-            <span class="p">{</span>
-                <span class="na">x</span><span class="p">:</span> <span class="nx">x</span><span class="p">,</span>
-                <span class="na">y</span><span class="p">:</span> <span class="nx">drag</span><span class="p">,</span>
-                <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">scatter</span><span class="dl">'</span><span class="p">,</span>
-                <span class="na">mode</span><span class="p">:</span> <span class="dl">'</span><span class="s1">lines</span><span class="dl">'</span><span class="p">,</span>
-                <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">drag</span><span class="dl">'</span>
-            <span class="p">},</span>
-            <span class="p">{</span>
-                <span class="na">x</span><span class="p">:</span> <span class="nx">x</span><span class="p">,</span>
-                <span class="na">y</span><span class="p">:</span> <span class="nx">total</span><span class="p">,</span>
-                <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">scatter</span><span class="dl">'</span><span class="p">,</span>
-                <span class="na">mode</span><span class="p">:</span> <span class="dl">'</span><span class="s1">lines</span><span class="dl">'</span><span class="p">,</span>
-                <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">rr+drag</span><span class="dl">'</span>
-            <span class="p">}</span>
-        <span class="p">],</span>
-        <span class="p">{</span>
-            <span class="na">plot_bgcolor</span><span class="p">:</span> <span class="dl">'</span><span class="s1">#f7f7f7</span><span class="dl">'</span><span class="p">,</span>
-            <span class="na">xaxis</span><span class="p">:</span> <span class="p">{</span>
-                <span class="na">range</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">40</span><span class="p">],</span>
-                <span class="na">showgrid</span><span class="p">:</span> <span class="kc">false</span>
-            <span class="p">},</span>
-            <span class="na">yaxis</span><span class="p">:</span> <span class="p">{</span>
-                <span class="na">showgrid</span><span class="p">:</span> <span class="kc">false</span>
-            <span class="p">},</span>
-            <span class="na">legend</span><span class="p">:</span> <span class="p">{</span>
-                <span class="na">orientation</span><span class="p">:</span> <span class="dl">'</span><span class="s1">h</span><span class="dl">'</span><span class="p">,</span>
-                <span class="na">y</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.2</span>
-            <span class="p">},</span>
-            <span class="na">autosize</span><span class="p">:</span> <span class="kc">true</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="na">responsive</span><span class="p">:</span> <span class="kc">true</span>
-        <span class="p">}</span>
-    <span class="p">);</span>
-<span class="p">});</span>
-<span class="nt">&lt;/script&gt;</span>
-</code></pre><span class="language-label">Html</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>]]></content><author><name></name></author><category term="code" /><category term="resources" /><summary type="html"><![CDATA[Some sample test for Plotly]]></summary></entry></feed>
+<p>And that is where things start to behave like a real car. With that being said, within the <strong>Github repo for Longitudinal Simulators: <a href="https://github.com/duy-phamduc68/Longitudinal-Car-Physics" target="_blank">duy-phamduc68/Longitudinal-Car-Physics</a></strong>, the entry for simulator 2 will be very similar to simulator 1, so I don’t plan to give it much highlights, the real deal will be in <strong><a href="/2026/03/15/car-physics-model3">Model 3: Engine Torque + Gearing without Slip (1D)</a></strong>, so stay tuned for that :).</p>]]></content><author><name></name></author><category term="technical" /><category term="vehicle dynamics" /><category term="simulation" /><category term="interactive plot" /><category term="python" /><summary type="html"><![CDATA[Implementing and Comprehending Marco Monster’s Car Physics model - Phase 1: Longitudinal Powertrain Vehicle Model - Part 2]]></summary></entry></feed>
