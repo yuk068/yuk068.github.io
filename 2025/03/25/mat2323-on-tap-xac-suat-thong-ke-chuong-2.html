@@ -143,10 +143,8 @@ lightbox.init();
 </head>
 
 <body>
-    <div class="site-bg-effects" aria-hidden="true">
-        <div class="site-bg-dot-grid"></div>
-        <div class="site-bg-glow"></div>
-    </div>
+    <canvas id="starfield"></canvas>
+
     <div id="reading-progress-bar"></div>
     <div class="main-container">
         <header id="post-header">
@@ -321,12 +319,16 @@ lightbox.init();
                             Đầu trang
                             
                         </button>
-                        <button id="collapseExpandAllButton" class="bg-performance-btn">
-                            <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24"><defs><style>.cls-637a50fc15c575900940065c-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><rect class="cls-637a50fc15c575900940065c-1" x="3.38" y="3.38" width="17.25" height="17.25" rx="2.18"></rect><rect class="cls-637a50fc15c575900940065c-1" x="7.21" y="7.21" width="9.58" height="9.58" rx="1.92"></rect><line class="cls-637a50fc15c575900940065c-1" x1="7.21" y1="0.5" x2="7.21" y2="2.42"></line><line class="cls-637a50fc15c575900940065c-1" x1="12" y1="0.5" x2="12" y2="2.42"></line><line class="cls-637a50fc15c575900940065c-1" x1="16.79" y1="0.5" x2="16.79" y2="2.42"></line><line class="cls-637a50fc15c575900940065c-1" x1="7.21" y1="21.58" x2="7.21" y2="23.5"></line><line class="cls-637a50fc15c575900940065c-1" x1="12" y1="21.58" x2="12" y2="23.5"></line><line class="cls-637a50fc15c575900940065c-1" x1="16.79" y1="21.58" x2="16.79" y2="23.5"></line><line class="cls-637a50fc15c575900940065c-1" x1="0.5" y1="16.79" x2="2.42" y2="16.79"></line><line class="cls-637a50fc15c575900940065c-1" x1="0.5" y1="12" x2="2.42" y2="12"></line><line class="cls-637a50fc15c575900940065c-1" x1="0.5" y1="7.21" x2="2.42" y2="7.21"></line><line class="cls-637a50fc15c575900940065c-1" x1="21.58" y1="16.79" x2="23.5" y2="16.79"></line><line class="cls-637a50fc15c575900940065c-1" x1="21.58" y1="12" x2="23.5" y2="12"></line><line class="cls-637a50fc15c575900940065c-1" x1="21.58" y1="7.21" x2="23.5" y2="7.21"></line></svg>
-                            <span id="bgPerformanceLabel">
-                                BG: Trống
+
+                        <button id="configPlaceholder2" class="bg-performance-btn">
+                            <span id="bgPerformanceBody" class="bg-performance-body">
+                                <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24"><defs><style>.cls-637a50fc15c575900940065c-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><rect class="cls-637a50fc15c575900940065c-1" x="3.38" y="3.38" width="17.25" height="17.25" rx="2.18"></rect><rect class="cls-637a50fc15c575900940065c-1" x="7.21" y="7.21" width="9.58" height="9.58" rx="1.92"></rect><line class="cls-637a50fc15c575900940065c-1" x1="7.21" y1="0.5" x2="7.21" y2="2.42"></line><line class="cls-637a50fc15c575900940065c-1" x1="12" y1="0.5" x2="12" y2="2.42"></line><line class="cls-637a50fc15c575900940065c-1" x1="16.79" y1="0.5" x2="16.79" y2="2.42"></line><line class="cls-637a50fc15c575900940065c-1" x1="7.21" y1="21.58" x2="7.21" y2="23.5"></line><line class="cls-637a50fc15c575900940065c-1" x1="12" y1="21.58" x2="12" y2="23.5"></line><line class="cls-637a50fc15c575900940065c-1" x1="16.79" y1="21.58" x2="16.79" y2="23.5"></line><line class="cls-637a50fc15c575900940065c-1" x1="0.5" y1="16.79" x2="2.42" y2="16.79"></line><line class="cls-637a50fc15c575900940065c-1" x1="0.5" y1="12" x2="2.42" y2="12"></line><line class="cls-637a50fc15c575900940065c-1" x1="0.5" y1="7.21" x2="2.42" y2="7.21"></line><line class="cls-637a50fc15c575900940065c-1" x1="21.58" y1="16.79" x2="23.5" y2="16.79"></line><line class="cls-637a50fc15c575900940065c-1" x1="21.58" y1="12" x2="23.5" y2="12"></line><line class="cls-637a50fc15c575900940065c-1" x1="21.58" y1="7.21" x2="23.5" y2="7.21"></line></svg>
+                                <span id="bgPerformanceLabel" data-lang="vi">
+                                    BG: Bật
+                                </span>
                             </span>
                         </button>
+
                         <button id="themeButton"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff">
     <defs>
         <style>
@@ -1020,6 +1022,7 @@ Z(\Omega) = \{ \phi(x_i, y_j) \}_{i=1,\ldots,m ; j=1,\ldots, n}</annotation></se
     </div>
 </div>
     <script src="/assets/js/pages-js/post-script.js"></script>
+    <script src="/assets/js/bg-script.js"></script>
     <script>
         (function() {
             'use strict';

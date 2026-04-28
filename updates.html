@@ -143,10 +143,8 @@ lightbox.init();
 </head>
 
 <body>
-    <div class="site-bg-effects" aria-hidden="true">
-        <div class="site-bg-dot-grid"></div>
-        <div class="site-bg-glow"></div>
-    </div>
+    <canvas id="starfield"></canvas>
+
     <div id="reading-progress-bar"></div>
     <div class="main-container">
         <header id="post-header">
@@ -321,12 +319,16 @@ lightbox.init();
                             To top
                             
                         </button>
-                        <button id="collapseExpandAllButton" class="bg-performance-btn">
-                            <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24"><defs><style>.cls-637a50fc15c575900940065c-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><rect class="cls-637a50fc15c575900940065c-1" x="3.38" y="3.38" width="17.25" height="17.25" rx="2.18"></rect><rect class="cls-637a50fc15c575900940065c-1" x="7.21" y="7.21" width="9.58" height="9.58" rx="1.92"></rect><line class="cls-637a50fc15c575900940065c-1" x1="7.21" y1="0.5" x2="7.21" y2="2.42"></line><line class="cls-637a50fc15c575900940065c-1" x1="12" y1="0.5" x2="12" y2="2.42"></line><line class="cls-637a50fc15c575900940065c-1" x1="16.79" y1="0.5" x2="16.79" y2="2.42"></line><line class="cls-637a50fc15c575900940065c-1" x1="7.21" y1="21.58" x2="7.21" y2="23.5"></line><line class="cls-637a50fc15c575900940065c-1" x1="12" y1="21.58" x2="12" y2="23.5"></line><line class="cls-637a50fc15c575900940065c-1" x1="16.79" y1="21.58" x2="16.79" y2="23.5"></line><line class="cls-637a50fc15c575900940065c-1" x1="0.5" y1="16.79" x2="2.42" y2="16.79"></line><line class="cls-637a50fc15c575900940065c-1" x1="0.5" y1="12" x2="2.42" y2="12"></line><line class="cls-637a50fc15c575900940065c-1" x1="0.5" y1="7.21" x2="2.42" y2="7.21"></line><line class="cls-637a50fc15c575900940065c-1" x1="21.58" y1="16.79" x2="23.5" y2="16.79"></line><line class="cls-637a50fc15c575900940065c-1" x1="21.58" y1="12" x2="23.5" y2="12"></line><line class="cls-637a50fc15c575900940065c-1" x1="21.58" y1="7.21" x2="23.5" y2="7.21"></line></svg>
-                            <span id="bgPerformanceLabel">
-                                BG Detail: None
+
+                        <button id="configPlaceholder2" class="bg-performance-btn">
+                            <span id="bgPerformanceBody" class="bg-performance-body">
+                                <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24"><defs><style>.cls-637a50fc15c575900940065c-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><rect class="cls-637a50fc15c575900940065c-1" x="3.38" y="3.38" width="17.25" height="17.25" rx="2.18"></rect><rect class="cls-637a50fc15c575900940065c-1" x="7.21" y="7.21" width="9.58" height="9.58" rx="1.92"></rect><line class="cls-637a50fc15c575900940065c-1" x1="7.21" y1="0.5" x2="7.21" y2="2.42"></line><line class="cls-637a50fc15c575900940065c-1" x1="12" y1="0.5" x2="12" y2="2.42"></line><line class="cls-637a50fc15c575900940065c-1" x1="16.79" y1="0.5" x2="16.79" y2="2.42"></line><line class="cls-637a50fc15c575900940065c-1" x1="7.21" y1="21.58" x2="7.21" y2="23.5"></line><line class="cls-637a50fc15c575900940065c-1" x1="12" y1="21.58" x2="12" y2="23.5"></line><line class="cls-637a50fc15c575900940065c-1" x1="16.79" y1="21.58" x2="16.79" y2="23.5"></line><line class="cls-637a50fc15c575900940065c-1" x1="0.5" y1="16.79" x2="2.42" y2="16.79"></line><line class="cls-637a50fc15c575900940065c-1" x1="0.5" y1="12" x2="2.42" y2="12"></line><line class="cls-637a50fc15c575900940065c-1" x1="0.5" y1="7.21" x2="2.42" y2="7.21"></line><line class="cls-637a50fc15c575900940065c-1" x1="21.58" y1="16.79" x2="23.5" y2="16.79"></line><line class="cls-637a50fc15c575900940065c-1" x1="21.58" y1="12" x2="23.5" y2="12"></line><line class="cls-637a50fc15c575900940065c-1" x1="21.58" y1="7.21" x2="23.5" y2="7.21"></line></svg>
+                                <span id="bgPerformanceLabel" data-lang="en">
+                                    BG: On
+                                </span>
                             </span>
                         </button>
+
                         <button id="themeButton"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff">
     <defs>
         <style>
@@ -475,6 +477,7 @@ lightbox.init();
                         <blockquote><div class="content">
   <div id="table-of-contents"><ul><li class="h2"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#about-the-blog')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#about-the-blog">About the Blog</a></div></li>
 <li class="h2"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#latest-updates')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#latest-updates">Latest Updates</a></div></li>
+<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#minor-260-apr-28th-2026')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#minor-260-apr-28th-2026">Minor 2.6.0 (Apr. 28th 2026)</a></div></li>
 <li class="h4"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#patch-253-apr-2nd-2026')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#patch-253-apr-2nd-2026">Patch 2.5.3 (Apr. 2nd 2026)</a></div></li>
 <li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#minor-252-apr-1st-2026')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#minor-252-apr-1st-2026">Minor 2.5.2 (Apr. 1st 2026)</a></div></li>
 <li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#minor-240-mar-29th-2026')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#minor-240-mar-29th-2026">Minor 2.4.0 (Mar. 29th 2026)</a></div></li>
@@ -509,6 +512,19 @@ lightbox.init();
 </ul>
 
 <h2 id="latest-updates">Latest Updates<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#latest-updates')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
+
+<h3 id="minor-260-apr-28th-2026">Minor 2.6.0 (Apr. 28th 2026)<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#minor-260-apr-28th-2026')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+
+<ul>
+  <li>Replaced the ripple dot grid background with a new starfield background, inspired by <a href="https://grok.com/" target="_blank">Grok’s website</a>. Specific implementation cloned from <a href="https://github.com/UsmanDevCraft/grok-shooting-stars" target="_blank">UsmanDevCraft’s Grok shooting stars</a>.</li>
+</ul>
+
+<p><em>PS: learned my lesson about pure CSS background with high paint frequency, the new background is HTML5 Canvas, still like the old BG though :(.</em></p>
+
+<ul>
+  <li>Reworked logo click behavior, beside from the home page, it will now always bring you back to the home page.</li>
+  <li>Added a new <code class="language-plaintext highlighter-rouge">Copy Catalog</code> button in Projects Page, could be useful if you want to ask an AI about my journey.</li>
+</ul>
 
 <h4 id="patch-253-apr-2nd-2026">Patch 2.5.3 (Apr. 2nd 2026)<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#patch-253-apr-2nd-2026')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h4>
 
@@ -950,6 +966,7 @@ lightbox.init();
     </div>
 </div>
     <script src="/assets/js/pages-js/post-script.js"></script>
+    <script src="/assets/js/bg-script.js"></script>
     <script>
         (function() {
             'use strict';

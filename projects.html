@@ -45,10 +45,8 @@
 </head>
 
 <body>
-    <div class="site-bg-effects" aria-hidden="true">
-        <div class="site-bg-dot-grid"></div>
-        <div class="site-bg-glow"></div>
-    </div>
+    <canvas id="starfield"></canvas>
+
     <div class="main-container">
         <div id="config-overlay" class="overlay" style="display:none;">
             <div class="config-container">
@@ -80,7 +78,13 @@
                     <button id="configPlaceholder2" class="bg-performance-btn">
                         <span id="bgPerformanceBody" class="bg-performance-body">
                             <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24"><defs><style>.cls-637a50fc15c575900940065c-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><rect class="cls-637a50fc15c575900940065c-1" x="3.38" y="3.38" width="17.25" height="17.25" rx="2.18"></rect><rect class="cls-637a50fc15c575900940065c-1" x="7.21" y="7.21" width="9.58" height="9.58" rx="1.92"></rect><line class="cls-637a50fc15c575900940065c-1" x1="7.21" y1="0.5" x2="7.21" y2="2.42"></line><line class="cls-637a50fc15c575900940065c-1" x1="12" y1="0.5" x2="12" y2="2.42"></line><line class="cls-637a50fc15c575900940065c-1" x1="16.79" y1="0.5" x2="16.79" y2="2.42"></line><line class="cls-637a50fc15c575900940065c-1" x1="7.21" y1="21.58" x2="7.21" y2="23.5"></line><line class="cls-637a50fc15c575900940065c-1" x1="12" y1="21.58" x2="12" y2="23.5"></line><line class="cls-637a50fc15c575900940065c-1" x1="16.79" y1="21.58" x2="16.79" y2="23.5"></line><line class="cls-637a50fc15c575900940065c-1" x1="0.5" y1="16.79" x2="2.42" y2="16.79"></line><line class="cls-637a50fc15c575900940065c-1" x1="0.5" y1="12" x2="2.42" y2="12"></line><line class="cls-637a50fc15c575900940065c-1" x1="0.5" y1="7.21" x2="2.42" y2="7.21"></line><line class="cls-637a50fc15c575900940065c-1" x1="21.58" y1="16.79" x2="23.5" y2="16.79"></line><line class="cls-637a50fc15c575900940065c-1" x1="21.58" y1="12" x2="23.5" y2="12"></line><line class="cls-637a50fc15c575900940065c-1" x1="21.58" y1="7.21" x2="23.5" y2="7.21"></line></svg>
-                            <span id="bgPerformanceLabel">BG Detail: None</span>
+                            <span id="bgPerformanceLabel" data-lang="en">BG: On</span>
+                        </span>
+                    </button>
+                    <button id="copyCatalogBtn">
+                        <span id="copyCatalogBody" style="display: flex; align-items: center; transition: opacity 0.2s ease; opacity: 1;">
+                            <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg>
+                            <span id="copyCatalogLabel">Copy Catalog</span>
                         </span>
                     </button>
                 </div>
@@ -145,6 +149,158 @@
                     <h1>Projects - Yuk</h1>
                 </div>
                 <div class="projects-container">
+                    
+                    
+                    <div class="project-card" id="hybrid-a-playground">
+                        
+                        
+                        
+                        
+                        
+                        <a class="project-card-image-link" href="https://github.com/duy-phamduc68/Hybrid-A-Star-Playground" target="_blank" rel="noopener noreferrer" style="display:block; text-decoration:none; color:inherit;">
+                          <div class="project-card-image-container lqip-wrapper" style="background-image: url('data:image/webp;base64,UklGRpYAAABXRUJQVlA4IIoAAACwBwCdASpAACQAPsFQmkyqJSIiN/49UUAYCWcA0FQ4FNoiKAdQBZ5YoLuT8i3TJTLh4slKZhhPyUrRyB9aYgtoblqofEgAAP7zI5As1p71ldg7Jmofp4g4rqPBepMNSnLsrsVhzNSnzXoMLXytIeBdc0LyF8f7qahUnfafNE6ZagCuj4Uf2gAAAAA=');">
+                              <img src="/assets/thumbnail/2026/q2-2026/hybridastarplaygroundthumbnail.webp" alt="Hybrid A* Playground" 
+                                  class="blur-load"
+                                  onload="setTimeout(() => this.classList.add('loaded'), 50);"
+                                  loading="eager" 
+                                  fetchpriority="high" 
+                                  decoding="async">
+                          </div>
+                        </a>
+                        
+                        <div class="project-card-description">
+                            
+                            <a class="project-card-title-link" href="https://github.com/duy-phamduc68/Hybrid-A-Star-Playground" target="_blank" rel="noopener noreferrer" style="display:block; text-decoration:none; color:inherit;">
+                              <div class="project-card-title">
+                                <h2>
+                                    
+                                    <span>
+                                        
+                                        
+                                        
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24"><defs><style>.cls-637a50fc15c5759009400660-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637a50fc15c5759009400660-1" x1="8.18" y1="22.5" x2="9.14" y2="17.73"></line><line class="cls-637a50fc15c5759009400660-1" x1="5.32" y1="22.5" x2="18.68" y2="22.5"></line><rect class="cls-637a50fc15c5759009400660-1" x="1.5" y="1.5" width="21" height="16.23" rx="1.91"></rect><line class="cls-637a50fc15c5759009400660-1" x1="15.75" y1="22.5" x2="14.8" y2="17.73"></line><line class="cls-637a50fc15c5759009400660-1" x1="1.5" y1="13.91" x2="22.5" y2="13.91"></line></svg>
+
+
+                                        
+                                    </span>
+                                    
+                                    Hybrid A* Playground
+                                </h2>
+                              </div>
+                            </a>
+                            
+
+                            <div class="project-card-date">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.4" width="14" height="14" color="#686868">
+    <defs>
+        <style>
+            .cls-calendar-1, .cls-calendar-2 {
+                fill: none;
+                stroke: currentColor;
+                stroke-miterlimit: 10;
+            }
+            .cls-calendar-1 {
+                stroke-linecap: square;
+            }
+        </style>
+    </defs>
+    <g id="calendar">
+        <rect class="cls-calendar-1" x="1.5" y="2.43" width="21" height="4.77" transform="translate(24 9.64) rotate(180)"></rect>
+        <line class="cls-calendar-2" x1="17.73" y1="0.52" x2="17.73" y2="4.34"></line>
+        <line class="cls-calendar-2" x1="6.27" y1="0.52" x2="6.27" y2="4.34"></line>
+        <polygon class="cls-calendar-1" points="22.5 11.98 22.5 7.21 1.5 7.21 1.5 22.48 22.5 22.48 22.5 15.79 22.5 11.98"></polygon>
+        <line class="cls-calendar-2" x1="9.14" y1="11.02" x2="11.05" y2="11.02"></line>
+        <line class="cls-calendar-2" x1="12.95" y1="11.02" x2="14.86" y2="11.02"></line>
+        <line class="cls-calendar-2" x1="16.77" y1="11.02" x2="18.68" y2="11.02"></line>
+        <line class="cls-calendar-2" x1="9.14" y1="14.84" x2="11.05" y2="14.84"></line>
+        <line class="cls-calendar-2" x1="5.32" y1="14.84" x2="7.23" y2="14.84"></line>
+        <line class="cls-calendar-2" x1="12.95" y1="14.84" x2="14.86" y2="14.84"></line>
+        <line class="cls-calendar-2" x1="16.77" y1="14.84" x2="18.68" y2="14.84"></line>
+        <line class="cls-calendar-2" x1="9.14" y1="18.66" x2="11.05" y2="18.66"></line>
+        <line class="cls-calendar-2" x1="5.32" y1="18.66" x2="7.23" y2="18.66"></line>
+        <line class="cls-calendar-2" x1="12.95" y1="18.66" x2="14.86" y2="18.66"></line>
+    </g>
+</svg>
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                <span class="posts-date" style="display: inline-block;">
+                                    Apr. 26th 2026
+                                </span>
+                                
+                            </div>
+                            <div class="project-card-preview-text">
+                                <p>A learning project to further my understanding for the Autonomous Vehicles field. Comprising of a comprehensive scenario builder + algorithm visualizer to really get to the heart of Hybrid A*. Main algorithms grasped through out the project: Hybrid A*, Dubins / Reeds Shepp path, Maximal Rectangle Tiling,... and various optimization strategies.</p>
+                            </div>
+                            <div class="project-card-more">
+                                <div class="access-button">
+                                    <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="13" height="13" color="#fff">
+    <defs>
+        <style>
+            .cls-access-1 {
+                fill: none;
+                stroke: currentColor;
+                stroke-miterlimit: 10;
+            }
+        </style>
+    </defs>
+    <polyline class="cls-access-1" points="22 13 22 22 2 22 2 2 11 2"></polyline>
+    <polyline class="cls-access-1" points="14 2 22 2 22 10"></polyline>
+    <line class="cls-access-1" x1="22" y1="2" x2="10" y2="14"></line>
+</svg>
+                                    
+                                    
+                                    <a href="https://github.com/duy-phamduc68/Hybrid-A-Star-Playground" target="_blank" rel="noopener noreferrer">
+                                        <p>
+                                            
+                                            Access
+                                            
+                                        </p>
+                                    </a>
+                                    
+                                    
+                                </div>
+                            
+                                <div class="see-more-button">
+                                    <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="13" height="13" color="#fff">
+    <defs>
+        <style>
+            .cls-see-more-1 {
+                fill: none;
+                stroke: currentColor;
+                stroke-miterlimit: 10;
+            }
+        </style>
+    </defs>
+    <path class="cls-see-more-1" d="M7.23,20.59l-4.78,1,1-4.78L17.89,2.29A2.69,2.69,0,0,1,19.8,1.5h0a2.7,2.7,0,0,1,2.7,2.7h0a2.69,2.69,0,0,1-.79,1.91Z"></path>
+    <line class="cls-see-more-1" x1="0.55" y1="22.5" x2="23.45" y2="22.5"></line>
+    <line class="cls-see-more-1" x1="19.64" y1="8.18" x2="15.82" y2="4.36"></line>
+</svg>
+                                    
+                                                                    
+                                    
+                                                                    
+                                    <a 
+                                      href="#"
+                                      onclick="notifyComingSoon()"
+                                    >
+                                      <p>
+                                        
+                                          See more
+                                        
+                                      </p>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
                     
                     
                     
@@ -2030,6 +2186,7 @@
         }
     </script>
     <script src="/assets/js/pages-js/projects-script.js"></script>
+    <script src="/assets/js/bg-script.js"></script>
     <button id="scrollButton" onclick="scrollToTop()">
         <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="50" height="50" color="#fff">
     <defs>

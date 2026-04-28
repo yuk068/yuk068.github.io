@@ -82,21 +82,6 @@
     --light-text-shadow-part-1: 0 0 0 transparent;
     --light-text-shadow-part-2: 0 0 0 transparent;
 
-    --site-bg-dot-color: rgba(206, 224, 255, 0.20);
-    --light-site-bg-dot-color: rgba(46, 80, 175, 0.24);
-    --site-bg-dot-gap: 14px;
-    --site-bg-glow-dot-color: rgba(218, 240, 255, 0.32);
-    --light-site-bg-glow-dot-color: rgba(54, 96, 210, 0.62);
-    --site-bg-glow-core: rgba(137, 228, 255, 0.16);
-    --site-bg-glow-mid: rgba(137, 228, 255, 0.08);
-    --site-bg-glow-edge: rgba(137, 228, 255, 0.02);
-    --light-site-bg-glow-core: rgba(46, 80, 175, 0.14);
-    --light-site-bg-glow-mid: rgba(46, 80, 175, 0.08);
-    --light-site-bg-glow-edge: rgba(46, 80, 175, 0.03);
-    --site-bg-glow-size: 100px;
-    --site-bg-mouse-x: 50vw;
-    --site-bg-mouse-y: 50vh;
-    --site-bg-glow-opacity: 0;
     --swiper-border-progress: 0;
     --swiper-hover-mix: 0;
 
@@ -143,11 +128,6 @@ body.light-mode {
     --box-shadow-part-2: var(--light-box-shadow-part-2);
     --text-shadow-part-1: var(--light-text-shadow-part-1);
     --text-shadow-part-2: var(--light-text-shadow-part-2);
-    --site-bg-dot-color: var(--light-site-bg-dot-color);
-    --site-bg-glow-dot-color: var(--light-site-bg-glow-dot-color);
-    --site-bg-glow-core: var(--light-site-bg-glow-core);
-    --site-bg-glow-mid: var(--light-site-bg-glow-mid);
-    --site-bg-glow-edge: var(--light-site-bg-glow-edge);
     --border-width: 2px;
 }
 
@@ -169,65 +149,20 @@ body {
     position: relative;
 }
 
-.site-bg-effects {
-    position: absolute;
+#starfield {
+    position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    min-height: 100%;
-    pointer-events: none;
     z-index: 0;
-}
-
-.site-bg-dot-grid,
-.site-bg-glow {
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
+    display: block;
+    pointer-events: none;
 }
 
-.site-bg-dot-grid {
-    background-image: radial-gradient(circle, var(--site-bg-dot-color) 0.8px, transparent 1px);
-    background-size: var(--site-bg-dot-gap) var(--site-bg-dot-gap);
-    background-position: top left;
-    opacity: 0.35;
-}
-
-.site-bg-glow {
-    display: none;
-}
 
 @media (hover: hover) {
-    .site-bg-glow {
-        display: block;
-        background-image: radial-gradient(circle, var(--site-bg-glow-dot-color) 1px, transparent 1.2px);
-        background-size: var(--site-bg-dot-gap) var(--site-bg-dot-gap);
-        background-position: top left;
 
-        position: absolute;
-
-        -webkit-mask-image: radial-gradient(
-            var(--site-bg-glow-size) circle at var(--site-bg-mouse-x) var(--site-bg-mouse-y),
-            rgba(0, 0, 0, 1) 0,
-            rgba(0, 0, 0, 0.82) 30%,
-            rgba(0, 0, 0, 0.22) 56%,
-            transparent 76%
-        );
-
-        mask-image: radial-gradient(
-            var(--site-bg-glow-size) circle at var(--site-bg-mouse-x) var(--site-bg-mouse-y),
-            rgba(0, 0, 0, 1) 0,
-            rgba(0, 0, 0, 0.82) 30%,
-            rgba(0, 0, 0, 0.22) 56%,
-            transparent 76%
-        );
-
-        opacity: var(--site-bg-glow-opacity);
-        transition: opacity 0.22s ease;
-    }
 }
 
 body::-webkit-scrollbar {
@@ -326,7 +261,7 @@ a {
 .short-intro-image-container {
     box-shadow: var(--box-shadow-part-1), var(--box-shadow-part-2);
     background-color: var(--header-bg-color);
-    border: var(--border-width) solid var(--date-color);
+    border: var(--border-width) solid var(--header-footer-shadeDark);
     width: 100%;
     aspect-ratio: 1;
     overflow: hidden;
