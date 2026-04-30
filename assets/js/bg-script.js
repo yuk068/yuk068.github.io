@@ -12,6 +12,9 @@
     const numStars = 360;
     let animationId;
     let isAnimating = false;
+    const centerFalloffWeight = 0.75;
+
+    const isPostPage = !!document.getElementById('post-header') || !!document.querySelector('.post-article');
 
     function resizeCanvas() {
         canvas.width = window.innerWidth;
@@ -22,7 +25,7 @@
     function initStars() {
         stars = Array.from({ length: numStars }, () => ({
             angle: Math.random() * Math.PI * 2,
-            radius: Math.sqrt(Math.random()) * Math.sqrt(canvas.width ** 2 + canvas.height ** 2),
+            radius: Math.pow(Math.random(), 0.5 / centerFalloffWeight) * Math.sqrt(canvas.width ** 2 + canvas.height ** 2),
             speed: Math.random() * 0.0003 + 0.00015,
             size: Math.random() * 1.2 + 0.5,
         }));
@@ -70,32 +73,34 @@
         });
 
         // Shooting stars
-        spawnShootingStar();
-        for (let i = shootingStars.length - 1; i >= 0; i--) {
-            const s = shootingStars[i];
-            const opacity = s.life / s.initialLife;
+        if (!isPostPage) {
+            spawnShootingStar();
+            for (let i = shootingStars.length - 1; i >= 0; i--) {
+                const s = shootingStars[i];
+                const opacity = s.life / s.initialLife;
 
-            const grad = ctx.createLinearGradient(
-                s.x,
-                s.y,
-                s.x - s.vx * 35,
-                s.y - s.vy * 35
-            );
-            grad.addColorStop(0, `rgba(${colorBase}, ${opacity * 0.75})`);
-            grad.addColorStop(1, `rgba(${colorBase}, 0)`);
-            ctx.strokeStyle = grad;
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.moveTo(s.x, s.y);
-            ctx.lineTo(s.x - s.vx * 18, s.y - s.vy * 18);
-            ctx.stroke();
+                const grad = ctx.createLinearGradient(
+                    s.x,
+                    s.y,
+                    s.x - s.vx * 35,
+                    s.y - s.vy * 35
+                );
+                grad.addColorStop(0, `rgba(${colorBase}, ${opacity * 0.75})`);
+                grad.addColorStop(1, `rgba(${colorBase}, 0)`);
+                ctx.strokeStyle = grad;
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(s.x, s.y);
+                ctx.lineTo(s.x - s.vx * 18, s.y - s.vy * 18);
+                ctx.stroke();
 
-            s.x += s.vx;
-            s.y += s.vy;
-            s.life -= 1;
+                s.x += s.vx;
+                s.y += s.vy;
+                s.life -= 1;
 
-            if (s.life <= 0) {
-                shootingStars.splice(i, 1);
+                if (s.life <= 0) {
+                    shootingStars.splice(i, 1);
+                }
             }
         }
 
@@ -103,7 +108,6 @@
     }
 
     function isForceDisabled() {
-        const isPostPage = !!document.getElementById('post-header') || !!document.querySelector('.post-article');
         const isMobile = window.innerWidth <= 790;
         return isPostPage && isMobile;
     }

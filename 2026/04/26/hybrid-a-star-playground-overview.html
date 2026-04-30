@@ -13,7 +13,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="linkage" content="true">
-    <title>Hybrid A*: A Path-planning Algorithm for Self-Driving Car</title>
+    <title>Hybrid A*: A Path-planning Algorithm for Self-Driving Cars</title>
     <meta name="description" content="Complementary post for my project: Hybrid A* Playground">
 
     <!-- SEO & Social Meta -->
@@ -30,7 +30,7 @@
 
     <!-- Open Graph -->
     <meta property="og:type" content="article">
-    <meta property="og:title" content="Hybrid A*: A Path-planning Algorithm for Self-Driving Car">
+    <meta property="og:title" content="Hybrid A*: A Path-planning Algorithm for Self-Driving Cars">
     <meta property="og:description" content="Complementary post for my project: Hybrid A* Playground">
     <meta property="og:url" content="https://yuk068.github.io//2026/04/26/hybrid-a-star-playground-overview">
     <meta property="og:image" content="https://yuk068.github.io//assets/thumbnail/2026/q2-2026/hybridastarplaygroundthumbnail.webp">
@@ -48,7 +48,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@Yukano_50">
     <meta name="twitter:creator" content="@Yukano_50">
-    <meta name="twitter:title" content="Hybrid A*: A Path-planning Algorithm for Self-Driving Car">
+    <meta name="twitter:title" content="Hybrid A*: A Path-planning Algorithm for Self-Driving Cars">
     <meta name="twitter:description" content="Complementary post for my project: Hybrid A* Playground">
     <meta name="twitter:image" content="https://yuk068.github.io//assets/thumbnail/2026/q2-2026/hybridastarplaygroundthumbnail.webp">
 
@@ -401,7 +401,7 @@ lightbox.init();
 
 
                             
-                        </span>Hybrid A*: A Path-planning Algorithm for Self-Driving Car
+                        </span>Hybrid A*: A Path-planning Algorithm for Self-Driving Cars
                     </h1>
                     <div class="post-tags">
                         
@@ -580,7 +580,7 @@ lightbox.init();
 
 <p>In the top scenario, the blue car can reach the green position, but the red car cannot. While in the bottom scenario, its not just that both human can reach the green position, but a human at any starting point can reach the green position if you think about it.</p>
 
-<p>Now you can imagine that if we were in a 2D grid, and we think about the human / humanoid robot as an agent that can move in 8 directions, then that would be a holonomic robot, and normal A* will work just fine for it, I found this wonderful video that can help you Dijkstra and A* on a grid if you have never seen it before (btw Dijkstra on an unweighted graph, ie a grid like below, is just BFS):</p>
+<p>Now you can imagine that if we were in a 2D grid, and we think about the human / humanoid robot as an agent that can move in 8 directions, then that would be a holonomic robot, and normal A* will work just fine for it, I found this wonderful video that can help you Dijkstra and A* on a grid if you have never seen it before:</p>
 
 <iframe style="width:100%;aspect-ratio:16/9;" src="https://www.youtube.com/embed/9REexHx0hDY" frameborder="0" allowfullscreen=""></iframe>
 
@@ -1309,7 +1309,7 @@ reverse-right
 
 <p>We know all of this with out having to straight up drive the non-holonomic car. Which also make it ignore the physics of the car, it will know a tiny test tube shaped obstacle is a deadend, regardless of whether or not the car can even fit in there.</p>
 
-<p>And here’s the thing, H2D is also special in that we can pre-compute it, we don’t even have to run it or update it during the main loop of Hybrid A* itself given a static environment. Fact is if we use the goal as the source of a BFS, then we use it to compute the distance from the goal discrete node to every other discrete nodes, then we will basically have a $O(1)$ look up grid for H2D.</p>
+<p>And here’s the thing, H2D is also special in that we can pre-compute it, we don’t even have to run it or update it during the main loop of Hybrid A* itself given a static environment. Fact is if we use the goal as the source of a Dijkstra, then we use it to compute the distance from the goal discrete node to every other discrete nodes, then we will basically have a $O(1)$ look up grid for H2D.</p>
 
 <p>So, beside from “obstacle-knowing, physics-ignoring”, $h_{H2D}$ is also pre-computed. Below is an image to help you get the idea better:</p>
 
@@ -1317,7 +1317,7 @@ reverse-right
 
 <p>Here, you can see the gradients in the background represent $h_{H2D}$ note how the obstacles (black and white pixels) clearly affect H2D, and that purple part is obviously a deadend.</p>
 
-<p>More importantly, in the example above (it says <code class="language-plaintext highlighter-rouge">500 x 500</code> but thats pixels, the size of this grid is <code class="language-plaintext highlighter-rouge">100 x 100</code>), $h_{H2D}$, which is pre-computed by this goal-origin Dijkstra / BFS is only ran on the <code class="language-plaintext highlighter-rouge">100 x 100 = 10,000</code> <strong>2D grid</strong> which is still in a reasonable range for Dijkstra / BFS, so each of those tiles will know “how far it is from the goal”, notice that we do not include the heading bins in this heuristic, we will comeback to this.</p>
+<p>More importantly, in the example above (it says <code class="language-plaintext highlighter-rouge">500 x 500</code> but thats pixels, the size of this grid is <code class="language-plaintext highlighter-rouge">100 x 100</code>), $h_{H2D}$, which is pre-computed by this goal-origin Dijkstra is only ran on the <code class="language-plaintext highlighter-rouge">100 x 100 = 10,000</code> <strong>2D grid</strong> which is still in a reasonable range for Dijkstra, so each of those tiles will know “how far it is from the goal”, notice that we do not include the heading bins in this heuristic, we will comeback to this.</p>
 
 <hr>
 
@@ -1341,7 +1341,7 @@ reverse-right
   <li>
 <strong>The Heading Hack:</strong> By using the DB/RS distance as a heuristic, you capture the <strong>heading ($\theta$) constraint</strong> in real-time.</li>
   <li>
-<strong>H2D Independence:</strong> Because DB/RS handles the 3D $(x, y, \theta)$ physics, your precomputed $h_{H2D}$ only needs to focus on <strong>obstacles</strong> (Dijkstra / BFS). You don’t need to bloat your H2D table with heading data because the DB/RS component accounts for the turning radius.</li>
+<strong>H2D Independence:</strong> Because DB/RS handles the 3D $(x, y, \theta)$ physics, your precomputed $h_{H2D}$ only needs to focus on <strong>obstacles</strong> (Dijkstra). You don’t need to bloat your H2D table with heading data because the DB/RS component accounts for the turning radius.</li>
 </ul>
 
 <p>For my project, I mostly use the Reeds Shepp path, thus, we have $h_{RS}$. Unlike H2D, this is not pre-computed.</p>
@@ -1386,7 +1386,7 @@ reverse-right
 <span class="language-label">Markdown</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button>
 </div></div>
 
-<p>If it was Reeds Shepp path, it would probably have a smaller upper bound, Dubins paths is a subset of Reeds Shepp paths afterall. So if you actually if you imagine the above scenario with Reeds Shepp path (how to reach goal is literally just a straight reverse):</p>
+<p>RS paths are never longer than Dubins for the same start/goal, Dubins paths is a subset of Reeds Shepp paths afterall. So if you actually if you imagine the above scenario with Reeds Shepp path (how to reach goal is literally just a straight reverse):</p>
 
 <p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRmQAAABXRUJQVlA4IFgAAABQBACdASpAADgAPt1kq1IopSOiqBQKARAbiWkDsAACMrp/qlO78Q5JPdgwAP7wtaCaPjcrAu+O/MADevMgfyOEkSypxyGIia+YIUuqEc1zHny3ztpUAAAA'); aspect-ratio: 368 / 323; width: min(368px, 95%, calc(85vh * 1.139319)); "><img src="/assets/images/2026/q2-2026/hybrid-a-star/straight-reverse.webp" alt="straight reverse" loading="lazy" decoding="async" width="368" height="323" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
 
@@ -1434,7 +1434,7 @@ reverse-right
 <span class="language-label">Python</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button>
 </div></div>
 
-<p>To also discourage the car from getting too close to obstacles and walls.</p>
+<p>To also discourage the car from getting too close to obstacles and walls. Adding this does break admissibility though, might need to look deeper into that.</p>
 
 <hr>
 
@@ -1763,7 +1763,7 @@ reverse-right
 <strong>$K$ (The “Kinematic Tax”):</strong> In standard A*, moving to a neighbor is $O(1)$. In the code, each expansion involves:
     <ul>
       <li>
-<code class="language-plaintext highlighter-rouge">kinematic_expansion</code>: Simulating the arc. Usually $O(1)$.</li>
+<code class="language-plaintext highlighter-rouge">kinematic_expansion</code>: Simulating the arc. Usually $O(K)$.</li>
       <li>
 <code class="language-plaintext highlighter-rouge">analytic_cost</code>: Calculating Dubins/RS distance. Usually $O(1)$.</li>
       <li>
@@ -1857,7 +1857,7 @@ reverse-right
 <p>Algorithmically, the <code class="language-plaintext highlighter-rouge">attempt_sniper</code> (Dubins/RS) check is $O(1)$ time, but it drastically reduces the <strong>Average Time Complexity</strong>. By finding the “mathematical finish line” early, it prevents the $b^d$ exponential growth from reaching its full potential.</p>
 
 <h4 id="733-h2d-pre-computation">7.3.3. H2D Pre-computation<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#733-h2d-pre-computation')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h4>
-<p>Don’t forget that our <code class="language-plaintext highlighter-rouge">h2d_grid</code> is pre-computed (Step 11), that adds a one-time $O(W \cdot H)$ Dijkstra / BFS cost before the main loop even starts.</p>
+<p>Don’t forget that our <code class="language-plaintext highlighter-rouge">h2d_grid</code> is pre-computed (Step 11), that adds a one-time $O(W \cdot H)$ Dijkstra cost before the main loop even starts.</p>
 
 <hr>
 
