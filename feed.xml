@@ -1,10 +1,1025 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://yuk068.github.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://yuk068.github.io//" rel="alternate" type="text/html" /><updated>2026-04-28T08:12:34+07:00</updated><id>https://yuk068.github.io//feed.xml</id><title type="html">Yuk’s Blog</title><subtitle></subtitle><entry><title type="html">Hybrid A* Playground</title><link href="https://yuk068.github.io//2026/04/26/hybrid-a-star-playground-overview" rel="alternate" type="text/html" title="Hybrid A* Playground" /><published>2026-04-26T00:00:00+07:00</published><updated>2026-04-26T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/04/26/hybrid-a-star-playground-overview</id><content type="html" xml:base="https://yuk068.github.io//2026/04/26/hybrid-a-star-playground-overview"><![CDATA[<h3 id="table-of-content">Table of Content</h3>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://yuk068.github.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://yuk068.github.io//" rel="alternate" type="text/html" /><updated>2026-04-30T12:41:13+07:00</updated><id>https://yuk068.github.io//feed.xml</id><title type="html">Yuk’s Blog</title><subtitle></subtitle><entry><title type="html">Hybrid A*: A Path-planning Algorithm for Self-Driving Car</title><link href="https://yuk068.github.io//2026/04/26/hybrid-a-star-playground-overview" rel="alternate" type="text/html" title="Hybrid A*: A Path-planning Algorithm for Self-Driving Car" /><published>2026-04-26T00:00:00+07:00</published><updated>2026-04-26T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/04/26/hybrid-a-star-playground-overview</id><content type="html" xml:base="https://yuk068.github.io//2026/04/26/hybrid-a-star-playground-overview"><![CDATA[<h3 id="table-of-content">Table of Content</h3>
 
 <blockquote><div class="content">
   <div id="table-of-contents"></div>
 </div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
 
-<h2 id="intro">Intro</h2>]]></content><author><name></name></author><category term="showcase" /><category term="project" /><summary type="html"><![CDATA[Hybrid A* Playground]]></summary></entry><entry><title type="html">Conclusion of the Macro Monster Car Physics Journey</title><link href="https://yuk068.github.io//2026/04/10/car-physics-conclusion" rel="alternate" type="text/html" title="Conclusion of the Macro Monster Car Physics Journey" /><published>2026-04-10T00:00:00+07:00</published><updated>2026-04-10T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/04/10/car-physics-conclusion</id><content type="html" xml:base="https://yuk068.github.io//2026/04/10/car-physics-conclusion"><![CDATA[<p>Okay so in this post, I’m going to give the raw, unfiltered story about the car physics series of mine, expected to cover:</p>
+<hr />
+
+<h3 id="prologue">Prologue</h3>
+
+<p>I mean need I say more, I already recently learned about vehicle models, and I got a DAA course this semes too (idk what its short for tbh, algorithms or smt). Well, to be honest this project isn’t that suited for the final project assignment, its probably too many algorithms for what they ask for (I guess they want like, analyze 1 or few algo deeply in both space and complexity, name drop greedy, DP, and P vs. NP and that stuff), but I don’t care, I’m did this anyway, I do believe this project - <strong>Hybrid A* Playground</strong> is a major milestone in my journey for my new Autonomous Vehicles / Simulation niche.</p>
+
+<ul>
+  <li><strong>Github Repo: <a href="https://github.com/duy-phamduc68/Hybrid-A-Star-Playground" target="_blank">duy-phamduc68/Hybrid-A-Star-Playground</a></strong></li>
+</ul>
+
+<p>In a nutshell, <strong>Hybrid A* is a path-planning algorithm for self-driving car</strong>, that’s about as simple as I can put it. What I’m gonna do in this post, is go through the making process of this project at a high level, I think this is one of those project that is complex but also very doable in a reasonable amount of time, and what you can learn from it is paramount.</p>
+
+<p>This project was inspired greatly by <a href="https://ai.stanford.edu/~ddolgov/papers/dolgov_gpp_stair08.pdf" target="_blank">Practical Search Techniques in Path Planning for Autonomous Driving</a> from Stanford.</p>
+
+<iframe style="width:100%;" src="https://www.youtube.com/embed/qXZt-B7iUyw" frameborder="0" allowfullscreen=""></iframe>
+
+<hr />
+
+<h2 id="1-holonomic-vs-non-holonomic-robots">1. Holonomic vs. Non-holonomic Robots</h2>
+
+<p>Alright so, self-driving car is actually a type of robot if you think about it, I mean if you’re a CS student, then you shrink an AV down to a RC car, maybe remove one of it axis leaving only 2 wheels, and I’m sure you’re going to call it a robot. So anyway, path-planning is one of the cornerstone of the robotics field.</p>
+
+<p>But then maybe you’re wondering, then why don’t I say <strong>“Hybrid A* is a path-planning algorithm for robots”</strong> instead? Well it would still be technically true, but that wouldn’t highlight the nature of Hybrid A* as explicitly, that is, Hybrid A* is designed for <strong>Non-Holonomic Robots</strong>.</p>
+
+<p>In robotics we usually have 2 types of robots that can be classified as <strong>Holonomic Robots</strong> and <strong>Non-Holonomic Robots</strong>. Their formal definition comes from Mechanics, and there’s a bunch of rigorous framework around how a robot is classified here, but for the scope of this post, I’m just gonna put this one drawing to explain how a self-driving car is a non-holonomic robot:</p>
+
+<p><img src="/assets/images/2026/q2-2026/hybrid-a-star/holonomic-vs-non-holonomic.webp" alt="holonomic vs non holonomic" /></p>
+
+<p>As you can see, in the top scenario, this is what we have, a car, in a parallel parking scenario, you can see the path that it would most likely have to take to park in between those 2 cars.</p>
+
+<p>In the bottom scenario, we have a human (if you want to compare machine-to-machine, then imagine it a humanoid robot lol) and the path to the same position is much more straightforward, either a L shaped path or the dashed-diagonal will allow the human to reach the same position that took the car the entire parallel parking maneuver.</p>
+
+<p>And if we strictly consider movement in a flat plane (both a human and a car can’t fly - yet), then the car here will be considered Non-Holonomic, while the human is Holonomic.</p>
+
+<p>Consider this example:</p>
+
+<p><img src="/assets/images/2026/q2-2026/hybrid-a-star/holonomic-vs-non-holonomic-2.webp" alt="holonomic vs non holonomic 2" /></p>
+
+<p>In the top scenario, the blue car can reach the green position, but the red car cannot. While in the bottom scenario, its not just that both human can reach the green position, but a human at any starting point can reach the green position if you think about it.</p>
+
+<p>Now you can imagine that if we were in a 2D grid, and we think about the human / humanoid robot as an agent that can move in 8 directions, then that would be a holonomic robot, and normal A* will work just fine for it, I found this wonderful video that can help you Dijkstra and A* on a grid if you have never seen it before (btw Dijkstra on an unweighted graph, ie a grid like below, is just BFS):</p>
+
+<iframe style="width:100%;" src="https://www.youtube.com/embed/9REexHx0hDY" frameborder="0" allowfullscreen=""></iframe>
+
+<p>If we now replace the humanoid robot with a car, it obviously cannot move in 8 direction like the example above, not to mention, it also doesn’t just “jump a tile”, instead, it moves continuously in the physical world, and this core distinction is what Hybrid A* is all about.</p>
+
+<p>There is definitely better and more rigorous explanation for this, but this was what got me through it…</p>
+
+<hr />
+
+<h2 id="2-kinematic-bicycle-model">2. Kinematic Bicycle Model</h2>
+
+<p>Although I’ve already learned about this, I think its better to just show you, use the custom simulator below to just understand what a <strong>Kinematic Bicycle Model</strong> is intuitively (sorry mobile user):</p>
+
+<div id="bicycle-sim-container" style="width: 100%; background: #121212; border-radius: 12px; overflow: hidden; font-family: 'Segoe UI', Tahoma, sans-serif; color: white; margin: 20px auto; border: 1px solid var(--header-footer-shadeLight);; box-shadow: var(--box-shadow-part-1), var(--box-shadow-part-2);;">
+    <div style="padding: 15px; background: #1e1e1e; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333;">
+        <h3 style="margin: 0; font-size: 1rem; letter-spacing: 1px; color: #00d4ff;">KINEMATIC BICYCLE</h3>
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <button id="resetBtn" style="background: transparent; border: 1px solid #444; color: #888; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 0.7rem; text-transform: uppercase; transition: all 0.2s;">Reset</button>
+            <label style="font-size: 0.8rem; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                <input type="checkbox" id="modeToggle" style="accent-color: #00d4ff;" /> Simple Box Mode
+            </label>
+        </div>
+    </div>
+    <canvas id="bikeCanvas" style="display: block; background: radial-gradient(circle, #1a1a1a 0%, #0a0a0a 100%); cursor: crosshair;"></canvas>
+    <div style="padding: 12px; font-size: 0.8rem; background: #1e1e1e; display: flex; justify-content: space-around; color: #888; border-top: 1px solid #333;">
+        <div>V: <span id="speedVal" style="color: #eee;">0</span> / 150</div>
+        <div>STEER: <span id="steerVal" style="color: #eee;">0</span>°</div>
+        <div>W/S: Velocity | A/D: Steer</div>
+    </div>
+    <script>
+        const canvas = document.getElementById('bikeCanvas');
+        const ctx = canvas.getContext('2d');
+        const speedDisplay = document.getElementById('speedVal');
+        const steerDisplay = document.getElementById('steerVal');
+        const modeToggle = document.getElementById('modeToggle');
+        const resetBtn = document.getElementById('resetBtn');
+        // Constants
+        const L = 50;           // Wheelbase
+        const MAX_V = 150;      // Max Velocity
+        const MAX_STEER = 0.7;  // ~40 degrees
+        const RAMP_TIME = 0.2;  // seconds to reach max
+        const dt = 1/60;        // Timestep
+        const accel = MAX_V / RAMP_TIME; 
+        // State
+        let x, y, theta, delta, v, trail;
+        function reset() {
+            x = canvas.width / 2;
+            y = canvas.height / 2;
+            theta = 0;
+            delta = 0;
+            v = 0;
+            trail = [];
+        }
+        function resize() {
+            canvas.width = canvas.parentElement.clientWidth;
+            canvas.height = 350;
+            reset();
+        }
+        resetBtn.addEventListener('click', reset);
+        resetBtn.onmouseover = () => { resetBtn.style.borderColor = '#00d4ff'; resetBtn.style.color = '#eee'; };
+        resetBtn.onmouseout = () => { resetBtn.style.borderColor = '#444'; resetBtn.style.color = '#888'; };
+        window.addEventListener('resize', resize);
+        resize();
+        window.addEventListener('keydown', e => keys[e.key.toLowerCase()] = true);
+        window.addEventListener('keyup', e => keys[e.key.toLowerCase()] = false);
+        const keys = {};
+        function update() {
+            // Kinematic Velocity Control (Direct v control with ramp)
+            if (keys['w']) v = Math.min(v + accel * dt, MAX_V);
+            else if (keys['s']) v = Math.max(v - accel * dt, -MAX_V);
+            else v = Math.abs(v) < 5 ? 0 : v * 0.9; // Fast snap to zero
+            // Steer Control
+            if (keys['a']) delta = Math.max(delta - 0.1, -MAX_STEER);
+            else if (keys['d']) delta = Math.min(delta + 0.1, MAX_STEER);
+            else delta *= 0.8;
+            // Kinematic Equations (Rear Axle Reference)
+            x += v * Math.cos(theta) * dt;
+            y += v * Math.sin(theta) * dt;
+            theta += (v / L) * Math.max(Math.min(Math.tan(delta), 10), -10) * dt;
+            // Trail Logic
+            trail.push({x, y, a: 1.0});
+            if (trail.length > 80) trail.shift();
+            trail.forEach(p => p.a -= 0.012);
+            draw();
+            speedDisplay.innerText = Math.round(v);
+            steerDisplay.innerText = Math.round(delta * 180 / Math.PI);
+            requestAnimationFrame(update);
+        }
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // Trail
+            ctx.setLineDash([]);
+            for (let i = 1; i < trail.length; i++) {
+                ctx.beginPath();
+                ctx.strokeStyle = `rgba(0, 212, 255, ${trail[i].a})`;
+                ctx.lineWidth = 2;
+                ctx.moveTo(trail[i-1].x, trail[i-1].y);
+                ctx.lineTo(trail[i].x, trail[i].y);
+                ctx.stroke();
+            }
+            // Turning Circle & Path Prediction
+            if (Math.abs(delta) > 0.001) {
+                const radius = L / Math.tan(delta);
+                const cx = x - radius * Math.sin(theta);
+                const cy = y + radius * Math.cos(theta);
+                ctx.beginPath();
+                ctx.arc(cx, cy, Math.abs(radius), 0, Math.PI * 2);
+                ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+                ctx.stroke();
+                // Predicted Arc
+                ctx.beginPath();
+                ctx.setLineDash([5, 5]);
+                ctx.strokeStyle = '#555';
+                const startA = Math.atan2(y - cy, x - cx);
+                const arcLen = (v/MAX_V) * 1.5;
+                ctx.arc(cx, cy, Math.abs(radius), startA, startA + arcLen, delta < 0);
+                ctx.stroke();
+            }
+            // Draw Vehicle
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(theta);
+            ctx.setLineDash([]);
+            if (modeToggle.checked) {
+                // SIMPLE MODE: Arrowed Rectangle
+                ctx.fillStyle = 'rgba(0, 212, 255, 0.2)';
+                ctx.strokeStyle = '#00d4ff';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(0, -15, L, 30);
+                ctx.fillRect(0, -15, L, 30);
+                // Direction Arrow
+                ctx.beginPath();
+                ctx.moveTo(L+5, 0); ctx.lineTo(L-10, -8); ctx.lineTo(L-10, 8); ctx.closePath();
+                ctx.fillStyle = '#00d4ff';
+                ctx.fill();
+            } else {
+                // TRUE FORM: Bicycle
+                ctx.strokeStyle = '#eee';
+                ctx.lineWidth = 2;
+                ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(L, 0); ctx.stroke();
+                // Rear Wheel
+                ctx.fillStyle = '#ff4b2b';
+                ctx.fillRect(-8, -3, 16, 6);
+                // Front Wheel
+                ctx.save();
+                ctx.translate(L, 0);
+                ctx.rotate(delta);
+                ctx.fillStyle = '#00d4ff';
+                ctx.fillRect(-8, -3, 16, 6);
+                ctx.restore();
+            }
+            ctx.restore();
+        }
+        update();
+    </script>
+</div>
+
+<div class="callout callout-tip">
+  <div class="callout-body">
+    <span class="callout-icon" aria-hidden="true">
+      
+          <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24"><defs><style>.cls-637647fac3a86d32eae6f1e3-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f1e3-1" x1="12" y1="9.14" x2="12" y2="15.82"></line><polyline class="cls-637647fac3a86d32eae6f1e3-1" points="15.82 2.46 15.82 2.46 20.59 2.46 20.59 22.5 3.41 22.5 3.41 2.46 8.18 2.46 8.18 2.46"></polyline><path class="cls-637647fac3a86d32eae6f1e3-1" d="M15.82,1.5V3.41a1.92,1.92,0,0,1-1.91,1.91H10.09A1.92,1.92,0,0,1,8.18,3.41V1.5Z"></path><line class="cls-637647fac3a86d32eae6f1e3-1" x1="11.05" y1="17.73" x2="12.95" y2="17.73"></line></svg>
+        
+    </span>
+    
+
+    
+      For mobile user or those who can’t use the panel above, maybe this video would help: <a href="https://www.youtube.com/watch?v=I9XCzRg5PVc">Kinematic bicycle model - Open loop steering rate (1.0.2)</a>.
+
+    
+  </div>
+</div>
+
+<p>Alright text time, we simplify a car with 4 wheels into a bicycle with 2 wheels, why? Simplicity, its extremely easy to implement and simulate instead of a full physics engine, so a lot of robotics algorithm, especially early autonomous vehicles work, was built under the assumption that the car is a Kinematic Bicycle Model. This was the model I used in the project.</p>
+
+<hr />
+
+<h3 id="21-formal-definition-differential-equations">2.1. Formal Definition (Differential Equations)</h3>
+
+<p>The model assumes the rear wheel is fixed to the frame and the front wheel steers. In the simulation, the red wheel (rear) always follows the body heading $\theta$, while the blue wheel (front) is offset by the steering angle $\delta$.</p>
+
+<p>The differential equations for the state $(x, y, \theta)$ are:</p>
+
+<blockquote><div class="content">
+
+  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mover accent="true"><mi>x</mi><mo>˙</mo></mover><mo>=</mo><mi>v</mi><mi>cos</mi><mo>⁡</mo><mo stretchy="false">(</mo><mi>θ</mi><mo stretchy="false">)</mo><mspace linebreak="newline" height="0.7em"></mspace><mover accent="true"><mi>y</mi><mo>˙</mo></mover><mo>=</mo><mi>v</mi><mi>sin</mi><mo>⁡</mo><mo stretchy="false">(</mo><mi>θ</mi><mo stretchy="false">)</mo><mspace linebreak="newline" height="0.7em"></mspace><mover accent="true"><mi>θ</mi><mo>˙</mo></mover><mo>=</mo><mfrac><mi>v</mi><mi>L</mi></mfrac><mi>tan</mi><mo>⁡</mo><mo stretchy="false">(</mo><mi>δ</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\dot{x} = v \cos(\theta) \\[7pt]
+\dot{y} = v \sin(\theta) \\[7pt]
+\dot{\theta} = \frac{v}{L} \tan(\delta)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6679em;"></span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6679em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal">x</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.1111em;"><span class="mord">˙</span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">cos</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.02778em;">θ</span><span class="mclose">)</span></span><span class="mspace newline" style="margin-top:0.7em;"></span><span class="base"><span class="strut" style="height:0.8623em;vertical-align:-0.1944em;"></span><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6679em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.0833em;"><span class="mord">˙</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1944em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">sin</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.02778em;">θ</span><span class="mclose">)</span></span><span class="mspace newline" style="margin-top:0.7em;"></span><span class="base"><span class="strut" style="height:0.9313em;"></span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.9313em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">θ</span></span><span style="top:-3.2634em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.0556em;"><span class="mord">˙</span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.7936em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.1076em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">L</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">tan</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.03785em;">δ</span><span class="mclose">)</span></span></span></span></span>
+</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<ul>
+  <li><strong>$v$:</strong> The velocity (the <strong>V</strong> value on your display).</li>
+  <li><strong>$L$:</strong> The wheelbase (the length of the white line connecting the wheels).</li>
+  <li><strong>$\theta$:</strong> The direction the chassis is pointing.</li>
+</ul>
+
+<div class="callout callout-important">
+  <div class="callout-body">
+    <span class="callout-icon" aria-hidden="true">
+      
+          <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24"><defs><style>.cls-637647fac3a86d32eae6f1e3-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f1e3-1" x1="12" y1="9.14" x2="12" y2="15.82"></line><polyline class="cls-637647fac3a86d32eae6f1e3-1" points="15.82 2.46 15.82 2.46 20.59 2.46 20.59 22.5 3.41 22.5 3.41 2.46 8.18 2.46 8.18 2.46"></polyline><path class="cls-637647fac3a86d32eae6f1e3-1" d="M15.82,1.5V3.41a1.92,1.92,0,0,1-1.91,1.91H10.09A1.92,1.92,0,0,1,8.18,3.41V1.5Z"></path><line class="cls-637647fac3a86d32eae6f1e3-1" x1="11.05" y1="17.73" x2="12.95" y2="17.73"></line></svg>
+        
+    </span>
+    
+
+    
+      The car’s $x, y$ state is defined at a single point, in this case, its the rear axle.
+
+    
+  </div>
+</div>
+
+<hr />
+
+<p>When you steer, the vehicle rotates around an imaginary point called the <strong>Instantaneous Center of Rotation (ICR)</strong>. This is the center of the faint gray circle that appears in the simulation.</p>
+
+<p>The radius <strong>$R$</strong> of that circle is calculated as:</p>
+
+<blockquote><div class="content">
+
+  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>R</mi><mo>=</mo><mfrac><mi>L</mi><mrow><mi>tan</mi><mo>⁡</mo><mo stretchy="false">(</mo><mi>δ</mi><mo stretchy="false">)</mo></mrow></mfrac></mrow><annotation encoding="application/x-tex">R = \frac{L}{\tan(\delta)}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.2963em;vertical-align:-0.936em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3603em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mop">tan</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.03785em;">δ</span><span class="mclose">)</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">L</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.936em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span>
+</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<hr />
+
+<p>The gray dashed arc is just a preview of the turning circle’s circumference. Since the change in heading ($\dot{\theta}$) is simply velocity divided by radius:</p>
+
+<blockquote><div class="content">
+
+  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mover accent="true"><mi>θ</mi><mo>˙</mo></mover><mo>=</mo><mfrac><mi>v</mi><mi>R</mi></mfrac></mrow><annotation encoding="application/x-tex">\dot{\theta} = \frac{v}{R}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9313em;"></span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.9313em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">θ</span></span><span style="top:-3.2634em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.0556em;"><span class="mord">˙</span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.7936em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.1076em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span>
+</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<ul>
+  <li><strong>Tight Turns:</strong> A larger $\delta$ makes $\tan(\delta)$ bigger, which makes $R$ smaller (a tighter gray circle).</li>
+  <li><strong>Straight Lines:</strong> When $\delta$ is $0$, the radius $R$ becomes infinite, the gray circle disappears, and $\dot{\theta}$ becomes $0$, perfectly straight travel.</li>
+</ul>
+
+<hr />
+
+<h3 id="22-integration--code">2.2. Integration &amp; Code</h3>
+
+<p>Since computers can’t calculate continuous motion, we use <strong>Euler Integration</strong>. We take a tiny slice of time ($dt$) and assume the velocity and steering stay constant during that slice.</p>
+
+<h4 id="221-discretized-formulas">2.2.1. Discretized Formulas</h4>
+
+<p>For every frame in the simulation, we update the state like this:</p>
+
+<blockquote><div class="content">
+
+  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>x</mi><mrow><mi>n</mi><mi>e</mi><mi>x</mi><mi>t</mi></mrow></msub><mo>=</mo><mi>x</mi><mo>+</mo><mo stretchy="false">(</mo><mi>v</mi><mi>cos</mi><mo>⁡</mo><mi>θ</mi><mo stretchy="false">)</mo><mi mathvariant="normal">Δ</mi><mi>t</mi><mspace linebreak="newline" height="0.7em"></mspace><msub><mi>y</mi><mrow><mi>n</mi><mi>e</mi><mi>x</mi><mi>t</mi></mrow></msub><mo>=</mo><mi>y</mi><mo>+</mo><mo stretchy="false">(</mo><mi>v</mi><mi>sin</mi><mo>⁡</mo><mi>θ</mi><mo stretchy="false">)</mo><mi mathvariant="normal">Δ</mi><mi>t</mi><mspace linebreak="newline" height="0.7em"></mspace><msub><mi>θ</mi><mrow><mi>n</mi><mi>e</mi><mi>x</mi><mi>t</mi></mrow></msub><mo>=</mo><mi>θ</mi><mo>+</mo><mrow><mo fence="true">(</mo><mfrac><mrow><mi>v</mi><mi>tan</mi><mo>⁡</mo><mi>δ</mi></mrow><mi>L</mi></mfrac><mo fence="true">)</mo></mrow><mi mathvariant="normal">Δ</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">x_{next} = x + (v \cos \theta) \Delta t \\[7pt]
+y_{next} = y + (v \sin \theta) \Delta t \\[7pt]
+\theta_{next} = \theta + \left( \frac{v \tan \delta}{L} \right) \Delta t</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2806em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span><span class="mord mathnormal mtight">e</span><span class="mord mathnormal mtight">x</span><span class="mord mathnormal mtight">t</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">cos</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">θ</span><span class="mclose">)</span><span class="mord">Δ</span><span class="mord mathnormal">t</span></span><span class="mspace newline" style="margin-top:0.7em;"></span><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2806em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span><span class="mord mathnormal mtight">e</span><span class="mord mathnormal mtight">x</span><span class="mord mathnormal mtight">t</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7778em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">sin</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">θ</span><span class="mclose">)</span><span class="mord">Δ</span><span class="mord mathnormal">t</span></span><span class="mspace newline" style="margin-top:0.7em;"></span><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">θ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2806em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span><span class="mord mathnormal mtight">e</span><span class="mord mathnormal mtight">x</span><span class="mord mathnormal mtight">t</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7778em;vertical-align:-0.0833em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">θ</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:2.4em;vertical-align:-0.95em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size3">(</span></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3714em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">L</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">tan</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.03785em;">δ</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size3">)</span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">Δ</span><span class="mord mathnormal">t</span></span></span></span></span>
+</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<hr />
+
+<h4 id="222-minimal-python-implementation">2.2.2. Minimal Python Implementation</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div><div class="line-number">19</div><div class="line-number">20</div><div class="line-number">21</div><div class="line-number">22</div><div class="line-number">23</div><div class="line-number">24</div><div class="line-number">25</div><div class="line-number">26</div><div class="line-number">27</div><div class="line-number">28</div><div class="line-number">29</div><div class="line-number">30</div><div class="line-number">31</div><div class="line-number">32</div><div class="line-number">33</div><div class="line-number">34</div><div class="line-number">35</div><div class="line-number">36</div><div class="line-number">37</div><div class="line-number">38</div><div class="line-number">39</div><div class="line-number">40</div><div class="line-number">41</div><div class="line-number">42</div><div class="line-number">43</div><div class="line-number">44</div><div class="line-number">45</div><div class="line-number">46</div><div class="line-number">47</div><div class="line-number">48</div><div class="line-number">49</div><div class="line-number">50</div><div class="line-number">51</div><div class="line-number">52</div></div><pre class="highlight"><code><span class="kn">import</span> <span class="n">math</span>
+
+<span class="c1"># Params
+</span>
+<span class="c1"># Wheelbase
+</span><span class="n">L</span> <span class="o">=</span> <span class="mf">50.0</span>
+<span class="c1"># Top speed (if L = 50.0 is 5m, then MAX_V is 15m/s)
+</span><span class="n">MAX_V</span> <span class="o">=</span> <span class="mf">150.0</span>
+<span class="c1"># Max steering angle (radian, ~= 40 degrees)
+</span><span class="n">MAX_STEER</span> <span class="o">=</span> <span class="mf">0.7</span>
+<span class="c1"># 0.2s ramp-up
+</span><span class="n">RAMP</span> <span class="o">=</span> <span class="mf">0.2</span>
+<span class="c1"># 60Hz tick / 60FPS
+</span><span class="n">dt</span> <span class="o">=</span> <span class="mf">0.016</span>
+
+<span class="c1"># State
+</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">theta</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span>
+<span class="n">v</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">delta</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+<span class="k">def</span> <span class="nf">update_sim</span><span class="p">(</span><span class="n">keys</span><span class="p">):</span>
+    <span class="k">global</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">delta</span>
+    
+    <span class="c1"># 1. Process Velocity Input (W/S)
+</span>    <span class="n">accel</span> <span class="o">=</span> <span class="n">MAX_V</span> <span class="o">/</span> <span class="n">RAMP</span>
+    <span class="k">if</span> <span class="sh">'</span><span class="s">w</span><span class="sh">'</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="nf">min</span><span class="p">(</span><span class="n">v</span> <span class="o">+</span> <span class="n">accel</span> <span class="o">*</span> <span class="n">dt</span><span class="p">,</span> <span class="n">MAX_V</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="sh">'</span><span class="s">s</span><span class="sh">'</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="nf">max</span><span class="p">(</span><span class="n">v</span> <span class="o">-</span> <span class="n">accel</span> <span class="o">*</span> <span class="n">dt</span><span class="p">,</span> <span class="o">-</span><span class="n">MAX_V</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">v</span> <span class="o">*=</span> <span class="mf">0.9</span>  <span class="c1"># Quick friction decay
+</span>
+    <span class="c1"># 2. Process Steer Input (A/D)
+</span>    <span class="k">if</span> <span class="sh">'</span><span class="s">a</span><span class="sh">'</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
+        <span class="n">delta</span> <span class="o">=</span> <span class="nf">max</span><span class="p">(</span><span class="n">delta</span> <span class="o">-</span> <span class="mf">0.1</span><span class="p">,</span> <span class="o">-</span><span class="n">MAX_STEER</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="sh">'</span><span class="s">d</span><span class="sh">'</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
+        <span class="n">delta</span> <span class="o">=</span> <span class="nf">min</span><span class="p">(</span><span class="n">delta</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">MAX_STEER</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">delta</span> <span class="o">*=</span> <span class="mf">0.8</span>  <span class="c1"># Auto-center decay
+</span>
+    <span class="c1"># 3. Kinematic Integration
+</span>    <span class="n">x</span> <span class="o">+=</span> <span class="n">v</span> <span class="o">*</span> <span class="n">math</span><span class="p">.</span><span class="nf">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="n">y</span> <span class="o">+=</span> <span class="n">v</span> <span class="o">*</span> <span class="n">math</span><span class="p">.</span><span class="nf">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="n">theta</span> <span class="o">+=</span> <span class="p">(</span><span class="n">v</span> <span class="o">/</span> <span class="n">L</span><span class="p">)</span> <span class="o">*</span> <span class="n">math</span><span class="p">.</span><span class="nf">tan</span><span class="p">(</span><span class="n">delta</span><span class="p">)</span> <span class="o">*</span> <span class="n">dt</span>
+
+<span class="c1"># Example usage: simulate holding 'W' and 'D'
+</span><span class="n">active_keys</span> <span class="o">=</span> <span class="p">[</span><span class="sh">'</span><span class="s">w</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">d</span><span class="sh">'</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>  <span class="c1"># Equal to 1.6 seconds of simulated time
+</span>    <span class="nf">update_sim</span><span class="p">(</span><span class="n">active_keys</span><span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">V: </span><span class="si">{</span><span class="n">v</span><span class="si">:</span><span class="p">.</span><span class="mi">1</span><span class="n">f</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Steer: </span><span class="si">{</span><span class="n">math</span><span class="p">.</span><span class="nf">degrees</span><span class="p">(</span><span class="n">delta</span><span class="p">)</span><span class="si">:</span><span class="p">.</span><span class="mi">1</span><span class="n">f</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Pos: (</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="p">.</span><span class="mi">1</span><span class="n">f</span><span class="si">}</span><span class="s">, </span><span class="si">{</span><span class="n">y</span><span class="si">:</span><span class="p">.</span><span class="mi">1</span><span class="n">f</span><span class="si">}</span><span class="s">)</span><span class="sh">"</span><span class="p">)</span>
+</code></pre><span class="language-label">Python</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<hr />
+
+<h2 id="3-the-a-algorithm">3. The A* Algorithm</h2>
+
+<p>Now, I assume you are already familiar with the Dijkstra algorithm, if not, you should go watch some videos about it, because A* is basically Dijkstra++. If recommend this video:</p>
+
+<iframe style="width:100%;" src="https://www.youtube.com/embed/_lHSawdgXpI" frameborder="0" allowfullscreen=""></iframe>
+
+<p>And to compare Dijkstra and A* again (and other search algorithms):</p>
+
+<iframe style="width:100%;" src="https://www.youtube.com/embed/aW9kZcJx64o" frameborder="0" allowfullscreen=""></iframe>
+
+<p>(The video above, the agent seems to only be able to move in 4 directions, in our own code and implementation we are going to use 8 directions for consistency)</p>
+
+<p>After watching the examples, we can checkout the following code:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div><div class="line-number">19</div><div class="line-number">20</div><div class="line-number">21</div><div class="line-number">22</div><div class="line-number">23</div><div class="line-number">24</div><div class="line-number">25</div><div class="line-number">26</div><div class="line-number">27</div><div class="line-number">28</div><div class="line-number">29</div><div class="line-number">30</div></div><pre class="highlight"><code><span class="kn">import</span> <span class="n">heapq</span>
+<span class="kn">import</span> <span class="n">math</span>
+
+<span class="k">def</span> <span class="nf">dijkstra_grid_8</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">goal</span><span class="p">):</span>
+    <span class="n">rows</span><span class="p">,</span> <span class="n">cols</span> <span class="o">=</span> <span class="nf">len</span><span class="p">(</span><span class="n">grid</span><span class="p">),</span> <span class="nf">len</span><span class="p">(</span><span class="n">grid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">pq</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="n">start</span><span class="p">)]</span>
+    <span class="n">distances</span> <span class="o">=</span> <span class="p">{</span><span class="n">start</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+    <span class="n">came_from</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">while</span> <span class="n">pq</span><span class="p">:</span>
+        <span class="n">curr_dist</span><span class="p">,</span> <span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span> <span class="o">=</span> <span class="n">heapq</span><span class="p">.</span><span class="nf">heappop</span><span class="p">(</span><span class="n">pq</span><span class="p">)</span>
+
+        <span class="nf">if </span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span> <span class="o">==</span> <span class="n">goal</span><span class="p">:</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="nf">while </span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span> <span class="ow">in</span> <span class="n">came_from</span><span class="p">:</span>
+                <span class="n">path</span><span class="p">.</span><span class="nf">append</span><span class="p">((</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">))</span>
+                <span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span> <span class="o">=</span> <span class="n">came_from</span><span class="p">[(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">)]</span>
+            <span class="n">path</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">start</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">path</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">dr</span><span class="p">,</span> <span class="n">dc</span> <span class="ow">in</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),(</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">),(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">),(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">),(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),(</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">),(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)]:</span>
+            <span class="n">nr</span><span class="p">,</span> <span class="n">nc</span> <span class="o">=</span> <span class="n">r</span> <span class="o">+</span> <span class="n">dr</span><span class="p">,</span> <span class="n">c</span> <span class="o">+</span> <span class="n">dc</span>
+            <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">nr</span> <span class="o">&lt;</span> <span class="n">rows</span> <span class="ow">and</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">nc</span> <span class="o">&lt;</span> <span class="n">cols</span> <span class="ow">and</span> <span class="n">grid</span><span class="p">[</span><span class="n">nr</span><span class="p">][</span><span class="n">nc</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">weight</span> <span class="o">=</span> <span class="n">math</span><span class="p">.</span><span class="nf">sqrt</span><span class="p">(</span><span class="n">dr</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">dc</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+                <span class="n">new_dist</span> <span class="o">=</span> <span class="n">curr_dist</span> <span class="o">+</span> <span class="n">weight</span>
+                <span class="k">if</span> <span class="n">new_dist</span> <span class="o">&lt;</span> <span class="n">distances</span><span class="p">.</span><span class="nf">get</span><span class="p">((</span><span class="n">nr</span><span class="p">,</span> <span class="n">nc</span><span class="p">),</span> <span class="nf">float</span><span class="p">(</span><span class="sh">'</span><span class="s">inf</span><span class="sh">'</span><span class="p">)):</span>
+                    <span class="n">distances</span><span class="p">[(</span><span class="n">nr</span><span class="p">,</span> <span class="n">nc</span><span class="p">)]</span> <span class="o">=</span> <span class="n">new_dist</span>
+                    <span class="n">came_from</span><span class="p">[(</span><span class="n">nr</span><span class="p">,</span> <span class="n">nc</span><span class="p">)]</span> <span class="o">=</span> <span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+                    <span class="n">heapq</span><span class="p">.</span><span class="nf">heappush</span><span class="p">(</span><span class="n">pq</span><span class="p">,</span> <span class="p">(</span><span class="n">new_dist</span><span class="p">,</span> <span class="p">(</span><span class="n">nr</span><span class="p">,</span> <span class="n">nc</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="bp">None</span>
+</code></pre><span class="language-label">Python</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div><div class="line-number">19</div><div class="line-number">20</div><div class="line-number">21</div><div class="line-number">22</div><div class="line-number">23</div><div class="line-number">24</div><div class="line-number">25</div><div class="line-number">26</div><div class="line-number">27</div><div class="line-number">28</div><div class="line-number">29</div><div class="line-number">30</div><div class="line-number">31</div><div class="line-number">32</div><div class="line-number">33</div><div class="line-number">34</div><div class="line-number">35</div></div><pre class="highlight"><code><span class="kn">import</span> <span class="n">heapq</span>
+<span class="kn">import</span> <span class="n">math</span>
+
+<span class="k">def</span> <span class="nf">a_star_grid_8</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">goal</span><span class="p">):</span>
+    <span class="n">rows</span><span class="p">,</span> <span class="n">cols</span> <span class="o">=</span> <span class="nf">len</span><span class="p">(</span><span class="n">grid</span><span class="p">),</span> <span class="nf">len</span><span class="p">(</span><span class="n">grid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    
+    <span class="k">def</span> <span class="nf">heuristic</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">math</span><span class="p">.</span><span class="nf">sqrt</span><span class="p">((</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="n">pq</span> <span class="o">=</span> <span class="p">[(</span><span class="nf">heuristic</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">goal</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="n">start</span><span class="p">)]</span>
+    <span class="n">g_score</span> <span class="o">=</span> <span class="p">{</span><span class="n">start</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+    <span class="n">came_from</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">while</span> <span class="n">pq</span><span class="p">:</span>
+        <span class="n">f</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span> <span class="o">=</span> <span class="n">heapq</span><span class="p">.</span><span class="nf">heappop</span><span class="p">(</span><span class="n">pq</span><span class="p">)</span>
+
+        <span class="nf">if </span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span> <span class="o">==</span> <span class="n">goal</span><span class="p">:</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="nf">while </span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span> <span class="ow">in</span> <span class="n">came_from</span><span class="p">:</span>
+                <span class="n">path</span><span class="p">.</span><span class="nf">append</span><span class="p">((</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">))</span>
+                <span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span> <span class="o">=</span> <span class="n">came_from</span><span class="p">[(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">)]</span>
+            <span class="n">path</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">start</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">path</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">dr</span><span class="p">,</span> <span class="n">dc</span> <span class="ow">in</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),(</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">),(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">),(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">),(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),(</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">),(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)]:</span>
+            <span class="n">nr</span><span class="p">,</span> <span class="n">nc</span> <span class="o">=</span> <span class="n">r</span> <span class="o">+</span> <span class="n">dr</span><span class="p">,</span> <span class="n">c</span> <span class="o">+</span> <span class="n">dc</span>
+            <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">nr</span> <span class="o">&lt;</span> <span class="n">rows</span> <span class="ow">and</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">nc</span> <span class="o">&lt;</span> <span class="n">cols</span> <span class="ow">and</span> <span class="n">grid</span><span class="p">[</span><span class="n">nr</span><span class="p">][</span><span class="n">nc</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">weight</span> <span class="o">=</span> <span class="n">math</span><span class="p">.</span><span class="nf">sqrt</span><span class="p">(</span><span class="n">dr</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">dc</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+                <span class="n">tentative_g</span> <span class="o">=</span> <span class="n">g</span> <span class="o">+</span> <span class="n">weight</span>
+                <span class="k">if</span> <span class="n">tentative_g</span> <span class="o">&lt;</span> <span class="n">g_score</span><span class="p">.</span><span class="nf">get</span><span class="p">((</span><span class="n">nr</span><span class="p">,</span> <span class="n">nc</span><span class="p">),</span> <span class="nf">float</span><span class="p">(</span><span class="sh">'</span><span class="s">inf</span><span class="sh">'</span><span class="p">)):</span>
+                    <span class="n">came_from</span><span class="p">[(</span><span class="n">nr</span><span class="p">,</span> <span class="n">nc</span><span class="p">)]</span> <span class="o">=</span> <span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+                    <span class="n">g_score</span><span class="p">[(</span><span class="n">nr</span><span class="p">,</span> <span class="n">nc</span><span class="p">)]</span> <span class="o">=</span> <span class="n">tentative_g</span>
+                    <span class="n">f_score</span> <span class="o">=</span> <span class="n">tentative_g</span> <span class="o">+</span> <span class="nf">heuristic</span><span class="p">((</span><span class="n">nr</span><span class="p">,</span> <span class="n">nc</span><span class="p">),</span> <span class="n">goal</span><span class="p">)</span>
+                    <span class="n">heapq</span><span class="p">.</span><span class="nf">heappush</span><span class="p">(</span><span class="n">pq</span><span class="p">,</span> <span class="p">(</span><span class="n">f_score</span><span class="p">,</span> <span class="n">tentative_g</span><span class="p">,</span> <span class="p">(</span><span class="n">nr</span><span class="p">,</span> <span class="n">nc</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="bp">None</span>
+</code></pre><span class="language-label">Python</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<p>As you can see, A* is basically Dijkstra + Heuristic. The difference between them can best be felt in environments more specific than the default graph where these algorithms is usually taught (you can decompose search space in different environments into graphs anyway).</p>
+
+<p>In our case, where the environment is a 2D grid, you can see that A* has a sense of “direction” when searching in such a space, usually, this is thanks to a Euclidean distance heuristic like the code above.</p>
+
+<p>When A* searches, imagine that at any tile, it doesn’t just only know how far it has gone (like Dijkstra), but also how relatively close it is to the goal in this particular case. Its kinda like the agent has wallhacks basically:</p>
+
+<p><img src="/assets/images/2026/q2-2026/hybrid-a-star/wallhacks-a-star.webp" alt="wallhacks" /></p>
+
+<p>While Dijkstra is guaranteed to find the shortest path, it wastes a lot of time exploring areas that are obviously moving away from the goal. By adding the heuristic, A* significantly reduces the number of nodes it needs to check.</p>
+
+<p>What I want you to focus on first, is the <strong>Cost Function</strong>:</p>
+
+<blockquote><div class="content">
+
+  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>f</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo><mo>=</mo><mi>g</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo><mo>+</mo><mi>h</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">f(n) = g(n) + h(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">h</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>
+</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<p>Here, $g(n)$ is the accumulated cost (G-Cost), it helps determining which path is more preferable, in Dijkstra only $g(n)$ exists implicitly in the priority queue, while in A-star, we also have the heuristic cost (H-Cost) $h(n)$. And A-star’s priority queue evaluates $f(n)$ - the cost function.</p>
+
+<hr />
+
+<h2 id="4-the-search-space-of-hybrid-a">4. The Search Space of Hybrid A*</h2>
+
+<p>Before we get into the Cost Function though, we must understand what kind of search space are we working in.</p>
+
+<p>Let’s bring our last 2 sections together, a <strong>Continuous, Non-holonomic Kinematic Bicycle Model</strong> inside of a <strong>2D Grid where A* can operate on with a Holonomic agent</strong>, yeah, there’s definitely a mismatch here.</p>
+
+<p>Remember in <a href="#221-discretized-formulas">2.2.1. Discretized Formulas</a> where we did indeed confirm that the continuous model still has to be represented and simulated in discrete timestep, but then again, for very low timestep like 0.001s, which is often the case for vehicle model in autonomous driving stack because we need to be accurate in such a high stake task, then if we consider each state to be a tile or a node in the search space, then it can often explode to the millions.</p>
+
+<p>A car position isn’t just <code class="language-plaintext highlighter-rouge">(int, int)</code> like <code class="language-plaintext highlighter-rouge">(0, 0)</code> or <code class="language-plaintext highlighter-rouge">(2, 0)</code>, they are <code class="language-plaintext highlighter-rouge">(float, float)</code>.</p>
+
+<p>Even if 2 state of a car end up in the same position on the grid, its orientation can span 360 degrees, and can be fractional! (we often store degrees as radian and convert for easy floating point operations).</p>
+
+<p>And this is where the “Hybrid” in Hybrid A* comes from, that is, our agent, our states, is continuous, but the search is still done in discrete space. Think about it like this:</p>
+
+<p>Let’s just say that technically our grid is continuous, even though we place walls that snap to grid for simplicity but they are still considered continuous, especially with respect to the car, then if we just draw it out our environment would look something like this:</p>
+
+<p><img src="/assets/images/2026/q2-2026/hybrid-a-star/scenario-continuous.webp" alt="continuous scenario" /></p>
+
+<p>Where the A car is the start, and B car is the goal.</p>
+
+<p>And, this is how we are going to <strong>Discretize the Search Space</strong>:</p>
+
+<p><img src="/assets/images/2026/q2-2026/hybrid-a-star/scenario-discretized.webp" alt="discretized scenario" /></p>
+
+<p>Yeah, we… still use grids, and remember that the $x, y$ state is defined at the rear axle of the car, so I’ve added dots to highlight them, now, you can imagine how these dots are assigned to their grid tile now, so, the A car will be treated as if its in tile <code class="language-plaintext highlighter-rouge">(0, 0)</code>, and the B car in tile <code class="language-plaintext highlighter-rouge">(6, 6)</code>. And for the obstacles / walls… well, i didn’t really thought this through… but how about this:</p>
+
+<p><img src="/assets/images/2026/q2-2026/hybrid-a-star/scenario-discretized-walls.webp" alt="discretized scenario with walls" /></p>
+
+<p>Now, the obstacles take up:</p>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div></div><pre class="highlight"><code>[(3, 0), (3, 1), (3, 2), (3, 3), (3, 4)]
+
+and
+
+[(5, 2), (5, 3), (5, 4), (5, 5), (5, 6)]
+</code></pre><span class="language-label">Markdown</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<p>And, if we stop here, yeah its just normal A* now, a start, a goal, obstacles, in a discrete 2D grid, all with nice 2 int tuples <code class="language-plaintext highlighter-rouge">(int, int)</code>. Might be looking like going in circles, but now, here’s the kicker, we don’t stop here, we don’t just stop at discretizing the search space into a 2D grid, because the next step, is also <strong>discretizing the heading of the car</strong>, so now, imagine that each grid tile can finally represent a state of our bicycle model: $(x, y, \theta)$. That tuple have 3 numbers, what does that make you think of? A 3D grid:</p>
+
+<p><img src="/assets/images/2026/q2-2026/hybrid-a-star/scenario-bins.webp" alt="discretized scenario with heading bins" /></p>
+
+<p>For simplicity sake, lets discretize our <strong>heading bins</strong> for each tile into 8 direction, each 45 degrees from eachother, and you have this mental model above.</p>
+
+<p>So now, we can clearly classify the A and B car into: <code class="language-plaintext highlighter-rouge">(0, 0, 1)</code> and <code class="language-plaintext highlighter-rouge">(6, 6, 0)</code> (assuming same direction as the <a href="https://en.wikipedia.org/wiki/Unit_circle" target="_blank">Unit Circle</a>).</p>
+
+<p>So if we come back to A* now, technically, we can use still use these 3D states for searching, we apply the Euclidean heuristic to the first 2 values which is <code class="language-plaintext highlighter-rouge">x, y</code>, and then we just do a for loop to check for all 8 heading bins and yeah we can technically go from <code class="language-plaintext highlighter-rouge">(0, 0, 1)</code> to <code class="language-plaintext highlighter-rouge">(6, 6, 0)</code> like this, but what I really want you to grasp here is the way <strong>Hybrid A* Discretize the Search Space</strong> into a <strong>3D grid</strong>.</p>
+
+<p>Moreover, if we discretize at increasingly higher fidelity, so say if we didn’t just made it into a <code class="language-plaintext highlighter-rouge">6 x 7</code> but <code class="language-plaintext highlighter-rouge">60 x 70</code> or even <code class="language-plaintext highlighter-rouge">600 x 700</code> grid, and the heading bins, instead of 8 direction, maybe <code class="language-plaintext highlighter-rouge">360 / 5 = 72</code>, then you can imagine how it can greatly improve how these discretized grid can tell us <strong>how close we are to a state</strong>.</p>
+
+<p>In this case, <code class="language-plaintext highlighter-rouge">60 x 70 x 72 = 302,400</code> possible discrete states, but here’s the thing, we don’t exactly search in this space as if we are running for-loops for each of the states, its more about keeping track of where and how the car has reached somewhere.</p>
+
+<p>Not to mention, now lets say if we have 2 car state: <code class="language-plaintext highlighter-rouge">(0.75, 1.99, 45.4)</code> and <code class="language-plaintext highlighter-rouge">(0.75, 2.01, 44.9)</code>, then they both will be rounded off and assigned to bin <code class="language-plaintext highlighter-rouge">(1, 2, 1)</code>, which again significantly shrink the search space.</p>
+
+<p>So, lets just stick with this configuration through out, whenever I draw a board like</p>
+
+<p><img src="/assets/images/2026/q2-2026/hybrid-a-star/scenario-continuous.webp" alt="continuous scenario" /></p>
+
+<p>again, just imagine that under the hood, its a 3D grid of <code class="language-plaintext highlighter-rouge">60 x 70 x 72 = 302,400</code> cubes / nodes.</p>
+
+<hr />
+
+<h2 id="5-heuristic-h-cost-of-hybrid-a">5. Heuristic (H-Cost) of Hybrid A*</h2>
+
+<h3 id="51-how-the-car-moves-in-the-environment">5.1. How the Car moves in the environment</h3>
+
+<p>Now, the car still need a way to reach a state somehow in our grid, take a look at the real-axle defined kinematic bicycle model again, what I want you to think about is <strong>Motion Primitives</strong>, while the maximum “reach” of the car is dependant on a lot of factor such as <code class="language-plaintext highlighter-rouge">MAX_V</code>, <code class="language-plaintext highlighter-rouge">MAX_STEER</code>, <code class="language-plaintext highlighter-rouge">dt</code>, etc… its “actions” will always be 6 for a car that has a reverse gear:</p>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div></div><pre class="highlight"><code>straight
+left
+right
+reverse
+reverse-left
+reverse-right
+</code></pre><span class="language-label">Markdown</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<p>Visually, it kinda looks like a spider:</p>
+
+<p><img src="/assets/images/2026/q2-2026/hybrid-a-star/spider-car.webp" alt="spider car" /></p>
+
+<div class="callout callout-warning">
+  <div class="callout-body">
+    <span class="callout-icon" aria-hidden="true">
+      
+          <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24"><defs><style>.cls-63763c42c3a86d32eae6f11d-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-63763c42c3a86d32eae6f11d-1" d="M12.13,3.41h-.26a1.48,1.48,0,0,0-1.26.7L1.73,18.32a1.48,1.48,0,0,0-.23.79h0A1.48,1.48,0,0,0,3,20.59H21a1.48,1.48,0,0,0,1.48-1.48h0a1.48,1.48,0,0,0-.23-.79L13.39,4.11A1.48,1.48,0,0,0,12.13,3.41Z"></path><line class="cls-63763c42c3a86d32eae6f11d-1" x1="12" y1="8.18" x2="12" y2="13.91"></line><line class="cls-63763c42c3a86d32eae6f11d-1" x1="12" y1="15.82" x2="12" y2="17.73"></line></svg>
+        
+    </span>
+    
+
+    
+      Technically, you can definitely add something like ‘mid-left’, ‘mid-right’, etc… but that is highly dependant on the specific configuration, in our particular setup, doing that can fall into the trap of diminishing return.
+
+    
+  </div>
+</div>
+
+<p>In the image above, each of the dots here can be considered a node, this is a bit confusing if we already call the 3D grid in section 4 nodes, so let define the nodes belonging to the 3D grid <strong>discrete nodes</strong>, and these nodes representing car states <strong>continuous nodes</strong>, which mean that continuous nodes are assigned to discrete nodes.</p>
+
+<p>So, if in the normal A* example the agent can move in 8 directions and thus at any step can have 8 actions, and can reach 8 other discrete nodes assuming no collision occurs, then for our car, at any step the amount of actions, ie. motion primitives it can take and the amount of discrete nodes it can reach is not always a constant even if there is no obstacles.</p>
+
+<p>If we have a 3D grid with high-fidelity, and we accept some buffer space for what we consider “reaching the goal” for now, then the goal can be reached when our car reach a certain discrete node, this is when we are going to have to rethink about the heuristic.</p>
+
+<p>Once the car reached this goal in a discrete node, its going to have to reconstruct its exact maneuvers by backtracking its continuous nodes.</p>
+
+<hr />
+
+<h3 id="52-examples-to-explain-the-heuristic">5.2. Examples to Explain the Heuristic</h3>
+
+<p>Okay so, earlier I was joking when I said we can do normal A* by still using Euclidean and just looping through to see which heading match. The fact is, for Hybrid A* we need to use a very specific heuristic function that is also kinda hybrid in of itself, in short:</p>
+
+<blockquote><div class="content">
+
+  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>h</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo><mo>=</mo><mi>max</mi><mo>⁡</mo><mo stretchy="false">(</mo><msub><mi>h</mi><mrow><mi>H</mi><mn>2</mn><mi>D</mi></mrow></msub><mo separator="true">,</mo><msub><mi>h</mi><mrow><mi>R</mi><mi>S</mi></mrow></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">h(n) = \max(h_{H2D}, h_{RS})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">h</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mop">max</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">h</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.08125em;">H</span><span class="mord mtight">2</span><span class="mord mathnormal mtight" style="margin-right:0.02778em;">D</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">h</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.05764em;">RS</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span>
+</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<p>yeah I’m just gonna name drop it there, don’t worry about it too much for now, to really grasp it, I’m going to give some examples.</p>
+
+<hr />
+
+<h4 id="521-the-h2d-heuristic">5.2.1. The H2D Heuristic</h4>
+
+<p>I’d like to call $h_{H2D}$ the “obstacle-knowing, physics-ignoring” heuristic. Consider the following examples:</p>
+
+<p><img src="/assets/images/2026/q2-2026/hybrid-a-star/h2d-example.webp" alt="h2d examples" /></p>
+
+<p>Here, the pink line represent the euclidean distance ignoring obstacles just like normal A<em>, while the teal line… its like running A</em>… but the key here is that we run it already before we even enter the main loop of Hybrid A<em>, so as you can see by running A</em> first like this, we will know:</p>
+
+<ul>
+  <li>Roughly where the obstacles are (example 1)</li>
+  <li>If there are any deadends (example 2)</li>
+  <li>And sometimes can help in cases where start and goal is deceivingly close (example 3)</li>
+</ul>
+
+<p>We know all of this with out having to straight up drive the non-holonomic car. Which also make it ignore the physics of the car, it will know a tiny test tube shaped obstacle is a deadend, regardless of whether or not the car can even fit in there.</p>
+
+<p>And here’s the thing, H2D is also special in that we can pre-compute it, we don’t even have to run it or update it during the main loop of Hybrid A* itself given a static environment. Fact is if we use the goal as the source of a BFS, then we use it to compute the distance from the goal discrete node to every other discrete nodes, then we will basically have a $O(1)$ look up grid for H2D.</p>
+
+<p>So, beside from “obstacle-knowing, physics-ignoring”, $h_{H2D}$ is also pre-computed. Below is an image to help you get the idea better:</p>
+
+<p><img src="/assets/images/2026/q2-2026/hybrid-a-star/h2d-real.webp" alt="h2d real" /></p>
+
+<p>Here, you can see the gradients in the background represent $h_{H2D}$ note how the obstacles (black and white pixels) clearly affect H2D, and that purple part is obviously a deadend.</p>
+
+<p>More importantly, in the example above (it says <code class="language-plaintext highlighter-rouge">500 x 500</code> but thats pixels, the size of this grid is <code class="language-plaintext highlighter-rouge">100 x 100</code>), $h_{H2D}$, which is pre-computed by this goal-origin Dijkstra / BFS is only ran on the <code class="language-plaintext highlighter-rouge">100 x 100 = 10,000</code> <strong>2D grid</strong> which is still in a reasonable range for Dijkstra / BFS, so each of those tiles will know “how far it is from the goal”, notice that we do not include the heading bins in this heuristic, we will comeback to this.</p>
+
+<hr />
+
+<h4 id="522-the-analytical-heuristic">5.2.2. The Analytical Heuristic</h4>
+
+<p>This part is a bit more complex, or perhaps, more alien to those who come from a CS background, in this section, I’m gonna briefly cover <strong>Dubins and Reeds Shepp path</strong>, which is our “obstacle-ignoring, physics-respecting” heuristic, mostly about how it matters to our pipeline so far, because honestly, others explain it way better than me. These two videos from Aaron Becker was especially helpful:</p>
+
+<iframe style="width:100%;" src="https://www.youtube.com/embed/tjUVE3jto98" frameborder="0" allowfullscreen=""></iframe>
+
+<iframe style="width:100%;" src="https://www.youtube.com/embed/fAqh_cy7ePI" frameborder="0" allowfullscreen=""></iframe>
+
+<p>What I really want you to take away from these videos are:</p>
+
+<ul>
+  <li><strong>Explain to a 10 yo:</strong> Dubins is a plane (forward only, ie. 3 motion primitives); Reeds-Shepp is a car (can reverse, ie. 6 motion primitives).</li>
+  <li><strong>Optimal &amp; Closed-Form:</strong> Mathematical formulas that give the “perfect” shortest path in $O(1)$ time without searching, but ignores obstacles.</li>
+  <li><strong>The “Sniper-shot”:</strong> Used as an “Analytic Expansion” to snap directly to the goal when near it, bypassing the grid search, a sort of “sniper-shot”.</li>
+  <li><strong>The Heading Hack:</strong> By using the DB/RS distance as a heuristic, you capture the <strong>heading ($\theta$) constraint</strong> in real-time.</li>
+  <li><strong>H2D Independence:</strong> Because DB/RS handles the 3D $(x, y, \theta)$ physics, your precomputed $h_{H2D}$ only needs to focus on <strong>obstacles</strong> (Dijkstra / BFS). You don’t need to bloat your H2D table with heading data because the DB/RS component accounts for the turning radius.</li>
+</ul>
+
+<p>For my project, I mostly use the Reeds Shepp path, thus, we have $h_{RS}$. Unlike H2D, this is not pre-computed.</p>
+
+<hr />
+
+<h3 id="53-putting-together-hn">5.3. Putting Together h(n)</h3>
+
+<p>Now, remember the name drop from <a href="#52-examples-to-explain-the-heuristic">Section 5.2.</a>:</p>
+
+<blockquote><div class="content">
+
+  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>h</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo><mo>=</mo><mi>max</mi><mo>⁡</mo><mo stretchy="false">(</mo><msub><mi>h</mi><mrow><mi>H</mi><mn>2</mn><mi>D</mi></mrow></msub><mo separator="true">,</mo><msub><mi>h</mi><mrow><mi>R</mi><mi>S</mi></mrow></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">h(n) = \max(h_{H2D}, h_{RS})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">h</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mop">max</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">h</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.08125em;">H</span><span class="mord mtight">2</span><span class="mord mathnormal mtight" style="margin-right:0.02778em;">D</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">h</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.05764em;">RS</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span>
+</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<p>You might be wondering, why are we using <code class="language-plaintext highlighter-rouge">max</code> here? Well, lets take a look:</p>
+
+<p><code class="language-plaintext highlighter-rouge">500 x 500</code> pixels grid, thats like, technically the continuous space of the car here, just a very coarse one. On the diagonal, the length is ~ <code class="language-plaintext highlighter-rouge">700px = 500px * sqrt(2)</code>.</p>
+
+<p>So, the longest length from the start to goal is 700px, and shortest is when start = goal, so for H2D:</p>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div></div><pre class="highlight"><code>0 &lt;= h2d &lt;= 700
+</code></pre><span class="language-label">Markdown</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<p>For analytical cost, its a bit tricky, but remember that it ignores collision, even boundaries, so maybe a Dubins path’s worst case can be something like this:</p>
+
+<p><img src="/assets/images/2026/q2-2026/hybrid-a-star/dubins-worst-case.webp" alt="dubins worst" /></p>
+
+<p>So its probably roughly:</p>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div></div><pre class="highlight"><code>0 &lt;= analytical_cost &lt;= 1200
+</code></pre><span class="language-label">Markdown</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<p>If it was Reeds Shepp path, it would probably have a smaller upper bound, Dubins paths is a subset of Reeds Shepp paths afterall. So if you actually if you imagine the above scenario with Reeds Shepp path (how to reach goal is literally just a straight reverse):</p>
+
+<p><img src="/assets/images/2026/q2-2026/hybrid-a-star/straight-reverse.webp" alt="straight reverse" /></p>
+
+<p>then you can imagine that actually in this case <code class="language-plaintext highlighter-rouge">h2d ~= analytical_cost</code>, so in other words, you can have the intuition that they describe the similar path under different simplifications. So if we were to say add them instead of taking the max, it would be saying:</p>
+
+<blockquote><div class="content">
+
+  <p>real cost &gt;= (distance ignoring yaw) + (distance ignoring obstacles)</p>
+</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<p>Which as we see is not true, this will break a certain requirement of normal A* that is the admissibility of the heuristic, you probably can find somewhere that explains it more clearly but for this project its honestly not that important.</p>
+
+<p>Just think of the 2 heuristic as 2 guides:</p>
+
+<ul>
+  <li>Advisor A: “You need at least 700 units (distance)”</li>
+  <li>Advisor B: “You need at least 715 units (turning constraints)”</li>
+</ul>
+
+<p>You don’t say:</p>
+
+<ul>
+  <li>“Okay, 1415 units”</li>
+</ul>
+
+<p>You say:</p>
+
+<ul>
+  <li>“At least 715”</li>
+</ul>
+
+<hr />
+
+<h3 id="54-expanding-hn">5.4. Expanding h(n)</h3>
+
+<p>What’s cool about $h(n)$ in Hybrid A*, is that you can also add extra heuristic to satisfy certain requirements you may have, for example, in my implementation, I actually use:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div></div><pre class="highlight"><code><span class="n">h_cost</span> <span class="o">=</span> <span class="nf">max</span><span class="p">(</span><span class="n">h2d</span><span class="p">,</span> <span class="n">analytic_cost</span><span class="p">)</span> <span class="o">+</span> <span class="n">proximity</span>
+</code></pre><span class="language-label">Python</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<p>To also discourage the car from getting too close to obstacles and walls.</p>
+
+<hr />
+
+<h2 id="6-accumulated-cost-g-cost-in-hybrid-a">6. Accumulated Cost (G-Cost) in Hybrid A*</h2>
+
+<p>This is honestly really quick to cover, go back to our <code class="language-plaintext highlighter-rouge">500x500px</code> grid example, our $g(n)$ is just the length the car has traveled so far:</p>
+
+<p><img src="/assets/images/2026/q2-2026/hybrid-a-star/straight-reverse.webp" alt="straight reverse" /></p>
+
+<p>In the case above:</p>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div></div><pre class="highlight"><code>g(n) ~= 700
+</code></pre><span class="language-label">Markdown</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<p>Considering our scenarios usually include twist and turns, you can expect g(n) to be roughly in the range of <code class="language-plaintext highlighter-rouge">1500 - 3000</code>.</p>
+
+<p>What’s important though, is that in <code class="language-plaintext highlighter-rouge">g(n)</code> you can again add certain requirements, in my implementation, every step the car takes, the accumulation of $g(n)$ is:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div></div><pre class="highlight"><code><span class="n">step_g</span> <span class="o">=</span> <span class="nf">abs</span><span class="p">(</span><span class="n">v</span> <span class="o">*</span> <span class="n">dt</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">reverse</span><span class="p">:</span> <span class="o">*=</span> <span class="n">penalty_reverse</span>
+<span class="k">if</span> <span class="n">gear</span> <span class="n">change</span><span class="p">:</span> <span class="o">+=</span> <span class="n">penalty_gear_shift</span>
+<span class="n">step_g</span> <span class="o">+=</span> <span class="nf">abs</span><span class="p">(</span><span class="n">steer</span><span class="p">)</span> <span class="o">*</span> <span class="n">penalty_steer</span>
+</code></pre><span class="language-label">Python</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<p>So paths that have a bunch of reverse (IRL, cars hate going in reverse) will be discouraged:</p>
+
+<p><img src="/assets/images/2026/q2-2026/hybrid-a-star/no-reverse.webp" alt="reverse penalty" /></p>
+
+<p>So my implementation will prefer example 2 even though technically example 1 will be considered “shorter” mostly by H2D.</p>
+
+<p>What’s more, we can also prune paths early if $g(n)$ doesn’t improve by a certain threshold.</p>
+
+<p>And thus, our cost function is finalized:</p>
+
+<blockquote><div class="content">
+
+  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>f</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo><mo>=</mo><mi>g</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo><mo>+</mo><mi>h</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">f(n) = g(n) + h(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">h</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span>
+</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<p>By finding the path with the lowest Cost, in this particular implementation, we can understand intuitively that the path:</p>
+
+<ul>
+  <li>Try not to go in reverse too much</li>
+  <li>Respect kinematics / physics, while knowing where the obstacles are and how far it is to the goal</li>
+  <li>Stay far from obstacles if possible</li>
+  <li>Still shortest path within configuration</li>
+</ul>
+
+<hr />
+
+<div class="callout callout-important">
+  <div class="callout-body">
+    <span class="callout-icon" aria-hidden="true">
+      
+          <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24"><defs><style>.cls-637647fac3a86d32eae6f1e3-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f1e3-1" x1="12" y1="9.14" x2="12" y2="15.82"></line><polyline class="cls-637647fac3a86d32eae6f1e3-1" points="15.82 2.46 15.82 2.46 20.59 2.46 20.59 22.5 3.41 22.5 3.41 2.46 8.18 2.46 8.18 2.46"></polyline><path class="cls-637647fac3a86d32eae6f1e3-1" d="M15.82,1.5V3.41a1.92,1.92,0,0,1-1.91,1.91H10.09A1.92,1.92,0,0,1,8.18,3.41V1.5Z"></path><line class="cls-637647fac3a86d32eae6f1e3-1" x1="11.05" y1="17.73" x2="12.95" y2="17.73"></line></svg>
+        
+    </span>
+    
+
+    
+      There is one thing that is very important to our implementation, but I haven’t really mentioned, that is collision detection, but its actually relatively simple to see where it fits into the high-level main loop, its mostly for rejecting infeasible paths / expansions kinematically, but the collision engine itself is actually quite complex, so I would probably make a dedicated post for it, stay tuned for that.
+
+    
+  </div>
+</div>
+
+<p>I might update a link for the <strong>Collision Engine for Hybrid A* post <a href="#" onclick="notifyComingSoon(); return false;">here</a></strong>.</p>
+
+<hr />
+
+<h2 id="7-hybrid-a-main-loop">7. Hybrid A* Main Loop</h2>
+
+<p>In my code implementation, its a bit mixed between rendering and the actual Hybrid A* logic, I will try to fix it soon, but here’s the gist of it:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div><div class="line-number">19</div><div class="line-number">20</div><div class="line-number">21</div><div class="line-number">22</div><div class="line-number">23</div><div class="line-number">24</div><div class="line-number">25</div><div class="line-number">26</div><div class="line-number">27</div><div class="line-number">28</div><div class="line-number">29</div><div class="line-number">30</div><div class="line-number">31</div><div class="line-number">32</div><div class="line-number">33</div><div class="line-number">34</div><div class="line-number">35</div><div class="line-number">36</div><div class="line-number">37</div><div class="line-number">38</div><div class="line-number">39</div><div class="line-number">40</div><div class="line-number">41</div><div class="line-number">42</div><div class="line-number">43</div><div class="line-number">44</div><div class="line-number">45</div><div class="line-number">46</div><div class="line-number">47</div><div class="line-number">48</div><div class="line-number">49</div><div class="line-number">50</div><div class="line-number">51</div><div class="line-number">52</div><div class="line-number">53</div><div class="line-number">54</div><div class="line-number">55</div><div class="line-number">56</div><div class="line-number">57</div><div class="line-number">58</div><div class="line-number">59</div><div class="line-number">60</div><div class="line-number">61</div><div class="line-number">62</div><div class="line-number">63</div><div class="line-number">64</div><div class="line-number">65</div><div class="line-number">66</div><div class="line-number">67</div><div class="line-number">68</div><div class="line-number">69</div><div class="line-number">70</div><div class="line-number">71</div><div class="line-number">72</div><div class="line-number">73</div><div class="line-number">74</div><div class="line-number">75</div><div class="line-number">76</div><div class="line-number">77</div><div class="line-number">78</div><div class="line-number">79</div><div class="line-number">80</div><div class="line-number">81</div><div class="line-number">82</div><div class="line-number">83</div><div class="line-number">84</div><div class="line-number">85</div><div class="line-number">86</div><div class="line-number">87</div><div class="line-number">88</div><div class="line-number">89</div><div class="line-number">90</div><div class="line-number">91</div><div class="line-number">92</div><div class="line-number">93</div><div class="line-number">94</div><div class="line-number">95</div><div class="line-number">96</div><div class="line-number">97</div><div class="line-number">98</div><div class="line-number">99</div><div class="line-number">100</div><div class="line-number">101</div><div class="line-number">102</div><div class="line-number">103</div></div><pre class="highlight"><code><span class="n">open_set</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">visited_bins</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="n">start_node</span> <span class="o">=</span> <span class="nc">Node</span><span class="p">(...)</span>
+<span class="n">heapq</span><span class="p">.</span><span class="nf">heappush</span><span class="p">(</span><span class="n">open_set</span><span class="p">,</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">counter</span><span class="p">,</span> <span class="n">start_node</span><span class="p">))</span>
+
+<span class="k">while</span> <span class="n">open_set</span><span class="p">:</span>
+    <span class="c1"># 1. Pop best node (lowest f)
+</span>    <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">current</span> <span class="o">=</span> <span class="n">heapq</span><span class="p">.</span><span class="nf">heappop</span><span class="p">(</span><span class="n">open_set</span><span class="p">)</span>
+
+    <span class="c1"># 2. Discretize (snap to bin)
+</span>    <span class="n">curr_key</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="nf">int</span><span class="p">(</span><span class="n">current</span><span class="p">.</span><span class="n">x</span> <span class="o">//</span> <span class="n">grid_size</span><span class="p">),</span>
+        <span class="nf">int</span><span class="p">(</span><span class="n">current</span><span class="p">.</span><span class="n">y</span> <span class="o">//</span> <span class="n">grid_size</span><span class="p">),</span>
+        <span class="nf">int</span><span class="p">(</span><span class="n">current</span><span class="p">.</span><span class="n">yaw</span> <span class="o">//</span> <span class="n">yaw_reso_deg</span><span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="c1"># 3. Prune worse duplicates
+</span>    <span class="k">if</span> <span class="n">curr_key</span> <span class="ow">in</span> <span class="n">visited_bins</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">current</span><span class="p">.</span><span class="n">g</span> <span class="o">&gt;</span> <span class="n">visited_bins</span><span class="p">[</span><span class="n">curr_key</span><span class="p">]</span> <span class="o">+</span> <span class="n">tiny_epsilon</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+    <span class="c1"># 4. Goal check
+</span>    <span class="k">if</span> <span class="nf">near_goal</span><span class="p">(</span><span class="n">current</span><span class="p">):</span>
+        <span class="n">final_node</span> <span class="o">=</span> <span class="n">current</span>
+        <span class="k">break</span>
+
+    <span class="c1"># 5. Try analytic shortcut (sniper)
+</span>    <span class="k">if</span> <span class="nf">within_sniper_radius</span><span class="p">(</span><span class="n">current</span><span class="p">):</span>
+        <span class="n">sniper</span> <span class="o">=</span> <span class="nf">attempt_sniper</span><span class="p">(</span><span class="n">current</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">sniper</span><span class="p">:</span>
+            <span class="n">final_node</span> <span class="o">=</span> <span class="n">sniper</span>
+            <span class="k">break</span>
+
+    <span class="c1"># 6. Expand (THIS is the "hybrid" part)
+</span>    <span class="k">for</span> <span class="n">direction</span> <span class="ow">in</span> <span class="n">allowed_dirs</span><span class="p">:</span>          <span class="c1"># forward / reverse
+</span>        <span class="k">for</span> <span class="n">steer_mul</span> <span class="ow">in</span> <span class="n">steering_multipliers</span><span class="p">:</span>  <span class="c1"># left / straight / right
+</span>
+            <span class="n">steer</span> <span class="o">=</span> <span class="n">steer_mul</span> <span class="o">*</span> <span class="n">steer_max_deg</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="n">v_max</span> <span class="o">*</span> <span class="n">direction</span>
+
+            <span class="c1"># --- continuous simulation ---
+</span>            <span class="n">px</span><span class="p">,</span> <span class="n">py</span><span class="p">,</span> <span class="n">pyaw</span> <span class="o">=</span> <span class="nf">kinematic_expansion</span><span class="p">(</span><span class="n">current</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">steer</span><span class="p">)</span>
+
+            <span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="n">nyaw</span> <span class="o">=</span> <span class="n">px</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">py</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">pyaw</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+            <span class="c1"># 7. Collision check (along the arc)
+</span>            <span class="k">if</span> <span class="nf">samples_collide</span><span class="p">(</span><span class="n">px</span><span class="p">,</span> <span class="n">py</span><span class="p">,</span> <span class="n">pyaw</span><span class="p">):</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># 8. Snap new state to bin
+</span>            <span class="n">bin_key</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="nf">int</span><span class="p">(</span><span class="n">nx</span> <span class="o">//</span> <span class="n">grid_size</span><span class="p">),</span>
+                <span class="nf">int</span><span class="p">(</span><span class="n">ny</span> <span class="o">//</span> <span class="n">grid_size</span><span class="p">),</span>
+                <span class="nf">int</span><span class="p">(</span><span class="n">nyaw</span> <span class="o">//</span> <span class="n">yaw_reso_deg</span><span class="p">),</span>
+            <span class="p">)</span>
+
+            <span class="c1"># 9. Compute g (actual cost)
+</span>            <span class="n">step_g</span> <span class="o">=</span> <span class="nf">abs</span><span class="p">(</span><span class="n">v</span> <span class="o">*</span> <span class="n">dt</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">direction</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="n">step_g</span> <span class="o">*=</span> <span class="n">penalty_reverse</span>
+            <span class="k">if</span> <span class="n">direction</span> <span class="o">!=</span> <span class="n">current</span><span class="p">.</span><span class="n">direction</span><span class="p">:</span>
+                <span class="n">step_g</span> <span class="o">+=</span> <span class="n">penalty_gear_shift</span>
+            <span class="n">step_g</span> <span class="o">+=</span> <span class="nf">abs</span><span class="p">(</span><span class="n">steer</span><span class="p">)</span> <span class="o">*</span> <span class="n">penalty_steer</span>
+
+            <span class="n">new_g</span> <span class="o">=</span> <span class="n">current</span><span class="p">.</span><span class="n">g</span> <span class="o">+</span> <span class="n">step_g</span>
+
+            <span class="c1"># 10. Prune small improvements
+</span>            <span class="k">if</span> <span class="n">bin_key</span> <span class="ow">in</span> <span class="n">visited_bins</span><span class="p">:</span>
+                <span class="nf">if </span><span class="p">(</span><span class="n">visited_bins</span><span class="p">[</span><span class="n">bin_key</span><span class="p">]</span> <span class="o">-</span> <span class="n">new_g</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">min_g_improvement</span><span class="p">:</span>
+                    <span class="k">continue</span>
+
+            <span class="c1"># 11. Heuristic (THIS is the "A*")
+</span>            <span class="n">h2d</span> <span class="o">=</span> <span class="n">h2d_grid</span><span class="p">[</span><span class="n">grid_y</span><span class="p">,</span> <span class="n">grid_x</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">h2d</span> <span class="o">==</span> <span class="n">inf</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="n">h</span> <span class="o">=</span> <span class="nf">max</span><span class="p">(</span>
+                <span class="n">h2d</span> <span class="o">*</span> <span class="n">grid_size</span><span class="p">,</span>
+                <span class="nf">analytic_cost</span><span class="p">(</span><span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="n">nyaw</span><span class="p">,</span> <span class="n">goal</span><span class="p">)</span>
+            <span class="p">)</span>
+
+            <span class="n">h</span> <span class="o">+=</span> <span class="nf">obstacle_proximity_penalty</span><span class="p">(</span><span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="n">nyaw</span><span class="p">)</span>
+
+            <span class="c1"># 12. Final cost
+</span>            <span class="n">f</span> <span class="o">=</span> <span class="n">new_g</span> <span class="o">+</span> <span class="n">h_cost_weight</span> <span class="o">*</span> <span class="n">h</span>
+
+            <span class="c1"># 13. Record best g for this bin
+</span>            <span class="n">visited_bins</span><span class="p">[</span><span class="n">bin_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_g</span>
+
+            <span class="c1"># 14. Push new node
+</span>            <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">new_node</span> <span class="o">=</span> <span class="nc">Node</span><span class="p">(</span>
+                <span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="n">nyaw</span><span class="p">,</span>
+                <span class="n">new_g</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span>
+                <span class="n">px</span><span class="p">,</span> <span class="n">py</span><span class="p">,</span> <span class="n">pyaw</span><span class="p">,</span>
+                <span class="p">[</span><span class="n">direction</span><span class="p">]</span> <span class="o">*</span> <span class="nf">len</span><span class="p">(</span><span class="n">px</span><span class="p">),</span>
+                <span class="n">direction</span><span class="p">,</span>
+                <span class="n">current</span>
+            <span class="p">)</span>
+
+            <span class="n">heapq</span><span class="p">.</span><span class="nf">heappush</span><span class="p">(</span><span class="n">open_set</span><span class="p">,</span> <span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">counter</span><span class="p">,</span> <span class="n">new_node</span><span class="p">))</span>
+</code></pre><span class="language-label">Python</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<p>Lets ignore <code class="language-plaintext highlighter-rouge">_samples_collide</code> for now (check the note above <a href="#7-hybrid-a-main-loop">Section 7.</a>), and analyze this algorithmically.</p>
+
+<hr />
+
+<h3 id="71-time-complexity">7.1. Time Complexity</h3>
+
+<blockquote><div class="content">
+
+  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>b</mi><mi>d</mi></msup><mo>⋅</mo><mi>K</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(b^d \cdot K)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1491em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8991em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">d</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="mclose">)</span></span></span></span></span>
+</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<p>Where:</p>
+
+<ul>
+  <li><strong>$b$ (Branching Factor):</strong> In the code, this is <code class="language-plaintext highlighter-rouge">len(allowed_dirs) * len(steering_multipliers)</code>. (e.g., 2 directions $\times$ 3 steer angles = 6 for Reeds Shepp path).</li>
+  <li><strong>$d$ (Depth):</strong> The number of “steps” (moves of length $v \cdot dt$) to reach the goal.</li>
+  <li><strong>$K$ (The “Kinematic Tax”):</strong> In standard A*, moving to a neighbor is $O(1)$. In the code, each expansion involves:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">kinematic_expansion</code>: Simulating the arc. Usually $O(1)$.</li>
+      <li><code class="language-plaintext highlighter-rouge">analytic_cost</code>: Calculating Dubins/RS distance. Usually $O(1)$.</li>
+      <li><code class="language-plaintext highlighter-rouge">samples_collide</code>: Checking every point along that arc against the map. The bulk of $K$’s time complexity, but again, we don’t cover it in this post.</li>
+    </ul>
+  </li>
+  <li><strong>Heuristic Impact:</strong> Because we are using <strong>Dual Heuristic</strong> ($\max(h_{H2D}, h_{RS})$), the “Effective Branching Factor” is much lower than $b$ because the search is highly directional toward the goal, pruning vast amounts of the state space.</li>
+</ul>
+
+<hr />
+
+<h3 id="72-space-complexity">7.2. Space Complexity</h3>
+
+<blockquote><div class="content">
+
+  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msub><mi>V</mi><mrow><mi>b</mi><mi>i</mi><mi>n</mi><mi>s</mi></mrow></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(V_{bins})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">bin</span><span class="mord mathnormal mtight">s</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span>
+</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<p>The memory usage is dominated by how many states we store.</p>
+
+<ul>
+  <li><strong><code class="language-plaintext highlighter-rouge">visited_bins</code>:</strong> This is the primary memory consumer. The maximum size is proportional to the number of discrete “buckets” in our map (<code class="language-plaintext highlighter-rouge">width * height * (360 / yaw_reso</code>).</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">open_set</code>:</strong> In the worst case, the Priority Queue can grow to hold a significant fraction of these bins.</li>
+  <li><strong>Node Data:</strong> Each <code class="language-plaintext highlighter-rouge">Node</code> object in the code stores the entire path segment (<code class="language-plaintext highlighter-rouge">px, py, pyaw</code>). This makes the space complexity “heavy” compared to standard A* which only stores a parent pointer.</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div><div class="line-number">19</div><div class="line-number">20</div></div><pre class="highlight"><code><span class="c1"># hybrid_a_star/core/node.py
+</span>
+<span class="kn">from</span> <span class="n">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span> <span class="n">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span> <span class="n">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+
+<span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">Node</span><span class="p">:</span>
+    <span class="n">x</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">y</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">yaw</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">g</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">f</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">path_x</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">path_y</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">path_yaw</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">path_dir</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+    <span class="n">direction</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">parent</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="sh">"</span><span class="s">Node</span><span class="sh">"</span><span class="p">]</span>
+</code></pre><span class="language-label">Python</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<hr />
+
+<h3 id="73-key-constraints-to-mention">7.3. Key Constraints to Mention</h3>
+
+<h4 id="731-resolution-completeness">7.3.1. Resolution Completeness</h4>
+
+<p>Hybrid A* is <strong>not</strong> “Complete” (it might fail to find a path even if one exists if our configuration, eg. <code class="language-plaintext highlighter-rouge">grid_size</code> or <code class="language-plaintext highlighter-rouge">yaw_reso</code> is too coarse). It is <strong>Resolution Complete</strong>, meaning it is guaranteed to find a solution given a fine enough discretization.</p>
+
+<h4 id="732-the-sniper-shot-efficiency">7.3.2. The “Sniper-shot” Efficiency</h4>
+
+<p>Algorithmically, the <code class="language-plaintext highlighter-rouge">attempt_sniper</code> (Dubins/RS) check is $O(1)$ time, but it drastically reduces the <strong>Average Time Complexity</strong>. By finding the “mathematical finish line” early, it prevents the $b^d$ exponential growth from reaching its full potential.</p>
+
+<h4 id="733-h2d-pre-computation">7.3.3. H2D Pre-computation</h4>
+<p>Don’t forget that our <code class="language-plaintext highlighter-rouge">h2d_grid</code> is pre-computed (Step 11), that adds a one-time $O(W \cdot H)$ Dijkstra / BFS cost before the main loop even starts.</p>
+
+<hr />
+
+<div class="callout callout-important">
+  <div class="callout-body">
+    <span class="callout-icon" aria-hidden="true">
+      
+          <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24"><defs><style>.cls-637647fac3a86d32eae6f1e3-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f1e3-1" x1="12" y1="9.14" x2="12" y2="15.82"></line><polyline class="cls-637647fac3a86d32eae6f1e3-1" points="15.82 2.46 15.82 2.46 20.59 2.46 20.59 22.5 3.41 22.5 3.41 2.46 8.18 2.46 8.18 2.46"></polyline><path class="cls-637647fac3a86d32eae6f1e3-1" d="M15.82,1.5V3.41a1.92,1.92,0,0,1-1.91,1.91H10.09A1.92,1.92,0,0,1,8.18,3.41V1.5Z"></path><line class="cls-637647fac3a86d32eae6f1e3-1" x1="11.05" y1="17.73" x2="12.95" y2="17.73"></line></svg>
+        
+    </span>
+    
+
+    
+      Beside collision, another thing that I haven’t mentioned in this post, is post-processing the path that Hybrid A* found. In reality, the path found by Hybrid A* is usually very jagged due to the continuous / discrete hybrid nature of the algorithm, we can technically ignore this because a big theme in robotics is that path-planning and controlling is usually separate, think of it like this: path-planned, waypoints on it is generated, a controller tries to follow those waypoints. But then again, for my project, I also employed a Gradient Descent path smoother that is fully in post, meaning it only matter after Hybrid A* has found a path, just to make the results look more appealing lol.
+
+    
+  </div>
+</div>
+
+<p>I might update a link for the <strong>Smoothing Hybrid A* Paths with Gradient Descent <a href="#" onclick="notifyComingSoon(); return false;">here</a></strong>.</p>
+
+<hr />
+
+<h2 id="8-hybrid-a-playground">8. Hybrid A* Playground</h2>
+
+<ul>
+  <li><strong>Github Repo: <a href="https://github.com/duy-phamduc68/Hybrid-A-Star-Playground" target="_blank">duy-phamduc68/Hybrid-A-Star-Playground</a></strong></li>
+</ul>
+
+<p>Some images:</p>
+
+<p><img src="/assets/images/2026/q2-2026/hybrid-a-star/sb_home.webp" alt="scenario builder home" /></p>
+
+<p><img src="/assets/images/2026/q2-2026/hybrid-a-star/sb_editor.webp" alt="scenario builder editor" /></p>
+
+<p><img src="/assets/images/2026/q2-2026/hybrid-a-star/viz_home.webp" alt="home hybrid a star playground" /></p>
+
+<p><img src="/assets/images/2026/q2-2026/hybrid-a-star/viz_example1.webp" alt="hybrid a star playground example 1" /></p>
+
+<p><img src="/assets/images/2026/q2-2026/hybrid-a-star/viz_example2.webp" alt="hybrid a star playground example 2" /></p>
+
+<p><img src="/assets/images/2026/q2-2026/hybrid-a-star/viz_example3.webp" alt="hybrid a star playground example 3" /></p>
+
+<hr />
+
+<h2 id="9-limitations--future-work">9. Limitations &amp; Future Work</h2>
+
+<p>Right now, my implementation still take quite a while if the configuration is favorable, I’ve tweaked the default config to be relatively fast and fun to watch, but that also mean that, it could definitely miss a feasible path, and struggle in tight spaces.</p>
+
+<p>For future work, maybe I will continue to work towards the inspiration for the project, the Stanford paper:</p>
+
+<iframe style="width:100%;" src="https://www.youtube.com/embed/qXZt-B7iUyw" frameborder="0" allowfullscreen=""></iframe>
+
+<p>So that would most likely mean:</p>
+
+<ul>
+  <li>The maze is not known ahead of time -&gt; ray-casting collision detection, simulating an autonomous vehicle with sensors like LiDAR</li>
+  <li>Avoid dynamic obstacles, so, other cars on the road</li>
+  <li>A fancy 3D visualization lol</li>
+</ul>
+
+<p>There is definitely more improvements and optimization I can give it, but for now, I’m quite happy with what I was able to learn from this project. For now, its time to write up the collision post and gradient descent post…</p>]]></content><author><name></name></author><category term="showcase" /><category term="project" /><category term="path planning" /><category term="autonomous vehicles" /><category term="kinematics modeling" /><category term="interactive plot" /><summary type="html"><![CDATA[Complementary post for my project: Hybrid A* Playground]]></summary></entry><entry><title type="html">Conclusion of the Macro Monster Car Physics Journey</title><link href="https://yuk068.github.io//2026/04/10/car-physics-conclusion" rel="alternate" type="text/html" title="Conclusion of the Macro Monster Car Physics Journey" /><published>2026-04-10T00:00:00+07:00</published><updated>2026-04-10T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/04/10/car-physics-conclusion</id><content type="html" xml:base="https://yuk068.github.io//2026/04/10/car-physics-conclusion"><![CDATA[<p>Okay so in this post, I’m going to give the raw, unfiltered story about the car physics series of mine, expected to cover:</p>
 
 <blockquote><div class="content">
   <div id="table-of-contents"></div>
