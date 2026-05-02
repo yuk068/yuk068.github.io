@@ -16,10 +16,19 @@
 
     const isPostPage = !!document.getElementById('post-header') || !!document.querySelector('.post-article');
 
+    let lastWidth = window.innerWidth;
+
     function resizeCanvas() {
+        const isMobile = window.innerWidth <= 790;
+        const widthChanged = window.innerWidth !== lastWidth;
+
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-        initStars();
+
+        if (widthChanged || !isMobile || stars.length === 0) {
+            initStars();
+            lastWidth = window.innerWidth;
+        }
     }
 
     function initStars() {
@@ -50,8 +59,9 @@
             return;
         }
 
+        const isMobile = window.innerWidth <= 790;
         const centerX = canvas.width;
-        const centerY = canvas.height;
+        const centerY = isMobile ? window.screen.height : canvas.height;
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
