@@ -15,6 +15,13 @@ if ('scrollRestoration' in history) {
     history.scrollRestoration = 'manual';
 }
 window.scrollTo(0, 0);
+const supportedLangs = ['en', 'vi', 'ja'];
+const pageLang = document.documentElement.lang;
+if (supportedLangs.includes(pageLang)) {
+    try {
+        localStorage.setItem('preferredLang', pageLang);
+    } catch (error) {}
+}
 const disableDotBackgroundEffects = false;  // always controlled by BG mode option
 
 let currentBgPerformanceMode = 'High';
@@ -782,7 +789,15 @@ if (themeToggleButton) {
 toAboutButton.addEventListener('click', (e) => {
     e.preventDefault();
     closeOptions();
-    window.location.href = "/about-yuk-en";
+    const currentLang = document.documentElement.lang;
+
+    if (currentLang === "vi") {
+        window.location.href = "/about-yuk-vi";
+    } else if (currentLang === "ja") {
+        window.location.href = "/about-yuk-ja";
+    } else {
+        window.location.href = "/about-yuk-en";
+    }
 });
 
 closeButton.addEventListener('click', () => {

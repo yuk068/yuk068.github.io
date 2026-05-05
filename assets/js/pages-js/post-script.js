@@ -2,6 +2,13 @@ if ('scrollRestoration' in history) {
     history.scrollRestoration = 'manual';
 }
 window.scrollTo(0, 0);
+const supportedLangs = ['en', 'vi', 'ja'];
+const pageLang = document.documentElement.lang;
+if (supportedLangs.includes(pageLang)) {
+    try {
+        localStorage.setItem('preferredLang', pageLang);
+    } catch (error) {}
+}
 const isHoverCapable = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 const disableDotBackgroundEffects = false;
 
@@ -331,6 +338,8 @@ toAboutButton.addEventListener('click', (e) => {
 
     if (currentLang === "vi") {
         window.location.href = "/about-yuk-vi";
+    } else if (currentLang === "ja") {
+        window.location.href = "/about-yuk-ja";
     } else {
         window.location.href = "/about-yuk-en";
     }

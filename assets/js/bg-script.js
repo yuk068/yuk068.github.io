@@ -173,6 +173,8 @@
 
         if (lang === 'vi') {
             bgPerformanceLabel.textContent = displayState ? 'BG: Bật' : 'BG: Tắt';
+        } else if (lang === 'ja') {
+            bgPerformanceLabel.textContent = displayState ? 'BG: オン' : 'BG: オフ';
         } else {
             bgPerformanceLabel.textContent = displayState ? 'BG: On' : 'BG: Off';
         }

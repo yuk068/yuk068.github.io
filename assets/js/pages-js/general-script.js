@@ -13,6 +13,62 @@ let siteBgHandlers = { move: null, scroll: null, leave: null, visibility: null }
 let dotRippleHandlers = { click: null, visibility: null };
 let rippleCooldown = false;
 
+const ABOUT_LANGS = ['en', 'vi', 'ja'];
+
+function isSupportedLang(lang) {
+    return ABOUT_LANGS.includes(lang);
+}
+
+function rememberPreferredLanguage(lang) {
+    if (!isSupportedLang(lang)) return;
+    try {
+        localStorage.setItem('preferredLang', lang);
+    } catch (error) {}
+}
+
+function getPreferredLanguage() {
+    try {
+        const lang = localStorage.getItem('preferredLang');
+        return isSupportedLang(lang) ? lang : null;
+    } catch (error) {
+        return null;
+    }
+}
+
+function getAboutLangFromPath(pathname) {
+    const match = pathname.match(/\/about-yuk-(en|vi|ja)(?:\/)?$/);
+    return match ? match[1] : null;
+}
+
+function buildAboutUrlForLang(lang) {
+    const url = new URL(window.location.href);
+    url.pathname = `/about-yuk-${lang}`;
+    return url.toString();
+}
+
+function hasSameOriginReferrer() {
+    if (!document.referrer) return false;
+    try {
+        return new URL(document.referrer).origin === window.location.origin;
+    } catch (error) {
+        return false;
+    }
+}
+
+function maybeRedirectAboutLanguage() {
+    const currentLang = getAboutLangFromPath(window.location.pathname);
+    if (!currentLang || !hasSameOriginReferrer()) return false;
+    const preferredLang = getPreferredLanguage();
+    if (!preferredLang || preferredLang === currentLang) return false;
+    window.location.replace(buildAboutUrlForLang(preferredLang));
+    return true;
+}
+
+const didRedirect = maybeRedirectAboutLanguage();
+if (!didRedirect) {
+    rememberPreferredLanguage(document.documentElement.lang);
+}
+
 function bgModeValue(mode) {
     const map = { None: 0, Low: 1, Mid: 2, High: 3 };
     return map[mode] ?? 0;
@@ -120,12 +176,11 @@ function handleLogoClick() {
 }
 
 function switchLanguage() {
-    let currentUrl = window.location.href;
-    if (currentUrl.includes("about-yuk-en")) {
-        window.location.href = currentUrl.replace("about-yuk-en", "about-yuk-vi");
-    } else if (currentUrl.includes("about-yuk-vi")) {
-        window.location.href = currentUrl.replace("about-yuk-vi", "about-yuk-en");
-    }
+    const currentLang = getAboutLangFromPath(window.location.pathname) || document.documentElement.lang || 'en';
+    const currentIndex = ABOUT_LANGS.indexOf(currentLang);
+    const nextLang = ABOUT_LANGS[(currentIndex + 1) % ABOUT_LANGS.length];
+    rememberPreferredLanguage(nextLang);
+    window.location.href = buildAboutUrlForLang(nextLang);
 }
 
 function toggleTheme() {
@@ -195,4 +250,4 @@ if (configCloseButton) {
 if (configToggleDesktop) {
     configToggleDesktop.addEventListener('click', showConfiguration);
 }
-
+
