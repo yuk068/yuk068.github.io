@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://yuk068.github.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://yuk068.github.io//" rel="alternate" type="text/html" /><updated>2026-05-08T13:06:22+07:00</updated><id>https://yuk068.github.io//feed.xml</id><title type="html">Yuk’s Blog</title><subtitle></subtitle><entry><title type="html">Paper Comprehension: Motion Planning Networks</title><link href="https://yuk068.github.io//2026/05/08/motion-planning-network-paper-review" rel="alternate" type="text/html" title="Paper Comprehension: Motion Planning Networks" /><published>2026-05-08T00:00:00+07:00</published><updated>2026-05-08T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/05/08/motion-planning-network-paper-review</id><content type="html" xml:base="https://yuk068.github.io//2026/05/08/motion-planning-network-paper-review"><![CDATA[<h3 id="prologue">Prologue</h3>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://yuk068.github.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://yuk068.github.io//" rel="alternate" type="text/html" /><updated>2026-05-09T10:16:43+07:00</updated><id>https://yuk068.github.io//feed.xml</id><title type="html">Yuk’s Blog</title><subtitle></subtitle><entry><title type="html">Paper Comprehension: Motion Planning Networks</title><link href="https://yuk068.github.io//2026/05/08/motion-planning-network-paper-review" rel="alternate" type="text/html" title="Paper Comprehension: Motion Planning Networks" /><published>2026-05-08T00:00:00+07:00</published><updated>2026-05-08T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/05/08/motion-planning-network-paper-review</id><content type="html" xml:base="https://yuk068.github.io//2026/05/08/motion-planning-network-paper-review"><![CDATA[<h3 id="prologue">Prologue</h3>
 
 <p>Alright so, Motion Planning Network (MPN) and Motion Planning Transformer (MPT), this was actually a topic assigned to me for exploration (maybe I’ll share more about this in the future), not really my own motivation, so I researched them, and I do believe I have interesting findings for this post.</p>
 
-<p>But first, the mandatory stuff, which is reading the papers, extracting insights, good old literature review. In this post, I will be covering the MPNet paper:  <a href="https://arxiv.org/pdf/1806.05767" target="_blank">Motion Planning Networks, Qureshi et al., 2019</a>.</p>
+<p>But first, the mandatory stuff, which is reading the papers, extracting insights, good old literature review. In this post, I will be covering the MPNet paper: <a href="https://arxiv.org/pdf/1806.05767" target="_blank">Motion Planning Networks, Qureshi et al., 2019</a>.</p>
 
-<p>I will link the Motion Planning Transformers post <a href="">here</a> (coming soon).</p>
+<p>I will link the Motion Planning Transformers post <a href="/2026/05/08/motion-planning-transformer-paper-review">here</a>.</p>
 
 <p>I also recently setup <a href="https://obsidian.md/" target="_blank">Obsidian</a> to try out this paper review workflow, this post was originally drafted in Obsidian, so the formatting might be a bit different from my usual posts.</p>
 
@@ -588,7 +588,626 @@ Neural replanning : O(1)
 
 <h2 id="6-final-thoughts">6. Final Thoughts</h2>
 
-<p>I’m gonna put my full thoughts in the Motion Planning Transformers post <a href="">here</a> (coming soon). I already have some quick personal notes in <a href="#1-recap">1. Recap</a>.</p>]]></content><author><name></name></author><category term="technical" /><category term="paper comprehension" /><category term="algorithms" /><category term="deep learning" /><category term="machine learning" /><category term="motion planning" /><summary type="html"><![CDATA[Reading and comprehending Motion Planning Networks, Qureshi et al., 2019]]></summary></entry><entry><title type="html">Planar Four Wheel Model with Wheel Dynamics and Weight Transfer</title><link href="https://yuk068.github.io//2026/04/30/planar-four-wheel-model-with-wheel-dynamics" rel="alternate" type="text/html" title="Planar Four Wheel Model with Wheel Dynamics and Weight Transfer" /><published>2026-04-30T00:00:00+07:00</published><updated>2026-04-30T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/04/30/planar-four-wheel-model-with-wheel-dynamics</id><content type="html" xml:base="https://yuk068.github.io//2026/04/30/planar-four-wheel-model-with-wheel-dynamics"><![CDATA[<h3 id="table-of-content">Table of Content</h3>
+<p>I’m gonna put my full thoughts in the Motion Planning Transformers post <a href="/2026/05/08/motion-planning-transformer-paper-review">here</a>. I already have some quick personal notes in <a href="#1-recap">1. Recap</a>.</p>]]></content><author><name></name></author><category term="technical" /><category term="paper comprehension" /><category term="algorithms" /><category term="deep learning" /><category term="machine learning" /><category term="motion planning" /><summary type="html"><![CDATA[Reading and comprehending Motion Planning Networks, Qureshi et al., 2019]]></summary></entry><entry><title type="html">Paper Comprehension: Motion Planning Transformers</title><link href="https://yuk068.github.io//2026/05/08/motion-planning-transformer-paper-review" rel="alternate" type="text/html" title="Paper Comprehension: Motion Planning Transformers" /><published>2026-05-08T00:00:00+07:00</published><updated>2026-05-08T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/05/08/motion-planning-transformer-paper-review</id><content type="html" xml:base="https://yuk068.github.io//2026/05/08/motion-planning-transformer-paper-review"><![CDATA[<h3 id="prologue">Prologue</h3>
+
+<p>This post is the continuation of <a href="/2026/05/08/motion-planning-network-paper-review">Paper Comprehension: Motion Planning Networks</a>.</p>
+
+<p>From my understanding, Motion Planning Transformer (MPT) actually differs quite a lot from Motion Planning Network (MPNet) (and much more complicated too, which is to be expected). Nevertheless, the MPT paper authors does include the first author of the MPNet paper, professor Ahmed H. Qureshi.</p>
+
+<p>So in this post, I’m going to breakdown the paper <a href="https://arxiv.org/pdf/2106.02791" target="_blank">Motion Planning Transformers: A Motion Planning Framework for Mobile Robots, Johnson et al,. 2022</a>. And give my final thoughts for both MPNet and MPT at the end.</p>
+
+<hr />
+
+<h3 id="table-of-content">Table of Content</h3>
+
+<blockquote><div class="content">
+  <div id="table-of-contents"></div>
+</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<ul>
+  <li><strong>Reference: <a href="https://arxiv.org/pdf/2106.02791" target="_blank">Motion Planning Transformers: A Motion Planning Framework for Mobile Robots, Johnson et al,. 2022</a></strong></li>
+</ul>
+
+<hr />
+
+<h2 id="1-recap">1. Recap</h2>
+
+<p>The MPT module is a region proposal network that uses a transformer network to identify regions of interest, this region is then utilize by classic sampling-based motion planning methods (SMP), significantly reducing the search space and time in their testings.</p>
+
+<p>Here is a quick comparison between MPT and MPNet:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Model</th>
+      <th>MPT</th>
+      <th>MPNet</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Architecture</td>
+      <td>Transformer (Encoder only) + Classifier (1x1 Conv)</td>
+      <td>CAE + DNN</td>
+    </tr>
+    <tr>
+      <td>Inference</td>
+      <td>Search region proposal</td>
+      <td>Autoregressive path generation</td>
+    </tr>
+    <tr>
+      <td>Map size</td>
+      <td>Handle variable sized maps</td>
+      <td>Can’t handle variable sized maps</td>
+    </tr>
+    <tr>
+      <td>Robot modality</td>
+      <td>Extends to and tested non-holonomic robots</td>
+      <td>Didn’t test with non-holonomic robots (in the specified paper, Baxter robot’s arm is still considered holonomic in its workspace)</td>
+    </tr>
+    <tr>
+      <td>Obstacle inputs</td>
+      <td>2D Occupancy matrix (discretization if needed)</td>
+      <td>Point cloud coordinates as vector list (“hollow” obstacles)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>They tested their framework mostly in 2D space, including a point-mass case in $\mathbb{R}^2$ and a Dubins car case in $SE(2)$.</p>
+
+<p>About problem definition, its essentially the same as the MPNet post so I won’t be going over it again, only difference is that our state can also be in $SE(2)$ space.</p>
+
+<p><img src="/assets/images/2026/q2-2026/motion-planning/mpt-pointmass-case.webp" alt="Point mass case" /></p>
+
+<p><img src="/assets/images/2026/q2-2026/motion-planning/mpt-dubinscar-case.webp" alt="Dubins car case" /></p>
+
+<p><strong>Fig. 1.</strong> and <strong>Fig. 2.</strong> <a href="https://arxiv.org/pdf/2106.02791" target="_blank">Johnson et al,. 2022</a>.</p>
+
+<p>Overview of MPT Module for planning in $\mathbb{R}^2$.</p>
+
+<p><img src="/assets/images/2026/q2-2026/motion-planning/mpt-overview-paper.webp" alt="Figure 3" /></p>
+
+<p><strong>Fig. 3.</strong> <a href="https://arxiv.org/pdf/2106.02791" target="_blank">Johnson et al,. 2022</a>.</p>
+
+<hr />
+
+<h2 id="2-architecture">2. Architecture</h2>
+
+<h3 id="21-overview">2.1. Overview</h3>
+
+<p>The architecture of MPT is as follow, consider the point-mass robot case, in other words: state $x \in \mathbb{R}^2$.</p>
+
+<p><img src="/assets/images/2026/q2-2026/motion-planning/mpt-doodle-basecase.webp" alt="architecture diagram doodle" /></p>
+
+<p>Lets take the maze workspace of size $H \times W$ as an example here, the input to MPT will be $H \times W \times 2$. The second map is the “start-goal encoding map”, where the start and goal region will be encoded with a matrix of size $p \times p$ with -1 and 1, respectively.</p>
+
+<p>These 2 maps will be concatenated to tensor $m$, and fed into the FCN network, where each patch will be convoluted with a sliding window of size $p \times p \times 2$, and after passing through <code class="language-plaintext highlighter-rouge">ReLU</code> and <code class="language-plaintext highlighter-rouge">Maxpool</code> Layers, we will get a new tensor of size $H_l \times W_l \times d$, lets call it tensor $M$.</p>
+
+<p>Tensor $M$ is then flatten into a vector list of size $(H_l \cdot W_l) \times d$. Each patch will be “anchored” using the following indexing formula:</p>
+
+<p>For each $(i_F, j_F)$ -th element in $M$ will be converted into index $j$ of the flatten list:</p>
+
+<span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>j</mi><mo>=</mo><msub><mi>i</mi><mi>F</mi></msub><mo>⋅</mo><msub><mi>W</mi><mi>l</mi></msub><mo>+</mo><msub><mi>j</mi><mi>F</mi></msub></mrow><annotation encoding="application/x-tex">j = i_F \cdot W_l + j_F</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.854em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8095em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">i</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.13889em;">F</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.01968em;">l</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.854em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.0572em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.13889em;">F</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span>
+
+<p>This vector list is will now be prepared as input for an Encoder block of the transformer, thus they will go through positional encoding, just like transformer for language modeling.</p>
+
+<p>The Encoder includes components just like <a href="https://arxiv.org/abs/1706.03762">Vaswani et al,. 2017</a>. Comprising of Multi-headed Self Attention block, Layer Norm, and residual connections. Dropout is also applied during training.</p>
+
+<p>Passing through the encoder return us a new vector list of same size $(H_l \cdot W_l) \times d$. This vector list is then reshaped into a tensor $M’$.</p>
+
+<p>Tensor $M’$ will then pass through a classifier (implemented as a 1x1 convolutional layer with Sigmoid activation) and give us output of size $H_l \times W_l \times 1$ , where each of these patch have activation $&gt; 0.5$, we will highlight it as the “proposed region” of the MPT, finally giving us the masked output of size $H \times W$.</p>
+
+<hr />
+
+<h3 id="22-positional-encoding">2.2. Positional Encoding</h3>
+
+<p>To ensure generalization to variable map sizes without having to generate training data of variable map sizes, the authors utilized <strong>Randomized Positional Encoding</strong>. Where beside the classic PE functions:</p>
+
+<span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>P</mi><mi>E</mi><mo stretchy="false">(</mo><mi>j</mi><mo separator="true">,</mo><mn>2</mn><mi>i</mi><mo stretchy="false">)</mo><mo>=</mo><mi>sin</mi><mo>⁡</mo><mrow><mo fence="true">(</mo><mfrac><mi>j</mi><mrow><mn>1000</mn><msup><mn>0</mn><mrow><mn>2</mn><mi>i</mi><mi mathvariant="normal">/</mi><mi>d</mi></mrow></msup></mrow></mfrac><mo fence="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">PE(j, 2i) = \sin\left(\frac{j}{10000^{2i/d}}\right)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">PE</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">2</span><span class="mord mathnormal">i</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.4em;vertical-align:-0.95em;"></span><span class="mop">sin</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size3">(</span></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3365em;"><span style="top:-2.296em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">1000</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.814em;"><span style="top:-2.989em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mathnormal mtight">i</span><span class="mord mtight">/</span><span class="mord mathnormal mtight">d</span></span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.704em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size3">)</span></span></span></span></span></span></span>
+
+<span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>P</mi><mi>E</mi><mo stretchy="false">(</mo><mi>j</mi><mo separator="true">,</mo><mn>2</mn><mi>i</mi><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo><mo>=</mo><mi>cos</mi><mo>⁡</mo><mrow><mo fence="true">(</mo><mfrac><mi>j</mi><mrow><mn>1000</mn><msup><mn>0</mn><mrow><mo stretchy="false">(</mo><mn>2</mn><mi>i</mi><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo><mi mathvariant="normal">/</mi><mi>d</mi></mrow></msup></mrow></mfrac><mo fence="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">PE(j, 2i+1) = \cos\left(\frac{j}{10000^{(2i+1)/d}}\right)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">PE</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">2</span><span class="mord mathnormal">i</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.4em;vertical-align:-0.95em;"></span><span class="mop">cos</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size3">(</span></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3365em;"><span style="top:-2.296em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">1000</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.814em;"><span style="top:-2.989em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mtight">2</span><span class="mord mathnormal mtight">i</span><span class="mbin mtight">+</span><span class="mord mtight">1</span><span class="mclose mtight">)</span><span class="mord mtight">/</span><span class="mord mathnormal mtight">d</span></span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.704em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size3">)</span></span></span></span></span></span></span>
+
+<p>They randomly offsets and modify index $j$ to a new value.</p>
+
+<p>To more easily visualize this, imagine we are on an infinite flat plane, and we put our finite map on this plane, naturally, the bottom left corner will usually be the origin $(0,0)$. And then we offset this entire map such that this origin becomes say $(100,120)$, and the more varies this is, the better chances that it will have seen coordinates outside of its initial map-bounded range.</p>
+
+<p><img src="/assets/images/2026/q2-2026/motion-planning/mpt-random-pe.webp" alt="randomized positional encoding doodle" /></p>
+
+<hr />
+
+<h3 id="23-extending-to-se2">2.3. Extending to SE(2)</h3>
+
+<p>The way the authors extended this framework to say $SE(2)$, is demonstrated below:</p>
+
+<p><img src="/assets/images/2026/q2-2026/motion-planning/mpt-doodle-se2case.webp" alt="extending to se 2 doodle" /></p>
+
+<p>Essentially, instead of 2 input maps, they increase it to 4, where we have 2 additional <strong>Cosine and Sine</strong> maps that encodes the orientation of the start and goal positions.</p>
+
+<p>In the diagram above you can see an example of what the input in the $SE(2)$ case might look like.</p>
+
+<p>The bulk of the inference remains the same, except for the final output, where tensor $M’$ is passed through two separate classifier at the same time.</p>
+
+<p>The first classifier still predicts a masked map, like the point-mass case, with Sigmoid activation and trained with cross-entropy loss.</p>
+
+<p>The second classifier however, will predict an orientation map, in $SE(2)$, this is essentially a 2D vector field. This classifier does not have non-linear activation, instead, they train it to maximize cosine similarity with the target orientation map.</p>
+
+<p>And then, only vectors that lies on the un-masked region will be kept, guiding the search.</p>
+
+<hr />
+
+<h3 id="24-classical-planner">2.4. Classical Planner</h3>
+
+<p>After the we have the proposed region by the MPT module, classical SMP methods can then utilize this region to search more efficiently. In case where the goal doesn’t lie in this region, we can explore the region outside the proposed map to ensure a feasible path is not overlooked.</p>
+
+<hr />
+
+<h2 id="3-training">3. Training</h2>
+
+<h3 id="31-rig-loss-optimizer">3.1. Rig, Loss, Optimizer</h3>
+
+<p>The authors trained MPT in an end-to-end supervised fashion. Each mini-batch was constructed from a single planning problem containing both positive and negative anchor points sampled from the environment map.</p>
+
+<p>Training was performed using cross-entropy loss for anchor point classification together with cosine similarity loss for orientation prediction in the Dubins Car setting. The network was optimized using the Adam optimizer with $\beta_1 = 0.9$, $\beta_2 = 0.98$, and $\epsilon = 10^{-9}$. They additionally used the transformer learning rate scheduling strategy with 3200 warm-up steps.</p>
+
+<p>All models were trained for 100 epochs with a batch size of 128 on a machine equipped with four NVIDIA RTX 2080 GPUs. The Point Robot model required approximately 21 hours of training, while the Dubins Car model required roughly 12 hours.</p>
+
+<hr />
+
+<h3 id="32-data-generation">3.2. Data Generation</h3>
+
+<p>The authors generated training data separately for the Point Robot and Dubins Car environments across two workspace categories: Random Forest and Maze environments.</p>
+
+<p>The Random Forest environment consisted of randomly placed circular and square obstacles, producing cluttered scenes with narrow passages. In contrast, the Maze environment was generated using randomized depth-first search, resulting in long-horizon planning problems where geometrically close start and goal states could still require highly circuitous trajectories.</p>
+
+<p>For the Point Robot experiments, they generated 1750 maps for each environment category. On every map, 25 trajectories were collected using RRT*, with each planning query limited to a maximum runtime of 90 seconds.</p>
+
+<p>For the Dubins Car experiments, they generated 900 maps from the Random Forest environment only. Similar to the Point Robot setup, they collected 25 trajectories per map using RRT*, but replaced the standard node connector with Dubins curves to satisfy non-holonomic motion constraints.</p>
+
+<p>All occupancy maps used during training had a resolution of $(480 \times 480)$.</p>
+
+<hr />
+
+<h3 id="33-negative-sampling">3.3. Negative Sampling</h3>
+
+<p>The training procedure relied on anchor point classification around expert trajectories. Anchor points located within 0.7 meters of a trajectory were treated as positive samples, while all remaining points were treated as negative samples.</p>
+
+<p>To balance the training distribution, the authors randomly sampled negative anchor points using a 1:1 ratio between positive and negative samples. For the Dubins Car setting, each positive anchor point additionally stored an orientation label computed from the average trajectory orientation within the local neighborhood around the anchor point.</p>
+
+<p>This formulation allowed the network to jointly learn trajectory occupancy likelihood and local motion direction from expert-generated paths.</p>
+
+<hr />
+
+<h2 id="4-experiments--results">4. Experiments &amp; Results</h2>
+
+<h3 id="41-point-mass-robot">4.1. Point-mass Robot</h3>
+
+<p>The authors evaluated MPT-aided planners against both traditional sampling-based planners and prior learning-based approaches on the Point Robot task. Their comparisons included RRT<em>, Informed-RRT</em> (IRRT<em>), BIT</em>, MPNet, NEXT-KS, and UNet-assisted planning variants.</p>
+
+<p>The evaluation was conducted on 2500 random start-goal pairs sampled from the Random Forest and Maze environments. They reported three primary metrics: planning accuracy, planning time, and the number of sampled vertices used to construct the planning tree.</p>
+
+<p><img src="/assets/images/2026/q2-2026/motion-planning/mpt-qualitative.webp" alt="qualitative planning example" /></p>
+
+<p><strong>Fig. 4.</strong> Planned path for the Maze environment. Left: Ground truth path for a given start (green) and goal (red) point from the validation data. Center: The prediction probability from the MPT. Right: Masked map and planned trajectory for the given start (green) and goal (red) point using MPT-RRT*. <a href="https://arxiv.org/pdf/2106.02791" target="_blank">Johnson et al,. 2022</a>.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Algorithm</th>
+      <th>Accuracy</th>
+      <th>Time (sec)</th>
+      <th>Vertices</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>rrt*</td>
+      <td>100%</td>
+      <td>5.448</td>
+      <td>3228</td>
+    </tr>
+    <tr>
+      <td>irrt*</td>
+      <td>100%</td>
+      <td>0.425</td>
+      <td>267</td>
+    </tr>
+    <tr>
+      <td>bit*</td>
+      <td>100%</td>
+      <td>0.477</td>
+      <td>819</td>
+    </tr>
+    <tr>
+      <td>unet-rrt*</td>
+      <td>30.27%</td>
+      <td>0.167</td>
+      <td>168</td>
+    </tr>
+    <tr>
+      <td>unet-rrt*-ee</td>
+      <td>100%</td>
+      <td>2.58</td>
+      <td>1913</td>
+    </tr>
+    <tr>
+      <td>mpnet</td>
+      <td>92.35%</td>
+      <td>0.296</td>
+      <td>63</td>
+    </tr>
+    <tr>
+      <td><strong>mpt-rrt* (theirs)</strong></td>
+      <td>99.40%</td>
+      <td>0.194</td>
+      <td>233</td>
+    </tr>
+    <tr>
+      <td><strong>mpt-irrt* (theirs)</strong></td>
+      <td>99.40%</td>
+      <td>0.087</td>
+      <td>136</td>
+    </tr>
+    <tr>
+      <td><strong>mpt-rrt*-ee (theirs)</strong></td>
+      <td>100%</td>
+      <td>0.211</td>
+      <td>247</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Table I:</strong> Random forest environments, comparing planning accuracy, median time, and vertices on unseen environments. <a href="https://arxiv.org/pdf/2106.02791" target="_blank">Johnson et al,. 2022</a>.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Algorithm</th>
+      <th>Accuracy</th>
+      <th>Time (sec)</th>
+      <th>Vertices</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>rrt*</td>
+      <td>100%</td>
+      <td>5.364</td>
+      <td>2042</td>
+    </tr>
+    <tr>
+      <td>irrt*</td>
+      <td>100%</td>
+      <td>3.139</td>
+      <td>1394</td>
+    </tr>
+    <tr>
+      <td>bit*</td>
+      <td>100%</td>
+      <td>2.870</td>
+      <td>2002</td>
+    </tr>
+    <tr>
+      <td>unet-rrt*</td>
+      <td>21.4%</td>
+      <td>0.346</td>
+      <td>277</td>
+    </tr>
+    <tr>
+      <td>unet-rrt*-ee</td>
+      <td>100%</td>
+      <td>4.133</td>
+      <td>2139</td>
+    </tr>
+    <tr>
+      <td>mpnet</td>
+      <td>71.76%</td>
+      <td>1.727</td>
+      <td>1409</td>
+    </tr>
+    <tr>
+      <td>next-ks</td>
+      <td>28.27%</td>
+      <td>3.021</td>
+      <td>387</td>
+    </tr>
+    <tr>
+      <td><strong>mpt-rrt* (theirs)</strong></td>
+      <td>99.16%</td>
+      <td>0.870</td>
+      <td>626</td>
+    </tr>
+    <tr>
+      <td><strong>mpt-irrt* (theirs)</strong></td>
+      <td>99.16%</td>
+      <td>0.784</td>
+      <td>566</td>
+    </tr>
+    <tr>
+      <td><strong>mpt-rrt*-ee (theirs)</strong></td>
+      <td>100%</td>
+      <td>0.869</td>
+      <td>585</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Table II:</strong> Maze environments, comparing planning accuracy, median time, and vertices on unseen environments. <a href="https://arxiv.org/pdf/2106.02791" target="_blank">Johnson et al,. 2022</a>.</p>
+
+<p>Across both environments, the MPT-aided planners consistently reduced planning time and planning tree size relative to traditional planners. The improvement was particularly noticeable in the Maze environment, where long-horizon planning made geometric heuristics less effective. While IRRT* and BIT* achieved competitive performance in the Random Forest setting, their efficiency degraded in maze-like environments where the feasible path deviated substantially from the straight-line connection between start and goal states.</p>
+
+<p>The authors further analyzed the distribution of planning time and sampled vertices using letter-value plots.</p>
+
+<p><img src="/assets/images/2026/q2-2026/motion-planning/mpt-timestat.webp" alt="statistics distribution plot" /></p>
+
+<p><strong>Fig. 5.</strong> Planning statistics for the Point Robot Model. Left: The planning time for traditional and learning-based planners. Right: Number of vertices in the planning tree for traditional and learning-based planners. MPT aided planners consistently reduce the planning time and the vertices in the planning tree, resulting in a lower variance of these statistics for these planners. <a href="https://arxiv.org/pdf/2106.02791" target="_blank">Johnson et al,. 2022</a>.</p>
+
+<p>They observed that vanilla RRT* produced heavier-tailed planning distributions, especially for distant start-goal pairs that required denser exploration. In contrast, MPT-aided planners restricted exploration to regions highlighted by the transformer model, resulting in lower variance and fewer sampled states.</p>
+
+<p>The paper also compared MPT against learning-based baselines such as UNet-assisted planning and MPNet. The UNet-based methods performed poorly, particularly in maze environments, which the authors attributed to the limited global reasoning capability of convolutional architectures. MPNet generalized better than UNet-based approaches, but still underperformed relative to MPT. The authors suggest that this gap may partially stem from differences in training scale, noting that MPNet was originally trained with substantially larger trajectory datasets.</p>
+
+<p>To address occasional segmentation failures, they introduced an exploration-exploitation variant referred to as MPT-RRT*-EE. This hybrid strategy allowed the planner to occasionally sample outside the predicted region, recovering failed cases without significantly increasing planning cost. Using this approach, they achieved near-perfect planning accuracy while preserving low planning time and vertex counts.</p>
+
+<p>The authors additionally evaluated generalization to unseen map sizes without retraining or fine-tuning.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Map Size (# Obstacles)</th>
+      <th>Metric</th>
+      <th>RRT*</th>
+      <th>IRRT*</th>
+      <th>BIT*</th>
+      <th>MPT-RRT*</th>
+      <th>MPT-IRRT*</th>
+      <th>MPT-RRT* (F.E.)</th>
+      <th>MPT-IRRT* (F.E.)</th>
+      <th>MPT-RRT*-EE</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>360×240</strong></td>
+      <td>Accuracy</td>
+      <td>100%</td>
+      <td>100%</td>
+      <td>100%</td>
+      <td>97.4%</td>
+      <td>97.4%</td>
+      <td>99.20%</td>
+      <td>99.20%</td>
+      <td>100%</td>
+    </tr>
+    <tr>
+      <td><strong>(35)</strong></td>
+      <td>Time (sec)</td>
+      <td>5.926</td>
+      <td>0.286</td>
+      <td>0.625</td>
+      <td>0.265</td>
+      <td>0.062</td>
+      <td>0.248</td>
+      <td>0.054</td>
+      <td>0.297</td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td>Vertices</td>
+      <td>3660</td>
+      <td>257</td>
+      <td>1069</td>
+      <td>377</td>
+      <td>118</td>
+      <td>354</td>
+      <td>106</td>
+      <td>382</td>
+    </tr>
+    <tr>
+      <td><strong>480×240</strong></td>
+      <td>Accuracy</td>
+      <td>100%</td>
+      <td>100%</td>
+      <td>100%</td>
+      <td>96.3%</td>
+      <td>96.3%</td>
+      <td>98.5%</td>
+      <td>98.5%</td>
+      <td>100%</td>
+    </tr>
+    <tr>
+      <td><strong>(50)</strong></td>
+      <td>Time (sec)</td>
+      <td>6.308</td>
+      <td>0.394</td>
+      <td>0.590</td>
+      <td>0.268</td>
+      <td>0.072</td>
+      <td>0.265</td>
+      <td>0.073</td>
+      <td>0.302</td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td>Vertices</td>
+      <td>3480</td>
+      <td>291</td>
+      <td>1061</td>
+      <td>348</td>
+      <td>130</td>
+      <td>319</td>
+      <td>131</td>
+      <td>362</td>
+    </tr>
+    <tr>
+      <td><strong>560×560</strong></td>
+      <td>Accuracy</td>
+      <td>100%</td>
+      <td>100%</td>
+      <td>100%</td>
+      <td>75.6%</td>
+      <td>75.6%</td>
+      <td>99.7%</td>
+      <td>99.7%</td>
+      <td>100%</td>
+    </tr>
+    <tr>
+      <td><strong>(100)</strong></td>
+      <td>Time (sec)</td>
+      <td>6.725</td>
+      <td>0.283</td>
+      <td>0.397</td>
+      <td>0.253</td>
+      <td>0.082</td>
+      <td>0.181</td>
+      <td>0.083</td>
+      <td>0.217</td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td>Vertices</td>
+      <td>3854</td>
+      <td>203</td>
+      <td>810</td>
+      <td>262</td>
+      <td>101</td>
+      <td>218</td>
+      <td>112</td>
+      <td>237</td>
+    </tr>
+    <tr>
+      <td><strong>780×780</strong></td>
+      <td>Accuracy</td>
+      <td>100%</td>
+      <td>100%</td>
+      <td>100%</td>
+      <td>37.9%</td>
+      <td>37.9%</td>
+      <td>99.5%</td>
+      <td>99.5%</td>
+      <td>100%</td>
+    </tr>
+    <tr>
+      <td><strong>(200)</strong></td>
+      <td>Time (sec)</td>
+      <td>8.095</td>
+      <td>0.476</td>
+      <td>0.542</td>
+      <td>0.274</td>
+      <td>0.095</td>
+      <td>0.297</td>
+      <td>0.152</td>
+      <td>0.285</td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td>Vertices</td>
+      <td>4292</td>
+      <td>255</td>
+      <td>974</td>
+      <td>284</td>
+      <td>142</td>
+      <td>241</td>
+      <td>161</td>
+      <td>238</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Table III:</strong> Planning Performance Across Different Map Sizes, comparing planning accuracy, median time, and vertices for point robot on maps of different sizes. <a href="https://arxiv.org/pdf/2106.02791" target="_blank">Johnson et al,. 2022</a>.</p>
+
+<p><img src="/assets/images/2026/q2-2026/motion-planning/mpt-multisize.webp" alt="multi-scale planning figure" /></p>
+
+<p><strong>Fig. 6.</strong> Plot of paths for Random Forest environments of different size. The architecture of the MPT Model allows flexibility in planning for environments of different sizes. <a href="https://arxiv.org/pdf/2106.02791" target="_blank">Johnson et al,. 2022</a>.</p>
+
+<p>They tested the same trained model on multiple map resolutions while maintaining obstacle density. Their results showed that MPT-aided planners retained low planning time and low vertex counts even as the search space increased. They also reported that randomized positional encoding substantially improved scalability compared to fixed positional encoding, particularly on larger maps.</p>
+
+<hr />
+
+<h3 id="42-dubins-car">4.2. Dubins Car</h3>
+
+<p>The authors further evaluated MPT on a non-holonomic Dubins Car model with state space $SE(2)$. In this setting, they compared MPT-assisted planning against RRT* and SST planners.</p>
+
+<p>For geometric planning, Dubins curves were used as edge connectors, while SST generated trajectories through forward propagation of steering and velocity controls.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Planner</th>
+      <th>Accuracy</th>
+      <th>Time (sec)</th>
+      <th>Vertices</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Rrt*</td>
+      <td>100%</td>
+      <td>0.357</td>
+      <td>95</td>
+    </tr>
+    <tr>
+      <td>Sst</td>
+      <td>100%</td>
+      <td>4.880</td>
+      <td>710</td>
+    </tr>
+    <tr>
+      <td><strong>Mpt-Rrt</strong>*</td>
+      <td>95.15%</td>
+      <td>0.176</td>
+      <td>59</td>
+    </tr>
+    <tr>
+      <td><strong>Mpt-Rrt*-Ee</strong></td>
+      <td>100%</td>
+      <td>0.197</td>
+      <td>60</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Table IV:</strong> Dubins Car Model Results, comparing planning accuracy, median time, and vertices for Dubins Car model for the Random Forest environment. <a href="https://arxiv.org/pdf/2106.02791" target="_blank">Johnson et al,. 2022</a>.</p>
+
+<p>The reported metrics remained the same as the Point Robot experiments: planning accuracy, planning time, and number of sampled vertices.</p>
+
+<p>Their results showed that MPT-aided planners reduced both planning time and sampled states relative to standard RRT*. The hybrid exploration-exploitation variant again achieved full planning accuracy while maintaining nearly identical computational cost.</p>
+
+<p><img src="/assets/images/2026/q2-2026/motion-planning/mpt-multiscale-dubins.webp" alt="planning figure dubins" /></p>
+
+<p><strong>Fig. 7.</strong> MPT can also be trained to aid SMP planners for non-holonomic robots. Left and Right: Planned paths on Random Forest environment using MPT-RRT*. MPT identifies regions in $SE(2)$ through which a non-holonomic path exists. <a href="https://arxiv.org/pdf/2106.02791" target="_blank">Johnson et al,. 2022</a>.</p>
+
+<p>The qualitative examples demonstrate that the transformer model was capable of predicting feasible regions within $SE(2)$, allowing the planner to focus sampling around kinematically valid corridors. By restricting exploration to these regions, the planner generated feasible trajectories using substantially fewer samples than the unaided planner.</p>
+
+<p>The authors also observed that SST required significantly more samples and execution time, particularly in narrow sections of the environment where kinodynamic constraints complicated exploration.</p>
+
+<hr />
+
+<h2 id="5-final-thoughts">5. Final Thoughts</h2>
+
+<h3 id="51-mpnet-vs-mpt">5.1. MPNet vs. MPT</h3>
+
+<p>Looking back at both MPNet (2019) and MPT (2022), it is interesting to see the paradigm shift in just three years.</p>
+
+<p>MPNet tried to tackle the problem head-on by autoregressively predicting the exact next state. While quite fast during inference, it struggled with generalization across diverse workspaces and required massive datasets for specific kinematics.</p>
+
+<p>MPT took a different route: instead of forcing the network to explicitly draw the path, it used a Transformer to act as an “attention guide” for classical algorithms (like RRT*). This hybrid approach neatly bypasses the strict safety and feasibility guarantees that pure neural networks notoriously fail at.</p>
+
+<p>However, MPT is not without its operational costs. While the authors state the inference is theoretically constant time, they do not explicitly disclose the parameter counts. Transformers are computationally heavy, and the self-attention mechanism scales quadratically with sequence length.</p>
+
+<p>If one were to extend MPT to a 7-DOF robot like Baxter, discretizing a 7D space into just 10 segments per dimension results in 10 million grid cells. Suddenly, the region proposal becomes computationally intractable. MPNet at least avoided this specific grid bottleneck by taking raw point cloud vectors as input.</p>
+
+<hr />
+
+<h3 id="52-peeking-into-2026-mobile-manipulators--foundation-models">5.2. Peeking into 2026: Mobile Manipulators &amp; Foundation Models</h3>
+
+<p>As you can see right now im busy with these foundational papers, I am just starting to map out the state-of-the-art in 2026. From recent literature, the landscape seems to have shifted heavily toward <strong>mobile manipulation</strong>, meaning robots are no longer just bolted to a pedestal (like Baxter) but are mounted on a moving chassis, or possess full humanoid mobility in $SE(3)$ space.</p>
+
+<p>Motion planning for these systems introduces a complex challenge: the coupling of base and arm dynamics. You are planning for an omnidirectional base and the 7-DOF arm(s) simultaneously.</p>
+
+<p>While older systems relied on a “Stop-and-Grasp” strategy, current research is pushing for “Grasping-on-the-Move,” where the base is in continuous motion while the arm executes the task.</p>
+
+<p>To handle this complexity, the field appears to be moving beyond training isolated spatial networks. The new baseline involves Vision-Language-Action (VLA) foundation models, such as recent <a href="https://x.com/GoogleDeepMind/status/1899839624068907335" target="_blank">Gemini Robotics integrations</a>. These models inherit semantic understanding from internet-scale pretraining. This allows them to process natural language inputs alongside RGB-D data, outputting discretized end-effector actions while handling emergent reasoning.</p>
+
+<p>Despite the push toward these massive models, the industry standard for physical control strongly validates MPT’s core philosophy: the hybrid stack. End-to-end neural networks are rarely trusted blindly with physical hardware in shared human workspaces. Today’s systems use the VLA model for high-level semantic reasoning and heuristic spatial intuition, while classical constrained-sampling algorithms act as the definitive, low-level safety net to execute the precise kinematic movements. In this regards, MPNet and MPT can be considered foundational, but not SOTA anymore.</p>]]></content><author><name></name></author><category term="technical" /><category term="paper comprehension" /><category term="algorithms" /><category term="deep learning" /><category term="machine learning" /><category term="motion planning" /><summary type="html"><![CDATA[Reading and comprehending Motion Planning Transformers, Johnson et al., 2022]]></summary></entry><entry><title type="html">Planar Four Wheel Model with Wheel Dynamics and Weight Transfer</title><link href="https://yuk068.github.io//2026/04/30/planar-four-wheel-model-with-wheel-dynamics" rel="alternate" type="text/html" title="Planar Four Wheel Model with Wheel Dynamics and Weight Transfer" /><published>2026-04-30T00:00:00+07:00</published><updated>2026-04-30T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/04/30/planar-four-wheel-model-with-wheel-dynamics</id><content type="html" xml:base="https://yuk068.github.io//2026/04/30/planar-four-wheel-model-with-wheel-dynamics"><![CDATA[<h3 id="table-of-content">Table of Content</h3>
 
 <blockquote><div class="content">
   <div id="table-of-contents"></div>
@@ -5511,383 +6130,4 @@ y \leftarrow y + v_y \cdot dt</annotation></semantics></math></span><span class=
   <li><strong>Github repo for Simulator 6: <a href="https://github.com/duy-phamduc68/Planar-Kinematic-Car-Model" target="_blank">duy-phamduc68/Planar-Kinematic-Car-Model</a></strong></li>
 </ul>
 
-<p>Model 7 and 8 will also have their own repo, but I’m really considering to bundle them to a single repo (a single model) for closure, because looking ahead a bit, model 8 just seem more like a clean-up / conclude everything model, so it might be a good idea to just make both into a single model, though I will still have 2 dedicated post for each.</p>]]></content><author><name></name></author><category term="technical" /><category term="vehicle dynamics" /><category term="simulation" /><category term="kinematics modeling" /><category term="interactive plot" /><summary type="html"><![CDATA[Implementing and Comprehending Marco Monster’s Car Physics model - Phase 2: Planar Vehicle Dynamics Model - Part 6]]></summary></entry><entry><title type="html">Car Physics - Model 5: Slip Ratio + Traction Curve</title><link href="https://yuk068.github.io//2026/03/23/car-physics-model5" rel="alternate" type="text/html" title="Car Physics - Model 5: Slip Ratio + Traction Curve" /><published>2026-03-23T00:00:00+07:00</published><updated>2026-03-23T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/03/23/car-physics-model5</id><content type="html" xml:base="https://yuk068.github.io//2026/03/23/car-physics-model5"><![CDATA[<h3 id="table-of-content">Table of Content</h3>
-
-<blockquote><div class="content">
-  <div id="table-of-contents"></div>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
-
-<ul>
-  <li><strong>Main reference: <a href="https://www.asawicki.info/Mirror/Car%20Physics%20for%20Games/Car%20Physics%20for%20Games.html" target="_blank">Marco Monster’s Car Physics</a></strong></li>
-  <li><strong>Github repo for Longitudinal Simulators: <a href="https://github.com/duy-phamduc68/Longitudinal-Car-Physics" target="_blank">duy-phamduc68/Longitudinal-Car-Physics</a></strong></li>
-  <li><strong>Github repo for Simulator 6: <a href="https://github.com/duy-phamduc68/Planar-Kinematic-Car-Model" target="_blank">duy-phamduc68/Planar-Kinematic-Car-Model</a></strong></li>
-  <li><strong>Github repo for Planar Dynamic Simulator(s): <a href="https://github.com/duy-phamduc68/Planar-Dynamic-Car-Model" target="_blank">duy-phamduc68/Planar-Dynamic-Car-Model</a></strong></li>
-</ul>
-
-<hr />
-
-<h3 id="roadmap">Roadmap</h3>
-
-<blockquote><div class="content">
-  <ul>
-    <li><strong><a href="/2026/03/03/car-physics-model1">Model 1: Longitudinal Point Mass (1D)</a></strong>
-      <ul>
-        <li>Straight Line Physics</li>
-        <li>Magic Constants</li>
-        <li>Braking</li>
-      </ul>
-    </li>
-    <li><strong><a href="/2026/03/12/car-physics-model2">Model 2: Load Transfer Without Traction Limits (1D)</a></strong>
-      <ul>
-        <li>Weight Transfer</li>
-      </ul>
-    </li>
-    <li><strong><a href="/2026/03/15/car-physics-model3">Model 3: Engine Torque + Gearing without Slip (1D)</a></strong>
-      <ul>
-        <li>Engine Force</li>
-        <li>Gear Ratios</li>
-        <li>Drive Wheel Acceleration (simplified)</li>
-      </ul>
-    </li>
-    <li><strong><a href="/2026/03/21/car-physics-model4">Model 4: Wheel Rotational Dynamics (1D)</a></strong>
-      <ul>
-        <li>Drive Wheel Acceleration (full)</li>
-        <li>Torque on the Drive Wheel &amp; The Chicken and The Egg</li>
-      </ul>
-    </li>
-    <li><strong><a href="/2026/03/23/car-physics-model5">Model 5: Slip Ratio + Traction Curve (1D)</a></strong>
-      <ul>
-        <li>Slip Ratio &amp; Traction Force</li>
-      </ul>
-    </li>
-    <li><strong><a href="/2026/03/26/car-physics-model6">Model 6: Low-Speed Kinematic Turning (2D)</a></strong>
-      <ul>
-        <li>Curves (low speed)</li>
-      </ul>
-    </li>
-    <li><strong><a href="/2026/03/28/car-physics-model7">Model 7: High-Speed Lateral Tire Model (2D)</a></strong>
-      <ul>
-        <li>High Speed Turning</li>
-      </ul>
-    </li>
-    <li><strong><a href="#" onclick="notifyComingSoon(); return false;">Model 8: Full Coupled Tire Model (2D)</a></strong></li>
-  </ul>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
-
-<hr />
-
-<h2 id="model-5-recap">Model 5 Recap</h2>
-
-<p>Okay so I highly suggest you read through the <strong><a href="/2026/03/21/car-physics-model4" target="_blank">Model 4: Wheel Rotational Dynamics (1D)</a></strong> post if you haven’t already, especially starting from <strong><a href="/2026/03/21/car-physics-model4#slip-ratio-introduction" target="_blank">Slip Ratio Introduction</a></strong> onwards. Specifically, zoom in on:</p>
-
-<blockquote><div class="content">
-  <p><em>“And that Slip, actually belongs to model 5.”</em></p>
-
-  <p><em>“This is kind of a “gotcha” with my roadmap, you technically can’t exactly implement model 4 in isolation like the last 3 models, let’s walk through what would happen if we actually try…”</em></p>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
-
-<p>And we did try in that post, yeah, just anchor on that, and I will continue as if we are simply resuming said paragraph in the model 4’s notes.</p>
-
-<p>In short: we define slip ratio, remove the hack from model 4 (and model 3), and thats about it. This will be a pretty short post in the series.</p>
-
-<p>Let’s do this, we are so close to finishing our longitudinal simulator (1D), and we will move to 2D right after model 5!</p>
-
-<hr />
-
-<h3 id="slip-ratio">Slip Ratio</h3>
-
-<p>Since the wheel’s speed ($\omega$) and the car’s speed ($v$) are now fully independent states, we need a mathematical way to measure their disagreement. This is the formal Slip Ratio ($\sigma$):</p>
-
-<blockquote><div class="content">
-
-  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>σ</mi><mo>=</mo><mfrac><mrow><mi>ω</mi><msub><mi>R</mi><mi>w</mi></msub><mo>−</mo><mi>v</mi></mrow><mrow><mi mathvariant="normal">∣</mi><mi>v</mi><mi mathvariant="normal">∣</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">\sigma = \frac{\omega R_w - v}{| v |}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">σ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.2963em;vertical-align:-0.936em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3603em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">∣</span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mord">∣</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">ω</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0077em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.02691em;">w</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.936em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
-
-<p>Why the absolute value $| v |$? Dividing by the magnitude of the velocity ensures that the sign of the slip ratio remains physically correct even when the car is traveling in reverse.</p>
-
-<ul>
-  <li><strong>The Low-Speed Singularity:</strong></li>
-</ul>
-
-<p>If the car is at a complete standstill ($v = 0$), this equation divides by zero and explodes. In our code, we will have to introduce a small safety clamp, for example, replacing $|v|$ with:</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div></div><pre class="highlight"><code><span class="nf">max</span><span class="p">(</span><span class="nf">abs</span><span class="p">(</span><span class="n">v</span><span class="p">),</span> <span class="mf">0.1</span><span class="p">)</span>
-</code></pre><span class="language-label">Python</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
-
-<p>to prevent the physics engine from crashing when accelerating from a stop.</p>
-
-<p><img src="/assets/images/2026/q1-2026/car-physics/model5/slipratiocurve.webp" alt="slip ratio curve" /></p>
-
-<div class="media-description"><a href="https://www.asawicki.info/Mirror/Car%20Physics%20for%20Games/Car%20Physics%20for%20Games.html" target="_blank" rel="noopener noreferrer">Macro Monster, 2003</a></div>
-
-<p>Here, longitudinal force is the same as $F_{traction}$. In Macro Monster’s words:</p>
-
-<blockquote><div class="content">
-  <p><em>“Note how the force is zero if the wheel rolls, i.e. slip ratio = 0, and the force is at a peak for a slip ratio of approximately 6 % where the longtitudinal force slightly exceeds the wheel load. The exact curve shape may vary per tyre, per road surface, per temperature, etc. etc.”</em></p>
-
-  <p><em>“That means a wheel grips best with a little bit of slip. Beyond that optimum, the grip decreases. That’s why a wheel spin, impressive as it may seem, doesn’t actually give you the best possible acceleration.  There is so much slip that the longtitudinal force is below its peak value. Decreasing the slip would give you more traction and better acceleration.”</em></p>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
-
-<hr />
-
-<h3 id="the-traction-curve">The Traction Curve</h3>
-
-<p>Now that we have a percentage of “stretch” ($\sigma$), we must convert it into actual Newtons of pushing force ($F_{traction}$).</p>
-
-<p>Real tires have highly complex, non-linear curves (like the Pacejka Magic Formula). For Model 5, we use a robust <strong>Linear Approximation with a Cap</strong>:</p>
-
-<hr />
-
-<h4 id="phase-1-the-bite-linear-phase">Phase 1: The “Bite” (Linear Phase)</h4>
-
-<p>For small amounts of slip, the tire acts like a stiff rubber band. The relationship is proportional:</p>
-<blockquote><div class="content">
-
-  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>F</mi><mrow><mi>t</mi><mi>r</mi><mi>a</mi><mi>c</mi><mi>t</mi><mi>i</mi><mi>o</mi><mi>n</mi></mrow></msub><mo>=</mo><msub><mi>C</mi><mi>t</mi></msub><mo>⋅</mo><mi>σ</mi></mrow><annotation encoding="application/x-tex">F_{traction} = C_t \cdot \sigma</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">t</span><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span><span class="mord mathnormal mtight">a</span><span class="mord mathnormal mtight">c</span><span class="mord mathnormal mtight">t</span><span class="mord mathnormal mtight">i</span><span class="mord mathnormal mtight">o</span><span class="mord mathnormal mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2806em;"><span style="top:-2.55em;margin-left:-0.0715em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">t</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">σ</span></span></span></span></span>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
-
-<ul>
-  <li>$C_t$ is the <strong>Traction Stiffness</strong>. This is typically a massive number (e.g., <strong>100,000 N</strong> per 1.0 slip), meaning even a tiny 5% slip generates a massive amount of forward force.</li>
-</ul>
-
-<hr />
-
-<h4 id="phase-2-the-limit-saturation-phase">Phase 2: The Limit (Saturation Phase)</h4>
-
-<p>A tire is not magic; eventually, the rubber gives up and slides. The absolute maximum grip the tire can provide is dictated entirely by the weight pressing down on it. This is where <strong>Model 2 (Load Transfer)</strong> finally proves its worth!</p>
-
-<blockquote><div class="content">
-
-  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>F</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><mo>=</mo><mi>μ</mi><mo>⋅</mo><msub><mi>W</mi><mrow><mi>d</mi><mi>r</mi><mi>i</mi><mi>v</mi><mi>e</mi><mi>A</mi><mi>x</mi><mi>l</mi><mi>e</mi></mrow></msub></mrow><annotation encoding="application/x-tex">F_{max} = \mu \cdot W_{driveAxle}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">ma</span><span class="mord mathnormal mtight">x</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6389em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">μ</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">d</span><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span><span class="mord mathnormal mtight">i</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">v</span><span class="mord mathnormal mtight">e</span><span class="mord mathnormal mtight">A</span><span class="mord mathnormal mtight">x</span><span class="mord mathnormal mtight" style="margin-right:0.01968em;">l</span><span class="mord mathnormal mtight">e</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
-
-<ul>
-  <li>$\mu$ is the coefficient of friction (e.g., <strong>1.0</strong> for dry asphalt).</li>
-  <li>$W_{driveAxle}$ is the dynamic load on the drive wheels (e.g., $W_r$ for a rear-wheel-drive car), which shifts backward when you accelerate!</li>
-</ul>
-
-<p>To get our final force, we simply calculate the linear “bite” and clamp it to the physical limits of the tire:</p>
-
-<blockquote><div class="content">
-
-  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>F</mi><mrow><mi>t</mi><mi>r</mi><mi>a</mi><mi>c</mi><mi>t</mi><mi>i</mi><mi>o</mi><mi>n</mi></mrow></msub><mo>=</mo><mtext>Clamp</mtext><mo stretchy="false">(</mo><msub><mi>C</mi><mi>t</mi></msub><mo>⋅</mo><mi>σ</mi><mo separator="true">,</mo><mo>−</mo><msub><mi>F</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><mo separator="true">,</mo><msub><mi>F</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">F_{traction} = \text{Clamp}(C_t \cdot \sigma, -F_{max}, F_{max})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">t</span><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span><span class="mord mathnormal mtight">a</span><span class="mord mathnormal mtight">c</span><span class="mord mathnormal mtight">t</span><span class="mord mathnormal mtight">i</span><span class="mord mathnormal mtight">o</span><span class="mord mathnormal mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">Clamp</span></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2806em;"><span style="top:-2.55em;margin-left:-0.0715em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">t</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">σ</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">−</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">ma</span><span class="mord mathnormal mtight">x</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">ma</span><span class="mord mathnormal mtight">x</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
-
-<hr />
-
-<h3 id="solving-the-chicken-and-egg">Solving the Chicken and Egg</h3>
-
-<p>We no longer need the Model 4’s hack. The engine never talks directly to the road anymore. We solve the “Chicken and Egg” problem by using the <strong>previous frame’s values</strong> to calculate the <strong>current frame’s forces</strong>.</p>
-
-<p>Here is the new, fully decoupled execution order:</p>
-
-<ol>
-  <li><strong>Calculate Slip:</strong> Compare current $\omega$ and $v$ to find $\sigma$.</li>
-  <li><strong>Calculate Traction:</strong> Convert $\sigma$ to $F_{traction}$, capped by $F_{max}$.</li>
-  <li><strong>Push the Chassis:</strong> Apply $F_{traction}$ to the Translational ODE to accelerate the car body ($v$).</li>
-  <li><strong>Resist the Wheels:</strong> Convert $F_{traction}$ into a resistive torque ($T_{traction} = F_{traction} \cdot R_w$) and apply it to the Rotational ODE to fight the engine’s $T_{drive}$.</li>
-</ol>
-
-<hr />
-
-<h2 id="final-takeaways">Final Takeaways</h2>
-
-<p>This section serves as the definitive reference for the completed <strong>Longitudinal Vehicle Dynamics System (Models 1–5)</strong>. It documents the final decoupled Ordinary Differential Equations (ODEs), the complete formula book, and the step-by-step algorithmic loop required to simulate a car in one dimension.</p>
-
-<h3 id="the-master-ode-system">The Master ODE System</h3>
-
-<p>The vehicle is modeled as two separate physical entities, the chassis and the drive wheels, that interact exclusively through the tire contact patch.</p>
-
-<ul>
-  <li><strong>The Translational ODE (Chassis)</strong></li>
-</ul>
-
-<blockquote><div class="content">
-
-  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mfrac><mrow><mi>d</mi><mi>v</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><mfrac><mn>1</mn><mi>M</mi></mfrac><mrow><mo fence="true">(</mo><msub><mi>F</mi><mrow><mi>t</mi><mi>r</mi><mi>a</mi><mi>c</mi><mi>t</mi><mi>i</mi><mi>o</mi><mi>n</mi></mrow></msub><mo>−</mo><msub><mi>F</mi><mrow><mi>d</mi><mi>r</mi><mi>a</mi><mi>g</mi></mrow></msub><mo>−</mo><msub><mi>F</mi><mrow><mi>r</mi><mi>r</mi></mrow></msub><mo fence="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">\frac{dv}{dt} = \frac{1}{M} \left( F_{traction} - F_{drag} - F_{rr} \right)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:2.0574em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3714em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="mord mathnormal">t</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.0074em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3214em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">M</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">t</span><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span><span class="mord mathnormal mtight">a</span><span class="mord mathnormal mtight">c</span><span class="mord mathnormal mtight">t</span><span class="mord mathnormal mtight">i</span><span class="mord mathnormal mtight">o</span><span class="mord mathnormal mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">d</span><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span><span class="mord mathnormal mtight">a</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">g</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">rr</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;">)</span></span></span></span></span></span>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
-
-<ul>
-  <li><strong>The Rotational ODE (Drive Wheels)</strong></li>
-</ul>
-
-<blockquote><div class="content">
-
-  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mfrac><mrow><mi>d</mi><mi>ω</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><mfrac><mn>1</mn><msub><mi>I</mi><mi>w</mi></msub></mfrac><mrow><mo fence="true">(</mo><msub><mi>T</mi><mrow><mi>d</mi><mi>r</mi><mi>i</mi><mi>v</mi><mi>e</mi></mrow></msub><mo>−</mo><msub><mi>T</mi><mrow><mi>b</mi><mi>r</mi><mi>a</mi><mi>k</mi><mi>e</mi></mrow></msub><mo>−</mo><msub><mi>T</mi><mrow><mi>t</mi><mi>r</mi><mi>a</mi><mi>c</mi><mi>t</mi><mi>i</mi><mi>o</mi><mi>n</mi></mrow></msub><mo fence="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">\frac{d\omega}{dt} = \frac{1}{I_w} \left( T_{drive} - T_{brake} - T_{traction} \right)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:2.0574em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3714em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="mord mathnormal">t</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="mord mathnormal" style="margin-right:0.03588em;">ω</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.1574em;vertical-align:-0.836em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3214em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0785em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.02691em;">w</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.836em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">d</span><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span><span class="mord mathnormal mtight">i</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">v</span><span class="mord mathnormal mtight">e</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">b</span><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span><span class="mord mathnormal mtight" style="margin-right:0.03148em;">ak</span><span class="mord mathnormal mtight">e</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">t</span><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span><span class="mord mathnormal mtight">a</span><span class="mord mathnormal mtight">c</span><span class="mord mathnormal mtight">t</span><span class="mord mathnormal mtight">i</span><span class="mord mathnormal mtight">o</span><span class="mord mathnormal mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;">)</span></span></span></span></span></span>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
-
-<hr />
-
-<h3 id="the-complete-formula-book">The Complete Formula Book</h3>
-
-<p>To solve the master ODEs, we must calculate the specific forces and torques at every timestep.</p>
-
-<h4 id="a-engine--drivetrain">A. Engine &amp; Drivetrain</h4>
-
-<p>The engine generates torque based on the current wheel speed, gear ratios ($x_g$, $x_d$), and throttle input ($u$).</p>
-
-<blockquote><div class="content">
-
-  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>r</mi><mi>p</mi><mi>m</mi><mo>=</mo><mi>max</mi><mo>⁡</mo><mrow><mo fence="true">(</mo><mi>ω</mi><mo>⋅</mo><msub><mi>x</mi><mi>g</mi></msub><mo>⋅</mo><msub><mi>x</mi><mi>d</mi></msub><mo>⋅</mo><mfrac><mn>60</mn><mrow><mn>2</mn><mi>π</mi></mrow></mfrac><mo separator="true">,</mo><mi>R</mi><mi>P</mi><msub><mi>M</mi><mrow><mi>i</mi><mi>d</mi><mi>l</mi><mi>e</mi></mrow></msub><mo fence="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">rpm = \max \left( \omega \cdot x_g \cdot x_d \cdot \frac{60}{2\pi}, RPM_{idle} \right)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal">p</span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.4em;vertical-align:-0.95em;"></span><span class="mop">max</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size3">(</span></span><span class="mord mathnormal" style="margin-right:0.03588em;">ω</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">g</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">d</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3214em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">2</span><span class="mord mathnormal" style="margin-right:0.03588em;">π</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">60</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">RP</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.109em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mord mathnormal mtight">d</span><span class="mord mathnormal mtight" style="margin-right:0.01968em;">l</span><span class="mord mathnormal mtight">e</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size3">)</span></span></span></span></span></span></span>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
-
-<blockquote><div class="content">
-
-  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>T</mi><mrow><mi>d</mi><mi>r</mi><mi>i</mi><mi>v</mi><mi>e</mi></mrow></msub><mo>=</mo><mi>u</mi><mo>⋅</mo><msub><mi>T</mi><mrow><mi>e</mi><mi>n</mi><mi>g</mi><mi>i</mi><mi>n</mi><mi>e</mi></mrow></msub><mo stretchy="false">(</mo><mi>r</mi><mi>p</mi><mi>m</mi><mo stretchy="false">)</mo><mo>⋅</mo><msub><mi>x</mi><mi>g</mi></msub><mo>⋅</mo><msub><mi>x</mi><mi>d</mi></msub><mo>⋅</mo><mi>η</mi></mrow><annotation encoding="application/x-tex">T_{drive} = u \cdot T_{engine}(rpm) \cdot x_g \cdot x_d \cdot \eta</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">d</span><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span><span class="mord mathnormal mtight">i</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">v</span><span class="mord mathnormal mtight">e</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.4445em;"></span><span class="mord mathnormal">u</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0361em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">e</span><span class="mord mathnormal mtight">n</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">g</span><span class="mord mathnormal mtight">in</span><span class="mord mathnormal mtight">e</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal">p</span><span class="mord mathnormal">m</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7306em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">g</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.5945em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">d</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">η</span></span></span></span></span>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
-
-<h4 id="b-slip--traction">B. Slip &amp; Traction</h4>
-
-<p>The difference between the wheel’s surface speed and the car’s true speed creates rubber deformation, yielding force.</p>
-
-<blockquote><div class="content">
-
-  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>σ</mi><mo>=</mo><mfrac><mrow><mi>ω</mi><msub><mi>R</mi><mi>w</mi></msub><mo>−</mo><mi>v</mi></mrow><mrow><mi>max</mi><mo>⁡</mo><mo stretchy="false">(</mo><mi mathvariant="normal">∣</mi><mi>v</mi><mi mathvariant="normal">∣</mi><mo separator="true">,</mo><mi>ϵ</mi><mo stretchy="false">)</mo></mrow></mfrac></mrow><annotation encoding="application/x-tex">\sigma = \frac{\omega R_w - v}{\max(|v|, \epsilon)}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">σ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.2963em;vertical-align:-0.936em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3603em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mop">max</span><span class="mopen">(</span><span class="mord">∣</span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mord">∣</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">ϵ</span><span class="mclose">)</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">ω</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0077em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.02691em;">w</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.936em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
-
-<p><em>(Where $\epsilon$ is a small value like $0.1$ to prevent division by zero at a standstill)</em></p>
-
-<blockquote><div class="content">
-
-  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>F</mi><mrow><mi>t</mi><mi>r</mi><mi>a</mi><mi>c</mi><mi>t</mi><mi>i</mi><mi>o</mi><mi>n</mi></mrow></msub><mo>=</mo><mtext>clamp</mtext><mo stretchy="false">(</mo><msub><mi>C</mi><mi>t</mi></msub><mo>⋅</mo><mi>σ</mi><mo separator="true">,</mo><mo>−</mo><msub><mi>F</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><mo separator="true">,</mo><msub><mi>F</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">F_{traction} = \text{clamp}(C_t \cdot \sigma, -F_{max}, F_{max})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">t</span><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span><span class="mord mathnormal mtight">a</span><span class="mord mathnormal mtight">c</span><span class="mord mathnormal mtight">t</span><span class="mord mathnormal mtight">i</span><span class="mord mathnormal mtight">o</span><span class="mord mathnormal mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">clamp</span></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2806em;"><span style="top:-2.55em;margin-left:-0.0715em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">t</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">σ</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">−</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">ma</span><span class="mord mathnormal mtight">x</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">ma</span><span class="mord mathnormal mtight">x</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
-
-<blockquote><div class="content">
-
-  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>T</mi><mrow><mi>t</mi><mi>r</mi><mi>a</mi><mi>c</mi><mi>t</mi><mi>i</mi><mi>o</mi><mi>n</mi></mrow></msub><mo>=</mo><msub><mi>F</mi><mrow><mi>t</mi><mi>r</mi><mi>a</mi><mi>c</mi><mi>t</mi><mi>i</mi><mi>o</mi><mi>n</mi></mrow></msub><mo>⋅</mo><msub><mi>R</mi><mi>w</mi></msub></mrow><annotation encoding="application/x-tex">T_{traction} = F_{traction} \cdot R_w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">t</span><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span><span class="mord mathnormal mtight">a</span><span class="mord mathnormal mtight">c</span><span class="mord mathnormal mtight">t</span><span class="mord mathnormal mtight">i</span><span class="mord mathnormal mtight">o</span><span class="mord mathnormal mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">t</span><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span><span class="mord mathnormal mtight">a</span><span class="mord mathnormal mtight">c</span><span class="mord mathnormal mtight">t</span><span class="mord mathnormal mtight">i</span><span class="mord mathnormal mtight">o</span><span class="mord mathnormal mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0077em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.02691em;">w</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
-
-<h4 id="c-weight-transfer--grip-limits">C. Weight Transfer &amp; Grip Limits</h4>
-
-<p>The maximum possible traction ($F_{max}$) is capped by the dynamic weight pushing down on the drive axle (assuming RWD).</p>
-
-<blockquote><div class="content">
-
-  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>W</mi><mi>r</mi></msub><mo>=</mo><mrow><mo fence="true">(</mo><mfrac><mi>b</mi><mi>L</mi></mfrac><mi>M</mi><mi>g</mi><mo fence="true">)</mo></mrow><mo>+</mo><mrow><mo fence="true">(</mo><mfrac><mi>h</mi><mi>L</mi></mfrac><mi>M</mi><msub><mi>a</mi><mrow><mi>p</mi><mi>r</mi><mi>e</mi><mi>v</mi></mrow></msub><mo fence="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">W_r = \left( \frac{b}{L} M g \right) + \left( \frac{h}{L} M a_{prev} \right)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.4em;vertical-align:-0.95em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size3">(</span></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3714em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">L</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">b</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size3">)</span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:2.4em;vertical-align:-0.95em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size3">(</span></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3714em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">L</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">h</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">p</span><span class="mord mathnormal mtight">re</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">v</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size3">)</span></span></span></span></span></span></span>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
-
-<blockquote><div class="content">
-
-  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>F</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><mo>=</mo><mi>μ</mi><mo>⋅</mo><msub><mi>W</mi><mi>r</mi></msub></mrow><annotation encoding="application/x-tex">F_{max} = \mu \cdot W_r</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">ma</span><span class="mord mathnormal mtight">x</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6389em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">μ</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
-
-<h4 id="d-environmental-resistances--brakes">D. Environmental Resistances &amp; Brakes</h4>
-
-<p>Forces that perpetually oppose the motion of the chassis and the rotation of the wheels.</p>
-
-<blockquote><div class="content">
-
-  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>F</mi><mrow><mi>d</mi><mi>r</mi><mi>a</mi><mi>g</mi></mrow></msub><mo>=</mo><msub><mi>C</mi><mrow><mi>d</mi><mi>r</mi><mi>a</mi><mi>g</mi></mrow></msub><mo>⋅</mo><mi>v</mi><mo>⋅</mo><mi mathvariant="normal">∣</mi><mi>v</mi><mi mathvariant="normal">∣</mi></mrow><annotation encoding="application/x-tex">F_{drag} = C_{drag} \cdot v \cdot |v|</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9694em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">d</span><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span><span class="mord mathnormal mtight">a</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">g</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.9694em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0715em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">d</span><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span><span class="mord mathnormal mtight">a</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">g</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.4445em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">∣</span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mord">∣</span></span></span></span></span>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
-
-<blockquote><div class="content">
-
-  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>F</mi><mrow><mi>r</mi><mi>r</mi></mrow></msub><mo>=</mo><msub><mi>C</mi><mrow><mi>r</mi><mi>r</mi></mrow></msub><mo>⋅</mo><mi>v</mi></mrow><annotation encoding="application/x-tex">F_{rr} = C_{rr} \cdot v</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">rr</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0715em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">rr</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span></span></span></span></span>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
-
-<blockquote><div class="content">
-
-  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>T</mi><mrow><mi>b</mi><mi>r</mi><mi>a</mi><mi>k</mi><mi>e</mi></mrow></msub><mo>=</mo><mtext>sgn</mtext><mo stretchy="false">(</mo><mi>ω</mi><mo stretchy="false">)</mo><mo>⋅</mo><mi>B</mi><mo>⋅</mo><msub><mi>C</mi><mrow><mi>b</mi><mi>r</mi><mi>a</mi><mi>k</mi><mi>e</mi><mi>T</mi><mi>o</mi><mi>r</mi><mi>q</mi><mi>u</mi><mi>e</mi></mrow></msub></mrow><annotation encoding="application/x-tex">T_{brake} = \text{sgn}(\omega) \cdot B \cdot C_{brakeTorque}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">b</span><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span><span class="mord mathnormal mtight" style="margin-right:0.03148em;">ak</span><span class="mord mathnormal mtight">e</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">sgn</span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.03588em;">ω</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.9694em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0715em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">b</span><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span><span class="mord mathnormal mtight" style="margin-right:0.03148em;">ak</span><span class="mord mathnormal mtight">e</span><span class="mord mathnormal mtight" style="margin-right:0.13889em;">T</span><span class="mord mathnormal mtight" style="margin-right:0.02778em;">or</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">q</span><span class="mord mathnormal mtight">u</span><span class="mord mathnormal mtight">e</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span></span>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
-
-<hr />
-
-<h3 id="core-code-implementation">Core Code Implementation</h3>
-
-<p>Because $F_{traction}$ depends on $v$ and $\omega$, and $v$ and $\omega$ depend on $F_{traction}$, we solve the system numerically. We use the states from the <em>start</em> of the frame to calculate all forces, and then integrate to find the states for the <em>next</em> frame.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div><div class="line-number">19</div><div class="line-number">20</div><div class="line-number">21</div><div class="line-number">22</div><div class="line-number">23</div><div class="line-number">24</div><div class="line-number">25</div><div class="line-number">26</div><div class="line-number">27</div><div class="line-number">28</div><div class="line-number">29</div><div class="line-number">30</div><div class="line-number">31</div><div class="line-number">32</div><div class="line-number">33</div><div class="line-number">34</div><div class="line-number">35</div><div class="line-number">36</div><div class="line-number">37</div><div class="line-number">38</div><div class="line-number">39</div><div class="line-number">40</div><div class="line-number">41</div><div class="line-number">42</div><div class="line-number">43</div><div class="line-number">44</div><div class="line-number">45</div><div class="line-number">46</div></div><pre class="highlight"><code><span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">throttle</span><span class="p">,</span> <span class="n">brake</span><span class="p">):</span>
-    
-    <span class="c1"># 1. State from previous frame
-</span>    <span class="n">v_prev</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">v</span>
-    <span class="n">w_prev</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">omega</span>
-    <span class="n">a_prev</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">a</span>  <span class="c1"># Needed for dynamic load transfer
-</span>    
-    <span class="c1"># 2. Dynamic Grip Limit (Model 2)
-</span>    <span class="n">W_r</span> <span class="o">=</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">b</span> <span class="o">/</span> <span class="n">self</span><span class="p">.</span><span class="n">L</span><span class="p">)</span> <span class="o">*</span> <span class="n">self</span><span class="p">.</span><span class="n">M</span> <span class="o">*</span> <span class="n">self</span><span class="p">.</span><span class="n">g</span> <span class="o">+</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">h</span> <span class="o">/</span> <span class="n">self</span><span class="p">.</span><span class="n">L</span><span class="p">)</span> <span class="o">*</span> <span class="n">self</span><span class="p">.</span><span class="n">M</span> <span class="o">*</span> <span class="n">a_prev</span>
-    <span class="n">F_max</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">MU</span> <span class="o">*</span> <span class="n">W_r</span>
-    
-    <span class="c1"># 3. Engine &amp; Drivetrain Torque (Model 3)
-</span>    <span class="n">rpm</span> <span class="o">=</span> <span class="nf">max</span><span class="p">(</span><span class="n">w_prev</span> <span class="o">*</span> <span class="n">self</span><span class="p">.</span><span class="n">gear_ratio</span> <span class="o">*</span> <span class="n">self</span><span class="p">.</span><span class="n">final_drive</span> <span class="o">*</span> <span class="p">(</span><span class="mi">60</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">math</span><span class="p">.</span><span class="n">pi</span><span class="p">)),</span> <span class="n">self</span><span class="p">.</span><span class="n">RPM_IDLE</span><span class="p">)</span>
-    <span class="n">T_engine</span> <span class="o">=</span> <span class="n">throttle</span> <span class="o">*</span> <span class="nf">get_max_torque</span><span class="p">(</span><span class="n">rpm</span><span class="p">)</span>
-    <span class="n">T_drive</span> <span class="o">=</span> <span class="n">T_engine</span> <span class="o">*</span> <span class="n">self</span><span class="p">.</span><span class="n">gear_ratio</span> <span class="o">*</span> <span class="n">self</span><span class="p">.</span><span class="n">final_drive</span> <span class="o">*</span> <span class="n">self</span><span class="p">.</span><span class="n">ETA</span>
-    
-    <span class="c1"># 4. Slip &amp; Traction Force (Model 5)
-</span>    <span class="c1"># Use max(abs(v_prev), 0.1) to avoid divide-by-zero when completely stopped
-</span>    <span class="n">slip_ratio</span> <span class="o">=</span> <span class="p">(</span><span class="n">w_prev</span> <span class="o">*</span> <span class="n">self</span><span class="p">.</span><span class="n">R_W</span> <span class="o">-</span> <span class="n">v_prev</span><span class="p">)</span> <span class="o">/</span> <span class="nf">max</span><span class="p">(</span><span class="nf">abs</span><span class="p">(</span><span class="n">v_prev</span><span class="p">),</span> <span class="mf">0.1</span><span class="p">)</span>
-    
-    <span class="n">F_traction_raw</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">C_t</span> <span class="o">*</span> <span class="n">slip_ratio</span>
-    <span class="n">F_traction</span> <span class="o">=</span> <span class="nf">clamp</span><span class="p">(</span><span class="n">F_traction_raw</span><span class="p">,</span> <span class="o">-</span><span class="n">F_max</span><span class="p">,</span> <span class="n">F_max</span><span class="p">)</span>
-    <span class="n">T_traction</span> <span class="o">=</span> <span class="n">F_traction</span> <span class="o">*</span> <span class="n">self</span><span class="p">.</span><span class="n">R_W</span>
-    
-    <span class="c1"># 5. Resistances &amp; Braking
-</span>    <span class="n">F_drag</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">C_DRAG</span> <span class="o">*</span> <span class="n">v_prev</span> <span class="o">*</span> <span class="nf">abs</span><span class="p">(</span><span class="n">v_prev</span><span class="p">)</span>
-    <span class="n">F_rr</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">C_RR</span> <span class="o">*</span> <span class="n">v_prev</span>
-    
-    <span class="n">T_brake</span> <span class="o">=</span> <span class="mf">0.0</span>
-    <span class="k">if</span> <span class="nf">abs</span><span class="p">(</span><span class="n">w_prev</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.01</span><span class="p">:</span>
-        <span class="n">T_brake</span> <span class="o">=</span> <span class="n">brake</span> <span class="o">*</span> <span class="n">self</span><span class="p">.</span><span class="n">C_BRAKE_TORQUE</span> <span class="o">*</span> <span class="n">math</span><span class="p">.</span><span class="nf">copysign</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">w_prev</span><span class="p">)</span>
-    
-    <span class="c1"># 6. Solve Master ODEs (Model 4/5 integration)
-</span>    <span class="n">F_net</span> <span class="o">=</span> <span class="n">F_traction</span> <span class="o">-</span> <span class="n">F_drag</span> <span class="o">-</span> <span class="n">F_rr</span>
-    <span class="n">T_net</span> <span class="o">=</span> <span class="n">T_drive</span> <span class="o">-</span> <span class="n">T_brake</span> <span class="o">-</span> <span class="n">T_traction</span>
-    
-    <span class="n">self</span><span class="p">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">F_net</span> <span class="o">/</span> <span class="n">self</span><span class="p">.</span><span class="n">M</span>
-    <span class="n">alpha</span> <span class="o">=</span> <span class="n">T_net</span> <span class="o">/</span> <span class="n">self</span><span class="p">.</span><span class="n">I_W</span>
-    
-    <span class="c1"># 7. Integrate States
-</span>    <span class="n">self</span><span class="p">.</span><span class="n">v</span> <span class="o">=</span> <span class="n">v_prev</span> <span class="o">+</span> <span class="n">self</span><span class="p">.</span><span class="n">a</span> <span class="o">*</span> <span class="n">dt</span>
-    <span class="n">self</span><span class="p">.</span><span class="n">omega</span> <span class="o">=</span> <span class="n">w_prev</span> <span class="o">+</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">dt</span>
-    <span class="n">self</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">self</span><span class="p">.</span><span class="n">v</span> <span class="o">*</span> <span class="n">dt</span>
-    
-    <span class="c1"># Return telemetry for the UI
-</span>    <span class="k">return</span> <span class="n">self</span><span class="p">.</span><span class="n">a</span><span class="p">,</span> <span class="n">F_traction</span><span class="p">,</span> <span class="n">slip_ratio</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">omega</span><span class="p">,</span> <span class="n">T_drive</span><span class="p">,</span> <span class="n">T_traction</span>
-</code></pre><span class="language-label">Python</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
-
-<hr />
-
-<h2 id="simulator-5---showcase">Simulator 5 - Showcase</h2>
-
-<p><img src="/assets/images/2026/q1-2026/car-physics/model5/model5simulator.webp" alt="model 5 simulator" /></p>
-
-<p>Simulator 5 represents the culmination of our 1D physics exploration, combining academic Ordinary Differential Equations (ODEs) with a practical, stable video game physics engine. By removing the “Effective Mass Hack” from Model 4, the chassis and drive wheels now function as independent entities, dynamically interacting through a responsive contact patch.</p>
-
-<p>Raw ODEs at low speeds can lead to issues like division by zero and jitter. Simulator 5 mitigates these problems with safeguards, smoothing algorithms, and mechanical adjustments.</p>
-
-<h3 id="hybrid-traction-solver">Hybrid Traction Solver</h3>
-<p>To address vibrations at $0$ m/s caused by hypersensitive slip ratios, we implemented a dual-state traction system:</p>
-<ul>
-  <li><strong>Sticky Mode:</strong> When external torque is below the tire’s physical limit ($F_{max}$), the simulator bypasses the slip formula, locking the wheels to the road for smooth creeping and precise braking.</li>
-  <li><strong>Slip Mode:</strong> When torque exceeds the tire’s grip, the engine transitions to the Model 5 ODEs, allowing the wheels to spin out or lock up independently of the chassis.</li>
-</ul>
-
-<h3 id="virtual-clutch-and-stall-dynamics">Virtual Clutch and Stall Dynamics</h3>
-<p>Simulator 5 introduces a virtual clutch to replace Model 4’s engine that never dropped below idle:</p>
-<ul>
-  <li><strong>Launching (1st Gear):</strong> The clutch slips intentionally, allowing the engine to rev up and transfer torque smoothly, enabling burnouts.</li>
-  <li><strong>Stalling (5th Gear):</strong> Attempting to launch in a high gear results in the tires overpowering the engine, dragging RPM to $0$ and stalling the car.</li>
-</ul>
-
-<h3 id="effective-drivetrain-inertia-i_eff">Effective Drivetrain Inertia ($I_{eff}$)</h3>
-<p>To prevent RPM oscillations when traction breaks, the engine’s internal mass is scaled through the transmission gearing:</p>
-
-<blockquote><div class="content">
-
-  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>I</mi><mrow><mi>e</mi><mi>f</mi><mi>f</mi></mrow></msub><mo>=</mo><msub><mi>I</mi><mi>w</mi></msub><mo>+</mo><msub><mi>I</mi><mrow><mi>e</mi><mi>n</mi><mi>g</mi><mi>i</mi><mi>n</mi><mi>e</mi></mrow></msub><mo>⋅</mo><mo stretchy="false">(</mo><mtext>Gear Ratio</mtext><mo>⋅</mo><mtext>Final Drive</mtext><msup><mo stretchy="false">)</mo><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">I_{eff} = I_w + I_{engine} \cdot (\text{Gear Ratio} \cdot \text{Final Drive})^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9694em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0785em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">e</span><span class="mord mathnormal mtight" style="margin-right:0.10764em;">ff</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0785em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.02691em;">w</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.9694em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0785em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">e</span><span class="mord mathnormal mtight">n</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">g</span><span class="mord mathnormal mtight">in</span><span class="mord mathnormal mtight">e</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord text"><span class="mord">Gear Ratio</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.1141em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">Final Drive</span></span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
-
-<p>This adjustment makes the wheels feel “heavier” in lower gears, acting as a shock absorber for RPM jitter and simulating shift-lock skidding during abrupt downshifts.</p>
-
-<h3 id="telemetry-enhancements-and-ui-improvements">Telemetry Enhancements and UI Improvements</h3>
-<p>Raw physics data is noisy, so we refined the telemetry and visuals for a clearer driver experience:</p>
-<ul>
-  <li><strong>EMA Filtered Graphs:</strong> The <code class="language-plaintext highlighter-rouge">GraphBuffer</code> applies an Exponential Moving Average (EMA) algorithm, smoothing chaotic raw data into clean, readable graphs while preserving pixel-perfect accuracy for position and velocity.</li>
-  <li><strong>Dual RPM Gauge:</strong> The dashboard now features two RPM bars: a thick green bar for <strong>Engine RPM</strong> and a thin cyan bar for <strong>Wheel RPM</strong>, making clutch slips and brake lock-ups instantly visible.</li>
-  <li><strong>Dynamic Visuals:</strong> Optimized skid marks, alpha-blended tire smoke, and a flashing <strong>“SLIP”</strong> warning enhance the HUD whenever the tires exceed $F_{max}$.</li>
-</ul>
-
-<p>Check out the simulator at <a href="https://github.com/duy-phamduc68/Longitudinal-Car-Physics" target="_blank">duy-phamduc68/Longitudinal-Car-Physics</a>.</p>
-
-<hr />
-
-<p>I ain’t gonna lie, I don’t really know what to say here, I just know that we are moving to 2D / Planar physics soon, which means longitudinal + lateral dynamics :). Right now, I’m a bit tired. I will be studying it and complete this thing real soon, see you then.</p>]]></content><author><name></name></author><category term="technical" /><category term="vehicle dynamics" /><category term="simulation" /><category term="mathematical modeling" /><category term="differential equations" /><summary type="html"><![CDATA[Implementing and Comprehending Marco Monster’s Car Physics model - Phase 1: Longitudinal Powertrain Vehicle Model - Part 5]]></summary></entry></feed>
+<p>Model 7 and 8 will also have their own repo, but I’m really considering to bundle them to a single repo (a single model) for closure, because looking ahead a bit, model 8 just seem more like a clean-up / conclude everything model, so it might be a good idea to just make both into a single model, though I will still have 2 dedicated post for each.</p>]]></content><author><name></name></author><category term="technical" /><category term="vehicle dynamics" /><category term="simulation" /><category term="kinematics modeling" /><category term="interactive plot" /><summary type="html"><![CDATA[Implementing and Comprehending Marco Monster’s Car Physics model - Phase 2: Planar Vehicle Dynamics Model - Part 6]]></summary></entry></feed>

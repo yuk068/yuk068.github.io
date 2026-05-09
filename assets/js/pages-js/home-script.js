@@ -8,7 +8,8 @@ const myStrings = [
     "Mathematics",
     "Local LLM",
     "Data Visualization",
-    "日本語勉強してる"
+    "日本語勉強してる",
+    "Motion Planning"
 ];
 
 if ('scrollRestoration' in history) {

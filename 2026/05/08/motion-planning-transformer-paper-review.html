@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="linkage" content="true">
+    <title>Paper Comprehension: Motion Planning Transformers</title>
+    <meta name="description" content="Reading and comprehending Motion Planning Transformers,  Johnson et al., 2022">
+
+    <!-- SEO & Social Meta -->
+    
+    
+    
+    
+    
+    
+    
+    <meta name="author" content="Yuk">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://yuk068.github.io//2026/05/08/motion-planning-transformer-paper-review">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Paper Comprehension: Motion Planning Transformers">
+    <meta property="og:description" content="Reading and comprehending Motion Planning Transformers,  Johnson et al., 2022">
+    <meta property="og:url" content="https://yuk068.github.io//2026/05/08/motion-planning-transformer-paper-review">
+    <meta property="og:image" content="https://yuk068.github.io//assets/thumbnail/default.webp">
+    <meta property="og:site_name" content="Yuk's Blog">
+    <meta property="og:locale" content="en_US">
+    <meta property="article:published_time" content="2026-05-08T00:00:00+07:00">
+    <meta property="article:author" content="Yuk">
+    <meta property="article:tag" content="paper comprehension">
+<meta property="article:tag" content="algorithms">
+<meta property="article:tag" content="deep learning">
+<meta property="article:tag" content="machine learning">
+<meta property="article:tag" content="motion planning">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@Yukano_50">
+    <meta name="twitter:creator" content="@Yukano_50">
+    <meta name="twitter:title" content="Paper Comprehension: Motion Planning Transformers">
+    <meta name="twitter:description" content="Reading and comprehending Motion Planning Transformers,  Johnson et al., 2022">
+    <meta name="twitter:image" content="https://yuk068.github.io//assets/thumbnail/default.webp">
+
+    <link rel="stylesheet" href="/assets/css/pages-css/post-styles.css">
+    
+
+    <!-- Always use KaTeX for math rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: "$$", right: "$$", display: true },
+                        { left: "$", right: "$", display: false },
+                        { left: "\\(", right: "\\)", display: false },
+                        { left: "\\[", right: "\\]", display: true }
+                    ]
+                });
+            }
+        });
+    </script>
+
+    
+    
+
+    
+    <script src="https://cdn.plot.ly/plotly-3.3.1.min.js" charset="utf-8"></script>
+    <script>
+        window.addEventListener('load', function () {
+            setTimeout(function () {
+                document.querySelectorAll('.js-plotly-plot').forEach(function (el) {
+                    Plotly.Plots.resize(el);
+                });
+            }, 250);
+        });
+    </script>
+    
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand&amp;display=swap" rel="stylesheet">
+
+    <script>if (localStorage.getItem('theme') === 'light') document.documentElement.classList.add('light-mode');</script>
+
+    <link rel="stylesheet" href="https://unpkg.com/photoswipe@5/dist/photoswipe.css">
+
+<script type="module">
+import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5/dist/photoswipe-lightbox.esm.js';
+
+const lightbox = new PhotoSwipeLightbox({
+    gallery: '.post-article',
+    children: 'img',
+    pswpModule: () => import('https://unpkg.com/photoswipe@5/dist/photoswipe.esm.js'),
+
+    // --- Animation Settings ---
+    showHideAnimationType: 'fade',
+
+    // --- Zoom Enhancements ---
+    wheelToZoom: true,
+    imageClickAction: 'zoom',
+    secondaryZoomLevel: 2,
+    maxZoomLevel: 4,
+
+    // --- Loading Behavior ---
+    preload: [1, 5],
+});
+
+
+// --- SAFER DATA SOURCE ---
+lightbox.addFilter('itemData', (itemData) => {
+    const img = itemData.element;
+
+    return {
+        src: img.src,
+        msrc: img.src,
+        width: img.naturalWidth || img.width || 1200,
+        height: img.naturalHeight || img.height || 800,
+        element: img
+    };
+});
+
+
+// --- FIX DIMENSIONS AFTER LOAD ---
+lightbox.on('contentLoadImage', (e) => {
+    const { content } = e;
+
+    content.element.decode().then(() => {
+        content.width = content.element.naturalWidth;
+        content.height = content.element.naturalHeight;
+
+        if (lightbox.pswp) {
+            lightbox.pswp.refreshSize(true);
+        }
+    }).catch(() => {});
+});
+
+lightbox.init();
+</script>
+</head>
+
+<body>
+    <canvas id="starfield"></canvas>
+
+    <div id="reading-progress-bar"></div>
+    <div class="main-container">
+        <header id="post-header">
+            <div class="header-logo-container">
+                <button class="logo-button" onclick="handleLogoClick()">
+                    <div class="logo-container">
+                        <div class="logo">
+                            <div class="u-shape left-side"></div>
+                            <div class="u-shape bottom"></div>
+                            <div class="u-shape right-side"></div>
+                        </div>
+                        <div class="left-arrow-top"></div>
+                        <div class="right-arrow-top"></div>
+                        <div class="right-arrow-bottom"></div>
+                    </div>
+                </button>
+            </div>
+            <div class="home-header-title-mobile">
+                <h1 id="home-header-title">Yukano</h1>
+            </div>
+            <div class="nav-container">
+                <nav class="nav-bar">
+                    <ul>
+                        <a href="#" onclick="goBack()">
+                            <li>
+                                
+                                Back
+                                
+                            </li>
+                        </a>
+                        <div class="nav-bar-divider"></div>
+                        <a href="/">
+                            <li>
+                                
+                                Home
+                                
+                            </li>
+                        </a>
+                        <div class="nav-bar-divider" id="nav-disable-mobile"></div>
+                        <a href="/archive" id="nav-disable-mobile">
+                            <li id="nav-disable-mobile">
+                                
+                                Archive
+                                
+                            </li>
+                        </a>
+                        <div class="nav-bar-divider" id="nav-disable-mobile"></div>
+                        <a href="/projects" id="nav-disable-mobile">
+                            <li id="nav-disable-mobile">
+                                
+                                Projects
+                                
+                            </li>
+                        </a>
+                    </ul>
+                </nav>
+            </div>
+            <div class="header-extra-container">
+                <button class="extra-button">
+                    <div class="extra-container">
+                        <div class="extra">
+                            <div class="extra-shape top"></div>
+                            <div class="extra-shape middle"></div>
+                            <div class="extra-shape bottom"></div>
+                        </div>
+                    </div>
+                </button>
+            </div>
+        </header>
+        <main>
+            <div id="overlay" class="overlay">
+                <div class="options-container">
+                    <p>
+                        
+                        Navigation
+                        
+                    </p>
+                    <div class="options-navigation">
+                        <a id="toBackButton" href="/"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14"><defs><style>.cls-6374f543b67f094e4896c5c8-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><circle class="cls-6374f543b67f094e4896c5c8-1" cx="12" cy="12" r="10.5"></circle><path class="cls-6374f543b67f094e4896c5c8-1" d="M7.23,7.23h7.63a3.82,3.82,0,0,1,3.82,3.82h0a3.82,3.82,0,0,1-3.82,3.81H7.23"></path><polyline class="cls-6374f543b67f094e4896c5c8-1" points="11.04 18.68 7.23 14.86 11.04 11.04"></polyline></svg>
+                            
+                            Back
+                            
+                        </a>
+                        <a id="toArchiveButton" href="/archive"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff">
+    <defs>
+        <style>
+            .cls-archive-1 {
+                fill: none;
+                stroke: currentColor;
+                stroke-miterlimit: 10;
+            }
+        </style>
+    </defs>
+    <polygon class="cls-archive-1" points="19.64 9.14 4.36 9.14 4.36 1.5 10.09 1.5 12 3.41 19.64 3.41 19.64 9.14"></polygon>
+    <polygon class="cls-archive-1" points="1.5 9.14 22.5 9.14 20.59 22.5 3.41 22.5 1.5 9.14"></polygon>
+</svg>
+                            
+                            Archive
+                            
+                        </a>
+                        <a id="toProjectsButton" href="/projects"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff">
+    <defs>
+        <style>
+            .cls-projects-1 {
+                fill: none;
+                stroke: currentColor;
+                stroke-miterlimit: 10;
+            }
+        </style>
+    </defs>
+    <g id="roll_brush" data-name="roll brush">
+        <line class="cls-projects-1" x1="5.24" y1="11.08" x2="18.66" y2="11.08"></line>
+        <line class="cls-projects-1" x1="5.24" y1="18.76" x2="18.66" y2="18.76"></line>
+        <line class="cls-projects-1" x1="5.24" y1="14.92" x2="18.66" y2="14.92"></line>
+        <rect class="cls-projects-1" x="1.4" y="1.49" width="21.1" height="21.1"></rect>
+        <polygon class="cls-projects-1" points="22.5 7.25 16.23 7.25 14.31 7.25 1.4 7.25 1.4 1.49 22.5 1.49 22.5 7.25"></polygon>
+        <line class="cls-projects-1" x1="4.28" y1="4.37" x2="6.2" y2="4.37"></line>
+        <line class="cls-projects-1" x1="8.11" y1="4.37" x2="10.03" y2="4.37"></line>
+        <line class="cls-projects-1" x1="11.95" y1="4.37" x2="13.87" y2="4.37"></line>
+    </g>
+</svg>
+                            
+                            Projects
+                            
+                        </a>
+                        <a id="toAboutButton" href="/about-yuk-en"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff">
+    <defs>
+        <style>
+            .cls-about-1 {
+                fill: none;
+                stroke: currentColor;
+                stroke-miterlimit: 10;
+            }
+        </style>
+    </defs>
+    <circle class="cls-about-1" cx="12" cy="7.25" r="5.73"></circle>
+    <path class="cls-about-1" d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05"></path>
+</svg>
+                            
+                            About
+                            
+                        </a>
+                        <a id="toHomeButton" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="currentColor" aria-hidden="true"><defs><style>.s{fill:none;stroke:currentColor;stroke-miterlimit:10}</style></defs><polyline class="s" points="1 12 12 2.83 23 12"></polyline><polyline class="s" points="19.33 9.25 19.33 21.17 14.75 21.17 14.75 13.83 9.25 13.83 9.25 21.17 4.67 21.17 4.67 9.25"></polyline></svg>
+                            
+                            Home
+                            
+                        </a>
+                    </div>
+                    <div class="option-horizontal-divider-line"></div>
+                    <p>
+                        
+                        Options
+                        
+                    </p>
+                    <div class="options-configuration">
+                        <button id="toTopButton"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="50" height="50" color="#fff">
+    <defs>
+        <style>
+            .cls-scroll-top-1 {
+                fill: none;
+                stroke: currentColor;
+                stroke-miterlimit: 10;
+            }
+        </style>
+    </defs>
+    <circle class="cls-scroll-top-1" cx="12" cy="12" r="10.5"></circle>
+    <line class="cls-scroll-top-1" x1="12" y1="10.09" x2="12" y2="18.68"></line>
+    <polyline class="cls-scroll-top-1" points="7.23 10.09 12 5.32 16.77 10.09"></polyline>
+    <polyline class="cls-scroll-top-1" points="7.23 14.86 12 10.09 16.77 14.86"></polyline>
+</svg>
+                            
+                            To top
+                            
+                        </button>
+
+                        <button id="configPlaceholder2" class="bg-performance-btn">
+                            <span id="bgPerformanceBody" class="bg-performance-body">
+                                <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="24" height="24"><defs><style>.cls-637a50fc15c575900940065c-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><rect class="cls-637a50fc15c575900940065c-1" x="3.38" y="3.38" width="17.25" height="17.25" rx="2.18"></rect><rect class="cls-637a50fc15c575900940065c-1" x="7.21" y="7.21" width="9.58" height="9.58" rx="1.92"></rect><line class="cls-637a50fc15c575900940065c-1" x1="7.21" y1="0.5" x2="7.21" y2="2.42"></line><line class="cls-637a50fc15c575900940065c-1" x1="12" y1="0.5" x2="12" y2="2.42"></line><line class="cls-637a50fc15c575900940065c-1" x1="16.79" y1="0.5" x2="16.79" y2="2.42"></line><line class="cls-637a50fc15c575900940065c-1" x1="7.21" y1="21.58" x2="7.21" y2="23.5"></line><line class="cls-637a50fc15c575900940065c-1" x1="12" y1="21.58" x2="12" y2="23.5"></line><line class="cls-637a50fc15c575900940065c-1" x1="16.79" y1="21.58" x2="16.79" y2="23.5"></line><line class="cls-637a50fc15c575900940065c-1" x1="0.5" y1="16.79" x2="2.42" y2="16.79"></line><line class="cls-637a50fc15c575900940065c-1" x1="0.5" y1="12" x2="2.42" y2="12"></line><line class="cls-637a50fc15c575900940065c-1" x1="0.5" y1="7.21" x2="2.42" y2="7.21"></line><line class="cls-637a50fc15c575900940065c-1" x1="21.58" y1="16.79" x2="23.5" y2="16.79"></line><line class="cls-637a50fc15c575900940065c-1" x1="21.58" y1="12" x2="23.5" y2="12"></line><line class="cls-637a50fc15c575900940065c-1" x1="21.58" y1="7.21" x2="23.5" y2="7.21"></line></svg>
+                                <span id="bgPerformanceLabel" data-lang="en">
+                                    BG: On
+                                </span>
+                            </span>
+                        </button>
+
+                        <button id="themeButton"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff">
+    <defs>
+        <style>
+            .cls-theme-1 {
+                fill: none;
+                stroke: currentColor;
+                stroke-miterlimit: 10;
+            }
+        </style>
+    </defs>
+    <g>
+        <circle class="cls-theme-1" cx="11.99" cy="12.01" r="6.71"></circle>
+        <path class="cls-theme-1" d="M12,8.65a3.36,3.36,0,0,1,0,6.72Z"></path>
+        <line class="cls-theme-1" x1="11.99" y1="0.5" x2="11.99" y2="2.42"></line>
+        <line class="cls-theme-1" x1="11.99" y1="21.6" x2="11.99" y2="23.52"></line>
+        <line class="cls-theme-1" x1="0.48" y1="12.01" x2="2.4" y2="12.01"></line>
+        <line class="cls-theme-1" x1="21.58" y1="12.01" x2="23.5" y2="12.01"></line>
+        <line class="cls-theme-1" x1="20.13" y1="3.87" x2="18.77" y2="5.23"></line>
+        <line class="cls-theme-1" x1="5.21" y1="18.79" x2="3.85" y2="20.15"></line>
+        <line class="cls-theme-1" x1="3.85" y1="3.87" x2="5.21" y2="5.23"></line>
+        <line class="cls-theme-1" x1="18.77" y1="18.79" x2="20.13" y2="20.15"></line>
+    </g>
+</svg>
+                            
+                            Theme
+                            
+                        </button>
+                        <button id="commentsButton"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="currentColor" aria-hidden="true"><defs><style>.s{fill:none;stroke:currentColor;stroke-miterlimit:10}</style></defs><path class="s" d="M1.5,5.3v9.54a3.82,3.82,0,0,0,3.82,3.82H7.23v2.86L13,18.66h5.73a3.82,3.82,0,0,0,3.82-3.82V5.3a3.82,3.82,0,0,0-3.82-3.82H5.32A3.82,3.82,0,0,0,1.5,5.3Z"></path><line class="s" x1="15.82" y1="10.07" x2="17.73" y2="10.07"></line><line class="s" x1="11.05" y1="10.07" x2="12.95" y2="10.07"></line><line class="s" x1="6.27" y1="10.07" x2="8.18" y2="10.07"></line></svg>
+                            
+                            Comments
+                            
+                        </button>
+                    </div>
+                    <div class="option-horizontal-divider-line"></div>
+                    <div class="options-close">
+                        <button id="closeButton"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff">
+    <defs>
+        <style>
+            .cls-close-1 {
+                fill: none;
+                stroke: currentColor;
+                stroke-miterlimit: 10;
+            }
+        </style>
+    </defs>
+    <circle class="cls-close-1" cx="12" cy="12" r="10.5"></circle>
+    <line class="cls-close-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line>
+    <line class="cls-close-1" x1="7.23" y1="7.23" x2="16.77" y2="16.77"></line>
+</svg>
+                            
+                            Close
+                            
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="post-content">
+                <div class="post-info-card">
+                    <h1>
+                        <span class="category-svg">
+                            
+                            
+                            
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="24" height="24"><defs><style>.cls-637b7b44f95e86b59c579f7b-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-637b7b44f95e86b59c579f7b-1" d="M1.5,18.68H8.18A3.82,3.82,0,0,1,12,22.5v0a0,0,0,0,1,0,0H1.5a0,0,0,0,1,0,0V18.68A0,0,0,0,1,1.5,18.68Z"></path><path class="cls-637b7b44f95e86b59c579f7b-1" d="M15.82,18.68H22.5a0,0,0,0,1,0,0V22.5a0,0,0,0,1,0,0H12a0,0,0,0,1,0,0v0A3.82,3.82,0,0,1,15.82,18.68Z"></path><path class="cls-637b7b44f95e86b59c579f7b-1" d="M1.5,6.27H8.18A3.82,3.82,0,0,1,12,10.09V22.5a0,0,0,0,1,0,0H1.5a0,0,0,0,1,0,0V6.27A0,0,0,0,1,1.5,6.27Z"></path><path class="cls-637b7b44f95e86b59c579f7b-1" d="M19.64,6.27H22.5V22.5H12V10.09a3.82,3.82,0,0,1,3.82-3.82"></path><path class="cls-637b7b44f95e86b59c579f7b-1" d="M19.64,13l-1.91,1.91L15.82,13V3.41A1.9,1.9,0,0,1,17.73,1.5h0a1.91,1.91,0,0,1,1.91,1.91Z"></path></svg>
+
+
+                            
+                        </span>Paper Comprehension: Motion Planning Transformers
+                    </h1>
+                    <div class="post-tags">
+                        
+                        
+                        
+                        <span class="tag">#paper-comprehension</span>
+                        
+                        
+                        
+                        
+                        <span class="tag">#algorithms</span>
+                        
+                        
+                        
+                        
+                        <span class="tag">#deep-learning</span>
+                        
+                        
+                        
+                        
+                        <span class="tag">#machine-learning</span>
+                        
+                        
+                        
+                        
+                        <span class="tag">#motion-planning</span>
+                        
+                        
+                    </div>
+                        <div class="date">
+<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.4" width="14" height="14" color="#686868">
+    <defs>
+        <style>
+            .cls-calendar-1, .cls-calendar-2 {
+                fill: none;
+                stroke: currentColor;
+                stroke-miterlimit: 10;
+            }
+            .cls-calendar-1 {
+                stroke-linecap: square;
+            }
+        </style>
+    </defs>
+    <g id="calendar">
+        <rect class="cls-calendar-1" x="1.5" y="2.43" width="21" height="4.77" transform="translate(24 9.64) rotate(180)"></rect>
+        <line class="cls-calendar-2" x1="17.73" y1="0.52" x2="17.73" y2="4.34"></line>
+        <line class="cls-calendar-2" x1="6.27" y1="0.52" x2="6.27" y2="4.34"></line>
+        <polygon class="cls-calendar-1" points="22.5 11.98 22.5 7.21 1.5 7.21 1.5 22.48 22.5 22.48 22.5 15.79 22.5 11.98"></polygon>
+        <line class="cls-calendar-2" x1="9.14" y1="11.02" x2="11.05" y2="11.02"></line>
+        <line class="cls-calendar-2" x1="12.95" y1="11.02" x2="14.86" y2="11.02"></line>
+        <line class="cls-calendar-2" x1="16.77" y1="11.02" x2="18.68" y2="11.02"></line>
+        <line class="cls-calendar-2" x1="9.14" y1="14.84" x2="11.05" y2="14.84"></line>
+        <line class="cls-calendar-2" x1="5.32" y1="14.84" x2="7.23" y2="14.84"></line>
+        <line class="cls-calendar-2" x1="12.95" y1="14.84" x2="14.86" y2="14.84"></line>
+        <line class="cls-calendar-2" x1="16.77" y1="14.84" x2="18.68" y2="14.84"></line>
+        <line class="cls-calendar-2" x1="9.14" y1="18.66" x2="11.05" y2="18.66"></line>
+        <line class="cls-calendar-2" x1="5.32" y1="18.66" x2="7.23" y2="18.66"></line>
+        <line class="cls-calendar-2" x1="12.95" y1="18.66" x2="14.86" y2="18.66"></line>
+    </g>
+</svg>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <span class="date-span">May 8th 2026</span>
+
+                        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.7" width="16" height="16" fill="none">
+    <circle cx="12" cy="12" r="9.5" stroke="currentColor" stroke-miterlimit="10"></circle>
+    <polyline points="12 6.5 12 12 15.5 13.8" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></polyline>
+</svg>
+                        
+                        <span class="reading-time">
+                            16
+                            
+                            Min.
+                            
+                        </span>
+                        
+                    </div>
+                    <div class="post-description">
+                        Reading and comprehending Motion Planning Transformers,  Johnson et al., 2022
+                    </div>
+                    <div class="author">
+<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.7" width="20" height="20" fill="none">
+    <circle cx="12" cy="7.25" r="5.73" stroke="currentColor" stroke-miterlimit="10"></circle>
+    <path d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05" stroke="currentColor" stroke-miterlimit="10"></path>
+</svg>
+                        
+                        Written by:
+                        
+                        Yuk
+                    </div>
+                </div>
+                <div class="horizontal-divider-line"></div>
+                <div class="post-article">
+                    <article>
+                        
+                        
+                        
+                        
+                        <h3 id="prologue">Prologue<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#prologue')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+
+<p>This post is the continuation of <a href="/2026/05/08/motion-planning-network-paper-review">Paper Comprehension: Motion Planning Networks</a>.</p>
+
+<p>From my understanding, Motion Planning Transformer (MPT) actually differs quite a lot from Motion Planning Network (MPNet) (and much more complicated too, which is to be expected). Nevertheless, the MPT paper authors does include the first author of the MPNet paper, professor Ahmed H. Qureshi.</p>
+
+<p>So in this post, I’m going to breakdown the paper <a href="https://arxiv.org/pdf/2106.02791" target="_blank">Motion Planning Transformers: A Motion Planning Framework for Mobile Robots, Johnson et al,. 2022</a>. And give my final thoughts for both MPNet and MPT at the end.</p>
+
+<hr>
+
+<h3 id="table-of-content">Table of Content<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#table-of-content')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+
+<blockquote>
+<div class="content">
+  <div id="table-of-contents"><ul><li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#prologue')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#prologue">Prologue</a></div></li>
+<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#table-of-content')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#table-of-content" style="color:#434e64;">Table of Content</a></div></li>
+<li class="h2"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#1-recap')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#1-recap">1. Recap</a></div></li>
+<li class="h2"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#2-architecture')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#2-architecture">2. Architecture</a></div></li>
+<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#21-overview')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#21-overview">2.1. Overview</a></div></li>
+<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#22-positional-encoding')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#22-positional-encoding">2.2. Positional Encoding</a></div></li>
+<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#23-extending-to-se2')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#23-extending-to-se2">2.3. Extending to SE(2)</a></div></li>
+<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#24-classical-planner')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#24-classical-planner">2.4. Classical Planner</a></div></li>
+<li class="h2"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#3-training')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#3-training">3. Training</a></div></li>
+<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#31-rig-loss-optimizer')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#31-rig-loss-optimizer">3.1. Rig, Loss, Optimizer</a></div></li>
+<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#32-data-generation')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#32-data-generation">3.2. Data Generation</a></div></li>
+<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#33-negative-sampling')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#33-negative-sampling">3.3. Negative Sampling</a></div></li>
+<li class="h2"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#4-experiments--results')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#4-experiments--results">4. Experiments &amp; Results</a></div></li>
+<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#41-point-mass-robot')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#41-point-mass-robot">4.1. Point-mass Robot</a></div></li>
+<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#42-dubins-car')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#42-dubins-car">4.2. Dubins Car</a></div></li>
+<li class="h2"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#5-final-thoughts')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#5-final-thoughts">5. Final Thoughts</a></div></li>
+<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#51-mpnet-vs-mpt')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#51-mpnet-vs-mpt">5.1. MPNet vs. MPT</a></div></li>
+<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#52-peeking-into-2026-mobile-manipulators--foundation-models')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#52-peeking-into-2026-mobile-manipulators--foundation-models">5.2. Peeking into 2026: Mobile Manipulators &amp; Foundation Models</a></div></li></ul></div>
+</div>
+<button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span>
+</blockquote>
+
+<ul>
+  <li><strong>Reference: <a href="https://arxiv.org/pdf/2106.02791" target="_blank">Motion Planning Transformers: A Motion Planning Framework for Mobile Robots, Johnson et al,. 2022</a></strong></li>
+</ul>
+
+<hr>
+
+<h2 id="1-recap">1. Recap<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#1-recap')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
+
+<p>The MPT module is a region proposal network that uses a transformer network to identify regions of interest, this region is then utilize by classic sampling-based motion planning methods (SMP), significantly reducing the search space and time in their testings.</p>
+
+<p>Here is a quick comparison between MPT and MPNet:</p>
+
+<div class="table-wrapper"><table>
+  <thead>
+    <tr>
+      <th>Model</th>
+      <th>MPT</th>
+      <th>MPNet</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Architecture</td>
+      <td>Transformer (Encoder only) + Classifier (1x1 Conv)</td>
+      <td>CAE + DNN</td>
+    </tr>
+    <tr>
+      <td>Inference</td>
+      <td>Search region proposal</td>
+      <td>Autoregressive path generation</td>
+    </tr>
+    <tr>
+      <td>Map size</td>
+      <td>Handle variable sized maps</td>
+      <td>Can’t handle variable sized maps</td>
+    </tr>
+    <tr>
+      <td>Robot modality</td>
+      <td>Extends to and tested non-holonomic robots</td>
+      <td>Didn’t test with non-holonomic robots (in the specified paper, Baxter robot’s arm is still considered holonomic in its workspace)</td>
+    </tr>
+    <tr>
+      <td>Obstacle inputs</td>
+      <td>2D Occupancy matrix (discretization if needed)</td>
+      <td>Point cloud coordinates as vector list (“hollow” obstacles)</td>
+    </tr>
+  </tbody>
+</table></div>
+
+<p>They tested their framework mostly in 2D space, including a point-mass case in $\mathbb{R}^2$ and a Dubins car case in $SE(2)$.</p>
+
+<p>About problem definition, its essentially the same as the MPNet post so I won’t be going over it again, only difference is that our state can also be in $SE(2)$ space.</p>
+
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRsQAAABXRUJQVlA4ILgAAABQCQCdASo9AEAAPt1gpE2oviupMBQMA8AbiWUAxNgIjuK0KkD9hk8xa5XB7IePXVVpbt5QZ+mh9unG1x6Xyn+zZHP6QQ7NckxQSIuLBHKc8zjsAAD+6o5pvc1lAtI1foBLuuy7nOI0IR+YnT3Xl1QTBAPBDqxNHyAjOkkD7V53rhsEfeVpbV9yc9DBOogAgAvdLGX1WKHMAC4dkz1McAMlOcHRpwvpwBXiY8APrPnYogOscPozAAAA'); aspect-ratio: 844 / 888; width: min(844px, 95%, calc(85vh * 0.95045)); "><img src="/assets/images/2026/q2-2026/motion-planning/mpt-pointmass-case.webp" alt="Point mass case" loading="lazy" decoding="async" width="844" height="888" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRp4AAABXRUJQVlA4IJIAAADQBgCdASpAACMAPs1WoEy1KSMlt/VdUqAZiWUAy+AQ8M7qRclrKJfxr00GG3bBETb3M0TR9Scp/He2rSqUiKgA/u/QKn04yH8EvvctUmI6miTgp4tS0uE1/7iAtTWKXxvYgY0L0AkaYhpiokC7Nms2MGx903PBy+T+NndqT5li9NcEwrGt2PfraHFeFZw+ucAAAA=='); aspect-ratio: 883 / 476; width: min(883px, 95%, calc(85vh * 1.855042)); "><img src="/assets/images/2026/q2-2026/motion-planning/mpt-dubinscar-case.webp" alt="Dubins car case" loading="lazy" decoding="async" width="883" height="476" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+
+<p><strong>Fig. 1.</strong> and <strong>Fig. 2.</strong> <a href="https://arxiv.org/pdf/2106.02791" target="_blank">Johnson et al,. 2022</a>.</p>
+
+<p>Overview of MPT Module for planning in $\mathbb{R}^2$.</p>
+
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRmgAAABXRUJQVlA4IFwAAADwBACdASpAABcAPt1cpky/pSOiMAgD8BuJZwDMHBuyNuCZkdj7EOUNzr5hAMdoegAA/u1hbEXp4/yz5xHTp640YeY6wJVM1R/VxqTVFe3Px4ELiYbxsUZldaAAAA=='); aspect-ratio: 1764 / 632; width: min(1764px, 95%, calc(85vh * 2.791139)); "><img src="/assets/images/2026/q2-2026/motion-planning/mpt-overview-paper.webp" alt="Figure 3" loading="lazy" decoding="async" width="1764" height="632" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+
+<p><strong>Fig. 3.</strong> <a href="https://arxiv.org/pdf/2106.02791" target="_blank">Johnson et al,. 2022</a>.</p>
+
+<hr>
+
+<h2 id="2-architecture">2. Architecture<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#2-architecture')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
+
+<h3 id="21-overview">2.1. Overview<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#21-overview')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+
+<p>The architecture of MPT is as follow, consider the point-mass robot case, in other words: state $x \in \mathbb{R}^2$.</p>
+
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAADQAwCdASpAACsAPt1sq1KopaSioqrpEBuJaQDUUAeo59rGdxYkOiQA/vChrH3x1Uf8V7dFBxxXMPaaiJD3J6InKG+ppHzAAAA='); aspect-ratio: 1416 / 944; width: min(1416px, 95%, calc(85vh * 1.5)); "><img src="/assets/images/2026/q2-2026/motion-planning/mpt-doodle-basecase.webp" alt="architecture diagram doodle" loading="lazy" decoding="async" width="1416" height="944" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+
+<p>Lets take the maze workspace of size $H \times W$ as an example here, the input to MPT will be $H \times W \times 2$. The second map is the “start-goal encoding map”, where the start and goal region will be encoded with a matrix of size $p \times p$ with -1 and 1, respectively.</p>
+
+<p>These 2 maps will be concatenated to tensor $m$, and fed into the FCN network, where each patch will be convoluted with a sliding window of size $p \times p \times 2$, and after passing through <code class="language-plaintext highlighter-rouge">ReLU</code> and <code class="language-plaintext highlighter-rouge">Maxpool</code> Layers, we will get a new tensor of size $H_l \times W_l \times d$, lets call it tensor $M$.</p>
+
+<p>Tensor $M$ is then flatten into a vector list of size $(H_l \cdot W_l) \times d$. Each patch will be “anchored” using the following indexing formula:</p>
+
+<p>For each $(i_F, j_F)$ -th element in $M$ will be converted into index $j$ of the flatten list:</p>
+
+<span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>j</mi><mo>=</mo><msub><mi>i</mi><mi>F</mi></msub><mo>⋅</mo><msub><mi>W</mi><mi>l</mi></msub><mo>+</mo><msub><mi>j</mi><mi>F</mi></msub></mrow><annotation encoding="application/x-tex">j = i_F \cdot W_l + j_F</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.854em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8095em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">i</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.13889em;">F</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.01968em;">l</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.854em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.0572em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.13889em;">F</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span>
+
+<p>This vector list is will now be prepared as input for an Encoder block of the transformer, thus they will go through positional encoding, just like transformer for language modeling.</p>
+
+<p>The Encoder includes components just like <a href="https://arxiv.org/abs/1706.03762">Vaswani et al,. 2017</a>. Comprising of Multi-headed Self Attention block, Layer Norm, and residual connections. Dropout is also applied during training.</p>
+
+<p>Passing through the encoder return us a new vector list of same size $(H_l \cdot W_l) \times d$. This vector list is then reshaped into a tensor $M’$.</p>
+
+<p>Tensor $M’$ will then pass through a classifier (implemented as a 1x1 convolutional layer with Sigmoid activation) and give us output of size $H_l \times W_l \times 1$ , where each of these patch have activation $&gt; 0.5$, we will highlight it as the “proposed region” of the MPT, finally giving us the masked output of size $H \times W$.</p>
+
+<hr>
+
+<h3 id="22-positional-encoding">2.2. Positional Encoding<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#22-positional-encoding')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+
+<p>To ensure generalization to variable map sizes without having to generate training data of variable map sizes, the authors utilized <strong>Randomized Positional Encoding</strong>. Where beside the classic PE functions:</p>
+
+<span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>P</mi><mi>E</mi><mo stretchy="false">(</mo><mi>j</mi><mo separator="true">,</mo><mn>2</mn><mi>i</mi><mo stretchy="false">)</mo><mo>=</mo><mi>sin</mi><mo>⁡</mo><mrow><mo fence="true">(</mo><mfrac><mi>j</mi><mrow><mn>1000</mn><msup><mn>0</mn><mrow><mn>2</mn><mi>i</mi><mi mathvariant="normal">/</mi><mi>d</mi></mrow></msup></mrow></mfrac><mo fence="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">PE(j, 2i) = \sin\left(\frac{j}{10000^{2i/d}}\right)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">PE</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">2</span><span class="mord mathnormal">i</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.4em;vertical-align:-0.95em;"></span><span class="mop">sin</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size3">(</span></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3365em;"><span style="top:-2.296em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">1000</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.814em;"><span style="top:-2.989em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mathnormal mtight">i</span><span class="mord mtight">/</span><span class="mord mathnormal mtight">d</span></span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.704em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size3">)</span></span></span></span></span></span></span>
+
+<span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>P</mi><mi>E</mi><mo stretchy="false">(</mo><mi>j</mi><mo separator="true">,</mo><mn>2</mn><mi>i</mi><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo><mo>=</mo><mi>cos</mi><mo>⁡</mo><mrow><mo fence="true">(</mo><mfrac><mi>j</mi><mrow><mn>1000</mn><msup><mn>0</mn><mrow><mo stretchy="false">(</mo><mn>2</mn><mi>i</mi><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo><mi mathvariant="normal">/</mi><mi>d</mi></mrow></msup></mrow></mfrac><mo fence="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">PE(j, 2i+1) = \cos\left(\frac{j}{10000^{(2i+1)/d}}\right)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">PE</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">2</span><span class="mord mathnormal">i</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.4em;vertical-align:-0.95em;"></span><span class="mop">cos</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size3">(</span></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3365em;"><span style="top:-2.296em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">1000</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.814em;"><span style="top:-2.989em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mtight">2</span><span class="mord mathnormal mtight">i</span><span class="mbin mtight">+</span><span class="mord mtight">1</span><span class="mclose mtight">)</span><span class="mord mtight">/</span><span class="mord mathnormal mtight">d</span></span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.704em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size3">)</span></span></span></span></span></span></span>
+
+<p>They randomly offsets and modify index $j$ to a new value.</p>
+
+<p>To more easily visualize this, imagine we are on an infinite flat plane, and we put our finite map on this plane, naturally, the bottom left corner will usually be the origin $(0,0)$. And then we offset this entire map such that this origin becomes say $(100,120)$, and the more varies this is, the better chances that it will have seen coordinates outside of its initial map-bounded range.</p>
+
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRj4AAABXRUJQVlA4IDIAAABQAwCdASpAAC8APt1usFOopiSioqgBEBuJaQAAE/GRBXiPAAD+8NVmwPI6f1zMIAAAAA=='); aspect-ratio: 1071 / 786; width: min(1071px, 95%, calc(85vh * 1.362595)); "><img src="/assets/images/2026/q2-2026/motion-planning/mpt-random-pe.webp" alt="randomized positional encoding doodle" loading="lazy" decoding="async" width="1071" height="786" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+
+<hr>
+
+<h3 id="23-extending-to-se2">2.3. Extending to SE(2)<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#23-extending-to-se2')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+
+<p>The way the authors extended this framework to say $SE(2)$, is demonstrated below:</p>
+
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAACwAwCdASpAACwAPt1usFOopiSioqgBEBuJaQDQzAfZK5jV/m4fAAD+8KGoyQ2bsbq8nJ6dXFfrrGrzXv4kKF50eV6dV8AAAAA='); aspect-ratio: 1381 / 942; width: min(1381px, 95%, calc(85vh * 1.46603)); "><img src="/assets/images/2026/q2-2026/motion-planning/mpt-doodle-se2case.webp" alt="extending to se 2 doodle" loading="lazy" decoding="async" width="1381" height="942" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+
+<p>Essentially, instead of 2 input maps, they increase it to 4, where we have 2 additional <strong>Cosine and Sine</strong> maps that encodes the orientation of the start and goal positions.</p>
+
+<p>In the diagram above you can see an example of what the input in the $SE(2)$ case might look like.</p>
+
+<p>The bulk of the inference remains the same, except for the final output, where tensor $M’$ is passed through two separate classifier at the same time.</p>
+
+<p>The first classifier still predicts a masked map, like the point-mass case, with Sigmoid activation and trained with cross-entropy loss.</p>
+
+<p>The second classifier however, will predict an orientation map, in $SE(2)$, this is essentially a 2D vector field. This classifier does not have non-linear activation, instead, they train it to maximize cosine similarity with the target orientation map.</p>
+
+<p>And then, only vectors that lies on the un-masked region will be kept, guiding the search.</p>
+
+<hr>
+
+<h3 id="24-classical-planner">2.4. Classical Planner<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#24-classical-planner')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+
+<p>After the we have the proposed region by the MPT module, classical SMP methods can then utilize this region to search more efficiently. In case where the goal doesn’t lie in this region, we can explore the region outside the proposed map to ensure a feasible path is not overlooked.</p>
+
+<hr>
+
+<h2 id="3-training">3. Training<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#3-training')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
+
+<h3 id="31-rig-loss-optimizer">3.1. Rig, Loss, Optimizer<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#31-rig-loss-optimizer')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+
+<p>The authors trained MPT in an end-to-end supervised fashion. Each mini-batch was constructed from a single planning problem containing both positive and negative anchor points sampled from the environment map.</p>
+
+<p>Training was performed using cross-entropy loss for anchor point classification together with cosine similarity loss for orientation prediction in the Dubins Car setting. The network was optimized using the Adam optimizer with $\beta_1 = 0.9$, $\beta_2 = 0.98$, and $\epsilon = 10^{-9}$. They additionally used the transformer learning rate scheduling strategy with 3200 warm-up steps.</p>
+
+<p>All models were trained for 100 epochs with a batch size of 128 on a machine equipped with four NVIDIA RTX 2080 GPUs. The Point Robot model required approximately 21 hours of training, while the Dubins Car model required roughly 12 hours.</p>
+
+<hr>
+
+<h3 id="32-data-generation">3.2. Data Generation<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#32-data-generation')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+
+<p>The authors generated training data separately for the Point Robot and Dubins Car environments across two workspace categories: Random Forest and Maze environments.</p>
+
+<p>The Random Forest environment consisted of randomly placed circular and square obstacles, producing cluttered scenes with narrow passages. In contrast, the Maze environment was generated using randomized depth-first search, resulting in long-horizon planning problems where geometrically close start and goal states could still require highly circuitous trajectories.</p>
+
+<p>For the Point Robot experiments, they generated 1750 maps for each environment category. On every map, 25 trajectories were collected using RRT*, with each planning query limited to a maximum runtime of 90 seconds.</p>
+
+<p>For the Dubins Car experiments, they generated 900 maps from the Random Forest environment only. Similar to the Point Robot setup, they collected 25 trajectories per map using RRT*, but replaced the standard node connector with Dubins curves to satisfy non-holonomic motion constraints.</p>
+
+<p>All occupancy maps used during training had a resolution of $(480 \times 480)$.</p>
+
+<hr>
+
+<h3 id="33-negative-sampling">3.3. Negative Sampling<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#33-negative-sampling')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+
+<p>The training procedure relied on anchor point classification around expert trajectories. Anchor points located within 0.7 meters of a trajectory were treated as positive samples, while all remaining points were treated as negative samples.</p>
+
+<p>To balance the training distribution, the authors randomly sampled negative anchor points using a 1:1 ratio between positive and negative samples. For the Dubins Car setting, each positive anchor point additionally stored an orientation label computed from the average trajectory orientation within the local neighborhood around the anchor point.</p>
+
+<p>This formulation allowed the network to jointly learn trajectory occupancy likelihood and local motion direction from expert-generated paths.</p>
+
+<hr>
+
+<h2 id="4-experiments--results">4. Experiments &amp; Results<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#4-experiments--results')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
+
+<h3 id="41-point-mass-robot">4.1. Point-mass Robot<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#41-point-mass-robot')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+
+<p>The authors evaluated MPT-aided planners against both traditional sampling-based planners and prior learning-based approaches on the Point Robot task. Their comparisons included RRT<em>, Informed-RRT</em> (IRRT<em>), BIT</em>, MPNet, NEXT-KS, and UNet-assisted planning variants.</p>
+
+<p>The evaluation was conducted on 2500 random start-goal pairs sampled from the Random Forest and Maze environments. They reported three primary metrics: planning accuracy, planning time, and the number of sampled vertices used to construct the planning tree.</p>
+
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRnIAAABXRUJQVlA4IGYAAADwBACdASpAABQAPt1ipk2rpaMiLAsxcBuJZQDM0Ba3cN94KYTmYZ9UWrxC5oIBzgAA/t7nZa9yC76Cgo2Ka+23wuQuQYRQUiwWAxuDcpR1MVF2AzT/ZmvddEIE8+75zwDx7eEIgAA='); aspect-ratio: 834 / 264; width: min(834px, 95%, calc(85vh * 3.159091)); "><img src="/assets/images/2026/q2-2026/motion-planning/mpt-qualitative.webp" alt="qualitative planning example" loading="lazy" decoding="async" width="834" height="264" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+
+<p><strong>Fig. 4.</strong> Planned path for the Maze environment. Left: Ground truth path for a given start (green) and goal (red) point from the validation data. Center: The prediction probability from the MPT. Right: Masked map and planned trajectory for the given start (green) and goal (red) point using MPT-RRT*. <a href="https://arxiv.org/pdf/2106.02791" target="_blank">Johnson et al,. 2022</a>.</p>
+
+<div class="table-wrapper"><table>
+  <thead>
+    <tr>
+      <th>Algorithm</th>
+      <th>Accuracy</th>
+      <th>Time (sec)</th>
+      <th>Vertices</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>rrt*</td>
+      <td>100%</td>
+      <td>5.448</td>
+      <td>3228</td>
+    </tr>
+    <tr>
+      <td>irrt*</td>
+      <td>100%</td>
+      <td>0.425</td>
+      <td>267</td>
+    </tr>
+    <tr>
+      <td>bit*</td>
+      <td>100%</td>
+      <td>0.477</td>
+      <td>819</td>
+    </tr>
+    <tr>
+      <td>unet-rrt*</td>
+      <td>30.27%</td>
+      <td>0.167</td>
+      <td>168</td>
+    </tr>
+    <tr>
+      <td>unet-rrt*-ee</td>
+      <td>100%</td>
+      <td>2.58</td>
+      <td>1913</td>
+    </tr>
+    <tr>
+      <td>mpnet</td>
+      <td>92.35%</td>
+      <td>0.296</td>
+      <td>63</td>
+    </tr>
+    <tr>
+      <td><strong>mpt-rrt* (theirs)</strong></td>
+      <td>99.40%</td>
+      <td>0.194</td>
+      <td>233</td>
+    </tr>
+    <tr>
+      <td><strong>mpt-irrt* (theirs)</strong></td>
+      <td>99.40%</td>
+      <td>0.087</td>
+      <td>136</td>
+    </tr>
+    <tr>
+      <td><strong>mpt-rrt*-ee (theirs)</strong></td>
+      <td>100%</td>
+      <td>0.211</td>
+      <td>247</td>
+    </tr>
+  </tbody>
+</table></div>
+
+<p><strong>Table I:</strong> Random forest environments, comparing planning accuracy, median time, and vertices on unseen environments. <a href="https://arxiv.org/pdf/2106.02791" target="_blank">Johnson et al,. 2022</a>.</p>
+
+<div class="table-wrapper"><table>
+  <thead>
+    <tr>
+      <th>Algorithm</th>
+      <th>Accuracy</th>
+      <th>Time (sec)</th>
+      <th>Vertices</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>rrt*</td>
+      <td>100%</td>
+      <td>5.364</td>
+      <td>2042</td>
+    </tr>
+    <tr>
+      <td>irrt*</td>
+      <td>100%</td>
+      <td>3.139</td>
+      <td>1394</td>
+    </tr>
+    <tr>
+      <td>bit*</td>
+      <td>100%</td>
+      <td>2.870</td>
+      <td>2002</td>
+    </tr>
+    <tr>
+      <td>unet-rrt*</td>
+      <td>21.4%</td>
+      <td>0.346</td>
+      <td>277</td>
+    </tr>
+    <tr>
+      <td>unet-rrt*-ee</td>
+      <td>100%</td>
+      <td>4.133</td>
+      <td>2139</td>
+    </tr>
+    <tr>
+      <td>mpnet</td>
+      <td>71.76%</td>
+      <td>1.727</td>
+      <td>1409</td>
+    </tr>
+    <tr>
+      <td>next-ks</td>
+      <td>28.27%</td>
+      <td>3.021</td>
+      <td>387</td>
+    </tr>
+    <tr>
+      <td><strong>mpt-rrt* (theirs)</strong></td>
+      <td>99.16%</td>
+      <td>0.870</td>
+      <td>626</td>
+    </tr>
+    <tr>
+      <td><strong>mpt-irrt* (theirs)</strong></td>
+      <td>99.16%</td>
+      <td>0.784</td>
+      <td>566</td>
+    </tr>
+    <tr>
+      <td><strong>mpt-rrt*-ee (theirs)</strong></td>
+      <td>100%</td>
+      <td>0.869</td>
+      <td>585</td>
+    </tr>
+  </tbody>
+</table></div>
+
+<p><strong>Table II:</strong> Maze environments, comparing planning accuracy, median time, and vertices on unseen environments. <a href="https://arxiv.org/pdf/2106.02791" target="_blank">Johnson et al,. 2022</a>.</p>
+
+<p>Across both environments, the MPT-aided planners consistently reduced planning time and planning tree size relative to traditional planners. The improvement was particularly noticeable in the Maze environment, where long-horizon planning made geometric heuristics less effective. While IRRT* and BIT* achieved competitive performance in the Random Forest setting, their efficiency degraded in maze-like environments where the feasible path deviated substantially from the straight-line connection between start and goal states.</p>
+
+<p>The authors further analyzed the distribution of planning time and sampled vertices using letter-value plots.</p>
+
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRjwAAABXRUJQVlA4IDAAAADwAgCdASpAAA4APt1orFCopiQiqAgBEBuJaQAAPcmwAAD+8NCcaw/zdwFcYafAAAA='); aspect-ratio: 1603 / 341; width: min(1603px, 95%, calc(85vh * 4.70088)); "><img src="/assets/images/2026/q2-2026/motion-planning/mpt-timestat.webp" alt="statistics distribution plot" loading="lazy" decoding="async" width="1603" height="341" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+
+<p><strong>Fig. 5.</strong> Planning statistics for the Point Robot Model. Left: The planning time for traditional and learning-based planners. Right: Number of vertices in the planning tree for traditional and learning-based planners. MPT aided planners consistently reduce the planning time and the vertices in the planning tree, resulting in a lower variance of these statistics for these planners. <a href="https://arxiv.org/pdf/2106.02791" target="_blank">Johnson et al,. 2022</a>.</p>
+
+<p>They observed that vanilla RRT* produced heavier-tailed planning distributions, especially for distant start-goal pairs that required denser exploration. In contrast, MPT-aided planners restricted exploration to regions highlighted by the transformer model, resulting in lower variance and fewer sampled states.</p>
+
+<p>The paper also compared MPT against learning-based baselines such as UNet-assisted planning and MPNet. The UNet-based methods performed poorly, particularly in maze environments, which the authors attributed to the limited global reasoning capability of convolutional architectures. MPNet generalized better than UNet-based approaches, but still underperformed relative to MPT. The authors suggest that this gap may partially stem from differences in training scale, noting that MPNet was originally trained with substantially larger trajectory datasets.</p>
+
+<p>To address occasional segmentation failures, they introduced an exploration-exploitation variant referred to as MPT-RRT*-EE. This hybrid strategy allowed the planner to occasionally sample outside the predicted region, recovering failed cases without significantly increasing planning cost. Using this approach, they achieved near-perfect planning accuracy while preserving low planning time and vertex counts.</p>
+
+<p>The authors additionally evaluated generalization to unseen map sizes without retraining or fine-tuning.</p>
+
+<div class="table-wrapper"><table>
+  <thead>
+    <tr>
+      <th>Map Size (# Obstacles)</th>
+      <th>Metric</th>
+      <th>RRT*</th>
+      <th>IRRT*</th>
+      <th>BIT*</th>
+      <th>MPT-RRT*</th>
+      <th>MPT-IRRT*</th>
+      <th>MPT-RRT* (F.E.)</th>
+      <th>MPT-IRRT* (F.E.)</th>
+      <th>MPT-RRT*-EE</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>360×240</strong></td>
+      <td>Accuracy</td>
+      <td>100%</td>
+      <td>100%</td>
+      <td>100%</td>
+      <td>97.4%</td>
+      <td>97.4%</td>
+      <td>99.20%</td>
+      <td>99.20%</td>
+      <td>100%</td>
+    </tr>
+    <tr>
+      <td><strong>(35)</strong></td>
+      <td>Time (sec)</td>
+      <td>5.926</td>
+      <td>0.286</td>
+      <td>0.625</td>
+      <td>0.265</td>
+      <td>0.062</td>
+      <td>0.248</td>
+      <td>0.054</td>
+      <td>0.297</td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td>Vertices</td>
+      <td>3660</td>
+      <td>257</td>
+      <td>1069</td>
+      <td>377</td>
+      <td>118</td>
+      <td>354</td>
+      <td>106</td>
+      <td>382</td>
+    </tr>
+    <tr>
+      <td><strong>480×240</strong></td>
+      <td>Accuracy</td>
+      <td>100%</td>
+      <td>100%</td>
+      <td>100%</td>
+      <td>96.3%</td>
+      <td>96.3%</td>
+      <td>98.5%</td>
+      <td>98.5%</td>
+      <td>100%</td>
+    </tr>
+    <tr>
+      <td><strong>(50)</strong></td>
+      <td>Time (sec)</td>
+      <td>6.308</td>
+      <td>0.394</td>
+      <td>0.590</td>
+      <td>0.268</td>
+      <td>0.072</td>
+      <td>0.265</td>
+      <td>0.073</td>
+      <td>0.302</td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td>Vertices</td>
+      <td>3480</td>
+      <td>291</td>
+      <td>1061</td>
+      <td>348</td>
+      <td>130</td>
+      <td>319</td>
+      <td>131</td>
+      <td>362</td>
+    </tr>
+    <tr>
+      <td><strong>560×560</strong></td>
+      <td>Accuracy</td>
+      <td>100%</td>
+      <td>100%</td>
+      <td>100%</td>
+      <td>75.6%</td>
+      <td>75.6%</td>
+      <td>99.7%</td>
+      <td>99.7%</td>
+      <td>100%</td>
+    </tr>
+    <tr>
+      <td><strong>(100)</strong></td>
+      <td>Time (sec)</td>
+      <td>6.725</td>
+      <td>0.283</td>
+      <td>0.397</td>
+      <td>0.253</td>
+      <td>0.082</td>
+      <td>0.181</td>
+      <td>0.083</td>
+      <td>0.217</td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td>Vertices</td>
+      <td>3854</td>
+      <td>203</td>
+      <td>810</td>
+      <td>262</td>
+      <td>101</td>
+      <td>218</td>
+      <td>112</td>
+      <td>237</td>
+    </tr>
+    <tr>
+      <td><strong>780×780</strong></td>
+      <td>Accuracy</td>
+      <td>100%</td>
+      <td>100%</td>
+      <td>100%</td>
+      <td>37.9%</td>
+      <td>37.9%</td>
+      <td>99.5%</td>
+      <td>99.5%</td>
+      <td>100%</td>
+    </tr>
+    <tr>
+      <td><strong>(200)</strong></td>
+      <td>Time (sec)</td>
+      <td>8.095</td>
+      <td>0.476</td>
+      <td>0.542</td>
+      <td>0.274</td>
+      <td>0.095</td>
+      <td>0.297</td>
+      <td>0.152</td>
+      <td>0.285</td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td>Vertices</td>
+      <td>4292</td>
+      <td>255</td>
+      <td>974</td>
+      <td>284</td>
+      <td>142</td>
+      <td>241</td>
+      <td>161</td>
+      <td>238</td>
+    </tr>
+  </tbody>
+</table></div>
+
+<p><strong>Table III:</strong> Planning Performance Across Different Map Sizes, comparing planning accuracy, median time, and vertices for point robot on maps of different sizes. <a href="https://arxiv.org/pdf/2106.02791" target="_blank">Johnson et al,. 2022</a>.</p>
+
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRo4AAABXRUJQVlA4IIIAAAAQBwCdASpAADMAPslSn0yvtaKiO/bYArAZCWkAAD2sJsIJS+pTyFNBD5ByqRovKQPSKCDaBrnZ6NpcmlMYLHjl4AD+84LMfXt+uuv1EcYBO47ge/PyabKB8Z69gN2m61+K6q8cEl+P920MFcgjG/CpSOYQrX0lvH3z5fjpNDIAAAAA'); aspect-ratio: 861 / 689; width: min(861px, 95%, calc(85vh * 1.249637)); "><img src="/assets/images/2026/q2-2026/motion-planning/mpt-multisize.webp" alt="multi-scale planning figure" loading="lazy" decoding="async" width="861" height="689" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+
+<p><strong>Fig. 6.</strong> Plot of paths for Random Forest environments of different size. The architecture of the MPT Model allows flexibility in planning for environments of different sizes. <a href="https://arxiv.org/pdf/2106.02791" target="_blank">Johnson et al,. 2022</a>.</p>
+
+<p>They tested the same trained model on multiple map resolutions while maintaining obstacle density. Their results showed that MPT-aided planners retained low planning time and low vertex counts even as the search space increased. They also reported that randomized positional encoding substantially improved scalability compared to fixed positional encoding, particularly on larger maps.</p>
+
+<hr>
+
+<h3 id="42-dubins-car">4.2. Dubins Car<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#42-dubins-car')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+
+<p>The authors further evaluated MPT on a non-holonomic Dubins Car model with state space $SE(2)$. In this setting, they compared MPT-assisted planning against RRT* and SST planners.</p>
+
+<p>For geometric planning, Dubins curves were used as edge connectors, while SST generated trajectories through forward propagation of steering and velocity controls.</p>
+
+<div class="table-wrapper"><table>
+  <thead>
+    <tr>
+      <th>Planner</th>
+      <th>Accuracy</th>
+      <th>Time (sec)</th>
+      <th>Vertices</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Rrt*</td>
+      <td>100%</td>
+      <td>0.357</td>
+      <td>95</td>
+    </tr>
+    <tr>
+      <td>Sst</td>
+      <td>100%</td>
+      <td>4.880</td>
+      <td>710</td>
+    </tr>
+    <tr>
+      <td>
+<strong>Mpt-Rrt</strong>*</td>
+      <td>95.15%</td>
+      <td>0.176</td>
+      <td>59</td>
+    </tr>
+    <tr>
+      <td><strong>Mpt-Rrt*-Ee</strong></td>
+      <td>100%</td>
+      <td>0.197</td>
+      <td>60</td>
+    </tr>
+  </tbody>
+</table></div>
+
+<p><strong>Table IV:</strong> Dubins Car Model Results, comparing planning accuracy, median time, and vertices for Dubins Car model for the Random Forest environment. <a href="https://arxiv.org/pdf/2106.02791" target="_blank">Johnson et al,. 2022</a>.</p>
+
+<p>The reported metrics remained the same as the Point Robot experiments: planning accuracy, planning time, and number of sampled vertices.</p>
+
+<p>Their results showed that MPT-aided planners reduced both planning time and sampled states relative to standard RRT*. The hybrid exploration-exploitation variant again achieved full planning accuracy while maintaining nearly identical computational cost.</p>
+
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRm4AAABXRUJQVlA4IGIAAABQBQCdASpAAB8APs1Soky1LKMiO/SYAqAZiWcAADuepz/B/9XBdorMFFiPmPdjnb7XFmAA/uz9ku4mWk75enjKlK1vdBtpnqKzjoWBvxlUrC6NYs98LTboQwp0nlsw90IAAA=='); aspect-ratio: 905 / 433; width: min(905px, 95%, calc(85vh * 2.090069)); "><img src="/assets/images/2026/q2-2026/motion-planning/mpt-multiscale-dubins.webp" alt="planning figure dubins" loading="lazy" decoding="async" width="905" height="433" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+
+<p><strong>Fig. 7.</strong> MPT can also be trained to aid SMP planners for non-holonomic robots. Left and Right: Planned paths on Random Forest environment using MPT-RRT*. MPT identifies regions in $SE(2)$ through which a non-holonomic path exists. <a href="https://arxiv.org/pdf/2106.02791" target="_blank">Johnson et al,. 2022</a>.</p>
+
+<p>The qualitative examples demonstrate that the transformer model was capable of predicting feasible regions within $SE(2)$, allowing the planner to focus sampling around kinematically valid corridors. By restricting exploration to these regions, the planner generated feasible trajectories using substantially fewer samples than the unaided planner.</p>
+
+<p>The authors also observed that SST required significantly more samples and execution time, particularly in narrow sections of the environment where kinodynamic constraints complicated exploration.</p>
+
+<hr>
+
+<h2 id="5-final-thoughts">5. Final Thoughts<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#5-final-thoughts')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
+
+<h3 id="51-mpnet-vs-mpt">5.1. MPNet vs. MPT<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#51-mpnet-vs-mpt')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+
+<p>Looking back at both MPNet (2019) and MPT (2022), it is interesting to see the paradigm shift in just three years.</p>
+
+<p>MPNet tried to tackle the problem head-on by autoregressively predicting the exact next state. While quite fast during inference, it struggled with generalization across diverse workspaces and required massive datasets for specific kinematics.</p>
+
+<p>MPT took a different route: instead of forcing the network to explicitly draw the path, it used a Transformer to act as an “attention guide” for classical algorithms (like RRT*). This hybrid approach neatly bypasses the strict safety and feasibility guarantees that pure neural networks notoriously fail at.</p>
+
+<p>However, MPT is not without its operational costs. While the authors state the inference is theoretically constant time, they do not explicitly disclose the parameter counts. Transformers are computationally heavy, and the self-attention mechanism scales quadratically with sequence length.</p>
+
+<p>If one were to extend MPT to a 7-DOF robot like Baxter, discretizing a 7D space into just 10 segments per dimension results in 10 million grid cells. Suddenly, the region proposal becomes computationally intractable. MPNet at least avoided this specific grid bottleneck by taking raw point cloud vectors as input.</p>
+
+<hr>
+
+<h3 id="52-peeking-into-2026-mobile-manipulators--foundation-models">5.2. Peeking into 2026: Mobile Manipulators &amp; Foundation Models<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#52-peeking-into-2026-mobile-manipulators--foundation-models')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+
+<p>As you can see right now im busy with these foundational papers, I am just starting to map out the state-of-the-art in 2026. From recent literature, the landscape seems to have shifted heavily toward <strong>mobile manipulation</strong>, meaning robots are no longer just bolted to a pedestal (like Baxter) but are mounted on a moving chassis, or possess full humanoid mobility in $SE(3)$ space.</p>
+
+<p>Motion planning for these systems introduces a complex challenge: the coupling of base and arm dynamics. You are planning for an omnidirectional base and the 7-DOF arm(s) simultaneously.</p>
+
+<p>While older systems relied on a “Stop-and-Grasp” strategy, current research is pushing for “Grasping-on-the-Move,” where the base is in continuous motion while the arm executes the task.</p>
+
+<p>To handle this complexity, the field appears to be moving beyond training isolated spatial networks. The new baseline involves Vision-Language-Action (VLA) foundation models, such as recent <a href="https://x.com/GoogleDeepMind/status/1899839624068907335" target="_blank">Gemini Robotics integrations</a>. These models inherit semantic understanding from internet-scale pretraining. This allows them to process natural language inputs alongside RGB-D data, outputting discretized end-effector actions while handling emergent reasoning.</p>
+
+<p>Despite the push toward these massive models, the industry standard for physical control strongly validates MPT’s core philosophy: the hybrid stack. End-to-end neural networks are rarely trusted blindly with physical hardware in shared human workspaces. Today’s systems use the VLA model for high-level semantic reasoning and heuristic spatial intuition, while classical constrained-sampling algorithms act as the definitive, low-level safety net to execute the precise kinematic movements. In this regards, MPNet and MPT can be considered foundational, but not SOTA anymore.</p>
+
+                        
+                        
+                    </article>
+                </div>
+                <div class="end-horizontal-divider-line"></div>
+                
+
+                <script>
+                    (function () {
+                        const isLight = document.documentElement.classList.contains('light-mode');
+                        const lang = document.documentElement.lang || 'en';
+                        const s = document.createElement('script');
+                        s.src = 'https://giscus.app/client.js';
+                        s.setAttribute('data-repo', 'yuk068/yuk-blog-comments');
+                        s.setAttribute('data-repo-id', 'R_kgDONs1FhQ');
+                        s.setAttribute('data-category', 'Announcements');
+                        s.setAttribute('data-category-id', 'DIC_kwDONs1Fhc4CmLRI');
+                        s.setAttribute('data-mapping', 'title');
+                        s.setAttribute('data-strict', '0');
+                        s.setAttribute('data-reactions-enabled', '1');
+                        s.setAttribute('data-emit-metadata', '0');
+                        s.setAttribute('data-input-position', 'bottom');
+                        s.setAttribute('data-theme', isLight ? 'light_protanopia' : 'dark_protanopia');
+                        s.setAttribute('data-lang', lang === 'vi' ? 'vi' : 'en');
+                        s.setAttribute('crossorigin', 'anonymous');
+                        s.async = true;
+                        document.currentScript.parentElement.appendChild(s);
+                    })();
+                </script>
+
+                
+                <div class="final-horizontal-divider-line"></div>
+            </div>
+        </main>
+
+
+
+<script defer src="https://cloud.umami.is/script.js" data-website-id="03e93cbc-84e5-4ec8-a74a-38012b764bba"></script>
+
+        <div class="footer-container">
+    <div class="relative-footer">
+        <footer>
+            <div class="footer-info">
+                <a href="https://www.youtube.com/@yuk.yukano" target="_blank">
+                    <i class="fab fa-youtube"></i>
+                    <div class="footer-info-label">
+                        <p>@yuk.yukano</p>
+                    </div>
+                </a>
+                <a href="https://github.com/duy-phamduc68" target="_blank">
+                    <i class="fab fa-github"></i>
+                    <div class="footer-info-label">
+                        <p>duy-phamduc68</p>
+                    </div>
+                </a>
+                <a href="https://x.com/Yukano_50" target="_blank">
+                    <i class="fab fa-twitter"></i>
+                    <div class="footer-info-label">
+                        <p>@Yukano_50</p>
+                    </div>
+                </a>
+                <a href="https://www.instagram.com/yuk.yukano" target="_blank">
+                    <i class="fab fa-instagram"></i>
+                    <div class="footer-info-label">
+                        <p>@yuk.yukano</p>
+                    </div>
+                </a>
+                <a href="https://www.facebook.com/yuk.pham.2025" target="_blank">
+                    <i class="fab fa-facebook"></i>
+                    <div class="footer-info-label">
+                        <p>Duy Pham Duc</p>
+                    </div>
+                </a>
+            </div>
+            <div class="copyright-text">
+                <p>© 2026 Yuk</p>
+            </div>
+        </footer>
+    </div>
+</div>
+    </div>
+    <div id="svg-repo" style="display: none;">
+        <div id="svg-up-arrow"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff">
+                    <defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs>
+                    <line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line>
+                    <polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline>
+                    <line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line>
+                    <polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline>
+                    <line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line>
+                </svg></div>
+        <div id="svg-down-arrow"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff">
+                    <defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs>
+                    <line class="cls-1" x1="6.25" y1="17.73" x2="6.25" y2="0.48"></line>
+                    <polyline class="cls-1" points="1.46 12.94 6.25 17.73 11.04 12.94"></polyline>
+                    <line class="cls-1" x1="17.75" y1="17.73" x2="17.75" y2="0.48"></line>
+                    <polyline class="cls-1" points="12.96 12.94 17.75 17.73 22.54 12.94"></polyline>
+                    <line class="cls-1" x1="0.5" y1="22.52" x2="23.5" y2="22.52"></line>
+                </svg></div>
+        <div id="svg-check"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c627-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><circle class="cls-6374f8d9b67f094e4896c627-1" cx="12" cy="12" r="10.5"></circle><polyline class="cls-6374f8d9b67f094e4896c627-1" points="6.27 12 10.09 15.82 17.73 8.18"></polyline></svg></div>
+        <div id="svg-document"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></div>
+        <div id="svg-reset"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14"><defs><style>.cls-63ce7424ea57ea6c838005b4-1,.cls-63ce7424ea57ea6c838005b4-2,.cls-3{fill:none;stroke:currentColor;}.cls-63ce7424ea57ea6c838005b4-1{stroke-miterlimit:10;}.cls-63ce7424ea57ea6c838005b4-2,.cls-3{stroke-linecap:round;stroke-linejoin:round;}.cls-3{stroke-dasharray:0 4.13;}</style></defs><path class="cls-63ce7424ea57ea6c838005b4-1" d="M12,1.5A10.52,10.52,0,1,1,3.39,18.07"></path><line class="cls-63ce7424ea57ea6c838005b4-2" x1="1.48" y1="12.02" x2="1.48" y2="12.02"></line><path class="cls-3" d="M2.28,8A10.51,10.51,0,0,1,10,1.7"></path><line class="cls-63ce7424ea57ea6c838005b4-2" x1="12" y1="1.5" x2="12" y2="1.5"></line><polyline class="cls-63ce7424ea57ea6c838005b4-1" points="3.39 23.5 3.39 17.76 9.13 17.76"></polyline></svg></div>
+        <div id="svg-fullscreen"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14"><defs><style>.cls-637b8a2bf95e86b59c57a23a-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-637b8a2bf95e86b59c57a23a-1" d="M18.84,12A7.52,7.52,0,0,1,12,15.91,7.52,7.52,0,0,1,5.16,12,7.52,7.52,0,0,1,12,8.09,7.52,7.52,0,0,1,18.84,12Z"></path><circle class="cls-637b8a2bf95e86b59c57a23a-1" cx="12" cy="12" r="0.98"></circle><polyline class="cls-637b8a2bf95e86b59c57a23a-1" points="1.25 7.12 1.25 1.25 7.12 1.25"></polyline><polyline class="cls-637b8a2bf95e86b59c57a23a-1" points="22.75 16.89 22.75 22.75 16.89 22.75"></polyline><polyline class="cls-637b8a2bf95e86b59c57a23a-1" points="7.12 22.75 1.25 22.75 1.25 16.89"></polyline><polyline class="cls-637b8a2bf95e86b59c57a23a-1" points="16.89 1.25 22.75 1.25 22.75 7.12"></polyline><line class="cls-637b8a2bf95e86b59c57a23a-1" x1="1.25" y1="1.25" x2="7.11" y2="7.11"></line><line class="cls-637b8a2bf95e86b59c57a23a-1" x1="1.25" y1="22.75" x2="7.11" y2="16.89"></line><line class="cls-637b8a2bf95e86b59c57a23a-1" x1="16.89" y1="7.11" x2="21.77" y2="2.23"></line><line class="cls-637b8a2bf95e86b59c57a23a-1" x1="22.75" y1="22.75" x2="16.89" y2="16.89"></line></svg></div>
+            <div id="svg-lock">
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14"><defs><style>.cls-6374f8d9b67f094e4896c64a-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><rect class="cls-6374f8d9b67f094e4896c64a-1" x="5.32" y="10.09" width="13.36" height="12.41"></rect><path class="cls-6374f8d9b67f094e4896c64a-1" d="M12,1.5h0a4.77,4.77,0,0,1,4.77,4.77v3.82a0,0,0,0,1,0,0H7.23a0,0,0,0,1,0,0V6.27A4.77,4.77,0,0,1,12,1.5Z"></path><circle class="cls-6374f8d9b67f094e4896c64a-1" cx="12" cy="14.86" r="0.95"></circle><line class="cls-6374f8d9b67f094e4896c64a-1" x1="12" y1="19.64" x2="12" y2="15.82"></line></svg>
+</div>
+            <div id="svg-unlock"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14"><defs><style>.cls-6374f8d9b67f094e4896c66e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><rect class="cls-6374f8d9b67f094e4896c66e-1" x="5.32" y="10.09" width="13.36" height="12.41"></rect><path class="cls-6374f8d9b67f094e4896c66e-1" d="M16.77,10.09H7.23V6.27A4.77,4.77,0,0,1,12,1.5h0a4.77,4.77,0,0,1,4.77,4.77"></path><circle class="cls-6374f8d9b67f094e4896c66e-1" cx="12" cy="14.86" r="0.95"></circle><line class="cls-6374f8d9b67f094e4896c66e-1" x1="12" y1="19.64" x2="12" y2="15.82"></line></svg></div>
+        <div id="svg-back"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14"><defs><style>.cls-6374f543b67f094e4896c5c8-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><circle class="cls-6374f543b67f094e4896c5c8-1" cx="12" cy="12" r="10.5"></circle><path class="cls-6374f543b67f094e4896c5c8-1" d="M7.23,7.23h7.63a3.82,3.82,0,0,1,3.82,3.82h0a3.82,3.82,0,0,1-3.82,3.81H7.23"></path><polyline class="cls-6374f543b67f094e4896c5c8-1" points="11.04 18.68 7.23 14.86 11.04 11.04"></polyline></svg></div>
+    </div>
+    <div id="notify-overlay" style="display: none;">
+    <div id="notify-container">
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="40" height="40" fill="none" stroke="var(--neon-aqua-accent, #6bd9fa)" stroke-miterlimit="10"><circle cx="12" cy="12" r="10.5"></circle><polyline points="12 6.5 12 12 16 14.5"></polyline></svg>
+        </div>
+        <p class="notify-title">Coming Soon!</p>
+        <div id="notify-divider"></div>
+        <span class="notify-desc">This is not available yet...</span>
+        <span class="notify-desc">Check back later!</span>
+        <button id="notify-close-btn" onclick="dismissNotify()">
+            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="16" height="16" fill="none" stroke="currentColor" stroke-miterlimit="10"><circle cx="12" cy="12" r="10.5"></circle><line x1="8.18" y1="8.18" x2="15.82" y2="15.82"></line><line x1="15.82" y1="8.18" x2="8.18" y2="15.82"></line></svg> Dismiss
+        </button>
+    </div>
+</div>
+    <script src="/assets/js/pages-js/post-script.js"></script>
+    <script src="/assets/js/bg-script.js"></script>
+    <script>
+        (function() {
+            'use strict';
+            window.addEventListener('load', () => {
+                const target = document.querySelector('div.post-content');
+                if (target) {
+                    target.style.outline = 'none';
+                    target.setAttribute('tabindex', '-1');
+                    target.focus();
+                }
+            });
+        })();
+    </script>
+    <div class="scroll-button-container">
+        <button id="scrollButton" onclick="scrollToTop()">
+            <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="50" height="50" color="#fff">
+    <defs>
+        <style>
+            .cls-scroll-top-1 {
+                fill: none;
+                stroke: currentColor;
+                stroke-miterlimit: 10;
+            }
+        </style>
+    </defs>
+    <circle class="cls-scroll-top-1" cx="12" cy="12" r="10.5"></circle>
+    <line class="cls-scroll-top-1" x1="12" y1="10.09" x2="12" y2="18.68"></line>
+    <polyline class="cls-scroll-top-1" points="7.23 10.09 12 5.32 16.77 10.09"></polyline>
+    <polyline class="cls-scroll-top-1" points="7.23 14.86 12 10.09 16.77 14.86"></polyline>
+</svg>
+        </button>
+    </div>
+</body>
+
+</html>
