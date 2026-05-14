@@ -131,8 +131,9 @@ function onScroll() {
     const headerTitle = document.querySelector('#archive-header-title');
     const navContainer = document.querySelector('.archive-nav-container');
     const isNarrowScreen = window.innerWidth <= 1400;
+    const scrolled = document.body.scrollTop;
 
-    if (document.body.scrollTop > 10 || document.documentElement.scrollTop > 10) {
+    if (scrolled > 10) {
         if (isNarrowScreen) {
             header.classList.add('transformed-tight');
             header.classList.remove('transformed');
@@ -149,7 +150,7 @@ function onScroll() {
     }
 
     const scrollButton = document.getElementById('scrollButton');
-    if (document.body.scrollTop > 500 || document.documentElement.scrollTop > 500) {
+    if (scrolled > 500) {
         scrollButton.classList.add('slide-in');
     } else {
         scrollButton.classList.remove('slide-in');
@@ -162,7 +163,7 @@ function onResize() {
 }
 
 // Add event listeners for scroll and resize
-window.addEventListener('scroll', onScroll, { passive: true });
+document.body.addEventListener('scroll', onScroll, { passive: true });
 window.addEventListener('resize', onResize);
 
 function scrollToTop() {
