@@ -127,27 +127,44 @@ body.light-mode {
 
 html,
 body {
+    min-height: 100%;
     margin: 0;
     padding: 0;
     font-family: 'Nunito', sans-serif;
     color: var(--neon-aqua-accent);
-    overflow-x: hidden;
     background-color: var(--bg-secondary-color);
     background-size: cover;
     scroll-behavior: smooth;
 }
 
 html {
-    height: 100%;
+    overflow-x: hidden;
 }
 
 body {
-    height: 100dvh;
-    min-height: 100dvh;
-    overflow-x: hidden;
-    overflow-y: auto;
+    overflow-x: visible;
     position: relative;
-    -webkit-overflow-scrolling: touch;
+}
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+@media (max-width: 768px) {
+    html, body {
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .main-container {
+        height: 100%;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
 }
 
 #starfield {
@@ -204,14 +221,6 @@ main {
 a {
     color: var(--link-color);
     text-decoration: none;
-}
-
-.main-container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    position: relative;
-    z-index: 1;
 }
 
 .archive-header-container header {

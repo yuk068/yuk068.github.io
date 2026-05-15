@@ -126,12 +126,18 @@ function notifyComingSoon() {
     overlay.addEventListener('click', overlayClick);
 }
 
+function getScroller() {
+    return window.innerWidth <= 768
+        ? document.querySelector('.main-container')
+        : document.documentElement;
+}
+
 function onScroll() {
     const header = document.querySelector('#archive-header');
     const headerTitle = document.querySelector('#archive-header-title');
     const navContainer = document.querySelector('.archive-nav-container');
     const isNarrowScreen = window.innerWidth <= 1400;
-    const scrolled = document.body.scrollTop;
+    const scrolled = getScroller()?.scrollTop ?? 0;
 
     if (!header || !headerTitle || !navContainer) {
         return;
@@ -169,12 +175,15 @@ function onResize() {
 }
 
 // Add event listeners for scroll and resize
-document.body.addEventListener('scroll', onScroll, { passive: true });
+window.addEventListener('scroll', onScroll, { passive: true });
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelector('.main-container')?.addEventListener('scroll', onScroll, { passive: true });
+});
 window.addEventListener('resize', onResize);
 
 function scrollToTop() {
-    document.body.scrollTop = 0;
-    document.documentElement.scrollTop = 0;
+    const scroller = getScroller();
+    if (scroller) scroller.scrollTop = 0;
 }
 
 function goBack() {
@@ -198,8 +207,8 @@ function toggleLeftPanel() {
         const container = document.querySelector('.archive-side-panel-left-container');
         if (container) {
             const offsetTop = getOffsetTop(container) - 100;
-            document.body.scrollTop = offsetTop;
-            document.documentElement.scrollTop = offsetTop;
+            const scroller = getScroller();
+            if (scroller) scroller.scrollTop = offsetTop;
         }
     } else {
         sidePanel.classList.toggle('active');
@@ -215,8 +224,8 @@ function toggleRightPanel() {
         const container = document.querySelector('.archive-side-panel-right-container');
         if (container) {
             const offsetTop = getOffsetTop(container) - 100;
-            document.body.scrollTop = offsetTop;
-            document.documentElement.scrollTop = offsetTop;
+            const scroller = getScroller();
+            if (scroller) scroller.scrollTop = offsetTop;
         }
     } else {
         sidePanel.classList.toggle('active');
