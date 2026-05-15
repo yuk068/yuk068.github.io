@@ -133,6 +133,10 @@ function onScroll() {
     const isNarrowScreen = window.innerWidth <= 1400;
     const scrolled = document.body.scrollTop;
 
+    if (!header || !headerTitle || !navContainer) {
+        return;
+    }
+
     if (scrolled > 10) {
         if (isNarrowScreen) {
             header.classList.add('transformed-tight');
@@ -150,10 +154,12 @@ function onScroll() {
     }
 
     const scrollButton = document.getElementById('scrollButton');
-    if (scrolled > 500) {
-        scrollButton.classList.add('slide-in');
-    } else {
-        scrollButton.classList.remove('slide-in');
+    if (scrollButton) {
+        if (scrolled > 500) {
+            scrollButton.classList.add('slide-in');
+        } else {
+            scrollButton.classList.remove('slide-in');
+        }
     }
 }
 
