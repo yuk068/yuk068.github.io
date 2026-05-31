@@ -1,4 +1,501 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://yuk068.github.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://yuk068.github.io//" rel="alternate" type="text/html" /><updated>2026-05-23T18:32:56+07:00</updated><id>https://yuk068.github.io//feed.xml</id><title type="html">Yuk’s Blog</title><subtitle></subtitle><entry><title type="html">7 DOF Robotic Arm</title><link href="https://yuk068.github.io//2026/05/14/first-real-robotics-project" rel="alternate" type="text/html" title="7 DOF Robotic Arm" /><published>2026-05-14T00:00:00+07:00</published><updated>2026-05-14T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/05/14/first-real-robotics-project</id><content type="html" xml:base="https://yuk068.github.io//2026/05/14/first-real-robotics-project"><![CDATA[<h3 id="table-of-content">Table of Content</h3>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://yuk068.github.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://yuk068.github.io//" rel="alternate" type="text/html" /><updated>2026-05-31T10:40:34+07:00</updated><id>https://yuk068.github.io//feed.xml</id><title type="html">Yuk’s Blog</title><subtitle></subtitle><entry><title type="html">Ôn tập cuối kì OS - OS Finals</title><link href="https://yuk068.github.io//2026/05/29/on-tap-os-os-finals" rel="alternate" type="text/html" title="Ôn tập cuối kì OS - OS Finals" /><published>2026-05-29T00:00:00+07:00</published><updated>2026-05-29T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/05/29/on-tap-os-os-finals</id><content type="html" xml:base="https://yuk068.github.io//2026/05/29/on-tap-os-os-finals"><![CDATA[<h3 id="table-of-content">Table of Content</h3>
+
+<blockquote><div class="content">
+  <div id="table-of-contents"></div>
+</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<hr />
+
+<h2 id="tiếng-việt">Tiếng Việt</h2>
+
+<h3 id="câu-1-đồng-bộ-hóa-tiến-trình-process-synchronization-25-điểm">Câu 1: Đồng bộ hóa tiến trình (Process Synchronization) (2.5 điểm)</h3>
+
+<p>Một hang động du lịch có quy định để đảm bảo an toàn: chỉ cho phép tối đa 5 du khách được ở trong hang cùng một lúc. Lối vào và ra khỏi hang chung nhau một khe hẹp chỉ vừa đúng cho 1 người đi qua tại một thời điểm.</p>
+
+<p>Hãy viết pseudo-code sử dụng cấu trúc <code class="language-plaintext highlighter-rouge">Semaphore</code> (các thao tác <code class="language-plaintext highlighter-rouge">up()</code> và <code class="language-plaintext highlighter-rouge">down()</code>) để đồng bộ hóa các tiến trình mô phỏng hành vi của các du khách bao gồm các bước: Lấy vé, qua lối hẹp vào hang, thưởng ngoạn, qua lối hẹp ra khỏi hang, trả vé.</p>
+
+<hr />
+
+<div class="language-c highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div></div><pre class="highlight"><code><span class="n">semaphore</span> <span class="n">slot_hang</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>  <span class="c1">// Cho phép max 5 người</span>
+<span class="n">semaphore</span> <span class="n">khe_hep</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>    <span class="c1">// Chỉ 1 người được qua khe cửa (Mutex)</span>
+
+<span class="kt">void</span> <span class="nf">du_khach</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// VÀO HANG</span>
+    <span class="n">down</span><span class="p">(</span><span class="o">&amp;</span><span class="n">slot_hang</span><span class="p">);</span>     <span class="c1">// Xếp hàng chờ lấy slot vào hang (đủ 5 thì phải đợi)</span>
+    <span class="n">down</span><span class="p">(</span><span class="o">&amp;</span><span class="n">khe_hep</span><span class="p">);</span>       <span class="c1">// Xin quyền chui qua khe hẹp</span>
+    <span class="c1">// (Đi qua khe hẹp)</span>
+    <span class="n">up</span><span class="p">(</span><span class="o">&amp;</span><span class="n">khe_hep</span><span class="p">);</span>         <span class="c1">// Đi xong, nhả khe hẹp cho người khác</span>
+
+    <span class="c1">// (Đang ở trong hang thưởng ngoạn...)</span>
+
+    <span class="c1">// RA KHỎI HANG</span>
+    <span class="n">down</span><span class="p">(</span><span class="o">&amp;</span><span class="n">khe_hep</span><span class="p">);</span>       <span class="c1">// Xin quyền chui qua khe hẹp để ra</span>
+    <span class="c1">// (Đi qua khe hẹp)</span>
+    <span class="n">up</span><span class="p">(</span><span class="o">&amp;</span><span class="n">khe_hep</span><span class="p">);</span>         <span class="c1">// Ra xong, nhả khe hẹp</span>
+    <span class="n">up</span><span class="p">(</span><span class="o">&amp;</span><span class="n">slot_hang</span><span class="p">);</span>       <span class="c1">// Nhả slot trong hang cho khách mới vào</span>
+<span class="p">}</span>
+</code></pre><span class="language-label">C</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<div class="callout callout-tip">
+  <div class="callout-body">
+    <span class="callout-icon" aria-hidden="true">
+      
+          <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24"><defs><style>.cls-637647fac3a86d32eae6f1e3-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f1e3-1" x1="12" y1="9.14" x2="12" y2="15.82"></line><polyline class="cls-637647fac3a86d32eae6f1e3-1" points="15.82 2.46 15.82 2.46 20.59 2.46 20.59 22.5 3.41 22.5 3.41 2.46 8.18 2.46 8.18 2.46"></polyline><path class="cls-637647fac3a86d32eae6f1e3-1" d="M15.82,1.5V3.41a1.92,1.92,0,0,1-1.91,1.91H10.09A1.92,1.92,0,0,1,8.18,3.41V1.5Z"></path><line class="cls-637647fac3a86d32eae6f1e3-1" x1="11.05" y1="17.73" x2="12.95" y2="17.73"></line></svg>
+        
+    </span>
+    
+
+    
+      Mọi bài toán “Giới hạn <code class="language-plaintext highlighter-rouge">N</code> tài nguyên <code class="language-plaintext highlighter-rouge">+1</code> con đường độc quyền” (như thư viện có <code class="language-plaintext highlighter-rouge">N</code> ghế, bãi đỗ xe có <code class="language-plaintext highlighter-rouge">N</code> chỗ…) đều dùng chung format này. Nguyên tắc: Luôn down cái giới hạn (<code class="language-plaintext highlighter-rouge">N</code>) trước, rồi mới down cái độc quyền / khóa Mutex (<code class="language-plaintext highlighter-rouge">1</code>). Làm ngược lại hệ thống sẽ bị Deadlock.
+
+    
+  </div>
+</div>
+
+<hr />
+
+<h3 id="câu-2-quản-lý-bộ-nhớ-ảo-virtual-memory-25-điểm">Câu 2: Quản lý bộ nhớ ảo (Virtual Memory) (2.5 điểm)</h3>
+
+<p>Một máy tính có không gian bộ nhớ ảo là <code class="language-plaintext highlighter-rouge">64KB</code>, không gian bộ nhớ vật lý là <code class="language-plaintext highlighter-rouge">32KB</code>. Kích thước mỗi trang bộ nhớ (<code class="language-plaintext highlighter-rouge">Page Size</code>) là <code class="language-plaintext highlighter-rouge">4KB</code>.</p>
+
+<ul>
+  <li>
+    <p><strong>a.</strong> Tính số bit dùng cho địa chỉ ảo, địa chỉ vật lý, và phần <code class="language-plaintext highlighter-rouge">offset</code>. Tính tổng số trang ảo (<code class="language-plaintext highlighter-rouge">Virtual Pages</code>) và số khung trang (<code class="language-plaintext highlighter-rouge">Frames</code>) của hệ thống.</p>
+  </li>
+  <li>
+    <p><strong>b.</strong> Giả sử bộ nhớ vật lý cung cấp 4 khung trang (từ <code class="language-plaintext highlighter-rouge">Frame 0</code> đến <code class="language-plaintext highlighter-rouge">Frame 3</code>) và đang áp dụng thuật toán thay thế trang <code class="language-plaintext highlighter-rouge">FIFO</code>. Bảng trang ban đầu trống. Hãy theo dõi sự thay đổi của bộ nhớ vật lý qua chuỗi chỉ thị CPU sau đây, chỉ rõ khi nào xảy ra lỗi trang (<code class="language-plaintext highlighter-rouge">Page Fault</code>) và trang ảo nào bị loại:</p>
+  </li>
+</ul>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div></div><pre class="highlight"><code>1. LOAD  R0  0x001
+2. LOAD  R1  0x100
+3. LOAD  R2  0x200
+4. LOAD  R3  0x300
+5. STORE R0  0x205
+6. LOAD  R0  0x400
+</code></pre><span class="language-label">Text</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<hr />
+
+<ul>
+  <li>
+    <p><strong>a. Lời giải Tính toán bit:</strong></p>
+
+    <ul>
+      <li>Không gian ảo 64KB (2^16) =&gt; Địa chỉ ảo dài 16 bit.</li>
+      <li>Không gian vật lý 32KB (2^15) =&gt; Địa chỉ vật lý dài 15 bit.</li>
+      <li>Page size 4KB (2^12) =&gt; Phần Offset dài 12 bit.</li>
+      <li>Tổng số trang ảo (Pages) = Tổng dung lượng / Kích thước trang = 64KB / 4KB = 16 Virtual pages.</li>
+      <li>Số khung trang (Frames) = 32KB / 4KB = 8 Frames.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>b. Lời giải Truy vết (Trace) FIFO:</strong></p>
+
+    <ul>
+      <li>Chú ý: Page size là 4KB (địa chỉ từ 0x000 đến 0xFFF đều cùng nằm trong Trang 0). Tất cả các địa chỉ đề cho (0x001, 0x100, 0x200, 0x300, 0x205, 0x400) đều bé hơn 0xFFF. Vậy tất cả chỉ lệnh này đều gọi tới Virtual Page 0.</li>
+      <li>Kết quả Trace:
+        <ul>
+          <li>Lệnh 1: LOAD 0x001 -&gt; Nạp Trang 0 vào Frame 0 -&gt; Xảy ra lỗi trang (Page Fault).</li>
+          <li>Lệnh 2 đến 6: Các địa chỉ đều nằm trong Trang 0 (đã nạp sẵn ở Frame 0) -&gt; Đều HIT (không xảy ra lỗi trang, không bị loại trang nào). Bảng FIFO Queue không đổi.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<div class="callout callout-tip">
+  <div class="callout-body">
+    <span class="callout-icon" aria-hidden="true">
+      
+          <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24"><defs><style>.cls-637647fac3a86d32eae6f1e3-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f1e3-1" x1="12" y1="9.14" x2="12" y2="15.82"></line><polyline class="cls-637647fac3a86d32eae6f1e3-1" points="15.82 2.46 15.82 2.46 20.59 2.46 20.59 22.5 3.41 22.5 3.41 2.46 8.18 2.46 8.18 2.46"></polyline><path class="cls-637647fac3a86d32eae6f1e3-1" d="M15.82,1.5V3.41a1.92,1.92,0,0,1-1.91,1.91H10.09A1.92,1.92,0,0,1,8.18,3.41V1.5Z"></path><line class="cls-637647fac3a86d32eae6f1e3-1" x1="11.05" y1="17.73" x2="12.95" y2="17.73"></line></svg>
+        
+    </span>
+    
+
+    
+      Nếu như kích thước trang nhỏ hơn, ví dụ 256 Bytes (0x100). Nếu Page size = 256B, thì 0x001 là Trang 0, 0x100 là Trang 1, 0x200 là Trang 2… Lúc đó cứ nạp mới là phải xếp hàng vào Queue. Khung nào nạp vào đầu tiên (Head của Queue) sẽ bị đẩy ra (Evict) khi bộ nhớ đầy. Hãy nhớ chia địa chỉ ảo cho Page Size trước khi kết luận nó nằm ở trang nào, đừng chỉ nhìn vào chữ Hexadecimal.
+
+    
+  </div>
+</div>
+
+<hr />
+
+<h3 id="câu-3-hệ-thống-tệp-file-system-25-điểm">Câu 3: Hệ thống tệp (File System) (2.5 điểm)</h3>
+
+<ul>
+  <li>
+    <p><strong>a.</strong> Phân biệt cách tổ chức móc nối của <code class="language-plaintext highlighter-rouge">Hard Link</code> (liên kết cứng) và <code class="language-plaintext highlighter-rouge">Symbolic Link</code> (liên kết mềm). Chuyện gì sẽ xảy ra đối với tệp liên kết nếu tệp gốc bị xóa?</p>
+  </li>
+  <li>
+    <p><strong>b.</strong> Trình kiểm tra tính nhất quán hệ thống tệp phát hiện các lỗi sau trong bảng quản lý khối đĩa:</p>
+  </li>
+  <li>Khối <code class="language-plaintext highlighter-rouge">12</code>: Bị đánh dấu là <code class="language-plaintext highlighter-rouge">0</code> ở cả bảng “khối đang dùng” và bảng “khối rỗi” (<code class="language-plaintext highlighter-rouge">Orphan Block</code>).</li>
+  <li>Khối <code class="language-plaintext highlighter-rouge">45</code>: Được đánh dấu là đang dùng bởi một tệp, nhưng lại đồng thời xuất hiện trong danh sách khối rỗi (<code class="language-plaintext highlighter-rouge">Inconsistent State</code>).</li>
+  <li>Khối <code class="language-plaintext highlighter-rouge">88</code>: Bị ghi nhận là đang dùng 2 lần, tức là có 2 tệp cùng trỏ tới (<code class="language-plaintext highlighter-rouge">Cross-Link</code> giữa 2 tệp).</li>
+</ul>
+
+<p>Hãy đề xuất phương pháp hệ điều hành cần dùng để khắc phục 3 lỗi trên.</p>
+
+<hr />
+
+<ul>
+  <li><strong>a. Lời giải Hard link vs Symbolic link:</strong>
+    <ul>
+      <li>Hard link (Liên kết cứng): Trỏ trực tiếp đến cùng một i-node với tệp gốc. Nếu tệp gốc bị xóa, dữ liệu vẫn còn và vẫn mở được bằng file Hard link (do biến đếm link count trong i-node vẫn lớn hơn 0).</li>
+      <li>Symbolic link (Liên kết mềm): Có một i-node riêng, dữ liệu bên trong chỉ chứa chuỗi đường dẫn văn bản trỏ tới tệp gốc. Nếu tệp gốc bị xóa, file soft link sẽ bị “mù” (lỗi find not found / dangling link).</li>
+    </ul>
+  </li>
+  <li><strong>b. Lời giải Block lỗi:</strong>
+    <ul>
+      <li>Orphan block (Khối 12): Khối bị thất lạc. Khắc phục: Đưa nó vào danh sách “khối rỗi” (Free blocks).</li>
+      <li>Inconsistent state (Khối 45): Vừa dùng vừa rỗi. Khắc phục: Xóa nó khỏi danh sách “khối rỗi”.</li>
+      <li>Cross-link (Khối 88): 2 file đang tranh giành 1 khối đĩa. Khắc phục: OS cấp phát một khối rỗi mới, copy dữ liệu từ khối 88 sang khối mới, rồi cập nhật i-node của 1 trong 2 file để nó trỏ sang khối mới.</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="callout callout-tip">
+  <div class="callout-body">
+    <span class="callout-icon" aria-hidden="true">
+      
+          <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24"><defs><style>.cls-637647fac3a86d32eae6f1e3-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f1e3-1" x1="12" y1="9.14" x2="12" y2="15.82"></line><polyline class="cls-637647fac3a86d32eae6f1e3-1" points="15.82 2.46 15.82 2.46 20.59 2.46 20.59 22.5 3.41 22.5 3.41 2.46 8.18 2.46 8.18 2.46"></polyline><path class="cls-637647fac3a86d32eae6f1e3-1" d="M15.82,1.5V3.41a1.92,1.92,0,0,1-1.91,1.91H10.09A1.92,1.92,0,0,1,8.18,3.41V1.5Z"></path><line class="cls-637647fac3a86d32eae6f1e3-1" x1="11.05" y1="17.73" x2="12.95" y2="17.73"></line></svg>
+        
+    </span>
+    
+
+    
+      Lỗi ổ đĩa chắc chắn chỉ xoay quanh 4 trường hợp. Trường hợp thứ 4 chưa có trong đề này là Duplicated free block (1 khối rỗi bị ghi 2 lần trong danh sách rỗi) -&gt; Khắc phục: Xóa bớt 1 bản ghi dư thừa trong danh sách rỗi.
+
+    
+  </div>
+</div>
+
+<hr />
+
+<h3 id="câu-4-bế-tắc-deadlock-25-điểm">Câu 4: Bế tắc (Deadlock) (2.5 điểm)</h3>
+
+<ul>
+  <li>
+    <p><strong>a.</strong> Trong bài toán <code class="language-plaintext highlighter-rouge">Dining Philosophers</code>, hãy nêu cách bẻ gãy điều kiện <code class="language-plaintext highlighter-rouge">Circular Wait</code> (chờ vòng tròn) để ngăn chặn <code class="language-plaintext highlighter-rouge">Deadlock</code>. Phương pháp này có tính khả thi trong các hệ thống cơ sở dữ liệu thực tế không? Tại sao?</p>
+  </li>
+  <li>
+    <p><strong>b.</strong> Một hệ thống có 3 tiến trình (<code class="language-plaintext highlighter-rouge">A</code>, <code class="language-plaintext highlighter-rouge">B</code>, <code class="language-plaintext highlighter-rouge">C</code>) sử dụng chung một loại tài nguyên. Tại một thời điểm, trạng thái hệ thống được ghi nhận như sau:</p>
+  </li>
+</ul>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div></div><pre class="highlight"><code>Tiến trình A: Allocation = 3, Max = 9
+Tiến trình B: Allocation = 2, Max = 4
+Tiến trình C: Allocation = 2, Max = 7
+
+Available = 3
+</code></pre><span class="language-label">Text</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<p>Sử dụng thuật toán <code class="language-plaintext highlighter-rouge">Banker's Algorithm</code>, hãy lập ma trận <code class="language-plaintext highlighter-rouge">Need</code> và xác định xem hệ thống có đang ở trạng thái an toàn (<code class="language-plaintext highlighter-rouge">Safe State</code>) không bằng cách chỉ ra một chuỗi thực thi an toàn.</p>
+
+<hr />
+
+<ul>
+  <li>
+    <p><strong>a. Lời giải Bữa ăn hiền triết (Circular Wait):</strong></p>
+
+    <ul>
+      <li>Giải pháp: Bẻ gãy chờ vòng tròn bằng cách đánh số các chiếc đũa. Bắt buộc các nhà hiền triết phải xin đũa theo thứ tự số tăng dần. Ví dụ: Các triết gia 1-4 lấy đũa trái trước, đũa phải sau; riêng triết gia thứ 5 phải lấy đũa phải trước, đũa trái sau để không tạo thành vòng tròn.</li>
+      <li>Tính khả thi: Cực kỳ hiệu quả với bài toán này, nhưng không khả thi trong hệ thống thực tế. Lý do là tài nguyên trong OS luôn thay đổi, ta không thể đánh số và sắp xếp thứ tự mọi tài nguyên trong hệ thống từ trước được.</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="callout callout-tip">
+  <div class="callout-body">
+    <span class="callout-icon" aria-hidden="true">
+      
+          <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24"><defs><style>.cls-637647fac3a86d32eae6f1e3-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f1e3-1" x1="12" y1="9.14" x2="12" y2="15.82"></line><polyline class="cls-637647fac3a86d32eae6f1e3-1" points="15.82 2.46 15.82 2.46 20.59 2.46 20.59 22.5 3.41 22.5 3.41 2.46 8.18 2.46 8.18 2.46"></polyline><path class="cls-637647fac3a86d32eae6f1e3-1" d="M15.82,1.5V3.41a1.92,1.92,0,0,1-1.91,1.91H10.09A1.92,1.92,0,0,1,8.18,3.41V1.5Z"></path><line class="cls-637647fac3a86d32eae6f1e3-1" x1="11.05" y1="17.73" x2="12.95" y2="17.73"></line></svg>
+        
+    </span>
+    
+
+    
+      Phần lý thuyết này rơi vào 1 trong 4 cách phá Deadlock. Nhớ 3 cách còn lại:
+<ul>
+  <li>Hold &amp; Wait: Lấy 2 đũa cùng lúc (kém hiệu quả, tốn tài nguyên).</li>
+  <li>Mutual Exclusion: Dùng trọng tài (Arbiter) điều phối (dễ gây nghẽn cổ chai).</li>
+  <li>No Preemption: Cấp quyền ưu tiên để ép nhả đũa (gây lỗi toàn vẹn dữ liệu).</li>
+</ul>
+
+    
+  </div>
+</div>
+
+<ul>
+  <li><strong>Lời giải Thuật toán nhà băng (Banker’s Algorithm):</strong></li>
+</ul>
+
+<p>Tính ma trận Need (Nhu cầu = Max - Allocation):</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div></div><pre class="highlight"><code>Tiến trình A: Need = 9 - 3 = 6
+Tiến trình B: Need = 4 - 2 = 2
+Tiến trình C: Need = 7 - 2 = 5
+Trình tự an toàn: Số Available hiện tại là 3.
+</code></pre><span class="language-label">Plaintext</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<ul>
+  <li>B có Need(2) &lt;= Available(3) -&gt; Cho B chạy. B chạy xong trả lại 2 -&gt; Available mới = 3 + 2 = 5.</li>
+  <li>C có Need(5) &lt;= Available(5) -&gt; Cho C chạy. C chạy xong trả lại 2 -&gt; Available mới = 5 + 2 = 7.</li>
+  <li>A có Need(6) &lt;= Available(7) -&gt; Cho A chạy. A chạy xong trả lại 3 -&gt; Available mới = 7 + 3 = 10.</li>
+</ul>
+
+<p>Kết luận: Hệ thống đang ở trạng thái an toàn (Safe state).</p>
+
+<p>Chuỗi an toàn là: <code class="language-plaintext highlighter-rouge">B -&gt; C -&gt; A</code>.</p>
+
+<hr />
+
+<h2 id="english">English</h2>
+
+<h3 id="question-1-process-synchronization-25-points">Question 1: Process Synchronization (2.5 points)</h3>
+
+<p>A tourist cave has a safety regulation: at most 5 visitors are allowed inside the cave at the same time. The entrance and exit share the same narrow passage, which can only accommodate 1 person passing through at a time.</p>
+
+<p>Write pseudo-code using <code class="language-plaintext highlighter-rouge">Semaphore</code> constructs (the <code class="language-plaintext highlighter-rouge">up()</code> and <code class="language-plaintext highlighter-rouge">down()</code> operations) to synchronize processes that simulate the behavior of visitors, including the following steps: Obtaining a ticket, passing through the narrow passage into the cave, sightseeing, passing through the narrow passage out of the cave, and returning the ticket.</p>
+
+<hr />
+
+<div class="language-c highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div></div><pre class="highlight"><code><span class="n">semaphore</span> <span class="n">cave_slots</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>      <span class="c1">// Allow at most 5 visitors</span>
+<span class="n">semaphore</span> <span class="n">narrow_passage</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>  <span class="c1">// Only 1 visitor may pass through the passage (Mutex)</span>
+
+<span class="kt">void</span> <span class="nf">visitor</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// ENTER THE CAVE</span>
+    <span class="n">down</span><span class="p">(</span><span class="o">&amp;</span><span class="n">cave_slots</span><span class="p">);</span>         <span class="c1">// Wait for an available slot inside the cave</span>
+    <span class="n">down</span><span class="p">(</span><span class="o">&amp;</span><span class="n">narrow_passage</span><span class="p">);</span>     <span class="c1">// Request permission to pass through the narrow passage</span>
+    <span class="c1">// (Pass through the narrow passage)</span>
+    <span class="n">up</span><span class="p">(</span><span class="o">&amp;</span><span class="n">narrow_passage</span><span class="p">);</span>       <span class="c1">// Release the passage for the next visitor</span>
+
+    <span class="c1">// (Sightseeing inside the cave...)</span>
+
+    <span class="c1">// EXIT THE CAVE</span>
+    <span class="n">down</span><span class="p">(</span><span class="o">&amp;</span><span class="n">narrow_passage</span><span class="p">);</span>     <span class="c1">// Request permission to pass through the passage when exiting</span>
+    <span class="c1">// (Pass through the narrow passage)</span>
+    <span class="n">up</span><span class="p">(</span><span class="o">&amp;</span><span class="n">narrow_passage</span><span class="p">);</span>       <span class="c1">// Release the passage</span>
+    <span class="n">up</span><span class="p">(</span><span class="o">&amp;</span><span class="n">cave_slots</span><span class="p">);</span>           <span class="c1">// Release a slot in the cave for a new visitor</span>
+<span class="p">}</span>
+</code></pre><span class="language-label">C</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<div class="callout callout-tip">
+  <div class="callout-body">
+    <span class="callout-icon" aria-hidden="true">
+      
+          <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24"><defs><style>.cls-637647fac3a86d32eae6f1e3-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f1e3-1" x1="12" y1="9.14" x2="12" y2="15.82"></line><polyline class="cls-637647fac3a86d32eae6f1e3-1" points="15.82 2.46 15.82 2.46 20.59 2.46 20.59 22.5 3.41 22.5 3.41 2.46 8.18 2.46 8.18 2.46"></polyline><path class="cls-637647fac3a86d32eae6f1e3-1" d="M15.82,1.5V3.41a1.92,1.92,0,0,1-1.91,1.91H10.09A1.92,1.92,0,0,1,8.18,3.41V1.5Z"></path><line class="cls-637647fac3a86d32eae6f1e3-1" x1="11.05" y1="17.73" x2="12.95" y2="17.73"></line></svg>
+        
+    </span>
+    
+
+    
+      Every problem involving “a limit of <code class="language-plaintext highlighter-rouge">N</code> resources plus one exclusive pathway” (such as a library with <code class="language-plaintext highlighter-rouge">N</code> seats or a parking lot with <code class="language-plaintext highlighter-rouge">N</code> spaces) follows the same pattern. The rule is: always perform <code class="language-plaintext highlighter-rouge">down()</code> on the limiting resource (<code class="language-plaintext highlighter-rouge">N</code>) before performing <code class="language-plaintext highlighter-rouge">down()</code> on the exclusive resource / Mutex (<code class="language-plaintext highlighter-rouge">1</code>). Reversing the order may lead to Deadlock.
+
+    
+  </div>
+</div>
+
+<hr />
+
+<h3 id="question-2-virtual-memory-management-25-points">Question 2: Virtual Memory Management (2.5 points)</h3>
+
+<p>A computer system has a virtual memory space of <code class="language-plaintext highlighter-rouge">64KB</code>, a physical memory space of <code class="language-plaintext highlighter-rouge">32KB</code>, and a page size (<code class="language-plaintext highlighter-rouge">Page Size</code>) of <code class="language-plaintext highlighter-rouge">4KB</code>.</p>
+
+<ul>
+  <li>
+    <p><strong>a.</strong> Calculate the number of bits used for the virtual address, physical address, and the <code class="language-plaintext highlighter-rouge">offset</code>. Also calculate the total number of virtual pages (<code class="language-plaintext highlighter-rouge">Virtual Pages</code>) and page frames (<code class="language-plaintext highlighter-rouge">Frames</code>) in the system.</p>
+  </li>
+  <li>
+    <p><strong>b.</strong> Assume that physical memory provides 4 page frames (from <code class="language-plaintext highlighter-rouge">Frame 0</code> to <code class="language-plaintext highlighter-rouge">Frame 3</code>) and uses the <code class="language-plaintext highlighter-rouge">FIFO</code> page replacement algorithm. The page table is initially empty. Track the changes in physical memory for the following sequence of CPU instructions, indicating when a <code class="language-plaintext highlighter-rouge">Page Fault</code> occurs and which virtual page is removed:</p>
+  </li>
+</ul>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div></div><pre class="highlight"><code>1. LOAD  R0  0x001
+2. LOAD  R1  0x100
+3. LOAD  R2  0x200
+4. LOAD  R3  0x300
+5. STORE R0  0x205
+6. LOAD  R0  0x400
+</code></pre><span class="language-label">Text</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<hr />
+
+<ul>
+  <li>
+    <p><strong>a. Address Bit Calculation Solution:</strong></p>
+
+    <ul>
+      <li>Virtual memory space is 64KB (<code class="language-plaintext highlighter-rouge">2^16</code>) =&gt; Virtual addresses are 16 bits long.</li>
+      <li>Physical memory space is 32KB (<code class="language-plaintext highlighter-rouge">2^15</code>) =&gt; Physical addresses are 15 bits long.</li>
+      <li>Page size is 4KB (<code class="language-plaintext highlighter-rouge">2^12</code>) =&gt; The Offset field is 12 bits long.</li>
+      <li>Total virtual pages (<code class="language-plaintext highlighter-rouge">Pages</code>) = Total memory size / Page size = 64KB / 4KB = 16 Virtual Pages.</li>
+      <li>Number of page frames (<code class="language-plaintext highlighter-rouge">Frames</code>) = 32KB / 4KB = 8 Frames.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>b. FIFO Trace Solution:</strong></p>
+
+    <ul>
+      <li>Note: The page size is 4KB (addresses from <code class="language-plaintext highlighter-rouge">0x000</code> to <code class="language-plaintext highlighter-rouge">0xFFF</code> all belong to Page 0). All addresses given in the problem (<code class="language-plaintext highlighter-rouge">0x001</code>, <code class="language-plaintext highlighter-rouge">0x100</code>, <code class="language-plaintext highlighter-rouge">0x200</code>, <code class="language-plaintext highlighter-rouge">0x300</code>, <code class="language-plaintext highlighter-rouge">0x205</code>, <code class="language-plaintext highlighter-rouge">0x400</code>) are less than <code class="language-plaintext highlighter-rouge">0xFFF</code>. Therefore, all of these instructions access Virtual Page 0.</li>
+      <li>Trace result:
+        <ul>
+          <li>Instruction 1: <code class="language-plaintext highlighter-rouge">LOAD 0x001</code> -&gt; Load Page 0 into Frame 0 -&gt; A Page Fault occurs.</li>
+          <li>Instructions 2 through 6: All addresses belong to Page 0 (already loaded in Frame 0) -&gt; All are HITS (no Page Faults occur, and no page is removed). The FIFO queue remains unchanged.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<div class="callout callout-tip">
+  <div class="callout-body">
+    <span class="callout-icon" aria-hidden="true">
+      
+          <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24"><defs><style>.cls-637647fac3a86d32eae6f1e3-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f1e3-1" x1="12" y1="9.14" x2="12" y2="15.82"></line><polyline class="cls-637647fac3a86d32eae6f1e3-1" points="15.82 2.46 15.82 2.46 20.59 2.46 20.59 22.5 3.41 22.5 3.41 2.46 8.18 2.46 8.18 2.46"></polyline><path class="cls-637647fac3a86d32eae6f1e3-1" d="M15.82,1.5V3.41a1.92,1.92,0,0,1-1.91,1.91H10.09A1.92,1.92,0,0,1,8.18,3.41V1.5Z"></path><line class="cls-637647fac3a86d32eae6f1e3-1" x1="11.05" y1="17.73" x2="12.95" y2="17.73"></line></svg>
+        
+    </span>
+    
+
+    
+      If the page size were smaller, for example 256 Bytes (<code class="language-plaintext highlighter-rouge">0x100</code>), then <code class="language-plaintext highlighter-rouge">0x001</code> would belong to Page 0, <code class="language-plaintext highlighter-rouge">0x100</code> to Page 1, <code class="language-plaintext highlighter-rouge">0x200</code> to Page 2, and so on. In that case, each new page would have to be inserted into the FIFO queue. The page that entered first (the head of the queue) would be evicted when memory becomes full. Always divide the virtual address by the Page Size before determining which page it belongs to; do not rely solely on the hexadecimal representation.
+
+    
+  </div>
+</div>
+
+<hr />
+
+<h3 id="question-3-file-system-25-points">Question 3: File System (2.5 points)</h3>
+
+<ul>
+  <li>
+    <p><strong>a.</strong> Differentiate between the linking mechanisms of a <code class="language-plaintext highlighter-rouge">Hard Link</code> and a <code class="language-plaintext highlighter-rouge">Symbolic Link</code> (soft link). What happens to the linked file if the original file is deleted?</p>
+  </li>
+  <li>
+    <p><strong>b.</strong> A file system consistency checker detects the following errors in the disk block management tables:</p>
+  </li>
+  <li>Block <code class="language-plaintext highlighter-rouge">12</code>: Marked as <code class="language-plaintext highlighter-rouge">0</code> in both the “allocated blocks” table and the “free blocks” table (<code class="language-plaintext highlighter-rouge">Orphan Block</code>).</li>
+  <li>Block <code class="language-plaintext highlighter-rouge">45</code>: Marked as being used by a file, but also appears in the free block list (<code class="language-plaintext highlighter-rouge">Inconsistent State</code>).</li>
+  <li>Block <code class="language-plaintext highlighter-rouge">88</code>: Recorded as being allocated twice, meaning two files point to the same block (<code class="language-plaintext highlighter-rouge">Cross-Link</code> between two files).</li>
+</ul>
+
+<p>Propose the method the operating system should use to correct these three errors.</p>
+
+<hr />
+
+<ul>
+  <li><strong>a. Hard Link vs Symbolic Link Solution:</strong>
+    <ul>
+      <li>Hard Link: Points directly to the same inode as the original file. If the original file is deleted, the data still exists and can still be accessed through the Hard Link (because the inode’s link count remains greater than 0).</li>
+      <li>Symbolic Link: Has its own inode, and its contents contain only a pathname pointing to the original file. If the original file is deleted, the symbolic link becomes “blind” (file not found / dangling link).</li>
+    </ul>
+  </li>
+  <li><strong>b. Disk Block Error Solution:</strong>
+    <ul>
+      <li>Orphan Block (Block 12): The block is lost. Fix: Add it to the “free block” list.</li>
+      <li>Inconsistent State (Block 45): The block is marked as both used and free. Fix: Remove it from the “free block” list.</li>
+      <li>Cross-Link (Block 88): Two files are competing for the same disk block. Fix: The OS allocates a new free block, copies the data from Block 88 into the new block, and updates the inode of one of the files so that it points to the new block.</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="callout callout-tip">
+  <div class="callout-body">
+    <span class="callout-icon" aria-hidden="true">
+      
+          <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24"><defs><style>.cls-637647fac3a86d32eae6f1e3-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f1e3-1" x1="12" y1="9.14" x2="12" y2="15.82"></line><polyline class="cls-637647fac3a86d32eae6f1e3-1" points="15.82 2.46 15.82 2.46 20.59 2.46 20.59 22.5 3.41 22.5 3.41 2.46 8.18 2.46 8.18 2.46"></polyline><path class="cls-637647fac3a86d32eae6f1e3-1" d="M15.82,1.5V3.41a1.92,1.92,0,0,1-1.91,1.91H10.09A1.92,1.92,0,0,1,8.18,3.41V1.5Z"></path><line class="cls-637647fac3a86d32eae6f1e3-1" x1="11.05" y1="17.73" x2="12.95" y2="17.73"></line></svg>
+        
+    </span>
+    
+
+    
+      Disk consistency problems generally fall into four common categories. The fourth category, not included in this problem, is a Duplicated Free Block (a free block recorded twice in the free list). Fix: Remove one of the duplicate entries from the free list.
+
+    
+  </div>
+</div>
+
+<hr />
+
+<h3 id="question-4-deadlock-25-points">Question 4: Deadlock (2.5 points)</h3>
+
+<ul>
+  <li>
+    <p><strong>a.</strong> In the <code class="language-plaintext highlighter-rouge">Dining Philosophers</code> problem, describe a way to break the <code class="language-plaintext highlighter-rouge">Circular Wait</code> condition in order to prevent <code class="language-plaintext highlighter-rouge">Deadlock</code>. Is this method practical in real-world database systems? Why?</p>
+  </li>
+  <li>
+    <p><strong>b.</strong> A system has 3 processes (<code class="language-plaintext highlighter-rouge">A</code>, <code class="language-plaintext highlighter-rouge">B</code>, <code class="language-plaintext highlighter-rouge">C</code>) sharing a single type of resource. At a certain moment, the system state is recorded as follows:</p>
+  </li>
+</ul>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div></div><pre class="highlight"><code>Process A: Allocation = 3, Max = 9
+Process B: Allocation = 2, Max = 4
+Process C: Allocation = 2, Max = 7
+
+Available = 3
+</code></pre><span class="language-label">Text</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<p>Using the <code class="language-plaintext highlighter-rouge">Banker's Algorithm</code>, construct the <code class="language-plaintext highlighter-rouge">Need</code> matrix and determine whether the system is in a <code class="language-plaintext highlighter-rouge">Safe State</code> by identifying a safe execution sequence.</p>
+
+<hr />
+
+<ul>
+  <li>
+    <p><strong>a. Dining Philosophers (Circular Wait) Solution:</strong></p>
+
+    <ul>
+      <li>Solution: Break the circular wait condition by numbering the chopsticks. Philosophers must acquire chopsticks in increasing numerical order. For example, Philosophers 1-4 pick up the left chopstick first and then the right one; Philosopher 5 picks up the right chopstick first and then the left one, preventing a circular dependency from forming.</li>
+      <li>Practicality: This method is highly effective for this problem, but generally impractical in real-world systems. The reason is that resources in an OS are dynamic, and it is impossible to assign and enforce a global ordering for every resource in advance.</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="callout callout-tip">
+  <div class="callout-body">
+    <span class="callout-icon" aria-hidden="true">
+      
+          <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24"><defs><style>.cls-637647fac3a86d32eae6f1e3-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f1e3-1" x1="12" y1="9.14" x2="12" y2="15.82"></line><polyline class="cls-637647fac3a86d32eae6f1e3-1" points="15.82 2.46 15.82 2.46 20.59 2.46 20.59 22.5 3.41 22.5 3.41 2.46 8.18 2.46 8.18 2.46"></polyline><path class="cls-637647fac3a86d32eae6f1e3-1" d="M15.82,1.5V3.41a1.92,1.92,0,0,1-1.91,1.91H10.09A1.92,1.92,0,0,1,8.18,3.41V1.5Z"></path><line class="cls-637647fac3a86d32eae6f1e3-1" x1="11.05" y1="17.73" x2="12.95" y2="17.73"></line></svg>
+        
+    </span>
+    
+
+    
+      This theory question belongs to one of the four classical Deadlock prevention methods. Remember the other three:
+<ul>
+  <li>Hold &amp; Wait: Acquire both chopsticks at the same time (inefficient and resource-intensive).</li>
+  <li>Mutual Exclusion: Use an arbiter to coordinate access (can create a bottleneck).</li>
+  <li>No Preemption: Force resource release through priority mechanisms (may compromise data integrity).</li>
+</ul>
+
+    
+  </div>
+</div>
+
+<ul>
+  <li><strong>Banker’s Algorithm Solution:</strong></li>
+</ul>
+
+<p>Calculate the Need matrix (<code class="language-plaintext highlighter-rouge">Need = Max - Allocation</code>):</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div></div><pre class="highlight"><code>Process A: Need = 9 - 3 = 6
+Process B: Need = 4 - 2 = 2
+Process C: Need = 7 - 2 = 5
+
+Current Available = 3
+</code></pre><span class="language-label">Plaintext</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
+
+<ul>
+  <li>B has <code class="language-plaintext highlighter-rouge">Need(2) &lt;= Available(3)</code> -&gt; Allow B to run. After B finishes, it releases its 2 allocated resources -&gt; New Available = 3 + 2 = 5.</li>
+  <li>C has <code class="language-plaintext highlighter-rouge">Need(5) &lt;= Available(5)</code> -&gt; Allow C to run. After C finishes, it releases its 2 allocated resources -&gt; New Available = 5 + 2 = 7.</li>
+  <li>A has <code class="language-plaintext highlighter-rouge">Need(6) &lt;= Available(7)</code> -&gt; Allow A to run. After A finishes, it releases its 3 allocated resources -&gt; New Available = 7 + 3 = 10.</li>
+</ul>
+
+<p>Conclusion: The system is in a Safe State. The safe sequence is:</p>
+
+<p><code class="language-plaintext highlighter-rouge">B -&gt; C -&gt; A</code></p>]]></content><author><name></name></author><category term="assignment" /><category term="schoolwork" /><summary type="html"><![CDATA[Ôn tập cuối kì môn nguyên lí hệ điều hành - OS principles finals revision]]></summary></entry><entry><title type="html">7 DOF Robotic Arm</title><link href="https://yuk068.github.io//2026/05/14/first-real-robotics-project" rel="alternate" type="text/html" title="7 DOF Robotic Arm" /><published>2026-05-14T00:00:00+07:00</published><updated>2026-05-14T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/05/14/first-real-robotics-project</id><content type="html" xml:base="https://yuk068.github.io//2026/05/14/first-real-robotics-project"><![CDATA[<h3 id="table-of-content">Table of Content</h3>
 
 <blockquote><div class="content">
   <div id="table-of-contents"></div>
@@ -4685,106 +5182,4 @@ document.addEventListener('DOMContentLoaded', function () {
 
 <p><img src="/assets/images/2026/q2-2026/japan-plateau-sharing/victoria-au-1.webp" alt="victoria digital twin" /></p>
 
-<p><img src="/assets/images/2026/q2-2026/japan-plateau-sharing/victoria-au-2.webp" alt="victoria digital twin" /></p>]]></content><author><name></name></author><category term="post" /><category term="digital twin" /><category term="japan" /><category term="resources" /><summary type="html"><![CDATA[Sharing some open data sources and cool websites that utilize digital twin technology from Japan (and Australia too I guess)]]></summary></entry><entry><title type="html">Should I Publish This Blog’s Code? (Genuinely Unsure)</title><link href="https://yuk068.github.io//2026/04/06/publish-yuk-blog-code-or-nah" rel="alternate" type="text/html" title="Should I Publish This Blog’s Code? (Genuinely Unsure)" /><published>2026-04-06T00:00:00+07:00</published><updated>2026-04-06T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/04/06/publish-yuk-blog-code-or-nah</id><content type="html" xml:base="https://yuk068.github.io//2026/04/06/publish-yuk-blog-code-or-nah"><![CDATA[<h2 id="tldr">TL;DR</h2>
-
-<p>My blog is a static Jekyll site with a bunch of integrations (Plotly, KaTeX, Mermaid, Photoswipe, Giscus, Umami). It’s evolved over two years and I think it’s genuinely useful for technical writers. The code is messy. Should I publish it? I don’t know. This post is me thinking out loud.</p>
-
-<hr />
-
-<h2 id="the-setup">The Setup</h2>
-
-<p>I built this blog incrementally. No grand vision at the start, just a Jekyll site that I kept tweaking as I needed new features. (this post share quite a bit of the journey <a href="/2025/01/24/yuk-personal-blog" target="_blank">Yuk’s Blog: 2024-2025 Retrospective</a>) Two years later, it works. The markdown renders. The interactive plots work. The comments work. The analytics work. All free, all via CDN or light dependencies.</p>
-
-<p>If I were to describe it to someone: <strong>a straightforward static blog setup for people who write technical content and want control over their tooling</strong>. Not WordPress plugin territory. Not “just use Medium.” Something in between.</p>
-
-<p>The thing is: I’ve never published the code. It lives in my GitHub, private repo. And I keep thinking about whether I should or nah.</p>
-
-<hr />
-
-<h2 id="why-i-want-to">Why I Want To</h2>
-
-<p><strong>1. It’s genuinely useful</strong></p>
-
-<p>Technical writers, simulation hobbyists, people building their own corners of the internet, they’d probably find this valuable. Not many people have put together a deliberately minimal Jekyll setup with Plotly, KaTeX, <em>and</em> Mermaid <em>and</em> Photoswipe working smoothly. Most blog templates are either bloated or sterile. This one isn’t.</p>
-
-<p><strong>2. The evolution is honest</strong></p>
-
-<p>I didn’t design this from first principles. It evolved. And that’s actually the point. The way I code, the patterns, the pragmatism, the “good enough,” the two-year journey of refactoring and pivoting, all of that lives in this codebase.</p>
-
-<p>Someone else building a blog doesn’t need a pristine product vision. They need to see how a real person actually <em>built</em> something over time. Messy code is honest code.</p>
-
-<p><strong>3. I want input from people smarter than me</strong></p>
-
-<p>This is the real one. I’m not expecting this to “blow up.” I’m hoping that someone, somewhere, sees it and thinks <em>“oh, I can improve that”</em> or <em>“I use this too, here’s a better way.”</em> The code is “usable” now, but there are definitely rough edges (really rough tbh, i got a dedicated <code class="language-plaintext highlighter-rouge">.css</code> and <code class="language-plaintext highlighter-rouge">.js</code> file for each page lmao). A community fork might actually make it better.</p>
-
-<p><strong>4. The blog’s already public anyway</strong></p>
-
-<p>The site exists. You can see it. You can see what it does. Publishing the code just makes the kitchen visible. That’s a lower-stakes decision than I keep telling myself it is.</p>
-
-<hr />
-
-<h2 id="why-im-hesitating">Why I’m Hesitating</h2>
-
-<p><strong>Fear #1: Nobody cares</strong></p>
-
-<p>Most open-source projects get zero attention. I release this, it sits on GitHub, no one forks it, no one contributes, and then… I’m exactly where I started, except now I’ve got a public repo labeled “slop” on my profile.</p>
-
-<p>But here’s the thing: my blog is <em>already</em> up. I’m not launching a product. I’m opening the kitchen. Worst case, the kitchen stays closed and I move on.</p>
-
-<p><strong>Fear #2: Credit anxiety</strong></p>
-
-<p>This is the one I’m less comfortable admitting: I <em>do</em> care if people know I made this. Even though I say I don’t care about maintaining it, even though I claim I just want the community to help… I also want my name on it. I want to be remembered for two years of work.</p>
-
-<p><strong>Fear #3: The mess is overwhelming</strong></p>
-
-<p>Removing hardcoded stuff takes time. Documentation takes time. I’d have to think about which features to highlight vs. deprecate. And right now, honestly, I don’t want to. The blog works for me. Polishing it for public consumption feels like a full-time job.</p>
-
-<hr />
-
-<h2 id="what-i-actually-want">What I Actually Want</h2>
-
-<p>If I’m being honest: I want to publish it <em>as-is</em>, messy and all. Write a good README that says “here’s what this is, here’s how it works, here’s what I’d do differently now.” Add one or two example posts so people can see the structure. Maybe a <code class="language-plaintext highlighter-rouge">.gitignore</code> for sensitive personal stuff.</p>
-
-<p>Then… let it go. Stop maintaining it. Hope someone picks it up and makes it better.</p>
-
-<p>The part that scares me isn’t the publishing. It’s the lack of control afterward. And I need to sit with whether I can actually be okay with that.</p>
-
-<hr />
-
-<h2 id="what-im-asking">What I’m Asking</h2>
-
-<p>Not looking for permission. Not looking for a yes/no. I’m genuinely asking:</p>
-
-<ul>
-  <li>If you’re a technical writer or someone who cares about their blogging setup, would you find this useful?</li>
-  <li>Does the “messy two-year evolution” angle interest you, or does it just look unprofessional?</li>
-  <li>If I publish it unpolished, would you fork it? Or would you skip it because it doesn’t feel “production-ready”?</li>
-  <li>Am I overthinking this?</li>
-</ul>
-
-<p>I have a comment section below. Hit me with your honest take.</p>
-
-<hr />
-
-<h2 id="the-actual-plan-maybe">The Actual Plan (Maybe)</h2>
-
-<p>My friend said something simple: <em>“just public it.”</em></p>
-
-<p>And maybe that’s the answer. Not because it’s perfect. Not because I’m confident it’ll help people. But because:</p>
-
-<ol>
-  <li>It won’t hurt to publish it.</li>
-  <li>The honest, messy version is more useful than the polished-but-never-released version.</li>
-  <li>If someone wants to improve it, they will.</li>
-  <li>If no one cares, I move on and keep building.</li>
-</ol>
-
-<p>So maybe next week I do that. Remove the hardcoded stuff, write a README, push it public.</p>
-
-<p>Or maybe I don’t.</p>
-
-<p>Either way, writing this helped clarify what I actually want: not validation, not a decision, but <strong>the possibility</strong> that something I built with genuine care might be useful to someone else.</p>
-
-<p>That’s enough.</p>
-
-<p>If you made it this far: what’s your take? Comment below, I’m genuinely curious.</p>]]></content><author><name></name></author><category term="post" /><category term="blogging" /><category term="open source" /><category term="yuk lore" /><category term="webdev" /><summary type="html"><![CDATA[A meta-reflection on two years of iterative blog development, messy code, and the tension between sharing something useful and the fear of indifference]]></summary></entry></feed>
+<p><img src="/assets/images/2026/q2-2026/japan-plateau-sharing/victoria-au-2.webp" alt="victoria digital twin" /></p>]]></content><author><name></name></author><category term="post" /><category term="digital twin" /><category term="japan" /><category term="resources" /><summary type="html"><![CDATA[Sharing some open data sources and cool websites that utilize digital twin technology from Japan (and Australia too I guess)]]></summary></entry></feed>
