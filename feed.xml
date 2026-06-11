@@ -1,4 +1,284 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://yuk068.github.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://yuk068.github.io//" rel="alternate" type="text/html" /><updated>2026-06-09T14:56:09+07:00</updated><id>https://yuk068.github.io//feed.xml</id><title type="html">Yuk’s Blog</title><subtitle></subtitle><entry><title type="html">Ôn tập phương trình vi phân</title><link href="https://yuk068.github.io//2026/06/03/on-tap-ptvp" rel="alternate" type="text/html" title="Ôn tập phương trình vi phân" /><published>2026-06-03T00:00:00+07:00</published><updated>2026-06-03T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/06/03/on-tap-ptvp</id><content type="html" xml:base="https://yuk068.github.io//2026/06/03/on-tap-ptvp"><![CDATA[<h3 id="mục-lục">Mục lục</h3>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://yuk068.github.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://yuk068.github.io//" rel="alternate" type="text/html" /><updated>2026-06-11T11:39:01+07:00</updated><id>https://yuk068.github.io//feed.xml</id><title type="html">Yuk’s Blog</title><subtitle></subtitle><entry><title type="html">Towards Building a Digital Twin for Hanoi’s Traffic System</title><link href="https://yuk068.github.io//2026/06/06/trafficlab-early-development" rel="alternate" type="text/html" title="Towards Building a Digital Twin for Hanoi’s Traffic System" /><published>2026-06-06T00:00:00+07:00</published><updated>2026-06-06T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/06/06/trafficlab-early-development</id><content type="html" xml:base="https://yuk068.github.io//2026/06/06/trafficlab-early-development"><![CDATA[<h3 id="prologue">Prologue</h3>
+
+<p>Okay so if you didn’t know, <a href="/2026/02/20/traffilclab-3d-overview">TrafficLab 3D</a> originally started out as a final project for my Advanced Computer Vision course, the original academic title was “Towards Building a Digital Twin for Hanoi’s Traffic System”. So a lot of the design choice of TrafficLab actually stems from trying to adapt such a system to the reality of Hanoi, Vietnam traffic, things like mixed traffic (motorcycles), non-uniform infrastructure, etc…</p>
+
+<p>But anyway, I just found an old presentation that I made before the name TrafficLab even came into the picture, so I think it should be pretty interesting especially for seeing how I approach the problem. This presentation was meant for the midterm report of the course, so it retains a lot of that Hanoi focus, it was also in Vietnamese so I’ll try to translate it neatly in this post.</p>
+
+<hr />
+
+<p><img src="/assets/images/2026/q2-2026/trafficlab-ext/presentation-thumbnail.webp" alt="presentation thumbnail" /></p>
+
+<p><strong>Towards Building a Digital Twin for Hanoi’s Traffic System</strong></p>
+
+<p><em>(Original date: December 3rd, 2025)</em></p>
+
+<h3 id="table-of-content">Table of Content</h3>
+
+<blockquote><div class="content">
+  <div id="table-of-contents"></div>
+</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
+
+<hr />
+
+<h2 id="1-motivation">1. Motivation</h2>
+
+<p>Traffic congestion and traffic violations are increasing, creating a need for intelligent AI-powered camera systems and real-time data to support more effective traffic management.</p>
+
+<p>On December 11, 2024, Hanoi approved its Smart Transportation Initiative, aiming to standardize transportation data, establish a centralized operations center, and expand digital infrastructure.</p>
+
+<p>Significant investments have been allocated to camera networks and control centers, including thousands of surveillance cameras and new AI-enabled cameras, providing the foundation for a future traffic digital twin.</p>
+
+<p>To move from reactive to proactive traffic management, the city requires a Digital Twin platform capable of simulation, forecasting, traffic signal optimization, and policy impact evaluation.</p>
+
+<p><img src="/assets/images/2026/q2-2026/trafficlab-ext/hanoi-initiative.webp" alt="hanoi initiative" /></p>
+
+<div class="media-description">Source: Internet</div>
+
+<hr />
+
+<h2 id="2-desired-goal">2. Desired Goal</h2>
+
+<p>Currently, AI-enabled traffic cameras in Hanoi are primarily deployed for automated traffic enforcement, commonly monitoring violations such as red-light offenses and illegal maneuvers.</p>
+
+<p>These cameras are typically installed at strategic locations, such as behind stop lines at signalized intersections, and are capable of accurately identifying vehicle license plates and, in some cases, driver facial features.</p>
+
+<p><img src="/assets/images/2026/q2-2026/trafficlab-ext/fine-cams.webp" alt="fine cameras" /></p>
+
+<div class="media-description">Source: Internet</div>
+
+<p>The objective of this Digital Twin is not individual surveillance, but rather the modeling and analysis of mixed traffic dynamics at the system level. Instead of focusing on specific road users, the platform aims to capture how different types of vehicles interact, adapt, and move through Hanoi’s transportation network under real-world conditions.</p>
+
+<p>The project is built on the premise that addressing traffic congestion requires a data-driven understanding of mobility behavior. Before effective interventions can be designed, it is necessary to understand how citizens respond to existing infrastructure, traffic regulations, and environmental constraints. By providing this understanding, the Digital Twin can serve as a foundation for simulation, forecasting, and evidence-based transportation planning.</p>
+
+<p><img src="/assets/images/2026/q2-2026/trafficlab-ext/digital-twin-1.webp" alt="fine cameras" /></p>
+
+<p><em>(I then showed <a href="https://www.youtube.com/watch?v=FdiQ_EGbZe0" target="_blank">3D-Net Monocular 3D object recognition for traffic monitoring - Dr Rezaei. University of Leeds</a>)</em></p>
+
+<iframe style="width:100%;aspect-ratio:16/9;" src="https://www.youtube.com/embed/FdiQ_EGbZe0" frameborder="0" allowfullscreen=""></iframe>
+
+<p>The project took inspiration from <a href="https://www.sciencedirect.com/science/article/pii/S0957417423007558" target="_blank">3D-Net (Rezaei et al., 2023)</a> to aim at building a Digital Twin for Hanoi’s Traffic System.</p>
+
+<hr />
+
+<h2 id="3-the-htvtraffic-dataset">3. The HTVTraffic Dataset</h2>
+
+<ul>
+  <li>During the initial survey phase, publicly available traffic datasets for Hanoi were found to be extremely limited. One of the few viable sources identified was the network of wide-angle traffic cameras livestreamed on the YouTube channel of Hanoi Radio and Television (HTV). <em>(idk if its just me but apparently the channel and the livestreams are no where to be found anymore lmaooo)</em></li>
+  <li>To address this data gap, we constructed HTVTraffic, a dataset collected directly from HTV’s publicly available traffic livestreams. The dataset consists of 420 video clips captured from 17 distinct camera locations across Hanoi, totaling 8.83 hours of footage at 720p and 30 FPS.</li>
+  <li>The original source material comprised continuous traffic livestreams accompanied by FM90 radio broadcasts. A dedicated data collection pipeline was developed to automatically segment the livestreams into clips, assign location-based metadata, and organize the resulting dataset, followed by manual quality control and verification. This process include:</li>
+  <li>Building upon the video dataset, a uniform sampling strategy was applied to extract nearly 10,000 image frames for downstream analysis. In addition, 157 images from two selected camera locations were manually annotated to establish an initial ground-truth dataset for evaluation and experimentation.</li>
+</ul>
+
+<p><img src="/assets/images/2026/q2-2026/trafficlab-ext/htvtraffic-dataset.webp" alt="htvtraffic dataset" /></p>
+
+<p>Some notes regarding the dataset:</p>
+
+<ul>
+  <li>17 camera locations:
+    <ul>
+      <li>107 Le Hong Phong</li>
+      <li>119 Nguyen Hoang</li>
+      <li>45 Nguyen Luong Bang</li>
+      <li>O Cho Dua</li>
+      <li>Nguyen Van Cu</li>
+      <li>71 Nguyen Trai</li>
+      <li>1111 Giai Phong</li>
+      <li>216 Tran Duy Hung</li>
+      <li>Ho Tung Mau</li>
+      <li>Nguyen Hoang – Ton Vo Chi Cong</li>
+      <li>Xa La</li>
+      <li>200 Nguyen Xien</li>
+      <li>66 Truong Chinh</li>
+      <li>Nga Tu So</li>
+      <li>Ton That Tung</li>
+      <li>Quang Trung – Le Trong Tan</li>
+      <li>Hong Ha</li>
+    </ul>
+  </li>
+  <li>The dataset is distributed as MP4 videos and PNG images.</li>
+  <li>All footage was collected during morning hours under relatively favorable weather conditions, including overcast skies and mild sunlight.</li>
+  <li>720p at 30 FPS represents the highest quality available from the source HTV livestreams.</li>
+</ul>
+
+<p>Several characteristics of Hanoi’s traffic environment became apparent during dataset collection and analysis.</p>
+
+<ul>
+  <li>Motorcycles constitute the overwhelming majority of road users. At the available resolution, conventional bounding-box annotations become increasingly impractical for two-wheeled vehicles due to their small visual footprint, dense packing, and frequent occlusions.</li>
+  <li>In many scenarios, motorcycles in Hanoi resemble people in crowd-counting problems more closely than vehicles in traditional object detection datasets. Rather than appearing as isolated objects, they often move as dense and highly interactive flows.</li>
+  <li>The diversity of road users is remarkably high. Even within a single category such as buses, the dataset contains public buses, coaches, tourist buses, and other variants with substantially different sizes and visual characteristics.</li>
+  <li>Beyond conventional vehicles, Hanoi’s traffic ecosystem also includes less common participants such as cargo tricycles, street vendors, and other informal road users that are rarely represented in existing traffic datasets.</li>
+</ul>
+
+<hr />
+
+<h2 id="4-progress-up-until-midterm">4. Progress up until Midterm</h2>
+
+<p>At the beginning of the project, the HTVTraffic dataset had already been collected, but no annotations were available. To manage the scope of the work, the project was divided into two stages:</p>
+
+<ul>
+  <li>Stage 1: Object Detection and Tracking</li>
+  <li>Stage 2: Digital Twin Proof of Concept</li>
+</ul>
+
+<p>For Stage 1, a perception pipeline was developed consisting of two models and two output streams.</p>
+
+<ul>
+  <li>For “box-like” vehicles such as passenger cars, SUVs, buses, and trucks, a combination of YOLOv8 and SAHI was used to produce labeled 2D bounding boxes.</li>
+  <li>For motorcycles and pedestrians, the problem was instead formulated as a crowd counting and localization task. Rather than producing labeled bounding boxes, the system outputs localization points representing the positions of traffic participants.</li>
+</ul>
+
+<p>The desired result is a demonstration video. On the left, object detection and localization are performed in the CCTV domain. On the right, the detections are projected into the satellite domain using a geometric transformation $G$.</p>
+
+<p>For Stage 2, a proof of concept Digital Twin was developed under the simplifying assumption that perfectly tracked objects with persistent IDs were available across frames.</p>
+
+<p>Several key concepts were demonstrated:</p>
+
+<ul>
+  <li>
+    <p>The estimation of the transformation <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi><mo>:</mo><mo stretchy="false">(</mo><mi>u</mi><mo separator="true">,</mo><mi>v</mi><mo separator="true">,</mo><mi>h</mi><msub><mo stretchy="false">)</mo><mrow><mi>C</mi><mi>C</mi><mi>T</mi><mi>V</mi></mrow></msub><mo>↔</mo><mo stretchy="false">(</mo><mi>x</mi><mo separator="true">,</mo><mi>y</mi><msub><mo stretchy="false">)</mo><mrow><mi>S</mi><mi>A</mi><mi>T</mi></mrow></msub></mrow><annotation encoding="application/x-tex">G : (u, v, h)_{CCTV} \leftrightarrow (x, y)_{SAT}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">G</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">h</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.13889em;">CCT</span><span class="mord mathnormal mtight" style="margin-right:0.22222em;">V</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">↔</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.05764em;">S</span><span class="mord mathnormal mtight">A</span><span class="mord mathnormal mtight" style="margin-right:0.13889em;">T</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>, enabling correspondence between CCTV imagery and satellite-space coordinates.</p>
+  </li>
+  <li>The conversion of 2D detections into approximate 3D bounding boxes within the CCTV view.</li>
+  <li>The integration of tracking and geometric projection into a simple Digital Twin visualization.</li>
+</ul>
+
+<p>The resulting prototype demonstrates that, provided Stage 1 can achieve sufficiently reliable perception and tracking performance, the construction of a traffic Digital Twin is technically feasible. The remainder of the project focuses on investigating future improvements and establishing a roadmap for continued development through the end of the semester.</p>
+
+<hr />
+
+<h3 id="41-phase-1-detection-and-tracking">4.1. Phase 1: Detection and Tracking</h3>
+
+<div class="callout callout-note">
+  <div class="callout-body">
+    <span class="callout-icon" aria-hidden="true">
+      
+          <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24"><defs><style>.cls-637b83faf95e86b59c57a0ed-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><rect class="cls-637b83faf95e86b59c57a0ed-1" x="3.39" y="2.41" width="17.22" height="20.09"></rect><line class="cls-637b83faf95e86b59c57a0ed-1" x1="7.22" y1="0.5" x2="7.22" y2="4.33"></line><line class="cls-637b83faf95e86b59c57a0ed-1" x1="12" y1="0.5" x2="12" y2="4.33"></line><line class="cls-637b83faf95e86b59c57a0ed-1" x1="16.78" y1="0.5" x2="16.78" y2="4.33"></line><line class="cls-637b83faf95e86b59c57a0ed-1" x1="6.26" y1="11.02" x2="17.74" y2="11.02"></line><line class="cls-637b83faf95e86b59c57a0ed-1" x1="6.26" y1="7.2" x2="17.74" y2="7.2"></line><line class="cls-637b83faf95e86b59c57a0ed-1" x1="6.26" y1="14.85" x2="17.74" y2="14.85"></line><line class="cls-637b83faf95e86b59c57a0ed-1" x1="6.26" y1="18.67" x2="12" y2="18.67"></line></svg>
+      
+    </span>
+    
+
+    
+      Note: some part of the presentation didn’t have much text on it, and its been a while, so I’m just gonna try to remember what I wanted to say for those slides lol.
+
+    
+  </div>
+</div>
+
+<hr />
+
+<h4 id="411-point-query-transformer-pet">4.1.1. Point quEry Transformer (PET)</h4>
+
+<p>The PET Model was introduced in <a href="https://arxiv.org/abs/2308.13814" target="_blank">Liu et al., 2023</a>, which is a localized crowd counting model. Instead of outputting the classic density map for this kind of problem, it directly predicts both the probability and exact pixel of a point where there’s likely a human head. The mechanism of this model is very similar to the DETR models in the object detection task.</p>
+
+<p><img src="/assets/images/2026/q2-2026/trafficlab-ext/pet-model.webp" alt="pet model" /></p>
+
+<p><img src="/assets/images/2026/q2-2026/trafficlab-ext/pet-model-mechanism.webp" alt="pet model mechanism" /></p>
+
+<p><img src="/assets/images/2026/q2-2026/trafficlab-ext/pet-model-architecture.webp" alt="pet model architecture" /></p>
+
+<p>The model takes the feature map from a VGG16 backbone, apply self-attention to the Encoder at $\hat{x}^l$, sample query points on the feature map which is also the root of the quadtree. $\hat{x}^l$ is then evaluated along with the quadtree to see if a region needs to split into 4 more points for crowded areas.</p>
+
+<p>The quadtree and $\hat{x}^l$ is then used as inputs for the decoder where cross-attention is applied to regress the point’s exact position in the original image space and their probability of there being a human head there.</p>
+
+<p>Below are some prediction vs ground truth from a pretrained PET model:</p>
+
+<p><img src="/assets/images/2026/q2-2026/trafficlab-ext/20pred.webp" alt="pet example pred 1" /></p>
+
+<p><img src="/assets/images/2026/q2-2026/trafficlab-ext/20gt.webp" alt="pet example pred 1" /></p>
+
+<p><img src="/assets/images/2026/q2-2026/trafficlab-ext/21pred.webp" alt="pet example pred 2" /></p>
+
+<p><img src="/assets/images/2026/q2-2026/trafficlab-ext/21gt.webp" alt="pet example pred 2" /></p>
+
+<p><img src="/assets/images/2026/q2-2026/trafficlab-ext/22pred.webp" alt="pet example pred 3" /></p>
+
+<p><img src="/assets/images/2026/q2-2026/trafficlab-ext/22gt.webp" alt="pet example pred 3" /></p>
+
+<p><img src="/assets/images/2026/q2-2026/trafficlab-ext/23pred.webp" alt="pet example pred 4" /></p>
+
+<p><img src="/assets/images/2026/q2-2026/trafficlab-ext/23gt.webp" alt="pet example pred 4" /></p>
+
+<p>Here, the images with the blue and red tint are predictions, the red tint rectangles are where the quadtree decided to split, ie. it thinks that region is “crowded”.</p>
+
+<p>So quantitatively, I’d say its decent given the low quality of these images, as crowd counting from image task are usually done on high resolution images, however, thats still not good enough. So we move to the pain section of this process, trying to finetune this thing.</p>
+
+<p>Originally, I also experimented with another model called <a href="https://github.com/TencentYoutuResearch/CrowdCounting-P2PNet" target="_blank">P2PNet</a>, it was fine but it was like an older CNN-based architecture, and its codebase quality and pretrained option was kinda insufficient, thus I focused on the PET model then.</p>
+
+<p>So, lets just get right into my finetuning efforts for PET model:</p>
+
+<p><img src="/assets/images/2026/q2-2026/trafficlab-ext/pet-ft-1.webp" alt="pet finetune 1" /></p>
+
+<p><img src="/assets/images/2026/q2-2026/trafficlab-ext/pet-ft-2.webp" alt="pet finetune 2" /></p>
+
+<p><img src="/assets/images/2026/q2-2026/trafficlab-ext/pet-ft-3.webp" alt="pet finetune 3" /></p>
+
+<p>I’d say while the pretrained model performed decently, the finetuning was kind of a disaster. With just 115 annotated training samples from location code 107LHP, all attempts at finetuning lead to increasing error, diverging loss, or “model collapse” despite testing with various different arguments.</p>
+
+<p>My main suspicions was:</p>
+
+<ul>
+  <li>The data was simply insufficient to finetune a transformer like this</li>
+  <li>Domain gap, the original PET model was pretrained on datasets like NWPU, which contain high resolution samples of pedestrian, while we are trying to get it to detect people on motorcycles which is the majority in these Hanoi scenes.</li>
+</ul>
+
+<p>What more was that, compared to the Object Detection task’s community support, Crowd Counting was just not mature enough for me to put any more effort into this.</p>
+
+<p>So yeah, honestly this crowd counting fiasco took a huge chunk out of my time on this project, while it was disappointing, I don’t think it was necessarily a waste, I learned a lot from it. Both on the technical side and the reality of “domain maturity”.</p>
+
+<hr />
+
+<h4 id="412-yolov8-and-sahi">4.1.2. YOLOv8 and SAHI</h4>
+
+<p>Honestly theres nothing that interesting in this part, I just simply go over <a href="https://docs.ultralytics.com/models/yolov8#overview" target="_ blank">YOLOv8</a> and the <a href="https://arxiv.org/abs/2202.06934" target="_blank">SAHI</a> paper, I kinda spent all my time on that crowd counting rabbit hole, so, moving on.</p>
+
+<hr />
+
+<h4 id="413-first-early-demo">4.1.3. First Early Demo</h4>
+
+<p>Now this is the bread and butter of this early stage, an initial demo. I’m not gonna lie, only now do I see that this presentation slides order kinda don’t make sense, because I haven’t even introduced the projection and the concept of the actual final demo, I think what I wanted to do was like showcase the detection and tracking for both the boxes and points, but I didn’t want it to be dry or something lol, so I just included the full demo here anyway:</p>
+
+<iframe style="width:100%;aspect-ratio:16/9;" src="https://www.youtube.com/embed/Gq6XmZ3nJwA" frameborder="0" allowfullscreen=""></iframe>
+
+<hr />
+
+<h3 id="42-phase-2-digital-twin-proof-of-concept">4.2. Phase 2: Digital Twin Proof of Concept</h3>
+
+<p>Yeah so honestly this I’m not really feeling like re-writing everything that has already been covered in <a href="/2026/02/20/traffilclab-3d-overview">TrafficLab 3D</a>, but yeah basically this part I covered the G projection.</p>
+
+<p>The only thing that is not in that post in this presentation is that I acknowledged the difficulty of trying to infer a 3D bounding box just from the 2D bounding box footprint, in TrafficLab 3D, I just use very naive fixed class-based prior-dimensions, which looks good enough, but I know I can do better, Im actively working on solving that problem so stay tuned!</p>
+
+<p>But basically, I made an entire experiment to demonstrate the fact that the 3D bbox of a vehicle doesn’t always fit inside its 2D bbox:</p>
+
+<p><img src="/assets/images/2026/q2-2026/trafficlab-ext/3dbbox.webp" alt="3d bounding box" /></p>
+
+<p>Later down the development cycle, this experiment helped me greatly in actually formalizing the center point and the final G projection in TrafficLab.</p>
+
+<p>And the proof of concept here is the video in <a href="#413-first-early-demo">4.1.3. First Early Demo</a> lol.</p>
+
+<hr />
+
+<h2 id="5-so-much-stuff-going-on-rn-bru">5. So much stuff going on rn bru…</h2>
+
+<p>A bit of Yuk lore, I’ve been postponing this post for ages by now lol.</p>
+
+<p>Yeah, I got a lot going on right now, but, just thought I shared this little snippet from my time with TrafficLab, It would have been easier to just copy paste the pptx file into this, but, oh well, its my blog.</p>
+
+<p>Anyway, about TrafficLab 3D, so yeah this stuff was quite a while back, which is why im really lazy to actually make this post more formal because im pretty much mentally done with this phase y know? Already looking at whats next as I usually do.</p>
+
+<p>But, I have ideas for TrafficLab, and im actively working and experimenting, I think im gonna push a new iteration of TrafficLab under a new name, this time, im thinking of making a collection of repos. I just don’t know when that vision will come out full and is up to my own standard, because, for now, its just me. The main goal is still to make accessible digital twins, of which I think traffic analysis is one of the more accessible modality as compared to like a warehouse or a natural site like beach shores, while also not being too much of a toy example, something fitting to encourage enthusiasts to get into this niche.</p>
+
+<p>Originally this summer, I planned to pour all my effort into this next iteration of TrafficLab, but, some stuff come up recently, so, change of plan, in a good way I guess, but still, im definitely gonna continue on my personal stuff, would be even better if such work can align with a good paying job so I can actually fully focus on it. Afterall, if you love what you’re doing then its not even a job eh, well, im hopeful, until next time.</p>
+
+<p>Here are some more interesting images from this early development phase:</p>
+
+<p><img src="/assets/images/2026/q2-2026/trafficlab-ext/legacy1.webp" alt="legacy 1" /></p>
+
+<p><img src="/assets/images/2026/q2-2026/trafficlab-ext/app_layout-1.webp" alt="legacy 2" /></p>
+
+<p><img src="/assets/images/2026/q2-2026/trafficlab-ext/app_layout-2.webp" alt="legacy 3" /></p>
+
+<p><img src="/assets/images/2026/q2-2026/trafficlab-ext/app_layout-3.webp" alt="legacy 4" /></p>
+
+<p><img src="/assets/images/2026/q2-2026/trafficlab-ext/app_layout-4.webp" alt="legacy 5" /></p>]]></content><author><name></name></author><category term="technical" /><category term="computer vision" /><category term="traffic analysis" /><category term="digital twin" /><category term="traffic monitoring" /><category term="homography" /><category term="camera geometry" /><category term="crowd counting" /><category term="yuk lore" /><summary type="html"><![CDATA[An old presentation of mine that was made during the early development stage before TrafficLab 3D v1.0 was released]]></summary></entry><entry><title type="html">Ôn tập phương trình vi phân</title><link href="https://yuk068.github.io//2026/06/03/on-tap-ptvp" rel="alternate" type="text/html" title="Ôn tập phương trình vi phân" /><published>2026-06-03T00:00:00+07:00</published><updated>2026-06-03T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/06/03/on-tap-ptvp</id><content type="html" xml:base="https://yuk068.github.io//2026/06/03/on-tap-ptvp"><![CDATA[<h3 id="mục-lục">Mục lục</h3>
 
 <blockquote><div class="content">
   <div id="table-of-contents"></div>
@@ -8753,494 +9033,4 @@ reverse-right
 
 <hr />
 
-<p>But yeah anyway, really informal post I know, I kinda got a lot going on right now, I also plan to take the kinematic model i learned from this journey to make a project about automatic parking for that DAA course, but yeah, these courses still suck, this school still sucks, but ill try my best, I love doing these things, I just wish I had more time to go deeper into them.</p>]]></content><author><name></name></author><category term="post" /><category term="announcement" /><category term="research journey" /><category term="yuk lore" /><category term="rant" /><summary type="html"><![CDATA[Wrapping up the Car Model series, explaining about the final simulator, certain choices and pivots made, and a hell of a raw rant]]></summary></entry><entry><title type="html">Test Plotly 3D</title><link href="https://yuk068.github.io//2026/04/07/test-plotly-3d" rel="alternate" type="text/html" title="Test Plotly 3D" /><published>2026-04-07T00:00:00+07:00</published><updated>2026-04-07T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/04/07/test-plotly-3d</id><content type="html" xml:base="https://yuk068.github.io//2026/04/07/test-plotly-3d"><![CDATA[<h3 id="plotly"><a href="https://plotly.com/" target="_blank">Plotly</a></h3>
-
-<p>This page is a simple test for a few common 3D visualization patterns: point clouds, trajectories, surfaces, and mesh-based shapes.</p>
-
-<p>Note: 3D Plotly is gonna load way slower.</p>
-
-<hr />
-
-<h2 id="1-3d-scatter-plot">1. 3D scatter plot</h2>
-
-<p>A common use case for 3D scatter plots is visualizing point clouds, sensor output, clusters, or sampled positions in space.</p>
-
-<div id="plotly3dScatter" style="width:100%;aspect-ratio:4/3;"></div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const clusterA = {
-        x: [0.8, 1.1, 1.3, 0.9, 1.4, 1.0, 1.2, 0.7],
-        y: [0.9, 1.2, 0.7, 1.4, 1.1, 0.8, 1.3, 1.0],
-        z: [0.8, 1.0, 1.2, 0.9, 1.4, 1.1, 0.7, 1.3]
-    };
-
-    const clusterB = {
-        x: [-1.2, -0.9, -1.4, -1.1, -0.8, -1.3, -1.0, -1.5],
-        y: [1.4, 1.1, 1.6, 1.0, 1.3, 1.5, 0.9, 1.2],
-        z: [0.2, 0.5, 0.1, 0.6, 0.3, 0.8, 0.4, 0.7]
-    };
-
-    const clusterC = {
-        x: [1.8, 2.1, 1.6, 2.3, 1.9, 2.2, 1.7, 2.0],
-        y: [-1.4, -1.1, -1.6, -1.0, -1.3, -1.5, -0.9, -1.2],
-        z: [1.3, 1.0, 1.5, 1.1, 1.6, 0.9, 1.4, 1.2]
-    };
-
-    Plotly.newPlot(
-        'plotly3dScatter',
-        [
-            {
-                x: clusterA.x,
-                y: clusterA.y,
-                z: clusterA.z,
-                type: 'scatter3d',
-                mode: 'markers',
-                name: 'Cluster A',
-                marker: { size: 5 }
-            },
-            {
-                x: clusterB.x,
-                y: clusterB.y,
-                z: clusterB.z,
-                type: 'scatter3d',
-                mode: 'markers',
-                name: 'Cluster B',
-                marker: { size: 5 }
-            },
-            {
-                x: clusterC.x,
-                y: clusterC.y,
-                z: clusterC.z,
-                type: 'scatter3d',
-                mode: 'markers',
-                name: 'Cluster C',
-                marker: { size: 5 }
-            }
-        ],
-        {
-            title: '3D Scatter: Point Clusters',
-            autosize: true,
-            scene: {
-                xaxis: { title: 'X' },
-                yaxis: { title: 'Y' },
-                zaxis: { title: 'Z' },
-                aspectmode: 'cube'
-            },
-            legend: { orientation: 'h' }
-        },
-        {
-            responsive: true
-        }
-    );
-});
-</script>
-
-<div class="language-html highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div><div class="line-number">19</div><div class="line-number">20</div><div class="line-number">21</div><div class="line-number">22</div><div class="line-number">23</div><div class="line-number">24</div><div class="line-number">25</div><div class="line-number">26</div><div class="line-number">27</div><div class="line-number">28</div><div class="line-number">29</div><div class="line-number">30</div><div class="line-number">31</div><div class="line-number">32</div><div class="line-number">33</div><div class="line-number">34</div><div class="line-number">35</div><div class="line-number">36</div><div class="line-number">37</div><div class="line-number">38</div><div class="line-number">39</div><div class="line-number">40</div><div class="line-number">41</div><div class="line-number">42</div><div class="line-number">43</div><div class="line-number">44</div><div class="line-number">45</div><div class="line-number">46</div><div class="line-number">47</div><div class="line-number">48</div><div class="line-number">49</div><div class="line-number">50</div><div class="line-number">51</div><div class="line-number">52</div><div class="line-number">53</div><div class="line-number">54</div><div class="line-number">55</div><div class="line-number">56</div><div class="line-number">57</div><div class="line-number">58</div><div class="line-number">59</div><div class="line-number">60</div><div class="line-number">61</div><div class="line-number">62</div><div class="line-number">63</div><div class="line-number">64</div><div class="line-number">65</div><div class="line-number">66</div><div class="line-number">67</div><div class="line-number">68</div><div class="line-number">69</div><div class="line-number">70</div></div><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"plotly3dScatter"</span> <span class="na">style=</span><span class="s">"width:100%;aspect-ratio:4/3;"</span><span class="nt">&gt;&lt;/div&gt;</span>
-
-<span class="nt">&lt;script&gt;</span>
-<span class="nb">document</span><span class="p">.</span><span class="nf">addEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">DOMContentLoaded</span><span class="dl">'</span><span class="p">,</span> <span class="nf">function </span><span class="p">()</span> <span class="p">{</span>
-    <span class="kd">const</span> <span class="nx">clusterA</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="na">x</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">],</span>
-        <span class="na">y</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
-        <span class="na">z</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">]</span>
-    <span class="p">};</span>
-
-    <span class="kd">const</span> <span class="nx">clusterB</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="na">x</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mf">1.2</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.4</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.1</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.8</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.3</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.5</span><span class="p">],</span>
-        <span class="na">y</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.4</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="mf">1.6</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">],</span>
-        <span class="na">z</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">]</span>
-    <span class="p">};</span>
-
-    <span class="kd">const</span> <span class="nx">clusterC</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="na">x</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.8</span><span class="p">,</span> <span class="mf">2.1</span><span class="p">,</span> <span class="mf">1.6</span><span class="p">,</span> <span class="mf">2.3</span><span class="p">,</span> <span class="mf">1.9</span><span class="p">,</span> <span class="mf">2.2</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">],</span>
-        <span class="na">y</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mf">1.4</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.1</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.6</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.3</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.2</span><span class="p">],</span>
-        <span class="na">z</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.3</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="mf">1.6</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">]</span>
-    <span class="p">};</span>
-
-    <span class="nx">Plotly</span><span class="p">.</span><span class="nf">newPlot</span><span class="p">(</span>
-        <span class="dl">'</span><span class="s1">plotly3dScatter</span><span class="dl">'</span><span class="p">,</span>
-        <span class="p">[</span>
-            <span class="p">{</span>
-                <span class="na">x</span><span class="p">:</span> <span class="nx">clusterA</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span>
-                <span class="na">y</span><span class="p">:</span> <span class="nx">clusterA</span><span class="p">.</span><span class="nx">y</span><span class="p">,</span>
-                <span class="na">z</span><span class="p">:</span> <span class="nx">clusterA</span><span class="p">.</span><span class="nx">z</span><span class="p">,</span>
-                <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">scatter3d</span><span class="dl">'</span><span class="p">,</span>
-                <span class="na">mode</span><span class="p">:</span> <span class="dl">'</span><span class="s1">markers</span><span class="dl">'</span><span class="p">,</span>
-                <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Cluster A</span><span class="dl">'</span><span class="p">,</span>
-                <span class="na">marker</span><span class="p">:</span> <span class="p">{</span> <span class="na">size</span><span class="p">:</span> <span class="mi">5</span> <span class="p">}</span>
-            <span class="p">},</span>
-            <span class="p">{</span>
-                <span class="na">x</span><span class="p">:</span> <span class="nx">clusterB</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span>
-                <span class="na">y</span><span class="p">:</span> <span class="nx">clusterB</span><span class="p">.</span><span class="nx">y</span><span class="p">,</span>
-                <span class="na">z</span><span class="p">:</span> <span class="nx">clusterB</span><span class="p">.</span><span class="nx">z</span><span class="p">,</span>
-                <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">scatter3d</span><span class="dl">'</span><span class="p">,</span>
-                <span class="na">mode</span><span class="p">:</span> <span class="dl">'</span><span class="s1">markers</span><span class="dl">'</span><span class="p">,</span>
-                <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Cluster B</span><span class="dl">'</span><span class="p">,</span>
-                <span class="na">marker</span><span class="p">:</span> <span class="p">{</span> <span class="na">size</span><span class="p">:</span> <span class="mi">5</span> <span class="p">}</span>
-            <span class="p">},</span>
-            <span class="p">{</span>
-                <span class="na">x</span><span class="p">:</span> <span class="nx">clusterC</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span>
-                <span class="na">y</span><span class="p">:</span> <span class="nx">clusterC</span><span class="p">.</span><span class="nx">y</span><span class="p">,</span>
-                <span class="na">z</span><span class="p">:</span> <span class="nx">clusterC</span><span class="p">.</span><span class="nx">z</span><span class="p">,</span>
-                <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">scatter3d</span><span class="dl">'</span><span class="p">,</span>
-                <span class="na">mode</span><span class="p">:</span> <span class="dl">'</span><span class="s1">markers</span><span class="dl">'</span><span class="p">,</span>
-                <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Cluster C</span><span class="dl">'</span><span class="p">,</span>
-                <span class="na">marker</span><span class="p">:</span> <span class="p">{</span> <span class="na">size</span><span class="p">:</span> <span class="mi">5</span> <span class="p">}</span>
-            <span class="p">}</span>
-        <span class="p">],</span>
-        <span class="p">{</span>
-            <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">3D Scatter: Point Clusters</span><span class="dl">'</span><span class="p">,</span>
-            <span class="na">autosize</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-            <span class="na">scene</span><span class="p">:</span> <span class="p">{</span>
-                <span class="na">xaxis</span><span class="p">:</span> <span class="p">{</span> <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">X</span><span class="dl">'</span> <span class="p">},</span>
-                <span class="na">yaxis</span><span class="p">:</span> <span class="p">{</span> <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Y</span><span class="dl">'</span> <span class="p">},</span>
-                <span class="na">zaxis</span><span class="p">:</span> <span class="p">{</span> <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Z</span><span class="dl">'</span> <span class="p">},</span>
-                <span class="na">aspectmode</span><span class="p">:</span> <span class="dl">'</span><span class="s1">cube</span><span class="dl">'</span>
-            <span class="p">},</span>
-            <span class="na">legend</span><span class="p">:</span> <span class="p">{</span> <span class="na">orientation</span><span class="p">:</span> <span class="dl">'</span><span class="s1">h</span><span class="dl">'</span> <span class="p">}</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="na">responsive</span><span class="p">:</span> <span class="kc">true</span>
-        <span class="p">}</span>
-    <span class="p">);</span>
-<span class="p">});</span>
-<span class="nt">&lt;/script&gt;</span>
-</code></pre><span class="language-label">Html</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
-
-<hr />
-
-<h2 id="2-3d-trajectory--path-plot">2. 3D trajectory / path plot</h2>
-
-<p>A 3D line plot is useful for trajectories, robot paths, drone flight logs, or any motion through space over time.</p>
-
-<div id="plotly3dTrajectory" style="width:100%;aspect-ratio:4/3;"></div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const t = [];
-    for (let i = 0; i <= 240; i++) {
-        t.push(i * 0.08);
-    }
-
-    const x = t.map(v => Math.cos(v));
-    const y = t.map(v => Math.sin(v));
-    const z = t.map(v => v / 4);
-
-    Plotly.newPlot(
-        'plotly3dTrajectory',
-        [
-            {
-                x: x,
-                y: y,
-                z: z,
-                type: 'scatter3d',
-                mode: 'lines',
-                name: 'Trajectory',
-                line: { width: 6 }
-            },
-            {
-                x: [x[0]],
-                y: [y[0]],
-                z: [z[0]],
-                type: 'scatter3d',
-                mode: 'markers',
-                name: 'Start',
-                marker: { size: 6 }
-            },
-            {
-                x: [x[x.length - 1]],
-                y: [y[y.length - 1]],
-                z: [z[z.length - 1]],
-                type: 'scatter3d',
-                mode: 'markers',
-                name: 'End',
-                marker: { size: 6 }
-            }
-        ],
-        {
-            title: '3D Trajectory Example',
-            autosize: true,
-            scene: {
-                xaxis: { title: 'X' },
-                yaxis: { title: 'Y' },
-                zaxis: { title: 'Z' },
-                aspectmode: 'data'
-            },
-            legend: { orientation: 'h' }
-        },
-        {
-            responsive: true
-        }
-    );
-});
-</script>
-
-<div class="language-html highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div><div class="line-number">19</div><div class="line-number">20</div><div class="line-number">21</div><div class="line-number">22</div><div class="line-number">23</div><div class="line-number">24</div><div class="line-number">25</div><div class="line-number">26</div><div class="line-number">27</div><div class="line-number">28</div><div class="line-number">29</div><div class="line-number">30</div><div class="line-number">31</div><div class="line-number">32</div><div class="line-number">33</div><div class="line-number">34</div><div class="line-number">35</div><div class="line-number">36</div><div class="line-number">37</div><div class="line-number">38</div><div class="line-number">39</div><div class="line-number">40</div><div class="line-number">41</div><div class="line-number">42</div><div class="line-number">43</div><div class="line-number">44</div><div class="line-number">45</div><div class="line-number">46</div><div class="line-number">47</div><div class="line-number">48</div><div class="line-number">49</div><div class="line-number">50</div><div class="line-number">51</div><div class="line-number">52</div><div class="line-number">53</div><div class="line-number">54</div><div class="line-number">55</div><div class="line-number">56</div><div class="line-number">57</div><div class="line-number">58</div><div class="line-number">59</div><div class="line-number">60</div><div class="line-number">61</div></div><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"plotly3dTrajectory"</span> <span class="na">style=</span><span class="s">"width:100%;aspect-ratio:4/3;"</span><span class="nt">&gt;&lt;/div&gt;</span>
-
-<span class="nt">&lt;script&gt;</span>
-<span class="nb">document</span><span class="p">.</span><span class="nf">addEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">DOMContentLoaded</span><span class="dl">'</span><span class="p">,</span> <span class="nf">function </span><span class="p">()</span> <span class="p">{</span>
-    <span class="kd">const</span> <span class="nx">t</span> <span class="o">=</span> <span class="p">[];</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;=</span> <span class="mi">240</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">t</span><span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="nx">i</span> <span class="o">*</span> <span class="mf">0.08</span><span class="p">);</span>
-    <span class="p">}</span>
-
-    <span class="kd">const</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">t</span><span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="nx">v</span> <span class="o">=&gt;</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">cos</span><span class="p">(</span><span class="nx">v</span><span class="p">));</span>
-    <span class="kd">const</span> <span class="nx">y</span> <span class="o">=</span> <span class="nx">t</span><span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="nx">v</span> <span class="o">=&gt;</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">sin</span><span class="p">(</span><span class="nx">v</span><span class="p">));</span>
-    <span class="kd">const</span> <span class="nx">z</span> <span class="o">=</span> <span class="nx">t</span><span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="nx">v</span> <span class="o">=&gt;</span> <span class="nx">v</span> <span class="o">/</span> <span class="mi">4</span><span class="p">);</span>
-
-    <span class="nx">Plotly</span><span class="p">.</span><span class="nf">newPlot</span><span class="p">(</span>
-        <span class="dl">'</span><span class="s1">plotly3dTrajectory</span><span class="dl">'</span><span class="p">,</span>
-        <span class="p">[</span>
-            <span class="p">{</span>
-                <span class="na">x</span><span class="p">:</span> <span class="nx">x</span><span class="p">,</span>
-                <span class="na">y</span><span class="p">:</span> <span class="nx">y</span><span class="p">,</span>
-                <span class="na">z</span><span class="p">:</span> <span class="nx">z</span><span class="p">,</span>
-                <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">scatter3d</span><span class="dl">'</span><span class="p">,</span>
-                <span class="na">mode</span><span class="p">:</span> <span class="dl">'</span><span class="s1">lines</span><span class="dl">'</span><span class="p">,</span>
-                <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Trajectory</span><span class="dl">'</span><span class="p">,</span>
-                <span class="na">line</span><span class="p">:</span> <span class="p">{</span> <span class="na">width</span><span class="p">:</span> <span class="mi">6</span> <span class="p">}</span>
-            <span class="p">},</span>
-            <span class="p">{</span>
-                <span class="na">x</span><span class="p">:</span> <span class="p">[</span><span class="nx">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span>
-                <span class="na">y</span><span class="p">:</span> <span class="p">[</span><span class="nx">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span>
-                <span class="na">z</span><span class="p">:</span> <span class="p">[</span><span class="nx">z</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span>
-                <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">scatter3d</span><span class="dl">'</span><span class="p">,</span>
-                <span class="na">mode</span><span class="p">:</span> <span class="dl">'</span><span class="s1">markers</span><span class="dl">'</span><span class="p">,</span>
-                <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Start</span><span class="dl">'</span><span class="p">,</span>
-                <span class="na">marker</span><span class="p">:</span> <span class="p">{</span> <span class="na">size</span><span class="p">:</span> <span class="mi">6</span> <span class="p">}</span>
-            <span class="p">},</span>
-            <span class="p">{</span>
-                <span class="na">x</span><span class="p">:</span> <span class="p">[</span><span class="nx">x</span><span class="p">[</span><span class="nx">x</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]],</span>
-                <span class="na">y</span><span class="p">:</span> <span class="p">[</span><span class="nx">y</span><span class="p">[</span><span class="nx">y</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]],</span>
-                <span class="na">z</span><span class="p">:</span> <span class="p">[</span><span class="nx">z</span><span class="p">[</span><span class="nx">z</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]],</span>
-                <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">scatter3d</span><span class="dl">'</span><span class="p">,</span>
-                <span class="na">mode</span><span class="p">:</span> <span class="dl">'</span><span class="s1">markers</span><span class="dl">'</span><span class="p">,</span>
-                <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">End</span><span class="dl">'</span><span class="p">,</span>
-                <span class="na">marker</span><span class="p">:</span> <span class="p">{</span> <span class="na">size</span><span class="p">:</span> <span class="mi">6</span> <span class="p">}</span>
-            <span class="p">}</span>
-        <span class="p">],</span>
-        <span class="p">{</span>
-            <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">3D Trajectory Example</span><span class="dl">'</span><span class="p">,</span>
-            <span class="na">autosize</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-            <span class="na">scene</span><span class="p">:</span> <span class="p">{</span>
-                <span class="na">xaxis</span><span class="p">:</span> <span class="p">{</span> <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">X</span><span class="dl">'</span> <span class="p">},</span>
-                <span class="na">yaxis</span><span class="p">:</span> <span class="p">{</span> <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Y</span><span class="dl">'</span> <span class="p">},</span>
-                <span class="na">zaxis</span><span class="p">:</span> <span class="p">{</span> <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Z</span><span class="dl">'</span> <span class="p">},</span>
-                <span class="na">aspectmode</span><span class="p">:</span> <span class="dl">'</span><span class="s1">data</span><span class="dl">'</span>
-            <span class="p">},</span>
-            <span class="na">legend</span><span class="p">:</span> <span class="p">{</span> <span class="na">orientation</span><span class="p">:</span> <span class="dl">'</span><span class="s1">h</span><span class="dl">'</span> <span class="p">}</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="na">responsive</span><span class="p">:</span> <span class="kc">true</span>
-        <span class="p">}</span>
-    <span class="p">);</span>
-<span class="p">});</span>
-<span class="nt">&lt;/script&gt;</span>
-</code></pre><span class="language-label">Html</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
-
-<hr />
-
-<h2 id="3-3d-surface-plot">3. 3D surface plot</h2>
-
-<p>3D surface plots are common for mathematical functions, terrain-like data, simulation outputs, and response surfaces.</p>
-
-<div id="plotly3dSurface" style="width:100%;aspect-ratio:4/3;"></div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const x = [];
-    const y = [];
-    const z = [];
-
-    const n = 50;
-    const min = -4;
-    const max = 4;
-
-    for (let i = 0; i < n; i++) {
-        x.push(min + (max - min) * i / (n - 1));
-        y.push(min + (max - min) * i / (n - 1));
-    }
-
-    for (let i = 0; i < y.length; i++) {
-        const row = [];
-        for (let j = 0; j < x.length; j++) {
-            const xv = x[j];
-            const yv = y[i];
-            const r = Math.sqrt(xv * xv + yv * yv) + 1e-6;
-            row.push(Math.sin(r) / r);
-        }
-        z.push(row);
-    }
-
-    Plotly.newPlot(
-        'plotly3dSurface',
-        [
-            {
-                x: x,
-                y: y,
-                z: z,
-                type: 'surface',
-                name: 'Surface'
-            }
-        ],
-        {
-            title: '3D Surface Example',
-            autosize: true,
-            scene: {
-                xaxis: { title: 'X' },
-                yaxis: { title: 'Y' },
-                zaxis: { title: 'Z' },
-                aspectmode: 'cube'
-            }
-        },
-        {
-            responsive: true
-        }
-    );
-});
-</script>
-
-<div class="language-html highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div><div class="line-number">19</div><div class="line-number">20</div><div class="line-number">21</div><div class="line-number">22</div><div class="line-number">23</div><div class="line-number">24</div><div class="line-number">25</div><div class="line-number">26</div><div class="line-number">27</div><div class="line-number">28</div><div class="line-number">29</div><div class="line-number">30</div><div class="line-number">31</div><div class="line-number">32</div><div class="line-number">33</div><div class="line-number">34</div><div class="line-number">35</div><div class="line-number">36</div><div class="line-number">37</div><div class="line-number">38</div><div class="line-number">39</div><div class="line-number">40</div><div class="line-number">41</div><div class="line-number">42</div><div class="line-number">43</div><div class="line-number">44</div><div class="line-number">45</div><div class="line-number">46</div><div class="line-number">47</div><div class="line-number">48</div><div class="line-number">49</div><div class="line-number">50</div><div class="line-number">51</div><div class="line-number">52</div><div class="line-number">53</div><div class="line-number">54</div><div class="line-number">55</div></div><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"plotly3dSurface"</span> <span class="na">style=</span><span class="s">"width:100%;aspect-ratio:4/3;"</span><span class="nt">&gt;&lt;/div&gt;</span>
-
-<span class="nt">&lt;script&gt;</span>
-<span class="nb">document</span><span class="p">.</span><span class="nf">addEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">DOMContentLoaded</span><span class="dl">'</span><span class="p">,</span> <span class="nf">function </span><span class="p">()</span> <span class="p">{</span>
-    <span class="kd">const</span> <span class="nx">x</span> <span class="o">=</span> <span class="p">[];</span>
-    <span class="kd">const</span> <span class="nx">y</span> <span class="o">=</span> <span class="p">[];</span>
-    <span class="kd">const</span> <span class="nx">z</span> <span class="o">=</span> <span class="p">[];</span>
-
-    <span class="kd">const</span> <span class="nx">n</span> <span class="o">=</span> <span class="mi">50</span><span class="p">;</span>
-    <span class="kd">const</span> <span class="nx">min</span> <span class="o">=</span> <span class="o">-</span><span class="mi">4</span><span class="p">;</span>
-    <span class="kd">const</span> <span class="nx">max</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
-
-    <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">n</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">x</span><span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="nx">min</span> <span class="o">+</span> <span class="p">(</span><span class="nx">max</span> <span class="o">-</span> <span class="nx">min</span><span class="p">)</span> <span class="o">*</span> <span class="nx">i</span> <span class="o">/</span> <span class="p">(</span><span class="nx">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">));</span>
-        <span class="nx">y</span><span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="nx">min</span> <span class="o">+</span> <span class="p">(</span><span class="nx">max</span> <span class="o">-</span> <span class="nx">min</span><span class="p">)</span> <span class="o">*</span> <span class="nx">i</span> <span class="o">/</span> <span class="p">(</span><span class="nx">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">));</span>
-    <span class="p">}</span>
-
-    <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">y</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-        <span class="kd">const</span> <span class="nx">row</span> <span class="o">=</span> <span class="p">[];</span>
-        <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">j</span> <span class="o">&lt;</span> <span class="nx">x</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-            <span class="kd">const</span> <span class="nx">xv</span> <span class="o">=</span> <span class="nx">x</span><span class="p">[</span><span class="nx">j</span><span class="p">];</span>
-            <span class="kd">const</span> <span class="nx">yv</span> <span class="o">=</span> <span class="nx">y</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
-            <span class="kd">const</span> <span class="nx">r</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">sqrt</span><span class="p">(</span><span class="nx">xv</span> <span class="o">*</span> <span class="nx">xv</span> <span class="o">+</span> <span class="nx">yv</span> <span class="o">*</span> <span class="nx">yv</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="nx">e</span><span class="o">-</span><span class="mi">6</span><span class="p">;</span>
-            <span class="nx">row</span><span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nf">sin</span><span class="p">(</span><span class="nx">r</span><span class="p">)</span> <span class="o">/</span> <span class="nx">r</span><span class="p">);</span>
-        <span class="p">}</span>
-        <span class="nx">z</span><span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="nx">row</span><span class="p">);</span>
-    <span class="p">}</span>
-
-    <span class="nx">Plotly</span><span class="p">.</span><span class="nf">newPlot</span><span class="p">(</span>
-        <span class="dl">'</span><span class="s1">plotly3dSurface</span><span class="dl">'</span><span class="p">,</span>
-        <span class="p">[</span>
-            <span class="p">{</span>
-                <span class="na">x</span><span class="p">:</span> <span class="nx">x</span><span class="p">,</span>
-                <span class="na">y</span><span class="p">:</span> <span class="nx">y</span><span class="p">,</span>
-                <span class="na">z</span><span class="p">:</span> <span class="nx">z</span><span class="p">,</span>
-                <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">surface</span><span class="dl">'</span><span class="p">,</span>
-                <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Surface</span><span class="dl">'</span>
-            <span class="p">}</span>
-        <span class="p">],</span>
-        <span class="p">{</span>
-            <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">3D Surface Example</span><span class="dl">'</span><span class="p">,</span>
-            <span class="na">autosize</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-            <span class="na">scene</span><span class="p">:</span> <span class="p">{</span>
-                <span class="na">xaxis</span><span class="p">:</span> <span class="p">{</span> <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">X</span><span class="dl">'</span> <span class="p">},</span>
-                <span class="na">yaxis</span><span class="p">:</span> <span class="p">{</span> <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Y</span><span class="dl">'</span> <span class="p">},</span>
-                <span class="na">zaxis</span><span class="p">:</span> <span class="p">{</span> <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Z</span><span class="dl">'</span> <span class="p">},</span>
-                <span class="na">aspectmode</span><span class="p">:</span> <span class="dl">'</span><span class="s1">cube</span><span class="dl">'</span>
-            <span class="p">}</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="na">responsive</span><span class="p">:</span> <span class="kc">true</span>
-        <span class="p">}</span>
-    <span class="p">);</span>
-<span class="p">});</span>
-<span class="nt">&lt;/script&gt;</span>
-</code></pre><span class="language-label">Html</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>
-
-<hr />
-
-<h2 id="4-3d-mesh-plot">4. 3D mesh plot</h2>
-
-<p>Mesh plots are useful for object shapes, reconstructed surfaces, geometry visualization, or low-poly models.</p>
-
-<div id="plotly3dMesh" style="width:100%;aspect-ratio:4/3;"></div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const x = [0, 1, 1, 0, 0, 1, 1, 0];
-    const y = [0, 0, 1, 1, 0, 0, 1, 1];
-    const z = [0, 0, 0, 0, 1, 1, 1, 1];
-
-    Plotly.newPlot(
-        'plotly3dMesh',
-        [
-            {
-                x: x,
-                y: y,
-                z: z,
-                i: [0, 0, 0, 1, 2, 4, 4, 5, 6, 7, 0, 1],
-                j: [1, 2, 4, 3, 3, 5, 6, 6, 7, 4, 5, 6],
-                k: [2, 4, 1, 2, 0, 6, 5, 7, 4, 0, 1, 2],
-                type: 'mesh3d',
-                opacity: 0.55,
-                name: 'Cube Mesh'
-            }
-        ],
-        {
-            title: '3D Mesh Example',
-            autosize: true,
-            scene: {
-                xaxis: { title: 'X' },
-                yaxis: { title: 'Y' },
-                zaxis: { title: 'Z' },
-                aspectmode: 'data'
-            }
-        },
-        {
-            responsive: true
-        }
-    );
-});
-</script>
-
-<div class="language-html highlighter-rouge"><div class="highlight"><div class="line-numbers"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div><div class="line-number">19</div><div class="line-number">20</div><div class="line-number">21</div><div class="line-number">22</div><div class="line-number">23</div><div class="line-number">24</div><div class="line-number">25</div><div class="line-number">26</div><div class="line-number">27</div><div class="line-number">28</div><div class="line-number">29</div><div class="line-number">30</div><div class="line-number">31</div><div class="line-number">32</div><div class="line-number">33</div><div class="line-number">34</div><div class="line-number">35</div><div class="line-number">36</div><div class="line-number">37</div><div class="line-number">38</div><div class="line-number">39</div></div><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"plotly3dMesh"</span> <span class="na">style=</span><span class="s">"width:100%;aspect-ratio:4/3;"</span><span class="nt">&gt;&lt;/div&gt;</span>
-
-<span class="nt">&lt;script&gt;</span>
-<span class="nb">document</span><span class="p">.</span><span class="nf">addEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">DOMContentLoaded</span><span class="dl">'</span><span class="p">,</span> <span class="nf">function </span><span class="p">()</span> <span class="p">{</span>
-    <span class="kd">const</span> <span class="nx">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">];</span>
-    <span class="kd">const</span> <span class="nx">y</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">];</span>
-    <span class="kd">const</span> <span class="nx">z</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">];</span>
-
-    <span class="nx">Plotly</span><span class="p">.</span><span class="nf">newPlot</span><span class="p">(</span>
-        <span class="dl">'</span><span class="s1">plotly3dMesh</span><span class="dl">'</span><span class="p">,</span>
-        <span class="p">[</span>
-            <span class="p">{</span>
-                <span class="na">x</span><span class="p">:</span> <span class="nx">x</span><span class="p">,</span>
-                <span class="na">y</span><span class="p">:</span> <span class="nx">y</span><span class="p">,</span>
-                <span class="na">z</span><span class="p">:</span> <span class="nx">z</span><span class="p">,</span>
-                <span class="na">i</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
-                <span class="na">j</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span>
-                <span class="na">k</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
-                <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">mesh3d</span><span class="dl">'</span><span class="p">,</span>
-                <span class="na">opacity</span><span class="p">:</span> <span class="mf">0.55</span><span class="p">,</span>
-                <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Cube Mesh</span><span class="dl">'</span>
-            <span class="p">}</span>
-        <span class="p">],</span>
-        <span class="p">{</span>
-            <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">3D Mesh Example</span><span class="dl">'</span><span class="p">,</span>
-            <span class="na">autosize</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-            <span class="na">scene</span><span class="p">:</span> <span class="p">{</span>
-                <span class="na">xaxis</span><span class="p">:</span> <span class="p">{</span> <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">X</span><span class="dl">'</span> <span class="p">},</span>
-                <span class="na">yaxis</span><span class="p">:</span> <span class="p">{</span> <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Y</span><span class="dl">'</span> <span class="p">},</span>
-                <span class="na">zaxis</span><span class="p">:</span> <span class="p">{</span> <span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Z</span><span class="dl">'</span> <span class="p">},</span>
-                <span class="na">aspectmode</span><span class="p">:</span> <span class="dl">'</span><span class="s1">data</span><span class="dl">'</span>
-            <span class="p">}</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="na">responsive</span><span class="p">:</span> <span class="kc">true</span>
-        <span class="p">}</span>
-    <span class="p">);</span>
-<span class="p">});</span>
-<span class="nt">&lt;/script&gt;</span>
-</code></pre><span class="language-label">Html</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button></div></div>]]></content><author><name></name></author><category term="code" /><category term="resources" /><category term="plotly" /><category term="3d" /><summary type="html"><![CDATA[A sample post for testing common Plotly 3D visualization patterns]]></summary></entry></feed>
+<p>But yeah anyway, really informal post I know, I kinda got a lot going on right now, I also plan to take the kinematic model i learned from this journey to make a project about automatic parking for that DAA course, but yeah, these courses still suck, this school still sucks, but ill try my best, I love doing these things, I just wish I had more time to go deeper into them.</p>]]></content><author><name></name></author><category term="post" /><category term="announcement" /><category term="research journey" /><category term="yuk lore" /><category term="rant" /><summary type="html"><![CDATA[Wrapping up the Car Model series, explaining about the final simulator, certain choices and pivots made, and a hell of a raw rant]]></summary></entry></feed>
