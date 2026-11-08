@@ -7,7 +7,6 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
     <meta charset="UTF-8">
@@ -56,6 +55,7 @@
     <meta name="twitter:description" content="A technical breakdown for Project: TrafficLab 3D, 200 stars and 20 forks on Github :D">
     <meta name="twitter:image" content="https://yuk068.github.io//assets/thumbnail/2026/q1-2026/traflab3d-demo-thumb.webp">
 
+    <link rel="stylesheet" href="/assets/css/theme.css">
     <link rel="stylesheet" href="/assets/css/pages-css/post-styles.css">
     
 
@@ -65,20 +65,7 @@
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/contrib/auto-render.min.js"></script>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            if (typeof renderMathInElement === 'function') {
-                renderMathInElement(document.body, {
-                    delimiters: [
-                        { left: "$$", right: "$$", display: true },
-                        { left: "$", right: "$", display: false },
-                        { left: "\\(", right: "\\)", display: false },
-                        { left: "\\[", right: "\\]", display: true }
-                    ]
-                });
-            }
-        });
-    </script>
+    <script defer src="/assets/js/katex-init.js"></script>
 
     
     
@@ -97,58 +84,7 @@
 
     <link rel="stylesheet" href="https://unpkg.com/photoswipe@5/dist/photoswipe.css">
 
-<script type="module">
-import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5/dist/photoswipe-lightbox.esm.js';
-
-const lightbox = new PhotoSwipeLightbox({
-    gallery: '.post-article',
-    children: 'img',
-    pswpModule: () => import('https://unpkg.com/photoswipe@5/dist/photoswipe.esm.js'),
-
-    // --- Animation Settings ---
-    showHideAnimationType: 'fade',
-
-    // --- Zoom Enhancements ---
-    wheelToZoom: true,
-    imageClickAction: 'zoom',
-    secondaryZoomLevel: 2,
-    maxZoomLevel: 4,
-
-    // --- Loading Behavior ---
-    preload: [1, 5],
-});
-
-
-// --- SAFER DATA SOURCE ---
-lightbox.addFilter('itemData', (itemData) => {
-    const img = itemData.element;
-
-    return {
-        src: img.src,
-        msrc: img.src,
-        width: img.naturalWidth || img.width || 1200,
-        height: img.naturalHeight || img.height || 800,
-        element: img
-    };
-});
-
-
-// --- FIX DIMENSIONS AFTER LOAD ---
-lightbox.on('contentLoadImage', (e) => {
-    const { content } = e;
-
-    content.element.decode().then(() => {
-        content.width = content.element.naturalWidth;
-        content.height = content.element.naturalHeight;
-
-        if (lightbox.pswp) {
-            lightbox.pswp.refreshSize(true);
-        }
-    }).catch(() => {});
-});
-
-lightbox.init();
-</script>
+<script type="module" src="/assets/js/photoswipe-init.js"></script>
 </head>
 
 <body>
@@ -158,7 +94,7 @@ lightbox.init();
     <div class="main-container">
         <header id="post-header">
             <div class="header-logo-container">
-                <button class="logo-button" onclick="handleLogoClick()">
+                <button class="logo-button" onclick="handleLogoClick()" aria-label="Home">
                     <div class="logo-container">
                         <div class="logo">
                             <div class="u-shape left-side"></div>
@@ -179,40 +115,32 @@ lightbox.init();
                     <ul>
                         <a href="#" onclick="goBack()">
                             <li>
-                                
                                 Back
-                                
                             </li>
                         </a>
                         <div class="nav-bar-divider"></div>
                         <a href="/">
                             <li>
-                                
                                 Home
-                                
                             </li>
                         </a>
-                        <div class="nav-bar-divider" id="nav-disable-mobile"></div>
-                        <a href="/archive" id="nav-disable-mobile">
-                            <li id="nav-disable-mobile">
-                                
+                        <div class="nav-bar-divider"></div>
+                        <a href="/archive">
+                            <li>
                                 Archive
-                                
                             </li>
                         </a>
-                        <div class="nav-bar-divider" id="nav-disable-mobile"></div>
-                        <a href="/projects" id="nav-disable-mobile">
-                            <li id="nav-disable-mobile">
-                                
+                        <div class="nav-bar-divider"></div>
+                        <a href="/projects">
+                            <li>
                                 Projects
-                                
                             </li>
                         </a>
                     </ul>
                 </nav>
             </div>
             <div class="header-extra-container">
-                <button class="extra-button">
+                <button class="extra-button" aria-label="Open configuration">
                     <div class="extra-container">
                         <div class="extra">
                             <div class="extra-shape top"></div>
@@ -227,15 +155,11 @@ lightbox.init();
             <div id="overlay" class="overlay">
                 <div class="options-container">
                     <p>
-                        
                         Navigation
-                        
                     </p>
                     <div class="options-navigation">
                         <a id="toBackButton" href="/"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14"><defs><style>.cls-6374f543b67f094e4896c5c8-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><circle class="cls-6374f543b67f094e4896c5c8-1" cx="12" cy="12" r="10.5"></circle><path class="cls-6374f543b67f094e4896c5c8-1" d="M7.23,7.23h7.63a3.82,3.82,0,0,1,3.82,3.82h0a3.82,3.82,0,0,1-3.82,3.81H7.23"></path><polyline class="cls-6374f543b67f094e4896c5c8-1" points="11.04 18.68 7.23 14.86 11.04 11.04"></polyline></svg>
-                            
                             Back
-                            
                         </a>
                         <a id="toArchiveButton" href="/archive"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff">
     <defs>
@@ -250,9 +174,7 @@ lightbox.init();
     <polygon class="cls-archive-1" points="19.64 9.14 4.36 9.14 4.36 1.5 10.09 1.5 12 3.41 19.64 3.41 19.64 9.14"></polygon>
     <polygon class="cls-archive-1" points="1.5 9.14 22.5 9.14 20.59 22.5 3.41 22.5 1.5 9.14"></polygon>
 </svg>
-                            
                             Archive
-                            
                         </a>
                         <a id="toProjectsButton" href="/projects"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff">
     <defs>
@@ -275,9 +197,7 @@ lightbox.init();
         <line class="cls-projects-1" x1="11.95" y1="4.37" x2="13.87" y2="4.37"></line>
     </g>
 </svg>
-                            
                             Projects
-                            
                         </a>
                         <a id="toAboutButton" href="/about-yuk-en"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff">
     <defs>
@@ -292,21 +212,15 @@ lightbox.init();
     <circle class="cls-about-1" cx="12" cy="7.25" r="5.73"></circle>
     <path class="cls-about-1" d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05"></path>
 </svg>
-                            
                             About
-                            
                         </a>
                         <a id="toHomeButton" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="currentColor" aria-hidden="true"><defs><style>.s{fill:none;stroke:currentColor;stroke-miterlimit:10}</style></defs><polyline class="s" points="1 12 12 2.83 23 12"></polyline><polyline class="s" points="19.33 9.25 19.33 21.17 14.75 21.17 14.75 13.83 9.25 13.83 9.25 21.17 4.67 21.17 4.67 9.25"></polyline></svg>
-                            
                             Home
-                            
                         </a>
                     </div>
                     <div class="option-horizontal-divider-line"></div>
                     <p>
-                        
                         Options
-                        
                     </p>
                     <div class="options-configuration">
                         <button id="toTopButton"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="50" height="50" color="#fff">
@@ -324,9 +238,7 @@ lightbox.init();
     <polyline class="cls-scroll-top-1" points="7.23 10.09 12 5.32 16.77 10.09"></polyline>
     <polyline class="cls-scroll-top-1" points="7.23 14.86 12 10.09 16.77 14.86"></polyline>
 </svg>
-                            
                             To top
-                            
                         </button>
 
                         <button id="configPlaceholder2" class="bg-performance-btn">
@@ -361,14 +273,10 @@ lightbox.init();
         <line class="cls-theme-1" x1="18.77" y1="18.79" x2="20.13" y2="20.15"></line>
     </g>
 </svg>
-                            
                             Theme
-                            
                         </button>
                         <button id="commentsButton"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="currentColor" aria-hidden="true"><defs><style>.s{fill:none;stroke:currentColor;stroke-miterlimit:10}</style></defs><path class="s" d="M1.5,5.3v9.54a3.82,3.82,0,0,0,3.82,3.82H7.23v2.86L13,18.66h5.73a3.82,3.82,0,0,0,3.82-3.82V5.3a3.82,3.82,0,0,0-3.82-3.82H5.32A3.82,3.82,0,0,0,1.5,5.3Z"></path><line class="s" x1="15.82" y1="10.07" x2="17.73" y2="10.07"></line><line class="s" x1="11.05" y1="10.07" x2="12.95" y2="10.07"></line><line class="s" x1="6.27" y1="10.07" x2="8.18" y2="10.07"></line></svg>
-                            
                             Comments
-                            
                         </button>
                     </div>
                     <div class="option-horizontal-divider-line"></div>
@@ -387,9 +295,7 @@ lightbox.init();
     <line class="cls-close-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line>
     <line class="cls-close-1" x1="7.23" y1="7.23" x2="16.77" y2="16.77"></line>
 </svg>
-                            
                             Close
-                            
                         </button>
                     </div>
                 </div>
@@ -502,9 +408,7 @@ lightbox.init();
                         
                         <span class="reading-time">
                             23
-                            
                             Min.
-                            
                         </span>
                         
                     </div>
@@ -516,9 +420,7 @@ lightbox.init();
     <circle cx="12" cy="7.25" r="5.73" stroke="currentColor" stroke-miterlimit="10"></circle>
     <path d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05" stroke="currentColor" stroke-miterlimit="10"></path>
 </svg>
-                        
                         Written by:
-                        
                         Yuk
                     </div>
                 </div>
@@ -529,28 +431,67 @@ lightbox.init();
                         
                         
                         
-                        <h3 id="table-of-content">Table of Content<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#table-of-content')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+                        <h3 id="table-of-content">Table of Content<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#table-of-content')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h3>
 
 <blockquote>
 <div class="content">
-  <div id="table-of-contents"><ul><li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#table-of-content')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#table-of-content" style="color:#434e64;">Table of Content</a></div></li>
-<li class="h2"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#motivation')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#motivation">Motivation</a></div></li>
-<li class="h2"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#the-problem-context')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#the-problem-context">The Problem Context</a></div></li>
-<li class="h2"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#system-overview')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#system-overview">System Overview</a></div></li>
-<li class="h2"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#the-g-projection')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#the-g-projection">The G Projection</a></div></li>
-<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#phase-1---undistort')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#phase-1---undistort">Phase 1 - Undistort</a></div></li>
-<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#phase-2---homography')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#phase-2---homography">Phase 2 - Homography</a></div></li>
-<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#phase-3---parallax')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#phase-3---parallax">Phase 3 - Parallax</a></div></li>
-<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#metric-scale-and-layout-alignment')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#metric-scale-and-layout-alignment">Metric Scale and Layout Alignment</a></div></li>
-<li class="h2"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#the-x-engine')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#the-x-engine">The X Engine</a></div></li>
-<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#phase-1---perception')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#phase-1---perception">Phase 1 - Perception</a></div></li>
-<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#phase-2---projection--geometry')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#phase-2---projection--geometry">Phase 2 - Projection &amp; Geometry</a></div></li>
-<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#phase-3---reconstruction')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#phase-3---reconstruction">Phase 3 - Reconstruction</a></div></li>
-<li class="h2"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#trafficlab-3d---the-application')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#trafficlab-3d---the-application">TrafficLab 3D - The Application</a></div></li>
-<li class="h2"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#qualitative-analysis')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#qualitative-analysis">Qualitative Analysis</a></div></li>
-<li class="h2"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#what-remains-open')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#what-remains-open">What Remains Open</a></div></li>
-<li class="h2"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#closing-remarks')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#closing-remarks">Closing Remarks</a></div></li>
-<li class="h2"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#references')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#references" style="color:#434e64;">References</a></div></li></ul></div>
+  <div id="table-of-contents"><ul>
+<li class="h3"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#table-of-content')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#table-of-content" style="color:#434e64;">Table of Content</a>
+</div></li>
+<li class="h2"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#motivation')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#motivation">Motivation</a>
+</div></li>
+<li class="h2"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#the-problem-context')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#the-problem-context">The Problem Context</a>
+</div></li>
+<li class="h2"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#system-overview')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#system-overview">System Overview</a>
+</div></li>
+<li class="h2"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#the-g-projection')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#the-g-projection">The G Projection</a>
+</div></li>
+<li class="h3"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#phase-1---undistort')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#phase-1---undistort">Phase 1 - Undistort</a>
+</div></li>
+<li class="h3"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#phase-2---homography')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#phase-2---homography">Phase 2 - Homography</a>
+</div></li>
+<li class="h3"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#phase-3---parallax')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#phase-3---parallax">Phase 3 - Parallax</a>
+</div></li>
+<li class="h3"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#metric-scale-and-layout-alignment')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#metric-scale-and-layout-alignment">Metric Scale and Layout Alignment</a>
+</div></li>
+<li class="h2"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#the-x-engine')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#the-x-engine">The X Engine</a>
+</div></li>
+<li class="h3"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#phase-1---perception')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#phase-1---perception">Phase 1 - Perception</a>
+</div></li>
+<li class="h3"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#phase-2---projection--geometry')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#phase-2---projection--geometry">Phase 2 - Projection &amp; Geometry</a>
+</div></li>
+<li class="h3"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#phase-3---reconstruction')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#phase-3---reconstruction">Phase 3 - Reconstruction</a>
+</div></li>
+<li class="h2"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#trafficlab-3d---the-application')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#trafficlab-3d---the-application">TrafficLab 3D - The Application</a>
+</div></li>
+<li class="h2"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#qualitative-analysis')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#qualitative-analysis">Qualitative Analysis</a>
+</div></li>
+<li class="h2"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#what-remains-open')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#what-remains-open">What Remains Open</a>
+</div></li>
+<li class="h2"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#closing-remarks')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#closing-remarks">Closing Remarks</a>
+</div></li>
+<li class="h2"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#references')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#references" style="color:#434e64;">References</a>
+</div></li>
+</ul></div>
 </div>
 <button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span>
 </blockquote>
@@ -564,7 +505,8 @@ lightbox.init();
 
 <hr>
 
-<h2 id="motivation">Motivation<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#motivation')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
+<h2 id="motivation">Motivation<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#motivation')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h2>
 
 <p>This project started as a midterm report for an Advanced Computer Vision course, framed around the question of whether you could build a Digital Twin for Hanoi’s traffic using only monocular CCTV footage and a satellite image. The academic title was <em>“Towards Building a Digital Twin for Hanoi’s Traffic System”</em>. By the time the codebase was finalized and made public, the Hanoi-specific framing had been replaced by something more general: <strong>TrafficLab 3D</strong> - a standalone proof-of-concept that anyone can run on their own CCTV footage, for any flat location they can find on Google Maps.</p>
 
@@ -574,11 +516,12 @@ lightbox.init();
 
 <hr>
 
-<h2 id="the-problem-context">The Problem Context<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#the-problem-context')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
+<h2 id="the-problem-context">The Problem Context<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#the-problem-context')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h2>
 
 <p>It helps to understand what kind of traffic this was originally designed for.</p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRm4AAABXRUJQVlA4IGIAAADQAwCdASpAABQAPt1mqE6rpbEiKAwCIBuJZQDHJ8fCHWpEMdTfYdAA/uIYorh7hQxANNIlEeGLOlq7B7rpq1o8AsH7FMm9iT/bEY/V1WrThuyh6OA/ohBlrYEjeCyp56AAAA=='); aspect-ratio: 2052 / 647; width: min(2052px, 95%, calc(85vh * 3.171561)); "><img src="/assets/images/2026/q1-2026/trafficlab/comparetraffic.webp" alt="Comparing Hanoi and US traffic" loading="lazy" decoding="async" width="2052" height="647" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRm4AAABXRUJQVlA4IGIAAADQAwCdASpAABQAPt1mqE6rpbEiKAwCIBuJZQDHJ8fCHWpEMdTfYdAA/uIYorh7hQxANNIlEeGLOlq7B7rpq1o8AsH7FMm9iT/bEY/V1WrThuyh6OA/ohBlrYEjeCyp56AAAA=='); aspect-ratio: 2052 / 647; width: min(128.25rem, 95%, calc(85vh * 3.171561)); "><img src="/assets/images/2026/q1-2026/trafficlab/comparetraffic.webp" alt="Comparing Hanoi and US traffic" loading="lazy" decoding="async" width="2052" height="647" class="blur-load"></span></p>
 
 <p><em>Left: Nga Tu So intersection, Hanoi. Right: New Port Richey, Florida. The domain gap is obvious.</em></p>
 
@@ -590,11 +533,12 @@ lightbox.init();
 
 <hr>
 
-<h2 id="system-overview">System Overview<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#system-overview')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
+<h2 id="system-overview">System Overview<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#system-overview')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h2>
 
 <p>TrafficLab’s output is a synchronized, side-by-side visualization: the CCTV panel showing 3D bounding boxes in perspective, and the satellite panel showing orientation-aware floor boxes on the map with speed labels.</p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRogAAABXRUJQVlA4IHwAAAAQBgCdASpAACQAPsFMm0yvJCKiOrzIAeAYCWcA0YA8MtvGFWk5taDR1jmwzK2M5DFvwABn9nMfy2AA/u0fmey9He4ntIVQl91asLimb4jGLfHg0Ol9VMYuFqfB97y/5W/2uErcu75am7/rasruWKj3+WfoQWPT+597UWAA'); aspect-ratio: 640 / 360; width: min(640px, 95%, calc(85vh * 1.777778)); "><img src="/assets/images/2026/q1-2026/trafficlab/demo.webp" alt="Demo GIF" loading="lazy" decoding="async" width="640" height="360" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRogAAABXRUJQVlA4IHwAAAAQBgCdASpAACQAPsFMm0yvJCKiOrzIAeAYCWcA0YA8MtvGFWk5taDR1jmwzK2M5DFvwABn9nMfy2AA/u0fmey9He4ntIVQl91asLimb4jGLfHg0Ol9VMYuFqfB97y/5W/2uErcu75am7/rasruWKj3+WfoQWPT+597UWAA'); aspect-ratio: 640 / 360; width: min(40.0rem, 95%, calc(85vh * 1.777778)); "><img src="/assets/images/2026/q1-2026/trafficlab/demo.webp" alt="Demo GIF" loading="lazy" decoding="async" width="640" height="360" class="blur-load"></span></p>
 
 <p>The system is organized around two core technical contributions:</p>
 
@@ -609,7 +553,8 @@ lightbox.init();
 
 <hr>
 
-<h2 id="the-g-projection">The G Projection<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#the-g-projection')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
+<h2 id="the-g-projection">The G Projection<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#the-g-projection')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h2>
 
 <p>The $G$ Projection is the geometric foundation of the whole system. It is a bidirectional mapping:</p>
 
@@ -633,7 +578,8 @@ lightbox.init();
 
 <p>Constructing a $G$ Projection for a location requires three inputs: a CCTV screenshot, a satellite screenshot, and optionally an SVG layout of the road geometry. The construction proceeds through three sequential phases.</p>
 
-<h3 id="phase-1---undistort">Phase 1 - Undistort<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#phase-1---undistort')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+<h3 id="phase-1---undistort">Phase 1 - Undistort<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#phase-1---undistort')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h3>
 
 <p>Before anything else, raw CCTV pixel coordinates need to be rectified. CCTV lenses introduce distortion, most commonly the barrel distortion that curves straight lines. We adopt the standard pinhole model with Brown-Conrady radial-tangential distortion.</p>
 
@@ -694,11 +640,12 @@ M347 1759 V0 H263 V1759 v0 v1759 h84z"></path></svg></span></span></span><span c
 
 <p>We define the undistortion operator $U : (u, v) \mapsto (u’, v’)$. All subsequent geometry operates on these rectified coordinates. In practice, since we have no camera spec sheet, all five distortion coefficients plus the intrinsics are adjusted manually in the calibration GUI, with a grid overlay to help judge when straight lines in the scene look straight.</p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRnYAAABXRUJQVlA4IGoAAAAQBQCdASpAABYAPt1kqE4opbEmLBVbMiAbiWkA0qwHpYTcXOG/1MD1sieha/ukVPwAAP7jSljEzRge9D1b6zX2aVuEaJ85aKLcCoyI+3ZWTb9MLuXdJvGzr3gVgMU1B6wCpi0GyiqjAAAA'); aspect-ratio: 1456 / 510; width: min(1456px, 95%, calc(85vh * 2.854902)); "><img src="/assets/images/2026/q1-2026/trafficlab/Undistort119NH.webp" alt="Undistort example 119NH" loading="lazy" decoding="async" width="1456" height="510" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRnYAAABXRUJQVlA4IGoAAAAQBQCdASpAABYAPt1kqE4opbEmLBVbMiAbiWkA0qwHpYTcXOG/1MD1sieha/ukVPwAAP7jSljEzRge9D1b6zX2aVuEaJ85aKLcCoyI+3ZWTb9MLuXdJvGzr3gVgMU1B6wCpi0GyiqjAAAA'); aspect-ratio: 1456 / 510; width: min(91.0rem, 95%, calc(85vh * 2.854902)); "><img src="/assets/images/2026/q1-2026/trafficlab/Undistort119NH.webp" alt="Undistort example 119NH" loading="lazy" decoding="async" width="1456" height="510" class="blur-load"></span></p>
 
 <p><em>Undistortion for location 119NH. The pole on the left of the frame is used as a straightness reference.</em></p>
 
-<h3 id="phase-2---homography">Phase 2 - Homography<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#phase-2---homography')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+<h3 id="phase-2---homography">Phase 2 - Homography<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#phase-2---homography')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h3>
 
 <p>With rectified coordinates $(u’, v’)$, we now establish the mapping to the satellite image, under the assumption that everything is on the ground plane ($h = 0$). This is the classical homography problem.</p>
 
@@ -758,13 +705,13 @@ b_i = \left[ \begin{array}{c} x_i \\ y_i \end{array} \right]</annotation></seman
   <li>Refit $H$ using all inliers via least-squares.</li>
 </ol>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRoIAAABXRUJQVlA4IHYAAABwBgCdASpAACIAPsFOmkyqJKKiN+qpQBgJaQDRgDJEN1Ig88EOp5yCcDdVysG4a3kMGO+0lZWE2BNFstgA/vYJTTKgtHpij5tlCb4H6y/6N3y8AbDuRGeap0/b1fvHnXn0qdpPEyWd6XuOXVKtlzHWCbWk0AAA'); aspect-ratio: 1665 / 888; width: min(1665px, 95%, calc(85vh * 1.875)); "><img src="/assets/images/2026/q1-2026/trafficlab/anchors119NH.webp" alt="Anchor selection 119NH" loading="lazy" decoding="async" width="1665" height="888" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRoIAAABXRUJQVlA4IHYAAABwBgCdASpAACIAPsFOmkyqJKKiN+qpQBgJaQDRgDJEN1Ig88EOp5yCcDdVysG4a3kMGO+0lZWE2BNFstgA/vYJTTKgtHpij5tlCb4H6y/6N3y8AbDuRGeap0/b1fvHnXn0qdpPEyWd6XuOXVKtlzHWCbWk0AAA'); aspect-ratio: 1665 / 888; width: min(104.0625rem, 95%, calc(85vh * 1.875)); "><img src="/assets/images/2026/q1-2026/trafficlab/anchors119NH.webp" alt="Anchor selection 119NH" loading="lazy" decoding="async" width="1665" height="888" class="blur-load"></span></p>
 
 <p><em>Anchor selection for 119NH. Left: points on the undistorted CCTV frame. Right: corresponding points on the satellite image.</em></p>
 
 <p>Once $H$ is computed, we validate by warping the entire CCTV frame into satellite space and overlaying it on the satellite image. This also gives us the Field-of-View polygon - the observable area on the map.</p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRqIAAABXRUJQVlA4IJYAAAAwCQCdASpAACoAPtVeqUyoPayiMrScy7AaiWkA0YAJVvhaPOrM+DsZAdWg85r4dmYjr3jEcORWxVbfMhrG4aQXc8gQCyNO3a262wgP0vKAfXoAAPyqAjkq0gkANfRnEMKTEooauTw1O+YFyyo7G7Mcf7U1SlEeeXsH+JEs9ZJWM7Cx/q1SlAnL9CLTxSerPG/eEZEAAAA='); aspect-ratio: 2607 / 1701; width: min(2607px, 95%, calc(85vh * 1.532628)); "><img src="/assets/images/2026/q1-2026/trafficlab/FOV.webp" alt="FOV polygon 119NH" loading="lazy" decoding="async" width="2607" height="1701" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRqIAAABXRUJQVlA4IJYAAAAwCQCdASpAACoAPtVeqUyoPayiMrScy7AaiWkA0YAJVvhaPOrM+DsZAdWg85r4dmYjr3jEcORWxVbfMhrG4aQXc8gQCyNO3a262wgP0vKAfXoAAPyqAjkq0gkANfRnEMKTEooauTw1O+YFyyo7G7Mcf7U1SlEeeXsH+JEs9ZJWM7Cx/q1SlAnL9CLTxSerPG/eEZEAAAA='); aspect-ratio: 2607 / 1701; width: min(162.9375rem, 95%, calc(85vh * 1.532628)); "><img src="/assets/images/2026/q1-2026/trafficlab/FOV.webp" alt="FOV polygon 119NH" loading="lazy" decoding="async" width="2607" height="1701" class="blur-load"></span></p>
 
 <p><em>The green contour is the FOV limit. The warped CCTV image aligns with road edges and lane markings in the satellite view.</em></p>
 
@@ -782,11 +729,12 @@ b_i = \left[ \begin{array}{c} x_i \\ y_i \end{array} \right]</annotation></seman
 
 <p>At the end of Phase 2, we have $G : (u, v, 0) \leftrightarrow (x, y)$ - a working projection for ground-plane points only. Objects with height will be incorrectly placed on the satellite map, displaced away from their true position in the direction of the camera. That is the parallax problem Phase 3 solves.</p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRoYAAABXRUJQVlA4IHoAAADwBQCdASpAACIAPsVOnUy5pCKiN+gDMBiJaQDPKDJDAJv/YHOght6g4EwbXSLWvWv2ykm8ZLf9AAD+9NFn8zlYp7luGoybZSbvc49VQ7qdOwD+8KMoCNvIJhV4o7nSOu6RKcrh6ozBnwd2YN9ZK7CuBagl/dJaHAAAAA=='); aspect-ratio: 1492 / 798; width: min(1492px, 95%, calc(85vh * 1.869674)); "><img src="/assets/images/2026/q1-2026/trafficlab/testhomography119NH.webp" alt="Test homography 119NH" loading="lazy" decoding="async" width="1492" height="798" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRoYAAABXRUJQVlA4IHoAAADwBQCdASpAACIAPsVOnUy5pCKiN+gDMBiJaQDPKDJDAJv/YHOght6g4EwbXSLWvWv2ykm8ZLf9AAD+9NFn8zlYp7luGoybZSbvc49VQ7qdOwD+8KMoCNvIJhV4o7nSOu6RKcrh6ozBnwd2YN9ZK7CuBagl/dJaHAAAAA=='); aspect-ratio: 1492 / 798; width: min(93.25rem, 95%, calc(85vh * 1.869674)); "><img src="/assets/images/2026/q1-2026/trafficlab/testhomography119NH.webp" alt="Test homography 119NH" loading="lazy" decoding="async" width="1492" height="798" class="blur-load"></span></p>
 
 <p><em>Demonstrating $G$ with $h=0$: a red marker in CCTV resolves to the aqua marker in SAT, and vice versa.</em></p>
 
-<h3 id="phase-3---parallax">Phase 3 - Parallax<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#phase-3---parallax')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+<h3 id="phase-3---parallax">Phase 3 - Parallax<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#phase-3---parallax')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h3>
 
 <p>Consider what happens when you project the top of someone’s head using the ground-plane homography $H$. The head appears displaced from the feet in the camera image, so $H$ will map it to a different location on the satellite - “ghosted” toward the distance. This ghosting is the parallax shift, and it is proportional to height.</p>
 
@@ -805,11 +753,11 @@ b_i = \left[ \begin{array}{c} x_i \\ y_i \end{array} \right]</annotation></seman
 
 <p>Drawing a line through $P_{feet}$ and $P_{head}$ for each subject, and intersecting those two lines, gives the camera’s satellite coordinates $C_{sat} = (X_{cam}, Y_{cam})$.</p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRogAAABXRUJQVlA4IHwAAACwBQCdASpAACQAPt1SpEy/rLctsrkrM/AbiWcAy+AeD+ZlUzgZSAtZXcV4sdi9so0KCsIcRiAA/tc2BBuPrIj82hv2y/DztMWdCMhL1+1bSj7WofX03hWHwajK7OSJuUrwSENMp0GRVYk8I0sdfY1V+golFH/fDFFmyAAA'); aspect-ratio: 1390 / 781; width: min(1390px, 95%, calc(85vh * 1.77977)); "><img src="/assets/images/2026/q1-2026/trafficlab/tworider119NH.webp" alt="Reference subjects 119NH" loading="lazy" decoding="async" width="1390" height="781" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRogAAABXRUJQVlA4IHwAAACwBQCdASpAACQAPt1SpEy/rLctsrkrM/AbiWcAy+AeD+ZlUzgZSAtZXcV4sdi9so0KCsIcRiAA/tc2BBuPrIj82hv2y/DztMWdCMhL1+1bSj7WofX03hWHwajK7OSJuUrwSENMp0GRVYk8I0sdfY1V+golFH/fDFFmyAAA'); aspect-ratio: 1390 / 781; width: min(86.875rem, 95%, calc(85vh * 1.77977)); "><img src="/assets/images/2026/q1-2026/trafficlab/tworider119NH.webp" alt="Reference subjects 119NH" loading="lazy" decoding="async" width="1390" height="781" class="blur-load"></span></p>
 
 <p><em>Two riders ($S_1$, $S_2$) with head (red) and feet (aqua) marked for parallax computation.</em></p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRpwAAABXRUJQVlA4IJAAAABwCACdASpAADQAPs1SnkyqpKKiM/5sAVAZiWkA1UAus3c7slv8CqQVKdxitsgvdg0SkCxODYEh0vYVokHMUCZBDJELK6WBwHCA8LG4AP7yXMZAcloK/vJCwTg2648O9xVi+Y60j91X28WfeA5xd8Y1gfFXwA6yll9+X6F4+p6OEDDZfSHWHk25CBy0ycwUAAA='); aspect-ratio: 1077 / 881; width: min(1077px, 95%, calc(85vh * 1.222474)); "><img src="/assets/images/2026/q1-2026/trafficlab/camerapos119NH.webp" alt="Camera position 119NH" loading="lazy" decoding="async" width="1077" height="881" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRpwAAABXRUJQVlA4IJAAAABwCACdASpAADQAPs1SnkyqpKKiM/5sAVAZiWkA1UAus3c7slv8CqQVKdxitsgvdg0SkCxODYEh0vYVokHMUCZBDJELK6WBwHCA8LG4AP7yXMZAcloK/vJCwTg2648O9xVi+Y60j91X28WfeA5xd8Y1gfFXwA6yll9+X6F4+p6OEDDZfSHWHk25CBy0ycwUAAA='); aspect-ratio: 1077 / 881; width: min(67.3125rem, 95%, calc(85vh * 1.222474)); "><img src="/assets/images/2026/q1-2026/trafficlab/camerapos119NH.webp" alt="Camera position 119NH" loading="lazy" decoding="async" width="1077" height="881" class="blur-load"></span></p>
 
 <p><em>The yellow parallax rays intersect at the inferred camera position (red star) on the satellite map.</em></p>
 
@@ -871,11 +819,12 @@ b_i = \left[ \begin{array}{c} x_i \\ y_i \end{array} \right]</annotation></seman
 
 <p>These two functions are the engine. $G_1$ locates objects on the map, $G_2$ reconstructs their 3D bounding boxes in video space.</p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRoAAAABXRUJQVlA4IHQAAADwBQCdASpAACIAPsFMmUy5JCKiN+MgGAlpANJwMkMAl2CpY5FTLuN9FZ3uzp5ul9BizphJyyKpQAD+9glNMqC00oA3W2HST9as3j3WPTBSrA90QrC6VEkPPgSziY6j7OX5xQRltUcrYicr2IySTkuI2AAAAA=='); aspect-ratio: 1499 / 800; width: min(1499px, 95%, calc(85vh * 1.87375)); "><img src="/assets/images/2026/q1-2026/trafficlab/testparallax119NH.webp" alt="Parallax validation 119NH" loading="lazy" decoding="async" width="1499" height="800" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRoAAAABXRUJQVlA4IHQAAADwBQCdASpAACIAPsFMmUy5JCKiN+MgGAlpANJwMkMAl2CpY5FTLuN9FZ3uzp5ul9BizphJyyKpQAD+9glNMqC00oA3W2HST9as3j3WPTBSrA90QrC6VEkPPgSziY6j7OX5xQRltUcrYicr2IySTkuI2AAAAA=='); aspect-ratio: 1499 / 800; width: min(93.6875rem, 95%, calc(85vh * 1.87375)); "><img src="/assets/images/2026/q1-2026/trafficlab/testparallax119NH.webp" alt="Parallax validation 119NH" loading="lazy" decoding="async" width="1499" height="800" class="blur-load"></span></p>
 
 <p><em>Clicking on a rider’s head (Red X) in CCTV now correctly resolves to their true ground position (Aqua X) in SAT, rather than the ghosted location.</em></p>
 
-<h3 id="metric-scale-and-layout-alignment">Metric Scale and Layout Alignment<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#metric-scale-and-layout-alignment')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+<h3 id="metric-scale-and-layout-alignment">Metric Scale and Layout Alignment<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#metric-scale-and-layout-alignment')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h3>
 
 <p>Two finishing steps complete the $G$ Projection.</p>
 
@@ -891,7 +840,7 @@ b_i = \left[ \begin{array}{c} x_i \\ y_i \end{array} \right]</annotation></seman
 
 <p>For 119NH (119 Nguyen Hoang St., My Dinh, Hanoi), two island corners 41.13m apart measured 253.22 pixels on the satellite image, giving $r_{ptm} \approx 6.16$ px/m.</p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRooAAABXRUJQVlA4IH4AAABQBwCdASpAACgAPtVao0y/pSeiMB1cA/AaiWcA0jnnwRficPzzdPEmVx53yJ5c2ya1v23uKY7lefO1hKzsMz254EJgAP6eiycmpq6UfTOmr8d7Ub5vxCQpdaEVeteC12qOSX95adrVbvk+VoPy7YMGJ5gDn/vi9M4gZnwAAAA='); aspect-ratio: 3048 / 1916; width: min(3048px, 95%, calc(85vh * 1.590814)); "><img src="/assets/images/2026/q1-2026/trafficlab/distancegoogleearth119NH.webp" alt="Google Earth distance 119NH" loading="lazy" decoding="async" width="3048" height="1916" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRooAAABXRUJQVlA4IH4AAABQBwCdASpAACgAPtVao0y/pSeiMB1cA/AaiWcA0jnnwRficPzzdPEmVx53yJ5c2ya1v23uKY7lefO1hKzsMz254EJgAP6eiycmpq6UfTOmr8d7Ub5vxCQpdaEVeteC12qOSX95adrVbvk+VoPy7YMGJ5gDn/vi9M4gZnwAAAA='); aspect-ratio: 3048 / 1916; width: min(190.5rem, 95%, calc(85vh * 1.590814)); "><img src="/assets/images/2026/q1-2026/trafficlab/distancegoogleearth119NH.webp" alt="Google Earth distance 119NH" loading="lazy" decoding="async" width="3048" height="1916" class="blur-load"></span></p>
 
 <p><em>Real-world distance measurement between two road island corners via Google Earth, used to establish the pixel-to-meter ratio.</em></p>
 
@@ -911,7 +860,7 @@ M347 1759 V0 H263 V1759 v0 v1759 h84z"></path></svg></span></span></span><span c
 
 <p>Using a minimum of 3 shared anchor points. This allows the SVG layers to be overlaid on the satellite image during visualization.</p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRp4AAABXRUJQVlA4IJIAAADwBwCdASo3AEAAPs1SoUy1KKMoM/zMAqAZiWkA1MgV08U/+R5nTNilo1/I4IuDJBQBLxiQ+EP/FyTdZBCZg9BIhJWsMRtk5QAA/pKdsYhqkpC7RGR57XW6Odg2v1w6yg4/lFWnrbiAYNUC3OsRHBgi6qV8vbrnxOrc6YQTjvCB+jnXmrsz+JUvBMnqTMwiPCgAAA=='); aspect-ratio: 649 / 753; width: min(649px, 95%, calc(85vh * 0.861886)); "><img src="/assets/images/2026/q1-2026/trafficlab/alignanchors119NH.webp" alt="SVG alignment 119NH" loading="lazy" decoding="async" width="649" height="753" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRp4AAABXRUJQVlA4IJIAAADwBwCdASo3AEAAPs1SoUy1KKMoM/zMAqAZiWkA1MgV08U/+R5nTNilo1/I4IuDJBQBLxiQ+EP/FyTdZBCZg9BIhJWsMRtk5QAA/pKdsYhqkpC7RGR57XW6Odg2v1w6yg4/lFWnrbiAYNUC3OsRHBgi6qV8vbrnxOrc6YQTjvCB+jnXmrsz+JUvBMnqTMwiPCgAAA=='); aspect-ratio: 649 / 753; width: min(40.5625rem, 95%, calc(85vh * 0.861886)); "><img src="/assets/images/2026/q1-2026/trafficlab/alignanchors119NH.webp" alt="SVG alignment 119NH" loading="lazy" decoding="async" width="649" height="753" class="blur-load"></span></p>
 
 <p><em>Anchors defined in both satellite (left) and SVG layout (right), and the resulting overlay (bottom).</em></p>
 
@@ -919,31 +868,33 @@ M347 1759 V0 H263 V1759 v0 v1759 h84z"></path></svg></span></span></span><span c
 
 <hr>
 
-<h2 id="the-x-engine">The X Engine<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#the-x-engine')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
+<h2 id="the-x-engine">The X Engine<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#the-x-engine')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h2>
 
 <p>The $X$ Engine (Ten-step Engine) is the pipeline that uses the $G$ Projection to go from raw video to a 3D digital twin visualization. It takes three inputs in addition to the $G$ Projection: the CCTV footage, a prior dimension table $D_{prior}$ (assumed width, length, height per vehicle class in meters), and optionally the SVG $LAYOUT$.</p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRloAAABXRUJQVlA4IE4AAAAQBACdASpAACQAPt1kq1ExKikiqBVaqiAbiWkAABVpZ6fQM6r6e8Q/cAD+7GYc2eTLYTWStqhqSANyJsg3zoHhJZSlKJq6LX6Tf0AAAAA='); aspect-ratio: 1613 / 907; width: min(1613px, 95%, calc(85vh * 1.77839)); "><img src="/assets/images/2026/q1-2026/trafficlab/Xengine.webp" alt="X Engine diagram" loading="lazy" decoding="async" width="1613" height="907" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRloAAABXRUJQVlA4IE4AAAAQBACdASpAACQAPt1kq1ExKikiqBVaqiAbiWkAABVpZ6fQM6r6e8Q/cAD+7GYc2eTLYTWStqhqSANyJsg3zoHhJZSlKJq6LX6Tf0AAAAA='); aspect-ratio: 1613 / 907; width: min(100.8125rem, 95%, calc(85vh * 1.77839)); "><img src="/assets/images/2026/q1-2026/trafficlab/Xengine.webp" alt="X Engine diagram" loading="lazy" decoding="async" width="1613" height="907" class="blur-load"></span></p>
 
 <p><em>The $X$ Engine pipeline overview. Ten steps across three phases.</em></p>
 
 <p>The pipeline is split into three phases.</p>
 
-<h3 id="phase-1---perception">Phase 1 - Perception<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#phase-1---perception')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+<h3 id="phase-1---perception">Phase 1 - Perception<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#phase-1---perception')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h3>
 
 <p><strong>Step 1 - <code class="language-plaintext highlighter-rouge">DET</code></strong>: Object detection. For the prototype, we fine-tuned YOLOv8-s (11.2M parameters) on the VisDrone dataset, with class adjustments to merge <code class="language-plaintext highlighter-rouge">tricycle</code> and <code class="language-plaintext highlighter-rouge">awning-tricycle</code> into a single <code class="language-plaintext highlighter-rouge">three_wheeler</code> class. Input size was set to 736px (a multiple of 32), close to the resolution of the HTVTraffic footage while keeping inference fast.</p>
 
 <p>Training settled at mAP50 ≈ 0.43 and mAP50-95 ≈ 0.26. The F1 curve peaks at 0.47 with a confidence threshold of 0.210. The confusion matrix is candid: <code class="language-plaintext highlighter-rouge">car</code> and <code class="language-plaintext highlighter-rouge">bus</code> perform well, <code class="language-plaintext highlighter-rouge">bicycle</code> is essentially missed (74% classified as background), and <code class="language-plaintext highlighter-rouge">motor</code>, <code class="language-plaintext highlighter-rouge">three_wheeler</code>, <code class="language-plaintext highlighter-rouge">truck</code>, and <code class="language-plaintext highlighter-rouge">van</code> all have 35–55% false negative rates. The culprit is input resolution - small vehicles at 736px simply don’t have enough pixels to be resolved reliably.</p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRkQAAABXRUJQVlA4IDgAAABQAwCdASpAACAAPt1usFKopiSipAgBEBuJaQDRRAs/v3kWAAD+8MvtbgFQgmNdCGs89i6tqIAAAA=='); aspect-ratio: 2400 / 1200; width: min(2400px, 95%, calc(85vh * 2.0)); "><img src="/assets/images/2026/q1-2026/trafficlab/yolov8FTVisDrone.webp" alt="Fine-tuning YOLOv8" loading="lazy" decoding="async" width="2400" height="1200" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRkQAAABXRUJQVlA4IDgAAABQAwCdASpAACAAPt1usFKopiSipAgBEBuJaQDRRAs/v3kWAAD+8MvtbgFQgmNdCGs89i6tqIAAAA=='); aspect-ratio: 2400 / 1200; width: min(150.0rem, 95%, calc(85vh * 2.0)); "><img src="/assets/images/2026/q1-2026/trafficlab/yolov8FTVisDrone.webp" alt="Fine-tuning YOLOv8" loading="lazy" decoding="async" width="2400" height="1200" class="blur-load"></span></p>
 
 <p><em>Loss and validation curves for the YOLOv8-s fine-tuning run on VisDrone. Convergence around epoch 80.</em></p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRkwAAABXRUJQVlA4IEAAAACQAwCdASpAACsAPt1ur1MopiQioqi5EBuJaQAAGH1URZJSjUKAAP7xJzryISxyL3c+KLsCK9UTZyWGcyYPJYAA'); aspect-ratio: 2250 / 1500; width: min(2250px, 95%, calc(85vh * 1.5)); "><img src="/assets/images/2026/q1-2026/trafficlab/BoxF1_curve.webp" alt="F1 curve" loading="lazy" decoding="async" width="2250" height="1500" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRkwAAABXRUJQVlA4IEAAAACQAwCdASpAACsAPt1ur1MopiQioqi5EBuJaQAAGH1URZJSjUKAAP7xJzryISxyL3c+KLsCK9UTZyWGcyYPJYAA'); aspect-ratio: 2250 / 1500; width: min(140.625rem, 95%, calc(85vh * 1.5)); "><img src="/assets/images/2026/q1-2026/trafficlab/BoxF1_curve.webp" alt="F1 curve" loading="lazy" decoding="async" width="2250" height="1500" class="blur-load"></span></p>
 
 <p><em>F1 curve by class. The model leans toward precision over recall, consistent with small-object detection difficulty.</em></p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRoIAAABXRUJQVlA4IHYAAADwBQCdASpAADAAPt1cpk6ouCwsrVM9swAbiWcAz2QHYR6rqUw2lpejXb2RN6D/rPcxeF4SWknFAAD+8QeQNQ87g+oroxavUGBHofj6/lMeeHjZ6by4jVDFN2BJFr46SqbM2enz6oS5RJu74aC8exSMg9RYAAAA'); aspect-ratio: 3000 / 2250; width: min(3000px, 95%, calc(85vh * 1.333333)); "><img src="/assets/images/2026/q1-2026/trafficlab/confusion_matrix_normalized.webp" alt="Confusion matrix" loading="lazy" decoding="async" width="3000" height="2250" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRoIAAABXRUJQVlA4IHYAAADwBQCdASpAADAAPt1cpk6ouCwsrVM9swAbiWcAz2QHYR6rqUw2lpejXb2RN6D/rPcxeF4SWknFAAD+8QeQNQ87g+oroxavUGBHofj6/lMeeHjZ6by4jVDFN2BJFr46SqbM2enz6oS5RJu74aC8exSMg9RYAAAA'); aspect-ratio: 3000 / 2250; width: min(187.5rem, 95%, calc(85vh * 1.333333)); "><img src="/assets/images/2026/q1-2026/trafficlab/confusion_matrix_normalized.webp" alt="Confusion matrix" loading="lazy" decoding="async" width="3000" height="2250" class="blur-load"></span></p>
 
 <p><em>Normalized confusion matrix for the fine-tuned YOLOv8-s.</em></p>
 
@@ -968,7 +919,7 @@ M347 1759 V0 H263 V1759 v0 v1759 h84z"></path></svg></span></span></span><span c
 <span class="language-label">Yaml</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button>
 </div></div>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRooAAABXRUJQVlA4IH4AAAAwBQCdASpAACQAPtVWo0ywpK8iMB1dUhAaiWcAx+QZb8664xf/IM8/D2uUDxgP9aMCAAD8cefDGW99OBVhsgvBbQt3qkmBBVqHE25gCns4pmivfeMwDBSzD3GzEKbUjvzxRGThFld5Cd0+G26t2GlRv5zuC5vwSEA97H7f4AA='); aspect-ratio: 1573 / 881; width: min(1573px, 95%, calc(85vh * 1.785471)); "><img src="/assets/images/2026/q1-2026/trafficlab/detstep.webp" alt="DET step 119NH" loading="lazy" decoding="async" width="1573" height="881" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRooAAABXRUJQVlA4IH4AAAAwBQCdASpAACQAPtVWo0ywpK8iMB1dUhAaiWcAx+QZb8664xf/IM8/D2uUDxgP9aMCAAD8cefDGW99OBVhsgvBbQt3qkmBBVqHE25gCns4pmivfeMwDBSzD3GzEKbUjvzxRGThFld5Cd0+G26t2GlRv5zuC5vwSEA97H7f4AA='); aspect-ratio: 1573 / 881; width: min(98.3125rem, 95%, calc(85vh * 1.785471)); "><img src="/assets/images/2026/q1-2026/trafficlab/detstep.webp" alt="DET step 119NH" loading="lazy" decoding="async" width="1573" height="881" class="blur-load"></span></p>
 
 <p><em><code class="language-plaintext highlighter-rouge">DET</code> step output at 119NH.</em></p>
 
@@ -1029,7 +980,7 @@ M347 1759 V0 H263 V1759 v0 v1759 h84z"></path></svg></span></span></span><span c
 <span class="language-label">Yaml</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button>
 </div></div>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRogAAABXRUJQVlA4IHwAAAAQBgCdASpAACQAPtVSn0yoMSaiN/caqiAaiWcAzYQUI4XERdCmccdasWuL5Ej9btJrzrZu/rJtuHAA/HHnwxljncizFEUh5gxirgEAft/qW4d3miXjcjoG0Ks/ljMaDuSoH6ojwysdWYJQoAmsacQAlPGgLuikQyKQFZAA'); aspect-ratio: 1572 / 879; width: min(1572px, 95%, calc(85vh * 1.788396)); "><img src="/assets/images/2026/q1-2026/trafficlab/trakstep119NH.webp" alt="TRAK step 119NH" loading="lazy" decoding="async" width="1572" height="879" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRogAAABXRUJQVlA4IHwAAAAQBgCdASpAACQAPtVSn0yoMSaiN/caqiAaiWcAzYQUI4XERdCmccdasWuL5Ej9btJrzrZu/rJtuHAA/HHnwxljncizFEUh5gxirgEAft/qW4d3miXjcjoG0Ks/ljMaDuSoH6ojwysdWYJQoAmsacQAlPGgLuikQyKQFZAA'); aspect-ratio: 1572 / 879; width: min(98.25rem, 95%, calc(85vh * 1.788396)); "><img src="/assets/images/2026/q1-2026/trafficlab/trakstep119NH.webp" alt="TRAK step 119NH" loading="lazy" decoding="async" width="1572" height="879" class="blur-load"></span></p>
 
 <p><em><code class="language-plaintext highlighter-rouge">TRAK</code> step output at 119NH. Each road user has a persistent ID.</em></p>
 
@@ -1055,7 +1006,8 @@ M347 1759 V0 H263 V1759 v0 v1759 h84z"></path></svg></span></span></span><span c
 
 <p>Ideally, the reference point would be the ground contact point of each vehicle - 3D-Net uses the center of the bottom edge. We use the box center because the bottom edge can be occluded or cut by the ROI boundary, making it less stable in practice. The tradeoff is a projection height error we compensate for in the next step.</p>
 
-<h3 id="phase-2---projection--geometry">Phase 2 - Projection &amp; Geometry<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#phase-2---projection--geometry')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+<h3 id="phase-2---projection--geometry">Phase 2 - Projection &amp; Geometry<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#phase-2---projection--geometry')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h3>
 
 <p><strong>Step 4 - <code class="language-plaintext highlighter-rouge">1stSAT</code></strong>: The first use of $G_1$. We project the reference points from CCTV space into satellite space. Since we are using the box center rather than the ground contact point, we approximate the projection height as half of the class prior height:</p>
 
@@ -1162,7 +1114,7 @@ M347 1759 V0 H263 V1759 v0 v1759 h84z"></path></svg></span></span></span><span c
 <button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span>
 </blockquote>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRqwAAABXRUJQVlA4IKAAAADQBwCdASpAADkAPtVUpEy/pKOiMfjts/AaiWkA02Ab9l+6JyQi7E0ebYCSV4c0ngRwwzVI1lKjFZFoXEfO/82iixPXD9oWAAD+6yj3FR8njHP3zI1cZ8dokc8bd4GqamZ9orcgnGFe6+isn6Usemfj8w5W4UrEZdKMg/71tHU2NYsZcbM1zf8UFKpjuzb2XHg4X0ftfWygAEhJbU/AkAAA'); aspect-ratio: 1095 / 970; width: min(1095px, 95%, calc(85vh * 1.128866)); "><img src="/assets/images/2026/q1-2026/trafficlab/orientstep.webp" alt="ORIENT step 119NH" loading="lazy" decoding="async" width="1095" height="970" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRqwAAABXRUJQVlA4IKAAAADQBwCdASpAADkAPtVUpEy/pKOiMfjts/AaiWkA02Ab9l+6JyQi7E0ebYCSV4c0ngRwwzVI1lKjFZFoXEfO/82iixPXD9oWAAD+6yj3FR8njHP3zI1cZ8dokc8bd4GqamZ9orcgnGFe6+isn6Usemfj8w5W4UrEZdKMg/71tHU2NYsZcbM1zf8UFKpjuzb2XHg4X0ftfWygAEhJbU/AkAAA'); aspect-ratio: 1095 / 970; width: min(68.4375rem, 95%, calc(85vh * 1.128866)); "><img src="/assets/images/2026/q1-2026/trafficlab/orientstep.webp" alt="ORIENT step 119NH" loading="lazy" decoding="async" width="1095" height="970" class="blur-load"></span></p>
 
 <p><em><code class="language-plaintext highlighter-rouge">ORIENT</code> step output. Floor boxes on the satellite map, with heading arrows (yellow) and speed labels (km/h). Stationary vehicles without reliable heading data are defaulted by the LAYOUT guidelines.</em></p>
 
@@ -1178,7 +1130,8 @@ M347 1759 V0 H263 V1759 v0 v1759 h84z"></path></svg></span></span></span><span c
 
 <p>This gives us the perspective-distorted quadrilateral footprint of each vehicle on the ground in the camera image.</p>
 
-<h3 id="phase-3---reconstruction">Phase 3 - Reconstruction<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#phase-3---reconstruction')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+<h3 id="phase-3---reconstruction">Phase 3 - Reconstruction<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#phase-3---reconstruction')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h3>
 
 <p><strong>Step 7 - <code class="language-plaintext highlighter-rouge">3DBOX</code></strong>: Having the 4 bottom vertices in CCTV space, we now compute the 4 top vertices by projecting the same satellite corners back at the object’s prior height $h = h_{c_k}^{\text{prior}}$:</p>
 
@@ -1202,7 +1155,7 @@ M347 1759 V0 H263 V1759 v0 v1759 h84z"></path></svg></span></span></span><span c
 
 <p>This extrudes the 2D floor rectangle vertically in perspective, producing a wireframe cuboid that respects the scene geometry.</p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRogAAABXRUJQVlA4IHwAAACwBQCdASpAACQAPtlQpUyoMS+iMrksyiAbCWcA0MwUobg5mgytOz4q6Vl6W6dc8rxRY7STjwAA/F1UNUtl6PaXjj92y/3rchtk08h4L5TDYNdR77xlKK68yD5i7iYvz88uBLrlLCrAKFb4TWk2KI++kLwsEbvGH78LwgAA'); aspect-ratio: 1159 / 649; width: min(1159px, 95%, calc(85vh * 1.785824)); "><img src="/assets/images/2026/q1-2026/trafficlab/3dbox119NH.webp" alt="3D box 119NH" loading="lazy" decoding="async" width="1159" height="649" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRogAAABXRUJQVlA4IHwAAACwBQCdASpAACQAPtlQpUyoMS+iMrksyiAbCWcA0MwUobg5mgytOz4q6Vl6W6dc8rxRY7STjwAA/F1UNUtl6PaXjj92y/3rchtk08h4L5TDYNdR77xlKK68yD5i7iYvz88uBLrlLCrAKFb4TWk2KI++kLwsEbvGH78LwgAA'); aspect-ratio: 1159 / 649; width: min(72.4375rem, 95%, calc(85vh * 1.785824)); "><img src="/assets/images/2026/q1-2026/trafficlab/3dbox119NH.webp" alt="3D box 119NH" loading="lazy" decoding="async" width="1159" height="649" class="blur-load"></span></p>
 
 <p><em><code class="language-plaintext highlighter-rouge">3DBOX</code> step output at 119NH.</em></p>
 
@@ -1210,17 +1163,18 @@ M347 1759 V0 H263 V1759 v0 v1759 h84z"></path></svg></span></span></span><span c
 
 <p><strong>Step 10 - <code class="language-plaintext highlighter-rouge">DIGT</code></strong>: The final visualization - a synchronized side-by-side view of the CCTV panel (with 3D boxes) and the satellite panel (with speed and heading-aware floor boxes). This is the digital twin display.</p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRooAAABXRUJQVlA4IH4AAABwBgCdASpAACEAPsVInEynq6wiN/46qYAYiWkA0NHlwh1puLGsf0Fo/OVSxJYdvRkadwZ46IkusYXEOCAA/vROSN7+K23pYzhx2yFBIi1kiNlBJAq/JYPSg0XCXiqPN64EL8YMMCxQGhiKt4qBvjUmkvPdhYMXEdzibezgAAA='); aspect-ratio: 1845 / 964; width: min(1845px, 95%, calc(85vh * 1.9139)); "><img src="/assets/images/2026/q1-2026/trafficlab/prototypeHTDT_119NH.webp" alt="Prototype HTDT 119NH" loading="lazy" decoding="async" width="1845" height="964" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRooAAABXRUJQVlA4IH4AAABwBgCdASpAACEAPsVInEynq6wiN/46qYAYiWkA0NHlwh1puLGsf0Fo/OVSxJYdvRkadwZ46IkusYXEOCAA/vROSN7+K23pYzhx2yFBIi1kiNlBJAq/JYPSg0XCXiqPN64EL8YMMCxQGhiKt4qBvjUmkvPdhYMXEdzibezgAAA='); aspect-ratio: 1845 / 964; width: min(115.3125rem, 95%, calc(85vh * 1.9139)); "><img src="/assets/images/2026/q1-2026/trafficlab/prototypeHTDT_119NH.webp" alt="Prototype HTDT 119NH" loading="lazy" decoding="async" width="1845" height="964" class="blur-load"></span></p>
 
 <p><em>The <code class="language-plaintext highlighter-rouge">DIGT</code> step: the complete digital twin view for location 119NH.</em></p>
 
 <hr>
 
-<h2 id="trafficlab-3d---the-application">TrafficLab 3D - The Application<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#trafficlab-3d---the-application')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
+<h2 id="trafficlab-3d---the-application">TrafficLab 3D - The Application<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#trafficlab-3d---the-application')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h2>
 
 <p>The prototype (originally named HTDT - HanoiTrafficDigitalTwin) has since been refactored into TrafficLab 3D, a general-purpose desktop application with a proper calibration workflow and no hardcoded location assumptions.</p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRmQAAABXRUJQVlA4IFgAAABwBACdASpAACQAPt1qqk+rpiOiKrv4AXAbiWkA0jQQq7LqcUPzPSEwxmS4AAD+ur79bxlg9EGizzjxu3yHSREAqMm+svFjTp23SxYRYJly5ro0TAcNAAAA'); aspect-ratio: 1920 / 1080; width: min(1920px, 95%, calc(85vh * 1.777778)); "><img src="/assets/images/2026/q1-2026/trafficlab/tl_8.webp" alt="Welcome tab" loading="lazy" decoding="async" width="1920" height="1080" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRmQAAABXRUJQVlA4IFgAAABwBACdASpAACQAPt1qqk+rpiOiKrv4AXAbiWkA0jQQq7LqcUPzPSEwxmS4AAD+ur79bxlg9EGizzjxu3yHSREAqMm+svFjTp23SxYRYJly5ro0TAcNAAAA'); aspect-ratio: 1920 / 1080; width: min(120.0rem, 95%, calc(85vh * 1.777778)); "><img src="/assets/images/2026/q1-2026/trafficlab/tl_8.webp" alt="Welcome tab" loading="lazy" decoding="async" width="1920" height="1080" class="blur-load"></span></p>
 
 <p><em>TrafficLab 3D welcome screen.</em></p>
 
@@ -1228,23 +1182,23 @@ M347 1759 V0 H263 V1759 v0 v1759 h84z"></path></svg></span></span></span><span c
 
 <p><strong>Calibration Tab</strong>: A stage-based GUI that walks through the entire $G$ Projection construction process described above - undistortion, homography anchor placement, parallax subject selection, SVG alignment, ROI definition, and final validation. Each stage has a visual feedback mechanism. The final validation stage lets you test 2D-to-3D conversion interactively before saving.</p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRpQAAABXRUJQVlA4IIgAAABwCACdASpAACQAPs1Sm0ynpKIiNUoA8BmJaQDTKefCHEzJaOGQv0/0C2brMuJ0hwfZyKKvHRVLtyCm4fQROfIxesZKXcaC3nDWDJgAAP5umeqCgzN1wzieLUAe8I13HIc5Uc9NspzGsOIZrkYLldYqjzhET70neQ3q1UuOfDx4b5X2xPgJSgAA'); aspect-ratio: 1920 / 1080; width: min(1920px, 95%, calc(85vh * 1.777778)); "><img src="/assets/images/2026/q1-2026/trafficlab/tl_calibration.webp" alt="Calibration start" loading="lazy" decoding="async" width="1920" height="1080" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRpQAAABXRUJQVlA4IIgAAABwCACdASpAACQAPs1Sm0ynpKIiNUoA8BmJaQDTKefCHEzJaOGQv0/0C2brMuJ0hwfZyKKvHRVLtyCm4fQROfIxesZKXcaC3nDWDJgAAP5umeqCgzN1wzieLUAe8I13HIc5Uc9NspzGsOIZrkYLldYqjzhET70neQ3q1UuOfDx4b5X2xPgJSgAA'); aspect-ratio: 1920 / 1080; width: min(120.0rem, 95%, calc(85vh * 1.777778)); "><img src="/assets/images/2026/q1-2026/trafficlab/tl_calibration.webp" alt="Calibration start" loading="lazy" decoding="async" width="1920" height="1080" class="blur-load"></span></p>
 
 <p><em>The Calibration Tab at the start of the pipeline.</em></p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRo4AAABXRUJQVlA4IIIAAABwBgCdASpAACQAPt1WpU2opCuiMBqqqXAbiWkAzrAQN7Z0hel3h1l7CZRZojmYES+RciWxo7j+sTCAg4AA/hylMq57IY2MipAaWeft5s8B8o97B15b5Dkjj7zF1BhXau3nihIw5+h6Db9jJtemc03M9ErAXO7lTGlAy0lDs0AXMAAA'); aspect-ratio: 1920 / 1080; width: min(1920px, 95%, calc(85vh * 1.777778)); "><img src="/assets/images/2026/q1-2026/trafficlab/tl_final_calib.webp" alt="Final calibration" loading="lazy" decoding="async" width="1920" height="1080" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRo4AAABXRUJQVlA4IIIAAABwBgCdASpAACQAPt1WpU2opCuiMBqqqXAbiWkAzrAQN7Z0hel3h1l7CZRZojmYES+RciWxo7j+sTCAg4AA/hylMq57IY2MipAaWeft5s8B8o97B15b5Dkjj7zF1BhXau3nihIw5+h6Db9jJtemc03M9ErAXO7lTGlAy0lDs0AXMAAA'); aspect-ratio: 1920 / 1080; width: min(120.0rem, 95%, calc(85vh * 1.777778)); "><img src="/assets/images/2026/q1-2026/trafficlab/tl_final_calib.webp" alt="Final calibration" loading="lazy" decoding="async" width="1920" height="1080" class="blur-load"></span></p>
 
 <p><em>The final calibration validation stage: testing 3D box construction before saving the G Projection JSON.</em></p>
 
 <p><strong>Inference Tab</strong>: Controls model and tracker selection, and manages inference runs. Arguments are set through <code class="language-plaintext highlighter-rouge">inference_config.yaml</code> and <code class="language-plaintext highlighter-rouge">prior_dimensions.json</code>. Inference output is saved as <code class="language-plaintext highlighter-rouge">.json.gz</code> compressed files - precomputing the pipeline outputs means the visualization engine does not need to run detection and tracking in real time.</p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRmIAAABXRUJQVlA4IFYAAADwBACdASpAACQAPt1epky9KawrMB1ZW6AbiWkAAE0iP9/raROM9NhE1UllW+Th8DAA/qAv6d7278gqqbLu9a1x0lgtatwBcIhg8lUwNCIIG4ogr8AAAA=='); aspect-ratio: 1920 / 1080; width: min(1920px, 95%, calc(85vh * 1.777778)); "><img src="/assets/images/2026/q1-2026/trafficlab/tl_inference.webp" alt="Inference tab" loading="lazy" decoding="async" width="1920" height="1080" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRmIAAABXRUJQVlA4IFYAAADwBACdASpAACQAPt1epky9KawrMB1ZW6AbiWkAAE0iP9/raROM9NhE1UllW+Th8DAA/qAv6d7278gqqbLu9a1x0lgtatwBcIhg8lUwNCIIG4ogr8AAAA=='); aspect-ratio: 1920 / 1080; width: min(120.0rem, 95%, calc(85vh * 1.777778)); "><img src="/assets/images/2026/q1-2026/trafficlab/tl_inference.webp" alt="Inference tab" loading="lazy" decoding="async" width="1920" height="1080" class="blur-load"></span></p>
 
 <p><em>The Inference Tab, tracking all produced output files.</em></p>
 
 <p><strong>Visualization Tab</strong>: Loads a <code class="language-plaintext highlighter-rouge">.json.gz</code> result file and runs the synchronized CCTV + SAT visualization with full keyboard shortcut support, toggleable overlays, and collapsible panels.</p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRooAAABXRUJQVlA4IH4AAADwBgCdASpAACQAPsVSnEy/pSKiN/xqq/AYiWkA1UAnC0RNr8APgzjWO/3tyAoc+2CiCOWvl4tzgDHHJSpwI3gAAP7LIOVEFjJR0YvMEK5xNRTCkH3ih5ThiMn8d4IsliK2UTYGuNLK2XZ3FK9IyPENlBxXilPh1qSwdwz6QAA='); aspect-ratio: 1920 / 1080; width: min(1920px, 95%, calc(85vh * 1.777778)); "><img src="/assets/images/2026/q1-2026/trafficlab/tl_2.webp" alt="Visualization tab" loading="lazy" decoding="async" width="1920" height="1080" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRooAAABXRUJQVlA4IH4AAADwBgCdASpAACQAPsVSnEy/pSKiN/xqq/AYiWkA1UAnC0RNr8APgzjWO/3tyAoc+2CiCOWvl4tzgDHHJSpwI3gAAP7LIOVEFjJR0YvMEK5xNRTCkH3ih5ThiMn8d4IsliK2UTYGuNLK2XZ3FK9IyPENlBxXilPh1qSwdwz6QAA='); aspect-ratio: 1920 / 1080; width: min(120.0rem, 95%, calc(85vh * 1.777778)); "><img src="/assets/images/2026/q1-2026/trafficlab/tl_2.webp" alt="Visualization tab" loading="lazy" decoding="async" width="1920" height="1080" class="blur-load"></span></p>
 
 <p><em>The Visualization Tab: side-by-side CCTV (with 3D boxes) and satellite (with floor boxes) view.</em></p>
 
@@ -1310,41 +1264,42 @@ python main.py
 
 <hr>
 
-<h2 id="qualitative-analysis">Qualitative Analysis<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#qualitative-analysis')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
+<h2 id="qualitative-analysis">Qualitative Analysis<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#qualitative-analysis')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h2>
 
 <p>We ran the pipeline across six Hanoi locations and one high-quality reference clip, and the patterns in the failures are fairly diagnostic.</p>
 
 <p><strong>119NH</strong> (119 Nguyen Hoang, My Dinh, Hanoi):</p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRooAAABXRUJQVlA4IH4AAACQBgCdASpAACMAPr1InkyusymiOrzMAmAXiWkA0yQkfwpyK29bUWbOY6mcFcL3Mc3XN5kpIbSS/DKtWYSAAPgWcSWttBaKj/qQ7/oxxgYePFyd79CjUpN582nYDLbuB/+vp1roA8B1dC1dw6GX2Gd1Q2UJuIIz/N3zEX/6QAA='); aspect-ratio: 1920 / 1040; width: min(1920px, 95%, calc(85vh * 1.846154)); "><img src="/assets/images/2026/q1-2026/trafficlab/htdtcasestudy1.webp" alt="Case study 1" loading="lazy" decoding="async" width="1920" height="1040" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRooAAABXRUJQVlA4IH4AAACQBgCdASpAACMAPr1InkyusymiOrzMAmAXiWkA0yQkfwpyK29bUWbOY6mcFcL3Mc3XN5kpIbSS/DKtWYSAAPgWcSWttBaKj/qQ7/oxxgYePFyd79CjUpN582nYDLbuB/+vp1roA8B1dC1dw6GX2Gd1Q2UJuIIz/N3zEX/6QAA='); aspect-ratio: 1920 / 1040; width: min(120.0rem, 95%, calc(85vh * 1.846154)); "><img src="/assets/images/2026/q1-2026/trafficlab/htdtcasestudy1.webp" alt="Case study 1" loading="lazy" decoding="async" width="1920" height="1040" class="blur-load"></span></p>
 
 <p><em>The cyan bus has an ill-fitted 3D box. Bitrate compression makes most motorcycles invisible to the detector. The far white bus gets a nonsensical box from detection noise.</em></p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRoYAAABXRUJQVlA4IHoAAAAwCACdASpAACMAPr1Qn0ynPaMiurs8A7AXiWkAAFdzJEfP9AkXDmJIlSKGdvCaLSaUs9rZWr2+T8vCF/4/KWhvaan8++kqSBzvbAD4FnElrbQWlfiDc67wpv2Aa2dy90gzI5R8raJFChlSo6VUstMYeWfTyYBswAAAAA=='); aspect-ratio: 1920 / 1040; width: min(1920px, 95%, calc(85vh * 1.846154)); "><img src="/assets/images/2026/q1-2026/trafficlab/htdtcasestudy2.webp" alt="Case study 2" loading="lazy" decoding="async" width="1920" height="1040" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRoYAAABXRUJQVlA4IHoAAAAwCACdASpAACMAPr1Qn0ynPaMiurs8A7AXiWkAAFdzJEfP9AkXDmJIlSKGdvCaLSaUs9rZWr2+T8vCF/4/KWhvaan8++kqSBzvbAD4FnElrbQWlfiDc67wpv2Aa2dy90gzI5R8raJFChlSo6VUstMYeWfTyYBswAAAAA=='); aspect-ratio: 1920 / 1040; width: min(120.0rem, 95%, calc(85vh * 1.846154)); "><img src="/assets/images/2026/q1-2026/trafficlab/htdtcasestudy2.webp" alt="Case study 2" loading="lazy" decoding="async" width="1920" height="1040" class="blur-load"></span></p>
 
 <p><em>Detection noise caused the same bus to undergo an impossible rotation between frames despite extensive smoothing. The lower-right lane shows guideline-assisted orientation working correctly. The adjacent lane, further from the guidelines, does not.</em></p>
 
 <p><strong>107LHP</strong> (107 Le Hong Phong, Ba Dinh):</p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRqAAAABXRUJQVlA4IJQAAAAwBwCdASpAACMAPt1gpkyoryOisBgMAeAbiWUAyRANvrTfis4+IlpLhT+2e8Q0+Hn6nkQESwcdb0R/UiGNH5pnbkAA+BuV7fFjNFRQiFctOJG/UDUFmXHytpYdwqRaTjCMvT3rOkzaUekSPPiFO1li4ordzcFs8CmMV0XSpA6keE4ZuuPvN92b7f/VGdxccZkUgAAA'); aspect-ratio: 1920 / 1040; width: min(1920px, 95%, calc(85vh * 1.846154)); "><img src="/assets/images/2026/q1-2026/trafficlab/htdtcasestudy3.webp" alt="Case study 3" loading="lazy" decoding="async" width="1920" height="1040" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRqAAAABXRUJQVlA4IJQAAAAwBwCdASpAACMAPt1gpkyoryOisBgMAeAbiWUAyRANvrTfis4+IlpLhT+2e8Q0+Hn6nkQESwcdb0R/UiGNH5pnbkAA+BuV7fFjNFRQiFctOJG/UDUFmXHytpYdwqRaTjCMvT3rOkzaUekSPPiFO1li4ordzcFs8CmMV0XSpA6keE4ZuuPvN92b7f/VGdxccZkUgAAA'); aspect-ratio: 1920 / 1040; width: min(120.0rem, 95%, calc(85vh * 1.846154)); "><img src="/assets/images/2026/q1-2026/trafficlab/htdtcasestudy3.webp" alt="Case study 3" loading="lazy" decoding="async" width="1920" height="1040" class="blur-load"></span></p>
 
 <p><em>White SUV on the left has bad default orientation - it was moving slowly near the ROI boundary. The alleyway on the left side has severe compression artifacts; the detector misses essentially everything in that zone.</em></p>
 
 <p><strong>150OCD</strong> (150 O Cho Dua, Dong Da):</p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRoYAAABXRUJQVlA4IHoAAADwBgCdASpAACMAPslMoEyvqCMiN/qtUfAZCWkADw9jX5hZOEsass6O9/NBWdsvRfFpSyJif9dzsCxTBCat6MOMAPgbjWQFm1pBUA+vFHV+Utp9RsD5d3WV+htVBoOGIkIl0rYqNB2Es6zhkIIhFoCC7YLQc57KMAAAAA=='); aspect-ratio: 1920 / 1040; width: min(1920px, 95%, calc(85vh * 1.846154)); "><img src="/assets/images/2026/q1-2026/trafficlab/htdtcasestudy4.webp" alt="Case study 4" loading="lazy" decoding="async" width="1920" height="1040" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRoYAAABXRUJQVlA4IHoAAADwBgCdASpAACMAPslMoEyvqCMiN/qtUfAZCWkADw9jX5hZOEsass6O9/NBWdsvRfFpSyJif9dzsCxTBCat6MOMAPgbjWQFm1pBUA+vFHV+Utp9RsD5d3WV+htVBoOGIkIl0rYqNB2Es6zhkIIhFoCC7YLQc57KMAAAAA=='); aspect-ratio: 1920 / 1040; width: min(120.0rem, 95%, calc(85vh * 1.846154)); "><img src="/assets/images/2026/q1-2026/trafficlab/htdtcasestudy4.webp" alt="Case study 4" loading="lazy" decoding="async" width="1920" height="1040" class="blur-load"></span></p>
 
 <p><em>Three motorcycle riders in the center of frame are mistaken for pedestrians due to camera angle and occlusion. Two more near the right edge are classified as three-wheelers.</em></p>
 
 <p><strong>45NLB</strong> (45 Nguyen Luong Bang, Dong Da):</p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRoYAAABXRUJQVlA4IHoAAABwBwCdASpAACMAPsVQoUyvJKOiMq5h4BiJZwDQHefBr9zbLjjrGyHir30Uv1t+nOpnigDXjCk4+gdOpGlM3YqIGEjDAAD4G5HpKP+rEwNXByil+QmzpMTFsu1IwK7Gds/Qdp2YvwdZKOMC3P3mQS87mAHjDr6b+LUAAA=='); aspect-ratio: 1920 / 1040; width: min(1920px, 95%, calc(85vh * 1.846154)); "><img src="/assets/images/2026/q1-2026/trafficlab/htdtcasestudy5.webp" alt="Case study 5" loading="lazy" decoding="async" width="1920" height="1040" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRoYAAABXRUJQVlA4IHoAAABwBwCdASpAACMAPsVQoUyvJKOiMq5h4BiJZwDQHefBr9zbLjjrGyHir30Uv1t+nOpnigDXjCk4+gdOpGlM3YqIGEjDAAD4G5HpKP+rEwNXByil+QmzpMTFsu1IwK7Gds/Qdp2YvwdZKOMC3P3mQS87mAHjDr6b+LUAAA=='); aspect-ratio: 1920 / 1040; width: min(120.0rem, 95%, calc(85vh * 1.846154)); "><img src="/assets/images/2026/q1-2026/trafficlab/htdtcasestudy5.webp" alt="Case study 5" loading="lazy" decoding="async" width="1920" height="1040" class="blur-load"></span></p>
 
 <p><em>The most complex flat intersection in the dataset. Also the worst compression. These two properties compound.</em></p>
 
 <p><strong>71NT</strong> (71 Nguyen Trai, Thanh Xuan):</p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRrgAAABXRUJQVlA4IKwAAABQBwCdASpAACMAPt1epU2opSuiLVmckXAbiUAYG4G31p7DK4Yn8jseWByFA7588dljyoTwdqlDJ0fRxhFD5nzUVj3AAPgble3xW3AUDMAs/AqqFw+tRX8RzeDMp1fRj6ZrK/3URpU6rm3xSacWfY8c2cgeomUjziXa2wZTZkSE2oeXCuUmHeXyiDT9IoY1wVeNb1lvYs3RgMRWYu1WqmitSJ2k79qS9MPkWJAA'); aspect-ratio: 1920 / 1040; width: min(1920px, 95%, calc(85vh * 1.846154)); "><img src="/assets/images/2026/q1-2026/trafficlab/htdtcasestudy6.webp" alt="Case study 6" loading="lazy" decoding="async" width="1920" height="1040" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRrgAAABXRUJQVlA4IKwAAABQBwCdASpAACMAPt1epU2opSuiLVmckXAbiUAYG4G31p7DK4Yn8jseWByFA7588dljyoTwdqlDJ0fRxhFD5nzUVj3AAPgble3xW3AUDMAs/AqqFw+tRX8RzeDMp1fRj6ZrK/3URpU6rm3xSacWfY8c2cgeomUjziXa2wZTZkSE2oeXCuUmHeXyiDT9IoY1wVeNb1lvYs3RgMRWYu1WqmitSJ2k79qS9MPkWJAA'); aspect-ratio: 1920 / 1040; width: min(120.0rem, 95%, calc(85vh * 1.846154)); "><img src="/assets/images/2026/q1-2026/trafficlab/htdtcasestudy6.webp" alt="Case study 6" loading="lazy" decoding="async" width="1920" height="1040" class="blur-load"></span></p>
 
 <p><em>The ROI had to cut out a large portion of the camera’s FOV because part of the road is sloped - the $G$ Projection is valid only for flat planar surfaces. You can see exactly where it fails: further along the slope, the floor boxes in SAT start overlapping barricades, which is physically impossible.</em></p>
 
@@ -1352,11 +1307,11 @@ python main.py
 
 <p>This is the only high-resolution reference clip in the set, originally 4K, downscaled cleanly without compression artifacts.</p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRowAAABXRUJQVlA4IIAAAABQBgCdASpAACMAPrlGnkyuI6MiOr5sAcAXCWkA0ugpTB4plrKptyHgL7+nbX6qbN5tQpF9DMNLXiBgAAD4G5ir48gg/rhUC8QI9d7/nCewImjZNdK4NecH65hzHg/qkIcuS2K2piW3/I9tZCbNseTA6jqhinCDICIJIfyLFE1AAA=='); aspect-ratio: 1920 / 1040; width: min(1920px, 95%, calc(85vh * 1.846154)); "><img src="/assets/images/2026/q1-2026/trafficlab/htdtcasestudy7.webp" alt="Case study 7" loading="lazy" decoding="async" width="1920" height="1040" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRowAAABXRUJQVlA4IIAAAABQBgCdASpAACMAPrlGnkyuI6MiOr5sAcAXCWkA0ugpTB4plrKptyHgL7+nbX6qbN5tQpF9DMNLXiBgAAD4G5ir48gg/rhUC8QI9d7/nCewImjZNdK4NecH65hzHg/qkIcuS2K2piW3/I9tZCbNseTA6jqhinCDICIJIfyLFE1AAA=='); aspect-ratio: 1920 / 1040; width: min(120.0rem, 95%, calc(85vh * 1.846154)); "><img src="/assets/images/2026/q1-2026/trafficlab/htdtcasestudy7.webp" alt="Case study 7" loading="lazy" decoding="async" width="1920" height="1040" class="blur-load"></span></p>
 
 <p><em>Clean footage, noticeably better results. Still shows the limits of guideline-based orientation for non-standard Hanoi infrastructure - slow or stationary vehicles at unusual angles get wrong defaults.</em></p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRpIAAABXRUJQVlA4IIYAAADQBgCdASpAACMAPrVQm0ynLKKiPVooAZAWiWcAzRHkAXgYyu4IMiJ8RF19aFudlr46tz5Y4XYWJaRGr6B7kAAA+BuZnxgIpKep3TiN2Dpxd/JdzcujK9n/023UAcfmxgI2mXQRBW8bzddk6GqdRzZVuai2tukmy4bKoRm5a+qPDeGmD0AAAA=='); aspect-ratio: 1920 / 1040; width: min(1920px, 95%, calc(85vh * 1.846154)); "><img src="/assets/images/2026/q1-2026/trafficlab/htdtcasestudy8.webp" alt="Case study 8" loading="lazy" decoding="async" width="1920" height="1040" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRpIAAABXRUJQVlA4IIYAAADQBgCdASpAACMAPrVQm0ynLKKiPVooAZAWiWcAzRHkAXgYyu4IMiJ8RF19aFudlr46tz5Y4XYWJaRGr6B7kAAA+BuZnxgIpKep3TiN2Dpxd/JdzcujK9n/023UAcfmxgI2mXQRBW8bzddk6GqdRzZVuai2tukmy4bKoRm5a+qPDeGmD0AAAA=='); aspect-ratio: 1920 / 1040; width: min(120.0rem, 95%, calc(85vh * 1.846154)); "><img src="/assets/images/2026/q1-2026/trafficlab/htdtcasestudy8.webp" alt="Case study 8" loading="lazy" decoding="async" width="1920" height="1040" class="blur-load"></span></p>
 
 <p><em>The car/van confusion from the VisDrone training data is visible here most clearly: double boxes, ID switches, and nonsensical satellite behavior from misclassified vehicles.</em></p>
 
@@ -1364,7 +1319,8 @@ python main.py
 
 <hr>
 
-<h2 id="what-remains-open">What Remains Open<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#what-remains-open')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
+<h2 id="what-remains-open">What Remains Open<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#what-remains-open')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h2>
 
 <p>There are three things that the current prototype does not solve.</p>
 
@@ -1376,7 +1332,8 @@ python main.py
 
 <hr>
 
-<h2 id="closing-remarks">Closing Remarks<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#closing-remarks')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
+<h2 id="closing-remarks">Closing Remarks<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#closing-remarks')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h2>
 
 <p>TrafficLab 3D is available at <a href="https://github.com/duy-phamduc68/TrafficLab-3D" target="_blank">duy-phamduc68/TrafficLab-3D</a> with pre-built environments, pre-calibrated locations, and a detailed setup guide. The long-term vision is city-wide - automatic calibration, continuous detector improvement, and eventually a system sufficient for high-fidelity simulation and reinforcement learning. For now, it is a working proof-of-concept that anyone with a video clip and a Google Maps screenshot can run on their own machine.</p>
 
@@ -1384,7 +1341,8 @@ python main.py
 
 <hr>
 
-<h2 id="references">References<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#references')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
+<h2 id="references">References<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#references')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h2>
 
 <ul>
   <li>Rezaei, M., Azarmi, M., &amp; Mir, F. M. P. (2023). <em>3D-Net: Monocular 3D Object Recognition for Traffic Monitoring.</em> Expert Systems with Applications, 227, 120253. <a href="https://www.sciencedirect.com/science/article/pii/S0957417423007558" target="_blank">Link</a>
@@ -1440,36 +1398,42 @@ python main.py
     <div class="relative-footer">
         <footer>
             <div class="footer-info">
+                
                 <a href="https://www.youtube.com/@yuk.yukano" target="_blank">
                     <i class="fab fa-youtube"></i>
                     <div class="footer-info-label">
                         <p>@yuk.yukano</p>
                     </div>
                 </a>
+                
                 <a href="https://github.com/duy-phamduc68" target="_blank">
                     <i class="fab fa-github"></i>
                     <div class="footer-info-label">
                         <p>duy-phamduc68</p>
                     </div>
                 </a>
+                
                 <a href="https://x.com/yukyukano" target="_blank">
                     <i class="fab fa-twitter"></i>
                     <div class="footer-info-label">
                         <p>@yukyukano</p>
                     </div>
                 </a>
+                
                 <a href="https://www.instagram.com/yuk.yukano" target="_blank">
                     <i class="fab fa-instagram"></i>
                     <div class="footer-info-label">
                         <p>@yuk.yukano</p>
                     </div>
                 </a>
+                
                 <a href="https://www.facebook.com/yuk.pham.2025" target="_blank">
                     <i class="fab fa-facebook"></i>
                     <div class="footer-info-label">
                         <p>Duy Pham Duc</p>
                     </div>
                 </a>
+                
             </div>
             <div class="copyright-text">
                 <p>© 2026 Yuk</p>
@@ -1519,21 +1483,10 @@ python main.py
         </button>
     </div>
 </div>
+    <script>window.SITE_TEXT = { ui: {"en":{"back":"Back","home":"Home","archive":"Archive","projects":"Projects","about":"About","tools":"Tools","tags":"Tags","navigation":"Navigation","options":"Options","configuration":"Configuration","open_configuration":"Open configuration","config_button":"Config","theme":"Theme","bg_on":"BG: On","bg_off":"BG: Off","close":"Close","to_top":"To top","comments":"Comments","comments_disabled":"Comments are disabled for this post","written_by":"Written by:","last_updated":"Last updated:","reading_min":"Min.","new_tag":"NEW","access":"Access","see_more":"See more"},"vi":{"back":"Trở lại","home":"Trang chủ","archive":"Lưu trữ","projects":"Dự án","about":"Về tôi","navigation":"Điều hướng","options":"Tùy chọn","configuration":"Cấu hình","open_configuration":"Mở cấu hình","theme":"Chủ đề","bg_on":"BG: Bật","bg_off":"BG: Tắt","close":"Đóng","to_top":"Đầu trang","comments":"Bình luận","comments_disabled":"Bình luận không khả dụng cho bài viết này","written_by":"Viết bởi:","last_updated":"Cập nhật lần cuối:","reading_min":"Phút","access":"Truy cập","see_more":"Xem thêm"},"ja":{"back":"戻る","home":"ホーム","configuration":"設定","open_configuration":"設定を開く","theme":"テーマ","bg_on":"BG: オン","bg_off":"BG: オフ","close":"閉じる"}}, archive: {"title":"Archive - Yuk","search_placeholder":"Press \" / \" to search posts...","categories":"Categories","filter_post":"Post","filter_code":"Code","filter_assignment":"Assignment","filter_technical":"Technical","filter_thread":"Thread","filter_showcase":"Showcase","sort_by":"Sort by","sort_reading_time":"Reading time","sort_release_date":"Release date","prev":"Prev","next":"Next","nothing_here":"Nothing here...","page_hint":"Use Page Up / Page Down to navigate between pages.","all_tags":"All tags"}, projects: {"title":"Projects - Yuk","copy_catalog":"Copy Catalog","copied":"Copied!"}, mermaid: {"title":"Mermaid","copy_source":"Copy source","reset_view":"Reset view","unlock":"Unlock interactions","lock":"Lock interactions","fullscreen":"Fullscreen","back_to_post":"Back to post"} };</script>
+<script src="/assets/js/common.js"></script>
     <script src="/assets/js/pages-js/post-script.js"></script>
     <script src="/assets/js/bg-script.js"></script>
-    <script>
-        (function() {
-            'use strict';
-            window.addEventListener('load', () => {
-                const target = document.querySelector('div.post-content');
-                if (target) {
-                    target.style.outline = 'none';
-                    target.setAttribute('tabindex', '-1');
-                    target.focus();
-                }
-            });
-        })();
-    </script>
     <div class="scroll-button-container">
         <button id="scrollButton" onclick="scrollToTop()">
             <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="50" height="50" color="#fff">

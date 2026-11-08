@@ -7,7 +7,6 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
     <meta charset="UTF-8">
@@ -51,6 +50,7 @@
     <meta name="twitter:description" content="Deriving the 4-wheel dynamic vehicle model with wheel dynamics and weight transfer from a UC Berkeley PhD thesis of Jon Matthew Gonzales, 2018 - Qualitative experiments to test the derived model">
     <meta name="twitter:image" content="https://yuk068.github.io//assets/thumbnail/default.webp">
 
+    <link rel="stylesheet" href="/assets/css/theme.css">
     <link rel="stylesheet" href="/assets/css/pages-css/post-styles.css">
     
 
@@ -60,35 +60,13 @@
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/contrib/auto-render.min.js"></script>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            if (typeof renderMathInElement === 'function') {
-                renderMathInElement(document.body, {
-                    delimiters: [
-                        { left: "$$", right: "$$", display: true },
-                        { left: "$", right: "$", display: false },
-                        { left: "\\(", right: "\\)", display: false },
-                        { left: "\\[", right: "\\]", display: true }
-                    ]
-                });
-            }
-        });
-    </script>
+    <script defer src="/assets/js/katex-init.js"></script>
 
     
     
 
     
     <script src="https://cdn.plot.ly/plotly-3.3.1.min.js" charset="utf-8"></script>
-    <script>
-        window.addEventListener('load', function () {
-            setTimeout(function () {
-                document.querySelectorAll('.js-plotly-plot').forEach(function (el) {
-                    Plotly.Plots.resize(el);
-                });
-            }, 250);
-        });
-    </script>
     
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -102,58 +80,7 @@
 
     <link rel="stylesheet" href="https://unpkg.com/photoswipe@5/dist/photoswipe.css">
 
-<script type="module">
-import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5/dist/photoswipe-lightbox.esm.js';
-
-const lightbox = new PhotoSwipeLightbox({
-    gallery: '.post-article',
-    children: 'img',
-    pswpModule: () => import('https://unpkg.com/photoswipe@5/dist/photoswipe.esm.js'),
-
-    // --- Animation Settings ---
-    showHideAnimationType: 'fade',
-
-    // --- Zoom Enhancements ---
-    wheelToZoom: true,
-    imageClickAction: 'zoom',
-    secondaryZoomLevel: 2,
-    maxZoomLevel: 4,
-
-    // --- Loading Behavior ---
-    preload: [1, 5],
-});
-
-
-// --- SAFER DATA SOURCE ---
-lightbox.addFilter('itemData', (itemData) => {
-    const img = itemData.element;
-
-    return {
-        src: img.src,
-        msrc: img.src,
-        width: img.naturalWidth || img.width || 1200,
-        height: img.naturalHeight || img.height || 800,
-        element: img
-    };
-});
-
-
-// --- FIX DIMENSIONS AFTER LOAD ---
-lightbox.on('contentLoadImage', (e) => {
-    const { content } = e;
-
-    content.element.decode().then(() => {
-        content.width = content.element.naturalWidth;
-        content.height = content.element.naturalHeight;
-
-        if (lightbox.pswp) {
-            lightbox.pswp.refreshSize(true);
-        }
-    }).catch(() => {});
-});
-
-lightbox.init();
-</script>
+<script type="module" src="/assets/js/photoswipe-init.js"></script>
 </head>
 
 <body>
@@ -163,7 +90,7 @@ lightbox.init();
     <div class="main-container">
         <header id="post-header">
             <div class="header-logo-container">
-                <button class="logo-button" onclick="handleLogoClick()">
+                <button class="logo-button" onclick="handleLogoClick()" aria-label="Home">
                     <div class="logo-container">
                         <div class="logo">
                             <div class="u-shape left-side"></div>
@@ -184,40 +111,32 @@ lightbox.init();
                     <ul>
                         <a href="#" onclick="goBack()">
                             <li>
-                                
                                 Back
-                                
                             </li>
                         </a>
                         <div class="nav-bar-divider"></div>
                         <a href="/">
                             <li>
-                                
                                 Home
-                                
                             </li>
                         </a>
-                        <div class="nav-bar-divider" id="nav-disable-mobile"></div>
-                        <a href="/archive" id="nav-disable-mobile">
-                            <li id="nav-disable-mobile">
-                                
+                        <div class="nav-bar-divider"></div>
+                        <a href="/archive">
+                            <li>
                                 Archive
-                                
                             </li>
                         </a>
-                        <div class="nav-bar-divider" id="nav-disable-mobile"></div>
-                        <a href="/projects" id="nav-disable-mobile">
-                            <li id="nav-disable-mobile">
-                                
+                        <div class="nav-bar-divider"></div>
+                        <a href="/projects">
+                            <li>
                                 Projects
-                                
                             </li>
                         </a>
                     </ul>
                 </nav>
             </div>
             <div class="header-extra-container">
-                <button class="extra-button">
+                <button class="extra-button" aria-label="Open configuration">
                     <div class="extra-container">
                         <div class="extra">
                             <div class="extra-shape top"></div>
@@ -232,15 +151,11 @@ lightbox.init();
             <div id="overlay" class="overlay">
                 <div class="options-container">
                     <p>
-                        
                         Navigation
-                        
                     </p>
                     <div class="options-navigation">
                         <a id="toBackButton" href="/"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14"><defs><style>.cls-6374f543b67f094e4896c5c8-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><circle class="cls-6374f543b67f094e4896c5c8-1" cx="12" cy="12" r="10.5"></circle><path class="cls-6374f543b67f094e4896c5c8-1" d="M7.23,7.23h7.63a3.82,3.82,0,0,1,3.82,3.82h0a3.82,3.82,0,0,1-3.82,3.81H7.23"></path><polyline class="cls-6374f543b67f094e4896c5c8-1" points="11.04 18.68 7.23 14.86 11.04 11.04"></polyline></svg>
-                            
                             Back
-                            
                         </a>
                         <a id="toArchiveButton" href="/archive"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff">
     <defs>
@@ -255,9 +170,7 @@ lightbox.init();
     <polygon class="cls-archive-1" points="19.64 9.14 4.36 9.14 4.36 1.5 10.09 1.5 12 3.41 19.64 3.41 19.64 9.14"></polygon>
     <polygon class="cls-archive-1" points="1.5 9.14 22.5 9.14 20.59 22.5 3.41 22.5 1.5 9.14"></polygon>
 </svg>
-                            
                             Archive
-                            
                         </a>
                         <a id="toProjectsButton" href="/projects"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff">
     <defs>
@@ -280,9 +193,7 @@ lightbox.init();
         <line class="cls-projects-1" x1="11.95" y1="4.37" x2="13.87" y2="4.37"></line>
     </g>
 </svg>
-                            
                             Projects
-                            
                         </a>
                         <a id="toAboutButton" href="/about-yuk-en"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff">
     <defs>
@@ -297,21 +208,15 @@ lightbox.init();
     <circle class="cls-about-1" cx="12" cy="7.25" r="5.73"></circle>
     <path class="cls-about-1" d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05"></path>
 </svg>
-                            
                             About
-                            
                         </a>
                         <a id="toHomeButton" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="currentColor" aria-hidden="true"><defs><style>.s{fill:none;stroke:currentColor;stroke-miterlimit:10}</style></defs><polyline class="s" points="1 12 12 2.83 23 12"></polyline><polyline class="s" points="19.33 9.25 19.33 21.17 14.75 21.17 14.75 13.83 9.25 13.83 9.25 21.17 4.67 21.17 4.67 9.25"></polyline></svg>
-                            
                             Home
-                            
                         </a>
                     </div>
                     <div class="option-horizontal-divider-line"></div>
                     <p>
-                        
                         Options
-                        
                     </p>
                     <div class="options-configuration">
                         <button id="toTopButton"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="50" height="50" color="#fff">
@@ -329,9 +234,7 @@ lightbox.init();
     <polyline class="cls-scroll-top-1" points="7.23 10.09 12 5.32 16.77 10.09"></polyline>
     <polyline class="cls-scroll-top-1" points="7.23 14.86 12 10.09 16.77 14.86"></polyline>
 </svg>
-                            
                             To top
-                            
                         </button>
 
                         <button id="configPlaceholder2" class="bg-performance-btn">
@@ -366,14 +269,10 @@ lightbox.init();
         <line class="cls-theme-1" x1="18.77" y1="18.79" x2="20.13" y2="20.15"></line>
     </g>
 </svg>
-                            
                             Theme
-                            
                         </button>
                         <button id="commentsButton"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="currentColor" aria-hidden="true"><defs><style>.s{fill:none;stroke:currentColor;stroke-miterlimit:10}</style></defs><path class="s" d="M1.5,5.3v9.54a3.82,3.82,0,0,0,3.82,3.82H7.23v2.86L13,18.66h5.73a3.82,3.82,0,0,0,3.82-3.82V5.3a3.82,3.82,0,0,0-3.82-3.82H5.32A3.82,3.82,0,0,0,1.5,5.3Z"></path><line class="s" x1="15.82" y1="10.07" x2="17.73" y2="10.07"></line><line class="s" x1="11.05" y1="10.07" x2="12.95" y2="10.07"></line><line class="s" x1="6.27" y1="10.07" x2="8.18" y2="10.07"></line></svg>
-                            
                             Comments
-                            
                         </button>
                     </div>
                     <div class="option-horizontal-divider-line"></div>
@@ -392,9 +291,7 @@ lightbox.init();
     <line class="cls-close-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line>
     <line class="cls-close-1" x1="7.23" y1="7.23" x2="16.77" y2="16.77"></line>
 </svg>
-                            
                             Close
-                            
                         </button>
                     </div>
                 </div>
@@ -482,9 +379,7 @@ lightbox.init();
                         
                         <span class="reading-time">
                             23
-                            
                             Min.
-                            
                         </span>
                         
                     </div>
@@ -496,9 +391,7 @@ lightbox.init();
     <circle cx="12" cy="7.25" r="5.73" stroke="currentColor" stroke-miterlimit="10"></circle>
     <path d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05" stroke="currentColor" stroke-miterlimit="10"></path>
 </svg>
-                        
                         Written by:
-                        
                         Yuk
                     </div>
                 </div>
@@ -509,35 +402,88 @@ lightbox.init();
                         
                         
                         
-                        <h3 id="table-of-content">Table of Content<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#table-of-content')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+                        <h3 id="table-of-content">Table of Content<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#table-of-content')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h3>
 
 <blockquote>
 <div class="content">
-  <div id="table-of-contents"><ul><li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#table-of-content')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#table-of-content" style="color:#434e64;">Table of Content</a></div></li>
-<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#prologue')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#prologue">Prologue</a></div></li>
-<li class="h2"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#a-vehicle-model-derivation')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#a-vehicle-model-derivation">A. Vehicle Model Derivation</a></div></li>
-<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#1-system-states-and-inputs')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#1-system-states-and-inputs">1. System States and Inputs</a></div></li>
-<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#2-core-differential-equations-equations-of-motion')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#2-core-differential-equations-equations-of-motion">2. Core Differential Equations (Equations of Motion)</a></div></li>
-<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#3-coordinate-transformations-force')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#3-coordinate-transformations-force">3. Coordinate Transformations (Force)</a></div></li>
-<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#4-wheel-kinematics-velocities')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#4-wheel-kinematics-velocities">4. Wheel Kinematics (Velocities)</a></div></li>
-<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#5-combined-slip-formulations')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#5-combined-slip-formulations">5. Combined Slip Formulations</a></div></li>
-<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#6-combined-slip-tire-model-pacejka-magic-formula')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#6-combined-slip-tire-model-pacejka-magic-formula">6. Combined Slip Tire Model (Pacejka Magic Formula)</a></div></li>
-<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#7-normal-forces-dynamic-load-transfer')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#7-normal-forces-dynamic-load-transfer">7. Normal Forces (Dynamic Load Transfer)</a></div></li>
-<li class="h2"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#b-qualitative-experiments')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#b-qualitative-experiments">B. Qualitative Experiments</a></div></li>
-<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#1-parameters-validation')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#1-parameters-validation">1. Parameters Validation</a></div></li>
-<li class="h4"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#11-parameters-validated-from-the-masters-thesis-document')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#11-parameters-validated-from-the-masters-thesis-document">1.1. Parameters Validated from the Master’s Thesis Document</a></div></li>
-<li class="h4"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#12-parameters-validated-from-external-automotive-databases')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#12-parameters-validated-from-external-automotive-databases">1.2. Parameters Validated from External Automotive Databases</a></div></li>
-<li class="h4"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#13-parameters-based-on-standard-vehicle-dynamics-estimations')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#13-parameters-based-on-standard-vehicle-dynamics-estimations">1.3. Parameters Based on Standard Vehicle Dynamics Estimations</a></div></li>
-<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#2-code-implementation')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#2-code-implementation">2. Code Implementation</a></div></li>
-<li class="h4"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#21-standalone-vehicle-model')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#21-standalone-vehicle-model">2.1. Standalone Vehicle Model</a></div></li>
-<li class="h4"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#22-instantiation')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#22-instantiation">2.2. Instantiation</a></div></li>
-<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#3-scenario-based-experiments')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#3-scenario-based-experiments">3. Scenario-based Experiments</a></div></li>
-<li class="h4"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#31-basic-u-turn')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#31-basic-u-turn">3.1. Basic U-Turn</a></div></li>
-<li class="h4"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#32-stationary-spin-out')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#32-stationary-spin-out">3.2. Stationary Spin-out</a></div></li>
-<li class="h4"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#33-drift-attempt')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#33-drift-attempt">3.3. Drift Attempt</a></div></li>
-<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#4-attempts-to-reproduce-results-with-assetto-corsa')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#4-attempts-to-reproduce-results-with-assetto-corsa">4. Attempts to Reproduce Results with Assetto Corsa</a></div></li>
-<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#5-conclusion')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#5-conclusion">5. Conclusion</a></div></li>
-<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#epilogue')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#epilogue">Epilogue</a></div></li></ul></div>
+  <div id="table-of-contents"><ul>
+<li class="h3"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#table-of-content')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#table-of-content" style="color:#434e64;">Table of Content</a>
+</div></li>
+<li class="h3"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#prologue')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#prologue">Prologue</a>
+</div></li>
+<li class="h2"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#a-vehicle-model-derivation')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#a-vehicle-model-derivation">A. Vehicle Model Derivation</a>
+</div></li>
+<li class="h3"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#1-system-states-and-inputs')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#1-system-states-and-inputs">1. System States and Inputs</a>
+</div></li>
+<li class="h3"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#2-core-differential-equations-equations-of-motion')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#2-core-differential-equations-equations-of-motion">2. Core Differential Equations (Equations of Motion)</a>
+</div></li>
+<li class="h3"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#3-coordinate-transformations-force')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#3-coordinate-transformations-force">3. Coordinate Transformations (Force)</a>
+</div></li>
+<li class="h3"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#4-wheel-kinematics-velocities')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#4-wheel-kinematics-velocities">4. Wheel Kinematics (Velocities)</a>
+</div></li>
+<li class="h3"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#5-combined-slip-formulations')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#5-combined-slip-formulations">5. Combined Slip Formulations</a>
+</div></li>
+<li class="h3"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#6-combined-slip-tire-model-pacejka-magic-formula')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#6-combined-slip-tire-model-pacejka-magic-formula">6. Combined Slip Tire Model (Pacejka Magic Formula)</a>
+</div></li>
+<li class="h3"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#7-normal-forces-dynamic-load-transfer')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#7-normal-forces-dynamic-load-transfer">7. Normal Forces (Dynamic Load Transfer)</a>
+</div></li>
+<li class="h2"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#b-qualitative-experiments')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#b-qualitative-experiments">B. Qualitative Experiments</a>
+</div></li>
+<li class="h3"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#1-parameters-validation')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#1-parameters-validation">1. Parameters Validation</a>
+</div></li>
+<li class="h4"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#11-parameters-validated-from-the-masters-thesis-document')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#11-parameters-validated-from-the-masters-thesis-document">1.1. Parameters Validated from the Master’s Thesis Document</a>
+</div></li>
+<li class="h4"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#12-parameters-validated-from-external-automotive-databases')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#12-parameters-validated-from-external-automotive-databases">1.2. Parameters Validated from External Automotive Databases</a>
+</div></li>
+<li class="h4"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#13-parameters-based-on-standard-vehicle-dynamics-estimations')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#13-parameters-based-on-standard-vehicle-dynamics-estimations">1.3. Parameters Based on Standard Vehicle Dynamics Estimations</a>
+</div></li>
+<li class="h3"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#2-code-implementation')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#2-code-implementation">2. Code Implementation</a>
+</div></li>
+<li class="h4"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#21-standalone-vehicle-model')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#21-standalone-vehicle-model">2.1. Standalone Vehicle Model</a>
+</div></li>
+<li class="h4"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#22-instantiation')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#22-instantiation">2.2. Instantiation</a>
+</div></li>
+<li class="h3"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#3-scenario-based-experiments')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#3-scenario-based-experiments">3. Scenario-based Experiments</a>
+</div></li>
+<li class="h4"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#31-basic-u-turn')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#31-basic-u-turn">3.1. Basic U-Turn</a>
+</div></li>
+<li class="h4"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#32-stationary-spin-out')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#32-stationary-spin-out">3.2. Stationary Spin-out</a>
+</div></li>
+<li class="h4"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#33-drift-attempt')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#33-drift-attempt">3.3. Drift Attempt</a>
+</div></li>
+<li class="h3"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#4-attempts-to-reproduce-results-with-assetto-corsa')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#4-attempts-to-reproduce-results-with-assetto-corsa">4. Attempts to Reproduce Results with Assetto Corsa</a>
+</div></li>
+<li class="h3"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#5-conclusion')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#5-conclusion">5. Conclusion</a>
+</div></li>
+<li class="h3"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#epilogue')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#epilogue">Epilogue</a>
+</div></li>
+</ul></div>
 </div>
 <button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span>
 </blockquote>
@@ -548,7 +494,8 @@ lightbox.init();
 
 <hr>
 
-<h3 id="prologue">Prologue<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#prologue')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+<h3 id="prologue">Prologue<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#prologue')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h3>
 
 <p>Alright so I’m gonna be honest here, even though I’ve found these wonderful references that helped me immensely, I’m still not confident enough to code up another simulator after <a href="https://github.com/duy-phamduc68/Planar-Dynamic-Car-Model" target="_blank">duy-phamduc68/Planar-Dynamic-Car-Model</a>, which if you need more context, I recommend you checking out this post: <a href="/2026/04/10/car-physics-conclusion" target="_blank">Conclusion of the Macro Monster Car Physics Journey</a>.</p>
 
@@ -558,7 +505,8 @@ lightbox.init();
 
 <hr>
 
-<h2 id="a-vehicle-model-derivation">A. Vehicle Model Derivation<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#a-vehicle-model-derivation')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
+<h2 id="a-vehicle-model-derivation">A. Vehicle Model Derivation<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#a-vehicle-model-derivation')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h2>
 
 <p>Direct citations:</p>
 
@@ -577,7 +525,8 @@ lightbox.init();
 
 <hr>
 
-<h3 id="1-system-states-and-inputs">1. System States and Inputs<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#1-system-states-and-inputs')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+<h3 id="1-system-states-and-inputs">1. System States and Inputs<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#1-system-states-and-inputs')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h3>
 
 <p>The model considers the chassis velocities, yaw rate, and the independent rotational speeds of all four wheels.</p>
 <ul>
@@ -605,7 +554,8 @@ lightbox.init();
 
 <hr>
 
-<h3 id="2-core-differential-equations-equations-of-motion">2. Core Differential Equations (Equations of Motion)<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#2-core-differential-equations-equations-of-motion')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+<h3 id="2-core-differential-equations-equations-of-motion">2. Core Differential Equations (Equations of Motion)<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#2-core-differential-equations-equations-of-motion')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h3>
 
 <p>These equations define how the vehicle state evolves over time. They account for the mass $m$, yaw moment of inertia $I_z$, wheel moment of inertia $I_w$, and wheel radius $R$.</p>
 
@@ -636,7 +586,8 @@ lightbox.init();
 
 <hr>
 
-<h3 id="3-coordinate-transformations-force">3. Coordinate Transformations (Force)<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#3-coordinate-transformations-force')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+<h3 id="3-coordinate-transformations-force">3. Coordinate Transformations (Force)<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#3-coordinate-transformations-force')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h3>
 
 <p>Because the front wheels are steered by angle $\delta$, the forces generated in the local tire frame (denoted by a tick, like $x’$ or $y’$) must be projected back into the vehicle’s reference frame. The rear wheels are unsteered, so their frames align with the vehicle frame.</p>
 
@@ -663,7 +614,8 @@ F_y^{f*} = F_{x'}^{f*} \sin \delta + F_{y'}^{f*} \cos \delta</annotation></seman
 
 <hr>
 
-<h3 id="4-wheel-kinematics-velocities">4. Wheel Kinematics (Velocities)<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#4-wheel-kinematics-velocities')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+<h3 id="4-wheel-kinematics-velocities">4. Wheel Kinematics (Velocities)<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#4-wheel-kinematics-velocities')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h3>
 
 <p>To determine slip, the system must calculate the longitudinal and lateral velocity at the center of each wheel patch in the vehicle frame, using yaw rate $r$ (noted as $\omega_z$ in the text) and distances $c$, $L_f$, and $L_r$.</p>
 
@@ -710,7 +662,8 @@ v_{y'}^{r*} = v_y^{r*}</annotation></semantics></math></span><span class="katex-
 
 <hr>
 
-<h3 id="5-combined-slip-formulations">5. Combined Slip Formulations<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#5-combined-slip-formulations')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+<h3 id="5-combined-slip-formulations">5. Combined Slip Formulations<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#5-combined-slip-formulations')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h3>
 
 <p>Using the velocities in the tire frame, the model computes the normalized longitudinal slip ($s_{x’}$), lateral slip ($s_{y’}$), and the combined slip magnitude ($s$).</p>
 
@@ -742,7 +695,8 @@ M1001 80h400000v40h-400000z"></path></svg></span></span></span><span class="vlis
 
 <hr>
 
-<h3 id="6-combined-slip-tire-model-pacejka-magic-formula">6. Combined Slip Tire Model (Pacejka Magic Formula)<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#6-combined-slip-tire-model-pacejka-magic-formula')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+<h3 id="6-combined-slip-tire-model-pacejka-magic-formula">6. Combined Slip Tire Model (Pacejka Magic Formula)<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#6-combined-slip-tire-model-pacejka-magic-formula')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h3>
 
 <p>The tire forces in the local frame are calculated using the slip definitions and Pacejka curve parameters ($B, C, D$), constrained by the friction coefficient $\mu$ and the dynamic normal force $F_z$.</p>
 
@@ -773,7 +727,8 @@ F_{y'} = -\mu F_z \frac{s_{y'}}{s} D \sin(C \arctan(Bs))</annotation></semantics
 
 <hr>
 
-<h3 id="7-normal-forces-dynamic-load-transfer">7. Normal Forces (Dynamic Load Transfer)<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#7-normal-forces-dynamic-load-transfer')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+<h3 id="7-normal-forces-dynamic-load-transfer">7. Normal Forces (Dynamic Load Transfer)<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#7-normal-forces-dynamic-load-transfer')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h3>
 
 <p>Finally, to provide $F_z$ for the tire model above, the vehicle model calculates weight transfer based on the total planar forces ($F_X$ and $F_Y$) and the center of gravity height $h$.</p>
 
@@ -803,7 +758,8 @@ F_z^{rr} = \frac{1}{4c(L_f+L_r)}(2L_f c g m + 2c h F_X + h(L_f+L_r)F_Y)</annotat
 
 <hr>
 
-<h2 id="b-qualitative-experiments">B. Qualitative Experiments<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#b-qualitative-experiments')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
+<h2 id="b-qualitative-experiments">B. Qualitative Experiments<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#b-qualitative-experiments')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h2>
 
 <p>Because we don’t really have access to academic / industry standard validation tools such as <a href="https://www.carsim.com/products/carsim/" target="_blank">CarSim</a> (proprietary, used in the UC Berkeley thesis), I’ve decided to run simple scenario experiments using known parameters and configuration from the main reference and some other sources for the vehicle parameters.</p>
 
@@ -815,15 +771,17 @@ F_z^{rr} = \frac{1}{4c(L_f+L_r)}(2L_f c g m + 2c h F_X + h(L_f+L_r)F_Y)</annotat
 
 <p>They performed their research on a <a href="https://en.wikipedia.org/wiki/Volvo_V40_(2012%E2%80%932019)" target="_blank">Volvo V40</a>. Their work use the <a href="https://www.vi-grade.com/en/products/vi-carrealtime/" target="_blank">VI-CarRealTime</a> Simulator which is also a proprietary software.</p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRo4AAABXRUJQVlA4IIIAAADwBgCdASpAACcAPs1MnEy/pCKiNV38A/AZiWkAAIVZQlEigGj/Lx98+VJKjigS/lvTFaiMzgazZMMKKJpQGxcgAP7vL/+toXWT7HXvsyeV7zvrNheohvJ4u8gP8azSX5Nv28obxC6kFuAOhAuPr/UM5BXWhla/ul9gCTEmNq0qAAAA'); aspect-ratio: 1016 / 614; width: min(1016px, 95%, calc(85vh * 1.654723)); "><img src="/assets/images/2026/q2-2026/four-wheel-model/volvov40.webp" alt="Volvo V40" loading="lazy" decoding="async" width="1016" height="614" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRo4AAABXRUJQVlA4IIIAAADwBgCdASpAACcAPs1MnEy/pCKiNV38A/AZiWkAAIVZQlEigGj/Lx98+VJKjigS/lvTFaiMzgazZMMKKJpQGxcgAP7vL/+toXWT7HXvsyeV7zvrNheohvJ4u8gP8azSX5Nv28obxC6kFuAOhAuPr/UM5BXWhla/ul9gCTEmNq0qAAAA'); aspect-ratio: 1016 / 614; width: min(63.5rem, 95%, calc(85vh * 1.654723)); "><img src="/assets/images/2026/q2-2026/four-wheel-model/volvov40.webp" alt="Volvo V40" loading="lazy" decoding="async" width="1016" height="614" class="blur-load"></span></p>
 
 <hr>
 
-<h3 id="1-parameters-validation">1. Parameters Validation<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#1-parameters-validation')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+<h3 id="1-parameters-validation">1. Parameters Validation<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#1-parameters-validation')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h3>
 
 <p>In the above source, we actually don’t have exact parameters for the vehicle model, but we was able to confirm certain components of the Volvo V40. This allowed me to combine the exact data extracted from the document with the real-world OEM (Original Equipment Manufacturer) specifications for the 2013 Volvo V40 Cross Country in their experiment to derive a reasonable parameters set. More specifically:</p>
 
-<h4 id="11-parameters-validated-from-the-masters-thesis-document">1.1. Parameters Validated from the Master’s Thesis Document<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#11-parameters-validated-from-the-masters-thesis-document')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h4>
+<h4 id="11-parameters-validated-from-the-masters-thesis-document">1.1. Parameters Validated from the Master’s Thesis Document<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#11-parameters-validated-from-the-masters-thesis-document')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h4>
 
 <ul>
   <li>
@@ -838,7 +796,8 @@ F_z^{rr} = \frac{1}{4c(L_f+L_r)}(2L_f c g m + 2c h F_X + h(L_f+L_r)F_Y)</annotat
 
 <hr>
 
-<h4 id="12-parameters-validated-from-external-automotive-databases">1.2. Parameters Validated from External Automotive Databases<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#12-parameters-validated-from-external-automotive-databases')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h4>
+<h4 id="12-parameters-validated-from-external-automotive-databases">1.2. Parameters Validated from External Automotive Databases<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#12-parameters-validated-from-external-automotive-databases')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h4>
 
 <p>Since the thesis omitted raw chassis dimensions, these were validated using real-world OEM specifications for the 2013 Volvo V40 Cross Country:</p>
 
@@ -871,7 +830,8 @@ F_z^{rr} = \frac{1}{4c(L_f+L_r)}(2L_f c g m + 2c h F_X + h(L_f+L_r)F_Y)</annotat
 
 <hr>
 
-<h4 id="13-parameters-based-on-standard-vehicle-dynamics-estimations">1.3. Parameters Based on Standard Vehicle Dynamics Estimations<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#13-parameters-based-on-standard-vehicle-dynamics-estimations')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h4>
+<h4 id="13-parameters-based-on-standard-vehicle-dynamics-estimations">1.3. Parameters Based on Standard Vehicle Dynamics Estimations<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#13-parameters-based-on-standard-vehicle-dynamics-estimations')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h4>
 
 <p>Because manufacturers rarely publish proprietary suspension geometries or dynamic inertias, these parameters use standard, mathematically accepted approximations for a 1600 kg compact hatchback:</p>
 
@@ -886,11 +846,13 @@ F_z^{rr} = \frac{1}{4c(L_f+L_r)}(2L_f c g m + 2c h F_X + h(L_f+L_r)F_Y)</annotat
 
 <hr>
 
-<h3 id="2-code-implementation">2. Code Implementation<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#2-code-implementation')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+<h3 id="2-code-implementation">2. Code Implementation<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#2-code-implementation')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h3>
 
 <p>We implement the vehicle model in Python code and plug in the parameters (the experiments were ran on a Colab notebook).</p>
 
-<h4 id="21-standalone-vehicle-model">2.1. Standalone Vehicle Model<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#21-standalone-vehicle-model')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h4>
+<h4 id="21-standalone-vehicle-model">2.1. Standalone Vehicle Model<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#21-standalone-vehicle-model')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h4>
 
 <div class="language-python highlighter-rouge"><div class="highlight">
 <div class="line-numbers">
@@ -1719,7 +1681,8 @@ F_z^{rr} = \frac{1}{4c(L_f+L_r)}(2L_f c g m + 2c h F_X + h(L_f+L_r)F_Y)</annotat
 <span class="language-label">Python</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button>
 </div></div>
 
-<h4 id="22-instantiation">2.2. Instantiation<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#22-instantiation')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h4>
+<h4 id="22-instantiation">2.2. Instantiation<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#22-instantiation')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h4>
 
 <div class="language-python highlighter-rouge"><div class="highlight">
 <div class="line-numbers">
@@ -1804,7 +1767,8 @@ F_z^{rr} = \frac{1}{4c(L_f+L_r)}(2L_f c g m + 2c h F_X + h(L_f+L_r)F_Y)</annotat
 
 <hr>
 
-<h3 id="3-scenario-based-experiments">3. Scenario-based Experiments<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#3-scenario-based-experiments')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+<h3 id="3-scenario-based-experiments">3. Scenario-based Experiments<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#3-scenario-based-experiments')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h3>
 
 <p>We designed 3 scenarios:</p>
 
@@ -1818,7 +1782,7 @@ F_z^{rr} = \frac{1}{4c(L_f+L_r)}(2L_f c g m + 2c h F_X + h(L_f+L_r)F_Y)</annotat
 
 <p>The control graphs are as follow:</p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRkwAAABXRUJQVlA4IEAAAACwAwCdASpAADMAPt1uslQopiSjIggBEBuJaQAAEEdKSTvdrf+0AAD+8PN4yb8cKh3fAA+LO0DYvlKsahheqbAA'); aspect-ratio: 989 / 790; width: min(989px, 95%, calc(85vh * 1.251899)); "><img src="/assets/images/2026/q2-2026/four-wheel-model/controlgraph.webp" alt="Control Graphs" loading="lazy" decoding="async" width="989" height="790" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRkwAAABXRUJQVlA4IEAAAACwAwCdASpAADMAPt1uslQopiSjIggBEBuJaQAAEEdKSTvdrf+0AAD+8PN4yb8cKh3fAA+LO0DYvlKsahheqbAA'); aspect-ratio: 989 / 790; width: min(61.8125rem, 95%, calc(85vh * 1.251899)); "><img src="/assets/images/2026/q2-2026/four-wheel-model/controlgraph.webp" alt="Control Graphs" loading="lazy" decoding="async" width="989" height="790" class="blur-load"></span></p>
 
 <div class="language-python highlighter-rouge"><div class="highlight">
 <div class="line-numbers">
@@ -2107,11 +2071,12 @@ F_z^{rr} = \frac{1}{4c(L_f+L_r)}(2L_f c g m + 2c h F_X + h(L_f+L_r)F_Y)</annotat
 
 <hr>
 
-<h4 id="31-basic-u-turn">3.1. Basic U-Turn<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#31-basic-u-turn')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h4>
+<h4 id="31-basic-u-turn">3.1. Basic U-Turn<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#31-basic-u-turn')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h4>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRk4AAABXRUJQVlA4IEIAAADQAwCdASo/AEAAPt1urlOopiQiogkREBuJaQAAE/l2DvivWA328wAA/vEnz8DHwH/3Ef/c72BDFMGp0L6ynVV4YAA='); aspect-ratio: 689 / 701; width: min(689px, 95%, calc(85vh * 0.982882)); "><img src="/assets/images/2026/q2-2026/four-wheel-model/basic-u-turn-footprint.webp" alt="Basic U Turn Footprint" loading="lazy" decoding="async" width="689" height="701" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRk4AAABXRUJQVlA4IEIAAADQAwCdASo/AEAAPt1urlOopiQiogkREBuJaQAAE/l2DvivWA328wAA/vEnz8DHwH/3Ef/c72BDFMGp0L6ynVV4YAA='); aspect-ratio: 689 / 701; width: min(43.0625rem, 95%, calc(85vh * 0.982882)); "><img src="/assets/images/2026/q2-2026/four-wheel-model/basic-u-turn-footprint.webp" alt="Basic U Turn Footprint" loading="lazy" decoding="async" width="689" height="701" class="blur-load"></span></p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRkYAAABXRUJQVlA4IDoAAABwAwCdASpAACQAPt1usFOopiSioqgBEBuJaQAAFAPoKltL8AAA/vECKN12J0ftHsTJYGmznErRwAAA'); aspect-ratio: 841 / 470; width: min(841px, 95%, calc(85vh * 1.789362)); "><img src="/assets/images/2026/q2-2026/four-wheel-model/basic-u-turn-telemetry.webp" alt="Basic U Turn Telemetry" loading="lazy" decoding="async" width="841" height="470" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRkYAAABXRUJQVlA4IDoAAABwAwCdASpAACQAPt1usFOopiSioqgBEBuJaQAAFAPoKltL8AAA/vECKN12J0ftHsTJYGmznErRwAAA'); aspect-ratio: 841 / 470; width: min(52.5625rem, 95%, calc(85vh * 1.789362)); "><img src="/assets/images/2026/q2-2026/four-wheel-model/basic-u-turn-telemetry.webp" alt="Basic U Turn Telemetry" loading="lazy" decoding="async" width="841" height="470" class="blur-load"></span></p>
 
 <div class="language-python highlighter-rouge"><div class="highlight">
 <div class="line-numbers">
@@ -2202,11 +2167,12 @@ F_z^{rr} = \frac{1}{4c(L_f+L_r)}(2L_f c g m + 2c h F_X + h(L_f+L_r)F_Y)</annotat
 
 <hr>
 
-<h4 id="32-stationary-spin-out">3.2. Stationary Spin-out<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#32-stationary-spin-out')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h4>
+<h4 id="32-stationary-spin-out">3.2. Stationary Spin-out<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#32-stationary-spin-out')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h4>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAAAwBACdASo/AEAAPt1orVKopakipBgKSSAbiWkAABK2V+2GKWLvX6xrPAAA/vEoA0hlL6DPPk5vDALmy2r7Jesu6FMbwtg9gAA='); aspect-ratio: 686 / 701; width: min(686px, 95%, calc(85vh * 0.978602)); "><img src="/assets/images/2026/q2-2026/four-wheel-model/spinout-footprint.webp" alt="Spin out Footprint" loading="lazy" decoding="async" width="686" height="701" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAAAwBACdASo/AEAAPt1orVKopakipBgKSSAbiWkAABK2V+2GKWLvX6xrPAAA/vEoA0hlL6DPPk5vDALmy2r7Jesu6FMbwtg9gAA='); aspect-ratio: 686 / 701; width: min(42.875rem, 95%, calc(85vh * 0.978602)); "><img src="/assets/images/2026/q2-2026/four-wheel-model/spinout-footprint.webp" alt="Spin out Footprint" loading="lazy" decoding="async" width="686" height="701" class="blur-load"></span></p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRkYAAABXRUJQVlA4IDoAAABwAwCdASpAACQAPt1urFMopiOioqi5EBuJaQAAEmmtgd3k2wAA/vESMuwyjEB0xXYUmgWy3VT0IhAA'); aspect-ratio: 841 / 470; width: min(841px, 95%, calc(85vh * 1.789362)); "><img src="/assets/images/2026/q2-2026/four-wheel-model/spinout-telemetry.webp" alt="Spin out Telemetry" loading="lazy" decoding="async" width="841" height="470" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRkYAAABXRUJQVlA4IDoAAABwAwCdASpAACQAPt1urFMopiOioqi5EBuJaQAAEmmtgd3k2wAA/vESMuwyjEB0xXYUmgWy3VT0IhAA'); aspect-ratio: 841 / 470; width: min(52.5625rem, 95%, calc(85vh * 1.789362)); "><img src="/assets/images/2026/q2-2026/four-wheel-model/spinout-telemetry.webp" alt="Spin out Telemetry" loading="lazy" decoding="async" width="841" height="470" class="blur-load"></span></p>
 
 <div class="language-python highlighter-rouge"><div class="highlight">
 <div class="line-numbers">
@@ -2293,11 +2259,12 @@ F_z^{rr} = \frac{1}{4c(L_f+L_r)}(2L_f c g m + 2c h F_X + h(L_f+L_r)F_Y)</annotat
 
 <hr>
 
-<h4 id="33-drift-attempt">3.3. Drift Attempt<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#33-drift-attempt')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h4>
+<h4 id="33-drift-attempt">3.3. Drift Attempt<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#33-drift-attempt')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h4>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAABQBACdASo/AEAAPt1urFMopikiogohIBuJaQAAE/5+WS+oaBQGo4AKwJcAAP7xJ1jkJCSim/MFcy4fAxipMcGFPzF31UBHAAA='); aspect-ratio: 686 / 701; width: min(686px, 95%, calc(85vh * 0.978602)); "><img src="/assets/images/2026/q2-2026/four-wheel-model/drift-footprint.webp" alt="Drift Footprint" loading="lazy" decoding="async" width="686" height="701" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAABQBACdASo/AEAAPt1urFMopikiogohIBuJaQAAE/5+WS+oaBQGo4AKwJcAAP7xJ1jkJCSim/MFcy4fAxipMcGFPzF31UBHAAA='); aspect-ratio: 686 / 701; width: min(42.875rem, 95%, calc(85vh * 0.978602)); "><img src="/assets/images/2026/q2-2026/four-wheel-model/drift-footprint.webp" alt="Drift Footprint" loading="lazy" decoding="async" width="686" height="701" class="blur-load"></span></p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRkQAAABXRUJQVlA4IDgAAABwAwCdASpAACQAPt1usVOopiSioqgBEBuJaQAAFAPoLptL8AAA/vECJHtiX5x1wYtSdVPesIAAAA=='); aspect-ratio: 841 / 470; width: min(841px, 95%, calc(85vh * 1.789362)); "><img src="/assets/images/2026/q2-2026/four-wheel-model/drift-telemetry.webp" alt="Drift Telemetry" loading="lazy" decoding="async" width="841" height="470" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRkQAAABXRUJQVlA4IDgAAABwAwCdASpAACQAPt1usVOopiSioqgBEBuJaQAAFAPoLptL8AAA/vECJHtiX5x1wYtSdVPesIAAAA=='); aspect-ratio: 841 / 470; width: min(52.5625rem, 95%, calc(85vh * 1.789362)); "><img src="/assets/images/2026/q2-2026/four-wheel-model/drift-telemetry.webp" alt="Drift Telemetry" loading="lazy" decoding="async" width="841" height="470" class="blur-load"></span></p>
 
 <div class="language-python highlighter-rouge"><div class="highlight">
 <div class="line-numbers">
@@ -2416,7 +2383,8 @@ F_z^{rr} = \frac{1}{4c(L_f+L_r)}(2L_f c g m + 2c h F_X + h(L_f+L_r)F_Y)</annotat
 
 <hr>
 
-<h3 id="4-attempts-to-reproduce-results-with-assetto-corsa">4. Attempts to Reproduce Results with Assetto Corsa<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#4-attempts-to-reproduce-results-with-assetto-corsa')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+<h3 id="4-attempts-to-reproduce-results-with-assetto-corsa">4. Attempts to Reproduce Results with Assetto Corsa<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#4-attempts-to-reproduce-results-with-assetto-corsa')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h3>
 
 <p>Now again, I’m just trying to do what I can, we don’t have access to professional proprietary software, nor can we easily inject scheduled controls into Assetto Corsa or extract its telemetry directly. Because of that, below is a video of me trying my best to recreate the scenarios using a similar car in parameters: The <a href="https://en.wikipedia.org/wiki/BMW_M3" target="_blank">BMW M3 E92</a>.</p>
 
@@ -2426,7 +2394,8 @@ F_z^{rr} = \frac{1}{4c(L_f+L_r)}(2L_f c g m + 2c h F_X + h(L_f+L_r)F_Y)</annotat
 
 <hr>
 
-<h3 id="5-conclusion">5. Conclusion<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#5-conclusion')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+<h3 id="5-conclusion">5. Conclusion<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#5-conclusion')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h3>
 
 <p>Ultimately, these derivations and experiments lead to a necessary realization: vehicle dynamics models are mathematical approximations, not exact digital twins. Even when following a rigorous PhD-level framework, significant discrepancies between the model and real-world behavior (or high-fidelity simulators) are unavoidable.</p>
 
@@ -2443,7 +2412,8 @@ F_z^{rr} = \frac{1}{4c(L_f+L_r)}(2L_f c g m + 2c h F_X + h(L_f+L_r)F_Y)</annotat
 
 <hr>
 
-<h3 id="epilogue">Epilogue<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#epilogue')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+<h3 id="epilogue">Epilogue<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#epilogue')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h3>
 
 <p>It is worth noting that even the primary reference for this derivation acknowledged that their model could not perfectly match the behavior of industry-standard simulators. This doesn’t invalidate the model; rather, it defines its purpose. These equations are designed to provide a <strong>qualitative framework</strong> for understanding vehicle behavior and control logic, but they cannot realistically account for every nuance of physical vehicle dynamics.</p>
 
@@ -2490,36 +2460,42 @@ F_z^{rr} = \frac{1}{4c(L_f+L_r)}(2L_f c g m + 2c h F_X + h(L_f+L_r)F_Y)</annotat
     <div class="relative-footer">
         <footer>
             <div class="footer-info">
+                
                 <a href="https://www.youtube.com/@yuk.yukano" target="_blank">
                     <i class="fab fa-youtube"></i>
                     <div class="footer-info-label">
                         <p>@yuk.yukano</p>
                     </div>
                 </a>
+                
                 <a href="https://github.com/duy-phamduc68" target="_blank">
                     <i class="fab fa-github"></i>
                     <div class="footer-info-label">
                         <p>duy-phamduc68</p>
                     </div>
                 </a>
+                
                 <a href="https://x.com/yukyukano" target="_blank">
                     <i class="fab fa-twitter"></i>
                     <div class="footer-info-label">
                         <p>@yukyukano</p>
                     </div>
                 </a>
+                
                 <a href="https://www.instagram.com/yuk.yukano" target="_blank">
                     <i class="fab fa-instagram"></i>
                     <div class="footer-info-label">
                         <p>@yuk.yukano</p>
                     </div>
                 </a>
+                
                 <a href="https://www.facebook.com/yuk.pham.2025" target="_blank">
                     <i class="fab fa-facebook"></i>
                     <div class="footer-info-label">
                         <p>Duy Pham Duc</p>
                     </div>
                 </a>
+                
             </div>
             <div class="copyright-text">
                 <p>© 2026 Yuk</p>
@@ -2569,21 +2545,10 @@ F_z^{rr} = \frac{1}{4c(L_f+L_r)}(2L_f c g m + 2c h F_X + h(L_f+L_r)F_Y)</annotat
         </button>
     </div>
 </div>
+    <script>window.SITE_TEXT = { ui: {"en":{"back":"Back","home":"Home","archive":"Archive","projects":"Projects","about":"About","tools":"Tools","tags":"Tags","navigation":"Navigation","options":"Options","configuration":"Configuration","open_configuration":"Open configuration","config_button":"Config","theme":"Theme","bg_on":"BG: On","bg_off":"BG: Off","close":"Close","to_top":"To top","comments":"Comments","comments_disabled":"Comments are disabled for this post","written_by":"Written by:","last_updated":"Last updated:","reading_min":"Min.","new_tag":"NEW","access":"Access","see_more":"See more"},"vi":{"back":"Trở lại","home":"Trang chủ","archive":"Lưu trữ","projects":"Dự án","about":"Về tôi","navigation":"Điều hướng","options":"Tùy chọn","configuration":"Cấu hình","open_configuration":"Mở cấu hình","theme":"Chủ đề","bg_on":"BG: Bật","bg_off":"BG: Tắt","close":"Đóng","to_top":"Đầu trang","comments":"Bình luận","comments_disabled":"Bình luận không khả dụng cho bài viết này","written_by":"Viết bởi:","last_updated":"Cập nhật lần cuối:","reading_min":"Phút","access":"Truy cập","see_more":"Xem thêm"},"ja":{"back":"戻る","home":"ホーム","configuration":"設定","open_configuration":"設定を開く","theme":"テーマ","bg_on":"BG: オン","bg_off":"BG: オフ","close":"閉じる"}}, archive: {"title":"Archive - Yuk","search_placeholder":"Press \" / \" to search posts...","categories":"Categories","filter_post":"Post","filter_code":"Code","filter_assignment":"Assignment","filter_technical":"Technical","filter_thread":"Thread","filter_showcase":"Showcase","sort_by":"Sort by","sort_reading_time":"Reading time","sort_release_date":"Release date","prev":"Prev","next":"Next","nothing_here":"Nothing here...","page_hint":"Use Page Up / Page Down to navigate between pages.","all_tags":"All tags"}, projects: {"title":"Projects - Yuk","copy_catalog":"Copy Catalog","copied":"Copied!"}, mermaid: {"title":"Mermaid","copy_source":"Copy source","reset_view":"Reset view","unlock":"Unlock interactions","lock":"Lock interactions","fullscreen":"Fullscreen","back_to_post":"Back to post"} };</script>
+<script src="/assets/js/common.js"></script>
     <script src="/assets/js/pages-js/post-script.js"></script>
     <script src="/assets/js/bg-script.js"></script>
-    <script>
-        (function() {
-            'use strict';
-            window.addEventListener('load', () => {
-                const target = document.querySelector('div.post-content');
-                if (target) {
-                    target.style.outline = 'none';
-                    target.setAttribute('tabindex', '-1');
-                    target.focus();
-                }
-            });
-        })();
-    </script>
     <div class="scroll-button-container">
         <button id="scrollButton" onclick="scrollToTop()">
             <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="50" height="50" color="#fff">

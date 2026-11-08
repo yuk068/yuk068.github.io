@@ -7,7 +7,6 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
     <meta charset="UTF-8">
@@ -52,6 +51,7 @@
     <meta name="twitter:description" content="Kết quả phân tích dữ liệu trang web của Khoa Toán - Cơ - Tin học (HUS - VNU) và tóm tắt bằng mô hình ngôn ngữ lớn">
     <meta name="twitter:image" content="https://yuk068.github.io//assets/thumbnail/default.webp">
 
+    <link rel="stylesheet" href="/assets/css/theme.css">
     <link rel="stylesheet" href="/assets/css/pages-css/post-styles.css">
     
 
@@ -61,20 +61,7 @@
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/contrib/auto-render.min.js"></script>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            if (typeof renderMathInElement === 'function') {
-                renderMathInElement(document.body, {
-                    delimiters: [
-                        { left: "$$", right: "$$", display: true },
-                        { left: "$", right: "$", display: false },
-                        { left: "\\(", right: "\\)", display: false },
-                        { left: "\\[", right: "\\]", display: true }
-                    ]
-                });
-            }
-        });
-    </script>
+    <script defer src="/assets/js/katex-init.js"></script>
 
     
     
@@ -93,58 +80,7 @@
 
     <link rel="stylesheet" href="https://unpkg.com/photoswipe@5/dist/photoswipe.css">
 
-<script type="module">
-import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5/dist/photoswipe-lightbox.esm.js';
-
-const lightbox = new PhotoSwipeLightbox({
-    gallery: '.post-article',
-    children: 'img',
-    pswpModule: () => import('https://unpkg.com/photoswipe@5/dist/photoswipe.esm.js'),
-
-    // --- Animation Settings ---
-    showHideAnimationType: 'fade',
-
-    // --- Zoom Enhancements ---
-    wheelToZoom: true,
-    imageClickAction: 'zoom',
-    secondaryZoomLevel: 2,
-    maxZoomLevel: 4,
-
-    // --- Loading Behavior ---
-    preload: [1, 5],
-});
-
-
-// --- SAFER DATA SOURCE ---
-lightbox.addFilter('itemData', (itemData) => {
-    const img = itemData.element;
-
-    return {
-        src: img.src,
-        msrc: img.src,
-        width: img.naturalWidth || img.width || 1200,
-        height: img.naturalHeight || img.height || 800,
-        element: img
-    };
-});
-
-
-// --- FIX DIMENSIONS AFTER LOAD ---
-lightbox.on('contentLoadImage', (e) => {
-    const { content } = e;
-
-    content.element.decode().then(() => {
-        content.width = content.element.naturalWidth;
-        content.height = content.element.naturalHeight;
-
-        if (lightbox.pswp) {
-            lightbox.pswp.refreshSize(true);
-        }
-    }).catch(() => {});
-});
-
-lightbox.init();
-</script>
+<script type="module" src="/assets/js/photoswipe-init.js"></script>
 </head>
 
 <body>
@@ -154,7 +90,7 @@ lightbox.init();
     <div class="main-container">
         <header id="post-header">
             <div class="header-logo-container">
-                <button class="logo-button" onclick="handleLogoClick()">
+                <button class="logo-button" onclick="handleLogoClick()" aria-label="Trang chủ">
                     <div class="logo-container">
                         <div class="logo">
                             <div class="u-shape left-side"></div>
@@ -175,40 +111,32 @@ lightbox.init();
                     <ul>
                         <a href="#" onclick="goBack()">
                             <li>
-                                
                                 Trở lại
-                                
                             </li>
                         </a>
                         <div class="nav-bar-divider"></div>
                         <a href="/">
                             <li>
-                                
                                 Trang chủ
-                                
                             </li>
                         </a>
-                        <div class="nav-bar-divider" id="nav-disable-mobile"></div>
-                        <a href="/archive" id="nav-disable-mobile">
-                            <li id="nav-disable-mobile">
-                                
+                        <div class="nav-bar-divider"></div>
+                        <a href="/archive">
+                            <li>
                                 Lưu trữ
-                                
                             </li>
                         </a>
-                        <div class="nav-bar-divider" id="nav-disable-mobile"></div>
-                        <a href="/projects" id="nav-disable-mobile">
-                            <li id="nav-disable-mobile">
-                                
+                        <div class="nav-bar-divider"></div>
+                        <a href="/projects">
+                            <li>
                                 Dự án
-                                
                             </li>
                         </a>
                     </ul>
                 </nav>
             </div>
             <div class="header-extra-container">
-                <button class="extra-button">
+                <button class="extra-button" aria-label="Mở cấu hình">
                     <div class="extra-container">
                         <div class="extra">
                             <div class="extra-shape top"></div>
@@ -223,15 +151,11 @@ lightbox.init();
             <div id="overlay" class="overlay">
                 <div class="options-container">
                     <p>
-                        
                         Điều hướng
-                        
                     </p>
                     <div class="options-navigation">
                         <a id="toBackButton" href="/"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14"><defs><style>.cls-6374f543b67f094e4896c5c8-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><circle class="cls-6374f543b67f094e4896c5c8-1" cx="12" cy="12" r="10.5"></circle><path class="cls-6374f543b67f094e4896c5c8-1" d="M7.23,7.23h7.63a3.82,3.82,0,0,1,3.82,3.82h0a3.82,3.82,0,0,1-3.82,3.81H7.23"></path><polyline class="cls-6374f543b67f094e4896c5c8-1" points="11.04 18.68 7.23 14.86 11.04 11.04"></polyline></svg>
-                            
                             Trở lại
-                            
                         </a>
                         <a id="toArchiveButton" href="/archive"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff">
     <defs>
@@ -246,9 +170,7 @@ lightbox.init();
     <polygon class="cls-archive-1" points="19.64 9.14 4.36 9.14 4.36 1.5 10.09 1.5 12 3.41 19.64 3.41 19.64 9.14"></polygon>
     <polygon class="cls-archive-1" points="1.5 9.14 22.5 9.14 20.59 22.5 3.41 22.5 1.5 9.14"></polygon>
 </svg>
-                            
                             Lưu trữ
-                            
                         </a>
                         <a id="toProjectsButton" href="/projects"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff">
     <defs>
@@ -271,9 +193,7 @@ lightbox.init();
         <line class="cls-projects-1" x1="11.95" y1="4.37" x2="13.87" y2="4.37"></line>
     </g>
 </svg>
-                            
                             Dự án
-                            
                         </a>
                         <a id="toAboutButton" href="/about-yuk-vi"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff">
     <defs>
@@ -288,21 +208,15 @@ lightbox.init();
     <circle class="cls-about-1" cx="12" cy="7.25" r="5.73"></circle>
     <path class="cls-about-1" d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05"></path>
 </svg>
-                            
                             Về tôi
-                            
                         </a>
                         <a id="toHomeButton" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="currentColor" aria-hidden="true"><defs><style>.s{fill:none;stroke:currentColor;stroke-miterlimit:10}</style></defs><polyline class="s" points="1 12 12 2.83 23 12"></polyline><polyline class="s" points="19.33 9.25 19.33 21.17 14.75 21.17 14.75 13.83 9.25 13.83 9.25 21.17 4.67 21.17 4.67 9.25"></polyline></svg>
-                            
                             Trang chủ
-                            
                         </a>
                     </div>
                     <div class="option-horizontal-divider-line"></div>
                     <p>
-                        
                         Tùy chọn
-                        
                     </p>
                     <div class="options-configuration">
                         <button id="toTopButton"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="50" height="50" color="#fff">
@@ -320,9 +234,7 @@ lightbox.init();
     <polyline class="cls-scroll-top-1" points="7.23 10.09 12 5.32 16.77 10.09"></polyline>
     <polyline class="cls-scroll-top-1" points="7.23 14.86 12 10.09 16.77 14.86"></polyline>
 </svg>
-                            
                             Đầu trang
-                            
                         </button>
 
                         <button id="configPlaceholder2" class="bg-performance-btn">
@@ -357,14 +269,10 @@ lightbox.init();
         <line class="cls-theme-1" x1="18.77" y1="18.79" x2="20.13" y2="20.15"></line>
     </g>
 </svg>
-                            
                             Chủ đề
-                            
                         </button>
                         <button id="commentsButton"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="currentColor" aria-hidden="true"><defs><style>.s{fill:none;stroke:currentColor;stroke-miterlimit:10}</style></defs><path class="s" d="M1.5,5.3v9.54a3.82,3.82,0,0,0,3.82,3.82H7.23v2.86L13,18.66h5.73a3.82,3.82,0,0,0,3.82-3.82V5.3a3.82,3.82,0,0,0-3.82-3.82H5.32A3.82,3.82,0,0,0,1.5,5.3Z"></path><line class="s" x1="15.82" y1="10.07" x2="17.73" y2="10.07"></line><line class="s" x1="11.05" y1="10.07" x2="12.95" y2="10.07"></line><line class="s" x1="6.27" y1="10.07" x2="8.18" y2="10.07"></line></svg>
-                            
                             Bình luận
-                            
                         </button>
                     </div>
                     <div class="option-horizontal-divider-line"></div>
@@ -383,9 +291,7 @@ lightbox.init();
     <line class="cls-close-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line>
     <line class="cls-close-1" x1="7.23" y1="7.23" x2="16.77" y2="16.77"></line>
 </svg>
-                            
                             Đóng
-                            
                         </button>
                     </div>
                 </div>
@@ -469,9 +375,7 @@ lightbox.init();
                         
                         
                         
-                        
                         Cập nhật lần cuối:
-                        
                         <span class="date-span">25/01/2025</span>
                         
                     </div>
@@ -483,9 +387,7 @@ lightbox.init();
     <circle cx="12" cy="7.25" r="5.73" stroke="currentColor" stroke-miterlimit="10"></circle>
     <path d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05" stroke="currentColor" stroke-miterlimit="10"></path>
 </svg>
-                        
                         Viết bởi:
-                        
                         Yuk
                     </div>
                 </div>
@@ -496,52 +398,109 @@ lightbox.init();
                         
                         
                         
-                        <h3 id="mục-lục">Mục lục<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#mục-lục')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+                        <h3 id="mục-lục">Mục lục<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#mục-lục')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h3>
 
 <blockquote>
 <div class="content">
-  <div id="table-of-contents"><ul><li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#mục-lục')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#mục-lục" style="color:#434e64;">Mục lục</a></div></li>
-<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#mở-đầu')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#mở-đầu">Mở đầu</a></div></li>
-<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#lưu-ý')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#lưu-ý">Lưu ý</a></div></li>
-<li class="h2"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#1-tóm-tắt-quy-trình')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#1-tóm-tắt-quy-trình">1. Tóm tắt quy trình</a></div></li>
-<li class="h2"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#2-một-số-kết-quả-tổng-quan')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#2-một-số-kết-quả-tổng-quan">2. Một số kết quả tổng quan</a></div></li>
-<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#21-giới-thiệu-chung')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#21-giới-thiệu-chung">2.1. Giới thiệu chung</a></div></li>
-<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#22-kết-quả-số-liệu-về-các-lĩnh-vực-nghiên-cứu-chính-và-nguồn-lực-của-khoa')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#22-kết-quả-số-liệu-về-các-lĩnh-vực-nghiên-cứu-chính-và-nguồn-lực-của-khoa">2.2. Kết quả số liệu về các lĩnh vực nghiên cứu chính và nguồn lực của khoa</a></div></li>
-<li class="h2"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#3-kết-quả-cụ-thể-về-các-cán-bộ-trong-khoa')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#3-kết-quả-cụ-thể-về-các-cán-bộ-trong-khoa">3. Kết quả cụ thể về các cán bộ trong khoa</a></div></li>
-<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#31-xử-lý-ảnh-và-thị-giác-máy')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#31-xử-lý-ảnh-và-thị-giác-máy">3.1. Xử lý Ảnh và Thị giác Máy</a></div></li>
-<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#32-cơ-học-vật-rắn-và-truyền-sóng')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#32-cơ-học-vật-rắn-và-truyền-sóng">3.2. Cơ học Vật rắn và Truyền Sóng</a></div></li>
-<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#33-tối-ưu-hóa-và-tính-toán-khoa-học')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#33-tối-ưu-hóa-và-tính-toán-khoa-học">3.3. Tối ưu hóa và Tính toán Khoa học</a></div></li>
-<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#34-xử-lý-ngôn-ngữ-tự-nhiên-nlp')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#34-xử-lý-ngôn-ngữ-tự-nhiên-nlp">3.4. Xử lý Ngôn ngữ Tự nhiên (NLP)</a></div></li>
-<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#35-hình-học-đại-số-và-giải-tích-hình-học')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#35-hình-học-đại-số-và-giải-tích-hình-học">3.5. Hình học Đại số và Giải tích Hình học</a></div></li>
-<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#36-mật-mã-và-an-toàn-thông-tin')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#36-mật-mã-và-an-toàn-thông-tin">3.6. Mật mã và An toàn Thông tin</a></div></li>
-<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#37-giải-tích-toán-học-và-phương-trình-vi-phân')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#37-giải-tích-toán-học-và-phương-trình-vi-phân">3.7. Giải tích Toán học và Phương trình Vi phân</a></div></li>
-<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#38-xác-suất-và-thống-kê-toán-học')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#38-xác-suất-và-thống-kê-toán-học">3.8. Xác suất và Thống kê Toán học</a></div></li>
-<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#39-lý-thuyết-biểu-diễn-và-tôpô-đại-số')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#39-lý-thuyết-biểu-diễn-và-tôpô-đại-số">3.9. Lý thuyết Biểu diễn và Tôpô Đại số</a></div></li>
-<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#310-toán-học-ứng-dụng')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#310-toán-học-ứng-dụng">3.10. Toán học Ứng dụng</a></div></li>
-<li class="h2"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#4-mã-nguồn-tham-khảo')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#4-mã-nguồn-tham-khảo">4. Mã nguồn tham khảo</a></div></li>
-<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#41-scrape-thông-tin-từ-trang-web')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#41-scrape-thông-tin-từ-trang-web">4.1. Scrape thông tin từ trang web</a></div></li>
-<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#42-ví-dụ-sử-dụng-llm-tóm-tắt-thông-tin')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#42-ví-dụ-sử-dụng-llm-tóm-tắt-thông-tin">4.2. Ví dụ sử dụng LLM tóm tắt thông tin</a></div></li>
-<li class="h2"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#5-tổng-hợp-prompt-mô-hình-ngôn-ngữ-lớn')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#5-tổng-hợp-prompt-mô-hình-ngôn-ngữ-lớn">5. Tổng hợp Prompt mô hình ngôn ngữ lớn</a></div></li>
-<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#51-prompt-tạo-phần-giới-thiệu-chung')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#51-prompt-tạo-phần-giới-thiệu-chung">5.1. Prompt tạo phần giới thiệu chung</a></div></li>
-<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#52-prompt-tạo-tóm-tắt-thông-tin-các-cán-bộ')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#52-prompt-tạo-tóm-tắt-thông-tin-các-cán-bộ">5.2. Prompt tạo tóm tắt thông tin các cán bộ</a></div></li>
-<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#53-prompt-trích-suất-các-lĩnh-vực-nghiên-cứu-chính')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#53-prompt-trích-suất-các-lĩnh-vực-nghiên-cứu-chính">5.3. Prompt trích suất các lĩnh vực nghiên cứu chính</a></div></li>
-<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#54-prompt-xác-định-lĩnh-vực-nghiên-cứu-chính-của-cán-bộ')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#54-prompt-xác-định-lĩnh-vực-nghiên-cứu-chính-của-cán-bộ">5.4. Prompt xác định lĩnh vực nghiên cứu chính của cán bộ</a></div></li></ul></div>
+  <div id="table-of-contents"><ul>
+<li class="h3"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#mục-lục')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#m%E1%BB%A5c-l%E1%BB%A5c" style="color:#434e64;">Mục lục</a>
+</div></li>
+<li class="h3"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#mở-đầu')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#m%E1%BB%9F-%C4%91%E1%BA%A7u">Mở đầu</a>
+</div></li>
+<li class="h3"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#lưu-ý')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#l%C6%B0u-%C3%BD">Lưu ý</a>
+</div></li>
+<li class="h2"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#1-tóm-tắt-quy-trình')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#1-t%C3%B3m-t%E1%BA%AFt-quy-tr%C3%ACnh">1. Tóm tắt quy trình</a>
+</div></li>
+<li class="h2"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#2-một-số-kết-quả-tổng-quan')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#2-m%E1%BB%99t-s%E1%BB%91-k%E1%BA%BFt-qu%E1%BA%A3-t%E1%BB%95ng-quan">2. Một số kết quả tổng quan</a>
+</div></li>
+<li class="h3"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#21-giới-thiệu-chung')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#21-gi%E1%BB%9Bi-thi%E1%BB%87u-chung">2.1. Giới thiệu chung</a>
+</div></li>
+<li class="h3"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#22-kết-quả-số-liệu-về-các-lĩnh-vực-nghiên-cứu-chính-và-nguồn-lực-của-khoa')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#22-k%E1%BA%BFt-qu%E1%BA%A3-s%E1%BB%91-li%E1%BB%87u-v%E1%BB%81-c%C3%A1c-l%C4%A9nh-v%E1%BB%B1c-nghi%C3%AAn-c%E1%BB%A9u-ch%C3%ADnh-v%C3%A0-ngu%E1%BB%93n-l%E1%BB%B1c-c%E1%BB%A7a-khoa">2.2. Kết quả số liệu về các lĩnh vực nghiên cứu chính và nguồn lực của khoa</a>
+</div></li>
+<li class="h2"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#3-kết-quả-cụ-thể-về-các-cán-bộ-trong-khoa')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#3-k%E1%BA%BFt-qu%E1%BA%A3-c%E1%BB%A5-th%E1%BB%83-v%E1%BB%81-c%C3%A1c-c%C3%A1n-b%E1%BB%99-trong-khoa">3. Kết quả cụ thể về các cán bộ trong khoa</a>
+</div></li>
+<li class="h3"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#31-xử-lý-ảnh-và-thị-giác-máy')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#31-x%E1%BB%AD-l%C3%BD-%E1%BA%A3nh-v%C3%A0-th%E1%BB%8B-gi%C3%A1c-m%C3%A1y">3.1. Xử lý Ảnh và Thị giác Máy</a>
+</div></li>
+<li class="h3"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#32-cơ-học-vật-rắn-và-truyền-sóng')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#32-c%C6%A1-h%E1%BB%8Dc-v%E1%BA%ADt-r%E1%BA%AFn-v%C3%A0-truy%E1%BB%81n-s%C3%B3ng">3.2. Cơ học Vật rắn và Truyền Sóng</a>
+</div></li>
+<li class="h3"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#33-tối-ưu-hóa-và-tính-toán-khoa-học')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#33-t%E1%BB%91i-%C6%B0u-h%C3%B3a-v%C3%A0-t%C3%ADnh-to%C3%A1n-khoa-h%E1%BB%8Dc">3.3. Tối ưu hóa và Tính toán Khoa học</a>
+</div></li>
+<li class="h3"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#34-xử-lý-ngôn-ngữ-tự-nhiên-nlp')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#34-x%E1%BB%AD-l%C3%BD-ng%C3%B4n-ng%E1%BB%AF-t%E1%BB%B1-nhi%C3%AAn-nlp">3.4. Xử lý Ngôn ngữ Tự nhiên (NLP)</a>
+</div></li>
+<li class="h3"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#35-hình-học-đại-số-và-giải-tích-hình-học')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#35-h%C3%ACnh-h%E1%BB%8Dc-%C4%91%E1%BA%A1i-s%E1%BB%91-v%C3%A0-gi%E1%BA%A3i-t%C3%ADch-h%C3%ACnh-h%E1%BB%8Dc">3.5. Hình học Đại số và Giải tích Hình học</a>
+</div></li>
+<li class="h3"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#36-mật-mã-và-an-toàn-thông-tin')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#36-m%E1%BA%ADt-m%C3%A3-v%C3%A0-an-to%C3%A0n-th%C3%B4ng-tin">3.6. Mật mã và An toàn Thông tin</a>
+</div></li>
+<li class="h3"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#37-giải-tích-toán-học-và-phương-trình-vi-phân')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#37-gi%E1%BA%A3i-t%C3%ADch-to%C3%A1n-h%E1%BB%8Dc-v%C3%A0-ph%C6%B0%C6%A1ng-tr%C3%ACnh-vi-ph%C3%A2n">3.7. Giải tích Toán học và Phương trình Vi phân</a>
+</div></li>
+<li class="h3"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#38-xác-suất-và-thống-kê-toán-học')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#38-x%C3%A1c-su%E1%BA%A5t-v%C3%A0-th%E1%BB%91ng-k%C3%AA-to%C3%A1n-h%E1%BB%8Dc">3.8. Xác suất và Thống kê Toán học</a>
+</div></li>
+<li class="h3"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#39-lý-thuyết-biểu-diễn-và-tôpô-đại-số')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#39-l%C3%BD-thuy%E1%BA%BFt-bi%E1%BB%83u-di%E1%BB%85n-v%C3%A0-t%C3%B4p%C3%B4-%C4%91%E1%BA%A1i-s%E1%BB%91">3.9. Lý thuyết Biểu diễn và Tôpô Đại số</a>
+</div></li>
+<li class="h3"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#310-toán-học-ứng-dụng')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#310-to%C3%A1n-h%E1%BB%8Dc-%E1%BB%A9ng-d%E1%BB%A5ng">3.10. Toán học Ứng dụng</a>
+</div></li>
+<li class="h2"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#4-mã-nguồn-tham-khảo')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#4-m%C3%A3-ngu%E1%BB%93n-tham-kh%E1%BA%A3o">4. Mã nguồn tham khảo</a>
+</div></li>
+<li class="h3"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#41-scrape-thông-tin-từ-trang-web')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#41-scrape-th%C3%B4ng-tin-t%E1%BB%AB-trang-web">4.1. Scrape thông tin từ trang web</a>
+</div></li>
+<li class="h3"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#42-ví-dụ-sử-dụng-llm-tóm-tắt-thông-tin')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#42-v%C3%AD-d%E1%BB%A5-s%E1%BB%AD-d%E1%BB%A5ng-llm-t%C3%B3m-t%E1%BA%AFt-th%C3%B4ng-tin">4.2. Ví dụ sử dụng LLM tóm tắt thông tin</a>
+</div></li>
+<li class="h2"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#5-tổng-hợp-prompt-mô-hình-ngôn-ngữ-lớn')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#5-t%E1%BB%95ng-h%E1%BB%A3p-prompt-m%C3%B4-h%C3%ACnh-ng%C3%B4n-ng%E1%BB%AF-l%E1%BB%9Bn">5. Tổng hợp Prompt mô hình ngôn ngữ lớn</a>
+</div></li>
+<li class="h3"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#51-prompt-tạo-phần-giới-thiệu-chung')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#51-prompt-t%E1%BA%A1o-ph%E1%BA%A7n-gi%E1%BB%9Bi-thi%E1%BB%87u-chung">5.1. Prompt tạo phần giới thiệu chung</a>
+</div></li>
+<li class="h3"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#52-prompt-tạo-tóm-tắt-thông-tin-các-cán-bộ')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#52-prompt-t%E1%BA%A1o-t%C3%B3m-t%E1%BA%AFt-th%C3%B4ng-tin-c%C3%A1c-c%C3%A1n-b%E1%BB%99">5.2. Prompt tạo tóm tắt thông tin các cán bộ</a>
+</div></li>
+<li class="h3"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#53-prompt-trích-suất-các-lĩnh-vực-nghiên-cứu-chính')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#53-prompt-tr%C3%ADch-su%E1%BA%A5t-c%C3%A1c-l%C4%A9nh-v%E1%BB%B1c-nghi%C3%AAn-c%E1%BB%A9u-ch%C3%ADnh">5.3. Prompt trích suất các lĩnh vực nghiên cứu chính</a>
+</div></li>
+<li class="h3"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#54-prompt-xác-định-lĩnh-vực-nghiên-cứu-chính-của-cán-bộ')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#54-prompt-x%C3%A1c-%C4%91%E1%BB%8Bnh-l%C4%A9nh-v%E1%BB%B1c-nghi%C3%AAn-c%E1%BB%A9u-ch%C3%ADnh-c%E1%BB%A7a-c%C3%A1n-b%E1%BB%99">5.4. Prompt xác định lĩnh vực nghiên cứu chính của cán bộ</a>
+</div></li>
+</ul></div>
 </div>
 <button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span>
 </blockquote>
 
-<h3 id="mở-đầu">Mở đầu<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#mở-đầu')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+<h3 id="mở-đầu">Mở đầu<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#mở-đầu')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h3>
 
 <p>Bài viết này sẽ trình bày kết quả của một dự án nhỏ mà tôi làm cho vui trong dịp Tết Nguyên Đán này. Có lẽ tôi sẽ nói kĩ hơn trong một bài viết sắp tới nhưng cơ bản là kì sau tôi đang cố gắng tập trung vào việc tập tành thực hiện công trình báo cáo, nghiên cứu, nên việc cần tìm hiểu kĩ môi trường cũng là điều dễ hiểu. Mong sao những thông tin này cũng sẽ hữu ích cho mọi người hứng thú với tiềm năng nghiên cứu tại Khoa Toán - Cơ - Tin học, Trường Đại học Khoa học tự nhiên - Đại học Quốc gia Hà Nội.</p>
 
 <p>Kết hợp Web Crawling, Web Scraping và mô hình ngôn ngữ lớn, tôi đã tổng hợp và tóm tắt các thông tin về nghiên cứu có thể truy cập được tại <a href="http://mim.hus.vnu.edu.vn/" target="_blank">mim.hus.vnu.edu.vn</a>. Các kết quả bao gồm các chủ đề nghiên cứu nổi bật được sàng lọc, bao quát hơn về các giảng viên và cán bộ công tác trong trường và các thông tin liên quan khác.</p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRrQAAABXRUJQVlA4IKgAAAAQCACdASpAACYAPtVao0yoJSOiMrSeYQAaiUAYm7z4DfGFwQlkTKzSxOpdcGvMH2eeGx0wHBLx2ND4smqbZ6s9y6A0l68lE4AAAP3pgR7GOPy2ftjYlgzN76SFwY9DAl9qOxd2MqXGzhjEj52u3/TYl3sxDPtCn4zVUxOlM9RpTfpQ41JfcWo4MqO596WPubT5rBRLnEfMGzjDQfIj4hYEPxg3QrZQAAA='); aspect-ratio: 1191 / 707; width: min(1191px, 95%, calc(85vh * 1.684583)); "><img src="/assets/thumbnail/2025/q1-2025/mimfuckasswebsite.webp" alt="mim hus vnu edu vn" loading="lazy" decoding="async" width="1191" height="707" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRrQAAABXRUJQVlA4IKgAAAAQCACdASpAACYAPtVao0yoJSOiMrSeYQAaiUAYm7z4DfGFwQlkTKzSxOpdcGvMH2eeGx0wHBLx2ND4smqbZ6s9y6A0l68lE4AAAP3pgR7GOPy2ftjYlgzN76SFwY9DAl9qOxd2MqXGzhjEj52u3/TYl3sxDPtCn4zVUxOlM9RpTfpQ41JfcWo4MqO596WPubT5rBRLnEfMGzjDQfIj4hYEPxg3QrZQAAA='); aspect-ratio: 1191 / 707; width: min(74.4375rem, 95%, calc(85vh * 1.684583)); "><img src="/assets/thumbnail/2025/q1-2025/mimfuckasswebsite.webp" alt="mim hus vnu edu vn" loading="lazy" decoding="async" width="1191" height="707" class="blur-load"></span></p>
 
 <div class="media-description">Trang web <a href="http://mim.hus.vnu.edu.vn/" target="_blank">mim.hus.vnu.edu.vn</a>
 </div>
 
-<h3 id="lưu-ý">Lưu ý<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#lưu-ý')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+<h3 id="lưu-ý">Lưu ý<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#lưu-ý')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h3>
 
 <p>Tôi xin trân trọng lưu ý về mục đích và cách thức thực hiện dự án này. Dự án nhằm tóm tắt và làm nổi bật thông tin công khai của các thành viên trong khoa, với mong muốn tạo ra một nền tảng dễ tiếp cận hơn, giúp sinh viên và các cá nhân quan tâm đến nghiên cứu dễ dàng kết nối và phát triển sự nghiệp học thuật.</p>
 
@@ -600,7 +559,8 @@ Web Crawling và Scraping là những công cụ mạnh mẽ nhưng cần đư�
 
 <p>Bạn có thể truy cập tệp <code class="language-plaintext highlighter-rouge">robots.txt</code> của trang web <a href="http://mim.hus.vnu.edu.vn/" target="_blank">mim.hus.vnu.edu.vn</a> tại <a href="http://mim.hus.vnu.edu.vn/robots.txt" target="_blank">robots.txt</a>. <strong><em>Một số phần mã tham khảo sẽ được cung cấp ở cuối bài viết.</em></strong></p>
 
-<h2 id="1-tóm-tắt-quy-trình">1. Tóm tắt quy trình<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#1-tóm-tắt-quy-trình')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
+<h2 id="1-tóm-tắt-quy-trình">1. Tóm tắt quy trình<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#1-tóm-tắt-quy-trình')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h2>
 
 <p>Các dữ liệu được thu thập từ trang web chính thức của Khoa Toán - Cơ - Tin học thuộc HUS - VNU: <a href="http://mim.hus.vnu.edu.vn/" target="_blank">mim.hus.vnu.edu.vn</a></p>
 
@@ -624,9 +584,11 @@ Web Crawling và Scraping là những công cụ mạnh mẽ nhưng cần đư�
 <a href="https://jupyter.org/" target="_blank">Jupyter Notebook</a> và <a href="https://aistudio.google.com/" target="_blank">AIStudio</a> để dễ dàng thực nghiệm và phân tích dữ liệu.</li>
 </ul>
 
-<h2 id="2-một-số-kết-quả-tổng-quan">2. Một số kết quả tổng quan<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#2-một-số-kết-quả-tổng-quan')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
+<h2 id="2-một-số-kết-quả-tổng-quan">2. Một số kết quả tổng quan<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#2-một-số-kết-quả-tổng-quan')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h2>
 
-<h3 id="21-giới-thiệu-chung">2.1. Giới thiệu chung<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#21-giới-thiệu-chung')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+<h3 id="21-giới-thiệu-chung">2.1. Giới thiệu chung<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#21-giới-thiệu-chung')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h3>
 
 <p>Khoa Toán - Cơ - Tin học thuộc Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia Hà Nội là một cơ sở đào tạo và nghiên cứu mạnh, quy tụ đội ngũ các nhà khoa học, giảng viên có trình độ chuyên môn cao trong nhiều lĩnh vực Toán học, Cơ học và Khoa học Máy tính. Các lĩnh vực nghiên cứu trải dài từ lý thuyết thuần túy đến ứng dụng thực tiễn, mở ra nhiều cơ hội cho những ai có niềm đam mê khám phá tri thức và đóng góp vào sự phát triển khoa học.</p>
 
@@ -639,7 +601,8 @@ Web Crawling và Scraping là những công cụ mạnh mẽ nhưng cần đư�
 <h6 id="được-trích-suất-bởi-mô-hình-gemini-15-flash">Được trích suất bởi mô hình <code class="language-plaintext highlighter-rouge">gemini-1.5-flash</code>
 </h6>
 
-<h3 id="22-kết-quả-số-liệu-về-các-lĩnh-vực-nghiên-cứu-chính-và-nguồn-lực-của-khoa">2.2. Kết quả số liệu về các lĩnh vực nghiên cứu chính và nguồn lực của khoa<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#22-kết-quả-số-liệu-về-các-lĩnh-vực-nghiên-cứu-chính-và-nguồn-lực-của-khoa')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+<h3 id="22-kết-quả-số-liệu-về-các-lĩnh-vực-nghiên-cứu-chính-và-nguồn-lực-của-khoa">2.2. Kết quả số liệu về các lĩnh vực nghiên cứu chính và nguồn lực của khoa<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#22-kết-quả-số-liệu-về-các-lĩnh-vực-nghiên-cứu-chính-và-nguồn-lực-của-khoa')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h3>
 
 <p>Sau quá trình đã lọc ra <strong>75</strong> cán bộ có thông tin về hoạt động nghiên cứu khoa học.</p>
 
@@ -764,11 +727,13 @@ Web Crawling và Scraping là những công cụ mạnh mẽ nhưng cần đư�
   <li>Tiến sĩ: 1</li>
 </ul>
 
-<h2 id="3-kết-quả-cụ-thể-về-các-cán-bộ-trong-khoa">3. Kết quả cụ thể về các cán bộ trong khoa<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#3-kết-quả-cụ-thể-về-các-cán-bộ-trong-khoa')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
+<h2 id="3-kết-quả-cụ-thể-về-các-cán-bộ-trong-khoa">3. Kết quả cụ thể về các cán bộ trong khoa<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#3-kết-quả-cụ-thể-về-các-cán-bộ-trong-khoa')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h2>
 
 <p>Lưu ý: Được sắp xếp theo quy luật có xuất hiện năm gần đây nhất trong văn bản tóm tắt theo từng lĩnh vực chính.</p>
 
-<h3 id="31-xử-lý-ảnh-và-thị-giác-máy">3.1. Xử lý Ảnh và Thị giác Máy<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#31-xử-lý-ảnh-và-thị-giác-máy')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+<h3 id="31-xử-lý-ảnh-và-thị-giác-máy">3.1. Xử lý Ảnh và Thị giác Máy<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#31-xử-lý-ảnh-và-thị-giác-máy')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h3>
 
 <h5 id="tiến-sĩ---đỗ-thanh-hà">Tiến sĩ - Đỗ Thanh Hà</h5>
 
@@ -782,7 +747,8 @@ Web Crawling và Scraping là những công cụ mạnh mẽ nhưng cần đư�
 
 <p>Cao Văn Chung là Tiến sĩ chuyên ngành Xử lý ảnh. Cán Bộ tốt nghiệp Cử nhân Toán Tin ứng dụng tại Trường Đại học Khoa học Tự nhiên năm 1999, tiếp tục theo học Thạc sĩ Toán học tính toán tại cùng trường năm 2003, và hoàn thành Tiến sĩ Toán học tại đây năm 2013. Lĩnh vực nghiên cứu chính của Cán Bộ là Xử lý ảnh. Hiện nay, Cán Bộ giảng dạy các môn Học máy và Lập trình cơ bản.</p>
 
-<h3 id="32-cơ-học-vật-rắn-và-truyền-sóng">3.2. Cơ học Vật rắn và Truyền Sóng<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#32-cơ-học-vật-rắn-và-truyền-sóng')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+<h3 id="32-cơ-học-vật-rắn-và-truyền-sóng">3.2. Cơ học Vật rắn và Truyền Sóng<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#32-cơ-học-vật-rắn-và-truyền-sóng')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h3>
 
 <h5 id="tiến-sĩ---vũ-thị-ngọc-ánh">Tiến sĩ - Vũ Thị Ngọc Ánh</h5>
 
@@ -812,7 +778,8 @@ Web Crawling và Scraping là những công cụ mạnh mẽ nhưng cần đư�
 
 <p>Phó Giáo sư, Tiến sĩ Vũ Đỗ Long có lĩnh vực nghiên cứu chính là Cơ học Vật rắn biến dạng, tập trung vào bài toán quá trình đàn dẻo và bài toán tĩnh và động kết cấu tấm và vỏ. Cán Bộ nhận bằng Tiến sĩ Cơ học vật rắn biến dạng năm 2000 tại Đại học Cơ khí, Liên Bang Nga. Trước đó, năm 1994, Cán Bộ tốt nghiệp Đại học Bách khoa Bêlôrútxia, Liên Xô, chuyên ngành Máy và gia công kim loại bằng áp lực. Các công trình nghiên cứu gần đây nhất của Cán Bộ được công bố trên tạp chí <em>Vietnam Journal of Mechanics</em>, bao gồm các bài báo về phân tích động phi tuyến của vỏ nông vật liệu chức năng phân lớp (2010), dao động phi tuyến của vỏ composite nhiều lớp được gia cường lệch tâm (2008), và phân tích động phi tuyến của vỏ nông cong kép composite gia cường nhiều lớp (2007). Cán Bộ cũng có công trình nghiên cứu về bài toán đàn dẻo của bán không gian có lỗ chịu tải trọng đối xứng trục (2005). Cán Bộ giảng dạy các môn học: Sức bền Vật liệu, Phương pháp phần tử hữu hạn và Cơ học lý thuyết.</p>
 
-<h3 id="33-tối-ưu-hóa-và-tính-toán-khoa-học">3.3. Tối ưu hóa và Tính toán Khoa học<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#33-tối-ưu-hóa-và-tính-toán-khoa-học')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+<h3 id="33-tối-ưu-hóa-và-tính-toán-khoa-học">3.3. Tối ưu hóa và Tính toán Khoa học<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#33-tối-ưu-hóa-và-tính-toán-khoa-học')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h3>
 
 <h5 id="tiến-sĩ---vũ-tiến-dũng">Tiến sĩ - Vũ Tiến Dũng</h5>
 
@@ -850,7 +817,8 @@ Web Crawling và Scraping là những công cụ mạnh mẽ nhưng cần đư�
 
 <p>Hoàng Anh Đức là một Tiến sĩ chuyên nghiên cứu về Thuật toán đồ thị và cấu hình lại kết hợp. Thông tin cho thấy lĩnh vực nghiên cứu chính của Cán Bộ tập trung vào hai mảng này. Thời gian hoạt động nghiên cứu gần đây nhất không được nêu rõ trong thông tin đã cung cấp.</p>
 
-<h3 id="34-xử-lý-ngôn-ngữ-tự-nhiên-nlp">3.4. Xử lý Ngôn ngữ Tự nhiên (NLP)<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#34-xử-lý-ngôn-ngữ-tự-nhiên-nlp')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+<h3 id="34-xử-lý-ngôn-ngữ-tự-nhiên-nlp">3.4. Xử lý Ngôn ngữ Tự nhiên (NLP)<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#34-xử-lý-ngôn-ngữ-tự-nhiên-nlp')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h3>
 
 <h5 id="tiến-sĩ---nguyễn-thị-minh-huyền">Tiến sĩ - Nguyễn Thị Minh Huyền</h5>
 
@@ -872,7 +840,8 @@ Web Crawling và Scraping là những công cụ mạnh mẽ nhưng cần đư�
 
 <p>Hà Mỹ Linh là một cán bộ nghiên cứu thuộc lĩnh vực Xử lí ngôn ngữ tự nhiên, hiện đang công tác tại Đại học Quốc gia Hà Nội (VNU), liên hệ qua email _.vn hoặc số điện thoại _. Cán Bộ có bằng Thạc sĩ Cơ sở toán cho tin học (2015) và bằng Cử nhân Toán tin ứng dụng (2012) từ Đại học Khoa học Tự nhiên, ĐHQG HN. Các công bố khoa học gần đây nhất của Cán Bộ bao gồm bài báo về mạng lưới tổng hợp đa tỷ lệ cho nhận diện cảm xúc giọng nói (2023), bài báo về thử thách nhận dạng thực thể có tên cho tiếng Việt (2022), và nhiều bài báo khác về phân tích cú pháp phụ thuộc cho tiếng Việt (2020), từ điển theo kiểu VerbNet cho tiếng Việt (2020), biểu diễn nghĩa cho tiếng Việt (2019), và trích xuất thuật ngữ song ngữ Anh-Việt (2019). Cán Bộ cũng từng tham gia dự án “Nghiên cứu sử dụng biểu diễn phân tán trong phân tích cú pháp phụ thuộc tiếng Việt” (2015) đã được nghiệm thu. Cán Bộ giảng dạy các môn Hệ điều hành Linux, Tin học cơ sở 1, Tin học cơ sở 4 và Lập trình hướng đối tượng.</p>
 
-<h3 id="35-hình-học-đại-số-và-giải-tích-hình-học">3.5. Hình học Đại số và Giải tích Hình học<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#35-hình-học-đại-số-và-giải-tích-hình-học')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+<h3 id="35-hình-học-đại-số-và-giải-tích-hình-học">3.5. Hình học Đại số và Giải tích Hình học<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#35-hình-học-đại-số-và-giải-tích-hình-học')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h3>
 
 <h5 id="cử-nhân---nguyễn-tiến-mạnh">Cử nhân - Nguyễn Tiến Mạnh</h5>
 
@@ -898,13 +867,15 @@ Web Crawling và Scraping là những công cụ mạnh mẽ nhưng cần đư�
 
 <p>Phó Đức Tài, Phó giáo sư, Tiến sĩ, hiện là Trưởng Khoa tại một trường đại học thuộc VNU. Cán Bộ có bằng Tiến sĩ Toán học (Đại học thành lập Tokyo, 03/2001), Thạc sĩ Toán học (Đại học Utrecht, 06/1996) và Cử nhân Toán học (Đại học Tổng hợp Hà Nội, 06/1994). Lĩnh vực nghiên cứu của Cán Bộ bao gồm Hình học đại số, Lý thuyết kỳ dị, Đại số máy tính và Mật mã. Cán Bộ hướng dẫn sinh viên, học viên cao học và nghiên cứu sinh trong các lĩnh vực Đại số máy tính, Mật mã, Đường cong đại số, Mật mã khóa công khai, Blockchain và Mật mã hậu lượng tử. Gần đây nhất (Tháng 4, 2015), Cán Bộ đã hoàn thành đề tài nghiên cứu quốc gia về “Phát triển gói lệnh tính toán trên hệ đại số máy tính Sage trong lý thuyết toán tử Steenrod và đường cong elliptic”. Cán Bộ giảng dạy các môn Đại số tuyến tính, Đại số đại cương, Hình học vi phân, Topo đại cương, Đại số máy tính, Mật mã và an toàn dữ liệu (Đại học) và Hình học đại số, Hình học vi phân, Giải tích trên đa tạp (Sau đại học).</p>
 
-<h3 id="36-mật-mã-và-an-toàn-thông-tin">3.6. Mật mã và An toàn Thông tin<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#36-mật-mã-và-an-toàn-thông-tin')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+<h3 id="36-mật-mã-và-an-toàn-thông-tin">3.6. Mật mã và An toàn Thông tin<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#36-mật-mã-và-an-toàn-thông-tin')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h3>
 
 <h5 id="tiến-sĩ---nguyễn-hải-vinh">Tiến sĩ - Nguyễn Hải Vinh</h5>
 
 <p>Nguyễn Hải Vinh là một Tiến sĩ chuyên về Quy hoạch thực nghiệm tối ưu và Mật mã và an toàn dữ liệu. Cán Bộ tốt nghiệp Đại học và Thạc sĩ Tự động học và điều khiển trong các hệ thống kỹ thuật năm 1993 tại ĐH Bách Khoa Vinnhitsa (Liên Xô-Ukraina), và bảo vệ luận án Tiến sĩ về Mô hình hóa Toán học năm 2012 tại ĐHTH Kỹ thuật Điện Quốc gia Saint-Petersburg (Liên Bang Nga). Các công trình nghiên cứu gần đây nhất của Cán Bộ tập trung vào mật mã hậu lượng tử và hệ mật mã ElGamal biến thể. Cán Bộ đã công bố nhiều bài báo khoa học quốc tế, ví dụ như bài viết về thuật toán mã hóa phủ nhận giao hoán hậu lượng tử năm 2020. Cán Bộ cũng tham gia các dự án nghiên cứu, trong đó có đề tài “Developing a system to support fake news detection in online social networks” (bắt đầu tháng 10/2020, chưa nghiệm thu) và “Phương pháp hàm số trong quy hoạch thực nghiệm tối ưu” (đã nghiệm thu tháng 3/2014). Hiện nay, Cán Bộ giảng dạy các môn Toán rời rạc và Tổ hợp tại trường đại học.</p>
 
-<h3 id="37-giải-tích-toán-học-và-phương-trình-vi-phân">3.7. Giải tích Toán học và Phương trình Vi phân<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#37-giải-tích-toán-học-và-phương-trình-vi-phân')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+<h3 id="37-giải-tích-toán-học-và-phương-trình-vi-phân">3.7. Giải tích Toán học và Phương trình Vi phân<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#37-giải-tích-toán-học-và-phương-trình-vi-phân')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h3>
 
 <h5 id="thạc-sĩ---lê-gia-linh">Thạc sĩ - Lê Gia Linh</h5>
 
@@ -974,7 +945,8 @@ Web Crawling và Scraping là những công cụ mạnh mẽ nhưng cần đư�
 
 <p>Lê Đình Định là một Tiến sĩ chuyên nghiên cứu về phương trình sai phân. Thông tin cho thấy Cán Bộ hiện đang giữ chức vụ Chủ tịch Công đoàn tại một trường đại học. Ngoài nghiên cứu, Cán Bộ còn giảng dạy các môn Giải tích và Phương trình vi phân. Mặc dù thông tin không nêu rõ thời gian hoạt động cụ thể, nhưng dựa trên các thông tin hiện có, lĩnh vực nghiên cứu chính của Cán Bộ vẫn là phương trình sai phân.</p>
 
-<h3 id="38-xác-suất-và-thống-kê-toán-học">3.8. Xác suất và Thống kê Toán học<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#38-xác-suất-và-thống-kê-toán-học')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+<h3 id="38-xác-suất-và-thống-kê-toán-học">3.8. Xác suất và Thống kê Toán học<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#38-xác-suất-và-thống-kê-toán-học')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h3>
 
 <h5 id="nhà-giáo-ưu-tú-giáo-sư-tiến-sĩ---nguyễn-hữu-dư">Nhà giáo Ưu tú, Giáo sư, Tiến sĩ - Nguyễn Hữu Dư</h5>
 
@@ -1036,7 +1008,8 @@ Web Crawling và Scraping là những công cụ mạnh mẽ nhưng cần đư�
 
 <p>Trịnh Quốc Anh, Tiến sĩ Xác suất Thống kê, là Phó Bí thư Chi bộ và Phó Trưởng Bộ môn tại một trường đại học (VNU). Cán Bộ có bằng tốt nghiệp từ Đại học Bách Khoa Hà Nội (1997), Đại học Mỏ Paris (2000) và Đại học Paris V (2007). Lĩnh vực nghiên cứu của Cán Bộ là Xác suất Thống kê. Các hoạt động nghiên cứu gần đây nhất của Cán Bộ bao gồm tham gia vào các công trình nghiên cứu về thích ứng với biến đổi khí hậu trong nông nghiệp ở vùng Đồng bằng Sông Hồng (2019), phân tích phương sai phân cấp trong đánh giá tác động du lịch (2020), và phân tích địa lý về thích ứng với biến đổi khí hậu ở vùng núi phía Bắc Việt Nam (2021). Các công trình này được công bố trên các tạp chí quốc tế như <em>Sustainability</em> và <em>International journal of environmental research and public health</em>. Cán Bộ giảng dạy các môn Xác suất thống kê, Phương pháp tính toán trong thống kê và Phân tích hồi quy và ứng dụng.</p>
 
-<h3 id="39-lý-thuyết-biểu-diễn-và-tôpô-đại-số">3.9. Lý thuyết Biểu diễn và Tôpô Đại số<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#39-lý-thuyết-biểu-diễn-và-tôpô-đại-số')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+<h3 id="39-lý-thuyết-biểu-diễn-và-tôpô-đại-số">3.9. Lý thuyết Biểu diễn và Tôpô Đại số<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#39-lý-thuyết-biểu-diễn-và-tôpô-đại-số')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h3>
 
 <h5 id="nhà-giáo-nhân-dân-giáo-sư-tiến-sĩ-khoa-học---nguyễn-hữu-việt-hưng">Nhà giáo Nhân dân, Giáo sư, Tiến sĩ Khoa học - Nguyễn Hữu Việt Hưng</h5>
 
@@ -1062,7 +1035,8 @@ Web Crawling và Scraping là những công cụ mạnh mẽ nhưng cần đư�
 
 <p>Võ Thị Như Quỳnh, Tiến sĩ Toán học chuyên ngành Tôpô đại số, hiện là cán bộ giảng dạy tại Đại học Quốc gia Hà Nội (VNU), có địa chỉ email _.vn. Cán Bộ tốt nghiệp Cử nhân Toán học năm 2001 tại hệ đào tạo Cử nhân khoa học tài năng, ĐHQG Hà Nội và bảo vệ luận án Tiến sĩ Toán học năm 2010 tại cùng trường. Lĩnh vực nghiên cứu của Cán Bộ là Tôpô đại số. Cán Bộ giảng dạy các môn Đại số tuyến tính, Đại số đại cương, Lý thuyết nhóm và biểu diễn nhóm, Một số vấn đề chọn lọc trong Toán học, Đại số đồng điều và Đối đồng điều của nhóm. Ngoài ra, Cán Bộ là Hội viên Hội Toán học Việt Nam, phản biện cho tạp chí VJM. Thành tích trước đây của Cán Bộ bao gồm giải Ba Kỳ thi Quốc gia học sinh giỏi Toán Trung học phổ thông năm 1996, giải Nhất và giải Khuyến khích Sinh viên nghiên cứu Khoa học cấp Khoa và cấp Đại học Quốc gia Hà Nội năm 2001.</p>
 
-<h3 id="310-toán-học-ứng-dụng">3.10. Toán học Ứng dụng<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#310-toán-học-ứng-dụng')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+<h3 id="310-toán-học-ứng-dụng">3.10. Toán học Ứng dụng<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#310-toán-học-ứng-dụng')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h3>
 
 <h5 id="tiến-sĩ---nguyễn-trọng-hiếu">Tiến sĩ - Nguyễn Trọng Hiếu</h5>
 
@@ -1088,9 +1062,11 @@ Web Crawling và Scraping là những công cụ mạnh mẽ nhưng cần đư�
 
 <p>Tiến sĩ Nguyễn Trung Hiếu hiện là Phó Trưởng Bộ môn và Chủ tịch Công đoàn tại một trường đại học. Cán Bộ có chuyên ngành Toán học tính toán, và quá trình đào tạo bao gồm: Đại học Khoa Toán-Cơ-Tin học (1995-1999), Cao học tại Trường Đại học Nijmegen, Hà Lan (2001-2002), và Tiến sĩ tại Trường Đại học RWTH Aachen, Đức (2003-2009). Các môn Cán Bộ giảng dạy gồm Giải tích số, Một số vấn đề chọn lọc trong tính toán khoa học, Phương pháp số trong Đại số tuyến tính và Phương pháp số giải phương trình đạo hàm riêng. Hoạt động nghiên cứu gần đây nhất của Cán Bộ được thể hiện qua bài báo “Reusken, A., Nguyen, T.H. Nitsche’s Method for a Transport Problem in Two-phase Incompressible Flows. J Fourier Anal Appl 15, 663–683 (2009). <a href="https://doi.org/10.1007/s00041-009-9092-y" target="_blank">DOI</a>”, cho thấy Cán Bộ đã công bố nghiên cứu về phương pháp Nitsche cho bài toán vận chuyển trong dòng chảy không nén hai pha vào năm 2009.</p>
 
-<h2 id="4-mã-nguồn-tham-khảo">4. Mã nguồn tham khảo<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#4-mã-nguồn-tham-khảo')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
+<h2 id="4-mã-nguồn-tham-khảo">4. Mã nguồn tham khảo<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#4-mã-nguồn-tham-khảo')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h2>
 
-<h3 id="41-scrape-thông-tin-từ-trang-web">4.1. Scrape thông tin từ trang web<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#41-scrape-thông-tin-từ-trang-web')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+<h3 id="41-scrape-thông-tin-từ-trang-web">4.1. Scrape thông tin từ trang web<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#41-scrape-thông-tin-từ-trang-web')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h3>
 
 <div class="language-python highlighter-rouge"><div class="highlight">
 <div class="line-numbers">
@@ -1284,7 +1260,8 @@ Web Crawling và Scraping là những công cụ mạnh mẽ nhưng cần đư�
 <span class="language-label">Python</span><button class="copy-button" aria-label="Copy code" title="Copy code"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-637647fac3a86d32eae6f20e-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="14.86" x2="13.91" y2="14.86"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="11.05" x2="13.91" y2="11.05"></line><line class="cls-637647fac3a86d32eae6f20e-1" x1="6.27" y1="18.68" x2="13.91" y2="18.68"></line><polygon class="cls-637647fac3a86d32eae6f20e-1" points="16.77 8.18 16.77 22.5 3.41 22.5 3.41 5.32 13.91 5.32 16.77 8.18"></polygon><polyline class="cls-637647fac3a86d32eae6f20e-1" points="16.77 18.68 20.59 18.68 20.59 4.36 17.73 1.5 7.23 1.5 7.23 5.32"></polyline></svg></button><button class="collapse-button" aria-label="Collapse/Expand code" title="Collapse/Expand code"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button>
 </div></div>
 
-<h3 id="42-ví-dụ-sử-dụng-llm-tóm-tắt-thông-tin">4.2. Ví dụ sử dụng LLM tóm tắt thông tin<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#42-ví-dụ-sử-dụng-llm-tóm-tắt-thông-tin')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+<h3 id="42-ví-dụ-sử-dụng-llm-tóm-tắt-thông-tin">4.2. Ví dụ sử dụng LLM tóm tắt thông tin<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#42-ví-dụ-sử-dụng-llm-tóm-tắt-thông-tin')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h3>
 
 <div class="language-python highlighter-rouge"><div class="highlight">
 <div class="line-numbers">
@@ -1317,9 +1294,11 @@ Web Crawling và Scraping là những công cụ mạnh mẽ nhưng cần đư�
 
 <p>Bạn có thể nhận API Key tại: <a href="https://console.cloud.google.com/apis" target="_blank">Google Cloud APIs</a>.</p>
 
-<h2 id="5-tổng-hợp-prompt-mô-hình-ngôn-ngữ-lớn">5. Tổng hợp Prompt mô hình ngôn ngữ lớn<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#5-tổng-hợp-prompt-mô-hình-ngôn-ngữ-lớn')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
+<h2 id="5-tổng-hợp-prompt-mô-hình-ngôn-ngữ-lớn">5. Tổng hợp Prompt mô hình ngôn ngữ lớn<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#5-tổng-hợp-prompt-mô-hình-ngôn-ngữ-lớn')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h2>
 
-<h3 id="51-prompt-tạo-phần-giới-thiệu-chung">5.1. Prompt tạo phần giới thiệu chung<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#51-prompt-tạo-phần-giới-thiệu-chung')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+<h3 id="51-prompt-tạo-phần-giới-thiệu-chung">5.1. Prompt tạo phần giới thiệu chung<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#51-prompt-tạo-phần-giới-thiệu-chung')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h3>
 
 <blockquote>
 <div class="content">
@@ -1329,7 +1308,8 @@ Web Crawling và Scraping là những công cụ mạnh mẽ nhưng cần đư�
 <button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span>
 </blockquote>
 
-<h3 id="52-prompt-tạo-tóm-tắt-thông-tin-các-cán-bộ">5.2. Prompt tạo tóm tắt thông tin các cán bộ<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#52-prompt-tạo-tóm-tắt-thông-tin-các-cán-bộ')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+<h3 id="52-prompt-tạo-tóm-tắt-thông-tin-các-cán-bộ">5.2. Prompt tạo tóm tắt thông tin các cán bộ<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#52-prompt-tạo-tóm-tắt-thông-tin-các-cán-bộ')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h3>
 
 <blockquote>
 <div class="content">
@@ -1339,7 +1319,8 @@ Web Crawling và Scraping là những công cụ mạnh mẽ nhưng cần đư�
 <button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span>
 </blockquote>
 
-<h3 id="53-prompt-trích-suất-các-lĩnh-vực-nghiên-cứu-chính">5.3. Prompt trích suất các lĩnh vực nghiên cứu chính<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#53-prompt-trích-suất-các-lĩnh-vực-nghiên-cứu-chính')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+<h3 id="53-prompt-trích-suất-các-lĩnh-vực-nghiên-cứu-chính">5.3. Prompt trích suất các lĩnh vực nghiên cứu chính<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#53-prompt-trích-suất-các-lĩnh-vực-nghiên-cứu-chính')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h3>
 
 <blockquote>
 <div class="content">
@@ -1349,7 +1330,8 @@ Web Crawling và Scraping là những công cụ mạnh mẽ nhưng cần đư�
 <button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span>
 </blockquote>
 
-<h3 id="54-prompt-xác-định-lĩnh-vực-nghiên-cứu-chính-của-cán-bộ">5.4. Prompt xác định lĩnh vực nghiên cứu chính của cán bộ<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#54-prompt-xác-định-lĩnh-vực-nghiên-cứu-chính-của-cán-bộ')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+<h3 id="54-prompt-xác-định-lĩnh-vực-nghiên-cứu-chính-của-cán-bộ">5.4. Prompt xác định lĩnh vực nghiên cứu chính của cán bộ<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#54-prompt-xác-định-lĩnh-vực-nghiên-cứu-chính-của-cán-bộ')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h3>
 
 <blockquote>
 <div class="content">
@@ -1402,36 +1384,42 @@ Web Crawling và Scraping là những công cụ mạnh mẽ nhưng cần đư�
     <div class="relative-footer">
         <footer>
             <div class="footer-info">
+                
                 <a href="https://www.youtube.com/@yuk.yukano" target="_blank">
                     <i class="fab fa-youtube"></i>
                     <div class="footer-info-label">
                         <p>@yuk.yukano</p>
                     </div>
                 </a>
+                
                 <a href="https://github.com/duy-phamduc68" target="_blank">
                     <i class="fab fa-github"></i>
                     <div class="footer-info-label">
                         <p>duy-phamduc68</p>
                     </div>
                 </a>
+                
                 <a href="https://x.com/yukyukano" target="_blank">
                     <i class="fab fa-twitter"></i>
                     <div class="footer-info-label">
                         <p>@yukyukano</p>
                     </div>
                 </a>
+                
                 <a href="https://www.instagram.com/yuk.yukano" target="_blank">
                     <i class="fab fa-instagram"></i>
                     <div class="footer-info-label">
                         <p>@yuk.yukano</p>
                     </div>
                 </a>
+                
                 <a href="https://www.facebook.com/yuk.pham.2025" target="_blank">
                     <i class="fab fa-facebook"></i>
                     <div class="footer-info-label">
                         <p>Duy Pham Duc</p>
                     </div>
                 </a>
+                
             </div>
             <div class="copyright-text">
                 <p>© 2026 Yuk</p>
@@ -1481,21 +1469,10 @@ Web Crawling và Scraping là những công cụ mạnh mẽ nhưng cần đư�
         </button>
     </div>
 </div>
+    <script>window.SITE_TEXT = { ui: {"en":{"back":"Back","home":"Home","archive":"Archive","projects":"Projects","about":"About","tools":"Tools","tags":"Tags","navigation":"Navigation","options":"Options","configuration":"Configuration","open_configuration":"Open configuration","config_button":"Config","theme":"Theme","bg_on":"BG: On","bg_off":"BG: Off","close":"Close","to_top":"To top","comments":"Comments","comments_disabled":"Comments are disabled for this post","written_by":"Written by:","last_updated":"Last updated:","reading_min":"Min.","new_tag":"NEW","access":"Access","see_more":"See more"},"vi":{"back":"Trở lại","home":"Trang chủ","archive":"Lưu trữ","projects":"Dự án","about":"Về tôi","navigation":"Điều hướng","options":"Tùy chọn","configuration":"Cấu hình","open_configuration":"Mở cấu hình","theme":"Chủ đề","bg_on":"BG: Bật","bg_off":"BG: Tắt","close":"Đóng","to_top":"Đầu trang","comments":"Bình luận","comments_disabled":"Bình luận không khả dụng cho bài viết này","written_by":"Viết bởi:","last_updated":"Cập nhật lần cuối:","reading_min":"Phút","access":"Truy cập","see_more":"Xem thêm"},"ja":{"back":"戻る","home":"ホーム","configuration":"設定","open_configuration":"設定を開く","theme":"テーマ","bg_on":"BG: オン","bg_off":"BG: オフ","close":"閉じる"}}, archive: {"title":"Archive - Yuk","search_placeholder":"Press \" / \" to search posts...","categories":"Categories","filter_post":"Post","filter_code":"Code","filter_assignment":"Assignment","filter_technical":"Technical","filter_thread":"Thread","filter_showcase":"Showcase","sort_by":"Sort by","sort_reading_time":"Reading time","sort_release_date":"Release date","prev":"Prev","next":"Next","nothing_here":"Nothing here...","page_hint":"Use Page Up / Page Down to navigate between pages.","all_tags":"All tags"}, projects: {"title":"Projects - Yuk","copy_catalog":"Copy Catalog","copied":"Copied!"}, mermaid: {"title":"Mermaid","copy_source":"Copy source","reset_view":"Reset view","unlock":"Unlock interactions","lock":"Lock interactions","fullscreen":"Fullscreen","back_to_post":"Back to post"} };</script>
+<script src="/assets/js/common.js"></script>
     <script src="/assets/js/pages-js/post-script.js"></script>
     <script src="/assets/js/bg-script.js"></script>
-    <script>
-        (function() {
-            'use strict';
-            window.addEventListener('load', () => {
-                const target = document.querySelector('div.post-content');
-                if (target) {
-                    target.style.outline = 'none';
-                    target.setAttribute('tabindex', '-1');
-                    target.focus();
-                }
-            });
-        })();
-    </script>
     <div class="scroll-button-container">
         <button id="scrollButton" onclick="scrollToTop()">
             <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="50" height="50" color="#fff">

@@ -7,7 +7,6 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
     <meta charset="UTF-8">
@@ -49,6 +48,7 @@
     <meta name="twitter:description" content="Just found some of my old drawings, which might explain my capability for graphic designs">
     <meta name="twitter:image" content="https://yuk068.github.io//assets/thumbnail/2026/q1-2026/yukart.webp">
 
+    <link rel="stylesheet" href="/assets/css/theme.css">
     <link rel="stylesheet" href="/assets/css/pages-css/post-styles.css">
     
 
@@ -58,20 +58,7 @@
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/contrib/auto-render.min.js"></script>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            if (typeof renderMathInElement === 'function') {
-                renderMathInElement(document.body, {
-                    delimiters: [
-                        { left: "$$", right: "$$", display: true },
-                        { left: "$", right: "$", display: false },
-                        { left: "\\(", right: "\\)", display: false },
-                        { left: "\\[", right: "\\]", display: true }
-                    ]
-                });
-            }
-        });
-    </script>
+    <script defer src="/assets/js/katex-init.js"></script>
 
     
     
@@ -90,58 +77,7 @@
 
     <link rel="stylesheet" href="https://unpkg.com/photoswipe@5/dist/photoswipe.css">
 
-<script type="module">
-import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5/dist/photoswipe-lightbox.esm.js';
-
-const lightbox = new PhotoSwipeLightbox({
-    gallery: '.post-article',
-    children: 'img',
-    pswpModule: () => import('https://unpkg.com/photoswipe@5/dist/photoswipe.esm.js'),
-
-    // --- Animation Settings ---
-    showHideAnimationType: 'fade',
-
-    // --- Zoom Enhancements ---
-    wheelToZoom: true,
-    imageClickAction: 'zoom',
-    secondaryZoomLevel: 2,
-    maxZoomLevel: 4,
-
-    // --- Loading Behavior ---
-    preload: [1, 5],
-});
-
-
-// --- SAFER DATA SOURCE ---
-lightbox.addFilter('itemData', (itemData) => {
-    const img = itemData.element;
-
-    return {
-        src: img.src,
-        msrc: img.src,
-        width: img.naturalWidth || img.width || 1200,
-        height: img.naturalHeight || img.height || 800,
-        element: img
-    };
-});
-
-
-// --- FIX DIMENSIONS AFTER LOAD ---
-lightbox.on('contentLoadImage', (e) => {
-    const { content } = e;
-
-    content.element.decode().then(() => {
-        content.width = content.element.naturalWidth;
-        content.height = content.element.naturalHeight;
-
-        if (lightbox.pswp) {
-            lightbox.pswp.refreshSize(true);
-        }
-    }).catch(() => {});
-});
-
-lightbox.init();
-</script>
+<script type="module" src="/assets/js/photoswipe-init.js"></script>
 </head>
 
 <body>
@@ -151,7 +87,7 @@ lightbox.init();
     <div class="main-container">
         <header id="post-header">
             <div class="header-logo-container">
-                <button class="logo-button" onclick="handleLogoClick()">
+                <button class="logo-button" onclick="handleLogoClick()" aria-label="Home">
                     <div class="logo-container">
                         <div class="logo">
                             <div class="u-shape left-side"></div>
@@ -172,40 +108,32 @@ lightbox.init();
                     <ul>
                         <a href="#" onclick="goBack()">
                             <li>
-                                
                                 Back
-                                
                             </li>
                         </a>
                         <div class="nav-bar-divider"></div>
                         <a href="/">
                             <li>
-                                
                                 Home
-                                
                             </li>
                         </a>
-                        <div class="nav-bar-divider" id="nav-disable-mobile"></div>
-                        <a href="/archive" id="nav-disable-mobile">
-                            <li id="nav-disable-mobile">
-                                
+                        <div class="nav-bar-divider"></div>
+                        <a href="/archive">
+                            <li>
                                 Archive
-                                
                             </li>
                         </a>
-                        <div class="nav-bar-divider" id="nav-disable-mobile"></div>
-                        <a href="/projects" id="nav-disable-mobile">
-                            <li id="nav-disable-mobile">
-                                
+                        <div class="nav-bar-divider"></div>
+                        <a href="/projects">
+                            <li>
                                 Projects
-                                
                             </li>
                         </a>
                     </ul>
                 </nav>
             </div>
             <div class="header-extra-container">
-                <button class="extra-button">
+                <button class="extra-button" aria-label="Open configuration">
                     <div class="extra-container">
                         <div class="extra">
                             <div class="extra-shape top"></div>
@@ -220,15 +148,11 @@ lightbox.init();
             <div id="overlay" class="overlay">
                 <div class="options-container">
                     <p>
-                        
                         Navigation
-                        
                     </p>
                     <div class="options-navigation">
                         <a id="toBackButton" href="/"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14"><defs><style>.cls-6374f543b67f094e4896c5c8-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><circle class="cls-6374f543b67f094e4896c5c8-1" cx="12" cy="12" r="10.5"></circle><path class="cls-6374f543b67f094e4896c5c8-1" d="M7.23,7.23h7.63a3.82,3.82,0,0,1,3.82,3.82h0a3.82,3.82,0,0,1-3.82,3.81H7.23"></path><polyline class="cls-6374f543b67f094e4896c5c8-1" points="11.04 18.68 7.23 14.86 11.04 11.04"></polyline></svg>
-                            
                             Back
-                            
                         </a>
                         <a id="toArchiveButton" href="/archive"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff">
     <defs>
@@ -243,9 +167,7 @@ lightbox.init();
     <polygon class="cls-archive-1" points="19.64 9.14 4.36 9.14 4.36 1.5 10.09 1.5 12 3.41 19.64 3.41 19.64 9.14"></polygon>
     <polygon class="cls-archive-1" points="1.5 9.14 22.5 9.14 20.59 22.5 3.41 22.5 1.5 9.14"></polygon>
 </svg>
-                            
                             Archive
-                            
                         </a>
                         <a id="toProjectsButton" href="/projects"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff">
     <defs>
@@ -268,9 +190,7 @@ lightbox.init();
         <line class="cls-projects-1" x1="11.95" y1="4.37" x2="13.87" y2="4.37"></line>
     </g>
 </svg>
-                            
                             Projects
-                            
                         </a>
                         <a id="toAboutButton" href="/about-yuk-en"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff">
     <defs>
@@ -285,21 +205,15 @@ lightbox.init();
     <circle class="cls-about-1" cx="12" cy="7.25" r="5.73"></circle>
     <path class="cls-about-1" d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05"></path>
 </svg>
-                            
                             About
-                            
                         </a>
                         <a id="toHomeButton" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="currentColor" aria-hidden="true"><defs><style>.s{fill:none;stroke:currentColor;stroke-miterlimit:10}</style></defs><polyline class="s" points="1 12 12 2.83 23 12"></polyline><polyline class="s" points="19.33 9.25 19.33 21.17 14.75 21.17 14.75 13.83 9.25 13.83 9.25 21.17 4.67 21.17 4.67 9.25"></polyline></svg>
-                            
                             Home
-                            
                         </a>
                     </div>
                     <div class="option-horizontal-divider-line"></div>
                     <p>
-                        
                         Options
-                        
                     </p>
                     <div class="options-configuration">
                         <button id="toTopButton"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="50" height="50" color="#fff">
@@ -317,9 +231,7 @@ lightbox.init();
     <polyline class="cls-scroll-top-1" points="7.23 10.09 12 5.32 16.77 10.09"></polyline>
     <polyline class="cls-scroll-top-1" points="7.23 14.86 12 10.09 16.77 14.86"></polyline>
 </svg>
-                            
                             To top
-                            
                         </button>
 
                         <button id="configPlaceholder2" class="bg-performance-btn">
@@ -354,14 +266,10 @@ lightbox.init();
         <line class="cls-theme-1" x1="18.77" y1="18.79" x2="20.13" y2="20.15"></line>
     </g>
 </svg>
-                            
                             Theme
-                            
                         </button>
                         <button id="commentsButton"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="currentColor" aria-hidden="true"><defs><style>.s{fill:none;stroke:currentColor;stroke-miterlimit:10}</style></defs><path class="s" d="M1.5,5.3v9.54a3.82,3.82,0,0,0,3.82,3.82H7.23v2.86L13,18.66h5.73a3.82,3.82,0,0,0,3.82-3.82V5.3a3.82,3.82,0,0,0-3.82-3.82H5.32A3.82,3.82,0,0,0,1.5,5.3Z"></path><line class="s" x1="15.82" y1="10.07" x2="17.73" y2="10.07"></line><line class="s" x1="11.05" y1="10.07" x2="12.95" y2="10.07"></line><line class="s" x1="6.27" y1="10.07" x2="8.18" y2="10.07"></line></svg>
-                            
                             Comments
-                            
                         </button>
                     </div>
                     <div class="option-horizontal-divider-line"></div>
@@ -380,9 +288,7 @@ lightbox.init();
     <line class="cls-close-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line>
     <line class="cls-close-1" x1="7.23" y1="7.23" x2="16.77" y2="16.77"></line>
 </svg>
-                            
                             Close
-                            
                         </button>
                     </div>
                 </div>
@@ -460,9 +366,7 @@ lightbox.init();
                         
                         <span class="reading-time">
                             3
-                            
                             Min.
-                            
                         </span>
                         
                     </div>
@@ -474,9 +378,7 @@ lightbox.init();
     <circle cx="12" cy="7.25" r="5.73" stroke="currentColor" stroke-miterlimit="10"></circle>
     <path d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05" stroke="currentColor" stroke-miterlimit="10"></path>
 </svg>
-                        
                         Written by:
-                        
                         Yuk
                     </div>
                 </div>
@@ -487,21 +389,23 @@ lightbox.init();
                         
                         
                         
-                        <h2 id="lore-intro">Lore Intro<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#lore-intro')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
+                        <h2 id="lore-intro">Lore Intro<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#lore-intro')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h2>
 
 <p>So recently I went home for Lunar New Year, and I found some of my old “drawings” lol, just thought I’d share them here. “Drawings” in quotations because, I guess some of these is closer to what artists call “trace”, yeah most of these is me looking at a reference and basically copying them, but there is some stuff I draw on my own, and I still think they tell a story or something at least. Back then, I used the alias “Zax” or “Zaclord” (son 😭), these probably dates way back to 2016, 10 frickin years lol.</p>
 
 <p>After showing my drawings, I think might as well showcase my more recent “artistic” works in graphics design.</p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRp4AAABXRUJQVlA4IJIAAACwBwCdASpAACQAPsFSnky0KKKiN/qtUoAYCWcAxNgbgbsTVUbWZQtJG8neZIQSKruv2ul8+CHCjiHk7NFCN2ciUoZTe+qgAPnhRjPTwSlKSdyp6ZJwq1J3F5t2WoKir+pENJ3N/jh8eefEJtur4k2fgQF0wAA/w0wBTZ3upYK77Z+Il5wd9gmcQ1Uj8JjCAAAAAA=='); aspect-ratio: 2560 / 1440; width: min(2560px, 95%, calc(85vh * 1.777778)); "><img src="/assets/images/2026/q1-2026/yukart/overview.webp" alt="overview" loading="lazy" decoding="async" width="2560" height="1440" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRp4AAABXRUJQVlA4IJIAAACwBwCdASpAACQAPsFSnky0KKKiN/qtUoAYCWcAxNgbgbsTVUbWZQtJG8neZIQSKruv2ul8+CHCjiHk7NFCN2ciUoZTe+qgAPnhRjPTwSlKSdyp6ZJwq1J3F5t2WoKir+pENJ3N/jh8eefEJtur4k2fgQF0wAA/w0wBTZ3upYK77Z+Il5wd9gmcQ1Uj8JjCAAAAAA=='); aspect-ratio: 2560 / 1440; width: min(160.0rem, 95%, calc(85vh * 1.777778)); "><img src="/assets/images/2026/q1-2026/yukart/overview.webp" alt="overview" loading="lazy" decoding="async" width="2560" height="1440" class="blur-load"></span></p>
 
-<h3 id="paper-drawings">Paper drawings<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#paper-drawings')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+<h3 id="paper-drawings">Paper drawings<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#paper-drawings')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h3>
 
 <p>Most of them are pencil, some are colored by those cheap colored pencils, but i especially like that one shaded work that was done using a ballpoint pen.</p>
 
 <p>Let’s go deeper into their lore one by one, from left to right, up to down:</p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRpoAAABXRUJQVlA4II4AAABQBwCdASpAACQAPsVKm0ynpCIiN/46qPAYiWcAxYwgKjk7ktKzLUJ12LCA36W2cfDxbUhE6AtckSAG9aUNCIBMJF0AAP5xXrbLbdxCEKNROi68iykaR44MQSZ3P+8OzwPSjW6qjoE6KcRvZ2Jdvx3YknUdx8HQg9KfYw/x+cQq2uJsT9D/awjwWmevo4AA'); aspect-ratio: 2560 / 1440; width: min(2560px, 95%, calc(85vh * 1.777778)); "><img src="/assets/images/2026/q1-2026/yukart/panel1.webp" alt="panel1" loading="lazy" decoding="async" width="2560" height="1440" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRpoAAABXRUJQVlA4II4AAABQBwCdASpAACQAPsVKm0ynpCIiN/46qPAYiWcAxYwgKjk7ktKzLUJ12LCA36W2cfDxbUhE6AtckSAG9aUNCIBMJF0AAP5xXrbLbdxCEKNROi68iykaR44MQSZ3P+8OzwPSjW6qjoE6KcRvZ2Jdvx3YknUdx8HQg9KfYw/x+cQq2uJsT9D/awjwWmevo4AA'); aspect-ratio: 2560 / 1440; width: min(160.0rem, 95%, calc(85vh * 1.777778)); "><img src="/assets/images/2026/q1-2026/yukart/panel1.webp" alt="panel1" loading="lazy" decoding="async" width="2560" height="1440" class="blur-load"></span></p>
 
 <ol>
   <li>
@@ -514,7 +418,7 @@ lightbox.init();
 <a href="https://nnd-compass.fandom.com/wiki/Nekomiya_Hinata" target="_blank">Nekomiya Hinata</a>, Vtuber, I don’t know how I knew about her back then lol, this pose is original I think.</li>
 </ol>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRqIAAABXRUJQVlA4IJYAAACwCACdASpAACQAPs1aoUynsqMit/joAlAZiWcAvnwPi6YV89auKYx89bGAVFZw3WhWxvL6awqOwvvvNbVXxAd4l+BMpX34nBsFfQMYn6wA/hQ0j/+2+R4SFIk+jlePAKVvbsBgsmVyRArPDjF0RH7wyqHgLwaj2y3b0JY7v/D3zaKR3DqxuC/b/Pm2kb7rOTXoAPEAAAA='); aspect-ratio: 2560 / 1440; width: min(2560px, 95%, calc(85vh * 1.777778)); "><img src="/assets/images/2026/q1-2026/yukart/panel2.webp" alt="panel2" loading="lazy" decoding="async" width="2560" height="1440" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRqIAAABXRUJQVlA4IJYAAACwCACdASpAACQAPs1aoUynsqMit/joAlAZiWcAvnwPi6YV89auKYx89bGAVFZw3WhWxvL6awqOwvvvNbVXxAd4l+BMpX34nBsFfQMYn6wA/hQ0j/+2+R4SFIk+jlePAKVvbsBgsmVyRArPDjF0RH7wyqHgLwaj2y3b0JY7v/D3zaKR3DqxuC/b/Pm2kb7rOTXoAPEAAAA='); aspect-ratio: 2560 / 1440; width: min(160.0rem, 95%, calc(85vh * 1.777778)); "><img src="/assets/images/2026/q1-2026/yukart/panel2.webp" alt="panel2" loading="lazy" decoding="async" width="2560" height="1440" class="blur-load"></span></p>
 
 <ol>
   <li>
@@ -523,7 +427,7 @@ lightbox.init();
   <li>I love this work… <a href="https://cytus.fandom.com/wiki/Nora" target="_blank">Nora</a> from Cytus II, goddamn 11 yo me was producing heat with this ballpoint shade thing tho 😭.</li>
 </ol>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRqAAAABXRUJQVlA4IJQAAABwBwCdASpAACQAPs1UoUynpSOlt/caqPAZiWcAyRASKWhSKDWHsnXgcXhGjW/ZTS2qaU8tFI1XtOMrba50ZgJByblEAADhE8XRhg2UbjmM/Cz9XRyPOOznruZiXmCB9JG1t4Qb3vY9JpamNvF+QKeiXfGMaeBqvUQwfZ36uRlHdnTbb/8ulMvWiv1/CbTCFp30AAAA'); aspect-ratio: 2560 / 1440; width: min(2560px, 95%, calc(85vh * 1.777778)); "><img src="/assets/images/2026/q1-2026/yukart/panel3.webp" alt="panel3" loading="lazy" decoding="async" width="2560" height="1440" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRqAAAABXRUJQVlA4IJQAAABwBwCdASpAACQAPs1UoUynpSOlt/caqPAZiWcAyRASKWhSKDWHsnXgcXhGjW/ZTS2qaU8tFI1XtOMrba50ZgJByblEAADhE8XRhg2UbjmM/Cz9XRyPOOznruZiXmCB9JG1t4Qb3vY9JpamNvF+QKeiXfGMaeBqvUQwfZ36uRlHdnTbb/8ulMvWiv1/CbTCFp30AAAA'); aspect-ratio: 2560 / 1440; width: min(160.0rem, 95%, calc(85vh * 1.777778)); "><img src="/assets/images/2026/q1-2026/yukart/panel3.webp" alt="panel3" loading="lazy" decoding="async" width="2560" height="1440" class="blur-load"></span></p>
 
 <ol>
   <li>Another character from TapSonic TOP, <a href="https://tapsonic-top.fandom.com/wiki/Horyeon" target="_blank">Horyeon</a>, she was the first highest rarity character that I rolled in that game (I never got Carol who i actually wanted 😭), characters from that game was hard to get asf for a F2P…</li>
@@ -535,35 +439,36 @@ lightbox.init();
 <a href="https://maid-dragon.fandom.com/wiki/Kanna_Kamui" target="_blank">Kanna</a> from Dragon Maid, pretty sure I referenced the pose from somewhere.</li>
 </ol>
 
-<h3 id="graphics-design">Graphics design<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#graphics-design')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+<h3 id="graphics-design">Graphics design<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#graphics-design')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h3>
 
 <p>I think I stopped drawing around 2020 or something, sometimes I did produce a few original works, but these days, I mostly do graphics design (which I dropped again for many reasons). Nevertheless, I’m going to showcase some of my works. I started this graphics design thing after I enrolled in HUS VNU, and join some clubs and stuff. I did these using Adobe products like Illustrator and Photoshop.</p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRvIAAABXRUJQVlA4IOYAAACwBwCdASpAAEAAPt1ep009M7irrhkri6AbiWYApLmu1J54UWb/uuwZWO7EFvO7dzqG8ZZ9WpR7axf1bX420g7zq5erJq8MAP7SIgNd04uZUibdvI+auUnTNkC9NKfnkrRmc57AzNasB9v3zm7/R+kJ1h79ODJkTVriDFI8W8f6Ae0rlITQfrzFYKKX796DED/qm1l0mXRSWCbdbuq/2tTbVyj3sK2ulKIs78AUbsCSUPPoJeHcKG9eYAnOEfuokNio808cEmdsrvDlB72xA0JNqXsY9WB/pcGHWNQm7vyKCHJ8FOEAAA=='); aspect-ratio: 1020 / 1020; width: min(1020px, 95%, calc(85vh * 1.0)); "><img src="/assets/images/2026/q1-2026/yukart/giahan.webp" alt="giahan" loading="lazy" decoding="async" width="1020" height="1020" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRvIAAABXRUJQVlA4IOYAAACwBwCdASpAAEAAPt1ep009M7irrhkri6AbiWYApLmu1J54UWb/uuwZWO7EFvO7dzqG8ZZ9WpR7axf1bX420g7zq5erJq8MAP7SIgNd04uZUibdvI+auUnTNkC9NKfnkrRmc57AzNasB9v3zm7/R+kJ1h79ODJkTVriDFI8W8f6Ae0rlITQfrzFYKKX796DED/qm1l0mXRSWCbdbuq/2tTbVyj3sK2ulKIs78AUbsCSUPPoJeHcKG9eYAnOEfuokNio808cEmdsrvDlB72xA0JNqXsY9WB/pcGHWNQm7vyKCHJ8FOEAAA=='); aspect-ratio: 1020 / 1020; width: min(63.75rem, 95%, calc(85vh * 1.0)); "><img src="/assets/images/2026/q1-2026/yukart/giahan.webp" alt="giahan" loading="lazy" decoding="async" width="1020" height="1020" class="blur-load"></span></p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRpAAAABXRUJQVlA4IIQAAACQBACdASotAEAAPtVco0yoLieiNVQMAcAaiUAXKm2pSALljfnDIOWKArYaxAAA+x+5/qRQhQhvr2+iP1gmNFUnIXr7wUlb7Gj0APeuxBv/AKwL3LfFb8ican7b2jhlkIALfxe3p+lmXM2hNZVhzg/dfTTTLlCQ/T/yUzRRMBKUIuqAAAA='); aspect-ratio: 596 / 843; width: min(596px, 95%, calc(85vh * 0.706999)); "><img src="/assets/images/2026/q1-2026/yukart/mapback.webp" alt="mapback" loading="lazy" decoding="async" width="596" height="843" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRpAAAABXRUJQVlA4IIQAAACQBACdASotAEAAPtVco0yoLieiNVQMAcAaiUAXKm2pSALljfnDIOWKArYaxAAA+x+5/qRQhQhvr2+iP1gmNFUnIXr7wUlb7Gj0APeuxBv/AKwL3LfFb8ican7b2jhlkIALfxe3p+lmXM2hNZVhzg/dfTTTLlCQ/T/yUzRRMBKUIuqAAAA='); aspect-ratio: 596 / 843; width: min(37.25rem, 95%, calc(85vh * 0.706999)); "><img src="/assets/images/2026/q1-2026/yukart/mapback.webp" alt="mapback" loading="lazy" decoding="async" width="596" height="843" class="blur-load"></span></p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRqQAAABXRUJQVlA4IJgAAADwBACdASotAEAAPt1eqVE3LqynKBVbiuAbiUAWyPog2AEUPD2uPTGG7OzME+PyAwAA/Hmx5ZNb+6yLNvrud7vbgNXmQcd+H0Y+gA+mVsZ2HvX5darkVmOY6WTdFEOXjyI7fH3PzPMiS0sKyfvcDZUoVkHRXXxjwYq04bi6GdwpMwJqr9gRuhy8l9rq1GjVcM/Baw3ZxLNoAA=='); aspect-ratio: 596 / 843; width: min(596px, 95%, calc(85vh * 0.706999)); "><img src="/assets/images/2026/q1-2026/yukart/map.webp" alt="map" loading="lazy" decoding="async" width="596" height="843" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRqQAAABXRUJQVlA4IJgAAADwBACdASotAEAAPt1eqVE3LqynKBVbiuAbiUAWyPog2AEUPD2uPTGG7OzME+PyAwAA/Hmx5ZNb+6yLNvrud7vbgNXmQcd+H0Y+gA+mVsZ2HvX5darkVmOY6WTdFEOXjyI7fH3PzPMiS0sKyfvcDZUoVkHRXXxjwYq04bi6GdwpMwJqr9gRuhy8l9rq1GjVcM/Baw3ZxLNoAA=='); aspect-ratio: 596 / 843; width: min(37.25rem, 95%, calc(85vh * 0.706999)); "><img src="/assets/images/2026/q1-2026/yukart/map.webp" alt="map" loading="lazy" decoding="async" width="596" height="843" class="blur-load"></span></p>
 
 <p>I’m sure I have a version where the fan is outlined somewhere lol</p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRs4AAABXRUJQVlA4IMIAAACQBQCdASpAAEAAPs1Un0yqrS2iNfubMbAZiUAWjPTQ0wtSoosCLz7a7MHmg3OZpHBZvcg6AAD+z4TJyr3fwrf/lK/7sv7/d8SVsmQd2YVHNqi+mjuqB/XAmDPHqqubwX+MCMsrNlD8rIjExBWAkmSOwuA0+49SJ2T3SLyK5BBZezVChQ3nAxZ0aCfF7KPhNtPTtQXipvMgcogdK0MuHrl5bMpwh2NC7vnt/uIJM6evxggr4iKlUu9Nkrslyga4AAAAAA=='); aspect-ratio: 1024 / 1024; width: min(1024px, 95%, calc(85vh * 1.0)); "><img src="/assets/images/2026/q1-2026/yukart/mimcup2024avt.webp" alt="alt text" loading="lazy" decoding="async" width="1024" height="1024" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRs4AAABXRUJQVlA4IMIAAACQBQCdASpAAEAAPs1Un0yqrS2iNfubMbAZiUAWjPTQ0wtSoosCLz7a7MHmg3OZpHBZvcg6AAD+z4TJyr3fwrf/lK/7sv7/d8SVsmQd2YVHNqi+mjuqB/XAmDPHqqubwX+MCMsrNlD8rIjExBWAkmSOwuA0+49SJ2T3SLyK5BBZezVChQ3nAxZ0aCfF7KPhNtPTtQXipvMgcogdK0MuHrl5bMpwh2NC7vnt/uIJM6evxggr4iKlUu9Nkrslyga4AAAAAA=='); aspect-ratio: 1024 / 1024; width: min(64.0rem, 95%, calc(85vh * 1.0)); "><img src="/assets/images/2026/q1-2026/yukart/mimcup2024avt.webp" alt="alt text" loading="lazy" decoding="async" width="1024" height="1024" class="blur-load"></span></p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRqIAAABXRUJQVlA4IJYAAAAwBQCdASpAAEAAPt1gqVAorzmiphVdizAbiWUAyCAFheK9ocimyRTwIIJLR0Txkk7yAAD+5wh3j/i7sRxk8K0h4WfhYr8LQM/iCGwxmCFeGuUI6UGbcBbixG7fOOigFa4z2uqyW4lesA05ehOcgYe8yCCk8Z2L8SNiNQ3BlzFSwjIXV+GPzDSGCpvm4ccHVPCbdqJmQAA='); aspect-ratio: 1200 / 1200; width: min(1200px, 95%, calc(85vh * 1.0)); "><img src="/assets/images/2026/q1-2026/yukart/demoKHDL.webp" alt="alt text" loading="lazy" decoding="async" width="1200" height="1200" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRqIAAABXRUJQVlA4IJYAAAAwBQCdASpAAEAAPt1gqVAorzmiphVdizAbiWUAyCAFheK9ocimyRTwIIJLR0Txkk7yAAD+5wh3j/i7sRxk8K0h4WfhYr8LQM/iCGwxmCFeGuUI6UGbcBbixG7fOOigFa4z2uqyW4lesA05ehOcgYe8yCCk8Z2L8SNiNQ3BlzFSwjIXV+GPzDSGCpvm4ccHVPCbdqJmQAA='); aspect-ratio: 1200 / 1200; width: min(75.0rem, 95%, calc(85vh * 1.0)); "><img src="/assets/images/2026/q1-2026/yukart/demoKHDL.webp" alt="alt text" loading="lazy" decoding="async" width="1200" height="1200" class="blur-load"></span></p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRp4AAABXRUJQVlA4IJIAAADwBQCdASpAAEAAPt1iqFEotKyuqBQMqpAbiWcAy6QFy4mDDaZAkpNn3VrTBEhZaSR1e+U+FTDeoAD+6ofOEfi7sR4wKNWpHZOJ+ZEZA29OoJGeHe0vcgthZ6s8UriwSH2g/pIBsf8wj0ZW0v5gxrPFz5vv4OGo4OZeiCh9+r73K/NR0jbVxMkW3Swet2zTt7AAAA=='); aspect-ratio: 1200 / 1200; width: min(1200px, 95%, calc(85vh * 1.0)); "><img src="/assets/images/2026/q1-2026/yukart/demoKHMTTT.webp" alt="alt text" loading="lazy" decoding="async" width="1200" height="1200" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRp4AAABXRUJQVlA4IJIAAADwBQCdASpAAEAAPt1iqFEotKyuqBQMqpAbiWcAy6QFy4mDDaZAkpNn3VrTBEhZaSR1e+U+FTDeoAD+6ofOEfi7sR4wKNWpHZOJ+ZEZA29OoJGeHe0vcgthZ6s8UriwSH2g/pIBsf8wj0ZW0v5gxrPFz5vv4OGo4OZeiCh9+r73K/NR0jbVxMkW3Swet2zTt7AAAA=='); aspect-ratio: 1200 / 1200; width: min(75.0rem, 95%, calc(85vh * 1.0)); "><img src="/assets/images/2026/q1-2026/yukart/demoKHMTTT.webp" alt="alt text" loading="lazy" decoding="async" width="1200" height="1200" class="blur-load"></span></p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRooAAABXRUJQVlA4IH4AAADQBACdASpAAEAAPt1eqVEorqiiqBQMAdAbiWUAvzgFy4CJEzf2xfsm+YQAV/yZAAD+0hnj7s7RaZe9aRB9vSGKLvaSTjYanh+FdGyvXv0BxVhSJW28ZDHw/FyaxqAh3ms3CSKsLLS0SEx7zF+o/Y0WOgMvY5AuikgdxZVnAAA='); aspect-ratio: 1200 / 1200; width: min(1200px, 95%, calc(85vh * 1.0)); "><img src="/assets/images/2026/q1-2026/yukart/demoTH.webp" alt="alt text" loading="lazy" decoding="async" width="1200" height="1200" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRooAAABXRUJQVlA4IH4AAADQBACdASpAAEAAPt1eqVEorqiiqBQMAdAbiWUAvzgFy4CJEzf2xfsm+YQAV/yZAAD+0hnj7s7RaZe9aRB9vSGKLvaSTjYanh+FdGyvXv0BxVhSJW28ZDHw/FyaxqAh3ms3CSKsLLS0SEx7zF+o/Y0WOgMvY5AuikgdxZVnAAA='); aspect-ratio: 1200 / 1200; width: min(75.0rem, 95%, calc(85vh * 1.0)); "><img src="/assets/images/2026/q1-2026/yukart/demoTH.webp" alt="alt text" loading="lazy" decoding="async" width="1200" height="1200" class="blur-load"></span></p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRo4AAABXRUJQVlA4IIIAAADQBACdASpAAEAAPt1qrFIopa2rogu5sBuJZwDIkI9AjzInpG1sDkJMkRdTgeoEAAD+3n2fxddrYbmQ9xwypZifzYl5EkvC+ktpKV2nclj6+yWtuWM4UNXfjXdHawx4cuVkMrdtFP+0XH3A4bDvfs/wesZcCLP8MKZF1vy/H2f4QAAA'); aspect-ratio: 1200 / 1200; width: min(1200px, 95%, calc(85vh * 1.0)); "><img src="/assets/images/2026/q1-2026/yukart/demoTT.webp" alt="alt text" loading="lazy" decoding="async" width="1200" height="1200" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRo4AAABXRUJQVlA4IIIAAADQBACdASpAAEAAPt1qrFIopa2rogu5sBuJZwDIkI9AjzInpG1sDkJMkRdTgeoEAAD+3n2fxddrYbmQ9xwypZifzYl5EkvC+ktpKV2nclj6+yWtuWM4UNXfjXdHawx4cuVkMrdtFP+0XH3A4bDvfs/wesZcCLP8MKZF1vy/H2f4QAAA'); aspect-ratio: 1200 / 1200; width: min(75.0rem, 95%, calc(85vh * 1.0)); "><img src="/assets/images/2026/q1-2026/yukart/demoTT.webp" alt="alt text" loading="lazy" decoding="async" width="1200" height="1200" class="blur-load"></span></p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRoQAAABXRUJQVlA4IHgAAAAQBACdASotAEAAPt1srVKxJa4noqoyIBuJZQDGuAhBWtfgHngRHU7OAAD+4SVr2XTP1K366JjZ1zItLU2nsDspRzHMwhCZCgtkeZQ937/DJ6T6H3pCxnxliBfi01ptlhGlmLGvWVeaYrIvugmfmvFmoc6Jz4JAAAA='); aspect-ratio: 1183 / 1693; width: min(1183px, 95%, calc(85vh * 0.69876)); "><img src="/assets/images/2026/q1-2026/yukart/posterfront.webp" alt="alt text" loading="lazy" decoding="async" width="1183" height="1693" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRoQAAABXRUJQVlA4IHgAAAAQBACdASotAEAAPt1srVKxJa4noqoyIBuJZQDGuAhBWtfgHngRHU7OAAD+4SVr2XTP1K366JjZ1zItLU2nsDspRzHMwhCZCgtkeZQ937/DJ6T6H3pCxnxliBfi01ptlhGlmLGvWVeaYrIvugmfmvFmoc6Jz4JAAAA='); aspect-ratio: 1183 / 1693; width: min(73.9375rem, 95%, calc(85vh * 0.69876)); "><img src="/assets/images/2026/q1-2026/yukart/posterfront.webp" alt="alt text" loading="lazy" decoding="async" width="1183" height="1693" class="blur-load"></span></p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRpAAAABXRUJQVlA4IIQAAAAwBACdASotAEAAPt1srVM9Ja4wIqlzoBuJZQC8aAfQCTtNBqjtDxO69QAA/uEVuldhX9St+p/olpEIMUha/RA5YMulRBnwoEIzKoW/tG4o3V8dmXmsKMZu7Mqtje/swYZOSjbU80/72p4htYiye2te/ol+s+RrOR1rf4RXQ0DOdbJEAAA='); aspect-ratio: 1183 / 1693; width: min(1183px, 95%, calc(85vh * 0.69876)); "><img src="/assets/images/2026/q1-2026/yukart/posterback.webp" alt="alt text" loading="lazy" decoding="async" width="1183" height="1693" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRpAAAABXRUJQVlA4IIQAAAAwBACdASotAEAAPt1srVM9Ja4wIqlzoBuJZQC8aAfQCTtNBqjtDxO69QAA/uEVuldhX9St+p/olpEIMUha/RA5YMulRBnwoEIzKoW/tG4o3V8dmXmsKMZu7Mqtje/swYZOSjbU80/72p4htYiye2te/ol+s+RrOR1rf4RXQ0DOdbJEAAA='); aspect-ratio: 1183 / 1693; width: min(73.9375rem, 95%, calc(85vh * 0.69876)); "><img src="/assets/images/2026/q1-2026/yukart/posterback.webp" alt="alt text" loading="lazy" decoding="async" width="1183" height="1693" class="blur-load"></span></p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRpgAAABXRUJQVlA4IIwAAABQBgCdASpAACcAPt1kpU4/uauiLVM8k/AbiWMAw9/MUXgJXu6hBh7tCdi1MVVJd2YLKrDulrZHuXCT6AD+7URp1dXHvZbk+QL9eHVzyq4IOhfsKVAa9UUCa4nxpcDb2GT+tUk8fKGRIbq/IJJ1lIfZ3z0Pqz0dpXyEbUuiWTv/Kya30hl2p3X9WSVAAA=='); aspect-ratio: 1500 / 908; width: min(1500px, 95%, calc(85vh * 1.651982)); "><img src="/assets/images/2026/q1-2026/yukart/vtubermm.webp" alt="alt text" loading="lazy" decoding="async" width="1500" height="908" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRpgAAABXRUJQVlA4IIwAAABQBgCdASpAACcAPt1kpU4/uauiLVM8k/AbiWMAw9/MUXgJXu6hBh7tCdi1MVVJd2YLKrDulrZHuXCT6AD+7URp1dXHvZbk+QL9eHVzyq4IOhfsKVAa9UUCa4nxpcDb2GT+tUk8fKGRIbq/IJJ1lIfZ3z0Pqz0dpXyEbUuiWTv/Kya30hl2p3X9WSVAAA=='); aspect-ratio: 1500 / 908; width: min(93.75rem, 95%, calc(85vh * 1.651982)); "><img src="/assets/images/2026/q1-2026/yukart/vtubermm.webp" alt="alt text" loading="lazy" decoding="async" width="1500" height="908" class="blur-load"></span></p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRggBAABXRUJQVlA4IPwAAACQCQCdASpAAEAAPs1WnEyqsi8iN/Vd+kAZiWgAnTMOR9E9S4hbhXDmDR47LgcyXgz/5iDMdhel8pUR7q8IDZUISjT2dSCx6VgisSLhnEKcpuiG6zWAAP7wXGu/xaR+Rf2PS8OIq10s1ju7oU6npVg6fWEAbvBfDZIGO7PCEddEOXntfKl301K9U/iCVPaNMWlWt+jchwoStpxdJ3x3VfN/h3vf2HK/PNgQPc8SmHYG0qUmUfdd9kGQgRNXTw3JK9UsAhmXMzrVa+vN599yqD/1S+DNe8uyDFh4zoBeW8jvI+4f2NbinlR5bZUg8vj75V2Kyj0Y5qC3YZ59QAA='); aspect-ratio: 960 / 960; width: min(960px, 95%, calc(85vh * 1.0)); "><img src="/assets/images/2026/q1-2026/yukart/2024mmny.webp" alt="alt text" loading="lazy" decoding="async" width="960" height="960" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRggBAABXRUJQVlA4IPwAAACQCQCdASpAAEAAPs1WnEyqsi8iN/Vd+kAZiWgAnTMOR9E9S4hbhXDmDR47LgcyXgz/5iDMdhel8pUR7q8IDZUISjT2dSCx6VgisSLhnEKcpuiG6zWAAP7wXGu/xaR+Rf2PS8OIq10s1ju7oU6npVg6fWEAbvBfDZIGO7PCEddEOXntfKl301K9U/iCVPaNMWlWt+jchwoStpxdJ3x3VfN/h3vf2HK/PNgQPc8SmHYG0qUmUfdd9kGQgRNXTw3JK9UsAhmXMzrVa+vN599yqD/1S+DNe8uyDFh4zoBeW8jvI+4f2NbinlR5bZUg8vj75V2Kyj0Y5qC3YZ59QAA='); aspect-ratio: 960 / 960; width: min(60.0rem, 95%, calc(85vh * 1.0)); "><img src="/assets/images/2026/q1-2026/yukart/2024mmny.webp" alt="alt text" loading="lazy" decoding="async" width="960" height="960" class="blur-load"></span></p>
 
 <p>so yeah, i mostly did GD for others, nowadays I don’t do it much anymore because</p>
 
@@ -576,9 +481,9 @@ lightbox.init();
 
 <p>I do have to admit, graphics design skills, and just my overall “taste” still aid me though, such as the design of my UI in projects, or even this blog in of itself, I usually care quite a bit about the gritty details of things, but only if I do truly “care” about it lol. For example, here are some stuff I made in illustrator for my <a href="https://github.com/duy-phamduc68/trafficlab-3d" target="_blank">TrafficLab 3D</a> project recently:</p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRpwAAABXRUJQVlA4IJAAAACwCACdASo5AEAAPsVOn0y+tKKiN/v8A9AYiWkAAVgIExHU8swr9fQPdjIWGNM3RiuKmk5n3sIZGkZS7U9kzf0SHntC5kX0NmAmOXyEFsAA+dYPicMMedX81NWFjHHjZ1i22+F4tDrkSbYOYG3OAb8cozoy1Ol2v4wHBJjf0cdSZhIaiIxSZzqWRpKhVN6NgAA='); aspect-ratio: 1077 / 1213; width: min(1077px, 95%, calc(85vh * 0.887881)); "><img src="/assets/images/2026/q1-2026/yukart/shinjuku1.webp" alt="shinjuku1" loading="lazy" decoding="async" width="1077" height="1213" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRpwAAABXRUJQVlA4IJAAAACwCACdASo5AEAAPsVOn0y+tKKiN/v8A9AYiWkAAVgIExHU8swr9fQPdjIWGNM3RiuKmk5n3sIZGkZS7U9kzf0SHntC5kX0NmAmOXyEFsAA+dYPicMMedX81NWFjHHjZ1i22+F4tDrkSbYOYG3OAb8cozoy1Ol2v4wHBJjf0cdSZhIaiIxSZzqWRpKhVN6NgAA='); aspect-ratio: 1077 / 1213; width: min(67.3125rem, 95%, calc(85vh * 0.887881)); "><img src="/assets/images/2026/q1-2026/yukart/shinjuku1.webp" alt="shinjuku1" loading="lazy" decoding="async" width="1077" height="1213" class="blur-load"></span></p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRmYAAABXRUJQVlA4IFoAAACQBACdASpAACAAPt1gpU63Ja+srAma4BuJaQAPCm0oJH3vLxMoFlSsjbWZNAAAzP+9hH/JY8NkLejNT19CziKUvXQH/5p7CztJ9JdS7Rku01Ia15oXFrWoAAA='); aspect-ratio: 1052 / 529; width: min(1052px, 95%, calc(85vh * 1.988658)); "><img src="/assets/images/2026/q1-2026/yukart/shinjuku2.webp" alt="shinjuku2" loading="lazy" decoding="async" width="1052" height="529" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRmYAAABXRUJQVlA4IFoAAACQBACdASpAACAAPt1gpU63Ja+srAma4BuJaQAPCm0oJH3vLxMoFlSsjbWZNAAAzP+9hH/JY8NkLejNT19CziKUvXQH/5p7CztJ9JdS7Rku01Ia15oXFrWoAAA='); aspect-ratio: 1052 / 529; width: min(65.75rem, 95%, calc(85vh * 1.988658)); "><img src="/assets/images/2026/q1-2026/yukart/shinjuku2.webp" alt="shinjuku2" loading="lazy" decoding="async" width="1052" height="529" class="blur-load"></span></p>
 
 <p>So that’s a side of my that I’ve never really shared here before. After adding some new features to my blog recently, I plan to become more active and have a more “real” writing output on here, one of the place that I still have control over. Hope you enjoyed this, until next time.</p>
 
@@ -625,36 +530,42 @@ lightbox.init();
     <div class="relative-footer">
         <footer>
             <div class="footer-info">
+                
                 <a href="https://www.youtube.com/@yuk.yukano" target="_blank">
                     <i class="fab fa-youtube"></i>
                     <div class="footer-info-label">
                         <p>@yuk.yukano</p>
                     </div>
                 </a>
+                
                 <a href="https://github.com/duy-phamduc68" target="_blank">
                     <i class="fab fa-github"></i>
                     <div class="footer-info-label">
                         <p>duy-phamduc68</p>
                     </div>
                 </a>
+                
                 <a href="https://x.com/yukyukano" target="_blank">
                     <i class="fab fa-twitter"></i>
                     <div class="footer-info-label">
                         <p>@yukyukano</p>
                     </div>
                 </a>
+                
                 <a href="https://www.instagram.com/yuk.yukano" target="_blank">
                     <i class="fab fa-instagram"></i>
                     <div class="footer-info-label">
                         <p>@yuk.yukano</p>
                     </div>
                 </a>
+                
                 <a href="https://www.facebook.com/yuk.pham.2025" target="_blank">
                     <i class="fab fa-facebook"></i>
                     <div class="footer-info-label">
                         <p>Duy Pham Duc</p>
                     </div>
                 </a>
+                
             </div>
             <div class="copyright-text">
                 <p>© 2026 Yuk</p>
@@ -704,21 +615,10 @@ lightbox.init();
         </button>
     </div>
 </div>
+    <script>window.SITE_TEXT = { ui: {"en":{"back":"Back","home":"Home","archive":"Archive","projects":"Projects","about":"About","tools":"Tools","tags":"Tags","navigation":"Navigation","options":"Options","configuration":"Configuration","open_configuration":"Open configuration","config_button":"Config","theme":"Theme","bg_on":"BG: On","bg_off":"BG: Off","close":"Close","to_top":"To top","comments":"Comments","comments_disabled":"Comments are disabled for this post","written_by":"Written by:","last_updated":"Last updated:","reading_min":"Min.","new_tag":"NEW","access":"Access","see_more":"See more"},"vi":{"back":"Trở lại","home":"Trang chủ","archive":"Lưu trữ","projects":"Dự án","about":"Về tôi","navigation":"Điều hướng","options":"Tùy chọn","configuration":"Cấu hình","open_configuration":"Mở cấu hình","theme":"Chủ đề","bg_on":"BG: Bật","bg_off":"BG: Tắt","close":"Đóng","to_top":"Đầu trang","comments":"Bình luận","comments_disabled":"Bình luận không khả dụng cho bài viết này","written_by":"Viết bởi:","last_updated":"Cập nhật lần cuối:","reading_min":"Phút","access":"Truy cập","see_more":"Xem thêm"},"ja":{"back":"戻る","home":"ホーム","configuration":"設定","open_configuration":"設定を開く","theme":"テーマ","bg_on":"BG: オン","bg_off":"BG: オフ","close":"閉じる"}}, archive: {"title":"Archive - Yuk","search_placeholder":"Press \" / \" to search posts...","categories":"Categories","filter_post":"Post","filter_code":"Code","filter_assignment":"Assignment","filter_technical":"Technical","filter_thread":"Thread","filter_showcase":"Showcase","sort_by":"Sort by","sort_reading_time":"Reading time","sort_release_date":"Release date","prev":"Prev","next":"Next","nothing_here":"Nothing here...","page_hint":"Use Page Up / Page Down to navigate between pages.","all_tags":"All tags"}, projects: {"title":"Projects - Yuk","copy_catalog":"Copy Catalog","copied":"Copied!"}, mermaid: {"title":"Mermaid","copy_source":"Copy source","reset_view":"Reset view","unlock":"Unlock interactions","lock":"Lock interactions","fullscreen":"Fullscreen","back_to_post":"Back to post"} };</script>
+<script src="/assets/js/common.js"></script>
     <script src="/assets/js/pages-js/post-script.js"></script>
     <script src="/assets/js/bg-script.js"></script>
-    <script>
-        (function() {
-            'use strict';
-            window.addEventListener('load', () => {
-                const target = document.querySelector('div.post-content');
-                if (target) {
-                    target.style.outline = 'none';
-                    target.setAttribute('tabindex', '-1');
-                    target.focus();
-                }
-            });
-        })();
-    </script>
     <div class="scroll-button-container">
         <button id="scrollButton" onclick="scrollToTop()">
             <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="50" height="50" color="#fff">

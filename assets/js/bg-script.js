@@ -171,13 +171,12 @@
             displayState = false;
         }
 
-        if (lang === 'vi') {
-            bgPerformanceLabel.textContent = displayState ? 'BG: Bật' : 'BG: Tắt';
-        } else if (lang === 'ja') {
-            bgPerformanceLabel.textContent = displayState ? 'BG: オン' : 'BG: オフ';
-        } else {
-            bgPerformanceLabel.textContent = displayState ? 'BG: On' : 'BG: Off';
-        }
+        // Labels come from _data/text.yml (ui.<lang>.bg_on / bg_off), exposed as window.SITE_TEXT
+        const uiText = (window.SITE_TEXT && SITE_TEXT.ui) || {};
+        const labels = uiText[lang] || {};
+        const fallback = uiText.en || {};
+        const key = displayState ? 'bg_on' : 'bg_off';
+        bgPerformanceLabel.textContent = labels[key] || fallback[key] || '';
 
         if (bgPerformanceBtn) {
             if (isForceDisabled()) {

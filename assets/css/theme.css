@@ -1,0 +1,163 @@
+/* UI scale. Every length in the stylesheets is rem, so one root font-size scales the whole layout.
+   Up to 1920x1080 the root stays 16px (the layout the site was tuned for); above that it grows with
+   the viewport (QHD ~21px, 4K 32px), limited by viewport height so ultrawide screens don't over-scale. */
+html {
+    font-size: clamp(16px, min(100vw / 120, 100vh / 67.5), 40px);
+}
+
+/* Form controls ignore the inherited size and default to a fixed 13.333px; make that scale too.
+   :where() keeps specificity at zero, so any rule that sets a control's font-size still wins. */
+:where(button, input, select, textarea) {
+    font-size: 0.8333333rem;
+}
+
+/* Inline SVG icons carry fixed px width/height attributes; scale them with the root font-size.
+   :where() keeps specificity at zero, so any stylesheet rule that sizes an icon still wins. */
+:where(svg[width="13"]) { width: 0.8125rem; }
+:where(svg[height="13"]) { height: 0.8125rem; }
+:where(svg[width="14"]) { width: 0.875rem; }
+:where(svg[height="14"]) { height: 0.875rem; }
+:where(svg[width="16"]) { width: 1rem; }
+:where(svg[height="16"]) { height: 1rem; }
+:where(svg[width="18"]) { width: 1.125rem; }
+:where(svg[height="18"]) { height: 1.125rem; }
+:where(svg[width="20"]) { width: 1.25rem; }
+:where(svg[height="20"]) { height: 1.25rem; }
+:where(svg[width="24"]) { width: 1.5rem; }
+:where(svg[height="24"]) { height: 1.5rem; }
+:where(svg[width="40"]) { width: 2.5rem; }
+:where(svg[height="40"]) { height: 2.5rem; }
+:where(svg[width="50"]) { width: 3.125rem; }
+:where(svg[height="50"]) { height: 3.125rem; }
+:where(svg[width="100"]) { width: 6.25rem; }
+:where(svg[height="100"]) { height: 6.25rem; }
+
+/* Shared design tokens (dark default + light-mode overrides). Loaded by every page BEFORE its own page stylesheet,
+   which only adds or overrides tokens that are specific to that page. */
+:root {
+    --bg-color: #05070a;
+    --bg-secondary-color: #10141b;
+    --neon-aqua-accent: #9be8ff;
+    --header-bg-color: #1b2130;
+    --header-footer-shadeLight: #343c4d;
+    --header-footer-shadeDark: #262d3d;
+    --blockquote-bg-color: #24283b;
+    --tag-bg-color: #24283b;
+    --blockquote-scroll-track: #353847;
+    --blockquote-scroll-thumb: #5c5c5c;
+    --navbar-bg-color: #586581;
+    --link-color: #f4f8fc;
+    --hover-color: #3a3a3a;
+    --date-color: #686868;
+    --post-h1-color: #9aeaf0;
+    --post-h2-color: #77b3f8;
+    --post-h3-color: #6cc7eb;
+    --post-h4-color: #a9ebff;
+    --paragraph-color: #ffffff;
+    --description-color: #f5fcfd;
+    --language-plaintext: #ffffff;
+    --codeblock-highlight-bg: #24283b;
+    --highlight-code: #c0caf5;
+    --highlight-kd: #7aa2f7;
+    --highlight-nc: #ff9e64;
+    --highlight-nf: #47fcfc;
+    --highlight-s: #9ece6a;
+    --highlight-o: #bb9af7;
+    --highlight-c: #565f89;
+    --highlight-mi: #ff9e64;
+    --button-text-color: #3a4357;
+    --button-hover-color: #434e64;
+    --search-text-color: #f4f8fc;
+    --search-placeholder-color: #bdeefd;
+
+    --light-bg-color: #ffffff;
+    --light-bg-secondary-color: #fcfbfb;
+    --light-neon-aqua-accent: #2e50af;
+    --light-header-bg-color: #f7f7f7;
+    --light-header-footer-shadeLight: #dadada;
+    --light-header-footer-shadeDark: #d1d1d1;
+    --light-blockquote-bg-color: #f0f0f0;
+    --light-tag-bg-color: #f0f0f0;
+    --light-blockquote-scroll-track: #c0c0c0;
+    --light-blockquote-scroll-thumb: #dadada;
+    --light-navbar-bg-color: #d0d0d0;
+    --light-link-color: #3c5fbe;
+    --light-hover-color: #e0e0e0;
+    --light-date-color: #888888;
+    --light-paragraph-color: #3f3f3f;
+    --light-post-h1-color: #0066cc;
+    --light-post-h2-color: #0077dd;
+    --light-post-h3-color: #0088ee;
+    --light-post-h4-color: #0099ff;
+    --light-description-color: #444444;
+    --light-language-plaintext: #000000;
+    --light-codeblock-highlight-bg: #f0f0f0;
+    --light-highlight-code: #333333;
+    --light-highlight-kd: #0066cc;
+    --light-highlight-nc: #cc6600;
+    --light-highlight-nf: #32aedf;
+    --light-highlight-s: #008000;
+    --light-highlight-o: #8800bb;
+    --light-highlight-c: #888888;
+    --light-highlight-mi: #cc6600;
+    --light-button-text-color: #d0d0d0;
+    --light-button-hover-color: #d0d0d0;
+    --light-search-text-color: #0066cc;
+    --light-search-placeholder-color: #0066cc;
+
+    --box-shadow-part-1: 0 0 0.625rem rgba(0, 0, 0, 0.2);
+    --box-shadow-part-2: 0 0 1.5625rem rgba(0, 0, 0, 0.4);
+    --text-shadow-part-1: 0 0 1.5625rem rgba(0, 0, 0, 0.2);
+    --text-shadow-part-2: 0 0 0.9375rem rgba(0, 0, 0, 0.4);
+
+    --light-box-shadow-part-1: 0 0 0 0 transparent;
+    --light-box-shadow-part-2: 0 0 0 0 transparent;
+    --light-text-shadow-part-1: 0 0 0 transparent;
+    --light-text-shadow-part-2: 0 0 0 transparent;
+
+
+    --border-width: 0.0625rem;
+}
+
+html.light-mode,
+body.light-mode {
+    --bg-color: var(--light-bg-color);
+    --bg-secondary-color: var(--light-bg-secondary-color);
+    --neon-aqua-accent: var(--light-neon-aqua-accent);
+    --header-bg-color: var(--light-header-bg-color);
+    --header-footer-shadeLight: var(--light-header-footer-shadeLight);
+    --header-footer-shadeDark: var(--light-header-footer-shadeDark);
+    --blockquote-bg-color: var(--light-blockquote-bg-color);
+    --tag-bg-color: var(--light-tag-bg-color);
+    --blockquote-scroll-track: var(--light-blockquote-scroll-track);
+    --blockquote-scroll-thumb: var(--light-blockquote-scroll-thumb);
+    --navbar-bg-color: var(--light-navbar-bg-color);
+    --link-color: var(--light-link-color);
+    --hover-color: var(--light-hover-color);
+    --date-color: var(--light-date-color);
+    --paragraph-color: var(--light-paragraph-color);
+    --post-h1-color: var(--light-post-h1-color);
+    --post-h2-color: var(--light-post-h2-color);
+    --post-h3-color: var(--light-post-h3-color);
+    --post-h4-color: var(--light-post-h4-color);
+    --description-color: var(--light-description-color);
+    --language-plaintext: var(--light-language-plaintext);
+    --codeblock-highlight-bg: var(--light-codeblock-highlight-bg);
+    --highlight-code: var(--light-highlight-code);
+    --highlight-kd: var(--light-highlight-kd);
+    --highlight-nc: var(--light-highlight-nc);
+    --highlight-nf: var(--light-highlight-nf);
+    --highlight-s: var(--light-highlight-s);
+    --highlight-o: var(--light-highlight-o);
+    --highlight-c: var(--light-highlight-c);
+    --highlight-mi: var(--light-highlight-mi);
+    --button-text-color: var(--light-button-text-color);
+    --button-hover-color: var(--light-button-hover-color);
+    --search-text-color: var(--light-search-text-color);
+    --search-placeholder-color: var(--light-search-placeholder-color);
+    --box-shadow-part-1: var(--light-box-shadow-part-1);
+    --box-shadow-part-2: var(--light-box-shadow-part-2);
+    --text-shadow-part-1: var(--light-text-shadow-part-1);
+    --text-shadow-part-2: var(--light-text-shadow-part-2);
+    --border-width: 0.125rem;
+}

@@ -7,7 +7,6 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
     <meta charset="UTF-8">
@@ -55,6 +54,7 @@
     <meta name="twitter:description" content="An old presentation of mine that was made during the early development stage before TrafficLab 3D v1.0 was released">
     <meta name="twitter:image" content="https://yuk068.github.io//assets/thumbnail/2026/q2-2026/trafficlabext.webp">
 
+    <link rel="stylesheet" href="/assets/css/theme.css">
     <link rel="stylesheet" href="/assets/css/pages-css/post-styles.css">
     
 
@@ -64,35 +64,13 @@
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/contrib/auto-render.min.js"></script>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            if (typeof renderMathInElement === 'function') {
-                renderMathInElement(document.body, {
-                    delimiters: [
-                        { left: "$$", right: "$$", display: true },
-                        { left: "$", right: "$", display: false },
-                        { left: "\\(", right: "\\)", display: false },
-                        { left: "\\[", right: "\\]", display: true }
-                    ]
-                });
-            }
-        });
-    </script>
+    <script defer src="/assets/js/katex-init.js"></script>
 
     
     
 
     
     <script src="https://cdn.plot.ly/plotly-3.3.1.min.js" charset="utf-8"></script>
-    <script>
-        window.addEventListener('load', function () {
-            setTimeout(function () {
-                document.querySelectorAll('.js-plotly-plot').forEach(function (el) {
-                    Plotly.Plots.resize(el);
-                });
-            }, 250);
-        });
-    </script>
     
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -106,58 +84,7 @@
 
     <link rel="stylesheet" href="https://unpkg.com/photoswipe@5/dist/photoswipe.css">
 
-<script type="module">
-import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5/dist/photoswipe-lightbox.esm.js';
-
-const lightbox = new PhotoSwipeLightbox({
-    gallery: '.post-article',
-    children: 'img',
-    pswpModule: () => import('https://unpkg.com/photoswipe@5/dist/photoswipe.esm.js'),
-
-    // --- Animation Settings ---
-    showHideAnimationType: 'fade',
-
-    // --- Zoom Enhancements ---
-    wheelToZoom: true,
-    imageClickAction: 'zoom',
-    secondaryZoomLevel: 2,
-    maxZoomLevel: 4,
-
-    // --- Loading Behavior ---
-    preload: [1, 5],
-});
-
-
-// --- SAFER DATA SOURCE ---
-lightbox.addFilter('itemData', (itemData) => {
-    const img = itemData.element;
-
-    return {
-        src: img.src,
-        msrc: img.src,
-        width: img.naturalWidth || img.width || 1200,
-        height: img.naturalHeight || img.height || 800,
-        element: img
-    };
-});
-
-
-// --- FIX DIMENSIONS AFTER LOAD ---
-lightbox.on('contentLoadImage', (e) => {
-    const { content } = e;
-
-    content.element.decode().then(() => {
-        content.width = content.element.naturalWidth;
-        content.height = content.element.naturalHeight;
-
-        if (lightbox.pswp) {
-            lightbox.pswp.refreshSize(true);
-        }
-    }).catch(() => {});
-});
-
-lightbox.init();
-</script>
+<script type="module" src="/assets/js/photoswipe-init.js"></script>
 </head>
 
 <body>
@@ -167,7 +94,7 @@ lightbox.init();
     <div class="main-container">
         <header id="post-header">
             <div class="header-logo-container">
-                <button class="logo-button" onclick="handleLogoClick()">
+                <button class="logo-button" onclick="handleLogoClick()" aria-label="Home">
                     <div class="logo-container">
                         <div class="logo">
                             <div class="u-shape left-side"></div>
@@ -188,40 +115,32 @@ lightbox.init();
                     <ul>
                         <a href="#" onclick="goBack()">
                             <li>
-                                
                                 Back
-                                
                             </li>
                         </a>
                         <div class="nav-bar-divider"></div>
                         <a href="/">
                             <li>
-                                
                                 Home
-                                
                             </li>
                         </a>
-                        <div class="nav-bar-divider" id="nav-disable-mobile"></div>
-                        <a href="/archive" id="nav-disable-mobile">
-                            <li id="nav-disable-mobile">
-                                
+                        <div class="nav-bar-divider"></div>
+                        <a href="/archive">
+                            <li>
                                 Archive
-                                
                             </li>
                         </a>
-                        <div class="nav-bar-divider" id="nav-disable-mobile"></div>
-                        <a href="/projects" id="nav-disable-mobile">
-                            <li id="nav-disable-mobile">
-                                
+                        <div class="nav-bar-divider"></div>
+                        <a href="/projects">
+                            <li>
                                 Projects
-                                
                             </li>
                         </a>
                     </ul>
                 </nav>
             </div>
             <div class="header-extra-container">
-                <button class="extra-button">
+                <button class="extra-button" aria-label="Open configuration">
                     <div class="extra-container">
                         <div class="extra">
                             <div class="extra-shape top"></div>
@@ -236,15 +155,11 @@ lightbox.init();
             <div id="overlay" class="overlay">
                 <div class="options-container">
                     <p>
-                        
                         Navigation
-                        
                     </p>
                     <div class="options-navigation">
                         <a id="toBackButton" href="/"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14"><defs><style>.cls-6374f543b67f094e4896c5c8-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><circle class="cls-6374f543b67f094e4896c5c8-1" cx="12" cy="12" r="10.5"></circle><path class="cls-6374f543b67f094e4896c5c8-1" d="M7.23,7.23h7.63a3.82,3.82,0,0,1,3.82,3.82h0a3.82,3.82,0,0,1-3.82,3.81H7.23"></path><polyline class="cls-6374f543b67f094e4896c5c8-1" points="11.04 18.68 7.23 14.86 11.04 11.04"></polyline></svg>
-                            
                             Back
-                            
                         </a>
                         <a id="toArchiveButton" href="/archive"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff">
     <defs>
@@ -259,9 +174,7 @@ lightbox.init();
     <polygon class="cls-archive-1" points="19.64 9.14 4.36 9.14 4.36 1.5 10.09 1.5 12 3.41 19.64 3.41 19.64 9.14"></polygon>
     <polygon class="cls-archive-1" points="1.5 9.14 22.5 9.14 20.59 22.5 3.41 22.5 1.5 9.14"></polygon>
 </svg>
-                            
                             Archive
-                            
                         </a>
                         <a id="toProjectsButton" href="/projects"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff">
     <defs>
@@ -284,9 +197,7 @@ lightbox.init();
         <line class="cls-projects-1" x1="11.95" y1="4.37" x2="13.87" y2="4.37"></line>
     </g>
 </svg>
-                            
                             Projects
-                            
                         </a>
                         <a id="toAboutButton" href="/about-yuk-en"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff">
     <defs>
@@ -301,21 +212,15 @@ lightbox.init();
     <circle class="cls-about-1" cx="12" cy="7.25" r="5.73"></circle>
     <path class="cls-about-1" d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05"></path>
 </svg>
-                            
                             About
-                            
                         </a>
                         <a id="toHomeButton" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="currentColor" aria-hidden="true"><defs><style>.s{fill:none;stroke:currentColor;stroke-miterlimit:10}</style></defs><polyline class="s" points="1 12 12 2.83 23 12"></polyline><polyline class="s" points="19.33 9.25 19.33 21.17 14.75 21.17 14.75 13.83 9.25 13.83 9.25 21.17 4.67 21.17 4.67 9.25"></polyline></svg>
-                            
                             Home
-                            
                         </a>
                     </div>
                     <div class="option-horizontal-divider-line"></div>
                     <p>
-                        
                         Options
-                        
                     </p>
                     <div class="options-configuration">
                         <button id="toTopButton"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="50" height="50" color="#fff">
@@ -333,9 +238,7 @@ lightbox.init();
     <polyline class="cls-scroll-top-1" points="7.23 10.09 12 5.32 16.77 10.09"></polyline>
     <polyline class="cls-scroll-top-1" points="7.23 14.86 12 10.09 16.77 14.86"></polyline>
 </svg>
-                            
                             To top
-                            
                         </button>
 
                         <button id="configPlaceholder2" class="bg-performance-btn">
@@ -370,14 +273,10 @@ lightbox.init();
         <line class="cls-theme-1" x1="18.77" y1="18.79" x2="20.13" y2="20.15"></line>
     </g>
 </svg>
-                            
                             Theme
-                            
                         </button>
                         <button id="commentsButton"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="currentColor" aria-hidden="true"><defs><style>.s{fill:none;stroke:currentColor;stroke-miterlimit:10}</style></defs><path class="s" d="M1.5,5.3v9.54a3.82,3.82,0,0,0,3.82,3.82H7.23v2.86L13,18.66h5.73a3.82,3.82,0,0,0,3.82-3.82V5.3a3.82,3.82,0,0,0-3.82-3.82H5.32A3.82,3.82,0,0,0,1.5,5.3Z"></path><line class="s" x1="15.82" y1="10.07" x2="17.73" y2="10.07"></line><line class="s" x1="11.05" y1="10.07" x2="12.95" y2="10.07"></line><line class="s" x1="6.27" y1="10.07" x2="8.18" y2="10.07"></line></svg>
-                            
                             Comments
-                            
                         </button>
                     </div>
                     <div class="option-horizontal-divider-line"></div>
@@ -396,9 +295,7 @@ lightbox.init();
     <line class="cls-close-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line>
     <line class="cls-close-1" x1="7.23" y1="7.23" x2="16.77" y2="16.77"></line>
 </svg>
-                            
                             Close
-                            
                         </button>
                     </div>
                 </div>
@@ -506,9 +403,7 @@ lightbox.init();
                         
                         <span class="reading-time">
                             12
-                            
                             Min.
-                            
                         </span>
                         
                     </div>
@@ -520,9 +415,7 @@ lightbox.init();
     <circle cx="12" cy="7.25" r="5.73" stroke="currentColor" stroke-miterlimit="10"></circle>
     <path d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05" stroke="currentColor" stroke-miterlimit="10"></path>
 </svg>
-                        
                         Written by:
-                        
                         Yuk
                     </div>
                 </div>
@@ -533,7 +426,8 @@ lightbox.init();
                         
                         
                         
-                        <h3 id="prologue">Prologue<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#prologue')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+                        <h3 id="prologue">Prologue<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#prologue')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h3>
 
 <p>Okay so if you didn’t know, <a href="/2026/02/20/traffilclab-3d-overview">TrafficLab 3D</a> originally started out as a final project for my Advanced Computer Vision course, the original academic title was “Towards Building a Digital Twin for Hanoi’s Traffic System”. So a lot of the design choice of TrafficLab actually stems from trying to adapt such a system to the reality of Hanoi, Vietnam traffic, things like mixed traffic (motorcycles), non-uniform infrastructure, etc…</p>
 
@@ -541,35 +435,63 @@ lightbox.init();
 
 <hr>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRoQAAABXRUJQVlA4IHgAAABwBQCdASpAACQAPtlcpUyoLieiMrkpmcAbCWkA0JAW7WfL5pZYiNnw5D2N+6YMITvXBO4wAP700wnj71HqSDjoKu00+wLbRkioVdMCadnolkcfaaZmJrfCXxKyYma8S+OggA+4ZUvBkHygUTdEiXOHvZgCSUWgAAA='); aspect-ratio: 1920 / 1080; width: min(1920px, 95%, calc(85vh * 1.777778)); "><img src="/assets/images/2026/q2-2026/trafficlab-ext/presentation-thumbnail.webp" alt="presentation thumbnail" loading="lazy" decoding="async" width="1920" height="1080" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRoQAAABXRUJQVlA4IHgAAABwBQCdASpAACQAPtlcpUyoLieiMrkpmcAbCWkA0JAW7WfL5pZYiNnw5D2N+6YMITvXBO4wAP700wnj71HqSDjoKu00+wLbRkioVdMCadnolkcfaaZmJrfCXxKyYma8S+OggA+4ZUvBkHygUTdEiXOHvZgCSUWgAAA='); aspect-ratio: 1920 / 1080; width: min(120.0rem, 95%, calc(85vh * 1.777778)); "><img src="/assets/images/2026/q2-2026/trafficlab-ext/presentation-thumbnail.webp" alt="presentation thumbnail" loading="lazy" decoding="async" width="1920" height="1080" class="blur-load"></span></p>
 
 <p><strong>Towards Building a Digital Twin for Hanoi’s Traffic System</strong></p>
 
 <p><em>(Original date: December 3rd, 2025)</em></p>
 
-<h3 id="table-of-content">Table of Content<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#table-of-content')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+<h3 id="table-of-content">Table of Content<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#table-of-content')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h3>
 
 <blockquote>
 <div class="content">
-  <div id="table-of-contents"><ul><li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#prologue')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#prologue">Prologue</a></div></li>
-<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#table-of-content')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#table-of-content" style="color:#434e64;">Table of Content</a></div></li>
-<li class="h2"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#1-motivation')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#1-motivation">1. Motivation</a></div></li>
-<li class="h2"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#2-desired-goal')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#2-desired-goal">2. Desired Goal</a></div></li>
-<li class="h2"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#3-the-htvtraffic-dataset')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#3-the-htvtraffic-dataset">3. The HTVTraffic Dataset</a></div></li>
-<li class="h2"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#4-progress-up-until-midterm')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#4-progress-up-until-midterm">4. Progress up until Midterm</a></div></li>
-<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#41-phase-1-detection-and-tracking')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#41-phase-1-detection-and-tracking">4.1. Phase 1: Detection and Tracking</a></div></li>
-<li class="h4"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#411-point-query-transformer-pet')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#411-point-query-transformer-pet">4.1.1. Point quEry Transformer (PET)</a></div></li>
-<li class="h4"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#412-yolov8-and-sahi')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#412-yolov8-and-sahi">4.1.2. YOLOv8 and SAHI</a></div></li>
-<li class="h4"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#413-first-early-demo')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#413-first-early-demo">4.1.3. First Early Demo</a></div></li>
-<li class="h3"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#42-phase-2-digital-twin-proof-of-concept')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#42-phase-2-digital-twin-proof-of-concept">4.2. Phase 2: Digital Twin Proof of Concept</a></div></li>
-<li class="h2"><div class="toc-entry"><button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#5-so-much-stuff-going-on-rn-bru')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#5-so-much-stuff-going-on-rn-bru">5. So much stuff going on rn bru…</a></div></li></ul></div>
+  <div id="table-of-contents"><ul>
+<li class="h3"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#prologue')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#prologue">Prologue</a>
+</div></li>
+<li class="h3"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#table-of-content')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#table-of-content" style="color:#434e64;">Table of Content</a>
+</div></li>
+<li class="h2"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#1-motivation')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#1-motivation">1. Motivation</a>
+</div></li>
+<li class="h2"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#2-desired-goal')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#2-desired-goal">2. Desired Goal</a>
+</div></li>
+<li class="h2"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#3-the-htvtraffic-dataset')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#3-the-htvtraffic-dataset">3. The HTVTraffic Dataset</a>
+</div></li>
+<li class="h2"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#4-progress-up-until-midterm')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#4-progress-up-until-midterm">4. Progress up until Midterm</a>
+</div></li>
+<li class="h3"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#41-phase-1-detection-and-tracking')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#41-phase-1-detection-and-tracking">4.1. Phase 1: Detection and Tracking</a>
+</div></li>
+<li class="h4"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#411-point-query-transformer-pet')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#411-point-query-transformer-pet">4.1.1. Point quEry Transformer (PET)</a>
+</div></li>
+<li class="h4"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#412-yolov8-and-sahi')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#412-yolov8-and-sahi">4.1.2. YOLOv8 and SAHI</a>
+</div></li>
+<li class="h4"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#413-first-early-demo')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#413-first-early-demo">4.1.3. First Early Demo</a>
+</div></li>
+<li class="h3"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#42-phase-2-digital-twin-proof-of-concept')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#42-phase-2-digital-twin-proof-of-concept">4.2. Phase 2: Digital Twin Proof of Concept</a>
+</div></li>
+<li class="h2"><div class="toc-entry">
+<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#5-so-much-stuff-going-on-rn-bru')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button><a href="#5-so-much-stuff-going-on-rn-bru">5. So much stuff going on rn bru…</a>
+</div></li>
+</ul></div>
 </div>
 <button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span>
 </blockquote>
 
 <hr>
 
-<h2 id="1-motivation">1. Motivation<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#1-motivation')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
+<h2 id="1-motivation">1. Motivation<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#1-motivation')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h2>
 
 <p>Traffic congestion and traffic violations are increasing, creating a need for intelligent AI-powered camera systems and real-time data to support more effective traffic management.</p>
 
@@ -579,19 +501,20 @@ lightbox.init();
 
 <p>To move from reactive to proactive traffic management, the city requires a Digital Twin platform capable of simulation, forecasting, traffic signal optimization, and policy impact evaluation.</p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRn4AAABXRUJQVlA4IHIAAABQBQCdASpAABcAPtFYo0yqpaeisBv9+VAaCWMAwB9agnLEpdIhkLDq6wDwhxyFLtlxOwAA/u1AVd1/UNOT6wwsytw71YWLmU1ftb+pdpmt80XYj4H8Vq8tnzhdrxtYaRxN4jNL/whiZZ/wLVxISj/IAAA='); aspect-ratio: 1120 / 402; width: min(1120px, 95%, calc(85vh * 2.78607)); "><img src="/assets/images/2026/q2-2026/trafficlab-ext/hanoi-initiative.webp" alt="hanoi initiative" loading="lazy" decoding="async" width="1120" height="402" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRn4AAABXRUJQVlA4IHIAAABQBQCdASpAABcAPtFYo0yqpaeisBv9+VAaCWMAwB9agnLEpdIhkLDq6wDwhxyFLtlxOwAA/u1AVd1/UNOT6wwsytw71YWLmU1ftb+pdpmt80XYj4H8Vq8tnzhdrxtYaRxN4jNL/whiZZ/wLVxISj/IAAA='); aspect-ratio: 1120 / 402; width: min(70.0rem, 95%, calc(85vh * 2.78607)); "><img src="/assets/images/2026/q2-2026/trafficlab-ext/hanoi-initiative.webp" alt="hanoi initiative" loading="lazy" decoding="async" width="1120" height="402" class="blur-load"></span></p>
 
 <div class="media-description">Source: Internet</div>
 
 <hr>
 
-<h2 id="2-desired-goal">2. Desired Goal<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#2-desired-goal')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
+<h2 id="2-desired-goal">2. Desired Goal<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#2-desired-goal')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h2>
 
 <p>Currently, AI-enabled traffic cameras in Hanoi are primarily deployed for automated traffic enforcement, commonly monitoring violations such as red-light offenses and illegal maneuvers.</p>
 
 <p>These cameras are typically installed at strategic locations, such as behind stop lines at signalized intersections, and are capable of accurately identifying vehicle license plates and, in some cases, driver facial features.</p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRnwAAABXRUJQVlA4IHAAAADwBACdASpAABQAPs1WnkynqSKiN/qoASAZiWcAxnwv8JEdwcs2Xj/OWalAGbTCJgAA/ua0/UMs1/lax+X4TqyKEPgTVzQYUlgtMXw+2Zh9coSUebNNhCnTxOF51DLYI70unUxRxjFxSjWNvvnxsAAA'); aspect-ratio: 1365 / 432; width: min(1365px, 95%, calc(85vh * 3.159722)); "><img src="/assets/images/2026/q2-2026/trafficlab-ext/fine-cams.webp" alt="fine cameras" loading="lazy" decoding="async" width="1365" height="432" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRnwAAABXRUJQVlA4IHAAAADwBACdASpAABQAPs1WnkynqSKiN/qoASAZiWcAxnwv8JEdwcs2Xj/OWalAGbTCJgAA/ua0/UMs1/lax+X4TqyKEPgTVzQYUlgtMXw+2Zh9coSUebNNhCnTxOF51DLYI70unUxRxjFxSjWNvvnxsAAA'); aspect-ratio: 1365 / 432; width: min(85.3125rem, 95%, calc(85vh * 3.159722)); "><img src="/assets/images/2026/q2-2026/trafficlab-ext/fine-cams.webp" alt="fine cameras" loading="lazy" decoding="async" width="1365" height="432" class="blur-load"></span></p>
 
 <div class="media-description">Source: Internet</div>
 
@@ -599,7 +522,7 @@ lightbox.init();
 
 <p>The project is built on the premise that addressing traffic congestion requires a data-driven understanding of mobility behavior. Before effective interventions can be designed, it is necessary to understand how citizens respond to existing infrastructure, traffic regulations, and environmental constraints. By providing this understanding, the Digital Twin can serve as a foundation for simulation, forecasting, and evidence-based transportation planning.</p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRpYAAABXRUJQVlA4IIoAAABwCACdASpAAC4APsFMmUyvJCIiN+HgGAlpAM7sMlMT1RR11iUA0hs/Wirz5mF9YKbDyIvUZp3NsLtmGDUJvafrps/M/UzuOc/J+dMAAP7024g4i4ideFHoGZjmoJkLGMKGcbVgGPXmq1njc7Pw7BzWDsW+w/hNFaumXtm7njuBzDmVLBakstqAAAA='); aspect-ratio: 928 / 663; width: min(928px, 95%, calc(85vh * 1.399698)); "><img src="/assets/images/2026/q2-2026/trafficlab-ext/digital-twin-1.webp" alt="fine cameras" loading="lazy" decoding="async" width="928" height="663" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRpYAAABXRUJQVlA4IIoAAABwCACdASpAAC4APsFMmUyvJCIiN+HgGAlpAM7sMlMT1RR11iUA0hs/Wirz5mF9YKbDyIvUZp3NsLtmGDUJvafrps/M/UzuOc/J+dMAAP7024g4i4ideFHoGZjmoJkLGMKGcbVgGPXmq1njc7Pw7BzWDsW+w/hNFaumXtm7njuBzDmVLBakstqAAAA='); aspect-ratio: 928 / 663; width: min(58.0rem, 95%, calc(85vh * 1.399698)); "><img src="/assets/images/2026/q2-2026/trafficlab-ext/digital-twin-1.webp" alt="fine cameras" loading="lazy" decoding="async" width="928" height="663" class="blur-load"></span></p>
 
 <p><em>(I then showed <a href="https://www.youtube.com/watch?v=FdiQ_EGbZe0" target="_blank">3D-Net Monocular 3D object recognition for traffic monitoring - Dr Rezaei. University of Leeds</a>)</em></p>
 
@@ -609,7 +532,8 @@ lightbox.init();
 
 <hr>
 
-<h2 id="3-the-htvtraffic-dataset">3. The HTVTraffic Dataset<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#3-the-htvtraffic-dataset')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
+<h2 id="3-the-htvtraffic-dataset">3. The HTVTraffic Dataset<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#3-the-htvtraffic-dataset')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h2>
 
 <ul>
   <li>During the initial survey phase, publicly available traffic datasets for Hanoi were found to be extremely limited. One of the few viable sources identified was the network of wide-angle traffic cameras livestreamed on the YouTube channel of Hanoi Radio and Television (HTV). <em>(idk if its just me but apparently the channel and the livestreams are no where to be found anymore lmaooo)</em>
@@ -619,7 +543,7 @@ lightbox.init();
   <li>Building upon the video dataset, a uniform sampling strategy was applied to extract nearly 10,000 image frames for downstream analysis. In addition, 157 images from two selected camera locations were manually annotated to establish an initial ground-truth dataset for evaluation and experimentation.</li>
 </ul>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRoQAAABXRUJQVlA4IHgAAACQBgCdASpAACUAPtVaoEywpS2iMr27MhAaiWkA1MgbskK+E1qYH88c6r8uNo4/Y3585PU4JwD15nr7+QwAAP7TlTYfRb/Y4gk4SVhnvk7MEKOVgaTQi2VviHwzbOeg7BCwsWjU4Cnpk0xzI5yZTv0hNMEyLkNwAAA='); aspect-ratio: 1063 / 611; width: min(1063px, 95%, calc(85vh * 1.739771)); "><img src="/assets/images/2026/q2-2026/trafficlab-ext/htvtraffic-dataset.webp" alt="htvtraffic dataset" loading="lazy" decoding="async" width="1063" height="611" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRoQAAABXRUJQVlA4IHgAAACQBgCdASpAACUAPtVaoEywpS2iMr27MhAaiWkA1MgbskK+E1qYH88c6r8uNo4/Y3585PU4JwD15nr7+QwAAP7TlTYfRb/Y4gk4SVhnvk7MEKOVgaTQi2VviHwzbOeg7BCwsWjU4Cnpk0xzI5yZTv0hNMEyLkNwAAA='); aspect-ratio: 1063 / 611; width: min(66.4375rem, 95%, calc(85vh * 1.739771)); "><img src="/assets/images/2026/q2-2026/trafficlab-ext/htvtraffic-dataset.webp" alt="htvtraffic dataset" loading="lazy" decoding="async" width="1063" height="611" class="blur-load"></span></p>
 
 <p>Some notes regarding the dataset:</p>
 
@@ -661,7 +585,8 @@ lightbox.init();
 
 <hr>
 
-<h2 id="4-progress-up-until-midterm">4. Progress up until Midterm<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#4-progress-up-until-midterm')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
+<h2 id="4-progress-up-until-midterm">4. Progress up until Midterm<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#4-progress-up-until-midterm')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h2>
 
 <p>At the beginning of the project, the HTVTraffic dataset had already been collected, but no annotations were available. To manage the scope of the work, the project was divided into two stages:</p>
 
@@ -695,7 +620,8 @@ lightbox.init();
 
 <hr>
 
-<h3 id="41-phase-1-detection-and-tracking">4.1. Phase 1: Detection and Tracking<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#41-phase-1-detection-and-tracking')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+<h3 id="41-phase-1-detection-and-tracking">4.1. Phase 1: Detection and Tracking<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#41-phase-1-detection-and-tracking')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h3>
 
 <div class="callout callout-note">
   <div class="callout-body">
@@ -715,15 +641,16 @@ lightbox.init();
 
 <hr>
 
-<h4 id="411-point-query-transformer-pet">4.1.1. Point quEry Transformer (PET)<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#411-point-query-transformer-pet')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h4>
+<h4 id="411-point-query-transformer-pet">4.1.1. Point quEry Transformer (PET)<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#411-point-query-transformer-pet')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h4>
 
 <p>The PET Model was introduced in <a href="https://arxiv.org/abs/2308.13814" target="_blank">Liu et al., 2023</a>, which is a localized crowd counting model. Instead of outputting the classic density map for this kind of problem, it directly predicts both the probability and exact pixel of a point where there’s likely a human head. The mechanism of this model is very similar to the DETR models in the object detection task.</p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRlwAAABXRUJQVlA4IFAAAADwAwCdASpAABcAPt1oqlG9Ja0rJAtroBuJaQAAI0ZjxHd7hqA34LJoAP7vliXDhlf70aCMr9+VZfNv3ytDOI8c9sgKhF2Dj4/WXjXAcPEAAA=='); aspect-ratio: 1395 / 500; width: min(1395px, 95%, calc(85vh * 2.79)); "><img src="/assets/images/2026/q2-2026/trafficlab-ext/pet-model.webp" alt="pet model" loading="lazy" decoding="async" width="1395" height="500" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRlwAAABXRUJQVlA4IFAAAADwAwCdASpAABcAPt1oqlG9Ja0rJAtroBuJaQAAI0ZjxHd7hqA34LJoAP7vliXDhlf70aCMr9+VZfNv3ytDOI8c9sgKhF2Dj4/WXjXAcPEAAA=='); aspect-ratio: 1395 / 500; width: min(87.1875rem, 95%, calc(85vh * 2.79)); "><img src="/assets/images/2026/q2-2026/trafficlab-ext/pet-model.webp" alt="pet model" loading="lazy" decoding="async" width="1395" height="500" class="blur-load"></span></p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAABwAwCdASpAABUAPt1qqlGrpa0ipAtpoBuJaQDRRArpJLFrGWAA/u9LDwLOG3iYIJswsC+4UWNpsXhqJ729fjoS0L6kdjLxhGAAAA=='); aspect-ratio: 1353 / 439; width: min(1353px, 95%, calc(85vh * 3.082005)); "><img src="/assets/images/2026/q2-2026/trafficlab-ext/pet-model-mechanism.webp" alt="pet model mechanism" loading="lazy" decoding="async" width="1353" height="439" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAABwAwCdASpAABUAPt1qqlGrpa0ipAtpoBuJaQDRRArpJLFrGWAA/u9LDwLOG3iYIJswsC+4UWNpsXhqJ729fjoS0L6kdjLxhGAAAA=='); aspect-ratio: 1353 / 439; width: min(84.5625rem, 95%, calc(85vh * 3.082005)); "><img src="/assets/images/2026/q2-2026/trafficlab-ext/pet-model-mechanism.webp" alt="pet model mechanism" loading="lazy" decoding="async" width="1353" height="439" class="blur-load"></span></p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRnIAAABXRUJQVlA4IGYAAADwBACdASoxAEAAPt1UpEy9NiOiM/gKq6AbiWkAAEYuZ1YLceC3IFJtEeY1hSTqeuAA/vFw/mIgA7Hf+HduE/lYUYk08CA0kp2mlXG40HVO00C1aMylz0H3nNuz2xEfj4cG6ljM6AA='); aspect-ratio: 553 / 719; width: min(553px, 95%, calc(85vh * 0.769124)); "><img src="/assets/images/2026/q2-2026/trafficlab-ext/pet-model-architecture.webp" alt="pet model architecture" loading="lazy" decoding="async" width="553" height="719" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRnIAAABXRUJQVlA4IGYAAADwBACdASoxAEAAPt1UpEy9NiOiM/gKq6AbiWkAAEYuZ1YLceC3IFJtEeY1hSTqeuAA/vFw/mIgA7Hf+HduE/lYUYk08CA0kp2mlXG40HVO00C1aMylz0H3nNuz2xEfj4cG6ljM6AA='); aspect-ratio: 553 / 719; width: min(34.5625rem, 95%, calc(85vh * 0.769124)); "><img src="/assets/images/2026/q2-2026/trafficlab-ext/pet-model-architecture.webp" alt="pet model architecture" loading="lazy" decoding="async" width="553" height="719" class="blur-load"></span></p>
 
 <p>The model takes the feature map from a VGG16 backbone, apply self-attention to the Encoder at $\hat{x}^l$, sample query points on the feature map which is also the root of the quadtree. $\hat{x}^l$ is then evaluated along with the quadtree to see if a region needs to split into 4 more points for crowded areas.</p>
 
@@ -731,21 +658,21 @@ lightbox.init();
 
 <p>Below are some prediction vs ground truth from a pretrained PET model:</p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRoYAAABXRUJQVlA4IHoAAACQBACdASpAACQAPt1kpE09PyuiLVmck+AbiWUAxnPRQnSCuXDJShP0NpZjDQAA/uNTXcGNcOAzOwxUzAew0s6QnsRwgBTjUzygpmvMhu0BWZc8zdRUvbYhAZm1xcmybfbDdW/qxekEwrcb/qr7o6apbkQtGthMchCgAA=='); aspect-ratio: 1664 / 936; width: min(1664px, 95%, calc(85vh * 1.777778)); "><img src="/assets/images/2026/q2-2026/trafficlab-ext/20pred.webp" alt="pet example pred 1" loading="lazy" decoding="async" width="1664" height="936" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRoYAAABXRUJQVlA4IHoAAACQBACdASpAACQAPt1kpE09PyuiLVmck+AbiWUAxnPRQnSCuXDJShP0NpZjDQAA/uNTXcGNcOAzOwxUzAew0s6QnsRwgBTjUzygpmvMhu0BWZc8zdRUvbYhAZm1xcmybfbDdW/qxekEwrcb/qr7o6apbkQtGthMchCgAA=='); aspect-ratio: 1664 / 936; width: min(104.0rem, 95%, calc(85vh * 1.777778)); "><img src="/assets/images/2026/q2-2026/trafficlab-ext/20pred.webp" alt="pet example pred 1" loading="lazy" decoding="async" width="1664" height="936" class="blur-load"></span></p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRogAAABXRUJQVlA4IHwAAADQBACdASpAACQAPtVSpEy7pLMisB1cA3AaiWcAzNAZVYBMKPB3B6po9kqMZ6RgAADa1FOJgBo4ZvbqTYJx6giEGPBsT3j9ly/zuuwftBoq7vpCntYJMwl0Whm+jQ+Nm27/LV7b1x8J/UemjaeCLr1bRy0i4lH1IPUaBCwA'); aspect-ratio: 1664 / 936; width: min(1664px, 95%, calc(85vh * 1.777778)); "><img src="/assets/images/2026/q2-2026/trafficlab-ext/20gt.webp" alt="pet example pred 1" loading="lazy" decoding="async" width="1664" height="936" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRogAAABXRUJQVlA4IHwAAADQBACdASpAACQAPtVSpEy7pLMisB1cA3AaiWcAzNAZVYBMKPB3B6po9kqMZ6RgAADa1FOJgBo4ZvbqTYJx6giEGPBsT3j9ly/zuuwftBoq7vpCntYJMwl0Whm+jQ+Nm27/LV7b1x8J/UemjaeCLr1bRy0i4lH1IPUaBCwA'); aspect-ratio: 1664 / 936; width: min(104.0rem, 95%, calc(85vh * 1.777778)); "><img src="/assets/images/2026/q2-2026/trafficlab-ext/20gt.webp" alt="pet example pred 1" loading="lazy" decoding="async" width="1664" height="936" class="blur-load"></span></p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRo4AAABXRUJQVlA4IIIAAADQBACdASpAACQAPt1kpk2/r7AmLVmba/AbiWUAwJgrgiNTeSWLg2wbVGYJDjzYmAD+41O5bJPNVsQDlKT7KYUODFQDduKU0fs5hpKZ0Mn3gkhlyq3ctIbiowIFSM1alzhIS4A/VaGgRzeVxHAKLFoh4Ottg4pjXlZtjraH797UAAAA'); aspect-ratio: 1664 / 936; width: min(1664px, 95%, calc(85vh * 1.777778)); "><img src="/assets/images/2026/q2-2026/trafficlab-ext/21pred.webp" alt="pet example pred 2" loading="lazy" decoding="async" width="1664" height="936" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRo4AAABXRUJQVlA4IIIAAADQBACdASpAACQAPt1kpk2/r7AmLVmba/AbiWUAwJgrgiNTeSWLg2wbVGYJDjzYmAD+41O5bJPNVsQDlKT7KYUODFQDduKU0fs5hpKZ0Mn3gkhlyq3ctIbiowIFSM1alzhIS4A/VaGgRzeVxHAKLFoh4Ottg4pjXlZtjraH797UAAAA'); aspect-ratio: 1664 / 936; width: min(104.0rem, 95%, calc(85vh * 1.777778)); "><img src="/assets/images/2026/q2-2026/trafficlab-ext/21pred.webp" alt="pet example pred 2" loading="lazy" decoding="async" width="1664" height="936" class="blur-load"></span></p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRogAAABXRUJQVlA4IHwAAADQBQCdASpAACQAPtlepEy7pbMlsB1cA3AbCWcAy+AZVYBQP8Ch4V48nt8SKjWG3weSlanLqsgAANrUU4mAGjhVE93h+Qi7EnMYb1xhzuzgVG3I8rSyVLMIOIaD3gkIDoOBy06prPCuS2w+SWr6uZ7vqELeKQxHT24wQAAA'); aspect-ratio: 1664 / 936; width: min(1664px, 95%, calc(85vh * 1.777778)); "><img src="/assets/images/2026/q2-2026/trafficlab-ext/21gt.webp" alt="pet example pred 2" loading="lazy" decoding="async" width="1664" height="936" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRogAAABXRUJQVlA4IHwAAADQBQCdASpAACQAPtlepEy7pbMlsB1cA3AbCWcAy+AZVYBQP8Ch4V48nt8SKjWG3weSlanLqsgAANrUU4mAGjhVE93h+Qi7EnMYb1xhzuzgVG3I8rSyVLMIOIaD3gkIDoOBy06prPCuS2w+SWr6uZ7vqELeKQxHT24wQAAA'); aspect-ratio: 1664 / 936; width: min(104.0rem, 95%, calc(85vh * 1.777778)); "><img src="/assets/images/2026/q2-2026/trafficlab-ext/21gt.webp" alt="pet example pred 2" loading="lazy" decoding="async" width="1664" height="936" class="blur-load"></span></p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRp4AAABXRUJQVlA4IJIAAABQBQCdASpAACQAPt1kpk89L6wprVZqS6AbiWMArlA1AZ5N/M9ScO4x00/ifuDmKSzQsgAA/uRnbujPNUCHsesV5uV7OIP4LUjfECDiYk3vzG+No4sAsqpSVuulCtIypBtProfqc3izoa1cCJ6cAOHspmAUvlSOE8Qzs5NuBWL9bUs6jyPRh9MZgQa40Ib98wAAAA=='); aspect-ratio: 1664 / 936; width: min(1664px, 95%, calc(85vh * 1.777778)); "><img src="/assets/images/2026/q2-2026/trafficlab-ext/22pred.webp" alt="pet example pred 3" loading="lazy" decoding="async" width="1664" height="936" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRp4AAABXRUJQVlA4IJIAAABQBQCdASpAACQAPt1kpk89L6wprVZqS6AbiWMArlA1AZ5N/M9ScO4x00/ifuDmKSzQsgAA/uRnbujPNUCHsesV5uV7OIP4LUjfECDiYk3vzG+No4sAsqpSVuulCtIypBtProfqc3izoa1cCJ6cAOHspmAUvlSOE8Qzs5NuBWL9bUs6jyPRh9MZgQa40Ib98wAAAA=='); aspect-ratio: 1664 / 936; width: min(104.0rem, 95%, calc(85vh * 1.777778)); "><img src="/assets/images/2026/q2-2026/trafficlab-ext/22pred.webp" alt="pet example pred 3" loading="lazy" decoding="async" width="1664" height="936" class="blur-load"></span></p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRooAAABXRUJQVlA4IH4AAADQBACdASpAACQAPt1epEyxJbMoLUySYBuJZwDOeefBMQRFgoTZnppEFbZO7DGGUADHOxX8ZH2DGuoL/CJNgnHpLzrR+Clp5kT6KYL4PhH7tis6FXMYxlSJR2dQ6BuWGNEkfYhx4HS2s8/aeFuIMiG5gKRqbbB0hnB3pzsWQAA='); aspect-ratio: 1664 / 936; width: min(1664px, 95%, calc(85vh * 1.777778)); "><img src="/assets/images/2026/q2-2026/trafficlab-ext/22gt.webp" alt="pet example pred 3" loading="lazy" decoding="async" width="1664" height="936" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRooAAABXRUJQVlA4IH4AAADQBACdASpAACQAPt1epEyxJbMoLUySYBuJZwDOeefBMQRFgoTZnppEFbZO7DGGUADHOxX8ZH2DGuoL/CJNgnHpLzrR+Clp5kT6KYL4PhH7tis6FXMYxlSJR2dQ6BuWGNEkfYhx4HS2s8/aeFuIMiG5gKRqbbB0hnB3pzsWQAA='); aspect-ratio: 1664 / 936; width: min(104.0rem, 95%, calc(85vh * 1.777778)); "><img src="/assets/images/2026/q2-2026/trafficlab-ext/22gt.webp" alt="pet example pred 3" loading="lazy" decoding="async" width="1664" height="936" class="blur-load"></span></p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRpIAAABXRUJQVlA4IIYAAAAwBACdASpAACQAPt1iqU+9P6yqLVM6S/AbiWMAxvQHNoOZwgWLdv3k0wAA/uVphr168lgy1O8wxu5BBvlFsUJRlLv2Y8F1tes34bwnbNyvkxNyQ9aduAD+u0S3yMFIMfz6FrPkCb7+6c26yPXTjrBmqp6+QHfbiPAn/X8u38EaonoNzAAAAA=='); aspect-ratio: 1664 / 936; width: min(1664px, 95%, calc(85vh * 1.777778)); "><img src="/assets/images/2026/q2-2026/trafficlab-ext/23pred.webp" alt="pet example pred 4" loading="lazy" decoding="async" width="1664" height="936" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRpIAAABXRUJQVlA4IIYAAAAwBACdASpAACQAPt1iqU+9P6yqLVM6S/AbiWMAxvQHNoOZwgWLdv3k0wAA/uVphr168lgy1O8wxu5BBvlFsUJRlLv2Y8F1tes34bwnbNyvkxNyQ9aduAD+u0S3yMFIMfz6FrPkCb7+6c26yPXTjrBmqp6+QHfbiPAn/X8u38EaonoNzAAAAA=='); aspect-ratio: 1664 / 936; width: min(104.0rem, 95%, calc(85vh * 1.777778)); "><img src="/assets/images/2026/q2-2026/trafficlab-ext/23pred.webp" alt="pet example pred 4" loading="lazy" decoding="async" width="1664" height="936" class="blur-load"></span></p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRpAAAABXRUJQVlA4IIQAAAAwBQCdASpAACQAPt1gpEyopjslrVzMk2AbiWcAzQwT+mLOqUCiLSurhcC0jj8qHhqYAADHOuYNkEsUqC6t4fL25Ppax2vAP2luqOJnYwRk63CcO6GKMIEaJyZYihAVyyD3e7VaOZnYyC7+no/JPEtWDNcHbunbxnPoHeckyVFYWNWQAAA='); aspect-ratio: 1664 / 936; width: min(1664px, 95%, calc(85vh * 1.777778)); "><img src="/assets/images/2026/q2-2026/trafficlab-ext/23gt.webp" alt="pet example pred 4" loading="lazy" decoding="async" width="1664" height="936" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRpAAAABXRUJQVlA4IIQAAAAwBQCdASpAACQAPt1gpEyopjslrVzMk2AbiWcAzQwT+mLOqUCiLSurhcC0jj8qHhqYAADHOuYNkEsUqC6t4fL25Ppax2vAP2luqOJnYwRk63CcO6GKMIEaJyZYihAVyyD3e7VaOZnYyC7+no/JPEtWDNcHbunbxnPoHeckyVFYWNWQAAA='); aspect-ratio: 1664 / 936; width: min(104.0rem, 95%, calc(85vh * 1.777778)); "><img src="/assets/images/2026/q2-2026/trafficlab-ext/23gt.webp" alt="pet example pred 4" loading="lazy" decoding="async" width="1664" height="936" class="blur-load"></span></p>
 
 <p>Here, the images with the blue and red tint are predictions, the red tint rectangles are where the quadtree decided to split, ie. it thinks that region is “crowded”.</p>
 
@@ -755,11 +682,11 @@ lightbox.init();
 
 <p>So, lets just get right into my finetuning efforts for PET model:</p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRkAAAABXRUJQVlA4IDQAAAAwAwCdASpAABoAPt1usFKopiSipAgBEBuJaQAAH7doWbZoAP7xBXt1cbY5YQlePrYAAAAA'); aspect-ratio: 1630 / 664; width: min(1630px, 95%, calc(85vh * 2.454819)); "><img src="/assets/images/2026/q2-2026/trafficlab-ext/pet-ft-1.webp" alt="pet finetune 1" loading="lazy" decoding="async" width="1630" height="664" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRkAAAABXRUJQVlA4IDQAAAAwAwCdASpAABoAPt1usFKopiSipAgBEBuJaQAAH7doWbZoAP7xBXt1cbY5YQlePrYAAAAA'); aspect-ratio: 1630 / 664; width: min(101.875rem, 95%, calc(85vh * 2.454819)); "><img src="/assets/images/2026/q2-2026/trafficlab-ext/pet-ft-1.webp" alt="pet finetune 1" loading="lazy" decoding="async" width="1630" height="664" class="blur-load"></span></p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRkQAAABXRUJQVlA4IDgAAABQAwCdASpAABsAPt1uq1KopiOipAkhEBuJaQDRgAtToac5eAD+8QQuHlvQm/rZVnDaIsPk2GAAAA=='); aspect-ratio: 1598 / 677; width: min(1598px, 95%, calc(85vh * 2.360414)); "><img src="/assets/images/2026/q2-2026/trafficlab-ext/pet-ft-2.webp" alt="pet finetune 2" loading="lazy" decoding="async" width="1598" height="677" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRkQAAABXRUJQVlA4IDgAAABQAwCdASpAABsAPt1uq1KopiOipAkhEBuJaQDRgAtToac5eAD+8QQuHlvQm/rZVnDaIsPk2GAAAA=='); aspect-ratio: 1598 / 677; width: min(99.875rem, 95%, calc(85vh * 2.360414)); "><img src="/assets/images/2026/q2-2026/trafficlab-ext/pet-ft-2.webp" alt="pet finetune 2" loading="lazy" decoding="async" width="1598" height="677" class="blur-load"></span></p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRjQAAABXRUJQVlA4ICgAAADwAgCdASpAAA0APt1orVCopaQiqAgBEBuJaQAAPcslAAD+8SR+AAAA'); aspect-ratio: 1577 / 321; width: min(1577px, 95%, calc(85vh * 4.912773)); "><img src="/assets/images/2026/q2-2026/trafficlab-ext/pet-ft-3.webp" alt="pet finetune 3" loading="lazy" decoding="async" width="1577" height="321" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRjQAAABXRUJQVlA4ICgAAADwAgCdASpAAA0APt1orVCopaQiqAgBEBuJaQAAPcslAAD+8SR+AAAA'); aspect-ratio: 1577 / 321; width: min(98.5625rem, 95%, calc(85vh * 4.912773)); "><img src="/assets/images/2026/q2-2026/trafficlab-ext/pet-ft-3.webp" alt="pet finetune 3" loading="lazy" decoding="async" width="1577" height="321" class="blur-load"></span></p>
 
 <p>I’d say while the pretrained model performed decently, the finetuning was kind of a disaster. With just 115 annotated training samples from location code 107LHP, all attempts at finetuning lead to increasing error, diverging loss, or “model collapse” despite testing with various different arguments.</p>
 
@@ -776,13 +703,15 @@ lightbox.init();
 
 <hr>
 
-<h4 id="412-yolov8-and-sahi">4.1.2. YOLOv8 and SAHI<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#412-yolov8-and-sahi')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h4>
+<h4 id="412-yolov8-and-sahi">4.1.2. YOLOv8 and SAHI<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#412-yolov8-and-sahi')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h4>
 
 <p>Honestly theres nothing that interesting in this part, I just simply go over <a href="https://docs.ultralytics.com/models/yolov8#overview" target="_ blank">YOLOv8</a> and the <a href="https://arxiv.org/abs/2202.06934" target="_blank">SAHI</a> paper, I kinda spent all my time on that crowd counting rabbit hole, so, moving on.</p>
 
 <hr>
 
-<h4 id="413-first-early-demo">4.1.3. First Early Demo<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#413-first-early-demo')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h4>
+<h4 id="413-first-early-demo">4.1.3. First Early Demo<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#413-first-early-demo')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h4>
 
 <p>Now this is the bread and butter of this early stage, an initial demo. I’m not gonna lie, only now do I see that this presentation slides order kinda don’t make sense, because I haven’t even introduced the projection and the concept of the actual final demo, I think what I wanted to do was like showcase the detection and tracking for both the boxes and points, but I didn’t want it to be dry or something lol, so I just included the full demo here anyway:</p>
 
@@ -790,7 +719,8 @@ lightbox.init();
 
 <hr>
 
-<h3 id="42-phase-2-digital-twin-proof-of-concept">4.2. Phase 2: Digital Twin Proof of Concept<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#42-phase-2-digital-twin-proof-of-concept')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h3>
+<h3 id="42-phase-2-digital-twin-proof-of-concept">4.2. Phase 2: Digital Twin Proof of Concept<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#42-phase-2-digital-twin-proof-of-concept')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h3>
 
 <p>Yeah so honestly this I’m not really feeling like re-writing everything that has already been covered in <a href="/2026/02/20/traffilclab-3d-overview">TrafficLab 3D</a>, but yeah basically this part I covered the G projection.</p>
 
@@ -798,7 +728,7 @@ lightbox.init();
 
 <p>But basically, I made an entire experiment to demonstrate the fact that the 3D bbox of a vehicle doesn’t always fit inside its 2D bbox:</p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRpYAAABXRUJQVlA4IIoAAAAQBwCdASpAACYAPtVWokyoJKMiMr25mQAaiWMA0FRPBvdzRF4lwsr2OeQRjp5ZgqGcVYTECKJy0QMIiuq1PiW2AAD+9OJXeGmacawsEvsF+4mz4ZJrQXMmfD1x/DsbtX8P9x+or2h1Vx1kgxmwKnGL8q+l3AhxlVWDO+l8Pqo19pqGdaUv0J0AAAA='); aspect-ratio: 1210 / 714; width: min(1210px, 95%, calc(85vh * 1.694678)); "><img src="/assets/images/2026/q2-2026/trafficlab-ext/3dbbox.webp" alt="3d bounding box" loading="lazy" decoding="async" width="1210" height="714" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRpYAAABXRUJQVlA4IIoAAAAQBwCdASpAACYAPtVWokyoJKMiMr25mQAaiWMA0FRPBvdzRF4lwsr2OeQRjp5ZgqGcVYTECKJy0QMIiuq1PiW2AAD+9OJXeGmacawsEvsF+4mz4ZJrQXMmfD1x/DsbtX8P9x+or2h1Vx1kgxmwKnGL8q+l3AhxlVWDO+l8Pqo19pqGdaUv0J0AAAA='); aspect-ratio: 1210 / 714; width: min(75.625rem, 95%, calc(85vh * 1.694678)); "><img src="/assets/images/2026/q2-2026/trafficlab-ext/3dbbox.webp" alt="3d bounding box" loading="lazy" decoding="async" width="1210" height="714" class="blur-load"></span></p>
 
 <p>Later down the development cycle, this experiment helped me greatly in actually formalizing the center point and the final G projection in TrafficLab.</p>
 
@@ -806,7 +736,8 @@ lightbox.init();
 
 <hr>
 
-<h2 id="5-so-much-stuff-going-on-rn-bru">5. So much stuff going on rn bru…<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#5-so-much-stuff-going-on-rn-bru')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button></h2>
+<h2 id="5-so-much-stuff-going-on-rn-bru">5. So much stuff going on rn bru…<button class="copy-toc" aria-label="Copy link to heading" title="Copy link to heading" onclick="copyToClipboard(event,location.origin+location.pathname+'#5-so-much-stuff-going-on-rn-bru')"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="20" height="20" color="#fff"><defs><style>.cls-6374f8d9b67f094e4896c645-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c645-1" d="M10.57,5.8l2.71-2.72a5.4,5.4,0,0,1,7.64,7.64L18.2,13.43"></path><path class="cls-6374f8d9b67f094e4896c645-1" d="M5.8,10.57,3.08,13.28a5.4,5.4,0,0,0,7.64,7.64l2.71-2.72"></path><line class="cls-6374f8d9b67f094e4896c645-1" x1="16.77" y1="7.23" x2="7.23" y2="16.77"></line></svg></button>
+</h2>
 
 <p>A bit of Yuk lore, I’ve been postponing this post for ages by now lol.</p>
 
@@ -820,15 +751,15 @@ lightbox.init();
 
 <p>Here are some more interesting images from this early development phase:</p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRnwAAABXRUJQVlA4IHAAAABwBgCdASpAAB4APt1Upk0/pDgiM/M9U/AbiWUA0JAMBeT+F5FrGSds8CZnPzz4+q1/OgjxwpEYQ/x8oAAA/u/52luhvfHDYdwdxck5saoXLo3tx7kKn5So3jTYm31l6g9+6XMyEi1QXFLFYNllwAAA'); aspect-ratio: 995 / 466; width: min(995px, 95%, calc(85vh * 2.135193)); "><img src="/assets/images/2026/q2-2026/trafficlab-ext/legacy1.webp" alt="legacy 1" loading="lazy" decoding="async" width="995" height="466" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRnwAAABXRUJQVlA4IHAAAABwBgCdASpAAB4APt1Upk0/pDgiM/M9U/AbiWUA0JAMBeT+F5FrGSds8CZnPzz4+q1/OgjxwpEYQ/x8oAAA/u/52luhvfHDYdwdxck5saoXLo3tx7kKn5So3jTYm31l6g9+6XMyEi1QXFLFYNllwAAA'); aspect-ratio: 995 / 466; width: min(62.1875rem, 95%, calc(85vh * 2.135193)); "><img src="/assets/images/2026/q2-2026/trafficlab-ext/legacy1.webp" alt="legacy 1" loading="lazy" decoding="async" width="995" height="466" class="blur-load"></span></p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRoIAAABXRUJQVlA4IHYAAADwBACdASpAACQAPtVYoky2MqMltVn4AsAaiWcAz6AnO00UL0e89wFqJXDQq3/G5QAA/uZJH31TaOZvapgCTAwpxut2z0rXAkJ8/ro/XYZ2th4ijncpccplYT0pZDoDBrBlTYKiu0PuefRKDrFPTsbcwGQAAAAA'); aspect-ratio: 2667 / 1500; width: min(2667px, 95%, calc(85vh * 1.778)); "><img src="/assets/images/2026/q2-2026/trafficlab-ext/app_layout-1.webp" alt="legacy 2" loading="lazy" decoding="async" width="2667" height="1500" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRoIAAABXRUJQVlA4IHYAAADwBACdASpAACQAPtVYoky2MqMltVn4AsAaiWcAz6AnO00UL0e89wFqJXDQq3/G5QAA/uZJH31TaOZvapgCTAwpxut2z0rXAkJ8/ro/XYZ2th4ijncpccplYT0pZDoDBrBlTYKiu0PuefRKDrFPTsbcwGQAAAAA'); aspect-ratio: 2667 / 1500; width: min(166.6875rem, 95%, calc(85vh * 1.778)); "><img src="/assets/images/2026/q2-2026/trafficlab-ext/app_layout-1.webp" alt="legacy 2" loading="lazy" decoding="async" width="2667" height="1500" class="blur-load"></span></p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRooAAABXRUJQVlA4IH4AAACwBQCdASpAACQAPslSnky5pKMiN/qqqzAZCWcA0Bgvo+gXA2xWxHtuPXSNke7Ot4STzSHb9QAA/ucT3xegy08RMYLWG5bB8jbhWD5/ocLRJbxsZiPET3k71DiwGjhGEZHm59JaXio7ivWpGX+wlPT8so/u1ScHyS4D5ESDsAA='); aspect-ratio: 2667 / 1500; width: min(2667px, 95%, calc(85vh * 1.778)); "><img src="/assets/images/2026/q2-2026/trafficlab-ext/app_layout-2.webp" alt="legacy 3" loading="lazy" decoding="async" width="2667" height="1500" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRooAAABXRUJQVlA4IH4AAACwBQCdASpAACQAPslSnky5pKMiN/qqqzAZCWcA0Bgvo+gXA2xWxHtuPXSNke7Ot4STzSHb9QAA/ucT3xegy08RMYLWG5bB8jbhWD5/ocLRJbxsZiPET3k71DiwGjhGEZHm59JaXio7ivWpGX+wlPT8so/u1ScHyS4D5ESDsAA='); aspect-ratio: 2667 / 1500; width: min(166.6875rem, 95%, calc(85vh * 1.778)); "><img src="/assets/images/2026/q2-2026/trafficlab-ext/app_layout-2.webp" alt="legacy 3" loading="lazy" decoding="async" width="2667" height="1500" class="blur-load"></span></p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRnYAAABXRUJQVlA4IGoAAADQAwCdASpAACQAPt1oq0+xJiQjKqgCIBuJZwDMWBvcJ+bDbdizfAAA/u02P+nuR/yPdTLuQ3oERhoYKtVZwp17nXsuC/j3goUWQkJfX6jfEEkAkyG7XfuPZinE9/xydojQUJ4nCgqVAAAA'); aspect-ratio: 2667 / 1500; width: min(2667px, 95%, calc(85vh * 1.778)); "><img src="/assets/images/2026/q2-2026/trafficlab-ext/app_layout-3.webp" alt="legacy 4" loading="lazy" decoding="async" width="2667" height="1500" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRnYAAABXRUJQVlA4IGoAAADQAwCdASpAACQAPt1oq0+xJiQjKqgCIBuJZwDMWBvcJ+bDbdizfAAA/u02P+nuR/yPdTLuQ3oERhoYKtVZwp17nXsuC/j3goUWQkJfX6jfEEkAkyG7XfuPZinE9/xydojQUJ4nCgqVAAAA'); aspect-ratio: 2667 / 1500; width: min(166.6875rem, 95%, calc(85vh * 1.778)); "><img src="/assets/images/2026/q2-2026/trafficlab-ext/app_layout-3.webp" alt="legacy 4" loading="lazy" decoding="async" width="2667" height="1500" class="blur-load"></span></p>
 
-<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRoIAAABXRUJQVlA4IHYAAADwBACdASpAACQAPt1iqE2rpaQiMBqoAXAbiWcAzjgbRyiUElQ1pMcP2dgAlCwLueAA/u02P+nuR/yPdTLuQ3oFB8W2mCGV9DYIlm0qnr3zrnkPzTQcYLoGBm3qwibkO0i1ZoX5HRukrSDOYikCVYG+q9UQAAAA'); aspect-ratio: 2667 / 1500; width: min(2667px, 95%, calc(85vh * 1.778)); "><img src="/assets/images/2026/q2-2026/trafficlab-ext/app_layout-4.webp" alt="legacy 5" loading="lazy" decoding="async" width="2667" height="1500" class="blur-load" onload="setTimeout(() =&gt; this.classList.add('loaded'), 50);"></span></p>
+<p><span class="lqip-wrapper" style="display: block; background-image: url('data:image/webp;base64,UklGRoIAAABXRUJQVlA4IHYAAADwBACdASpAACQAPt1iqE2rpaQiMBqoAXAbiWcAzjgbRyiUElQ1pMcP2dgAlCwLueAA/u02P+nuR/yPdTLuQ3oFB8W2mCGV9DYIlm0qnr3zrnkPzTQcYLoGBm3qwibkO0i1ZoX5HRukrSDOYikCVYG+q9UQAAAA'); aspect-ratio: 2667 / 1500; width: min(166.6875rem, 95%, calc(85vh * 1.778)); "><img src="/assets/images/2026/q2-2026/trafficlab-ext/app_layout-4.webp" alt="legacy 5" loading="lazy" decoding="async" width="2667" height="1500" class="blur-load"></span></p>
 
                         
                         
@@ -873,36 +804,42 @@ lightbox.init();
     <div class="relative-footer">
         <footer>
             <div class="footer-info">
+                
                 <a href="https://www.youtube.com/@yuk.yukano" target="_blank">
                     <i class="fab fa-youtube"></i>
                     <div class="footer-info-label">
                         <p>@yuk.yukano</p>
                     </div>
                 </a>
+                
                 <a href="https://github.com/duy-phamduc68" target="_blank">
                     <i class="fab fa-github"></i>
                     <div class="footer-info-label">
                         <p>duy-phamduc68</p>
                     </div>
                 </a>
+                
                 <a href="https://x.com/yukyukano" target="_blank">
                     <i class="fab fa-twitter"></i>
                     <div class="footer-info-label">
                         <p>@yukyukano</p>
                     </div>
                 </a>
+                
                 <a href="https://www.instagram.com/yuk.yukano" target="_blank">
                     <i class="fab fa-instagram"></i>
                     <div class="footer-info-label">
                         <p>@yuk.yukano</p>
                     </div>
                 </a>
+                
                 <a href="https://www.facebook.com/yuk.pham.2025" target="_blank">
                     <i class="fab fa-facebook"></i>
                     <div class="footer-info-label">
                         <p>Duy Pham Duc</p>
                     </div>
                 </a>
+                
             </div>
             <div class="copyright-text">
                 <p>© 2026 Yuk</p>
@@ -952,21 +889,10 @@ lightbox.init();
         </button>
     </div>
 </div>
+    <script>window.SITE_TEXT = { ui: {"en":{"back":"Back","home":"Home","archive":"Archive","projects":"Projects","about":"About","tools":"Tools","tags":"Tags","navigation":"Navigation","options":"Options","configuration":"Configuration","open_configuration":"Open configuration","config_button":"Config","theme":"Theme","bg_on":"BG: On","bg_off":"BG: Off","close":"Close","to_top":"To top","comments":"Comments","comments_disabled":"Comments are disabled for this post","written_by":"Written by:","last_updated":"Last updated:","reading_min":"Min.","new_tag":"NEW","access":"Access","see_more":"See more"},"vi":{"back":"Trở lại","home":"Trang chủ","archive":"Lưu trữ","projects":"Dự án","about":"Về tôi","navigation":"Điều hướng","options":"Tùy chọn","configuration":"Cấu hình","open_configuration":"Mở cấu hình","theme":"Chủ đề","bg_on":"BG: Bật","bg_off":"BG: Tắt","close":"Đóng","to_top":"Đầu trang","comments":"Bình luận","comments_disabled":"Bình luận không khả dụng cho bài viết này","written_by":"Viết bởi:","last_updated":"Cập nhật lần cuối:","reading_min":"Phút","access":"Truy cập","see_more":"Xem thêm"},"ja":{"back":"戻る","home":"ホーム","configuration":"設定","open_configuration":"設定を開く","theme":"テーマ","bg_on":"BG: オン","bg_off":"BG: オフ","close":"閉じる"}}, archive: {"title":"Archive - Yuk","search_placeholder":"Press \" / \" to search posts...","categories":"Categories","filter_post":"Post","filter_code":"Code","filter_assignment":"Assignment","filter_technical":"Technical","filter_thread":"Thread","filter_showcase":"Showcase","sort_by":"Sort by","sort_reading_time":"Reading time","sort_release_date":"Release date","prev":"Prev","next":"Next","nothing_here":"Nothing here...","page_hint":"Use Page Up / Page Down to navigate between pages.","all_tags":"All tags"}, projects: {"title":"Projects - Yuk","copy_catalog":"Copy Catalog","copied":"Copied!"}, mermaid: {"title":"Mermaid","copy_source":"Copy source","reset_view":"Reset view","unlock":"Unlock interactions","lock":"Lock interactions","fullscreen":"Fullscreen","back_to_post":"Back to post"} };</script>
+<script src="/assets/js/common.js"></script>
     <script src="/assets/js/pages-js/post-script.js"></script>
     <script src="/assets/js/bg-script.js"></script>
-    <script>
-        (function() {
-            'use strict';
-            window.addEventListener('load', () => {
-                const target = document.querySelector('div.post-content');
-                if (target) {
-                    target.style.outline = 'none';
-                    target.setAttribute('tabindex', '-1');
-                    target.focus();
-                }
-            });
-        })();
-    </script>
     <div class="scroll-button-container">
         <button id="scrollButton" onclick="scrollToTop()">
             <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" width="50" height="50" color="#fff">

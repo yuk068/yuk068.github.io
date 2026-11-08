@@ -1,6 +1,9 @@
 (function () {
     'use strict';
 
+    // Button labels come from _data/text.yml (section mermaid), exposed as window.SITE_TEXT
+    const TXT = (window.SITE_TEXT && SITE_TEXT.mermaid) || {};
+
     function getSvg(repoId, fallback) {
         const el = document.getElementById(repoId);
         if (el && el.innerHTML) {
@@ -90,8 +93,8 @@
         const lockButton = wrapper.querySelector('.js-mermaid-lock');
         if (lockButton) {
             lockButton.innerHTML = locked ? wrapper._lockIcon : wrapper._unlockIcon;
-            lockButton.setAttribute('aria-label', locked ? 'Unlock interactions' : 'Lock interactions');
-            lockButton.title = locked ? 'Unlock interactions' : 'Lock interactions';
+            lockButton.setAttribute('aria-label', locked ? TXT.unlock : TXT.lock);
+            lockButton.title = locked ? TXT.unlock : TXT.lock;
         }
 
         if (wrapper._panZoomInstance) {
@@ -129,8 +132,8 @@
         const fullscreenButton = wrapper.querySelector('.js-mermaid-fullscreen');
         if (fullscreenButton) {
             fullscreenButton.innerHTML = isFullscreen ? wrapper._fullscreenExitIcon : wrapper._fullscreenEnterIcon;
-            fullscreenButton.setAttribute('aria-label', isFullscreen ? 'Back to post' : 'Fullscreen');
-            fullscreenButton.title = isFullscreen ? 'Back to post' : 'Fullscreen';
+            fullscreenButton.setAttribute('aria-label', isFullscreen ? TXT.back_to_post : TXT.fullscreen);
+            fullscreenButton.title = isFullscreen ? TXT.back_to_post : TXT.fullscreen;
         }
 
         // Entering fullscreen should let users pan/zoom immediately.
@@ -747,16 +750,16 @@
 
             const label = document.createElement('span');
             label.className = 'language-label mermaid-label';
-            label.textContent = 'Mermaid';
+            label.textContent = TXT.title;
             label.style.userSelect = 'none';
 
             const toolbar = document.createElement('div');
             toolbar.className = 'mermaid-viewer-toolbar';
             toolbar.innerHTML = [
-                '<button type="button" class="mermaid-action-button js-mermaid-copy-code" aria-label="Copy source" title="Copy source">' + icons.copyCode + '</button>',
-                '<button type="button" class="mermaid-action-button js-mermaid-reset" aria-label="Reset view" title="Reset view">' + icons.resetView + '</button>',
-                '<button type="button" class="mermaid-action-button js-mermaid-lock" aria-label="Unlock interactions" title="Unlock interactions">' + icons.lock + '</button>',
-                '<button type="button" class="mermaid-action-button js-mermaid-fullscreen" aria-label="Fullscreen" title="Fullscreen">' + icons.fullscreenEnter + '</button>'
+                '<button type="button" class="mermaid-action-button js-mermaid-copy-code" aria-label="' + TXT.copy_source + '" title="' + TXT.copy_source + '">' + icons.copyCode + '</button>',
+                '<button type="button" class="mermaid-action-button js-mermaid-reset" aria-label="' + TXT.reset_view + '" title="' + TXT.reset_view + '">' + icons.resetView + '</button>',
+                '<button type="button" class="mermaid-action-button js-mermaid-lock" aria-label="' + TXT.unlock + '" title="' + TXT.unlock + '">' + icons.lock + '</button>',
+                '<button type="button" class="mermaid-action-button js-mermaid-fullscreen" aria-label="' + TXT.fullscreen + '" title="' + TXT.fullscreen + '">' + icons.fullscreenEnter + '</button>'
             ].join('');
 
             const stage = document.createElement('div');
