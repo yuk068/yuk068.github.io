@@ -1,4 +1,116 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://yuk068.github.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://yuk068.github.io//" rel="alternate" type="text/html" /><updated>2026-11-20T12:48:20+07:00</updated><id>https://yuk068.github.io//feed.xml</id><title type="html">Yuk’s Blog</title><subtitle></subtitle><entry><title type="html">Towards Building a Digital Twin for Hanoi’s Traffic System</title><link href="https://yuk068.github.io//2026/06/06/trafficlab-early-development" rel="alternate" type="text/html" title="Towards Building a Digital Twin for Hanoi’s Traffic System" /><published>2026-06-06T00:00:00+07:00</published><updated>2026-06-06T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/06/06/trafficlab-early-development</id><content type="html" xml:base="https://yuk068.github.io//2026/06/06/trafficlab-early-development"><![CDATA[<h3 id="prologue">Prologue</h3>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://yuk068.github.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://yuk068.github.io//" rel="alternate" type="text/html" /><updated>2026-11-21T10:22:57+07:00</updated><id>https://yuk068.github.io//feed.xml</id><title type="html">Yuk’s Blog</title><subtitle></subtitle><entry><title type="html">Yuk Update: ResQVision, ResQTwin, whats been going on, and going forward</title><link href="https://yuk068.github.io//2026/11/20/yuk-update-and-resqtwin" rel="alternate" type="text/html" title="Yuk Update: ResQVision, ResQTwin, whats been going on, and going forward" /><published>2026-11-20T00:00:00+07:00</published><updated>2026-11-20T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/11/20/yuk-update-and-resqtwin</id><content type="html" xml:base="https://yuk068.github.io//2026/11/20/yuk-update-and-resqtwin"><![CDATA[<p>Hello folks, after half a year of absence from yukblog, im finally back, and with some spicy updates too.</p>
+
+<p>To explain my-reasonable absence, I have been working my very first tech job! I’m now a research engineer at <a href="https://www.resqvision.com.au/">ResQVision</a>, and have been working remotely for about 5 months by now.</p>
+
+<p>It has definitely been an experience, 5 months ago I was at a really difference place, probably a pretty bad place. But well im not gonna get into that in this post, what matters more is, I thought of myself as more of a gamble, no experience, still have a degree to work towards-and still is, and all that people really had going for was the <a href="https://github.com/duy-phamduc68/TrafficLab-3D">TrafficLab3D</a> project when it comes to assessing my technical talent.</p>
+
+<p>Well I shouldn’t underestimate myself that much, there was at least something people could use as reference I guess, still honest about the gamble thing too, cause tbh, I was considering my psyche at the time too.</p>
+
+<p>But well, nowadays, I think im doing a lot better now.</p>
+
+<hr />
+
+<h3 id="my-first-tech-job-and-landing-it">My first tech job, and landing it</h3>
+
+<p>It was summer 2026, it was around when I was trying to finish my finals, and for my course, I also needed to complete an internship somewhere for credits. For my peers, they would go on to Vietnamese companies around and usually take the internship onsite. For me, well ill be honest at first I wasnt really interested if i was gonna have to go to a Vietnamese place, I was genuinely planning to just go home for the summer, continuing to develop TrafficLab and add more to my personal branding and blog.</p>
+
+<iframe style="width:100%;aspect-ratio:16/9;" src="https://www.youtube.com/embed/AYUXXnzenvk" frameborder="0" allowfullscreen=""></iframe>
+
+<p>For some context, around this time I did decided to publish about my TrafficLab3D project, more specifically on X and on Reddit, im pretty sure during this period, TrafficLab was promoted by like one of those bot like X account that just post github links. But the point is, while TrafficLab and multiple of my demos and guide on Youtube for it has been out for awhile, i still felt reluctant to post them on platforms like X and Reddit, more specifically subreddits like r/ComputerVision and such. Its because like, I knew it could be better, I knew there are things in TrafficLab that I could have made better (It was a bit of a time crunch bc it doubled up as a project for my advanced computer vision course finals, prof did gave me a A+ for it though hehe). Anyway, because I-myself, knew it could be better, so I postponed from really doubling down on it, as if I think everyone else were also thinking like me, only see its flaws and shortcomings.</p>
+
+<p>So yeah to recap, that is how I was thinking, nothing complicated or an emotional lesson here I just said fuck it ill post them anyway, if they critisize ill listen, and what do you know, it kinda blew up on Reddit, but more importantly, multiple opportunities were cold emailing me around the same time.</p>
+
+<p>There was 3 notable candidates after I filter them down: a con-tech (construction tech) company based in the middle east which were honestly closest to big tech, they were huge, had crazy funding, scale, and reach as well, even had an office in SF, and the other 2 were both Australia based start-ups, and considering where I was, when I was, and my immediate constraints (mostly the fuckass degree im shackled to), I decided to went with where I am now: <a href="https://www.resqvision.com.au/">ResQVision</a>.</p>
+
+<p>Across all the “interviews” that I went to, like none of them ask me much of coding tbh, no leetcode, minimal coding questions, they mostly care about 2 things: who i am, and TrafficLab, and yeah interviews in double quotes, because they were more casual talks and back and forth, they were some of my first time using English for my career so I was kinda nervous.</p>
+
+<hr />
+
+<h3 id="what-ive-been-doing-resqtwin">What I’ve been doing: ResQTwin</h3>
+
+<h4 id="interest-of-digital-twin-technology">Interest of Digital Twin Technology</h4>
+
+<p>Most of the companies that approached me had a similar pitch: they wanted to do something that relates to digital twin, and my TrafficLab project translate almost directly: a 3D geo-referenced representation of a site (or at the very least a geo-referenced representation that can be presented on a 2D map) that is updated by real sensors, and again most related to TrafficLab, that would be existing CCTV cameras.</p>
+
+<div class="callout callout-note">
+  <div class="callout-body">
+    <span class="callout-icon" aria-hidden="true">
+      
+          <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24"><defs><style>.cls-637b83faf95e86b59c57a0ed-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><rect class="cls-637b83faf95e86b59c57a0ed-1" x="3.39" y="2.41" width="17.22" height="20.09"></rect><line class="cls-637b83faf95e86b59c57a0ed-1" x1="7.22" y1="0.5" x2="7.22" y2="4.33"></line><line class="cls-637b83faf95e86b59c57a0ed-1" x1="12" y1="0.5" x2="12" y2="4.33"></line><line class="cls-637b83faf95e86b59c57a0ed-1" x1="16.78" y1="0.5" x2="16.78" y2="4.33"></line><line class="cls-637b83faf95e86b59c57a0ed-1" x1="6.26" y1="11.02" x2="17.74" y2="11.02"></line><line class="cls-637b83faf95e86b59c57a0ed-1" x1="6.26" y1="7.2" x2="17.74" y2="7.2"></line><line class="cls-637b83faf95e86b59c57a0ed-1" x1="6.26" y1="14.85" x2="17.74" y2="14.85"></line><line class="cls-637b83faf95e86b59c57a0ed-1" x1="6.26" y1="18.67" x2="12" y2="18.67"></line></svg>
+      
+    </span>
+    
+
+    
+      Geo-referenced basically mean you can point it on a map, say you have bounding boxes of cars on a road that came from an object detection model, if you can then point those cars on a map application like OpenStreetMap, then thats basically geo-referencing
+
+    
+  </div>
+</div>
+
+<p>Each of the companies work in completely different domain for eachother, but the demand for a digital twin updated by real sensors were common amongst all of them.</p>
+
+<p>And for RQV, that would be maritime (maritime: water environment basically - beaches, rochshores, ports, even swimming pools) digital twin. And their immediate use case and environment would be New South Wales rockshores in Australia.</p>
+
+<p>So in the Oceania people have this recreational sport called rockfishing, where they basically fish in the ocean, usually on rockshores, its usually more exiciting, and more dangerous compared to say fishing in a pond on a boat or something, the ocean can be relentless and unforgiving, an unexpected swell can overwhelm fisherman in a blink, knocking them off their footing, and then the force of it retreating will drag them down into the ocean and it wouldnt be just a matter of trying to get back up, it will continue to drag you down, all while sharp rocks that can even have barnacles shred your efforts of trying to get climb back.</p>
+
+<h4 id="resqtwin-maritime-digital-twin">ResQTwin: Maritime Digital Twin</h4>
+
+<p>So yeah basically, what I was trying to do was create a digital twin of said rockshores, updated by cameras observing the fisherman, RQV already had the tech to alert when a dangerous situation were to occur, and the digital twin’s job was to identify where that incident occured, and in the future, potentailly predicting when such an incident could occur.</p>
+
+<p>Other than that, just having a digital twin of a site in general is useful, consider it a shared geospatial representation that can ingest or publish all kinds of data and have all kinds of use cases, for the maritime domain, that can be anything from SAR (search and rescue), to analytics, prediction, reporting, and of course, visualization, a picture tell a thousand words after all.</p>
+
+<p>And after about 5 months, I was basically able to successfully bring the digital twin project into production, code named <strong><em>“ResQTwin”</em></strong></p>
+
+<p>So for this post, I wont really go into detail of the technicalities of ResQTwin, what I can say that it is v0, it seems to have been working well enough for v0, and I will definitely be continuing to improve it to match my evolving standard, and of course, the requirement of the customer as well</p>
+
+<p>Here are some more visuals for ResQTwin:</p>
+
+<ul>
+  <li>First, the proof of concept, though it was similar in idea to TrafficLab, the execution and conditions were actually pretty different:</li>
+</ul>
+
+<p><img src="/assets/images/2026/q4-2026/rsqtwin-poc-lb.webp" alt="rsqtwin-poc" /></p>
+
+<div class="media-description">Attempts at geo-referncing specific pixels from a video frame onto the physical site. Left: CAM_LB_N, Right: CAM_LB_S</div>
+
+<ul>
+  <li>At this early stage, the concept was codenamed “ResQLocate”, and then, development demos that followed the proof of concepts, codenamed “ResQTwin”.</li>
+</ul>
+
+<iframe style="width:100%;aspect-ratio:16/9;" src="https://www.youtube.com/embed/xIrXjfTqloU" frameborder="0" allowfullscreen=""></iframe>
+
+<iframe style="width:100%;aspect-ratio:16/9;" src="https://www.youtube.com/embed/2Bv_DGimX70" frameborder="0" allowfullscreen=""></iframe>
+
+<iframe style="width:100%;aspect-ratio:16/9;" src="https://www.youtube.com/embed/GwrHWjnugFM" frameborder="0" allowfullscreen=""></iframe>
+
+<iframe style="width:100%;aspect-ratio:16/9;" src="https://www.youtube.com/embed/lbapYy4DSfE" frameborder="0" allowfullscreen=""></iframe>
+
+<iframe style="width:100%;aspect-ratio:16/9;" src="https://www.youtube.com/embed/FsLSBSCrUwc" frameborder="0" allowfullscreen=""></iframe>
+
+<ul>
+  <li>And finally, with help from my senior manager, we managed to bring ResQTwin v0 into prod (I also almost bring my first memory leak into prod :&gt;, luckily we did had a dev server, and my manager helped me indentify and resolved it before it hit prod)</li>
+</ul>
+
+<p><img src="/assets/images/2026/q4-2026/rsqtwin-kiama.webp" alt="rsqtwin-kiama" /></p>
+
+<p><img src="/assets/images/2026/q4-2026/rsq-twin-lb.webp" alt="rsqtwin-lb" /></p>
+
+<p><img src="/assets/images/2026/q4-2026/rsqtwin-datalayers.webp" alt="rsqtwin-datalayers" /></p>
+
+<p>And ResQTwin was even showcased at a parliment meeting, I heard that people was pretty interested in the technology!</p>
+
+<p><img src="/assets/images/2026/q4-2026/rsqtwin-at-parliment-1.webp" alt="rsqtwin-parliment-1" /></p>
+
+<p><img src="/assets/images/2026/q4-2026/rsqtwin-at-parliment-2.webp" alt="rsqtwin-parliment-2" /></p>
+
+<hr />
+
+<h3 id="going-forward">Going forward</h3>
+
+<p>Welp, hopefully this update was a good read after disappearing for 6 months, part of why it took so long was maybe because I wanted to like prove myself or something, but now, after v0 is in prod and will continue to grow, and now that I have a real module that im responsible for in production, I think im feeling a lot better now, definitely dont feel the gamble mentality as much anymore, but there is still work to do, and im trying to navigate it as well, maybe ill talk about those stuff in follow up posts, about like AI-assistend engineering in 2026-2027, about careers of CS students, and maybe even about things that are unique to my circumstances, being a Vietnamese who wants to leave and havent been able to find luck in the academic path for it.</p>
+
+<p>With all that being said, I do intend to be more active on my blog and socials now, lets just wrap it up, I feel alright now, thanks folks, until next time.</p>]]></content><author><name></name></author><category term="post" /><category term="yuk lore" /><summary type="html"><![CDATA[Yuk is back on yukblog after 6 months...]]></summary></entry><entry><title type="html">Towards Building a Digital Twin for Hanoi’s Traffic System</title><link href="https://yuk068.github.io//2026/06/06/trafficlab-early-development" rel="alternate" type="text/html" title="Towards Building a Digital Twin for Hanoi’s Traffic System" /><published>2026-06-06T00:00:00+07:00</published><updated>2026-06-06T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/06/06/trafficlab-early-development</id><content type="html" xml:base="https://yuk068.github.io//2026/06/06/trafficlab-early-development"><![CDATA[<h3 id="prologue">Prologue</h3>
 
 <p>Okay so if you didn’t know, <a href="/2026/02/20/traffilclab-3d-overview">TrafficLab 3D</a> originally started out as a final project for my Advanced Computer Vision course, the original academic title was “Towards Building a Digital Twin for Hanoi’s Traffic System”. So a lot of the design choice of TrafficLab actually stems from trying to adapt such a system to the reality of Hanoi, Vietnam traffic, things like mixed traffic (motorcycles), non-uniform infrastructure, etc…</p>
 
@@ -8912,125 +9024,4 @@ reverse-right
   <li>A fancy 3D visualization lol</li>
 </ul>
 
-<p>There is definitely more improvements and optimization I can give it, but for now, I’m quite happy with what I was able to learn from this project. For now, its time to write up the collision post and gradient descent post…</p>]]></content><author><name></name></author><category term="showcase" /><category term="project" /><category term="path planning" /><category term="autonomous vehicles" /><category term="kinematics modeling" /><category term="algorithms" /><category term="interactive plot" /><summary type="html"><![CDATA[Complementary post for my project: Hybrid A* Playground]]></summary></entry><entry><title type="html">Conclusion of the Macro Monster Car Physics Journey</title><link href="https://yuk068.github.io//2026/04/10/car-physics-conclusion" rel="alternate" type="text/html" title="Conclusion of the Macro Monster Car Physics Journey" /><published>2026-04-10T00:00:00+07:00</published><updated>2026-04-10T00:00:00+07:00</updated><id>https://yuk068.github.io//2026/04/10/car-physics-conclusion</id><content type="html" xml:base="https://yuk068.github.io//2026/04/10/car-physics-conclusion"><![CDATA[<p>Okay so in this post, I’m going to give the raw, unfiltered story about the car physics series of mine, expected to cover:</p>
-
-<blockquote><div class="content">
-  <div id="table-of-contents"></div>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
-
-<ul>
-  <li><strong>Main reference: <a href="https://www.asawicki.info/Mirror/Car%20Physics%20for%20Games/Car%20Physics%20for%20Games.html" target="_blank">Marco Monster’s Car Physics</a></strong></li>
-  <li><strong>Github repo for Longitudinal Simulators: <a href="https://github.com/duy-phamduc68/Longitudinal-Car-Physics" target="_blank">duy-phamduc68/Longitudinal-Car-Physics</a></strong></li>
-  <li><strong>Github repo for Simulator 6: <a href="https://github.com/duy-phamduc68/Planar-Kinematic-Car-Model" target="_blank">duy-phamduc68/Planar-Kinematic-Car-Model</a></strong></li>
-  <li><strong>Github repo for Planar Dynamic Simulator(s): <a href="https://github.com/duy-phamduc68/Planar-Dynamic-Car-Model" target="_blank">duy-phamduc68/Planar-Dynamic-Car-Model</a></strong></li>
-</ul>
-
-<blockquote><div class="content">
-  <ul>
-    <li><strong><a href="/2026/03/03/car-physics-model1">Model 1: Longitudinal Point Mass (1D)</a></strong>
-      <ul>
-        <li>Straight Line Physics</li>
-        <li>Magic Constants</li>
-        <li>Braking</li>
-      </ul>
-    </li>
-    <li><strong><a href="/2026/03/12/car-physics-model2">Model 2: Load Transfer Without Traction Limits (1D)</a></strong>
-      <ul>
-        <li>Weight Transfer</li>
-      </ul>
-    </li>
-    <li><strong><a href="/2026/03/15/car-physics-model3">Model 3: Engine Torque + Gearing without Slip (1D)</a></strong>
-      <ul>
-        <li>Engine Force</li>
-        <li>Gear Ratios</li>
-        <li>Drive Wheel Acceleration (simplified)</li>
-      </ul>
-    </li>
-    <li><strong><a href="/2026/03/21/car-physics-model4">Model 4: Wheel Rotational Dynamics (1D)</a></strong>
-      <ul>
-        <li>Drive Wheel Acceleration (full)</li>
-        <li>Torque on the Drive Wheel &amp; The Chicken and The Egg</li>
-      </ul>
-    </li>
-    <li><strong><a href="/2026/03/23/car-physics-model5">Model 5: Slip Ratio + Traction Curve (1D)</a></strong>
-      <ul>
-        <li>Slip Ratio &amp; Traction Force</li>
-      </ul>
-    </li>
-    <li><strong><a href="/2026/03/26/car-physics-model6">Model 6: Low-Speed Kinematic Turning (2D)</a></strong>
-      <ul>
-        <li>Curves (low speed)</li>
-      </ul>
-    </li>
-    <li><strong><a href="/2026/03/28/car-physics-model7">Model 7: High-Speed Lateral Tire Model (2D)</a></strong>
-      <ul>
-        <li>High Speed Turning</li>
-      </ul>
-    </li>
-    <li><strong><a href="#" onclick="notifyComingSoon(); return false;">Model 8: Full Coupled Tire Model (2D)</a></strong></li>
-  </ul>
-</div><button class="collapse-button" aria-label="Collapse/Expand block" title="Collapse/Expand block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="14" height="14" color="#fff"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><line class="cls-1" x1="17.75" y1="2.44" x2="17.75" y2="19.69"></line><polyline class="cls-1" points="22.54 7.23 17.75 2.44 12.96 7.23"></polyline><line class="cls-1" x1="6.25" y1="2.44" x2="6.25" y2="19.69"></line><polyline class="cls-1" points="11.04 7.23 6.25 2.44 1.46 7.23"></polyline><line class="cls-1" x1="0.5" y1="22.56" x2="23.5" y2="22.56"></line></svg></button><span class="language-label">Block</span></blockquote>
-
-<hr />
-
-<h3 id="why-i-decided-to-do-it-in-the-first-place">Why I decided to do it in the first place</h3>
-
-<p>Okay so wind back to around end of February - end to Spring break, I decided on this simulation + autonomous vehicle direction very recently. About that time I was looking at various vehicle simulation / vehicle model because I haven’t felt confident enough to touch the heavy stacks like Autoware from Tier IV if I haven’t got familiar with such concepts, you will see this clearly at the beginning of the Model 1 post.</p>
-
-<p>Also this semester, I have both a differential equations course and a design algorithm analysis course (DAA or some shit). And during that time I also happened to discover the Macro Monster reference, so I think to myself, oh what the hell, seems like stars are aligning.</p>
-
-<p>Because I was thinking, this vehicle dynamics stuff definitely have to involve DEs, and then im pretty sure the path planning stuff can involve some DSA stuff too, it felt like the perfect project to take considering my direction.</p>
-
-<hr />
-
-<h3 id="explain-choices-made-in-model-7-very-briefly">Explain choices made in Model 7 very briefly</h3>
-
-<h4 id="discouragement-from-model-6-onwards">Discouragement from Model 6 onwards</h4>
-
-<p>To really get to the heart of this section, I have to confess something, I kinda lost interest in this roadmap starting from the 6th model (kinematic turning with longitudinal dynamics). Honestly that model already feel sufficient for urban driving already, which usually consist of stop-go traffic and low speed turning, because of that, I was already extremely discouraged since the 6th model, and I have written the first report for the DE course with the longitudinal model already (model 1 - 5, and that course require you to write 2 damn report can you believe ts).</p>
-
-<p>But yeah after that, any model with higher fidelity felt really heavy to me, not to mention model 7 was really starting to fry my brain (Check model 7 post).</p>
-
-<hr />
-
-<h4 id="choices-made-in-model-7-that-sealed-the-roadmap">Choices made in Model 7 that sealed the roadmap</h4>
-
-<p>Yeah, my brain was frying from all these new stuff, so I used AI to help me understand it, and eventually, I finished the model, completed simulator 7, and finalized all 3 of my github repos dedicated for this series, however, the AI has also made some suggestion that I failed to foreseen that would make me more convinced to drop this specific series.</p>
-
-<p>Originally in Model 8, I planned a full coupled tire model with friction circle, but most importantly: upgrade the integrator from Euler to RK4, and this is kinda the deathtrap here.</p>
-
-<p>In model 7, the AI suggested using a sideslip-based state representation vector, so because of that, instead of deriving Sideslip Beta from a Cartesian system of velocity, Beta got its own ODE.</p>
-
-<p>This is actually a really fascinating topic that I did not regret how I learned it here, specifically the differentiation between specific coordinates system in robotics, some might be more useful for calculation, while some might be more straightforward for the control module, I will definitely be looking deeper into this.</p>
-
-<p>But anyway, thats the problem, I could not for the life of me debugged and refactor the codebase which has evolved from Model 1 to the sideslip based Model 7, to become the system that can naturally be upgraded to Model 8, or at least, I did not have the time nor the motivation to make it happen. the biggest issue lie in this state vector instability when using it with RK4, it seems RK4 prefers Cartesian based states. I’m gonna be real I’m not sure if thats the case or not, but the thing here is, the codebase is messy, I’ve lost interest in this specific roadmap, so if i wanted to work on model 8, it probably wont be from upgrading from simulator 7…</p>
-
-<hr />
-
-<h3 id="the-pivot-that-happened-in-model-7">The pivot that happened in model 7</h3>
-
-<p>So yeah, because of the above, and the fact that, at its current state, im actually quite happy with simulator 7, I think it actually encapsulate the MM reference quite nicely, considering that model 8 wasnt even in the MM reference and was more of my own choice.</p>
-
-<p>I think this hurdles is partly caused by me having to balance this project with all the deadlines of these fuckass courses too, I wanted to go deeper into my work, especially in this model 6-7 transition phase, if i had the time, i believe i could have tried to research it further, but honestly I dont know, in hindsight, in order to avoid this limitation i think i would have had to basically finish both model 7 and 8 at the same time.</p>
-
-<p>But yeah, for the simulator 7, you can see in the repo that I’ve pivoted it to be much more “video game fun”, allowing Asphalt-like drifting and unrealistic physics at high speed, but I think its fun, and like I said, Im happy with it considering I was using frickin “car physics for games” as a reference lol.</p>
-
-<p>Honestly, the Macro Monster reference wasn’t that easy to digest, but I think im happy with what I was able to learn from it.</p>
-
-<hr />
-
-<h3 id="model-8-going-forward">Model 8 going forward</h3>
-
-<p>So, I did reworked the roadmap to end this series at model 7, but I actually have not yet intend to abanddon model 8, I’ve actually discovered this new reference:</p>
-
-<p><a href="https://escholarship.org/content/qt3xb8f3d3/qt3xb8f3d3.pdf?t=pdniw2" target="_blank">UC Berkeley Electronic Theses and Dissertations: Planning and Control of Drift Maneuvers with the Berkeley Autonomous Race Car</a></p>
-
-<p>(Might need a VPN to access, I did need one, its a PDF)</p>
-
-<p>Its like a doctoral thesis from UC Berkeley, skimming through it I found very detailed formulation of various vehicle models that resembles what I want for model 8 and are actually used in industries rather than the video game stuff, so I think if i were to really take this series to the end, Id use this.</p>
-
-<p>This roadmap is done. I’m just not continuing Model 8 from this codebase.</p>
-
-<hr />
-
-<p>But yeah anyway, really informal post I know, I kinda got a lot going on right now, I also plan to take the kinematic model i learned from this journey to make a project about automatic parking for that DAA course, but yeah, these courses still suck, this school still sucks, but ill try my best, I love doing these things, I just wish I had more time to go deeper into them.</p>]]></content><author><name></name></author><category term="post" /><category term="announcement" /><category term="research journey" /><category term="yuk lore" /><category term="rant" /><summary type="html"><![CDATA[Wrapping up the Car Model series, explaining about the final simulator, certain choices and pivots made, and a hell of a raw rant]]></summary></entry></feed>
+<p>There is definitely more improvements and optimization I can give it, but for now, I’m quite happy with what I was able to learn from this project. For now, its time to write up the collision post and gradient descent post…</p>]]></content><author><name></name></author><category term="showcase" /><category term="project" /><category term="path planning" /><category term="autonomous vehicles" /><category term="kinematics modeling" /><category term="algorithms" /><category term="interactive plot" /><summary type="html"><![CDATA[Complementary post for my project: Hybrid A* Playground]]></summary></entry></feed>
