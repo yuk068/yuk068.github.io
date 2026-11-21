@@ -200,6 +200,21 @@ a {
     white-space: nowrap;
 }
 
+/* The clock keeps its placeholder's width but stays invisible until common.js writes the real time (no flash). */
+.vn-clock:not(.is-set) {
+    visibility: hidden;
+}
+
+/* Links in the intro rows (job, mail, GitHub). Keep identical to `.about-info-item a` in general-styles.css so the
+   two cards behave the same; this is also the body-link style of posts and the About text. */
+.short-intro-item a {
+    color: var(--paragraph-color);
+    text-decoration: underline dotted;
+    text-decoration-color: var(--date-color);
+    text-underline-offset: 0.25rem;
+    transition: color 0.3s ease;
+}
+
 .intro-title h2 {
     text-align: center;
     font-size: 1.25em !important;
@@ -1752,10 +1767,10 @@ h6 {
             "avatar name name"
             "avatar bio bio"
             "avatar rule rule"
-            "avatar job job"
-            "avatar loc mail"
-            "avatar time git";
-        grid-template-rows: auto auto auto auto auto;
+            "avatar job loc"
+            "avatar time mail"
+            "avatar linkedin git";
+        grid-template-rows: auto auto auto auto auto auto;
         column-gap: 1.25rem;
         row-gap: 0.5rem;
         align-items: center;
@@ -1796,7 +1811,8 @@ h6 {
     .mobile-short-intro .short-intro-item:nth-child(5) { grid-area: loc; }
     .mobile-short-intro .short-intro-item:nth-child(6) { grid-area: time; }
     .mobile-short-intro .short-intro-item:nth-child(7) { grid-area: mail; }
-    .mobile-short-intro .short-intro-item:nth-child(8) { grid-area: git; }
+    .mobile-short-intro .short-intro-item:nth-child(8) { grid-area: linkedin; }
+    .mobile-short-intro .short-intro-item:nth-child(9) { grid-area: git; }
 }
 
 @media (max-width: 700px) {
@@ -1811,6 +1827,7 @@ h6 {
             "loc loc"
             "time time"
             "mail mail"
+            "linkedin linkedin"
             "git git";
         grid-template-rows: none;
         column-gap: 1rem;
@@ -2298,6 +2315,10 @@ h6 {
     font-family: 'Nunito', sans-serif;
 }
 @media (hover: hover) {
+    .short-intro-item a:hover {
+        color: var(--neon-aqua-accent);
+    }
+
     #notify-close-btn:hover {
         border-color: var(--neon-aqua-accent, #6bd9fa);
     }

@@ -25,7 +25,7 @@
     // Every page starts at the top
     // ---------------------------------------------------------------------------------------------
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: 'instant' }); // instant: the CSS scroll-behavior: smooth would animate it
 
     // ---------------------------------------------------------------------------------------------
     // Preferred language (used by the About pages' redirect/switcher)
@@ -282,24 +282,11 @@
     // ---------------------------------------------------------------------------------------------
     // Vietnam local time shown in the profile card (home sidebar, home top card, About page)
     // ---------------------------------------------------------------------------------------------
+    // window.tickVnClock is defined inline in _includes/js-common.html so the time shows before this file loads.
     ready(function startVietnamClock() {
-        const targets = ['vn-time', 'home-vn-time', 'home-vn-time-mobile']
-            .map((id) => document.getElementById(id))
-            .filter(Boolean);
-        if (!targets.length) return;
-
-        const format = new Intl.DateTimeFormat('en-GB', {
-            timeZone: 'Asia/Ho_Chi_Minh',
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: false
-        });
-        const tick = () => {
-            const text = format.format(new Date()) + ' (UTC +07:00)';
-            targets.forEach((el) => { el.textContent = text; });
-        };
-        tick();
-        setInterval(tick, 30000);
+        if (typeof window.tickVnClock !== 'function') return;
+        window.tickVnClock();
+        setInterval(window.tickVnClock, 30000);
     });
 
     // ---------------------------------------------------------------------------------------------

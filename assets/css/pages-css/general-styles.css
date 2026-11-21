@@ -308,10 +308,19 @@ a {
     opacity: 0.85;
 }
 
+/* The clock keeps its placeholder's width but stays invisible until common.js writes the real time (no flash). */
+.vn-clock:not(.is-set) {
+    visibility: hidden;
+}
+
+/* Keep identical to `.short-intro-item a` in home-styles.css (and `.about-block a`, the body-link style). The hover
+   colour comes from `.about-block a:hover` in the hover media query below. */
 .about-info-item a {
     color: var(--paragraph-color);
-    text-decoration: none;
-    transition: color 0.2s ease;
+    text-decoration: underline dotted;
+    text-decoration-color: var(--date-color);
+    text-underline-offset: 0.25rem;
+    transition: color 0.3s ease;
 }
 
 .biography-header {

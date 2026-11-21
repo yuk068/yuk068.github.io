@@ -10,13 +10,20 @@
         if (hash) {
             const target = document.getElementById(decodeURIComponent(hash.slice(1)));
             if (target) {
-                // Use a short delay to let layout settle
-                setTimeout(function() {
-                    const header = document.querySelector('#projects-header');
-                    const headerHeight = header ? header.offsetHeight : 100;
+                // Start at the top and scroll down to the card with the smooth animation. The browser's own anchor
+                // jump would first move the page to the card and make the animation start from there (the jolt), so
+                // drop the hash while we scroll and put it back afterwards. The header shrinks (animated) as soon
+                // as the page scrolls; the card is aimed at the shrunk height (3.125rem) so the end point is stable.
+                history.replaceState(null, '', window.location.pathname + window.location.search);
+                window.scrollTo({ top: 0, behavior: 'instant' });
+                const headerHeight = 3.125 * parseFloat(getComputedStyle(document.documentElement).fontSize);
+                const smoothToTarget = function() {
                     const offsetTop = target.getBoundingClientRect().top + window.scrollY - headerHeight - 12;
                     window.scrollTo({ top: offsetTop, behavior: 'smooth' });
-
+                };
+                requestAnimationFrame(smoothToTarget);
+                setTimeout(function() { history.replaceState(null, '', hash); }, 1500);
+                {
                     // Glow effect for card border + image
                     const clearGlow = () => {
                         target.style.borderColor = '';
@@ -42,7 +49,7 @@
                     }
 
                     setTimeout(clearGlow, 2000);
-                }, 100);
+                }
             }
         }
         const copyCatalogBtn = document.getElementById('copyCatalogBtn');
